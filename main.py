@@ -7,13 +7,6 @@ from PySide6.QtWidgets import QApplication
 
 
 if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    window = MainWindow()
-    window.show()
-    sys.exit(app.exec())
-
-
-if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(NAME, description="Console version of RWE#\n"
                                                        "Can render levels",
@@ -27,3 +20,7 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
+    app = QApplication(sys.argv)
+    window = MainWindow()
+    window.show()
+    sys.exit(app.exec())

@@ -1,5 +1,6 @@
 from PySide6.QtGui import QPen, QColor
 from PySide6.QtWidgets import QGraphicsView, QGraphicsScene
+from PySide6.QtCore import QAbstractNativeEventFilter
 
 class ViewPort(QGraphicsView):
     def __init__(self, parent):
@@ -9,3 +10,7 @@ class ViewPort(QGraphicsView):
         self.pen.setWidth(20)
         self.setScene(self.workscene)
         self.workscene.addLine(0, 0, 20, 20, self.pen)
+
+    def mousePressEvent(self, event):
+        super().mousePressEvent(event)
+        print("thing")
