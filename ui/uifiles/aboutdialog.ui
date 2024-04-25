@@ -97,7 +97,9 @@
       <widget class="QLabel" name="label_2">
        <property name="font">
         <font>
+         <family>Rodondo</family>
          <pointsize>18</pointsize>
+         <kerning>true</kerning>
         </font>
        </property>
        <property name="text">

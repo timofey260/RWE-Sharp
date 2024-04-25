@@ -7,6 +7,11 @@ else:
     from pathlib import Path
     application_path = str(Path(__file__).parent.parent.absolute())
 
+ISLINUX = sys.platform == "linux" or sys.platform == "linux2"
+ISMAC = sys.platform == "darwin"
+ISWIN = not ISMAC and not ISLINUX
+
+
 VERSION = "0.0.1"
 AUTHORS = "timofey26"
 NAME = "RWE#"

@@ -14,10 +14,11 @@ class MainWindow(QMainWindow):
         self.ui.actionClose.triggered.connect(self.close)
         self.ui.actionAbout.triggered.connect(self.open_about)
         self.about = None
+        self.setStatusTip("Layer: 0, Placing: Wall")
 
     @Slot()
     def open_about(self):
-        self.about = AboutDialog()
+        self.about = AboutDialog(self)
         self.about.show()
 
     @Slot()
@@ -27,4 +28,5 @@ class MainWindow(QMainWindow):
     @Slot()
     def open_file(self):
         print("open")
-        QFileDialog.getOpenFileName(None, "Open Level", stuff.application_path)
+        QFileDialog.getOpenFileName(None, "Open Level", info.application_path)
+
