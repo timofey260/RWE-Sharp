@@ -1,8 +1,30 @@
-from PySide6.QtWidgets import QMainWindow
-from .mainui import Ui_MainWindow
+from PySide6.QtWidgets import QMainWindow, QFileDialog
+from PySide6.QtCore import Slot
+from ui.uiscripts.mainui import Ui_MainWindow
+from ui.aboutuiconnector import AboutDialog
+from core import info
 
 class MainWindow(QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+
+        self.ui.actionOpen.triggered.connect(self.open_file)
+        self.ui.actionClose.triggered.connect(self.close)
+        self.ui.actionAbout.triggered.connect(self.open_about)
+        self.about = None
+
+    @Slot()
+    def open_about(self):
+        self.about = AboutDialog()
+        self.about.show()
+
+    @Slot()
+    def close(self):
+        print("imagine it closes")
+
+    @Slot()
+    def open_file(self):
+        print("open")
+        QFileDialog.getOpenFileName(None, "Open Level", stuff.application_path)

@@ -1,4 +1,4 @@
-from core.stuff import *
+from core.info import *
 from ui.mainuiconnector import MainWindow
 import argparse
 
