@@ -1,5 +1,6 @@
 from PySide6.QtWidgets import QMainWindow, QFileDialog
 from PySide6.QtCore import Slot
+from PySide6.QtGui import QKeySequence, QShortcut
 from ui.uiscripts.mainui import Ui_MainWindow
 from ui.aboutuiconnector import AboutDialog
 from core import info
@@ -16,6 +17,8 @@ class MainWindow(QMainWindow):
         self.about = None
         self.setStatusTip("Layer: 0, Placing: Wall")
 
+
+
     @Slot()
     def open_about(self):
         self.about = AboutDialog(self)
@@ -29,4 +32,5 @@ class MainWindow(QMainWindow):
     def open_file(self):
         print("open")
         QFileDialog.getOpenFileName(None, "Open Level", info.application_path)
+
 

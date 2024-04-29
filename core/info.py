@@ -2,10 +2,14 @@ import os
 import sys
 
 if getattr(sys, 'frozen', False):
-    application_path = os.path.dirname(sys.executable)
+    PATH = os.path.dirname(sys.executable) + "\\"
 else:
     from pathlib import Path
-    application_path = str(Path(__file__).parent.parent.absolute())
+    PATH = str(Path(__file__).parent.parent.absolute()) + "\\"
+
+PATH_FILES = PATH + "files\\"
+PATH_MODS = PATH_FILES + "mods\\"
+PATH_DRIZZLE = PATH + "drizzle\\"
 
 ISLINUX = sys.platform == "linux" or sys.platform == "linux2"
 ISMAC = sys.platform == "darwin"

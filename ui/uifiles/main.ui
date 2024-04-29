@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1221</width>
-    <height>622</height>
+    <width>1280</width>
+    <height>720</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -30,6 +30,24 @@
       <property name="locale">
        <locale language="English" country="UnitedStates"/>
       </property>
+      <property name="backgroundBrush">
+       <brush brushstyle="NoBrush">
+        <color alpha="255">
+         <red>0</red>
+         <green>0</green>
+         <blue>0</blue>
+        </color>
+       </brush>
+      </property>
+      <property name="foregroundBrush">
+       <brush brushstyle="NoBrush">
+        <color alpha="255">
+         <red>0</red>
+         <green>0</green>
+         <blue>0</blue>
+        </color>
+       </brush>
+      </property>
      </widget>
     </item>
    </layout>
@@ -39,7 +57,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1221</width>
+     <width>1280</width>
      <height>33</height>
     </rect>
    </property>
@@ -76,6 +94,8 @@
     <property name="title">
      <string>Window</string>
     </property>
+    <addaction name="actionEditors"/>
+    <addaction name="actionShow"/>
    </widget>
    <widget class="QMenu" name="menuSettings">
     <property name="title">
@@ -177,7 +197,7 @@
               <x>0</x>
               <y>0</y>
               <width>272</width>
-              <height>495</height>
+              <height>593</height>
              </rect>
             </property>
             <layout class="QFormLayout" name="formLayout">
@@ -495,6 +515,12 @@ Chains</string>
                     <property name="text">
                      <string>Slope</string>
                     </property>
+                    <property name="shortcut">
+                     <string comment="rock key">Ctrl+R</string>
+                    </property>
+                    <property name="checkable">
+                     <bool>false</bool>
+                    </property>
                    </widget>
                   </item>
                  </layout>
@@ -566,6 +592,12 @@ Chains</string>
        <layout class="QGridLayout" name="gridLayout_5">
         <item row="0" column="0">
          <widget class="QScrollArea" name="scrollArea_2">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="locale">
            <locale language="English" country="UnitedStates"/>
           </property>
@@ -577,8 +609,8 @@ Chains</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>320</width>
-             <height>504</height>
+             <width>149</width>
+             <height>602</height>
             </rect>
            </property>
            <layout class="QGridLayout" name="gridLayout_6">
@@ -610,7 +642,7 @@ Chains</string>
               <property name="title">
                <string>Geometry</string>
               </property>
-              <widget class="QWidget" name="">
+              <widget class="QWidget" name="layoutWidget">
                <property name="geometry">
                 <rect>
                  <x>10</x>
@@ -747,6 +779,9 @@ Chains</string>
    <property name="toolTip">
     <string>New level</string>
    </property>
+   <property name="whatsThis">
+    <string/>
+   </property>
    <property name="shortcut">
     <string>Ctrl+N</string>
    </property>
@@ -866,6 +901,22 @@ Chains</string>
     <string>Ctrl+R</string>
    </property>
   </action>
+  <action name="actionEditors">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Editors</string>
+   </property>
+  </action>
+  <action name="actionShow">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Show</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
@@ -878,6 +929,30 @@ Chains</string>
   </customwidget>
  </customwidgets>
  <tabstops>
+  <tabstop>viewPort</tabstop>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>scrollArea</tabstop>
+  <tabstop>geol1</tabstop>
+  <tabstop>geol2</tabstop>
+  <tabstop>geol3</tabstop>
+  <tabstop>geoWall</tabstop>
+  <tabstop>geoAir</tabstop>
+  <tabstop>geoFloor</tabstop>
+  <tabstop>geoSlope</tabstop>
+  <tabstop>geoGlass</tabstop>
+  <tabstop>geoBeam</tabstop>
+  <tabstop>geoCrack</tabstop>
+  <tabstop>geoSpear</tabstop>
+  <tabstop>geoRock</tabstop>
+  <tabstop>geoHive</tabstop>
+  <tabstop>geoForbidChains</tabstop>
+  <tabstop>scrollArea_2</tabstop>
+  <tabstop>showGeoPrevL</tabstop>
+  <tabstop>showTilePrevL</tabstop>
+  <tabstop>showGeoCurL</tabstop>
+  <tabstop>showTileCurL</tabstop>
+  <tabstop>showGeoNextL</tabstop>
+  <tabstop>showTileNextL</tabstop>
   <tabstop>tableView</tabstop>
  </tabstops>
  <resources>
