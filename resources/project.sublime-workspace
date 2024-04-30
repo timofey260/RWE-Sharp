@@ -1,0 +1,607 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"e",
+				"example-c"
+			],
+			[
+				"c",
+				"control"
+			],
+			[
+				"ne",
+				"nextup"
+			],
+			[
+				"re",
+				"return"
+			],
+			[
+				"de",
+				"decoded"
+			],
+			[
+				"try",
+				"try\tTry/Except"
+			],
+			[
+				"win",
+				"windows"
+			],
+			[
+				"la",
+				"layoutsecond"
+			],
+			[
+				"a",
+				"around"
+			],
+			[
+				"doe",
+				"doesn't"
+			],
+			[
+				"ma",
+				"matter"
+			],
+			[
+				"effe",
+				"EffectColor1"
+			],
+			[
+				"fa",
+				"favourites"
+			],
+			[
+				"En",
+				"Environment"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "/C/Users/smail/AppData/Roaming/Sublime Text 3/Packages/User/lingo.sublime-syntax",
+			"settings":
+			{
+				"buffer_size": 1305,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			},
+			"undo_stack":
+			[
+				[
+					5,
+					1,
+					"insert",
+					{
+						"characters": "|in"
+					},
+					"AwAAAFABAAAAAAAAUQEAAAAAAAAAAAAAUQEAAAAAAABSAQAAAAAAAAAAAABSAQAAAAAAAFMBAAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAUAEAAAAAAABQAQAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					6,
+					1,
+					"insert",
+					{
+						"characters": "|"
+					},
+					"AQAAAFMBAAAAAAAAVAEAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAUwEAAAAAAABTAQAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					7,
+					1,
+					"left_delete",
+					null,
+					"AQAAAFMBAAAAAAAAUwEAAAAAAAABAAAAfA",
+					"AQAAAAAAAAABAAAAVAEAAAAAAABUAQAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					10,
+					1,
+					"insert",
+					{
+						"characters": "|<>"
+					},
+					"AwAAAJwBAAAAAAAAnQEAAAAAAAAAAAAAnQEAAAAAAACeAQAAAAAAAAAAAACeAQAAAAAAAJ8BAAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAnAEAAAAAAACcAQAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					13,
+					1,
+					"insert",
+					{
+						"characters": "|type"
+					},
+					"BQAAAFMBAAAAAAAAVAEAAAAAAAAAAAAAVAEAAAAAAABVAQAAAAAAAAAAAABVAQAAAAAAAFYBAAAAAAAAAAAAAFYBAAAAAAAAVwEAAAAAAAAAAAAAVwEAAAAAAABYAQAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAUwEAAAAAAABTAQAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					14,
+					1,
+					"insert",
+					{
+						"characters": "|me"
+					},
+					"AwAAAFgBAAAAAAAAWQEAAAAAAAAAAAAAWQEAAAAAAABaAQAAAAAAAAAAAABaAQAAAAAAAFsBAAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAWAEAAAAAAABYAQAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					15,
+					1,
+					"insert",
+					{
+						"characters": "|go|"
+					},
+					"BAAAAFsBAAAAAAAAXAEAAAAAAAAAAAAAXAEAAAAAAABdAQAAAAAAAAAAAABdAQAAAAAAAF4BAAAAAAAAAAAAAF4BAAAAAAAAXwEAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAWwEAAAAAAABbAQAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					16,
+					1,
+					"insert",
+					{
+						"characters": "to"
+					},
+					"AgAAAF8BAAAAAAAAYAEAAAAAAAAAAAAAYAEAAAAAAABhAQAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAXwEAAAAAAABfAQAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					17,
+					2,
+					"left_delete",
+					null,
+					"AgAAAGABAAAAAAAAYAEAAAAAAAABAAAAb18BAAAAAAAAXwEAAAAAAAABAAAAdA",
+					"AQAAAAAAAAABAAAAYQEAAAAAAABhAQAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					18,
+					1,
+					"insert",
+					{
+						"characters": "put"
+					},
+					"AwAAAF8BAAAAAAAAYAEAAAAAAAAAAAAAYAEAAAAAAABhAQAAAAAAAAAAAABhAQAAAAAAAGIBAAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAXwEAAAAAAABfAQAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					21,
+					1,
+					"insert",
+					{
+						"characters": "|>|<"
+					},
+					"BAAAAK4BAAAAAAAArwEAAAAAAAAAAAAArwEAAAAAAACwAQAAAAAAAAAAAACwAQAAAAAAALEBAAAAAAAAAAAAALEBAAAAAAAAsgEAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAArgEAAAAAAACuAQAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					24,
+					1,
+					"insert",
+					{
+						"characters": "|E"
+					},
+					"AgAAAGIBAAAAAAAAYwEAAAAAAAAAAAAAYwEAAAAAAABkAQAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAYgEAAAAAAABiAQAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					25,
+					1,
+					"left_delete",
+					null,
+					"AQAAAGMBAAAAAAAAYwEAAAAAAAABAAAARQ",
+					"AQAAAAAAAAABAAAAZAEAAAAAAABkAQAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					26,
+					1,
+					"insert",
+					{
+						"characters": "exit"
+					},
+					"BAAAAGMBAAAAAAAAZAEAAAAAAAAAAAAAZAEAAAAAAABlAQAAAAAAAAAAAABlAQAAAAAAAGYBAAAAAAAAAAAAAGYBAAAAAAAAZwEAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAYwEAAAAAAABjAQAAAAAAAAAAAAAAAPC/"
+				]
+			]
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+		[
+			[
+				[
+					"Packages/Python/Python.sublime-build",
+					""
+				],
+				[
+					"Packages/Python/Python.sublime-build",
+					"Syntax Check"
+				]
+			],
+			[
+				"Packages/Python/Python.sublime-build",
+				""
+			]
+		]
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 130.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/F/Desktop/RWEE/files/editorConfig.json",
+		"/C/Users/smail/AppData/Roaming/Sublime Text 3/Packages/User/lingo.sublime-syntax",
+		"/F/Desktop/RWEE/files/hotkeys.json",
+		"/F/Desktop/RWEE/files/layout.json",
+		"/F/Desktop/LingoSource/renderColors.lingo",
+		"/F/Desktop/LingoSource/startUp.lingo",
+		"/F/Desktop/LingoSource/renderStart.lingo",
+		"/F/Desktop/LingoSource/renderProps.lingo",
+		"/F/Desktop/LingoSource/globals.lingo",
+		"/F/Desktop/LingoSource/massRenderLoop.lingo",
+		"/F/Desktop/LingoSource/goback.lingo",
+		"/F/Desktop/LingoSource/testDraw.lingo",
+		"/F/Desktop/LingoSource/finished.lingo",
+		"/F/Desktop/LingoSource/GLOBAL.md",
+		"/F/Desktop/coolgame.sublime-workspace",
+		"/F/Desktop/LingoSource/lingo.sublime-syntax",
+		"/F/Desktop/progc/config_ac_api_key.js",
+		"/C/Users/smail/AppData/Local/Temp/28c14459-f0be-4e84-bc2f-f174d902150c_anticaptcha-plugin_v0.66.zip.50c/js/config_ac_api_key.js",
+		"/F/Desktop/RWE#/.venv/Lib/site-packages/PySide6/PySide6_Addons.json",
+		"/F/Desktop/ih.py",
+		"/C/Users/smail/AppData/Roaming/Axolot Games/Scrap Mechanic/User/User_76561198835225297/Mods/Mounted connection tool/Scripts/scolortool.lua",
+		"/C/Users/smail/AppData/Roaming/Axolot Games/Scrap Mechanic/User/User_76561198835225297/Mods/Mounted connection tool/Scripts/placer.lua",
+		"/F/Desktop/smoothtext.py",
+		"/?wsl.localhost/Ubuntu/home/tim26/pebble-dev/newbs/bs/src/pkjs/config.js",
+		"/?wsl.localhost/Ubuntu/home/tim26/pebble-dev/newbs/bs/package.json",
+		"/?wsl.localhost/Ubuntu/home/tim26/pebble-dev/newbs/1488/package.json",
+		"/?wsl.localhost/Ubuntu/home/tim26/pebble-dev/newbs/bs/src/pkjs/app.js",
+		"/?wsl.localhost/Ubuntu/home/tim26/pebble-dev/newbs/bs/src/js/config.js",
+		"/?wsl.localhost/Ubuntu/home/tim26/pebble-dev/newbs/bs/src/js/config.json",
+		"/?wsl.localhost/Ubuntu/home/tim26/pebble-dev/newbs/bs/src/js/app.js",
+		"/?wsl.localhost/Ubuntu/home/tim26/pebble-dev/newbs/bs/node_modules/pebble-clay/package.json",
+		"/?wsl.localhost/Ubuntu/home/tim26/pebble-dev/newbs/bs/node_modules/pebble-clay/src/js/index.js",
+		"/?wsl.localhost/Ubuntu/home/tim26/pebble-dev/newbs/bs/node_modules/pebble-clay/src/config-page.html",
+		"/?wsl.localhost/Ubuntu/home/tim26/pebble-dev/newbs/clay-example-master/package.json",
+		"/?wsl.localhost/Ubuntu/home/tim26/pebble-dev/newbs/clay-example-master/src/main.c",
+		"/?wsl.localhost/Ubuntu/home/tim26/pebble-dev/newbs/clay-example-master/node_modules/pebble-clay/src/js/index.js",
+		"/?wsl.localhost/Ubuntu/home/tim26/pebble-dev/newbs/clay-example-master/node_modules/pebble-clay/package.json",
+		"/?wsl.localhost/Ubuntu/home/tim26/pebble-dev/newbs/bs/package-lock.json",
+		"/?wsl.localhost/Ubuntu/home/tim26/pebble-dev/newbs/node_modules/pebble-clay/package.json",
+		"/?wsl.localhost/Ubuntu/home/tim26/pebble-dev/newbs/bs/node_modules/pebble-clay/src/pkjs/config.js",
+		"/?wsl.localhost/Ubuntu/home/tim26/pebble-dev/newbs/bs/build/appinfo.json",
+		"/?wsl.localhost/Ubuntu/home/tim26/pebble-dev/newbs/bs/node_modules/pebble-clay/index.js",
+		"/?wsl.localhost/Ubuntu/home/tim26/pebble-dev/newbs/bs/node_modules/pebble-clay/dist/js/index.js",
+		"/F/Desktop/rwmod/thingforazeite2/assets/slugbase/scenes/slugcat_sybarite.json",
+		"/F/Desktop/rwmod/thingforazeite2/assets/modinfo.json",
+		"/F/Desktop/rwmod/thingforazeite2/assets/slugbase/the_sybarite.json",
+		"/F/Desktop/rwmod/thingforazeite2/assets/slugbase/scenes/ghost_sybarite.json",
+		"/F/Desktop/rwmod/thingforazeite2/assets/slugbase/the_subarite.json",
+		"/F/Desktop/rwmod/funnytext.json",
+		"/F/Desktop/rwmod/thingforazeite2/assets/slugbase/scenes/slugcat_subarite.json",
+		"/F/Desktop/rwmod/thingforazeite2/assets/slugbase/scenes/ghost_subarite.json",
+		"/F/Desktop/rwmod/de template/assets/modinfo.json",
+		"/F/Desktop/augh.py v2.py",
+		"/F/Desktop/aauuuuuuuuuugh.pyw",
+		"/F/Desktop/aauuuuuuuuuugh.py",
+		"/C/Users/smail/Downloads/aauuuuuuuuuugh-1.py",
+		"/F/Games/SteamLibrary/steamapps/common/Rain World/UserData/UDBACKUPDATA.json",
+		"/C/Users/smail/AppData/LocalLow/Stress Level Zero/BONELAB/settings.json",
+		"/C/Users/smail/AppData/Local/Temp/Rar$DIa20192.30966/effects.json",
+		"/C/Users/smail/AppData/Local/Temp/Rar$DIa20192.11354/effects.json",
+		"/C/Users/smail/AppData/Local/nvim/init.lua",
+		"/C/Users/smail/AppData/Local/nvim/lua/plugins/init.lua",
+		"/C/Users/smail/AppData/Local/nvim/lua/configs/lspconfig.lua",
+		"/C/Users/smail/AppData/Local/nvim/lua/configs/conform.lua",
+		"/C/Users/smail/AppData/Local/nvim-data/mason-registry-update",
+		"/C/Users/smail/AppData/Local/nvim-data/mason/share/mason-schemas/lsp/basedpyright.json",
+		"/C/Users/smail/AppData/Local/nvim-data/mason/registries/github/mason-org/mason-registry/info.json",
+		"/C/Users/smail/AppData/Local/nvim-data/mason/registries/github/mason-org/mason-registry/registry.json",
+		"/C/Users/smail/AppData/Local/nvim/lua/josean/lazy.lua",
+		"/C/Users/smail/AppData/Local/nvim/init.vim",
+		"/C/Users/smail/AppData/Local/nvim/lazy-lock.json",
+		"/C/Users/smail/AppData/Local/nvim/lua/core/plugin_config/init.lua",
+		"/C/Users/smail/AppData/Local/nvim/lua/core/plugins.lua",
+		"/C/Users/smail/AppData/Local/nvim/lua/core/plugin_config/colorscheme.lua",
+		"/C/Users/smail/AppData/Local/nvim/lua/core/plugin_config/lualine.lua",
+		"/C/Users/smail/AppData/Local/nvim/lua/core/plugin_config/lsp_config.lua",
+		"/C/Users/smail/AppData/Local/nvim/lua/core/plugin_config/nvimtree_config.lua",
+		"/F/Desktop/prg.py",
+		"/C/ProgramData/chocolatey/lib/nerd-fonts-Hack/tools/README.md",
+		"/F/Desktop/multiprocess/names.json",
+		"/C/Users/smail/AppData/Local/nvim/lua/core/options.lua",
+		"/C/Users/smail/AppData/Local/nvim/lua/core/keymaps.lua",
+		"/C/Users/smail/AppData/Local/Temp/eec91b87-1816-4fcd-a0fb-cb9f55cc1668_cpow-dotfiles-master.zip.668/cpow-dotfiles-master/init.lua",
+		"/C/Users/smail/AppData/Roaming/timofey26/RWE+/recentProjects.json",
+		"/F/Desktop/RWEE/files/localLayouts/GE.json",
+		"/F/Desktop/RWEE/files/widgets/mainframe.json",
+		"/F/Desktop/RWE+/files/additionprops.txt",
+		"/F/Desktop/RWE+/files/ui/official.json",
+		"/F/Desktop/RWE+/files/ui/classic_noicons.json",
+		"/F/Desktop/RWE+/files/ui/classic.json",
+		"/F/Desktop/RWE+/files/patternScripts/examplepat.py",
+		"/F/Desktop/RWE+/files/patternScripts/fencepat.py",
+		"/F/Desktop/RWE+/files/patterns.json",
+		"/F/Desktop/RWE+/files/effects.json",
+		"/F/Desktop/RWE+/files/settings.json",
+		"/F/Desktop/RWE+/files/hotkeys/hotkeys.json",
+		"/F/Desktop/RWE+/files/hotkeys/hotkeystip.json",
+		"/F/Desktop/RWE+/files/patternscripts/fencepat.py",
+		"/F/Desktop/RWE+/files/hotkeys.json",
+		"/F/Desktop/RWE+/files/hotkeystip.json",
+		"/F/Desktop/RWE+/files/hotkeystip.md",
+		"/F/Desktop/RWE+/files/hotkeys.md",
+		"/C/Users/smail/AppData/Roaming/timofey26/RWE+/2.6.0/recentProjects.json",
+		"/F/Desktop/RWE+/files/recentProjects.json",
+		"/F/Desktop/RWE+/drizzle/Drizzle.Editor.deps.json",
+		"/F/Desktop/prog7/settings.json",
+		"/F/Desktop/RWE+/files/tutorial/text samples.json",
+		"/F/Desktop/RWE+/README.md",
+		"/F/Games/SteamLibrary/steamapps/workshop/content/312520/2978464519/dressmyslugcat/V1 alt/metadata.json",
+		"/F/Desktop/rwmod/Cathedral/assets/modinfo.json",
+		"/F/Games/SteamLibrary/steamapps/common/Noita/mods/daily_practice/init.lua",
+		"/F/Desktop/RWE+/files/graphics.json",
+		"/C/Users/smail/AppData/Local/Temp/Tempa1e1c276-3818-49af-bd6a-cc874a95050a_BepInEx-BepInExPack-5.4.2100.zip/README.md",
+		"/C/Users/smail/AppData/Roaming/Opera Software/Opera GX Stable/Local State",
+		"/F/Desktop/RWE+/linux-README.md",
+		"/F/Games/SteamLibrary/steamapps/common/Scrap Mechanic/Data/ExampleMods/Blocks and Parts/description.json",
+		"/H/capcha2/pnc.json",
+		"/F/Desktop/TIMCPU.sublime-syntax",
+		"/F/Desktop/TIMCPU..sublime-syntax",
+		"/F/Desktop/MouseWithoutBorders/capcha2 — копия/capcha2/pnc.json",
+		"/F/Desktop/MouseWithoutBorders/capcha2/capcha2/pnc.json",
+		"/F/Desktop/prog5/settings.json",
+		"/F/Desktop/themod/Data/ModpackData/Scripts/NumberLogic/MemoryPanel.lua",
+		"/F/Desktop/prog5/bat.bat",
+		"/F/Desktop/prog5/main.py",
+		"/F/Desktop/MouseWithoutBorders/capcha2/capcha2 — копия/pnc.json",
+		"/F/Desktop/RWE+/cm.bat",
+		"/C/Users/Admin/OneDrive/Документы/My Games/Terraria/tModLoader/ModSources/kinglessmod/Localization/en-US.hjson"
+	],
+	"find":
+	{
+		"height": 27.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"renderProp",
+			"keywords",
+			"165",
+			"\",\n",
+			"bg_color",
+			"\",\n",
+			"))\n",
+			"corru",
+			"sand",
+			"corruption",
+			"slag",
+			"netrw",
+			"],\n",
+			"\t\"",
+			"subelements",
+			"\"}}\n",
+			"[]},\n",
+			"K_EQUALS",
+			"add",
+			"\n\t\t{\n\t\t\t\"nm\": \"Crawl Space\",\n\t\t\t\"tp\": \"pattern\",\n\t\t\t\"description\": \"Places Crawl spaces\",\n\t\t\t\"ptype\": \"placer4\",\n\t\t\t\"size\": 3,\n\t\t\t\"category\": \"special\",\n\t\t\t\"color\": [255, 180, 180],\n\t\t\t\"allequal\": false,\n\t\t\t\"conf\": {\n\t\t\t\t\"SW\": \"SW Crawl Space\",\n\t\t\t\t\"NW\": \"NW Crawl Space\",\n\t\t\t\t\"ES\": \"SE Crawl Space\",\n\t\t\t\t\"NE\": \"NE Crawl Space\",\n\t\t\t\t\"NSW\": \"NWS Crawl Space\",\n\t\t\t\t\"ESW\": \"WSE Crawl Space\",\n\t\t\t\t\"NES\": \"NES Crawl Space\",\n\t\t\t\t\"NEW\": \"WNE Crawl Space\",\n\t\t\t\t\"N\": \"Vertical Crawl Space A\",\n\t\t\t\t\"E\": \"Horizontal Crawl Space A\",\n\t\t\t\t\"S\": \"Vertical Crawl Space A\",\n\t\t\t\t\"W\": \"Horizontal Crawl Space A\",\n\t\t\t\t\"NS\": \"Vertical Crawl Space A\",\n\t\t\t\t\"EW\": \"Horizontal Crawl Space A\",\n\t\t\t\t\"NESW\": \"Four Way Crawl Space\",\n\t\t\t\t\"\": \"Four Way Crawl Space\"\n\t\t\t},\n\t\t\t\"addtiles\": [\n\t\t\t\t\"Vertical Crawl Space B\",\n\t\t\t\t\"Horizontal Crawl Space B\",\n\t\t\t\t\"Crawl Space Wall W\",\n\t\t\t\t\"Crawl Space Wall N\",\n\t\t\t\t\"Crawl Space Wall E\",\n\t\t\t\t\"Crawl Space Wall S\",\n\t\t\t\t\"Crawl Space Slope SW\",\n\t\t\t\t\"Crawl Space Slope SE\",\n\t\t\t\t\"Crawl Space Slope NW\",\n\t\t\t\t\"Crawl Space Slope NE\",\n\t\t\t\t\"Crawl Space Inr Corner SW\",\n\t\t\t\t\"Crawl Space Inr Corner SE\",\n\t\t\t\t\"Crawl Space Inr Corner NW\",\n\t\t\t\t\"Crawl Space Inr Corner NE\",\n\t\t\t\t\"Crawl Space Otr Corner SW\",\n\t\t\t\t\"Crawl Space Otr Corner SE\",\n\t\t\t\t\"Crawl Space Otr Corner NW\",\n\t\t\t\t\"Crawl Space Otr Corner NE\"\n\t\t\t],\n\t\t\t\"tags\": [\"pattern\"]\n\t\t},",
+			"\"]\n",
+			"\t\t\t\t\n",
+			"\"\",\n",
+			"\n\t\t{\n\t\t\t\"nm\": \"Alt Grate box\",\n\t\t\t\"tp\": \"pattern\",\n\t\t\t\"description\": \"Pattern\",\n\t\t\t\"type\": \"patternbox\",\n\t\t\t\"category\": \"special\",\n\t\t\t\"patcat\": \"Alt grates\",\n\t\t\t\"color\": [75, 75, 240],\n\t\t\t\"prefix\": \"AltGrate\"\n\t\t}",
+			"dissa",
+			"\",\n",
+			"K_left",
+			"shadow",
+			"coru",
+			"rou",
+			"category_count",
+			"PE",
+			"197, 255, 163",
+			"153, 255, 110",
+			"left",
+			"\"border\": [255, 255, 255]",
+			"PR",
+			"FE",
+			"enterance",
+			"cellsize",
+			"\"",
+			"#",
+			"m",
+			"propPlaceLayer",
+			"IsDecal",
+			"EditEffect",
+			"count",
+			"pals",
+			"random"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"56, 173, 52",
+			"32, 153, 28",
+			"\"border\": [150, 150, 150]",
+			"entrance",
+			"`",
+			""
+		],
+		"reverse": false,
+		"scrollbar_highlights": true,
+		"show_context": true,
+		"use_buffer2": true,
+		"use_gitignore": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "/C/Users/smail/AppData/Roaming/Sublime Text 3/Packages/User/lingo.sublime-syntax",
+					"selected": true,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1305,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								359,
+								359
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/YAML/YAML.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"stack_multiselect": false,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 27.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.diff_views":
+	{
+		"height": 291.0
+	},
+	"output.exec":
+	{
+		"height": 256.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "project.sublime-project",
+	"replace":
+	{
+		"height": 50.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 150.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

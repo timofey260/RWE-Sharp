@@ -1,5 +1,8 @@
 import os
 import sys
+import jsoncomment
+
+json = jsoncomment.JsonComment()
 
 if getattr(sys, 'frozen', False):
     PATH = os.path.dirname(sys.executable) + "\\"
@@ -8,6 +11,7 @@ else:
     PATH = str(Path(__file__).parent.parent.absolute()) + "\\"
 
 PATH_FILES = PATH + "files\\"
+PATH_FILES_IMAGES = PATH_FILES + "images\\"
 PATH_MODS = PATH_FILES + "mods\\"
 PATH_DRIZZLE = PATH + "drizzle\\"
 
@@ -22,3 +26,7 @@ NAME = "RWE#"
 FULLNAME = "Rain World Editor Sharp"
 
 RP_ID = "1226198202454380677"
+
+DEFAULTS: dict = json.load(open(PATH_FILES + "Defaults.json"))
+CONSTS: dict = json.load(open(PATH_FILES + "Consts.json"))
+CELLSIZE = CONSTS.get("cellsize", 20)

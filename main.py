@@ -1,13 +1,11 @@
 from core.info import *
 from ui.mainuiconnector import MainWindow
 import argparse
-from core.Manager import Manager
 import sys
 from PySide6.QtWidgets import QApplication
 
 
 if __name__ == "__main__":
-    manager = Manager()
 
     parser = argparse.ArgumentParser(NAME, description="Console version of RWE#\n"
                                                        "Can render levels",
@@ -22,11 +20,12 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    app = QApplication(sys.argv)
-    window = MainWindow()
     if args.filename is not None:
-        manager.new_process(args.filename)
+        app = QApplication(sys.argv)
+        window = MainWindow(args.filename)
+        #manager.new_process(args.filename)
+        window.show()
+        sys.exit(app.exec())
     else:
-        manager.new_process()
-    window.show()
-    sys.exit(app.exec())
+        pass
+        #manager.new_process()

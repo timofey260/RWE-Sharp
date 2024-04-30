@@ -1,8 +1,9 @@
+import os.path
 from path_dict import PathDict
-import lingoIO
+from core import lingoIO
 import json
-import info
-from Exceptions import *
+from core import info
+from core.Exceptions import *
 
 defaultlevel = open(info.PATH_FILES + "default.txt", "r").readlines()
 
@@ -92,11 +93,13 @@ class RWELevel:
 
     @staticmethod
     def openfile(file: str):
+        if not os.path.exists(file):
+            raise FileNotFoundError("No file found!!!")
         with open(file, "r") as f:
             if file.endswith(".txt"):
-                pass
+                return RWELevel.turntoproject(f.read())
             elif file.endswith(".wep"):
-                return
+                return RWELevel(json.load(f))
             elif file.endswith(".slug"):
                 raise NotImplementedError("Does not support slug files yet")
             raise FileNotCompatible(f"{file} is not compatible with {info.NAME}!")

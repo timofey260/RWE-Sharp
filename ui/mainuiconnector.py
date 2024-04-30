@@ -4,9 +4,11 @@ from PySide6.QtGui import QKeySequence, QShortcut
 from ui.uiscripts.mainui import Ui_MainWindow
 from ui.aboutuiconnector import AboutDialog
 from core import info
+from core.Manager import Manager
+
 
 class MainWindow(QMainWindow):
-    def __init__(self):
+    def __init__(self, filename=None):
         super(MainWindow, self).__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
@@ -14,6 +16,9 @@ class MainWindow(QMainWindow):
         self.ui.actionOpen.triggered.connect(self.open_file)
         self.ui.actionClose.triggered.connect(self.close)
         self.ui.actionAbout.triggered.connect(self.open_about)
+        self.manager = Manager(filename)
+        self.ui.viewPort.manager = self.manager
+        self.ui.viewPort.add_managed_fields()
         self.about = None
         self.setStatusTip("Layer: 0, Placing: Wall")
 

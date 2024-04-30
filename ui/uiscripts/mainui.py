@@ -17,11 +17,11 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QPainter, QPalette, QPixmap, QRadialGradient,
     QTransform)
 from PySide6.QtWidgets import (QApplication, QCheckBox, QDockWidget, QFormLayout,
-    QFrame, QGridLayout, QGroupBox, QHeaderView,
-    QLabel, QLayout, QMainWindow, QMenu,
-    QMenuBar, QPushButton, QScrollArea, QSizePolicy,
-    QSplitter, QStatusBar, QTabWidget, QTableView,
-    QVBoxLayout, QWidget)
+    QFrame, QGraphicsView, QGridLayout, QGroupBox,
+    QHeaderView, QLabel, QLayout, QMainWindow,
+    QMenu, QMenuBar, QPushButton, QScrollArea,
+    QSizePolicy, QSplitter, QStatusBar, QTabWidget,
+    QTableView, QVBoxLayout, QWidget)
 
 from RWESharpWidgets import ViewPort
 import ui.res_rc
@@ -102,12 +102,13 @@ class Ui_MainWindow(object):
         sizePolicy.setHeightForWidth(self.viewPort.sizePolicy().hasHeightForWidth())
         self.viewPort.setSizePolicy(sizePolicy)
         self.viewPort.setLocale(QLocale(QLocale.English, QLocale.UnitedStates))
-        brush = QBrush(QColor(0, 0, 0, 255))
+        brush = QBrush(QColor(255, 0, 0, 255))
         brush.setStyle(Qt.NoBrush)
         self.viewPort.setBackgroundBrush(brush)
         brush1 = QBrush(QColor(0, 0, 0, 255))
         brush1.setStyle(Qt.NoBrush)
         self.viewPort.setForegroundBrush(brush1)
+        self.viewPort.setDragMode(QGraphicsView.DragMode.NoDrag)
 
         self.gridLayout_3.addWidget(self.viewPort, 0, 0, 1, 1)
 
@@ -334,6 +335,7 @@ class Ui_MainWindow(object):
         sizePolicy3.setHeightForWidth(self.geoSlope.sizePolicy().hasHeightForWidth())
         self.geoSlope.setSizePolicy(sizePolicy3)
         self.geoSlope.setLocale(QLocale(QLocale.English, QLocale.UnitedStates))
+        self.geoSlope.setCheckable(False)
 
         self.geoItems.addWidget(self.geoSlope, 3, 1, 1, 1)
 
@@ -399,7 +401,7 @@ class Ui_MainWindow(object):
         self.scrollArea_2.setWidgetResizable(True)
         self.scrollAreaWidgetContents_2 = QWidget()
         self.scrollAreaWidgetContents_2.setObjectName(u"scrollAreaWidgetContents_2")
-        self.scrollAreaWidgetContents_2.setGeometry(QRect(0, 0, 313, 602))
+        self.scrollAreaWidgetContents_2.setGeometry(QRect(0, 0, 149, 602))
         self.gridLayout_6 = QGridLayout(self.scrollAreaWidgetContents_2)
         self.gridLayout_6.setObjectName(u"gridLayout_6")
         self.showProps = QGroupBox(self.scrollAreaWidgetContents_2)
@@ -619,6 +621,9 @@ class Ui_MainWindow(object):
         self.geoAir.setText(QCoreApplication.translate("MainWindow", u"Air", None))
         self.geoRock.setText(QCoreApplication.translate("MainWindow", u"Rock", None))
         self.geoSlope.setText(QCoreApplication.translate("MainWindow", u"Slope", None))
+#if QT_CONFIG(shortcut)
+        self.geoSlope.setShortcut(QCoreApplication.translate("MainWindow", u"Ctrl+R", u"rock key"))
+#endif // QT_CONFIG(shortcut)
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.geo), QCoreApplication.translate("MainWindow", u"Geo", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tiles), QCoreApplication.translate("MainWindow", u"Tiles", None))
         self.dockShow.setWindowTitle(QCoreApplication.translate("MainWindow", u"Show", None))
