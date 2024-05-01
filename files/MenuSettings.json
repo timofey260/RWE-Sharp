@@ -1,7 +1,8 @@
 {
 	"settings": [
 		{
-			"name": "main",
+			"id": "general",
+			"name": "Feneral",
 			"type": "folder",
 			"value": [
 				{

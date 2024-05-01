@@ -5,9 +5,17 @@ from core.RWELevel import RWELevel
 from core.renderTextures import GeoRenderTexture
 from core.renderTextures import rtBase
 
+
 class Manager:
-    def __init__(self, file=None):
+    '''
+    Manager of all RWE#
+
+    :param window: RWE# window
+    :param file: file to load by default
+    '''
+    def __init__(self, window, file=None):
         # todo init some tiles and assets (and mods in future)
+        self.window = window
 
         self.tiles = TileLoader.loadTiles(info.PATH_DRIZZLE)
         self.props = ItemData()
@@ -23,6 +31,7 @@ class Manager:
         self.rendertextures.append(GeoRenderTexture.GeoRenderTexture(self, 2))
         self.rendertextures.append(GeoRenderTexture.GeoRenderTexture(self, 1))
         self.rendertextures.append(GeoRenderTexture.GeoRenderTexture(self, 0))
+
 
     @property
     def level_width(self):

@@ -27,4 +27,11 @@ class GeoRenderTexture(RenderTexture):
                 stackables = y[self.layer][1]
                 pos = self.binfo.get(str(cell), [0, 0])
                 cellpos = QRect(pos[0] * sz, pos[1] * sz, sz, sz)
-                self.painter.drawPixmap(QRect(xp * CELLSIZE, yp * CELLSIZE, 20, 20), self.geo_texture, cellpos)
+                placepos = QRect(xp * CELLSIZE, yp * CELLSIZE, 20, 20)
+                self.painter.drawPixmap(placepos, self.geo_texture, cellpos)
+
+                for s in stackables:
+                    spos = self.sinfo.get(str(s), [0, 0])
+                    stackpos = QRect(spos[0] * sz, spos[1] * sz, sz, sz)
+                    self.painter.drawPixmap(placepos, self.geo_texture, stackpos)
+
