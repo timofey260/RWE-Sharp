@@ -2,18 +2,17 @@ from core import info
 from core.ItemData import ItemData
 from core.Loaders import TileLoader
 from core.RWELevel import RWELevel
-from core.renderTextures import GeoRenderTexture
-from core.renderTextures import rtBase
 
 
 class Manager:
     '''
     Manager of all RWE#
-
-    :param window: RWE# window
-    :param file: file to load by default
     '''
     def __init__(self, window, file=None):
+        """
+        :param window: RWE# window
+        :param file: file to load by default
+        """
         # todo init some tiles and assets (and mods in future)
         self.window = window
 
@@ -26,11 +25,6 @@ class Manager:
             self.level = RWELevel.load_from_file(file)
         else:
             self.level = RWELevel()
-        self.rendertextures: list[rtBase.RenderTexture] = []
-
-        self.rendertextures.append(GeoRenderTexture.GeoRenderTexture(self, 2))
-        self.rendertextures.append(GeoRenderTexture.GeoRenderTexture(self, 1))
-        self.rendertextures.append(GeoRenderTexture.GeoRenderTexture(self, 0))
 
 
     @property

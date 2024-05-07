@@ -1,5 +1,5 @@
 from PySide6.QtGui import QColor, QBrush
-from PySide6.QtCore import Qt, QPoint, QRect
+from PySide6.QtCore import Qt, QPoint, QRect, Slot
 from PySide6.QtWidgets import QGraphicsView, QGraphicsScene, QGraphicsPixmapItem, QApplication, QGraphicsRectItem
 
 
@@ -17,11 +17,18 @@ class ViewPort(QGraphicsView):
         self.zoom = 1
         self.rect: QGraphicsRectItem = self.workscene.addRect(QRect(0, 0, 1, 1), brush=QBrush(QColor(150, 150, 150), Qt.BrushStyle.SolidPattern))
         self.managedfields: list[QGraphicsPixmapItem] = []
+        self.verticalScrollBar().sliderReleased.connect(self.redraw)
+        self.horizontalScrollBar().sliderReleased.connect(self.redraw)
+
+    @Slot()
+    def redraw(self):
+        self.repaint()
 
     def add_managed_fields(self, manager):
         self.manager = manager
-        for i, v in enumerate(self.manager.rendertextures):
+        for i, v in enumerate(self.manager.window.rendertextures):
             self.managedfields.append(self.workscene.addPixmap(v.image))
+            v.renderedtexture = self.managedfields[-1]
             #self.managedfields[i].setPos(QPoint(200, 200))
         self.rect.setRect(self.managedfields[0].sceneBoundingRect())
         self.managedfields[0].setOpacity(.3)
@@ -36,6 +43,7 @@ class ViewPort(QGraphicsView):
     def wheelEvent(self, event):
         mods = QApplication.keyboardModifiers()
         #print(self.map.scale() + (event.angleDelta().y() / 80))
+        self.manager.window.editor.mouse_wheel_event(event)
         if mods == mods.ShiftModifier:
             event.setModifiers(Qt.KeyboardModifier.NoModifier)
             self.verticalScrollBar().wheelEvent(event)

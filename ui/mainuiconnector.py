@@ -7,15 +7,19 @@ from core.EditorModes.EditorMode import EditorMode
 from core.EditorModes.GeometryEditor import GeometryEditor
 from core import info
 from core.Manager import Manager
+from core.renderTextures import GeoRenderTexture
+from core.renderTextures import rtBase
 
 
 class MainWindow(QMainWindow):
     '''
     Main window of RWE#
-
-    :param filename: file to load by default
     '''
     def __init__(self, filename=None):
+        """
+
+        :param filename:  file to load by default
+        """
         super(MainWindow, self).__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
@@ -24,6 +28,12 @@ class MainWindow(QMainWindow):
         self.ui.actionClose.triggered.connect(self.close)
         self.ui.actionAbout.triggered.connect(self.open_about)
         self.manager = Manager(self, filename)
+        self.rendertextures: list[rtBase.RenderTexture] = []
+
+        self.rendertextures.append(GeoRenderTexture.GeoRenderTexture(self.manager, 2))
+        self.rendertextures.append(GeoRenderTexture.GeoRenderTexture(self.manager, 1))
+        self.rendertextures.append(GeoRenderTexture.GeoRenderTexture(self.manager, 0))
+
         self.ui.viewPort.add_managed_fields(self.manager)
         self.ui.menuRecent.addAction(QAction("lol", self.ui.menuRecent))
         self.ui.ToolsTabs.currentChanged.connect(self.change_editor)
@@ -33,7 +43,8 @@ class MainWindow(QMainWindow):
         self.editors: list[EditorMode] = []
         self.current_editor = 0
         # Connecting geo stuff
-        geoeditor = GeometryEditor(self.ui.viewPort)
+        geoeditor = GeometryEditor(self.ui.viewPort, self.rendertextures[2].renderedtexture, self.rendertextures[1].renderedtexture, self.rendertextures[0].renderedtexture)
+
         self.editors.append(geoeditor)
         self.ui.ToolGeoApplyToL1.checkStateChanged.connect(geoeditor.check_l1_change)
         self.ui.ToolGeoApplyToL2.checkStateChanged.connect(geoeditor.check_l2_change)

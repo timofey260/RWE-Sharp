@@ -1,5 +1,6 @@
 from PySide6.QtGui import QPixmap, QColor, QPainter
 from PySide6.QtCore import QSize
+from PySide6.QtWidgets import QGraphicsPixmapItem
 
 
 class RenderTexture:
@@ -8,3 +9,4 @@ class RenderTexture:
         self.image = QPixmap(manager.level_width * 20, manager.level_height * 20)
         self.image.fill(QColor(0, 0, 0, 0))
         self.painter = QPainter(self.image)
+        self.renderedtexture: QGraphicsPixmapItem | None = None
