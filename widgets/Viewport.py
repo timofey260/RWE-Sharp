@@ -12,7 +12,7 @@ class ViewPort(QGraphicsView):
     def __init__(self, parent):
         super().__init__(parent)
         self.manager = None
-        self.workscene = QGraphicsScene(self)
+        self.workscene: QGraphicsScene = QGraphicsScene(self)
         self.setScene(self.workscene)
         self.zoom = 1
         self.rect: QGraphicsRectItem = self.workscene.addRect(QRect(0, 0, 1, 1), brush=QBrush(QColor(150, 150, 150), Qt.BrushStyle.SolidPattern))
@@ -24,16 +24,14 @@ class ViewPort(QGraphicsView):
     def redraw(self):
         self.repaint()
 
+    def add_texture(self, pixmap):
+        newpixmap = self.workscene.addPixmap(pixmap)
+        self.managedfields.append(newpixmap)
+        return newpixmap
+
     def add_managed_fields(self, manager):
         self.manager = manager
-        for i, v in enumerate(self.manager.window.rendertextures):
-            self.managedfields.append(self.workscene.addPixmap(v.image))
-            v.renderedtexture = self.managedfields[-1]
-            #self.managedfields[i].setPos(QPoint(200, 200))
         self.rect.setRect(self.managedfields[0].sceneBoundingRect())
-        self.managedfields[0].setOpacity(.3)
-        self.managedfields[1].setOpacity(.5)
-        self.managedfields[2].setOpacity(1)
         # self.setBackgroundBrush(QBrush(QColor(30, 30, 30), Qt.BrushStyle.SolidPattern))
 
     def mousePressEvent(self, event):

@@ -150,7 +150,7 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>347</width>
+              <width>259</width>
               <height>782</height>
              </rect>
             </property>
@@ -1305,7 +1305,7 @@ Chains</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>362</width>
+              <width>274</width>
               <height>480</height>
              </rect>
             </property>
@@ -1632,7 +1632,6 @@ Chains</string>
     <addaction name="actionOpen"/>
     <addaction name="menuRecent"/>
     <addaction name="actionClose"/>
-    <addaction name="actionRender"/>
     <addaction name="separator"/>
     <addaction name="actionSave"/>
     <addaction name="actionSave_As"/>
@@ -1647,6 +1646,7 @@ Chains</string>
      <string>Settings</string>
     </property>
     <addaction name="actionPreferences"/>
+    <addaction name="actionHotkeys"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -1662,11 +1662,31 @@ Chains</string>
      <string>Tools</string>
     </property>
    </widget>
+   <widget class="QMenu" name="menuDrizzle">
+    <property name="title">
+     <string>Drizzle</string>
+    </property>
+    <addaction name="actionRender_2"/>
+    <addaction name="actionOpen_2"/>
+   </widget>
+   <widget class="QMenu" name="menuMods">
+    <property name="title">
+     <string>Mods</string>
+    </property>
+    <widget class="QMenu" name="menuConfigure">
+     <property name="title">
+      <string>Configure</string>
+     </property>
+    </widget>
+    <addaction name="menuConfigure"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuWindow"/>
    <addaction name="menuSettings"/>
    <addaction name="menuHelp"/>
    <addaction name="menutools"/>
+   <addaction name="menuDrizzle"/>
+   <addaction name="menuMods"/>
   </widget>
   <widget class="QDockWidget" name="DockView">
    <property name="enabled">
@@ -1731,7 +1751,7 @@ Chains</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>362</width>
+              <width>274</width>
               <height>280</height>
              </rect>
             </property>
@@ -2190,7 +2210,7 @@ Chains</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>345</width>
+              <width>257</width>
               <height>311</height>
              </rect>
             </property>
@@ -2294,9 +2314,6 @@ Chains</string>
    <property name="text">
     <string>Open</string>
    </property>
-   <property name="shortcut">
-    <string>Ctrl+O</string>
-   </property>
   </action>
   <action name="actionNew">
    <property name="icon">
@@ -2307,9 +2324,6 @@ Chains</string>
    </property>
    <property name="toolTip">
     <string>New level</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+N</string>
    </property>
   </action>
   <action name="actionClose">
@@ -2335,9 +2349,6 @@ Chains</string>
    <property name="text">
     <string>Undo</string>
    </property>
-   <property name="shortcut">
-    <string>Ctrl+Z</string>
-   </property>
   </action>
   <action name="actionSave">
    <property name="icon">
@@ -2349,9 +2360,6 @@ Chains</string>
    <property name="toolTip">
     <string>Save the level</string>
    </property>
-   <property name="shortcut">
-    <string>Ctrl+S</string>
-   </property>
   </action>
   <action name="actionSave_As">
    <property name="icon">
@@ -2360,9 +2368,6 @@ Chains</string>
    <property name="text">
     <string>Save As...</string>
    </property>
-   <property name="shortcut">
-    <string>Ctrl+Shift+S</string>
-   </property>
   </action>
   <action name="actionRedo">
    <property name="icon">
@@ -2370,9 +2375,6 @@ Chains</string>
    </property>
    <property name="text">
     <string>Redo</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+U, Ctrl+Shift+Z</string>
    </property>
   </action>
   <action name="actionAbout">
@@ -2390,11 +2392,11 @@ Chains</string>
    <property name="checkable">
     <bool>true</bool>
    </property>
+   <property name="icon">
+    <iconset theme="accessories-dictionary"/>
+   </property>
    <property name="text">
     <string>Wiki</string>
-   </property>
-   <property name="shortcut">
-    <string>F1</string>
    </property>
   </action>
   <action name="actionAbout_Qt">
@@ -2423,9 +2425,6 @@ Chains</string>
    <property name="text">
     <string>Render</string>
    </property>
-   <property name="shortcut">
-    <string>Ctrl+R</string>
-   </property>
   </action>
   <action name="actionexplode_leditor">
    <property name="text">
@@ -2435,6 +2434,24 @@ Chains</string>
   <action name="actionLediting_help">
    <property name="text">
     <string>Lediting help</string>
+   </property>
+  </action>
+  <action name="actionRender_2">
+   <property name="text">
+    <string>Render</string>
+   </property>
+  </action>
+  <action name="actionHotkeys">
+   <property name="icon">
+    <iconset theme="input-keyboard"/>
+   </property>
+   <property name="text">
+    <string>Hotkeys</string>
+   </property>
+  </action>
+  <action name="actionOpen_2">
+   <property name="text">
+    <string>Open</string>
    </property>
   </action>
  </widget>

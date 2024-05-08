@@ -7,8 +7,6 @@ from core.EditorModes.EditorMode import EditorMode
 from core.EditorModes.GeometryEditor import GeometryEditor
 from core import info
 from core.Manager import Manager
-from core.renderTextures import GeoRenderTexture
-from core.renderTextures import rtBase
 
 
 class MainWindow(QMainWindow):
@@ -28,29 +26,14 @@ class MainWindow(QMainWindow):
         self.ui.actionClose.triggered.connect(self.close)
         self.ui.actionAbout.triggered.connect(self.open_about)
         self.manager = Manager(self, filename)
-        self.rendertextures: list[rtBase.RenderTexture] = []
-
-        self.rendertextures.append(GeoRenderTexture.GeoRenderTexture(self.manager, 2))
-        self.rendertextures.append(GeoRenderTexture.GeoRenderTexture(self.manager, 1))
-        self.rendertextures.append(GeoRenderTexture.GeoRenderTexture(self.manager, 0))
 
         self.ui.viewPort.add_managed_fields(self.manager)
+
         self.ui.menuRecent.addAction(QAction("lol", self.ui.menuRecent))
         self.ui.ToolsTabs.currentChanged.connect(self.change_editor)
         self.about = None
         self.setStatusTip("Layer: 0, Placing: Wall")
-
-        self.editors: list[EditorMode] = []
-        self.current_editor = 0
         # Connecting geo stuff
-        geoeditor = GeometryEditor(self.ui.viewPort, self.rendertextures[2].renderedtexture, self.rendertextures[1].renderedtexture, self.rendertextures[0].renderedtexture)
-
-        self.editors.append(geoeditor)
-        self.ui.ToolGeoApplyToL1.checkStateChanged.connect(geoeditor.check_l1_change)
-        self.ui.ToolGeoApplyToL2.checkStateChanged.connect(geoeditor.check_l2_change)
-        self.ui.ToolGeoApplyToL3.checkStateChanged.connect(geoeditor.check_l3_change)
-
-        geoeditor.init_scene_items()
 
 
     @Slot(int)
@@ -60,7 +43,7 @@ class MainWindow(QMainWindow):
 
     @property
     def editor(self) -> EditorMode:
-        return self.editors[self.current_editor]
+        return self.manager.editors[self.manager.currenteditor]
 
     @Slot()
     def open_about(self) -> None:
@@ -74,6 +57,6 @@ class MainWindow(QMainWindow):
     @Slot()
     def open_file(self) -> None:
         print("open")
-        QFileDialog.getOpenFileName(None, "Open Level", info.application_path)
+        QFileDialog.getOpenFileName(None, "Open Level", info.PATH)
 
 

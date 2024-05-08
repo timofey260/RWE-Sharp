@@ -7,11 +7,12 @@ class EditorMode:
     """
     Base for creating custom viewport editors
     """
-    def __init__(self, viewport: ViewPort):
+    def __init__(self, manager):
         """
         :param viewport: viewport where actions should be tracked
         """
-        self.viewport = viewport
+        self.manager = manager
+        self.viewport = manager.viewport
         self.mpos = QPoint()
 
     def init_scene_items(self):
