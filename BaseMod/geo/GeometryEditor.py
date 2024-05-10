@@ -1,7 +1,7 @@
-from core.EditorModes.EditorMode import EditorMode
-from PySide6.QtCore import Slot, Qt, QRect, QPoint
+from core.EditorMode import EditorMode
+from PySide6.QtCore import QRect
 from PySide6.QtGui import QColor, QPen, QMoveEvent, QWheelEvent
-from PySide6.QtWidgets import QGraphicsRectItem, QGraphicsPixmapItem
+from PySide6.QtWidgets import QGraphicsRectItem
 from core.info import CELLSIZE
 
 

@@ -31,17 +31,18 @@ class ViewPort(QGraphicsView):
 
     def add_managed_fields(self, manager):
         self.manager = manager
-        self.rect.setRect(self.managedfields[0].sceneBoundingRect())
+        if len(self.managedfields) > 0:
+            self.rect.setRect(self.managedfields[0].sceneBoundingRect())
         # self.setBackgroundBrush(QBrush(QColor(30, 30, 30), Qt.BrushStyle.SolidPattern))
 
     def mousePressEvent(self, event):
         super().mousePressEvent(event)
-        self.manager.window.editor.mouse_click_event(event)
+        self.manager.editor.mouse_click_event(event)
 
     def wheelEvent(self, event):
         mods = QApplication.keyboardModifiers()
         #print(self.map.scale() + (event.angleDelta().y() / 80))
-        self.manager.window.editor.mouse_wheel_event(event)
+        self.manager.editor.mouse_wheel_event(event)
         if mods == mods.ShiftModifier:
             event.setModifiers(Qt.KeyboardModifier.NoModifier)
             self.verticalScrollBar().wheelEvent(event)
@@ -60,7 +61,7 @@ class ViewPort(QGraphicsView):
         #self.horizontalScrollBar().adjustSize()
 
     def mouseMoveEvent(self, event):
-        self.manager.window.editor.mouse_move_event(event)
+        self.manager.editor.mouse_move_event(event)
 
     def fullrender(self):
         pass

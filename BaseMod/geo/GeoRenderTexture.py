@@ -1,7 +1,7 @@
-from core.renderTextures.rtBase import RenderTexture
+from core.RenderTexture import RenderTexture
 from PySide6.QtGui import QPixmap, QColor
-from PySide6.QtCore import QRect, QPoint
-from ..info import PATH_FILES_IMAGES, CONSTS, CELLSIZE
+from PySide6.QtCore import QRect
+from core.info import PATH_FILES_IMAGES, CONSTS, CELLSIZE
 
 class GeoRenderTexture(RenderTexture):
     def __init__(self, manager, layer):

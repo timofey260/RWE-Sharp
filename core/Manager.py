@@ -2,13 +2,13 @@ from core import info
 from core.ItemData import ItemData
 from core.Loaders import TileLoader
 from core.RWELevel import RWELevel
-from core.renderTextures.rtBase import RenderTexture
-from core.renderTextures.GeoRenderTexture import GeoRenderTexture
-from core.Modules.baseModule import Module
-from core.Modules.geometryModule import GeoModule
+from core.RenderTexture import RenderTexture
 from widgets.Viewport import ViewPort
-from core.EditorModes.EditorMode import EditorMode
-from core.EditorModes.GeometryEditor import GeometryEditor
+from core.EditorMode import EditorMode
+from BaseMod.baseMod import BaseMod
+from core.Mod import Mod
+from core.baseModule import Module
+from PySide6.QtWidgets import QWidget
 
 
 class Manager:
@@ -35,27 +35,30 @@ class Manager:
 
         self.viewport: ViewPort = window.ui.viewPort
 
-        self.currenteditor = 0
+        self.current_editor = 0
         self.editors: list[EditorMode] = []
         """
         Editors made to edit specific stuff in level depending on editor
         """
+
         self.modules: list[Module] = []
         """
-        All modules work* at the same time so they arent limited by current editor
-            *they arent exactly working, just doing stuff when they need to
-        Modules are made to split size of manager and provide more availability to mod
+        Modules are made for viewport modifying
+        """
+        self.mods: list[Mod] = []
+        """
+        Mods are what powers RWE#
         """
 
         self.editorlayers = []
+
+        self.init_mods()
         self.init_layers()
         self.init_editors()
         print(self.editorlayers)
 
     def init_layers(self):
         editorlayers: list[tuple[int, RenderTexture]] = []
-
-        self.modules.append(GeoModule(self))
         # mod editor layers
 
         for i in self.modules:
@@ -67,14 +70,42 @@ class Manager:
         for i in self.editorlayers:
             img = self.viewport.add_texture(i.image)
             i.renderedtexture = img
+
         for i in self.modules:
             i.init_module_textures()
 
-    def init_editors(self):
-        self.editors.append(GeometryEditor(self))
 
+    def init_editors(self):
+        if len(self.editors) <= 0:
+            print("No editors found!!!")
+            return
         self.editors[0].init_scene_items()
 
+    def init_mods(self):
+        self.mods.append(BaseMod(self))
+
+    def add_editor(self, editor, ui: QWidget):
+        self.editors.append(editor)
+        self.window.ui.ToolsTabs.addTab(ui, ui.objectName())
+        # ui.setParent(self.window.ui.ToolsTabs)
+
+    def add_module(self, module):
+        self.modules.append(module)
+
+    def add_view(self, ui: QWidget):
+        self.window.ui.ViewTab.addTab(ui, ui.objectName())
+
+    def add_quick_option(self, element: QWidget):
+        self.window.ui.QuickOverlay.addWidget(element)
+
+    @property
+    def editor(self) -> EditorMode:
+        return self.editors[self.current_editor]
+
+    def change_editor(self, value: int):
+        self.editor.remove_items_from_scene()
+        self.current_editor = value
+        self.editor.init_scene_items()
 
     @property
     def level_width(self):

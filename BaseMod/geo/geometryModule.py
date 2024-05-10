@@ -1,5 +1,5 @@
-from core.Modules.baseModule import Module
-from core.renderTextures.GeoRenderTexture import GeoRenderTexture
+from core.baseModule import Module
+from BaseMod.geo.GeoRenderTexture import GeoRenderTexture
 from PySide6.QtCore import Qt, Slot
 
 
@@ -12,9 +12,9 @@ class GeoModule(Module):
         self.editorlayers.append((100, self.l3))
         self.editorlayers.append((200, self.l2))
         self.editorlayers.append((300, self.l1))
-        self.manager.window.ui.ToolGeoApplyToL1.checkStateChanged.connect(self.check_l1_change)
-        self.manager.window.ui.ToolGeoApplyToL2.checkStateChanged.connect(self.check_l2_change)
-        self.manager.window.ui.ToolGeoApplyToL3.checkStateChanged.connect(self.check_l3_change)
+        # self.manager.window.ui.ToolGeoApplyToL1.checkStateChanged.connect(self.check_l1_change)
+        # self.manager.window.ui.ToolGeoApplyToL2.checkStateChanged.connect(self.check_l2_change)
+        # self.manager.window.ui.ToolGeoApplyToL3.checkStateChanged.connect(self.check_l3_change)
 
     @Slot(Qt.CheckState)
     def check_l1_change(self, state: Qt.CheckState):

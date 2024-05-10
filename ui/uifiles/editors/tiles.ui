@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Tiles</class>
+ <widget class="QWidget" name="Tiles">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>390</width>
+    <height>549</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Tiles</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QScrollArea" name="scrollArea">
+     <property name="widgetResizable">
+      <bool>true</bool>
+     </property>
+     <widget class="QWidget" name="scrollAreaWidgetContents">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>370</width>
+        <height>529</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <layout class="QGridLayout" name="gridLayout_9">
+         <item row="5" column="1">
+          <widget class="QPushButton" name="ToolTilesSetAsDefault">
+           <property name="text">
+            <string>Set default</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QComboBox" name="ToolTilesM1Select">
+           <item>
+            <property name="text">
+             <string>pencil</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Delite</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>brush</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>bucket</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>line</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>rectangle tool</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>hollow rectanlge</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>circle</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>hollow circle</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLabel" name="label_4">
+           <property name="text">
+            <string>Right mouse </string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0">
+          <widget class="QSpinBox" name="ToolTilesBrushSIzeSelector"/>
+         </item>
+         <item row="2" column="0">
+          <widget class="QComboBox" name="ToolTilesM2Select">
+           <item>
+            <property name="text">
+             <string>Delite</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>pencil</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>brush</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>bucket</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>line</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>rectangle tool</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>hollow rectanlge</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>circle</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>hollow circle</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QLabel" name="label_11">
+           <property name="text">
+            <string>Brush size</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="0">
+          <widget class="QPushButton" name="ToolTilesPaste">
+           <property name="text">
+            <string>Paste</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="1">
+          <widget class="QPushButton" name="ToolTilesCopy">
+           <property name="text">
+            <string>Copy</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QLabel" name="label_5">
+           <property name="text">
+            <string>Left mouse</string>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="0">
+          <widget class="QPushButton" name="ToolTilesSelectTool">
+           <property name="text">
+            <string>Selection tool</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_4">
+         <property name="orientation">
+          <enum>Qt::Orientation::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>273</width>
+           <height>362</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

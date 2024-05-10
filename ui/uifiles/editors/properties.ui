@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Properties</class>
+ <widget class="QWidget" name="Properties">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Properties</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QScrollArea" name="scrollArea">
+     <property name="widgetResizable">
+      <bool>true</bool>
+     </property>
+     <widget class="QWidget" name="scrollAreaWidgetContents">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>363</width>
+        <height>372</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QLabel" name="label_15">
+         <property name="text">
+          <string>Level size </string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QGridLayout" name="gridLayout_10">
+         <item row="1" column="0">
+          <widget class="QLabel" name="ToolsPropertiesLabel">
+           <property name="text">
+            <string>Size x</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0">
+          <widget class="QLabel" name="ToolsPropertiesLabel_3">
+           <property name="text">
+            <string>Border size x</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QSpinBox" name="ToolsPropertiesSizeX"/>
+         </item>
+         <item row="8" column="1">
+          <widget class="QComboBox" name="ToolsPropertiesWaterSettings">
+           <property name="frame">
+            <bool>false</bool>
+           </property>
+           <item>
+            <property name="text">
+             <string>No water</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>infront </string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>behind</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item row="7" column="0">
+          <widget class="QLabel" name="ToolsPropertiesLabel_5">
+           <property name="text">
+            <string>Water height</string>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="0" colspan="2">
+          <widget class="QCheckBox" name="ToolsPropertiesSun">
+           <property name="text">
+            <string>Sunlight</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="0">
+          <widget class="QSpinBox" name="ToolsPropertiesBorderSizeX"/>
+         </item>
+         <item row="8" column="0">
+          <widget class="QSpinBox" name="ToolsPropertiesWaterHeight"/>
+         </item>
+         <item row="2" column="1">
+          <widget class="QSpinBox" name="ToolsPropertiesSizeY"/>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLabel" name="ToolsPropertiesLabel_2">
+           <property name="text">
+            <string>Size y</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="1">
+          <widget class="QSpinBox" name="ToolsPropertiesBorderSizeY"/>
+         </item>
+         <item row="3" column="1">
+          <widget class="QLabel" name="ToolsPropertiesLabel_4">
+           <property name="text">
+            <string>Border size</string>
+           </property>
+          </widget>
+         </item>
+         <item row="7" column="1">
+          <widget class="QLabel" name="ToolsPropertiesLabel_6">
+           <property name="text">
+            <string>Water Properties</string>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="0" colspan="2">
+          <widget class="Line" name="ToolsPropertiesLine">
+           <property name="orientation">
+            <enum>Qt::Orientation::Horizontal</enum>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_13">
+         <item>
+          <widget class="QLabel" name="ToolsPropertiesLabel_7">
+           <property name="text">
+            <string>TextLabel</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QTableWidget" name="ToolsPropertiesTabel"/>
+         </item>
+         <item>
+          <widget class="QLabel" name="ToolsPropertiesLabel_9">
+           <property name="text">
+            <string>Tile seed</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSlider" name="ToolsPropertiesSeed">
+           <property name="orientation">
+            <enum>Qt::Orientation::Horizontal</enum>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
