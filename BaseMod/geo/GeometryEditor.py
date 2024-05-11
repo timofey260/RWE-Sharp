@@ -1,4 +1,4 @@
-from core.EditorMode import EditorMode
+from core.Modify.EditorMode import EditorMode
 from PySide6.QtCore import QRect
 from PySide6.QtGui import QColor, QPen, QMoveEvent, QWheelEvent
 from PySide6.QtWidgets import QGraphicsRectItem
@@ -17,6 +17,7 @@ class GeometryEditor(EditorMode):
 
     def init_scene_items(self):
         self.cursor = self.viewport.workscene.addRect(QRect(0, 0, 20, 20), pen=QPen(QColor(255, 0, 0), 3))
+        self.manager.set_status("placing walls")
 
     def remove_items_from_scene(self):
         self.cursor.removeFromIndex()

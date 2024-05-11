@@ -1,6 +1,3 @@
-from core.RenderTexture import RenderTexture
-
-
 class Mod:
     def __init__(self, manager):
         self.manager = manager

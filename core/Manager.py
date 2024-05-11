@@ -2,12 +2,12 @@ from core import info
 from core.ItemData import ItemData
 from core.Loaders import TileLoader
 from core.RWELevel import RWELevel
-from core.RenderTexture import RenderTexture
+from core.Modify.RenderTexture import RenderTexture
 from widgets.Viewport import ViewPort
-from core.EditorMode import EditorMode
+from core.Modify.EditorMode import EditorMode
 from BaseMod.baseMod import BaseMod
-from core.Mod import Mod
-from core.baseModule import Module
+from core.Modify.Mod import Mod
+from core.Modify.baseModule import Module
 from PySide6.QtWidgets import QWidget
 
 
@@ -29,7 +29,7 @@ class Manager:
         self.effect_colors = ItemData()
 
         if file is not None:
-            self.level = RWELevel.load_from_file(file)
+            self.level = RWELevel.openfile(file)
         else:
             self.level = RWELevel()
 
@@ -98,6 +98,10 @@ class Manager:
     def add_quick_option(self, element: QWidget):
         self.window.ui.QuickOverlay.addWidget(element)
 
+    def set_status(self, message: str):
+        self.window.ui.viewPort.setStatusTip(message)
+        pass
+
     @property
     def editor(self) -> EditorMode:
         return self.editors[self.current_editor]
@@ -109,11 +113,11 @@ class Manager:
 
     @property
     def level_width(self):
-        return self.level.levelwidth
+        return self.level.level_width
 
     @property
     def level_height(self):
-        return self.level.levelheight
+        return self.level.level_height
 
     def new_process(self, file=None):
         pass

@@ -32,7 +32,6 @@ class MainWindow(QMainWindow):
         self.about = None
 
         self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
-
         self.ui.QuickOverlay.addItem(self.verticalSpacer)
 
 

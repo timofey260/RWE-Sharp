@@ -4,43 +4,25 @@ from core import lingoIO
 import json
 from core import info
 from core.Exceptions import *
+from core.HistorySystem import History
 
 defaultlevel = open(info.PATH_FILES + "default.txt", "r").readlines()
 
+
 class RWELevel:
     def __init__(self, data=None):
+        #self.manager = manager
         if data is None:
             self.data = PathDict({})
         else:
             self.data = PathDict(data)
-        self.undohistory = []
-        self.redohistory = []
+        self.history = History(self)
 
     def undo(self):
-        pass
+        self.history.undo()
 
     def redo(self):
-        pass
-
-    def change(self, path, value, override_match=False):
-        # 1 history element is tree of history elements
-        # history element can either contain value before and after change or children, creating tree
-        if self.data[path] == value or override_match:
-            pass
-        self.data[path] = value
-        pass
-
-    @staticmethod
-    def load_from_file(file: str):
-        if file[-3:] == "txt":
-            print("trying to load LE level")
-            return lingoIO.turntoproject(open(file, "r").read())
-        elif file[-3:] == "wep":
-            print("trying to load RWE+ level")
-            return RWELevel(json.load(open(file, "r")))
-        elif file[-3:] == "rwee":
-            print("trying to load RWEE level")
-            return RWELevel()
+        self.history.redo()
 
     def __getitem__(self, item):
         return self.data[item]
@@ -55,11 +37,11 @@ class RWELevel:
         return self.data["TE"]["tlMatrix"][int(x)][int(y)][layer]
 
     @property
-    def levelwidth(self):
+    def level_width(self):
         return len(self.data["GE"])
 
     @property
-    def levelheight(self):
+    def level_height(self):
         return len(self.data["GE"][0])
 
     @staticmethod
@@ -96,10 +78,11 @@ class RWELevel:
         if not os.path.exists(file):
             raise FileNotFoundError("No file found!!!")
         with open(file, "r") as f:
-            if file.endswith(".txt"):
+            _, ext = os.path.splitext(file)
+            if ext == ".txt":
                 return RWELevel.turntoproject(f.read())
-            elif file.endswith(".wep"):
+            elif ext == ".wep":
                 return RWELevel(json.load(f))
-            elif file.endswith(".slug"):
+            elif ext == ".slug":
                 raise NotImplementedError("Does not support slug files yet")
             raise FileNotCompatible(f"{file} is not compatible with {info.NAME}!")

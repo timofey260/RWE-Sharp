@@ -1,4 +1,4 @@
-from core.baseModule import Module
+from core.Modify.baseModule import Module
 from BaseMod.geo.GeoRenderTexture import GeoRenderTexture
 from PySide6.QtCore import Qt, Slot
 

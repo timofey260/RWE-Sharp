@@ -1,9 +1,9 @@
-from core.Mod import Mod
+from core.Modify.Mod import Mod
 from .geo.GeometryEditor import GeometryEditor
 from .geo.geometry_ui import Ui_Geo
 from .geo.geometry_vis_ui import Ui_GeoView
 from .geo.geometryModule import GeoModule
-from PySide6.QtWidgets import QWidget, QCheckBox, QSizePolicy
+from PySide6.QtWidgets import QWidget, QCheckBox
 from PySide6.QtCore import QCoreApplication
 
 
@@ -35,6 +35,9 @@ class BaseMod(Mod):
         self.add_module(self.geomodule)
         self.add_vis_ui(self.geoview)
 
+        self.init_options()
+
+    def init_options(self):
         self.VQuickGeo = QCheckBox()
         self.VQuickGeo.setObjectName(u"VQuickGeo")
         self.VQuickGeo.setText(QCoreApplication.translate("MainWindow", u"Geometry", None))

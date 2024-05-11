@@ -27,6 +27,5 @@ FULLNAME = "Rain World Editor Sharp"
 
 RP_ID = "1226198202454380677"
 
-DEFAULTS: dict = json.load(open(PATH_FILES + "Defaults.json"))
 CONSTS: dict = json.load(open(PATH_FILES + "Consts.json"))
 CELLSIZE = CONSTS.get("cellsize", 20)

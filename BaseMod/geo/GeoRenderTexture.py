@@ -1,4 +1,4 @@
-from core.RenderTexture import RenderTexture
+from core.Modify.RenderTexture import RenderTexture
 from PySide6.QtGui import QPixmap, QColor
 from PySide6.QtCore import QRect
 from core.info import PATH_FILES_IMAGES, CONSTS, CELLSIZE
