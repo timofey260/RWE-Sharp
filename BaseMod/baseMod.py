@@ -1,4 +1,4 @@
-from core.Modify.Mod import Mod
+from core.Modify.Mod import Mod, ModInfo
 from .geo.GeometryEditor import GeometryEditor
 from .geo.geometry_ui import Ui_Geo
 from .geo.geometry_vis_ui import Ui_GeoView
@@ -23,9 +23,19 @@ class GeoViewUI(QWidget):
         self.ui.setupUi(self)
 
 
+class BaseModInfo(ModInfo):
+    def __init__(self):
+        super().__init__()
+        self.title = "Base Mod"
+        self.description = "rwe# essentials\nincludes all editors, modules and other\ndisable it at your own risk :3"
+        self.name = "basemod"
+        self.version = "1.0.0"
+        self.author = "timofey26"
+
+
 class BaseMod(Mod):
     def __init__(self, manager):
-        super().__init__(manager)
+        super().__init__(manager, BaseModInfo())
         self.geoEditor = GeometryEditor(self.manager)
         self.geomodule = GeoModule(self.manager)
         self.geoui = GeoUI(self)

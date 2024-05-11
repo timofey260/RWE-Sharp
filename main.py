@@ -6,15 +6,23 @@ from PySide6.QtWidgets import QApplication
 
 
 if __name__ == "__main__":
+    print("""
+   ___ _      ______  ____ 
+  / _ \ | /| / / __/_/ / /_
+ / , _/ |/ |/ / _//_  . __/
+/_/|_||__/|__/___/_    __/ 
+                  /_/_/    
 
-    parser = argparse.ArgumentParser(NAME, description="Console version of RWE#\n"
+RWE# - timofey26 and atom
+""")
+    parser = argparse.ArgumentParser(PROGNAME, description="Console version of RWE#\n"
                                                        "Can render levels",
 
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("-v", "--version", help="show current RWE# version and exit", action="version")
     # parser.add_argument("-a", "--authors", help="shows all rwee developers", action="authors")
     parser.add_argument("filename", type=str, nargs="?", help="Level to load")
-    parser.add_argument("-M", "--nomods", help="Use mods or load without them")
+    parser.add_argument("-M", "--nomods", dest="nomods", help="Use mods or load without them", action="store_true")
     parser.version = VERSION
     parser.authors = AUTHORS
 

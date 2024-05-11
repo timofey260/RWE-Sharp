@@ -8,6 +8,7 @@ from core.Modify.EditorMode import EditorMode
 from BaseMod.baseMod import BaseMod
 from core.Modify.Mod import Mod
 from core.Modify.baseModule import Module
+from core.Config import Config
 from PySide6.QtWidgets import QWidget
 
 
@@ -49,13 +50,16 @@ class Manager:
         """
         Mods are what powers RWE#
         """
+        self.config = Config(self)
+        """
+        Configs are used to store editor-specific data
+        """
 
         self.editorlayers = []
 
         self.init_mods()
         self.init_layers()
         self.init_editors()
-        print(self.editorlayers)
 
     def init_layers(self):
         editorlayers: list[tuple[int, RenderTexture]] = []

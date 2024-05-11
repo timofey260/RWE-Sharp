@@ -23,9 +23,13 @@ ISWIN = not ISMAC and not ISLINUX
 VERSION = "0.0.1"
 AUTHORS = "timofey26"
 NAME = "RWE#"
+PROGNAME = "RWESharp.exe" if ISWIN else "RWESharp"
 FULLNAME = "Rain World Editor Sharp"
 
 RP_ID = "1226198202454380677"
 
 CONSTS: dict = json.load(open(PATH_FILES + "Consts.json"))
+"""
+these things should never be changed
+"""
 CELLSIZE = CONSTS.get("cellsize", 20)
