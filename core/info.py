@@ -1,6 +1,7 @@
 import os
 import sys
 import jsoncomment
+import datetime
 
 json = jsoncomment.JsonComment()
 
@@ -10,10 +11,11 @@ else:
     from pathlib import Path
     PATH = str(Path(__file__).parent.parent.absolute()) + "\\"
 
-PATH_FILES = PATH + "files\\"
-PATH_FILES_IMAGES = PATH_FILES + "images\\"
-PATH_MODS = PATH_FILES + "mods\\"
-PATH_DRIZZLE = PATH + "drizzle\\"
+PATH_FILES = os.path.join(PATH + "files")
+PATH_FILES_IMAGES = os.path.join(PATH_FILES, "images")
+PATH_MODS = os.path.join(PATH_FILES, "mods")
+PATH_DRIZZLE = os.path.join(PATH, "drizzle")
+
 
 ISLINUX = sys.platform == "linux" or sys.platform == "linux2"
 ISMAC = sys.platform == "darwin"
@@ -28,7 +30,7 @@ FULLNAME = "Rain World Editor Sharp"
 
 RP_ID = "1226198202454380677"
 
-CONSTS: dict = json.load(open(PATH_FILES + "Consts.json"))
+CONSTS: dict = json.load(open(os.path.join(PATH_FILES, "Consts.json")))
 """
 these things should never be changed
 """
@@ -37,3 +39,19 @@ CELLSIZE = CONSTS.get("cellsize", 20)
 size of single cell
 can be interpreted as viewport quality
 """
+SPRITESIZE = CONSTS.get("cellsize", 16)
+"""
+size of tile sprite
+"""
+
+print("clearing load log")
+if os.path.exists(os.path.join(PATH, "loadLog.txt")):
+    with open(os.path.join(PATH, "loadLog.txt"), "w") as file:
+        file.write("log started!\n")
+
+
+def log_to_load_log(message, error):
+    with open(os.path.join(PATH, "loadLog.txt"), "a") as file:
+        msg = f"[{datetime.datetime.now().strftime('%H:%M')}; {'ERROR' if error else ' INFO'}]: {message}\n"
+        file.write(msg)
+        print(msg, end="")

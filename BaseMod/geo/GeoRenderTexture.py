@@ -1,3 +1,4 @@
+import os.path
 from core.Modify.RenderTexture import RenderTexture
 from PySide6.QtGui import QPixmap, QColor
 from PySide6.QtCore import QRect
@@ -8,10 +9,10 @@ class GeoRenderTexture(RenderTexture):
         super().__init__(manager)
         self.layer = layer
 
-        if PATH_FILES_IMAGES + CONSTS.get("geo_image_config", {}).get("image"):
-            self.geo_texture = QPixmap(PATH_FILES_IMAGES + CONSTS.get("geo_image_config", {}).get("image"))
+        if os.path.exists(os.path.join(PATH_FILES_IMAGES, CONSTS.get("geo_image_config", {}).get("image"))):
+            self.geo_texture = QPixmap(os.path.join(PATH_FILES_IMAGES, CONSTS.get("geo_image_config", {}).get("image")))
         else:
-            self.geo_texture = QPixmap(PATH_FILES_IMAGES + "notfound.png")
+            self.geo_texture = QPixmap(os.path.join(PATH_FILES_IMAGES, "notfound.png"))
         #self.painter.drawPixmap(QRect(0, 0, 20, 20), self.geo_texture, QRect(100, 100, 100, 100))
         self.binfo: dict = CONSTS.get("geo_image_config", {}).get("blocksinfo", {})
         self.sinfo: dict = CONSTS.get("geo_image_config", {}).get("stackablesinfo", {})

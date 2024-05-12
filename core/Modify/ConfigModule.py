@@ -4,12 +4,9 @@ class ConfigModule:
     all data we store is either level related or editor related
     config module provides easy way to store editor specific data
     """
-    def __init__(self, config):
-        """
-
-        :param config: config to use
-        """
-        pass
+    def __init__(self, mod, manager):
+        self.mod = mod
+        self.manager = manager
 
     def register_value(self, path, value) -> None:
         """

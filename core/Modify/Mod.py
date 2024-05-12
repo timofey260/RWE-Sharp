@@ -1,5 +1,5 @@
 class ModInfo:
-    def __init__(self, title, description, name, author, version="1.0.0"):
+    def __init__(self, title: str, description: str, name: str, author: str, version="1.0.0", tags=None):
         """
         Info of mod
         :param title: Title of mod to show
@@ -8,15 +8,23 @@ class ModInfo:
         :param author: Mod author
         :param version: Mod version, 1.0.0 by default
         """
+        if tags is None:
+            tags = []
         self.title = title
         self.description = description
         self.name = name
         self.author = author
         self.version = version
+        self.tags = tags
 
 
 class Mod:
-    def __init__(self, manager, modinfo):
+    def __init__(self, manager, modinfo: ModInfo):
+        """
+        Base Mod class to load
+        :param manager: manager to use
+        :param modinfo: mod info, should be filled with class
+        """
         self.manager = manager
         self.modinfo = modinfo
 

@@ -1,15 +1,16 @@
-from core import info
 from core.ItemData import ItemData
 from core.Loaders import TileLoader
 from core.RWELevel import RWELevel
 from core.Modify.RenderTexture import RenderTexture
-from widgets.Viewport import ViewPort
 from core.Modify.EditorMode import EditorMode
-from BaseMod.baseMod import BaseMod
 from core.Modify.Mod import Mod
 from core.Modify.baseModule import Module
 from core.Config import Config
+from BaseMod.baseMod import BaseMod
+from widgets.Viewport import ViewPort
+from ui.splashuiconnector import SplashDialog
 from PySide6.QtWidgets import QWidget
+from PySide6.QtCore import Slot
 
 
 class Manager:
@@ -24,10 +25,16 @@ class Manager:
         # todo init some tiles and assets (and mods in future)
         self.window = window
 
-        self.tiles = TileLoader.loadTiles(info.PATH_DRIZZLE)
+        self.splashwindow = SplashDialog(self)
+        self.splashwindow.show()
+
+        self.tiles = TileLoader.loadTiles(self.splashwindow)
         self.props = ItemData()
         self.effects = ItemData()
         self.effect_colors = ItemData()
+
+
+        # self.splashwindow.close()
 
         if file is not None:
             self.level = RWELevel.openfile(file)
@@ -60,6 +67,7 @@ class Manager:
         self.init_mods()
         self.init_layers()
         self.init_editors()
+
 
     def init_layers(self):
         editorlayers: list[tuple[int, RenderTexture]] = []

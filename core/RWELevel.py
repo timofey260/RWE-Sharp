@@ -6,7 +6,7 @@ from core import info
 from core.Exceptions import *
 from core.HistorySystem import History
 
-defaultlevel = open(info.PATH_FILES + "default.txt", "r").readlines()
+defaultlevel = open(os.path.join(info.PATH_FILES, "default.txt"), "r").readlines()
 
 
 class RWELevel:

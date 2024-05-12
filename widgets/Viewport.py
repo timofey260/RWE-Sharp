@@ -24,7 +24,7 @@ class ViewPort(QGraphicsView):
     def redraw(self):
         self.repaint()
 
-    def add_texture(self, pixmap):
+    def add_texture(self, pixmap) -> QGraphicsPixmapItem:
         newpixmap = self.workscene.addPixmap(pixmap)
         self.managedfields.append(newpixmap)
         return newpixmap

@@ -3,4 +3,7 @@
     <file>icon.png</file>
     <file>icon_small.png</file>
   </qresource>
+  <qresource prefix="image">
+    <file>splash.png</file>
+  </qresource>
 </RCC>

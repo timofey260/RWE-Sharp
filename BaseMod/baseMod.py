@@ -3,6 +3,7 @@ from .geo.GeometryEditor import GeometryEditor
 from .geo.geometry_ui import Ui_Geo
 from .geo.geometry_vis_ui import Ui_GeoView
 from .geo.geometryModule import GeoModule
+from BaseMod.globalConfig import globalConfig
 from PySide6.QtWidgets import QWidget, QCheckBox
 from PySide6.QtCore import QCoreApplication
 
@@ -28,19 +29,24 @@ class BaseMod(Mod):
     def __init__(self, manager):
         super().__init__(manager, ModInfo(
             "Base Mod",
-            "rwe# essentials\nincludes all editors, modules and other\ndisable it at your own risk :3",
+            "RWE# essentials\nincludes all editors, modules and other\ndisable it at your own risk :3",
             "basemod",
             "1.0.0",
             "timofey26"
         ))
-        self.geoEditor = GeometryEditor(self.manager)
-        self.geomodule = GeoModule(self.manager)
+
+        self.config = globalConfig(self, manager)
+
+        self.geoEditor = GeometryEditor(manager)
+        self.geomodule = GeoModule(manager)
         self.geoui = GeoUI(self)
         self.geoview = GeoViewUI(self)
 
         self.add_editor(self.geoEditor, self.geoui)
         self.add_module(self.geomodule)
         self.add_vis_ui(self.geoview)
+
+        self.add_config_module(self.config)
 
         self.init_options()
 

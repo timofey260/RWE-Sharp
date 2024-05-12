@@ -3,6 +3,7 @@ from PySide6.QtCore import Slot
 from PySide6.QtGui import QAction
 from ui.uiscripts.mainui import Ui_MainWindow
 from ui.aboutuiconnector import AboutDialog
+from ui.settingsuiconnector import SettingsUI
 from core import info
 from core.Manager import Manager
 
@@ -23,6 +24,7 @@ class MainWindow(QMainWindow):
         self.ui.actionOpen.triggered.connect(self.open_file)
         self.ui.actionClose.triggered.connect(self.close)
         self.ui.actionAbout.triggered.connect(self.open_about)
+        self.ui.actionPreferences.triggered.connect(self.open_settings)
         self.manager = Manager(self, filename)
 
         self.ui.viewPort.add_managed_fields(self.manager)
@@ -30,6 +32,7 @@ class MainWindow(QMainWindow):
         # self.ui.menuRecent.addAction(QAction("lol", self.ui.menuRecent))
         self.ui.ToolsTabs.currentChanged.connect(self.change_editor)
         self.about = None
+        self.settings = None
 
         self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
         self.ui.QuickOverlay.addItem(self.verticalSpacer)
@@ -44,6 +47,11 @@ class MainWindow(QMainWindow):
     def open_about(self) -> None:
         self.about = AboutDialog(self)
         self.about.show()
+
+    @Slot()
+    def open_settings(self) -> None:
+        self.settings = SettingsUI(self)
+        self.settings.show()
 
     @Slot()
     def close(self) -> None:

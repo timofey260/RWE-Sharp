@@ -6,30 +6,36 @@
 			"type": "folder",
 			"value": [
 				{
-					"id": "viewport",
-					"name": "Viewport",
-					"type": "folder",
-					"value": [
-						{
-							"id": "bgcolor",
-							"name": "Background color",
-							"type": "color",
-							"value": [150, 150, 150, 255]
-						},
-						{
-							"id": "quality",
-							"name": "Viewport quality",
-							"type": "intrange",
-							"range": [16, 100, 1],
-							"value": 20
-						},
-						{
-							"id": "geotex",
-							"name": "Geo Texture",
-							"type": "imageselect",
-							"value": "@\\files\\images\\geometry.png"
-						}
-					]
+					"id": "12hformat",
+					"name": "12h file format",
+					"type": "toggle",
+					"value": false
+				}
+			]
+		},
+		{
+			"id": "viewport",
+			"name": "Viewport",
+			"type": "folder",
+			"value": [
+				{
+					"id": "bgcolor",
+					"name": "Background color",
+					"type": "color",
+					"value": [150, 150, 150, 255]
+				},
+				{
+					"id": "quality",
+					"name": "Viewport quality",
+					"type": "intrange",
+					"range": [16, 100, 1],
+					"value": 20
+				},
+				{
+					"id": "geotex",
+					"name": "Geo Texture",
+					"type": "imageselect",
+					"value": "@\\files\\images\\geometry.png"
 				}
 			]
 		}
