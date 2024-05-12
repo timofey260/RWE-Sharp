@@ -33,3 +33,7 @@ CONSTS: dict = json.load(open(PATH_FILES + "Consts.json"))
 these things should never be changed
 """
 CELLSIZE = CONSTS.get("cellsize", 20)
+"""
+size of single cell
+can be interpreted as viewport quality
+"""

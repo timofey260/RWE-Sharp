@@ -1,10 +1,18 @@
 class ModInfo:
-    def __init__(self):
-        self.title = "NoName"
-        self.description = "This mod has no description"
-        self.name = "nope"
-        self.author = "NoAuthor"
-        self.version = "1.0.0"
+    def __init__(self, title, description, name, author, version="1.0.0"):
+        """
+        Info of mod
+        :param title: Title of mod to show
+        :param description: Mod description
+        :param name: id of mod for config management, should not include spaces
+        :param author: Mod author
+        :param version: Mod version, 1.0.0 by default
+        """
+        self.title = title
+        self.description = description
+        self.name = name
+        self.author = author
+        self.version = version
 
 
 class Mod:
