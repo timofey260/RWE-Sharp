@@ -34,7 +34,7 @@ RWE# - timofey26 and atom
         app = QApplication(sys.argv)
         window = MainWindow(args.filename)
         #manager.new_process(args.filename)
-        #window.show()
+        window.show()
         sys.exit(app.exec())
     else:
         pass

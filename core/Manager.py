@@ -33,8 +33,7 @@ class Manager:
         self.effects = ItemData()
         self.effect_colors = ItemData()
 
-
-        # self.splashwindow.close()
+        self.splashwindow.close()
 
         if file is not None:
             self.level = RWELevel.openfile(file)
