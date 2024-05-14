@@ -5,6 +5,7 @@ import json
 from core import info
 from core.Exceptions import *
 from core.HistorySystem import History
+from core.RWLParser import RWLParser
 
 defaultlevel = open(os.path.join(info.PATH_FILES, "default.txt"), "r").readlines()
 
@@ -77,12 +78,13 @@ class RWELevel:
     def openfile(file: str):
         if not os.path.exists(file):
             raise FileNotFoundError("No file found!!!")
+        _, ext = os.path.splitext(file)
+        if ext == ".rwl":
+            with open(file, "rb") as f:
+                return RWELevel(RWLParser.parse_rwl(bytearray(f.read())))
         with open(file, "r") as f:
-            _, ext = os.path.splitext(file)
             if ext == ".txt":
                 return RWELevel.turntoproject(f.read())
             elif ext == ".wep":
                 return RWELevel(json.load(f))
-            elif ext == ".slug":
-                raise NotImplementedError("Does not support slug files yet")
             raise FileNotCompatible(f"{file} is not compatible with {info.NAME}!")

@@ -1,5 +1,5 @@
 from core.ItemData import ItemData
-from core.lingoIO import tojson, toarr
+from core.lingoIO import tojson, fromarr
 from core.info import PATH
 from ui.splashuiconnector import SplashDialog
 from PySide6.QtGui import QColor, QPixmap, QImage
@@ -23,7 +23,7 @@ def init_solve(file: str):
                     if category_data:
                         output.append(category_data)
                     js = tojson(i[1:])
-                    category_data = {"name": js[0], "color": QColor(*toarr(js[1], "color")), "items": []}
+                    category_data = {"name": js[0], "color": QColor(*fromarr(js[1], "color")), "items": []}
                     item_counter = 0
                     findcategory = False
                 except json.JSONDecodeError:
@@ -74,7 +74,7 @@ def loadTiles(window: SplashDialog) -> ItemData:
                 img = QImage(os.path.join(PATH_DRIZZLE, "Data/Graphics", item["nm"] + ".png"))
             except FileNotFoundError:
                 continue
-            sz = toarr(item["sz"], "point")
+            sz = fromarr(item["sz"], "point")
             try:
                 ln = len(item["repeatL"])
             except KeyError:
