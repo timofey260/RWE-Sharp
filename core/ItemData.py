@@ -1,4 +1,9 @@
-class ItemData():
+class ItemDataItem:
+    def __init__(self, name):
+        self.name = name
+
+
+class ItemData:
     def __init__(self):
         self.data = []
 
@@ -15,17 +20,17 @@ class ItemData():
         if category is None:
             for catnum, cat in enumerate(self.data):
                 for itemnum, items in enumerate(cat["items"]):
-                    if items["nm"] == name:
+                    if items.name == name:
                         return items
         else:
             for itemnum, items in enumerate(self.data[self.categories.index(category)]["items"]):
-                if items["nm"] == name:
+                if items.name == name:
                     return items
         return None
 
     def getnameindex(self, cat, name):
         for i, v in enumerate(self.data[cat]["items"]):
-            if v["nm"] == name:
+            if v.name == name:
                 return i
         return None
 

@@ -12,4 +12,6 @@ class TileModule(Module):
         self.editorlayers.append((350, self.l1))
 
     def init_module_textures(self):
-        pass
+        self.l1.renderedtexture.setOpacity(.9)
+        self.l2.renderedtexture.setOpacity(.5)
+        self.l3.renderedtexture.setOpacity(.2)

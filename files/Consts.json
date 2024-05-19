@@ -41,5 +41,67 @@
 			"20": [2, 3],
 			"21": [1, 4],
 		}
+	},
+	"materialsize": [6, 8],
+	//list of all materials in editor with their colors
+	"materials": {
+		"Standard": [148, 148, 148],
+		"Concrete": [148, 255, 255],
+		"RainStone": [0, 0, 255],
+		"Bricks": [206, 148, 99],
+		"BigMetal": [255, 0, 0],
+		"Tiny Signs": [14, 14, 14],
+		"Scaffolding": [57, 57, 41],
+		"Dense Pipes": [8, 8, 255],
+		"SuperStructure": [165, 181, 255],
+		"SuperStructure2": [189, 165, 0],
+		"Tiled Stone": [99, 0, 255],
+		"Chaotic Stone": [255, 0, 255],
+		"Small Pipes": [255, 255, 0],
+		"Trash": [90, 255, 0],
+		"Invisible": [206, 206, 206],
+		"LargeTrash": [148, 24, 255],
+		"3DBricks": [255, 148, 0],
+		"Random Machines": [74, 115, 82],
+		"Dirt": [123, 74, 49],
+		"Ceramic Tile": [57, 57, 99],
+		"Temple Stone": [0, 123, 181],
+		"Circuits": [8, 206, 8],
+		"Ridge": [200, 15, 60],
+
+		"Steel": [220,170,195],
+  		"4Mosaic": [227, 76, 13],
+  		"Color A Ceramic": [120, 0, 90],
+  		"Color B Ceramic": [0, 175, 175],
+  		"Random Pipes": [80,0,140],
+  		"Rocks": [185,200,0],
+  		"Rough Rock": [155,170,0],
+  		"Random Metal": [180, 10, 10],
+  		"Cliff": [75, 75, 75],
+  		"Non-Slip Metal": [180, 80, 80],
+  		"Stained Glass": [180, 80, 180],
+  		"Sandy Dirt": [180, 180, 80],
+  		"MegaTrash": [135,10,255],
+  		"Shallow Dense Pipes": [13,23,110],
+  		"Sheet Metal": [145, 135, 125],
+  		"Chaotic Stone 2": [90, 90, 90],
+  		"Asphalt": [115, 115, 115],
+  
+
+  		"Shallow Circuits": [15,200,155],
+  		"Random Machines 2": [116, 116, 80],
+  		"Small Machines": [80, 116, 116],
+  		"Random Metals": [255, 0, 80],
+  		"ElectricMetal": [255,0,100],
+  		"Grate": [190,50,190],
+  		"CageGrate": [50,190,190],
+  		"BulkMetal": [50,19,190],
+  		"MassiveBulkMetal": [255,19,19],
+  		"Dune Sand": [255, 255, 100]
+	},
+
+	//preview images for specific materials
+	"materialpreviews": {
+
 	}
 }

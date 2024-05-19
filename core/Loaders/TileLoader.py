@@ -1,14 +1,13 @@
-import traceback
-
 from core.ItemData import ItemData
 from core.lingoIO import tojson, fromarr
 from core.info import PATH
+from core.Loaders.Tile import Tile
 from ui.splashuiconnector import SplashDialog
 from PySide6.QtGui import QColor, QPixmap, QImage, QPainter
 from PySide6.QtCore import QRect
 import json
 import os
-from core.info import log_to_load_log, PATH_DRIZZLE, CELLSIZE, SPRITESIZE
+from core.info import log_to_load_log, PATH_DRIZZLE, CELLSIZE, SPRITESIZE, CONSTS, PATH_MAT_PREVIEWS
 
 
 def init_solve(file: str):
@@ -93,7 +92,7 @@ def loadTiles(window: SplashDialog) -> ItemData:
             elif ((ln * sz[1] + (item.get("bfTiles", 0) * 2 * ln)) * CELLSIZE + 1) > img.height():
                 rect = QRect(0, img.height() - sz[1] * SPRITESIZE, sz[0] * SPRITESIZE, sz[1] * SPRITESIZE)
             else:
-                size = (sz[1] + (item.get("bfTiles", 0) * 2)) * ln * SPRITESIZE
+                size = (sz[1] + (item.get("bfTiles", 0) * 2)) * ln * CELLSIZE
                 rect = QRect(0, size + 1, sz[0] * SPRITESIZE, sz[1] * SPRITESIZE)
 
             try:
@@ -114,13 +113,13 @@ def loadTiles(window: SplashDialog) -> ItemData:
             try:
                 white = img.colorTable().index(4294967295)
                 black = img.colorTable().index(4278190080)
-                img.setColor(white, QColor(0, 0, 0, 0).rgba())
+                img.setColor(white, 0)
                 img.setColor(black, colr.rgba())
             except ValueError:
                 log_to_load_log(f"Error loading {item['nm']}", True)
-            newimg = QImage(sz[0] * CELLSIZE, sz[1] * CELLSIZE, img.Format.Format_RGBA64)
-            p = QPainter(newimg)
-            p.drawImage(QRect(0, 0, sz[0] * CELLSIZE, sz[1] * CELLSIZE), img, QRect(0, 0, sz[0] * SPRITESIZE, sz[1] * SPRITESIZE))
+            # newimg = QImage(sz[0] * CELLSIZE, sz[1] * CELLSIZE, img.Format.Format_RGBA64)
+            # p = QPainter(newimg)
+            # p.drawImage(QRect(0, 0, sz[0] * CELLSIZE, sz[1] * CELLSIZE), img, QRect(0, 0, sz[0] * SPRITESIZE, sz[1] * SPRITESIZE))
 
             # s.blit(img, [0, 0])
             # arr = pg.pixelarray.PixelArray(s.copy())
@@ -131,10 +130,10 @@ def loadTiles(window: SplashDialog) -> ItemData:
             newitem = {
                 "nm": item["nm"],
                 "tp": item.get("tp"),
-                "repeatL": item["repeatL"] if item.get("repeatL") is not None else [1],
+                "repeatL": item.get("repeatL", [1]),
                 "description": "Size" + str(sz),
                 "bfTiles": item.get("bfTiles", 0),
-                "image": newimg,
+                "image": img,
                 "size": sz,
                 "category": cat,
                 "color": colr,
@@ -144,25 +143,23 @@ def loadTiles(window: SplashDialog) -> ItemData:
                 "printcols": True
             }
             tilenum += 1
-            solved_copy[catnum]["items"].append(newitem)
-    return solved_copy
+            solved_copy[catnum]["items"].append(Tile(newitem))
     matcat = "materials 0"
     matcatcount = 0
-    solved_copy.insert(matcatcount, {"name": matcat, "color": pg.Color(0, 0, 0), "items": []})
-    for k, v in globalsettings["matposes"].items():
-        col = pg.Color(v)
-        img = pg.Surface([image1size, image1size], pg.SRCALPHA)
-        img.fill(pg.Color(0, 0, 0, 0))
-        ms = globalsettings["matsize"]
-        pg.draw.rect(img, v, pg.Rect(ms[0], ms[0], ms[1], ms[1]))
+    solved_copy.insert(matcatcount, {"name": matcat, "color": QColor(0, 0, 0), "items": []})
+    for k, v in CONSTS.get("materials", {}).items():
+        col = QColor(*v)
+        img = QImage(20, 20, QImage.Format.Format_RGBA64)
+        img.fill(QColor(0, 0, 0, 0))
+        ms = CELLSIZE
+        # pg.draw.rect(img, v, pg.Rect(ms[0], ms[0], ms[1], ms[1]))
         try:
-            preview = loadimage(path2materialPreviews + k + ".png")
-        except FileNotFoundError:
-            preview = pg.Surface([image1size, image1size])
-            preview.set_alpha(0)
-        preview.set_colorkey(pg.Color(255, 255, 255))
+            preview = QImage(os.path.join(PATH_MAT_PREVIEWS, CONSTS.get("materialpreviews", {}).get(k, "") + ".png"))
+        except FileNotFoundError or TypeError:
+            preview = QImage(1, 1, QImage.Format.Format_RGBA64)
+        # preview.set_colorkey(pg.Color(255, 255, 255))
         printmessage(f"Loading material {k}")
-        solved_copy[matcatcount]["items"].append(
+        solved_copy[matcatcount]["items"].append(Tile(
             {
                 "nm": k,
                 "tp": None,
@@ -177,10 +174,10 @@ def loadTiles(window: SplashDialog) -> ItemData:
                 "cat": [matcatcount + 1, len(solved_copy[matcatcount]["items"]) + 1],
                 "tags": ["material"],
                 "preview": preview
-            })
+            }))
         if len(solved_copy[matcatcount]["items"]) > 30:
             matcatcount += 1
             matcat = f"materials {matcatcount}"
-            solved_copy.insert(matcatcount, {"name": matcat, "color": pg.Color(0, 0, 0), "items": []})
+            solved_copy.insert(matcatcount, {"name": matcat, "color": QColor(0, 0, 0), "items": []})
     printmessage("All tiles loaded!")
     return solved_copy

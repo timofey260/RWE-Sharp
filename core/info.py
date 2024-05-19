@@ -15,6 +15,7 @@ PATH_FILES = os.path.join(PATH + "files")
 PATH_FILES_IMAGES = os.path.join(PATH_FILES, "images")
 PATH_MODS = os.path.join(PATH_FILES, "mods")
 PATH_DRIZZLE = os.path.join(PATH, "drizzle")
+PATH_MAT_PREVIEWS = os.path.join(PATH_FILES_IMAGES, "material_previews")
 
 
 ISLINUX = sys.platform == "linux" or sys.platform == "linux2"
