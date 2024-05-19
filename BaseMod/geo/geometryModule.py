@@ -1,11 +1,11 @@
 from core.Modify.baseModule import Module
-from BaseMod.geo.GeoRenderTexture import GeoRenderTexture
+from BaseMod.geo.geoRenderTexture import GeoRenderTexture
 from PySide6.QtCore import Qt, Slot
 
 
 class GeoModule(Module):
-    def __init__(self, manager):
-        super().__init__(manager)
+    def __init__(self, mod):
+        super().__init__(mod)
         self.l1 = GeoRenderTexture(self, 0)
         self.l2 = GeoRenderTexture(self, 1)
         self.l3 = GeoRenderTexture(self, 2)

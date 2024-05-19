@@ -19,6 +19,8 @@ class ViewPort(QGraphicsView):
         self.managedfields: list[QGraphicsPixmapItem] = []
         self.verticalScrollBar().sliderReleased.connect(self.redraw)
         self.horizontalScrollBar().sliderReleased.connect(self.redraw)
+        self._lmb = False
+        self._rmb = False
 
     @Slot()
     def redraw(self):
@@ -37,7 +39,26 @@ class ViewPort(QGraphicsView):
 
     def mousePressEvent(self, event):
         super().mousePressEvent(event)
+        if event.buttons() & Qt.MouseButton.LeftButton:
+            self._lmb = True
+        if event.buttons() & Qt.MouseButton.RightButton:
+            self._rmb = True
         self.manager.editor.mouse_click_event(event)
+
+    def mouseReleaseEvent(self, event):
+        super().mouseReleaseEvent(event)
+        if event.buttons() & Qt.MouseButton.LeftButton:
+            self._lmb = False
+        if event.buttons() & Qt.MouseButton.RightButton:
+            self._rmb = False
+
+    @property
+    def mouse_left(self) -> bool:
+        return self._lmb
+
+    @property
+    def mouse_right(self) -> bool:
+        return self._rmb
 
     def wheelEvent(self, event):
         mods = QApplication.keyboardModifiers()

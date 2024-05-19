@@ -1,19 +1,22 @@
 from widgets.Viewport import ViewPort
 from PySide6.QtGui import QMoveEvent, QMouseEvent, QWheelEvent
-from PySide6.QtCore import QPoint, QPointF
+from PySide6.QtCore import QPoint, QPointF, QEvent
 from core.info import CELLSIZE
 
 class EditorMode:
     """
     Base for creating custom viewport editors
     """
-    def __init__(self, manager):
+    def __init__(self, mod):
         """
         :param viewport: viewport where actions should be tracked
         """
-        self.manager = manager
-        self.viewport = manager.viewport
+        self.mod = mod
+        self.manager = mod.manager
+        self.viewport = mod.manager.viewport
         self.mpos = QPoint()
+        self._ml = False
+        self._mr = False
 
     def init_scene_items(self):
         pass
@@ -22,13 +25,17 @@ class EditorMode:
         self.mpos = event.pos()
 
     def mouse_click_event(self, event: QMouseEvent):
-        pass
+        print(event.buttons())
 
     def mouse_wheel_event(self, event: QWheelEvent):
         pass
 
     def remove_items_from_scene(self):
         pass
+
+    @property
+    def mouse_left(self):
+        return
 
     @property
     def mousepos(self) -> QPoint:

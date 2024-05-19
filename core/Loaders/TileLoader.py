@@ -1,8 +1,10 @@
+import traceback
+
 from core.ItemData import ItemData
 from core.lingoIO import tojson, fromarr
 from core.info import PATH
 from ui.splashuiconnector import SplashDialog
-from PySide6.QtGui import QColor, QPixmap, QImage
+from PySide6.QtGui import QColor, QPixmap, QImage, QPainter
 from PySide6.QtCore import QRect
 import json
 import os
@@ -65,7 +67,7 @@ def loadTiles(window: SplashDialog) -> ItemData:
         cat = catitem["name"]
 
         items = catitem["items"]
-        colr = catitem["color"]
+        colr: QColor = catitem["color"]
         solved_copy[catnum]["items"] = []
         for indx, item in enumerate(items):
             printmessage(f"Loading tile {item['nm']}...", f"({tilenum}/{length})")
@@ -108,13 +110,23 @@ def loadTiles(window: SplashDialog) -> ItemData:
             # img.set_colorkey(pg.Color(0, 0, 0))
             # srf.blit(img, [0, 0])
             # img.fill(colr)
-            '''
-            s = pg.Surface(img.get_size())
-            s.blit(img, [0, 0])
-            arr = pg.pixelarray.PixelArray(s.copy())
-            arr.replace(pg.Color(0, 0, 0), colr)
-            img = arr.make_surface()
-            img.set_colorkey(pg.Color(255, 255, 255))'''
+            # todo tile preview
+            try:
+                white = img.colorTable().index(4294967295)
+                black = img.colorTable().index(4278190080)
+                img.setColor(white, QColor(0, 0, 0, 0).rgba())
+                img.setColor(black, colr.rgba())
+            except ValueError:
+                log_to_load_log(f"Error loading {item['nm']}", True)
+            newimg = QImage(sz[0] * CELLSIZE, sz[1] * CELLSIZE, img.Format.Format_RGBA64)
+            p = QPainter(newimg)
+            p.drawImage(QRect(0, 0, sz[0] * CELLSIZE, sz[1] * CELLSIZE), img, QRect(0, 0, sz[0] * SPRITESIZE, sz[1] * SPRITESIZE))
+
+            # s.blit(img, [0, 0])
+            # arr = pg.pixelarray.PixelArray(s.copy())
+            # arr.replace(pg.Color(0, 0, 0), colr)
+            # img = arr.make_surface()
+            # img.set_colorkey(pg.Color(255, 255, 255))
 
             newitem = {
                 "nm": item["nm"],
@@ -122,7 +134,7 @@ def loadTiles(window: SplashDialog) -> ItemData:
                 "repeatL": item["repeatL"] if item.get("repeatL") is not None else [1],
                 "description": "Size" + str(sz),
                 "bfTiles": item.get("bfTiles", 0),
-                "image": img,
+                "image": newimg,
                 "size": sz,
                 "category": cat,
                 "color": colr,

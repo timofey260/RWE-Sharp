@@ -1,9 +1,10 @@
 from core.Modify.Mod import Mod, ModInfo
-from .geo.GeometryEditor import GeometryEditor
+from .geo.geometryEditor import GeometryEditor
 from .geo.geometry_ui import Ui_Geo
 from .geo.geometry_vis_ui import Ui_GeoView
 from .geo.geometryModule import GeoModule
-from BaseMod.globalConfig import globalConfig
+from .tiles.tileModule import TileModule
+from .globalConfig import globalConfig
 from PySide6.QtWidgets import QWidget, QCheckBox
 from PySide6.QtCore import QCoreApplication
 
@@ -35,16 +36,20 @@ class BaseMod(Mod):
             "timofey26"
         ))
 
-        self.config = globalConfig(self, manager)
+        self.config = globalConfig(self)
 
-        self.geoEditor = GeometryEditor(manager)
-        self.geomodule = GeoModule(manager)
+        self.geoEditor = GeometryEditor(self)
+        self.geomodule = GeoModule(self)
         self.geoui = GeoUI(self)
         self.geoview = GeoViewUI(self)
+
+        self.tilemodule = TileModule(self)
 
         self.add_editor(self.geoEditor, self.geoui)
         self.add_module(self.geomodule)
         self.add_vis_ui(self.geoview)
+
+        self.add_module(self.tilemodule)
 
         self.add_config_module(self.config)
 

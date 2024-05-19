@@ -39,7 +39,7 @@ CELLSIZE = CONSTS.get("cellsize", 20)
 size of single cell
 can be interpreted as viewport quality
 """
-SPRITESIZE = CONSTS.get("cellsize", 16)
+SPRITESIZE = CONSTS.get("spritesize", 16)
 """
 size of tile sprite
 """
@@ -50,7 +50,7 @@ if os.path.exists(os.path.join(PATH, "loadLog.txt")):
         file.write("log started!\n")
 
 
-def log_to_load_log(message, error):
+def log_to_load_log(message, error=False):
     with open(os.path.join(PATH, "loadLog.txt"), "a") as file:
         msg = f"[{datetime.datetime.now().strftime('%H:%M')}; {'ERROR' if error else ' INFO'}]: {message}\n"
         file.write(msg)

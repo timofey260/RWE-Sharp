@@ -1,6 +1,7 @@
 {
 	//size of one block in viewport
 	"cellsize": 20,
+	"spritesize": 16,
 
 	"geo_image_config": {
 		"image": "geometry.png",
