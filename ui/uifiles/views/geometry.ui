@@ -120,7 +120,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QCheckBox" name="VGeoThrowables">
+        <widget class="QCheckBox" name="VGeoPipes">
          <property name="enabled">
           <bool>false</bool>
          </property>
@@ -268,7 +268,7 @@
   <connection>
    <sender>VGeoAll</sender>
    <signal>clicked(bool)</signal>
-   <receiver>VGeoThrowables</receiver>
+   <receiver>VGeoPipes</receiver>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">

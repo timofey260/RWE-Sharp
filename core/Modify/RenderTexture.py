@@ -10,3 +10,11 @@ class RenderTexture:
         self.image.fill(QColor(0, 0, 0, 0))
         self.painter = QPainter(self.image)
         self.renderedtexture: QGraphicsPixmapItem | None = None
+
+    def redraw(self) -> None:
+        """
+        Redraws pixmap on screen
+        :return: None
+        """
+        if self.renderedtexture is not None:
+            self.renderedtexture.setPixmap(self.image)

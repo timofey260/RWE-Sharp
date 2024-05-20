@@ -83,13 +83,13 @@ class Ui_GeoView(object):
 
         self.verticalLayout_2.addWidget(self.VGeoBeams)
 
-        self.VGeoThrowables = QCheckBox(self.scrollAreaWidgetContents)
-        self.VGeoThrowables.setObjectName(u"VGeoThrowables")
-        self.VGeoThrowables.setEnabled(False)
-        sizePolicy.setHeightForWidth(self.VGeoThrowables.sizePolicy().hasHeightForWidth())
-        self.VGeoThrowables.setSizePolicy(sizePolicy)
+        self.VGeoPipes = QCheckBox(self.scrollAreaWidgetContents)
+        self.VGeoPipes.setObjectName(u"VGeoPipes")
+        self.VGeoPipes.setEnabled(False)
+        sizePolicy.setHeightForWidth(self.VGeoPipes.sizePolicy().hasHeightForWidth())
+        self.VGeoPipes.setSizePolicy(sizePolicy)
 
-        self.verticalLayout_2.addWidget(self.VGeoThrowables)
+        self.verticalLayout_2.addWidget(self.VGeoPipes)
 
         self.VGeoMisc = QCheckBox(self.scrollAreaWidgetContents)
         self.VGeoMisc.setObjectName(u"VGeoMisc")
@@ -128,7 +128,7 @@ class Ui_GeoView(object):
         self.VGeoAll.clicked["bool"].connect(self.VGeoLayer2.setDisabled)
         self.VGeoAll.clicked["bool"].connect(self.VGeoLayer3.setDisabled)
         self.VGeoAll.clicked["bool"].connect(self.VGeoBeams.setDisabled)
-        self.VGeoAll.clicked["bool"].connect(self.VGeoThrowables.setDisabled)
+        self.VGeoAll.clicked["bool"].connect(self.VGeoPipes.setDisabled)
         self.VGeoAll.clicked["bool"].connect(self.VGeoMisc.setDisabled)
 
         QMetaObject.connectSlotsByName(GeoView)
@@ -142,7 +142,7 @@ class Ui_GeoView(object):
         self.VGeoLayer2.setText(QCoreApplication.translate("GeoView", u"Layer 2", None))
         self.VGeoLayer3.setText(QCoreApplication.translate("GeoView", u"Layer 3", None))
         self.VGeoBeams.setText(QCoreApplication.translate("GeoView", u"Beams", None))
-        self.VGeoThrowables.setText(QCoreApplication.translate("GeoView", u"Pipes", None))
+        self.VGeoPipes.setText(QCoreApplication.translate("GeoView", u"Pipes", None))
         self.VGeoMisc.setText(QCoreApplication.translate("GeoView", u"misc", None))
         self.VGeoRWEstyle.setText(QCoreApplication.translate("GeoView", u"RWE+ geo view", None))
         self.VGeoOldStyle.setText(QCoreApplication.translate("GeoView", u"Old style view", None))
