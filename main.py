@@ -1,5 +1,3 @@
-import time
-
 from core.info import *
 from ui.mainuiconnector import MainWindow
 import argparse

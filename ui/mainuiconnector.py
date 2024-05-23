@@ -1,6 +1,6 @@
 from PySide6.QtWidgets import QMainWindow, QFileDialog, QSpacerItem, QSizePolicy
 from PySide6.QtCore import Slot
-from PySide6.QtGui import QAction
+from PySide6.QtGui import QAction, QKeySequence
 from ui.uiscripts.mainui import Ui_MainWindow
 from ui.aboutuiconnector import AboutDialog
 from ui.settingsuiconnector import SettingsUI
@@ -36,6 +36,10 @@ class MainWindow(QMainWindow):
 
         self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
         self.ui.QuickOverlay.addItem(self.verticalSpacer)
+
+        self.ui.actionSave.setShortcut(QKeySequence("Ctrl+S"))
+        self.ui.actionSave.triggered.connect(self.manager.save_level)
+        self.ui.actionSave_As.setShortcut(QKeySequence("Ctrl+Shift+S"))
 
 
     @Slot(int)

@@ -19,7 +19,10 @@ class EditorMode:
         self._mr = False
 
     def init_scene_items(self):
-        pass
+        """
+        Called when editor is changed, should add drawables to scene
+        :return:
+        """
 
     def mouse_move_event(self, event: QMoveEvent):
         self.mpos = event.pos()
@@ -31,7 +34,10 @@ class EditorMode:
         pass
 
     def remove_items_from_scene(self):
-        pass
+        """
+        Called when editor is changed, should remove anything it doesn't need
+        :return: None
+        """
 
     @property
     def mouse_left(self):

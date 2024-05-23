@@ -1,18 +1,6 @@
 from PySide6.QtWidgets import QCheckBox
 from PySide6.QtCore import Slot, Signal
-
-class ConfigObject:
-    def __init__(self, path, object, default):
-        self.path = path
-        self.object = object
-        self.default = default
-        self.value = default
-
-    def load_value(self):
-        ...
-
-    def save_value(self):
-        ...
+from core.configTypes.ConfigBase import ConfigObject
 
 
 class ConfigModule:
@@ -26,14 +14,13 @@ class ConfigModule:
         self.manager = mod.manager
         self.values: dict[str, ConfigObject] = {}
 
-    def register_value(self, path, value) -> None:
+    def register_config(self):
         """
-        registers value to be saved
+        Registering custom config
+        Made to be overridden
+        :return: None
         """
 
-    def register_widgets(self):
-        ...
+    def add_config(self, configObj: ConfigObject):
+        self.values[configObj.name] = configObj
 
-    def register_checkbox(self, path, object: QCheckBox, default):
-        self.values[path] = ConfigObject(path, object, default)
-        object.stateChanged.connect()

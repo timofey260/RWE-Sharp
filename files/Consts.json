@@ -41,6 +41,8 @@
 			"20": [2, 3],
 			"21": [1, 4],
 		}
+		// 4 and 11 should be redone
+		// 1 and 2 are beams and should be hidden as well as 5, 6, 7
 	},
 	"materialsize": [6, 8],
 	//list of all materials in editor with their colors

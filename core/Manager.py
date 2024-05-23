@@ -64,6 +64,8 @@ class Manager:
         self.editorlayers = []
 
         self.init_mods()
+        self.config.init_configs()  # mounting configs and applying them
+        print(self.mods[0].config.geo_selectedTool.value)
         self.init_layers()
         self.init_editors()
 
@@ -130,5 +132,9 @@ class Manager:
     def level_height(self):
         return self.level.level_height
 
-    def new_process(self, file=None):
-        pass
+    @Slot()
+    def save_level(self):
+        print("saving")
+        # todo level saving
+        # config saving
+        self.config.save_configs()

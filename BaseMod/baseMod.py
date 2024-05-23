@@ -1,57 +1,10 @@
 from core.Modify.Mod import Mod, ModInfo
 from .geo.geometryEditor import GeometryEditor
-from .geo.geometry_ui import Ui_Geo
-from .geo.geometry_vis_ui import Ui_GeoView
 from .geo.geometryModule import GeoModule
 from .tiles.tileModule import TileModule
 from .globalConfig import globalConfig
 from PySide6.QtWidgets import QWidget, QCheckBox
 from PySide6.QtCore import QCoreApplication, Slot, Qt
-
-
-class GeoUI(QWidget):
-    def __init__(self, mod, parent=None):
-        super().__init__(parent)
-        self.mod: BaseMod = mod
-        self.ui = Ui_Geo()
-        self.ui.setupUi(self)
-
-
-class GeoViewUI(QWidget):
-    def __init__(self, mod, parent=None):
-        super().__init__(parent)
-        self.mod: BaseMod = mod
-        self.ui = Ui_GeoView()
-        self.ui.setupUi(self)
-        self.ui.VGeoLayer1.checkStateChanged.connect(self.mod.geomodule.check_l1_change)
-        self.ui.VGeoLayer2.checkStateChanged.connect(self.mod.geomodule.check_l2_change)
-        self.ui.VGeoLayer3.checkStateChanged.connect(self.mod.geomodule.check_l3_change)
-        self.ui.VGeoBeams.checkStateChanged.connect(self.mod.geomodule.check_beams_change)
-        self.ui.VGeoPipes.checkStateChanged.connect(self.mod.geomodule.check_pipes_change)
-        self.ui.VGeoMisc.checkStateChanged.connect(self.mod.geomodule.check_misc_change)
-        self.ui.VGeoAll.checkStateChanged.connect(self.all_layers)
-
-    @Slot(Qt.CheckState)
-    def all_layers(self, state: Qt.CheckState):
-        if state == Qt.CheckState.Checked:
-            self.ui.VGeoLayer1.setChecked(True)
-            self.ui.VGeoLayer2.setChecked(True)
-            self.ui.VGeoLayer3.setChecked(True)
-            self.ui.VGeoBeams.setChecked(True)
-            self.ui.VGeoPipes.setChecked(True)
-            self.ui.VGeoMisc.setChecked(True)
-
-    @Slot(Qt.CheckState)
-    def toggle_geo(self, state: Qt.CheckState):
-        if state == Qt.CheckState.Unchecked:
-            self.mod.geomodule.check_l1_change(state)
-            self.mod.geomodule.check_l2_change(state)
-            self.mod.geomodule.check_l3_change(state)
-        else:
-            self.mod.geomodule.check_l1_change(self.ui.VGeoLayer1.checkState())
-            self.mod.geomodule.check_l2_change(self.ui.VGeoLayer2.checkState())
-            self.mod.geomodule.check_l3_change(self.ui.VGeoLayer3.checkState())
-
 
 
 class BaseMod(Mod):
@@ -60,9 +13,10 @@ class BaseMod(Mod):
             "Base Mod",
             "RWE# essentials\nincludes all editors, modules and other\ndisable it at your own risk :3",
             "basemod",
-            "1.0.0",
-            "timofey26"
+            "timofey26",
+            "1.0.0"
         ))
+        from .geo.geoUIConnectors import GeoUI, GeoViewUI
 
         self.config = globalConfig(self)
 
