@@ -1,9 +1,12 @@
-from .ConfigBase import ConfigObject
-from PySide6.QtCore import Slot
+from .ConfigBase import Configurable
+from PySide6.QtCore import Slot, Signal
+import json
 
 
-class BoolConfigObject(ConfigObject):
-    def __init__(self, name: str, default: bool, description: str=""):
+class BoolConfigurable(Configurable):
+    valueChanged = Signal(bool)
+
+    def __init__(self, name: str, default: bool=False, description: str=""):
         super().__init__(name, default, description)
 
     def load_str_value(self, text: str) -> None:
@@ -18,8 +21,10 @@ class BoolConfigObject(ConfigObject):
         super().update_value(value)
 
 
-class StringConfigObject(ConfigObject):
-    def __init__(self, name: str, default: str, description: str=""):
+class StringConfigurable(Configurable):
+    valueChanged = Signal(str)
+
+    def __init__(self, name: str, default: str="", description: str=""):
         super().__init__(name, default, description)
 
     def load_str_value(self, text: str) -> None:
@@ -34,8 +39,10 @@ class StringConfigObject(ConfigObject):
         super().update_value(value)
 
 
-class IntConfigObject(ConfigObject):
-    def __init__(self, name: str, default: int, description: str=""):
+class IntConfigurable(Configurable):
+    valueChanged = Signal(int)
+
+    def __init__(self, name: str, default: int=0, description: str=""):
         super().__init__(name, default, description)
 
     def load_str_value(self, text: str) -> None:
@@ -50,8 +57,10 @@ class IntConfigObject(ConfigObject):
         super().update_value(value)
 
 
-class FloatConfigObject(ConfigObject):
-    def __init__(self, name: str, default: float, description: str=""):
+class FloatConfigurable(Configurable):
+    valueChanged = Signal(float)
+
+    def __init__(self, name: str, default: float=0, description: str=""):
         super().__init__(name, default, description)
 
     def load_str_value(self, text: str) -> None:
@@ -63,4 +72,24 @@ class FloatConfigObject(ConfigObject):
 
     @Slot(float)
     def update_value(self, value: float):
+        super().update_value(value)
+
+
+class DictConfigurable(Configurable):
+    valueChanged = Signal(dict)
+
+    def __init__(self, name: str, default: dict=None, description: str= ""):
+        if default is None:
+            default = {}
+        super().__init__(name, default, description)
+
+    def load_str_value(self, text: str) -> None:
+        self.value = json.loads(text)
+        self.valueChanged.emit(self.value)
+
+    def save_str_value(self) -> str:
+        return json.dumps(self.value)
+
+    @Slot(dict)
+    def update_value(self, value: dict):
         super().update_value(value)

@@ -30,6 +30,7 @@ button_to_geo = {
     "ToolGeoClearAll": "cleanall",
 }
 
+
 class GeoUI(QWidget):
     def __init__(self, mod, parent=None):
         super().__init__(parent)
@@ -63,8 +64,7 @@ class GeoUI(QWidget):
     @Slot()
     def set_tool(self):
         name = self.sender().objectName()
-        print(button_to_geo.get(name, "none"))
-        self.mod.config.geo_selectedTool.update_value(button_to_geo.get(name, "none"))
+        self.mod.geoconfig.selectedTool.update_value(button_to_geo.get(name, "none"))
 
 
 class GeoViewUI(QWidget):

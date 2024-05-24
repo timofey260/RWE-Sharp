@@ -6,6 +6,7 @@ from core import info
 from core.Exceptions import *
 from core.HistorySystem import History
 from core.RWLParser import RWLParser
+from PySide6.QtCore import QPoint
 
 defaultlevel = open(os.path.join(info.PATH_FILES, "default.txt"), "r").readlines()
 
@@ -37,12 +38,18 @@ class RWELevel:
     def TE_data(self, x, y, layer):
         return self.data["TE"]["tlMatrix"][int(x)][int(y)][layer]
 
+    def inside(self, x: int, y: int) -> bool:
+        return self.inside(QPoint(x, y))
+
+    def inside(self, point: QPoint) -> bool:
+        return 0 <= point.x() < self.level_width and 0 <= point.y() < self.level_height
+
     @property
-    def level_width(self):
+    def level_width(self) -> int:
         return len(self.data["GE"])
 
     @property
-    def level_height(self):
+    def level_height(self) -> int:
         return len(self.data["GE"][0])
 
     @staticmethod

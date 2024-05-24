@@ -1,6 +1,6 @@
 from PySide6.QtWidgets import QCheckBox
 from PySide6.QtCore import Slot, Signal
-from core.configTypes.ConfigBase import ConfigObject
+from core.configTypes.ConfigBase import Configurable
 
 
 class ConfigModule:
@@ -9,10 +9,11 @@ class ConfigModule:
     all data we store is either level related or editor related
     config module provides easy way to store editor specific data
     """
-    def __init__(self, mod):
+    def __init__(self, mod, subeditor=""):
         self.mod = mod
         self.manager = mod.manager
-        self.values: dict[str, ConfigObject] = {}
+        self.values: dict[str, Configurable] = {}
+        self.subeditor = subeditor
 
     def register_config(self):
         """
@@ -21,6 +22,6 @@ class ConfigModule:
         :return: None
         """
 
-    def add_config(self, configObj: ConfigObject):
+    def add_config(self, configObj: Configurable):
         self.values[configObj.name] = configObj
 

@@ -1,7 +1,9 @@
 from PySide6.QtCore import Signal, QObject
 
-class ConfigObject(QObject):
-    valueChanged = Signal(str)
+
+class Configurable(QObject):
+    valueChanged: Signal | None = None
+
     def __init__(self, name: str, default: ..., description: str=""):
         super().__init__()
         """

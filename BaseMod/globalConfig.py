@@ -4,9 +4,12 @@ from core.configTypes.BaseTypes import *
 
 class globalConfig(ConfigModule):
     def __init__(self, mod):
-        super().__init__(mod)
+        super().__init__(mod, "global")
 
     def register_config(self):
-        self.geo_selectedTool = StringConfigObject("tool", "wall", "wall")
-
-        self.add_config(self.geo_selectedTool)
+        self.opacityl1 = FloatConfigurable("opacityl1", .9, "opacity of the first layer")
+        self.add_config(self.opacityl1)
+        self.opacityl2 = FloatConfigurable("opacityl2", .5, "opacity of the second layer")
+        self.add_config(self.opacityl2)
+        self.opacityl3 = FloatConfigurable("opacityl3", .2, "opacity of the third layer")
+        self.add_config(self.opacityl3)

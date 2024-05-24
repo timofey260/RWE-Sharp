@@ -1,7 +1,10 @@
 from core.Modify.Mod import Mod, ModInfo
 from .geo.geometryEditor import GeometryEditor
 from .geo.geometryModule import GeoModule
+from .geo.geoConfig import GeoConfig
+
 from .tiles.tileModule import TileModule
+
 from .globalConfig import globalConfig
 from PySide6.QtWidgets import QWidget, QCheckBox
 from PySide6.QtCore import QCoreApplication, Slot, Qt
@@ -17,23 +20,42 @@ class BaseMod(Mod):
             "1.0.0"
         ))
         from .geo.geoUIConnectors import GeoUI, GeoViewUI
+        from .tiles.tileUIConnectors import TileViewUI
+        self.config: globalConfig
+
+        self.geoconfig: GeoConfig | None = None
+        self.geoeditor: GeometryEditor | None = None
+        self.geomodule: GeoModule | None = None
+        self.geoui: GeoUI | None = None
+        self.geoview: GeoViewUI | None = None
+
+        self.tilemodule: TileModule | None = None
+        self.tileview: TileViewUI | None = None
+
+    def mod_init(self):
+        from .geo.geoUIConnectors import GeoUI, GeoViewUI
+        from .tiles.tileUIConnectors import TileViewUI
 
         self.config = globalConfig(self)
 
-        self.geoEditor = GeometryEditor(self)
+        self.geoconfig = GeoConfig(self)
         self.geomodule = GeoModule(self)
         self.geoui = GeoUI(self)
         self.geoview = GeoViewUI(self)
+        self.geoeditor = GeometryEditor(self)
 
         self.tilemodule = TileModule(self)
+        self.tileview = TileViewUI(self)
 
-        self.add_editor(self.geoEditor, self.geoui)
+        self.add_editor(self.geoeditor, self.geoui)
         self.add_module(self.geomodule)
         self.add_vis_ui(self.geoview)
 
         self.add_module(self.tilemodule)
+        self.add_vis_ui(self.tileview)
 
         self.add_config_module(self.config)
+        self.add_config_module(self.geoconfig)
 
         self.init_options()
 

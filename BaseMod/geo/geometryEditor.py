@@ -6,12 +6,12 @@ from core.info import CELLSIZE
 
 
 class GeometryEditor(EditorMode):
-    def __init__(self, manager):
-        super().__init__(manager)
-
-        self.drawl1 = False
-        self.drawl2 = False
-        self.drawl3 = False
+    def __init__(self, mod):
+        super().__init__(mod)
+        from BaseMod.baseMod import BaseMod
+        self.mod: BaseMod
+        self.config = self.mod.geoconfig
+        self.module = self.mod.geomodule
 
         self.cursor: QGraphicsRectItem = None
 
@@ -26,6 +26,11 @@ class GeometryEditor(EditorMode):
         super().mouse_move_event(event)
         pos = self.mousepos * self.viewport.zoom
         self.cursor.setPos(pos)
+        fpos = self.viewportcell
+        if self.mouse_left and self.manager.level.inside(fpos):
+            self.manager.level["GE"][fpos.x()][fpos.y()][0][0] = 1
+            self.module.l1.draw_geo(fpos.x(), fpos.y(), True)
+            self.module.l1.redraw()
 
     def mouse_wheel_event(self, event: QWheelEvent):
         self.cursor.setRect(QRect(0, 0, CELLSIZE * self.viewport.zoom, CELLSIZE * self.viewport.zoom))

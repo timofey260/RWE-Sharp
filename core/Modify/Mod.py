@@ -28,6 +28,16 @@ class Mod:
         self.manager = manager
         self.modinfo = modinfo
 
+    @property
+    def author_name(self) -> str:
+        return f"{self.modinfo.author}.{self.modinfo.name}"
+
+    def mod_init(self):
+        """
+        called when mod is enabled
+        :return:
+        """
+
     def add_editor(self, editor, ui):
         self.manager.add_editor(editor, ui)
 

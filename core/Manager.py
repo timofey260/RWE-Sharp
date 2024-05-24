@@ -65,7 +65,7 @@ class Manager:
 
         self.init_mods()
         self.config.init_configs()  # mounting configs and applying them
-        print(self.mods[0].config.geo_selectedTool.value)
+        print(self.mods[0].geoconfig.selectedTool.value)
         self.init_layers()
         self.init_editors()
 
@@ -96,6 +96,9 @@ class Manager:
 
     def init_mods(self):
         self.mods.append(BaseMod(self))
+        for i in self.mods:
+            # check if mod is enabled
+            i.mod_init()
 
     def add_editor(self, editor, ui: QWidget):
         self.editors.append(editor)

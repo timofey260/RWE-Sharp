@@ -11,12 +11,13 @@ class EditorMode:
         """
         :param viewport: viewport where actions should be tracked
         """
-        self.mod = mod
-        self.manager = mod.manager
-        self.viewport = mod.manager.viewport
-        self.mpos = QPoint()
-        self._ml = False
-        self._mr = False
+        from ..Manager import Manager
+        from .Mod import Mod
+        from widgets.Viewport import ViewPort
+        self.mod: mod = mod
+        self.manager: Manager = mod.manager
+        self.viewport: ViewPort = mod.manager.viewport
+        self.mpos: QPoint = QPoint()
 
     def init_scene_items(self):
         """
@@ -27,8 +28,11 @@ class EditorMode:
     def mouse_move_event(self, event: QMoveEvent):
         self.mpos = event.pos()
 
-    def mouse_click_event(self, event: QMouseEvent):
-        print(event.buttons())
+    def mouse_press_event(self, event: QMouseEvent):
+        pass
+
+    def mouse_release_event(self, event: QMouseEvent):
+        pass
 
     def mouse_wheel_event(self, event: QWheelEvent):
         pass
@@ -41,12 +45,24 @@ class EditorMode:
 
     @property
     def mouse_left(self):
-        return
+        return self.viewport.mouse_left
+
+    @property
+    def mouse_right(self):
+        return self.viewport.mouse_right
 
     @property
     def mousepos(self) -> QPoint:
         pos = QPoint(
             round((self.mpos.x() + self.viewport.horizontalScrollBar().value()) / (CELLSIZE * self.viewport.zoom) - .5) * CELLSIZE,
             round((self.mpos.y() + self.viewport.verticalScrollBar().value()) / (CELLSIZE * self.viewport.zoom) - .5) * CELLSIZE
+        )
+        return pos
+
+    @property
+    def viewportcell(self) -> QPoint:
+        pos = QPoint(
+            round((self.mpos.x() + self.viewport.horizontalScrollBar().value()) / (CELLSIZE * self.viewport.zoom) - .5),
+            round((self.mpos.y() + self.viewport.verticalScrollBar().value()) / (CELLSIZE * self.viewport.zoom) - .5)
         )
         return pos

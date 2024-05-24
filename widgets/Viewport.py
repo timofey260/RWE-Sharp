@@ -43,14 +43,15 @@ class ViewPort(QGraphicsView):
             self._lmb = True
         if event.buttons() & Qt.MouseButton.RightButton:
             self._rmb = True
-        self.manager.editor.mouse_click_event(event)
+        self.manager.editor.mouse_press_event(event)
 
     def mouseReleaseEvent(self, event):
         super().mouseReleaseEvent(event)
-        if event.buttons() & Qt.MouseButton.LeftButton:
+        if event.button() & Qt.MouseButton.LeftButton:
             self._lmb = False
-        if event.buttons() & Qt.MouseButton.RightButton:
+        if event.button() & Qt.MouseButton.RightButton:
             self._rmb = False
+        self.manager.editor.mouse_release_event(event)
 
     @property
     def mouse_left(self) -> bool:
