@@ -25,7 +25,8 @@ class Config:
         path = self.ensure_config()
         for i in self.modules:
             i.register_config()
-        modnames = [f"{i.mod.author_name}.{i.subeditor}" for i in self.modules]
+        modnames = [f"{i.mod.author_name}:{i.subeditor}" for i in self.modules]
+        print(modnames)
         with open(path) as f:
             for l in f.readlines():
                 l = l.strip()
@@ -40,6 +41,9 @@ class Config:
                 print(name, id, value)
                 if name in modnames:
                     self.modules[modnames.index(name)].values[id].load_str_value(value)
+        for i in self.modules:
+            for k, v in i.values.items():
+                print(k, v.value)
 
     def save_configs(self):
         path = self.ensure_config()
@@ -49,7 +53,7 @@ class Config:
                 for k, v in i.values.items():
                     if v.description.strip() != "":
                         f.write(f"# {v.description}\n")
-                    f.write(f"{i.mod.author_name}.{i.subeditor}.{k}={v.save_str_value()}\n")
+                    f.write(f"{i.mod.author_name}:{i.subeditor}.{k}={v.save_str_value()}\n")
                 f.write("\n\n")
 
     def ensure_config(self) -> str:

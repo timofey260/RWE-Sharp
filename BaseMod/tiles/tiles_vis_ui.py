@@ -97,6 +97,11 @@ class Ui_TilesView(object):
 
 
         self.retranslateUi(TilesView)
+        self.VTilesAllTiles.clicked["bool"].connect(self.VTilesLayer1.setDisabled)
+        self.VTilesAllTiles.clicked["bool"].connect(self.VTilesLayer2.setDisabled)
+        self.VTilesAllTiles.clicked["bool"].connect(self.VTilesLayer3.setDisabled)
+        self.VTilesAllTiles.clicked["bool"].connect(self.VTilesMaterials.setDisabled)
+        self.VTilesAllTiles.clicked["bool"].connect(self.VTilesHeads.setDisabled)
 
         QMetaObject.connectSlotsByName(TilesView)
     # setupUi

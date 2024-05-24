@@ -7,7 +7,7 @@ class ConfigModule:
     """
     Base for creating custom mod configs
     all data we store is either level related or editor related
-    config module provides easy way to store editor specific data
+    config module provides easy way to store editor specific data between rwe# sessions
     """
     def __init__(self, mod, subeditor=""):
         self.mod = mod

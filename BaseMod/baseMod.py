@@ -1,7 +1,7 @@
 from core.Modify.Mod import Mod, ModInfo
 from .geo.geometryEditor import GeometryEditor
 from .geo.geometryModule import GeoModule
-from .geo.geoConfig import GeoConfig
+from .geo.geoConfig import GeoConfig, GeoViewConfig
 
 from .tiles.tileModule import TileModule
 
@@ -28,17 +28,23 @@ class BaseMod(Mod):
         self.geomodule: GeoModule | None = None
         self.geoui: GeoUI | None = None
         self.geoview: GeoViewUI | None = None
+        self.geoviewconfig: GeoViewConfig | None = None
 
         self.tilemodule: TileModule | None = None
         self.tileview: TileViewUI | None = None
+
+    def pre_mod_init(self):
+        self.config = globalConfig(self)
+        self.geoconfig = GeoConfig(self)
+        self.geoviewconfig = GeoViewConfig(self)
+        self.add_config_module(self.config)
+        self.add_config_module(self.geoconfig)
+        self.add_config_module(self.geoviewconfig)
 
     def mod_init(self):
         from .geo.geoUIConnectors import GeoUI, GeoViewUI
         from .tiles.tileUIConnectors import TileViewUI
 
-        self.config = globalConfig(self)
-
-        self.geoconfig = GeoConfig(self)
         self.geomodule = GeoModule(self)
         self.geoui = GeoUI(self)
         self.geoview = GeoViewUI(self)
@@ -53,9 +59,6 @@ class BaseMod(Mod):
 
         self.add_module(self.tilemodule)
         self.add_vis_ui(self.tileview)
-
-        self.add_config_module(self.config)
-        self.add_config_module(self.geoconfig)
 
         self.init_options()
 

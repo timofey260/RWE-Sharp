@@ -47,3 +47,5 @@ class TileModule(Module):
         else:
             self.drawl3 = state == Qt.CheckState.Checked
         self.l3.renderedtexture.setOpacity(.2 if self.drawl3 else 0)
+
+

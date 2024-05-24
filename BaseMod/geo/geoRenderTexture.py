@@ -59,11 +59,11 @@ class GeoRenderTexture(RenderTexture):
             self.painter.setCompositionMode(QPainter.CompositionMode.CompositionMode_SourceOver)
         self.painter.drawPixmap(placepos, self.geo_texture, cellpos)
         for s in stackables:
-            if (s == 1 or s == 2) and not self.module.drawbeams:
+            if (s == 1 or s == 2) and not self.module.mod.geoviewconfig.drawlbeams.value:
                 continue
-            elif s in [5, 6, 7, 19] and not self.module.drawpipes:
+            elif s in [5, 6, 7, 19] and not self.module.mod.geoviewconfig.drawlpipes.value:
                 continue
-            elif s not in [1, 2, 5, 6, 7, 19] and not self.module.drawmisc:
+            elif s not in [1, 2, 5, 6, 7, 19] and not self.module.mod.geoviewconfig.drawlmisc.value:
                 continue
             spos = self.sinfo.get(str(s), [0, 0])
             stackpos = QRect(spos[0] * self._sz, spos[1] * self._sz, self._sz, self._sz)

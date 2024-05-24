@@ -69,7 +69,6 @@ class RWELevel:
     def turntoproject(string: str):
         proj = RWELevel()
         lines = string.split("\n")
-        print("Loading level...")
         proj["GE"] = json.loads(lines[0])  # geometry
         proj["TE"] = lingoIO.tojson(lines[1])  # tile editor and his settings
         proj["FE"] = lingoIO.tojson(lines[2])  # effect editor params

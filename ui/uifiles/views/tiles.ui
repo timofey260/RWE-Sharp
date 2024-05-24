@@ -136,5 +136,86 @@
   </layout>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>VTilesAllTiles</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>VTilesLayer1</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>70</x>
+     <y>57</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>70</x>
+     <y>73</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>VTilesAllTiles</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>VTilesLayer2</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>131</x>
+     <y>52</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>135</x>
+     <y>105</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>VTilesAllTiles</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>VTilesLayer3</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>175</x>
+     <y>54</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>181</x>
+     <y>124</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>VTilesAllTiles</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>VTilesMaterials</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>232</x>
+     <y>55</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>229</x>
+     <y>159</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>VTilesAllTiles</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>VTilesHeads</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>277</x>
+     <y>52</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>264</x>
+     <y>179</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

@@ -1,6 +1,6 @@
 from core.Modify.RenderTexture import RenderTexture
-from PySide6.QtCore import QRect, QLine, Qt
-from PySide6.QtGui import QBrush, QColor, QPen
+from PySide6.QtCore import QRect, QLine, Qt, Slot
+from PySide6.QtGui import QBrush, QColor, QPen, QPainter
 from core.info import CONSTS, CELLSIZE, SPRITESIZE
 from core.lingoIO import fromarr
 
@@ -16,7 +16,23 @@ class TileRenderTexture(RenderTexture):
             for yp, y in enumerate(x):
                 self.draw_tile(xp, yp)
 
+    @Slot(bool)
+    @Slot(Qt.CheckState)
+    def redraw_mats(self, state: bool | Qt.CheckState):
+        if isinstance(state, bool):
+            pass #todo
+        for xp, x in enumerate(self.manager.level["TE"]["tlMatrix"]):
+            for yp, y in enumerate(x):
+                if y[self.layer]["tp"] == "material":
+                    self.draw_tile(xp, yp)
+
     def draw_tile(self, x: int, y: int, clear: bool = False):
+        drawrect = QRect(x * CELLSIZE, y * CELLSIZE, CELLSIZE, CELLSIZE)
+        if clear:
+            self.painter.setCompositionMode(QPainter.CompositionMode.CompositionMode_Source)
+            self.painter.eraseRect(drawrect, QColor(0, 0, 0, 0))
+            self.painter.setCompositionMode(QPainter.CompositionMode.CompositionMode_SourceOver)
+
         tile = self.manager.level.TE_data(x, y, self.layer)
         match tile["tp"]:
             case "default":
@@ -53,13 +69,11 @@ class TileRenderTexture(RenderTexture):
                 if offset[0] > foundtile.size[0] or offset[1] > foundtile.size[1]:
                     print("broken tile size")
                     return
-                drawrect = QRect(x * CELLSIZE, y * CELLSIZE, CELLSIZE, CELLSIZE)
                 sourcerect = QRect(offset[0] * SPRITESIZE, offset[1] * SPRITESIZE, SPRITESIZE, SPRITESIZE)
                 self.painter.drawImage(drawrect, foundtile.image, sourcerect)
             case "tileHead":
                 foundtile = self.manager.tiles[tile["data"][1]]
                 cposxo = int((foundtile.size[0] * .5) + .5) - 1
                 cposyo = int((foundtile.size[1] * .5) + .5) - 1
-                drawrect = QRect(x * CELLSIZE, y * CELLSIZE, CELLSIZE, CELLSIZE)
                 sourcerect = QRect(cposxo * SPRITESIZE, cposyo * SPRITESIZE, SPRITESIZE, SPRITESIZE)
                 self.painter.drawImage(drawrect, foundtile.image, sourcerect)

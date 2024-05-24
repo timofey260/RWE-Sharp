@@ -32,9 +32,15 @@ class Mod:
     def author_name(self) -> str:
         return f"{self.modinfo.author}.{self.modinfo.name}"
 
+    def pre_mod_init(self):
+        """
+        Called before mod init, specifically for registering configs
+        :return:
+        """
+
     def mod_init(self):
         """
-        called when mod is enabled
+        Called when mod is enabled
         :return:
         """
 

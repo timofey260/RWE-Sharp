@@ -73,17 +73,19 @@ class GeoViewUI(QWidget):
         self.mod: BaseMod = mod
         self.ui = Ui_GeoView()
         self.ui.setupUi(self)
-        self.ui.VGeoLayer1.checkStateChanged.connect(self.mod.geomodule.check_l1_change)
-        self.ui.VGeoLayer2.checkStateChanged.connect(self.mod.geomodule.check_l2_change)
-        self.ui.VGeoLayer3.checkStateChanged.connect(self.mod.geomodule.check_l3_change)
-        self.ui.VGeoBeams.checkStateChanged.connect(self.mod.geomodule.check_beams_change)
-        self.ui.VGeoPipes.checkStateChanged.connect(self.mod.geomodule.check_pipes_change)
-        self.ui.VGeoMisc.checkStateChanged.connect(self.mod.geomodule.check_misc_change)
+        self.mod.geoviewconfig.drawl1.connect_checkbox(self.ui.VGeoLayer1)
+        self.mod.geoviewconfig.drawl2.connect_checkbox(self.ui.VGeoLayer2)
+        self.mod.geoviewconfig.drawl3.connect_checkbox(self.ui.VGeoLayer3)
+        self.mod.geoviewconfig.drawlbeams.connect_checkbox(self.ui.VGeoBeams)
+        self.mod.geoviewconfig.drawlpipes.connect_checkbox(self.ui.VGeoPipes)
+        self.mod.geoviewconfig.drawlmisc.connect_checkbox(self.ui.VGeoMisc)
         self.ui.VGeoAll.checkStateChanged.connect(self.all_layers)
+
 
     @Slot(Qt.CheckState)
     def all_layers(self, state: Qt.CheckState):
         if state == Qt.CheckState.Checked:
+            # todo remove freezes
             self.ui.VGeoLayer1.setChecked(True)
             self.ui.VGeoLayer2.setChecked(True)
             self.ui.VGeoLayer3.setChecked(True)

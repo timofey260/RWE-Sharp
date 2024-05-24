@@ -1,5 +1,6 @@
 from .ConfigBase import Configurable
-from PySide6.QtCore import Slot, Signal
+from PySide6.QtCore import Slot, Signal, Qt
+from PySide6.QtWidgets import QCheckBox
 import json
 
 
@@ -17,8 +18,16 @@ class BoolConfigurable(Configurable):
         return "1" if self.value else "0"
 
     @Slot(bool)
-    def update_value(self, value: bool):
-        super().update_value(value)
+    @Slot(Qt.CheckState)
+    def update_value(self, value: bool | Qt.CheckState):
+        if isinstance(value, bool):
+            super().update_value(value)
+        else:
+            super().update_value(value == Qt.CheckState.Checked.value)
+
+    def connect_checkbox(self, checkbox: QCheckBox):
+        checkbox.setChecked(self.value)
+        checkbox.stateChanged.connect(self.update_value)
 
 
 class StringConfigurable(Configurable):
