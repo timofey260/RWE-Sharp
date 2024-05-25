@@ -2,19 +2,26 @@ from core.Modify.RenderTexture import RenderTexture
 from PySide6.QtCore import QRect, QLine, Qt, Slot
 from PySide6.QtGui import QBrush, QColor, QPen, QPainter
 from core.info import CONSTS, CELLSIZE, SPRITESIZE
-from core.lingoIO import fromarr
 
 
 class TileRenderTexture(RenderTexture):
     def __init__(self, module, layer):
         super().__init__(module)
         self.layer = layer
-        self.draw()
 
-    def draw(self):
+
+    def draw_layer(self, clear=False):
+        if clear:
+            self.image.fill(QColor(0, 0, 0, 0))
+            # self.painter.setCompositionMode(QPainter.CompositionMode.CompositionMode_Source)
+            # for xp, x in enumerate(self.manager.level["TE"]["tlMatrix"]):
+            #     for yp, y in enumerate(x):
+            #         self.painter.fillRect(QRect(xp * CELLSIZE, yp * CELLSIZE, CELLSIZE, CELLSIZE), QColor(0, 0, 0, 0))
+            # self.painter.setCompositionMode(QPainter.CompositionMode.CompositionMode_SourceOver)
         for xp, x in enumerate(self.manager.level["TE"]["tlMatrix"]):
             for yp, y in enumerate(x):
                 self.draw_tile(xp, yp)
+        self.redraw()
 
     @Slot(bool)
     @Slot(Qt.CheckState)
@@ -25,14 +32,10 @@ class TileRenderTexture(RenderTexture):
             for yp, y in enumerate(x):
                 if y[self.layer]["tp"] == "material":
                     self.draw_tile(xp, yp)
+        self.redraw()
 
-    def draw_tile(self, x: int, y: int, clear: bool = False):
-        drawrect = QRect(x * CELLSIZE, y * CELLSIZE, CELLSIZE, CELLSIZE)
-        if clear:
-            self.painter.setCompositionMode(QPainter.CompositionMode.CompositionMode_Source)
-            self.painter.eraseRect(drawrect, QColor(0, 0, 0, 0))
-            self.painter.setCompositionMode(QPainter.CompositionMode.CompositionMode_SourceOver)
-
+    def draw_tile(self, x: int, y: int):
+        # drawrect = QRect(x * CELLSIZE, y * CELLSIZE, CELLSIZE, CELLSIZE)
         tile = self.manager.level.TE_data(x, y, self.layer)
         match tile["tp"]:
             case "default":
@@ -42,38 +45,56 @@ class TileRenderTexture(RenderTexture):
                 self.painter.setBrush(QBrush(QColor(*CONSTS.get("materials", {}).get(tile["data"], [255, 0, 0, 255]))))
                 self.painter.setPen(Qt.PenStyle.NoPen)
                 self.painter.drawRoundedRect(x * CELLSIZE + sz[0], y * CELLSIZE + sz[0], sz[1], sz[1], 2, 2)
-            case "tileBody":
-                pointer = fromarr(tile["data"][0], "point")
-                if self.layer != tile["data"][1] - 1:
-                    # drawing arrow
-                    # self.painter.setPen(Qt.PenStyle.DashLine)
-                    # self.painter.setPen(QColor(255, 0, 0, 255))
-                    self.painter.setPen(QPen(QColor(255, 0, 0, 255), 2))
-                    self.painter.drawLines([
-                        QLine(x * CELLSIZE + 10, y * CELLSIZE + 3, x * CELLSIZE + 10, y * CELLSIZE + 17),
-                        QLine(x * CELLSIZE + 10, y * CELLSIZE + 3, x * CELLSIZE + 5, y * CELLSIZE + 8),
-                        QLine(x * CELLSIZE + 10, y * CELLSIZE + 3, x * CELLSIZE + 15, y * CELLSIZE + 8)
-                    ])
-                pointer = [pointer[0] - 1, pointer[1] - 1]
-                newtile = self.manager.level.TE_data(pointer[0], pointer[1], tile["data"][1] - 1)
-                if newtile["tp"] != "tileHead":
-                    print("uuh error")
-                    return
-                foundtile = self.manager.tiles[newtile["data"][1]]
-                if foundtile == None:
-                    print("uuh tile not found")
-                    return
-                cposxo = pointer[0] - int((foundtile.size[0] * .5) + .5) + 1
-                cposyo = pointer[1] - int((foundtile.size[1] * .5) + .5) + 1
-                offset = [x - cposxo, y - cposyo]
-                if offset[0] > foundtile.size[0] or offset[1] > foundtile.size[1]:
-                    print("broken tile size")
-                    return
-                sourcerect = QRect(offset[0] * SPRITESIZE, offset[1] * SPRITESIZE, SPRITESIZE, SPRITESIZE)
-                self.painter.drawImage(drawrect, foundtile.image, sourcerect)
+            # old version
+            # case "tileBody":
+            #     pointer = fromarr(tile["data"][0], "point")
+            #     if self.layer != tile["data"][1] - 1:
+            #         # drawing arrow
+            #         # self.painter.setPen(Qt.PenStyle.DashLine)
+            #         # self.painter.setPen(QColor(255, 0, 0, 255))
+            #         self.painter.setPen(QPen(QColor(255, 0, 0, 255), 2))
+            #         self.painter.drawLines([
+            #             QLine(x * CELLSIZE + 10, y * CELLSIZE + 3, x * CELLSIZE + 10, y * CELLSIZE + 17),
+            #             QLine(x * CELLSIZE + 10, y * CELLSIZE + 3, x * CELLSIZE + 5, y * CELLSIZE + 8),
+            #             QLine(x * CELLSIZE + 10, y * CELLSIZE + 3, x * CELLSIZE + 15, y * CELLSIZE + 8)
+            #         ])
+            #     pointer = [pointer[0] - 1, pointer[1] - 1]
+            #     newtile = self.manager.level.TE_data(pointer[0], pointer[1], tile["data"][1] - 1)
+            #     if newtile["tp"] != "tileHead":
+            #         print("uuh error")
+            #         return
+            #     foundtile = self.manager.tiles[newtile["data"][1]]
+            #     if foundtile == None:
+            #         print("uuh tile not found")
+            #         return
+            #     cposxo = pointer[0] - int((foundtile.size[0] * .5) + .5) + 1
+            #     cposyo = pointer[1] - int((foundtile.size[1] * .5) + .5) + 1
+            #     offset = [x - cposxo, y - cposyo]
+            #     if offset[0] > foundtile.size[0] or offset[1] > foundtile.size[1]:
+            #         print("broken tile size")
+            #         return
+            #     sourcerect = QRect(offset[0] * SPRITESIZE, offset[1] * SPRITESIZE, SPRITESIZE, SPRITESIZE)
+            #     self.painter.drawImage(drawrect, foundtile.image, sourcerect)
+            # case "tileHead":
+            #     foundtile = self.manager.tiles[tile["data"][1]]
+            #     cposxo = int((foundtile.size[0] * .5) + .5) - 1
+            #     cposyo = int((foundtile.size[1] * .5) + .5) - 1
+            #     sourcerect = QRect(cposxo * SPRITESIZE, cposyo * SPRITESIZE, SPRITESIZE, SPRITESIZE)
+            #     self.painter.drawImage(drawrect, foundtile.image, sourcerect)
+
+            # new one
             case "tileHead":
                 foundtile = self.manager.tiles[tile["data"][1]]
                 cposxo = int((foundtile.size[0] * .5) + .5) - 1
                 cposyo = int((foundtile.size[1] * .5) + .5) - 1
-                sourcerect = QRect(cposxo * SPRITESIZE, cposyo * SPRITESIZE, SPRITESIZE, SPRITESIZE)
-                self.painter.drawImage(drawrect, foundtile.image, sourcerect)
+                if self.module.mod.tileviewconfig.drawoption.value == 1:
+                    drawrect = QRect((x - cposxo) * CELLSIZE,
+                                     (y - cposyo) * CELLSIZE,
+                                     CELLSIZE * foundtile.size[0] + foundtile.bfTiles,
+                                     CELLSIZE * foundtile.size[1] + foundtile.bfTiles)  # it works trust
+
+                    self.painter.drawImage(drawrect, foundtile.image2)
+                else:
+                    sourcerect = QRect(0, 0, SPRITESIZE * foundtile.size[0], SPRITESIZE * foundtile.size[1])
+                    drawrect = QRect((x - cposxo) * CELLSIZE, (y - cposyo) * CELLSIZE, CELLSIZE * foundtile.size[0], CELLSIZE * foundtile.size[1])  # it works trust
+                    self.painter.drawImage(drawrect, foundtile.image, sourcerect)

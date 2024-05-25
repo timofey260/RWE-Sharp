@@ -86,12 +86,15 @@ class GeoViewUI(QWidget):
     def all_layers(self, state: Qt.CheckState):
         if state == Qt.CheckState.Checked:
             # todo remove freezes
+            self.mod.geomodule.draw = False
             self.ui.VGeoLayer1.setChecked(True)
             self.ui.VGeoLayer2.setChecked(True)
             self.ui.VGeoLayer3.setChecked(True)
             self.ui.VGeoBeams.setChecked(True)
             self.ui.VGeoPipes.setChecked(True)
             self.ui.VGeoMisc.setChecked(True)
+            self.mod.geomodule.draw = True
+            self.mod.geomodule.render_module()
 
     @Slot(Qt.CheckState)
     def toggle_geo(self, state: Qt.CheckState):

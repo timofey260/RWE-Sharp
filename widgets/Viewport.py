@@ -1,6 +1,7 @@
 from PySide6.QtGui import QColor, QBrush
-from PySide6.QtCore import Qt, QPoint, QRect, Slot
-from PySide6.QtWidgets import QGraphicsView, QGraphicsScene, QGraphicsPixmapItem, QApplication, QGraphicsRectItem
+from PySide6.QtCore import Qt, QPoint, QRect, Slot, QPointF
+from PySide6.QtWidgets import QGraphicsView, QGraphicsScene, QGraphicsPixmapItem, QApplication, QGraphicsRectItem, QGraphicsEllipseItem
+from core.info import CELLSIZE
 
 
 class ViewPort(QGraphicsView):
@@ -16,11 +17,14 @@ class ViewPort(QGraphicsView):
         self.setScene(self.workscene)
         self.zoom = 1
         self.rect: QGraphicsRectItem = self.workscene.addRect(QRect(0, 0, 1, 1), brush=QBrush(QColor(150, 150, 150), Qt.BrushStyle.SolidPattern))
+        self.origin = self.workscene.addEllipse(0, 0, 1, 1, QColor(0, 0, 0, 0))
         self.managedfields: list[QGraphicsPixmapItem] = []
         self.verticalScrollBar().sliderReleased.connect(self.redraw)
         self.horizontalScrollBar().sliderReleased.connect(self.redraw)
         self._lmb = False
         self._rmb = False
+        self._mmb = False
+        self.mpos = QPoint()
 
     @Slot()
     def redraw(self):
@@ -43,6 +47,8 @@ class ViewPort(QGraphicsView):
             self._lmb = True
         if event.buttons() & Qt.MouseButton.RightButton:
             self._rmb = True
+        if event.buttons() & Qt.MouseButton.MiddleButton:
+            self._mmb = True
         self.manager.editor.mouse_press_event(event)
 
     def mouseReleaseEvent(self, event):
@@ -51,6 +57,8 @@ class ViewPort(QGraphicsView):
             self._lmb = False
         if event.button() & Qt.MouseButton.RightButton:
             self._rmb = False
+        if event.button() & Qt.MouseButton.MiddleButton:
+            self._mmb = False
         self.manager.editor.mouse_release_event(event)
 
     @property
@@ -61,10 +69,13 @@ class ViewPort(QGraphicsView):
     def mouse_right(self) -> bool:
         return self._rmb
 
+    @property
+    def mouse_middle(self):
+        return self._mmb
+
     def wheelEvent(self, event):
         mods = QApplication.keyboardModifiers()
         #print(self.map.scale() + (event.angleDelta().y() / 80))
-        self.manager.editor.mouse_wheel_event(event)
         if mods == mods.ShiftModifier:
             event.setModifiers(Qt.KeyboardModifier.NoModifier)
             self.verticalScrollBar().wheelEvent(event)
@@ -73,17 +84,46 @@ class ViewPort(QGraphicsView):
             event.setModifiers(Qt.KeyboardModifier.NoModifier)
             self.horizontalScrollBar().wheelEvent(event)
             return
-        # self.horizontalScrollBar().
-        # self.scroll(-20, 20)
-        self.zoom = max(0.1, self.zoom + (event.angleDelta().y() / 800))
+        pointbefore = self.viewport_to_editor_float(self.mpos.toPointF())
+        self.zoom = max(0.1, self.zoom + (event.angleDelta().y() * (-1 if event.inverted() else 1) / 800))
+        offset = (self.viewport_to_editor_float(self.mpos.toPointF()) - pointbefore) * CELLSIZE * self.zoom
         for i in self.managedfields:
             i.setScale(self.zoom)
+            i.setX(i.x() + offset.x())
+            i.setY(i.y() + offset.y())
         self.rect.setRect(self.managedfields[0].sceneBoundingRect())
+        self.manager.editor.mouse_wheel_event(event)
+        self.manager.editor.mouse_move_event(event)
         #self.verticalScrollBar().size
         #self.horizontalScrollBar().adjustSize()
 
     def mouseMoveEvent(self, event):
+        offset = event.pos() - self.mpos
+        if self.mouse_middle:
+            # self.origin.setX(self.origin.x() + offset.x())
+            # self.origin.setY(self.origin.y() + offset.y())
+            for i in self.managedfields:
+                i.setX(i.x() + offset.x())
+                i.setY(i.y() + offset.y())
+            self.rect.setRect(self.managedfields[0].sceneBoundingRect())
+        self.mpos = event.pos()
         self.manager.editor.mouse_move_event(event)
 
-    def fullrender(self):
-        pass
+    def viewport_to_editor(self, point: QPoint) -> QPoint:
+        npoint = point + QPoint(self.horizontalScrollBar().value(), self.verticalScrollBar().value()) - self.managedfields[0].pos().toPoint()
+        npoint.setX(npoint.x() / (CELLSIZE * self.zoom))
+        npoint.setY(npoint.y() / (CELLSIZE * self.zoom))
+        return npoint
+
+    def viewport_to_editor_float(self, point: QPointF) -> QPointF:
+        npoint = point + QPointF(self.horizontalScrollBar().value(), self.verticalScrollBar().value()) - self.managedfields[0].pos()
+        npoint.setX(npoint.x() / (CELLSIZE * self.zoom))
+        npoint.setY(npoint.y() / (CELLSIZE * self.zoom))
+        return npoint
+
+    def editor_to_viewport(self, point: QPoint) -> QPoint:
+        return (point * CELLSIZE * self.zoom) + self.managedfields[0].pos().toPoint()
+
+    def editor_to_viewport_float(self, point: QPointF) -> QPointF:
+        return (point * CELLSIZE * self.zoom) + self.managedfields[0].pos()
+

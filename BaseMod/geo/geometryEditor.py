@@ -24,10 +24,12 @@ class GeometryEditor(EditorMode):
 
     def mouse_move_event(self, event: QMoveEvent):
         super().mouse_move_event(event)
-        pos = self.mousepos * self.viewport.zoom
-        self.cursor.setPos(pos)
-        fpos = self.viewportcell
+        fpos = self.viewport.viewport_to_editor(self.mpos)
+        cpos = self.viewport.editor_to_viewport(fpos)
+        if cpos != self.cursor.pos():
+            self.cursor.setPos(self.viewport.editor_to_viewport(fpos))
         if self.mouse_left and self.manager.level.inside(fpos):
+            self.manager.set_status(str(self.manager.level.TE_data(fpos.x(), fpos.y(), 0)))
             self.manager.level["GE"][fpos.x()][fpos.y()][0][0] = 1
             self.module.l1.draw_geo(fpos.x(), fpos.y(), True)
             self.module.l1.redraw()

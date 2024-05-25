@@ -17,7 +17,6 @@ class EditorMode:
         self.mod: mod = mod
         self.manager: Manager = mod.manager
         self.viewport: ViewPort = mod.manager.viewport
-        self.mpos: QPoint = QPoint()
 
     def init_scene_items(self):
         """
@@ -26,7 +25,7 @@ class EditorMode:
         """
 
     def mouse_move_event(self, event: QMoveEvent):
-        self.mpos = event.pos()
+        pass
 
     def mouse_press_event(self, event: QMouseEvent):
         pass
@@ -52,17 +51,5 @@ class EditorMode:
         return self.viewport.mouse_right
 
     @property
-    def mousepos(self) -> QPoint:
-        pos = QPoint(
-            round((self.mpos.x() + self.viewport.horizontalScrollBar().value()) / (CELLSIZE * self.viewport.zoom) - .5) * CELLSIZE,
-            round((self.mpos.y() + self.viewport.verticalScrollBar().value()) / (CELLSIZE * self.viewport.zoom) - .5) * CELLSIZE
-        )
-        return pos
-
-    @property
-    def viewportcell(self) -> QPoint:
-        pos = QPoint(
-            round((self.mpos.x() + self.viewport.horizontalScrollBar().value()) / (CELLSIZE * self.viewport.zoom) - .5),
-            round((self.mpos.y() + self.viewport.verticalScrollBar().value()) / (CELLSIZE * self.viewport.zoom) - .5)
-        )
-        return pos
+    def mpos(self) -> QPoint:
+        return self.viewport.mpos

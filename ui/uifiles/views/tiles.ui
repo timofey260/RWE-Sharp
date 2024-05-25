@@ -100,7 +100,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QRadioButton" name="VTilesMaterialsOldPreview">
+        <widget class="QRadioButton" name="VTilesMaterialClassic">
          <property name="text">
           <string>Classic tile preview</string>
          </property>
@@ -110,9 +110,36 @@
         </widget>
        </item>
        <item>
-        <widget class="QRadioButton" name="VTilesMaterialBetterPreview">
+        <widget class="QRadioButton" name="VTilesMaterialHenry">
          <property name="text">
-          <string>Better tile preview</string>
+          <string>Henry's category colors</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QRadioButton" name="VTilesMaterialUnrendered">
+         <property name="text">
+          <string>Unrendered tiles</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QRadioButton" name="VTilesMaterialRendered">
+         <property name="text">
+          <string>Render preview</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="PalleteSelectButton">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>Select Pallete</string>
          </property>
         </widget>
        </item>

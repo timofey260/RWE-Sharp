@@ -1,3 +1,5 @@
+from .RenderTexture import RenderTexture
+
 class Module:
     """
     Module for passive editor and viewport work
@@ -5,7 +7,7 @@ class Module:
     def __init__(self, mod):
         self.mod = mod
         self.manager = mod.manager
-        self.editorlayers = []
+        self.editorlayers: list[tuple[int, RenderTexture]] = []
 
     def init_module_textures(self):
         """
@@ -21,3 +23,6 @@ class Module:
         :return: None
         """
         pass
+
+    def append_layer(self, depth: int, texture: RenderTexture):
+        self.editorlayers.append((depth, texture))

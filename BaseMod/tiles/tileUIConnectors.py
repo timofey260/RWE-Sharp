@@ -11,10 +11,17 @@ class TileViewUI(QWidget):
         self.ui = Ui_TilesView()
         self.ui.setupUi(self)
 
-        self.ui.VTilesLayer1.checkStateChanged.connect(self.mod.tilemodule.check_l1_change)
-        self.ui.VTilesLayer2.checkStateChanged.connect(self.mod.tilemodule.check_l2_change)
-        self.ui.VTilesLayer3.checkStateChanged.connect(self.mod.tilemodule.check_l3_change)
+        self.mod.tileviewconfig.drawl1.connect_checkbox(self.ui.VTilesLayer1)
+        self.mod.tileviewconfig.drawl2.connect_checkbox(self.ui.VTilesLayer2)
+        self.mod.tileviewconfig.drawl3.connect_checkbox(self.ui.VTilesLayer3)
         self.ui.VTilesAllTiles.checkStateChanged.connect(self.all_layers)
+        self.mod.tileviewconfig.drawoption.connect_radio(
+            [
+                self.ui.VTilesMaterialClassic,
+                self.ui.VTilesMaterialHenry,
+                self.ui.VTilesMaterialUnrendered,
+                self.ui.VTilesMaterialRendered
+            ])
 
     @Slot(Qt.CheckState)
     def all_layers(self, state: Qt.CheckState):

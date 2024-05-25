@@ -72,9 +72,14 @@ def loadTiles(window: SplashDialog) -> ItemData:
             printmessage(f"Loading tile {item['nm']}...", f"({tilenum}/{length})")
             window.ui.progressBar.setValue(int(tilenum / length * 100))
             try:
-                img = QImage(os.path.join(PATH_DRIZZLE, "Data/Graphics", item["nm"] + ".png"))
+                origimg = QImage(os.path.join(PATH_DRIZZLE, "Data/Graphics", item["nm"] + ".png"))
             except FileNotFoundError:
                 continue
+            try:
+                white = origimg.colorTable().index(4294967295)
+                origimg.setColor(white, 0)
+            except ValueError:
+                log_to_load_log(f"Error loading {item['nm']}", True)
             sz = fromarr(item["sz"], "point")
             try:
                 ln = len(item["repeatL"])
@@ -89,43 +94,51 @@ def loadTiles(window: SplashDialog) -> ItemData:
                 ln = 4
                 size = (ln * sz[1] + (item.get("bfTiles", 0) * 2)) * CELLSIZE
                 rect = QRect(0, size, sz[0] * SPRITESIZE, sz[1] * SPRITESIZE)
-            elif ((ln * sz[1] + (item.get("bfTiles", 0) * 2 * ln)) * CELLSIZE + 1) > img.height():
-                rect = QRect(0, img.height() - sz[1] * SPRITESIZE, sz[0] * SPRITESIZE, sz[1] * SPRITESIZE)
+            elif ((ln * sz[1] + (item.get("bfTiles", 0) * 2 * ln)) * CELLSIZE + 1) > origimg.height():
+                rect = QRect(0, origimg.height() - sz[1] * SPRITESIZE, sz[0] * SPRITESIZE, sz[1] * SPRITESIZE)
             else:
                 size = (sz[1] + (item.get("bfTiles", 0) * 2)) * ln * CELLSIZE
                 rect = QRect(0, size + 1, sz[0] * SPRITESIZE, sz[1] * SPRITESIZE)
 
-            try:
-                img = img.copy(rect)
-            except ValueError:
-                try:
-                    rect = QRect(0, img.height() - sz[1] * SPRITESIZE, sz[0] * SPRITESIZE, sz[1] * SPRITESIZE)
-                    img = img.copy(rect)
-                except ValueError:
+
+            if origimg.rect().contains(rect):
+                img = origimg.copy(rect)
+            else:
+                rect = QRect(0, origimg.height() - sz[1] * SPRITESIZE, sz[0] * SPRITESIZE, sz[1] * SPRITESIZE)
+                if origimg.rect().contains(rect):
+                    img = origimg.copy(rect)
+                else:
                     rect = QRect(0, 0, 1, 1)
-                    img = img.copy(rect)
+                    img = origimg.copy(rect)
             # srf = img.copy()
             # srf.fill(colr)
             # img.set_colorkey(pg.Color(0, 0, 0))
             # srf.blit(img, [0, 0])
             # img.fill(colr)
             # todo tile preview
+            # image
             try:
-                white = img.colorTable().index(4294967295)
                 black = img.colorTable().index(4278190080)
-                img.setColor(white, 0)
                 img.setColor(black, colr.rgba())
             except ValueError:
                 log_to_load_log(f"Error loading {item['nm']}", True)
-            # newimg = QImage(sz[0] * CELLSIZE, sz[1] * CELLSIZE, img.Format.Format_RGBA64)
-            # p = QPainter(newimg)
-            # p.drawImage(QRect(0, 0, sz[0] * CELLSIZE, sz[1] * CELLSIZE), img, QRect(0, 0, sz[0] * SPRITESIZE, sz[1] * SPRITESIZE))
 
-            # s.blit(img, [0, 0])
-            # arr = pg.pixelarray.PixelArray(s.copy())
-            # arr.replace(pg.Color(0, 0, 0), colr)
-            # img = arr.make_surface()
-            # img.set_colorkey(pg.Color(255, 255, 255))
+            #making image2
+            bftiles = item.get("bfTiles", 0)
+            img2 = QImage((sz[0] + bftiles * 2) * CELLSIZE, (sz[1] + bftiles * 2) * CELLSIZE, QImage.Format.Format_RGBA64)
+            img2.fill(QColor(0, 0, 0, 0))
+            p = QPainter(img2)
+            if tp == "box":
+                p.drawImage(0, 0, origimg.copy(0, sz[0] * CELLSIZE * sz[0], img2.width(), img2.height()))
+            else:
+                repl = len(item.get("repeatL", [1]))
+                for i in range(repl):
+                    # for _ in range(repeats):
+                    p.drawImage(0, 0, origimg.copy(0, (repl - i - 1) * img2.height(), img2.width(), img2.height()))
+                    # p.setOpacity(min(.2, i / repl + .5))
+                    p.setCompositionMode(p.CompositionMode.CompositionMode_SourceAtop)
+                    p.fillRect(0, 0, img2.width(), img2.height(), QColor(0, 0, 0, 15))
+                    p.setCompositionMode(p.CompositionMode.CompositionMode_SourceOver)
 
             newitem = {
                 "nm": item["nm"],
@@ -133,7 +146,9 @@ def loadTiles(window: SplashDialog) -> ItemData:
                 "repeatL": item.get("repeatL", [1]),
                 "description": "Size" + str(sz),
                 "bfTiles": item.get("bfTiles", 0),
-                "image": img,
+                "image": img,  # normal rwe# style
+                "image2": img2,  # henry rgb
+                "image3": img,  # depth color map thingy
                 "size": sz,
                 "category": cat,
                 "color": colr,

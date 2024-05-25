@@ -1,6 +1,6 @@
 from core.ItemData import ItemData
 from core.Loaders import TileLoader
-from core.RWELevel import RWELevel
+from core.RWELevel import RWELevel, defaultlevel
 from core.Modify.RenderTexture import RenderTexture
 from core.Modify.EditorMode import EditorMode
 from core.Modify.Mod import Mod
@@ -35,10 +35,11 @@ class Manager:
 
         self.splashwindow.close()
 
+        self.levelpath: str = "" if file is None else file
         if file is not None:
             self.level = RWELevel.openfile(file)
         else:
-            self.level = RWELevel()
+            self.level = RWELevel.turntoproject(defaultlevel)
 
         self.viewport: ViewPort = window.ui.viewPort
 
@@ -84,9 +85,11 @@ class Manager:
         for i in self.editorlayers:
             img = self.viewport.add_texture(i.image)
             i.renderedtexture = img
+            i.field_init()
 
         for i in self.modules:
             i.init_module_textures()
+            i.render_module()
 
 
     def init_editors(self):

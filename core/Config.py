@@ -26,7 +26,7 @@ class Config:
         for i in self.modules:
             i.register_config()
         modnames = [f"{i.mod.author_name}:{i.subeditor}" for i in self.modules]
-        print(modnames)
+        # print(modnames)
         with open(path) as f:
             for l in f.readlines():
                 l = l.strip()
@@ -38,12 +38,9 @@ class Config:
                 name = l[:l.find(".", l.find(".") + 1)]
                 id = l[l.find(".", l.find(".") + 1) + 1:l.find("=")]
                 value = l[l.find("=") + 1:]
-                print(name, id, value)
+                # print(name, id, value)
                 if name in modnames:
                     self.modules[modnames.index(name)].values[id].load_str_value(value)
-        for i in self.modules:
-            for k, v in i.values.items():
-                print(k, v.value)
 
     def save_configs(self):
         path = self.ensure_config()

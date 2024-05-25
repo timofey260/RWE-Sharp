@@ -9,6 +9,8 @@ class Tile(ItemDataItem):
         self.description: str = data["description"]
         self.bfTiles: list[int, int] = data["bfTiles"]
         self.image: QImage = data["image"]
+        self.image2: QImage = data.get("image2", QImage(1, 1, QImage.Format.Format_RGBA64))
+        self.image3: QImage = data.get("image3", QImage(1, 1, QImage.Format.Format_RGBA64))
         self.size: list[int, int] = data["size"]
         self.category: str = data["category"]
         self.color: QColor = data["color"]

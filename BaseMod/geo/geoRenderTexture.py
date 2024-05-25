@@ -17,14 +17,14 @@ class GeoRenderTexture(RenderTexture):
         self.binfo: dict = CONSTS.get("geo_image_config", {}).get("blocksinfo", {})
         self.sinfo: dict = CONSTS.get("geo_image_config", {}).get("stackablesinfo", {})
         self._sz = CONSTS.get("geo_image_config", {}).get("itemsize", 100)
-        self.draw_layer()
-
+        # self.draw_layer()
 
     def draw_layer(self):
         self.image.fill(QColor(0, 0, 0, 0))
         for xp, x in enumerate(self.manager.level["GE"]):
             for yp, y in enumerate(x):
                 self.draw_geo(xp, yp)
+        self.redraw()
 
     def redraw_beams(self):
         for xp, x in enumerate(self.manager.level["GE"]):

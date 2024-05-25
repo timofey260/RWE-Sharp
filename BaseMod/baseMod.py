@@ -4,6 +4,7 @@ from .geo.geometryModule import GeoModule
 from .geo.geoConfig import GeoConfig, GeoViewConfig
 
 from .tiles.tileModule import TileModule
+from .tiles.tileConfig import TileViewConfig
 
 from .globalConfig import globalConfig
 from PySide6.QtWidgets import QWidget, QCheckBox
@@ -32,14 +33,17 @@ class BaseMod(Mod):
 
         self.tilemodule: TileModule | None = None
         self.tileview: TileViewUI | None = None
+        self.tileviewconfig: TileViewConfig | None = None
 
     def pre_mod_init(self):
         self.config = globalConfig(self)
         self.geoconfig = GeoConfig(self)
         self.geoviewconfig = GeoViewConfig(self)
+        self.tileviewconfig = TileViewConfig(self)
         self.add_config_module(self.config)
         self.add_config_module(self.geoconfig)
         self.add_config_module(self.geoviewconfig)
+        self.add_config_module(self.tileviewconfig)
 
     def mod_init(self):
         from .geo.geoUIConnectors import GeoUI, GeoViewUI

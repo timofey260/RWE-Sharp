@@ -1,6 +1,6 @@
 from .ConfigBase import Configurable
 from PySide6.QtCore import Slot, Signal, Qt
-from PySide6.QtWidgets import QCheckBox
+from PySide6.QtWidgets import QCheckBox, QRadioButton
 import json
 
 
@@ -53,6 +53,7 @@ class IntConfigurable(Configurable):
 
     def __init__(self, name: str, default: int=0, description: str=""):
         super().__init__(name, default, description)
+        self.radiolist = []
 
     def load_str_value(self, text: str) -> None:
         self.value = int(text)
@@ -62,8 +63,18 @@ class IntConfigurable(Configurable):
         return str(self.value)
 
     @Slot(int)
-    def update_value(self, value: int):
-        super().update_value(value)
+    @Slot()
+    def update_value(self, value: int | None):
+        if isinstance(self.sender(), QRadioButton) and self.sender() in self.radiolist:
+            super().update_value(self.radiolist.index(self.sender()))
+        elif value is not None:
+            super().update_value(value)
+
+    def connect_radio(self, buttons: list[QRadioButton]):
+        self.radiolist = buttons
+        self.radiolist[self.value].setChecked(True)
+        for i in self.radiolist:
+            i.clicked.connect(self.update_value)
 
 
 class FloatConfigurable(Configurable):
