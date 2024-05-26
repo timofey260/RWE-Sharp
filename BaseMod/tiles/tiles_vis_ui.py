@@ -31,7 +31,7 @@ class Ui_TilesView(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 360, 354))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, -54, 343, 408))
         self.verticalLayout_2 = QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.VTilesMaterialsLabel = QLabel(self.scrollAreaWidgetContents)
@@ -76,36 +76,51 @@ class Ui_TilesView(object):
 
         self.verticalLayout_2.addWidget(self.VTilesHeads)
 
-        self.VTilesMaterialClassic = QRadioButton(self.scrollAreaWidgetContents)
-        self.VTilesMaterialClassic.setObjectName(u"VTilesMaterialClassic")
-        self.VTilesMaterialClassic.setChecked(True)
+        self.VTilesClassic = QRadioButton(self.scrollAreaWidgetContents)
+        self.VTilesClassic.setObjectName(u"VTilesClassic")
+        self.VTilesClassic.setChecked(True)
 
-        self.verticalLayout_2.addWidget(self.VTilesMaterialClassic)
+        self.verticalLayout_2.addWidget(self.VTilesClassic)
 
-        self.VTilesMaterialHenry = QRadioButton(self.scrollAreaWidgetContents)
-        self.VTilesMaterialHenry.setObjectName(u"VTilesMaterialHenry")
+        self.VTilesImage = QRadioButton(self.scrollAreaWidgetContents)
+        self.VTilesImage.setObjectName(u"VTilesImage")
 
-        self.verticalLayout_2.addWidget(self.VTilesMaterialHenry)
+        self.verticalLayout_2.addWidget(self.VTilesImage)
 
-        self.VTilesMaterialUnrendered = QRadioButton(self.scrollAreaWidgetContents)
-        self.VTilesMaterialUnrendered.setObjectName(u"VTilesMaterialUnrendered")
+        self.VTilesHenry = QRadioButton(self.scrollAreaWidgetContents)
+        self.VTilesHenry.setObjectName(u"VTilesHenry")
 
-        self.verticalLayout_2.addWidget(self.VTilesMaterialUnrendered)
+        self.verticalLayout_2.addWidget(self.VTilesHenry)
 
-        self.VTilesMaterialRendered = QRadioButton(self.scrollAreaWidgetContents)
-        self.VTilesMaterialRendered.setObjectName(u"VTilesMaterialRendered")
+        self.VTilesUnrendered = QRadioButton(self.scrollAreaWidgetContents)
+        self.VTilesUnrendered.setObjectName(u"VTilesUnrendered")
 
-        self.verticalLayout_2.addWidget(self.VTilesMaterialRendered)
+        self.verticalLayout_2.addWidget(self.VTilesUnrendered)
 
-        self.PalleteSelectButton = QPushButton(self.scrollAreaWidgetContents)
-        self.PalleteSelectButton.setObjectName(u"PalleteSelectButton")
+        self.VTilesRendered = QRadioButton(self.scrollAreaWidgetContents)
+        self.VTilesRendered.setObjectName(u"VTilesRendered")
+
+        self.verticalLayout_2.addWidget(self.VTilesRendered)
+
+        self.VTilesRendered_shade = QRadioButton(self.scrollAreaWidgetContents)
+        self.VTilesRendered_shade.setObjectName(u"VTilesRendered_shade")
+
+        self.verticalLayout_2.addWidget(self.VTilesRendered_shade)
+
+        self.VTilesRendered_rain = QRadioButton(self.scrollAreaWidgetContents)
+        self.VTilesRendered_rain.setObjectName(u"VTilesRendered_rain")
+
+        self.verticalLayout_2.addWidget(self.VTilesRendered_rain)
+
+        self.PaletteSelectButton = QPushButton(self.scrollAreaWidgetContents)
+        self.PaletteSelectButton.setObjectName(u"PaletteSelectButton")
         sizePolicy = QSizePolicy(QSizePolicy.Policy.Maximum, QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.PalleteSelectButton.sizePolicy().hasHeightForWidth())
-        self.PalleteSelectButton.setSizePolicy(sizePolicy)
+        sizePolicy.setHeightForWidth(self.PaletteSelectButton.sizePolicy().hasHeightForWidth())
+        self.PaletteSelectButton.setSizePolicy(sizePolicy)
 
-        self.verticalLayout_2.addWidget(self.PalleteSelectButton)
+        self.verticalLayout_2.addWidget(self.PaletteSelectButton)
 
         self.verticalSpacer = QSpacerItem(273, 103, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
@@ -135,10 +150,13 @@ class Ui_TilesView(object):
         self.VTilesLayer3.setText(QCoreApplication.translate("TilesView", u"Layer 3", None))
         self.VTilesMaterials.setText(QCoreApplication.translate("TilesView", u"Materials", None))
         self.VTilesHeads.setText(QCoreApplication.translate("TilesView", u"Tile heads", None))
-        self.VTilesMaterialClassic.setText(QCoreApplication.translate("TilesView", u"Classic tile preview", None))
-        self.VTilesMaterialHenry.setText(QCoreApplication.translate("TilesView", u"Henry's category colors", None))
-        self.VTilesMaterialUnrendered.setText(QCoreApplication.translate("TilesView", u"Unrendered tiles", None))
-        self.VTilesMaterialRendered.setText(QCoreApplication.translate("TilesView", u"Render preview", None))
-        self.PalleteSelectButton.setText(QCoreApplication.translate("TilesView", u"Select Pallete", None))
+        self.VTilesClassic.setText(QCoreApplication.translate("TilesView", u"Classic tile preview", None))
+        self.VTilesImage.setText(QCoreApplication.translate("TilesView", u"Tile image preview", None))
+        self.VTilesHenry.setText(QCoreApplication.translate("TilesView", u"Henry's category colors", None))
+        self.VTilesUnrendered.setText(QCoreApplication.translate("TilesView", u"Unrendered tiles", None))
+        self.VTilesRendered.setText(QCoreApplication.translate("TilesView", u"Render preview (sun)", None))
+        self.VTilesRendered_shade.setText(QCoreApplication.translate("TilesView", u"Render preview (shaded)", None))
+        self.VTilesRendered_rain.setText(QCoreApplication.translate("TilesView", u"Render preview (rain)", None))
+        self.PaletteSelectButton.setText(QCoreApplication.translate("TilesView", u"Select Palette", None))
     # retranslateUi
 

@@ -62,9 +62,9 @@ class GeoModule(Module):
         self.l3.redraw_pipes()
 
     def init_module_textures(self):
-        self.l1.renderedtexture.setOpacity(self.mod.config.opacityl1.value if self.mod.geoviewconfig.drawl1.value else 0)
-        self.l2.renderedtexture.setOpacity(self.mod.config.opacityl2.value if self.mod.geoviewconfig.drawl2.value else 0)
-        self.l3.renderedtexture.setOpacity(self.mod.config.opacityl3.value if self.mod.geoviewconfig.drawl3.value else 0)
+        self.check_l1_change()
+        self.check_l2_change()
+        self.check_l3_change()
 
     def render_module(self):
         self.l1.draw_layer()

@@ -23,9 +23,9 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>0</y>
-        <width>360</width>
-        <height>354</height>
+        <y>-54</y>
+        <width>343</width>
+        <height>408</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -100,7 +100,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QRadioButton" name="VTilesMaterialClassic">
+        <widget class="QRadioButton" name="VTilesClassic">
          <property name="text">
           <string>Classic tile preview</string>
          </property>
@@ -110,28 +110,49 @@
         </widget>
        </item>
        <item>
-        <widget class="QRadioButton" name="VTilesMaterialHenry">
+        <widget class="QRadioButton" name="VTilesImage">
+         <property name="text">
+          <string>Tile image preview</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QRadioButton" name="VTilesHenry">
          <property name="text">
           <string>Henry's category colors</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QRadioButton" name="VTilesMaterialUnrendered">
+        <widget class="QRadioButton" name="VTilesUnrendered">
          <property name="text">
           <string>Unrendered tiles</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QRadioButton" name="VTilesMaterialRendered">
+        <widget class="QRadioButton" name="VTilesRendered">
          <property name="text">
-          <string>Render preview</string>
+          <string>Render preview (sun)</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="PalleteSelectButton">
+        <widget class="QRadioButton" name="VTilesRendered_shade">
+         <property name="text">
+          <string>Render preview (shaded)</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QRadioButton" name="VTilesRendered_rain">
+         <property name="text">
+          <string>Render preview (rain)</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="PaletteSelectButton">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -139,7 +160,7 @@
           </sizepolicy>
          </property>
          <property name="text">
-          <string>Select Pallete</string>
+          <string>Select Palette</string>
          </property>
         </widget>
        </item>

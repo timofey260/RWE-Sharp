@@ -30,10 +30,10 @@ class Config:
         with open(path) as f:
             for l in f.readlines():
                 l = l.strip()
-                if len(l) == 0 or l[0] == "#":
+                if len(l) == 0 or l[0] == "//":
                     continue
-                if l.find("#") != -1:
-                    l = l[:l.find("#")]
+                if l.find("//") != -1:
+                    l = l[:l.find("//")]
 
                 name = l[:l.find(".", l.find(".") + 1)]
                 id = l[l.find(".", l.find(".") + 1) + 1:l.find("=")]
@@ -46,10 +46,10 @@ class Config:
         path = self.ensure_config()
         with open(path, "w") as f:
             for i in self.modules:
-                f.write(f"# {i.subeditor.title()}\n")
+                f.write(f"// {i.subeditor.title()}\n")
                 for k, v in i.values.items():
                     if v.description.strip() != "":
-                        f.write(f"# {v.description}\n")
+                        f.write(f"// {v.description}\n")
                     f.write(f"{i.mod.author_name}:{i.subeditor}.{k}={v.save_str_value()}\n")
                 f.write("\n\n")
 

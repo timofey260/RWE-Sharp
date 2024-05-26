@@ -1,7 +1,8 @@
 from .tiles_vis_ui import Ui_TilesView
-from PySide6.QtWidgets import QWidget
+from PySide6.QtWidgets import QWidget, QFileDialog
 from PySide6.QtCore import Slot, Qt
 from ..baseMod import BaseMod
+from core.info import PATH_FILES_IMAGES_PALETTES
 
 
 class TileViewUI(QWidget):
@@ -17,11 +18,22 @@ class TileViewUI(QWidget):
         self.ui.VTilesAllTiles.checkStateChanged.connect(self.all_layers)
         self.mod.tileviewconfig.drawoption.connect_radio(
             [
-                self.ui.VTilesMaterialClassic,
-                self.ui.VTilesMaterialHenry,
-                self.ui.VTilesMaterialUnrendered,
-                self.ui.VTilesMaterialRendered
+                self.ui.VTilesClassic,
+                self.ui.VTilesImage,
+                self.ui.VTilesHenry,
+                self.ui.VTilesUnrendered,
+                self.ui.VTilesRendered,
+                self.ui.VTilesRendered_shade,
+                self.ui.VTilesRendered_rain
             ])
+        self.ui.PaletteSelectButton.clicked.connect(self.change_palette)
+
+    @Slot()
+    def change_palette(self):
+        file, _ = QFileDialog.getOpenFileName(self, "Select a Palette", PATH_FILES_IMAGES_PALETTES)
+        print(file)
+        self.mod.tileviewconfig.palettepath.update_value(file)
+        self.mod.tileviewconfig.drawoption.update_value(4)
 
     @Slot(Qt.CheckState)
     def all_layers(self, state: Qt.CheckState):

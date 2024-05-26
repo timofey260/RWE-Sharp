@@ -2,7 +2,7 @@ from core.Modify.RenderTexture import RenderTexture
 from PySide6.QtCore import QRect, QLine, Qt, Slot
 from PySide6.QtGui import QBrush, QColor, QPen, QPainter
 from core.info import CONSTS, CELLSIZE, SPRITESIZE
-
+from core.Loaders.TileLoader import colortable
 
 class TileRenderTexture(RenderTexture):
     def __init__(self, module, layer):
@@ -34,6 +34,17 @@ class TileRenderTexture(RenderTexture):
                     self.draw_tile(xp, yp)
         self.redraw()
 
+    def color_colortable(self, color: QColor) -> list[int]:
+        table = []
+        mult = 1
+        table = []
+        for i in range(3):
+            for i2 in range(10):
+                newcol = QColor.fromHsv(color.hue(), color.saturation(), color.value() - 90 + (30 * i + i2))
+                table.append(newcol.rgba())
+        table.append(QColor(0, 0, 0, 0).rgba())
+        return table
+
     def draw_tile(self, x: int, y: int):
         # drawrect = QRect(x * CELLSIZE, y * CELLSIZE, CELLSIZE, CELLSIZE)
         tile = self.manager.level.TE_data(x, y, self.layer)
@@ -41,10 +52,13 @@ class TileRenderTexture(RenderTexture):
             case "default":
                 return
             case "material":
-                sz = CONSTS.get("materialsize", [6, 8])
-                self.painter.setBrush(QBrush(QColor(*CONSTS.get("materials", {}).get(tile["data"], [255, 0, 0, 255]))))
-                self.painter.setPen(Qt.PenStyle.NoPen)
-                self.painter.drawRoundedRect(x * CELLSIZE + sz[0], y * CELLSIZE + sz[0], sz[1], sz[1], 2, 2)
+                if self.module.mod.tileviewconfig.drawoption.value == 0:
+                    sz = CONSTS.get("materialsize", [6, 8])
+                    self.painter.setBrush(QBrush(QColor(*CONSTS.get("materials", {}).get(tile["data"], [255, 0, 0, 255]))))
+                    self.painter.setPen(Qt.PenStyle.NoPen)
+                    self.painter.drawRoundedRect(x * CELLSIZE + sz[0], y * CELLSIZE + sz[0], sz[1], sz[1], 2, 2)
+                elif self.module.mod.tileviewconfig.drawoption.value == 3:
+                    self.painter.fillRect(x * CELLSIZE, y * CELLSIZE, CELLSIZE, CELLSIZE, QColor(122, 0, 0, 255))
             # old version
             # case "tileBody":
             #     pointer = fromarr(tile["data"][0], "point")
@@ -88,12 +102,26 @@ class TileRenderTexture(RenderTexture):
                 cposxo = int((foundtile.size[0] * .5) + .5) - 1
                 cposyo = int((foundtile.size[1] * .5) + .5) - 1
                 if self.module.mod.tileviewconfig.drawoption.value == 1:
-                    drawrect = QRect((x - cposxo) * CELLSIZE,
-                                     (y - cposyo) * CELLSIZE,
-                                     CELLSIZE * foundtile.size[0] + foundtile.bfTiles,
-                                     CELLSIZE * foundtile.size[1] + foundtile.bfTiles)  # it works trust
+                    drawrect = QRect((x - cposxo - foundtile.bfTiles) * CELLSIZE,
+                                     (y - cposyo - foundtile.bfTiles) * CELLSIZE,
+                                     CELLSIZE * (foundtile.size[0] + foundtile.bfTiles * 2),
+                                     CELLSIZE * (foundtile.size[1] + foundtile.bfTiles * 2))  # it works trust
 
                     self.painter.drawImage(drawrect, foundtile.image2)
+
+                elif self.module.mod.tileviewconfig.drawoption.value in [2, 3, 4, 5, 6]:
+                    drawrect = QRect((x - cposxo - foundtile.bfTiles) * CELLSIZE,
+                                     (y - cposyo - foundtile.bfTiles) * CELLSIZE,
+                                     CELLSIZE * (foundtile.size[0] + foundtile.bfTiles * 2),
+                                     CELLSIZE * (foundtile.size[1] + foundtile.bfTiles * 2))  # it works trust
+                    if self.module.mod.tileviewconfig.drawoption.value == 3:
+                        foundtile.image4.setColorTable(colortable[self.layer])
+                    elif self.module.mod.tileviewconfig.drawoption.value == 2:
+                        foundtile.image4.setColorTable(self.color_colortable(foundtile.color))
+                    else:
+                        col = self.module.mod.tileviewconfig.drawoption.value - 4
+                        foundtile.image4.setColorTable(self.module.colortable[col][self.layer])
+                    self.painter.drawImage(drawrect, foundtile.image4)
                 else:
                     sourcerect = QRect(0, 0, SPRITESIZE * foundtile.size[0], SPRITESIZE * foundtile.size[1])
                     drawrect = QRect((x - cposxo) * CELLSIZE, (y - cposyo) * CELLSIZE, CELLSIZE * foundtile.size[0], CELLSIZE * foundtile.size[1])  # it works trust

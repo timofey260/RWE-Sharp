@@ -6,13 +6,15 @@ import datetime
 json = jsoncomment.JsonComment()
 
 if getattr(sys, 'frozen', False):
-    PATH = os.path.dirname(sys.executable) + "\\"
+    PATH = os.path.dirname(sys.executable)
 else:
     from pathlib import Path
-    PATH = str(Path(__file__).parent.parent.absolute()) + "\\"
+    PATH = str(Path(__file__).parent.parent.absolute())
 
-PATH_FILES = os.path.join(PATH + "files")
+PATH_FILES = os.path.join(PATH, "files")
+PATH_FILES_CACHE = os.path.join(PATH_FILES, "cache")
 PATH_FILES_IMAGES = os.path.join(PATH_FILES, "images")
+PATH_FILES_IMAGES_PALETTES = os.path.join(PATH_FILES_IMAGES, "palettes")
 PATH_MODS = os.path.join(PATH_FILES, "mods")
 PATH_DRIZZLE = os.path.join(PATH, "drizzle")
 PATH_MAT_PREVIEWS = os.path.join(PATH_FILES_IMAGES, "material_previews")

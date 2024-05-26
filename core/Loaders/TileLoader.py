@@ -4,10 +4,19 @@ from core.info import PATH
 from core.Loaders.Tile import Tile
 from ui.splashuiconnector import SplashDialog
 from PySide6.QtGui import QColor, QPixmap, QImage, QPainter
-from PySide6.QtCore import QRect
+from PySide6.QtCore import QRect, Qt
 import json
 import os
-from core.info import log_to_load_log, PATH_DRIZZLE, CELLSIZE, SPRITESIZE, CONSTS, PATH_MAT_PREVIEWS
+from core.info import log_to_load_log, PATH_DRIZZLE, CELLSIZE, SPRITESIZE, CONSTS, PATH_MAT_PREVIEWS, PATH_FILES_CACHE, PATH_FILES_IMAGES_PALETTES
+
+colortable = [[], [], []]
+for l in range(3):
+    for i in range(3):
+        for i2 in range(10):
+            colortable[l].append(QColor(91 + 30 * i + i2 - 10 * l, 0, 0, 255).rgba())
+colortable[0].append(QColor(0, 0, 0, 0).rgba())
+colortable[1].append(QColor(0, 0, 0, 0).rgba())
+colortable[2].append(QColor(0, 0, 0, 0).rgba())
 
 
 def init_solve(file: str):
@@ -51,6 +60,20 @@ def init_solve(file: str):
     return output
 
 
+def palette_to_colortable(palette: QImage) -> list[list[list[int], list[int], list[int]], list[list[int], list[int], list[int]], list[list[int], list[int], list[int]], QColor, QColor]:
+    table = [[[], [], []], [[], [], []], [[], [], []], palette.pixelColor(0, 0), palette.pixelColor(0, 8)] # 3x3x3 array
+    for k in range(3):
+        for l in range(3):
+            for i in range(30):
+                pc = palette.pixelColor(i, [2, 5, 13][k] + l)
+                table[k][i // 10].append(pc.rgb())
+        table[k][0].append(QColor(0, 0, 0, 0).rgba())
+        table[k][1].append(QColor(0, 0, 0, 0).rgba())
+        table[k][2].append(QColor(0, 0, 0, 0).rgba())
+    return table
+
+
+
 def loadTiles(window: SplashDialog) -> ItemData:
     print("Loading Tiles...")
     def printmessage(message, message2=None):
@@ -62,6 +85,7 @@ def loadTiles(window: SplashDialog) -> ItemData:
     length = sum(list(map(lambda x: len(x["items"]), solved_copy.data)))
     print(f"loading {length} tiles")
     tilenum = 1
+    renderstep = 15
     for catnum, catitem in enumerate(solved_copy.data):
         cat = catitem["name"]
 
@@ -123,7 +147,7 @@ def loadTiles(window: SplashDialog) -> ItemData:
             except ValueError:
                 log_to_load_log(f"Error loading {item['nm']}", True)
 
-            #making image2
+            #making image2, 3, and 4
             bftiles = item.get("bfTiles", 0)
             img2 = QImage((sz[0] + bftiles * 2) * CELLSIZE, (sz[1] + bftiles * 2) * CELLSIZE, QImage.Format.Format_RGBA64)
             img2.fill(QColor(0, 0, 0, 0))
@@ -137,8 +161,31 @@ def loadTiles(window: SplashDialog) -> ItemData:
                     p.drawImage(0, 0, origimg.copy(0, (repl - i - 1) * img2.height(), img2.width(), img2.height()))
                     # p.setOpacity(min(.2, i / repl + .5))
                     p.setCompositionMode(p.CompositionMode.CompositionMode_SourceAtop)
-                    p.fillRect(0, 0, img2.width(), img2.height(), QColor(0, 0, 0, 15))
+                    p.fillRect(0, 0, img2.width(), img2.height(), QColor(0, 0, 0, renderstep))
                     p.setCompositionMode(p.CompositionMode.CompositionMode_SourceOver)
+            # img3 = img2.convertToFormat(QImage.Format.Format_Indexed8)
+            itempath = os.path.join(PATH_FILES_CACHE, item["nm"] + ".png")
+            if os.path.exists(itempath):
+                img3 = QImage(itempath)
+            else:
+                img3 = QImage(img2.width(), img2.height(), QImage.Format.Format_RGBA64)
+                for xp in range(img3.width()):
+                    for yp in range(img3.height()):
+                        pc = img2.pixelColor(xp, yp)
+                        if pc.alpha() == 0 or pc.rgb() == QColor(0, 0, 0).rgb():
+                            img3.setPixelColor(xp, yp, QColor(0, 0, 0, 0))
+                            continue
+                        if pc.red() > pc.green() == pc.blue():
+                            pc = QColor(91 + (255 - pc.red()) // renderstep, 0, 0, 255)
+                        elif pc.green() > pc.red() == pc.blue():
+                            pc = QColor(121 + (255 - pc.green()) // renderstep, 0, 0, 255)
+                        elif pc.blue() > pc.green() == pc.red():
+                            pc = QColor(151 + (255 - pc.blue()) // renderstep, 0, 0, 255)
+                        img3.setPixelColor(xp, yp, pc)
+                img3 = img3.convertToFormat(QImage.Format.Format_Indexed8, colortable[0], Qt.ImageConversionFlag.ThresholdDither)
+                img3.save(itempath)
+
+            img4 = img3.copy()
 
             newitem = {
                 "nm": item["nm"],
@@ -147,8 +194,10 @@ def loadTiles(window: SplashDialog) -> ItemData:
                 "description": "Size" + str(sz),
                 "bfTiles": item.get("bfTiles", 0),
                 "image": img,  # normal rwe# style
-                "image2": img2,  # henry rgb
-                "image3": img,  # depth color map thingy
+                "image2": img2,  # tile image
+                "image3": img3,  # henry colored
+                "image4": img4,  # rendered tile
+                # "image5": img,  # rendered tile with applied palette
                 "size": sz,
                 "category": cat,
                 "color": colr,
