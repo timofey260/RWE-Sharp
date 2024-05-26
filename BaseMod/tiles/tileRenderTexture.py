@@ -126,3 +126,6 @@ class TileRenderTexture(RenderTexture):
                     sourcerect = QRect(0, 0, SPRITESIZE * foundtile.size[0], SPRITESIZE * foundtile.size[1])
                     drawrect = QRect((x - cposxo) * CELLSIZE, (y - cposyo) * CELLSIZE, CELLSIZE * foundtile.size[0], CELLSIZE * foundtile.size[1])  # it works trust
                     self.painter.drawImage(drawrect, foundtile.image, sourcerect)
+
+    def draw_material(self):
+        pass
