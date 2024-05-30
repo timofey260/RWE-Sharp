@@ -23,7 +23,7 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>-54</y>
+        <y>0</y>
         <width>343</width>
         <height>408</height>
        </rect>
@@ -81,6 +81,9 @@
        </item>
        <item>
         <widget class="QCheckBox" name="VTilesMaterials">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
          <property name="text">
           <string>Materials</string>
          </property>
@@ -91,6 +94,9 @@
        </item>
        <item>
         <widget class="QCheckBox" name="VTilesHeads">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
          <property name="text">
           <string>Tile heads</string>
          </property>
@@ -187,81 +193,81 @@
  <connections>
   <connection>
    <sender>VTilesAllTiles</sender>
-   <signal>clicked(bool)</signal>
+   <signal>toggled(bool)</signal>
    <receiver>VTilesLayer1</receiver>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>70</x>
-     <y>57</y>
+     <x>67</x>
+     <y>52</y>
     </hint>
     <hint type="destinationlabel">
-     <x>70</x>
-     <y>73</y>
+     <x>66</x>
+     <y>75</y>
     </hint>
    </hints>
   </connection>
   <connection>
    <sender>VTilesAllTiles</sender>
-   <signal>clicked(bool)</signal>
+   <signal>toggled(bool)</signal>
    <receiver>VTilesLayer2</receiver>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>131</x>
-     <y>52</y>
+     <x>90</x>
+     <y>51</y>
     </hint>
     <hint type="destinationlabel">
-     <x>135</x>
-     <y>105</y>
+     <x>89</x>
+     <y>97</y>
     </hint>
    </hints>
   </connection>
   <connection>
    <sender>VTilesAllTiles</sender>
-   <signal>clicked(bool)</signal>
+   <signal>toggled(bool)</signal>
    <receiver>VTilesLayer3</receiver>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>175</x>
+     <x>119</x>
      <y>54</y>
     </hint>
     <hint type="destinationlabel">
-     <x>181</x>
-     <y>124</y>
+     <x>120</x>
+     <y>127</y>
     </hint>
    </hints>
   </connection>
   <connection>
    <sender>VTilesAllTiles</sender>
-   <signal>clicked(bool)</signal>
+   <signal>toggled(bool)</signal>
    <receiver>VTilesMaterials</receiver>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>232</x>
-     <y>55</y>
+     <x>146</x>
+     <y>52</y>
     </hint>
     <hint type="destinationlabel">
-     <x>229</x>
-     <y>159</y>
+     <x>141</x>
+     <y>150</y>
     </hint>
    </hints>
   </connection>
   <connection>
    <sender>VTilesAllTiles</sender>
-   <signal>clicked(bool)</signal>
+   <signal>toggled(bool)</signal>
    <receiver>VTilesHeads</receiver>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>277</x>
-     <y>52</y>
+     <x>166</x>
+     <y>51</y>
     </hint>
     <hint type="destinationlabel">
-     <x>264</x>
-     <y>179</y>
+     <x>161</x>
+     <y>175</y>
     </hint>
    </hints>
   </connection>

@@ -1,5 +1,6 @@
 from core.Modify.ConfigModule import ConfigModule
 from core.configTypes.BaseTypes import *
+from core.configTypes.QtTypes import *
 
 
 class globalConfig(ConfigModule):
@@ -13,3 +14,6 @@ class globalConfig(ConfigModule):
         self.add_config(self.opacityl2)
         self.opacityl3 = FloatConfigurable("opacityl3", .2, "opacity of the third layer")
         self.add_config(self.opacityl3)
+
+        self.backgroundcolor = ColorConfigurable("bgcolor", QColor(150, 150, 150), "color of the background")
+        self.add_config(self.backgroundcolor)

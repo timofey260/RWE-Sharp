@@ -43,3 +43,10 @@ class TileViewUI(QWidget):
             self.ui.VTilesLayer3.setChecked(True)
             self.ui.VTilesHeads.setChecked(True)
             self.ui.VTilesMaterials.setChecked(True)
+
+    @Slot(Qt.CheckState)
+    def toggle_tiles(self, state: Qt.CheckState):
+        v = state == Qt.CheckState.Checked
+        self.mod.tileviewconfig.drawl1.update_value(v)
+        self.mod.tileviewconfig.drawl2.update_value(v)
+        self.mod.tileviewconfig.drawl3.update_value(v)

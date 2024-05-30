@@ -124,12 +124,12 @@ class Ui_GeoView(object):
 
 
         self.retranslateUi(GeoView)
-        self.VGeoAll.clicked["bool"].connect(self.VGeoLayer1.setDisabled)
-        self.VGeoAll.clicked["bool"].connect(self.VGeoLayer2.setDisabled)
-        self.VGeoAll.clicked["bool"].connect(self.VGeoLayer3.setDisabled)
-        self.VGeoAll.clicked["bool"].connect(self.VGeoBeams.setDisabled)
-        self.VGeoAll.clicked["bool"].connect(self.VGeoPipes.setDisabled)
-        self.VGeoAll.clicked["bool"].connect(self.VGeoMisc.setDisabled)
+        self.VGeoAll.toggled.connect(self.VGeoLayer1.setDisabled)
+        self.VGeoAll.toggled.connect(self.VGeoLayer2.setDisabled)
+        self.VGeoAll.toggled.connect(self.VGeoLayer3.setDisabled)
+        self.VGeoAll.toggled.connect(self.VGeoBeams.setDisabled)
+        self.VGeoAll.toggled.connect(self.VGeoPipes.setDisabled)
+        self.VGeoAll.toggled.connect(self.VGeoMisc.setDisabled)
 
         QMetaObject.connectSlotsByName(GeoView)
     # setupUi

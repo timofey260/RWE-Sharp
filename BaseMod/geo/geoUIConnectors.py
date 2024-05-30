@@ -2,6 +2,7 @@ from .geometry_ui import Ui_Geo
 from .geometry_vis_ui import Ui_GeoView
 from PySide6.QtWidgets import QWidget
 from PySide6.QtCore import Slot, Qt
+from PySide6.QtGui import QAction
 from ..baseMod import BaseMod
 
 
@@ -74,12 +75,18 @@ class GeoViewUI(QWidget):
         self.ui = Ui_GeoView()
         self.ui.setupUi(self)
         self.mod.geoviewconfig.drawl1.connect_checkbox(self.ui.VGeoLayer1)
-        self.mod.geoviewconfig.drawl2.connect_checkbox(self.ui.VGeoLayer2)
-        self.mod.geoviewconfig.drawl3.connect_checkbox(self.ui.VGeoLayer3)
-        self.mod.geoviewconfig.drawlbeams.connect_checkbox(self.ui.VGeoBeams)
-        self.mod.geoviewconfig.drawlpipes.connect_checkbox(self.ui.VGeoPipes)
-        self.mod.geoviewconfig.drawlmisc.connect_checkbox(self.ui.VGeoMisc)
+        self.mod.geoviewconfig.drawl2.connect_checkbox(self.ui.VGeoLayer2, self.mod.geoviewconfig.drawl2_key)
+        self.mod.geoviewconfig.drawl3.connect_checkbox(self.ui.VGeoLayer3, self.mod.geoviewconfig.drawl3_key)
+        self.mod.geoviewconfig.drawlbeams.connect_checkbox(self.ui.VGeoBeams, self.mod.geoviewconfig.drawlbeams_key)
+        self.mod.geoviewconfig.drawlpipes.connect_checkbox(self.ui.VGeoPipes, self.mod.geoviewconfig.drawlpipes_key)
+        self.mod.geoviewconfig.drawlmisc.connect_checkbox(self.ui.VGeoMisc, self.mod.geoviewconfig.drawlmisc_key)
         self.ui.VGeoAll.checkStateChanged.connect(self.all_layers)
+        self.mod.geoviewconfig.drawAll.connect_checkbox(self.ui.VGeoAll)
+        self.bgeo = QAction("geo")
+        self.bgeo.setShortcut(self.mod.geoviewconfig.drawl1_key.value)
+        self.bgeo.triggered.connect(self.mod.geoviewconfig.drawl1.flip)
+        self.mod.manager.view_menu.addAction("geo")
+        # self.mod.manager.window.ui.menuFile.addAction(self.bgeo)
 
 
     @Slot(Qt.CheckState)
@@ -98,11 +105,7 @@ class GeoViewUI(QWidget):
 
     @Slot(Qt.CheckState)
     def toggle_geo(self, state: Qt.CheckState):
-        if state == Qt.CheckState.Unchecked:
-            self.mod.geomodule.check_l1_change(state)
-            self.mod.geomodule.check_l2_change(state)
-            self.mod.geomodule.check_l3_change(state)
-        else:
-            self.mod.geomodule.check_l1_change(self.ui.VGeoLayer1.checkState())
-            self.mod.geomodule.check_l2_change(self.ui.VGeoLayer2.checkState())
-            self.mod.geomodule.check_l3_change(self.ui.VGeoLayer3.checkState())
+        v = state == Qt.CheckState.Checked
+        self.mod.geoviewconfig.drawl1.update_value(v)
+        self.mod.geoviewconfig.drawl2.update_value(v)
+        self.mod.geoviewconfig.drawl3.update_value(v)

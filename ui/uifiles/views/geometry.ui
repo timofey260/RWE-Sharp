@@ -203,97 +203,97 @@
  <connections>
   <connection>
    <sender>VGeoAll</sender>
-   <signal>clicked(bool)</signal>
+   <signal>toggled(bool)</signal>
    <receiver>VGeoLayer1</receiver>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>71</x>
-     <y>50</y>
+     <x>120</x>
+     <y>56</y>
     </hint>
     <hint type="destinationlabel">
-     <x>70</x>
-     <y>73</y>
+     <x>118</x>
+     <y>75</y>
     </hint>
    </hints>
   </connection>
   <connection>
    <sender>VGeoAll</sender>
-   <signal>clicked(bool)</signal>
+   <signal>toggled(bool)</signal>
    <receiver>VGeoLayer2</receiver>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>97</x>
-     <y>52</y>
+     <x>142</x>
+     <y>59</y>
     </hint>
     <hint type="destinationlabel">
-     <x>102</x>
-     <y>110</y>
+     <x>137</x>
+     <y>97</y>
     </hint>
    </hints>
   </connection>
   <connection>
    <sender>VGeoAll</sender>
-   <signal>clicked(bool)</signal>
+   <signal>toggled(bool)</signal>
    <receiver>VGeoLayer3</receiver>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>123</x>
-     <y>52</y>
+     <x>158</x>
+     <y>57</y>
     </hint>
     <hint type="destinationlabel">
-     <x>123</x>
-     <y>130</y>
+     <x>161</x>
+     <y>131</y>
     </hint>
    </hints>
   </connection>
   <connection>
    <sender>VGeoAll</sender>
-   <signal>clicked(bool)</signal>
+   <signal>toggled(bool)</signal>
    <receiver>VGeoBeams</receiver>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>142</x>
-     <y>53</y>
+     <x>182</x>
+     <y>55</y>
     </hint>
     <hint type="destinationlabel">
-     <x>140</x>
-     <y>154</y>
+     <x>178</x>
+     <y>160</y>
     </hint>
    </hints>
   </connection>
   <connection>
    <sender>VGeoAll</sender>
-   <signal>clicked(bool)</signal>
+   <signal>toggled(bool)</signal>
    <receiver>VGeoPipes</receiver>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>160</x>
-     <y>51</y>
+     <x>206</x>
+     <y>57</y>
     </hint>
     <hint type="destinationlabel">
-     <x>155</x>
-     <y>188</y>
+     <x>207</x>
+     <y>179</y>
     </hint>
    </hints>
   </connection>
   <connection>
    <sender>VGeoAll</sender>
-   <signal>clicked(bool)</signal>
+   <signal>toggled(bool)</signal>
    <receiver>VGeoMisc</receiver>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>179</x>
-     <y>49</y>
+     <x>227</x>
+     <y>54</y>
     </hint>
     <hint type="destinationlabel">
-     <x>167</x>
-     <y>209</y>
+     <x>232</x>
+     <y>208</y>
     </hint>
    </hints>
   </connection>

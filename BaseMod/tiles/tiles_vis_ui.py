@@ -31,7 +31,7 @@ class Ui_TilesView(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, -54, 343, 408))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 343, 408))
         self.verticalLayout_2 = QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.VTilesMaterialsLabel = QLabel(self.scrollAreaWidgetContents)
@@ -66,12 +66,14 @@ class Ui_TilesView(object):
 
         self.VTilesMaterials = QCheckBox(self.scrollAreaWidgetContents)
         self.VTilesMaterials.setObjectName(u"VTilesMaterials")
+        self.VTilesMaterials.setEnabled(False)
         self.VTilesMaterials.setChecked(True)
 
         self.verticalLayout_2.addWidget(self.VTilesMaterials)
 
         self.VTilesHeads = QCheckBox(self.scrollAreaWidgetContents)
         self.VTilesHeads.setObjectName(u"VTilesHeads")
+        self.VTilesHeads.setEnabled(False)
         self.VTilesHeads.setChecked(True)
 
         self.verticalLayout_2.addWidget(self.VTilesHeads)
@@ -132,11 +134,11 @@ class Ui_TilesView(object):
 
 
         self.retranslateUi(TilesView)
-        self.VTilesAllTiles.clicked["bool"].connect(self.VTilesLayer1.setDisabled)
-        self.VTilesAllTiles.clicked["bool"].connect(self.VTilesLayer2.setDisabled)
-        self.VTilesAllTiles.clicked["bool"].connect(self.VTilesLayer3.setDisabled)
-        self.VTilesAllTiles.clicked["bool"].connect(self.VTilesMaterials.setDisabled)
-        self.VTilesAllTiles.clicked["bool"].connect(self.VTilesHeads.setDisabled)
+        self.VTilesAllTiles.toggled.connect(self.VTilesLayer1.setDisabled)
+        self.VTilesAllTiles.toggled.connect(self.VTilesLayer2.setDisabled)
+        self.VTilesAllTiles.toggled.connect(self.VTilesLayer3.setDisabled)
+        self.VTilesAllTiles.toggled.connect(self.VTilesMaterials.setDisabled)
+        self.VTilesAllTiles.toggled.connect(self.VTilesHeads.setDisabled)
 
         QMetaObject.connectSlotsByName(TilesView)
     # setupUi

@@ -40,7 +40,10 @@ class Config:
                 value = l[l.find("=") + 1:]
                 # print(name, id, value)
                 if name in modnames:
-                    self.modules[modnames.index(name)].values[id].load_str_value(value)
+                    try:
+                        self.modules[modnames.index(name)].values[id].load_str_value(value)
+                    except KeyError:
+                        pass
 
     def save_configs(self):
         path = self.ensure_config()

@@ -2,6 +2,7 @@ from .ConfigBase import Configurable
 from PySide6.QtCore import Slot, Signal, Qt
 from PySide6.QtWidgets import QCheckBox, QRadioButton
 import json
+from .QtTypes import KeyConfigurable
 
 
 class BoolConfigurable(Configurable):
@@ -19,15 +20,24 @@ class BoolConfigurable(Configurable):
 
     @Slot(bool)
     @Slot(Qt.CheckState)
-    def update_value(self, value: bool | Qt.CheckState):
+    @Slot()
+    def update_value(self, value: bool | Qt.CheckState | None = None) -> None:
+        print(value)
         if isinstance(value, bool):
-            super().update_value(value)
-        else:
-            super().update_value(value == Qt.CheckState.Checked.value)
+            return super().update_value(value)
+        elif isinstance(value, Qt.CheckState):
+            return super().update_value(value == Qt.CheckState.Checked.value)
+        super().update_value(not self.value)
 
-    def connect_checkbox(self, checkbox: QCheckBox):
+    @Slot()
+    def flip(self):
+        self.update_value(not self.value)
+
+    def connect_checkbox(self, checkbox: QCheckBox, key: KeyConfigurable=None):
         checkbox.setChecked(self.value)
         checkbox.stateChanged.connect(self.update_value)
+        if key is not None:
+            key.connect_button(checkbox)
 
 
 class StringConfigurable(Configurable):

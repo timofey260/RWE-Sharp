@@ -9,21 +9,23 @@ from core.Config import Config
 from BaseMod.baseMod import BaseMod
 from widgets.Viewport import ViewPort
 from ui.splashuiconnector import SplashDialog
-from PySide6.QtWidgets import QWidget
+from PySide6.QtWidgets import QWidget, QMenuBar, QMenu
 from PySide6.QtCore import Slot
+from PySide6.QtGui import QAction
+from ui.mainuiconnector import MainWindow
 
 
 class Manager:
     '''
-    Manager of all RWE#
+    Manager that controls all of RWE#(except for gui)
     '''
-    def __init__(self, window, file=None):
+    def __init__(self, window: MainWindow, file=None):
         """
         :param window: RWE# window(main window with viewport and stuff)
         :param file: file to load by default
         """
         # todo init some tiles and assets (and mods in future)
-        self.window = window
+        self.window: MainWindow = window
 
         self.splashwindow = SplashDialog(self)
         self.splashwindow.show()
@@ -61,9 +63,14 @@ class Manager:
         """
         Configs are used to store editor-specific data
         """
+        self.viewfolders: list[str] = []
+        """
+        list of strings for view specific menu items
+        """
 
         self.editorlayers = []
 
+        self.basemod = BaseMod(self)
 
         self.pre_init_mods()
         self.config.init_configs()  # mounting configs and applying them
@@ -103,7 +110,7 @@ class Manager:
             i.mod_init()
 
     def pre_init_mods(self):
-        self.mods.append(BaseMod(self))
+        self.mods.append(self.basemod)
         for i in self.mods:
             # check if mod is enabled
             i.pre_mod_init()
@@ -116,15 +123,22 @@ class Manager:
     def add_module(self, module):
         self.modules.append(module)
 
-    def add_view(self, ui: QWidget):
+    def add_view(self, ui: QWidget) -> None:
         self.window.ui.ViewTab.addTab(ui, ui.objectName())
 
-    def add_quick_option(self, element: QWidget):
+    def add_quick_option(self, element: QWidget) -> None:
         self.window.ui.QuickOverlay.addWidget(element)
 
-    def set_status(self, message: str):
+    @property
+    def view_menu(self) -> QMenu:
+        return self.window.ui.menuView
+
+    @property
+    def menu_bar(self) -> QMenuBar:
+        return self.window.ui.menubar
+
+    def set_status(self, message: str) -> None:
         self.window.ui.viewPort.setStatusTip(message)
-        pass
 
     @property
     def editor(self) -> EditorMode:

@@ -5,18 +5,18 @@ from ui.uiscripts.mainui import Ui_MainWindow
 from ui.aboutuiconnector import AboutDialog
 from ui.settingsuiconnector import SettingsUI
 from core import info
-from core.Manager import Manager
 
 
 class MainWindow(QMainWindow):
     '''
-    Main window of RWE#
+    Main window and bare ui of RWE#
     '''
     def __init__(self, filename=None):
         """
 
         :param filename:  file to load by default
         """
+        from core.Manager import Manager
         super(MainWindow, self).__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)

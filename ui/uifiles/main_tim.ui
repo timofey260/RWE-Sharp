@@ -201,7 +201,13 @@
     </widget>
     <addaction name="menuConfigure"/>
    </widget>
+   <widget class="QMenu" name="menuView">
+    <property name="title">
+     <string>View</string>
+    </property>
+   </widget>
    <addaction name="menuFile"/>
+   <addaction name="menuView"/>
    <addaction name="menuWindow"/>
    <addaction name="menuSettings"/>
    <addaction name="menuHelp"/>
@@ -288,7 +294,7 @@
               <x>0</x>
               <y>0</y>
               <width>194</width>
-              <height>70</height>
+              <height>109</height>
              </rect>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout">

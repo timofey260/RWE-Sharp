@@ -3,7 +3,7 @@ import os.path
 from core.Modify.baseModule import Module
 from BaseMod.tiles.tileRenderTexture import TileRenderTexture
 from PySide6.QtCore import Qt, Slot
-from PySide6.QtGui import QImage
+from PySide6.QtGui import QImage, QColor
 from core.Loaders.TileLoader import palette_to_colortable
 
 
@@ -32,7 +32,6 @@ class TileModule(Module):
 
     @Slot()
     def redraw_option(self):
-        print("rerendered! ")
         self.render_module(True)
         self.init_module_textures()
 
@@ -74,5 +73,9 @@ class TileModule(Module):
         self.l3.draw_layer(clear)
         if self.mod.tileviewconfig.drawoption.value == 6:
             self.manager.viewport.rect.setBrush(self.colortable[4])
-        else:
+        elif self.mod.tileviewconfig.drawoption.value in [4, 5]:
             self.manager.viewport.rect.setBrush(self.colortable[3])
+        elif self.mod.tileviewconfig.drawoption.value == 3:
+            self.manager.viewport.rect.setBrush(QColor(255, 255, 255))
+        else:
+            self.manager.viewport.rect.setBrush(self.manager.basemod.config.backgroundcolor.value)

@@ -73,3 +73,10 @@ class BaseMod(Mod):
         self.VQuickGeo.setChecked(True)
         self.VQuickGeo.checkStateChanged.connect(self.geoview.toggle_geo)
         self.add_quickview_option(self.VQuickGeo)
+
+        self.VQuickTiles = QCheckBox()
+        self.VQuickTiles.setObjectName(u"VQuickTiles")
+        self.VQuickTiles.setText(QCoreApplication.translate("MainWindow", u"Tiles", None))
+        self.VQuickTiles.setChecked(True)
+        self.VQuickTiles.checkStateChanged.connect(self.tileview.toggle_tiles)
+        self.add_quickview_option(self.VQuickTiles)

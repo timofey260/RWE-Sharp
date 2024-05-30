@@ -16,7 +16,7 @@ class ViewPort(QGraphicsView):
         self.workscene: QGraphicsScene = QGraphicsScene(self)
         self.setScene(self.workscene)
         self.zoom = 1
-        self.rect: QGraphicsRectItem = self.workscene.addRect(QRect(0, 0, 1, 1), brush=QBrush(QColor(150, 150, 150), Qt.BrushStyle.SolidPattern))
+        self.rect: QGraphicsRectItem = self.workscene.addRect(QRect(0, 0, 1, 1))
         self.origin = self.workscene.addEllipse(0, 0, 1, 1, QColor(0, 0, 0, 0))
         self.managedfields: list[QGraphicsPixmapItem] = []
         self.verticalScrollBar().sliderReleased.connect(self.redraw)
@@ -37,6 +37,7 @@ class ViewPort(QGraphicsView):
 
     def add_managed_fields(self, manager):
         self.manager = manager
+        self.rect.setBrush(self.manager.basemod.config.backgroundcolor.value)
         if len(self.managedfields) > 0:
             self.rect.setRect(self.managedfields[0].sceneBoundingRect())
         # self.setBackgroundBrush(QBrush(QColor(30, 30, 30), Qt.BrushStyle.SolidPattern))
