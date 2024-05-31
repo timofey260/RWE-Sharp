@@ -6,7 +6,8 @@ from core import info
 from core.Exceptions import *
 from core.HistorySystem import History
 from core.RWLParser import RWLParser
-from PySide6.QtCore import QPoint
+from PySide6.QtCore import QPoint, Slot
+from core.HistorySystem import HistoryElement
 
 defaultlevel = open(os.path.join(info.PATH_FILES, "default.txt"), "r").readlines()
 
@@ -20,11 +21,22 @@ class RWELevel:
             self.data = PathDict(data)
         self.history = History(self)
 
+    @Slot()
     def undo(self):
+        print("undo")
         self.history.undo()
 
+    @Slot()
     def redo(self):
+        print("redo")
         self.history.redo()
+
+    def add_history(self, historyelement: HistoryElement):
+        self.history.add_element(historyelement)
+
+    @property
+    def last_history_element(self):
+        return self.history.last_element
 
     def __getitem__(self, item):
         return self.data[item]
@@ -32,10 +44,24 @@ class RWELevel:
     def __setitem__(self, key, value):
         self.data[key] = value
 
-    def GE_data(self, x, y, layer):
+    def GE_data(self, x: int, y: int, layer: int) -> list[int, list[int]]:
+        """
+        returns cell on specific layer
+        :param x: x position of cell
+        :param y: y position of cell
+        :param layer: layer of cell
+        :return:
+        """
         return self.data["GE"][int(x)][int(y)][layer]
 
-    def TE_data(self, x, y, layer):
+    def TE_data(self, x: int, y: int, layer: int) -> dict[str, ...]:
+        """
+        returns tile on specific layer
+        :param x: x position of tile
+        :param y: y position of tile
+        :param layer: layer of tile(0-2)
+        :return:
+        """
         return self.data["TE"]["tlMatrix"][int(x)][int(y)][layer]
 
     def inside(self, x: int, y: int) -> bool:

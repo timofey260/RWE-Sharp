@@ -7,7 +7,8 @@ from PySide6.QtGui import QColor, QPixmap, QImage, QPainter
 from PySide6.QtCore import QRect, Qt
 import json
 import os
-from core.info import log_to_load_log, PATH_DRIZZLE, CELLSIZE, SPRITESIZE, CONSTS, PATH_MAT_PREVIEWS, PATH_FILES_CACHE, PATH_FILES_IMAGES_PALETTES
+from core.info import PATH_DRIZZLE, CELLSIZE, SPRITESIZE, CONSTS, PATH_MAT_PREVIEWS, PATH_FILES_CACHE, PATH_FILES_IMAGES_PALETTES
+from core.utils import log_to_load_log
 
 colortable = [[], [], []]
 for l in range(3):

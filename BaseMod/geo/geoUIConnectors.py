@@ -1,6 +1,6 @@
 from .geometry_ui import Ui_Geo
 from .geometry_vis_ui import Ui_GeoView
-from PySide6.QtWidgets import QWidget
+from PySide6.QtWidgets import QWidget, QMenu
 from PySide6.QtCore import Slot, Qt
 from PySide6.QtGui import QAction
 from ..baseMod import BaseMod
@@ -74,18 +74,31 @@ class GeoViewUI(QWidget):
         self.mod: BaseMod = mod
         self.ui = Ui_GeoView()
         self.ui.setupUi(self)
-        self.mod.geoviewconfig.drawl1.connect_checkbox(self.ui.VGeoLayer1)
-        self.mod.geoviewconfig.drawl2.connect_checkbox(self.ui.VGeoLayer2, self.mod.geoviewconfig.drawl2_key)
-        self.mod.geoviewconfig.drawl3.connect_checkbox(self.ui.VGeoLayer3, self.mod.geoviewconfig.drawl3_key)
-        self.mod.geoviewconfig.drawlbeams.connect_checkbox(self.ui.VGeoBeams, self.mod.geoviewconfig.drawlbeams_key)
-        self.mod.geoviewconfig.drawlpipes.connect_checkbox(self.ui.VGeoPipes, self.mod.geoviewconfig.drawlpipes_key)
-        self.mod.geoviewconfig.drawlmisc.connect_checkbox(self.ui.VGeoMisc, self.mod.geoviewconfig.drawlmisc_key)
+
+        # adding menu and stuff
+        self.menu = QMenu("Geometry")
+        self.menu_drawl1 = QAction("Layer 1")
+        self.mod.geoviewconfig.drawl1.link_button_action(self.ui.VGeoLayer1, self.menu_drawl1, self.mod.geoviewconfig.drawl1_key)
+        self.menu.addAction(self.menu_drawl1)
+        self.menu_drawl2 = QAction("Layer 2")
+        self.mod.geoviewconfig.drawl2.link_button_action(self.ui.VGeoLayer2, self.menu_drawl2, self.mod.geoviewconfig.drawl2_key)
+        self.menu.addAction(self.menu_drawl2)
+        self.menu_drawl3 = QAction("Layer 3")
+        self.mod.geoviewconfig.drawl3.link_button_action(self.ui.VGeoLayer3, self.menu_drawl3, self.mod.geoviewconfig.drawl3_key)
+        self.menu.addAction(self.menu_drawl3)
+        self.menu.addSeparator()
+        self.menu_drawlbeams = QAction("Beams")
+        self.mod.geoviewconfig.drawlbeams.link_button_action(self.ui.VGeoBeams, self.menu_drawlbeams, self.mod.geoviewconfig.drawlbeams_key)
+        self.menu.addAction(self.menu_drawlbeams)
+        self.menu_drawlpipes = QAction("Paths")
+        self.mod.geoviewconfig.drawlpipes.link_button_action(self.ui.VGeoPipes, self.menu_drawlpipes, self.mod.geoviewconfig.drawlpipes_key)
+        self.menu.addAction(self.menu_drawlpipes)
+        self.menu_drawlmisc = QAction("Misc")
+        self.mod.geoviewconfig.drawlmisc.link_button_action(self.ui.VGeoMisc, self.menu_drawlmisc, self.mod.geoviewconfig.drawlmisc_key)
+        self.menu.addAction(self.menu_drawlmisc)
+        self.mod.manager.view_menu.addMenu(self.menu)
         self.ui.VGeoAll.checkStateChanged.connect(self.all_layers)
-        self.mod.geoviewconfig.drawAll.connect_checkbox(self.ui.VGeoAll)
-        self.bgeo = QAction("geo")
-        self.bgeo.setShortcut(self.mod.geoviewconfig.drawl1_key.value)
-        self.bgeo.triggered.connect(self.mod.geoviewconfig.drawl1.flip)
-        self.mod.manager.view_menu.addAction("geo")
+        self.mod.geoviewconfig.drawAll.link_button(self.ui.VGeoAll)
         # self.mod.manager.window.ui.menuFile.addAction(self.bgeo)
 
 

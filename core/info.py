@@ -1,7 +1,6 @@
 import os
 import sys
 import jsoncomment
-import datetime
 
 json = jsoncomment.JsonComment()
 
@@ -52,10 +51,3 @@ print("clearing load log")
 if os.path.exists(os.path.join(PATH, "loadLog.txt")):
     with open(os.path.join(PATH, "loadLog.txt"), "w") as file:
         file.write("log started!\n")
-
-
-def log_to_load_log(message, error=False):
-    with open(os.path.join(PATH, "loadLog.txt"), "a") as file:
-        msg = f"[{datetime.datetime.now().strftime('%H:%M')}; {'ERROR' if error else ' INFO'}]: {message}\n"
-        file.write(msg)
-        print(msg, end="")

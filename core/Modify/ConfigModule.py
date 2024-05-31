@@ -22,6 +22,3 @@ class ConfigModule:
         :return: None
         """
 
-    def add_config(self, configObj: Configurable):
-        self.values[configObj.name] = configObj
-
