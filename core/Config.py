@@ -30,10 +30,10 @@ class Config:
         with open(path) as f:
             for l in f.readlines():
                 l = l.strip()
-                if len(l) == 0 or l[0] == "//":
+                if len(l) == 0 or l[:1] == "//":
                     continue
-                if l.find("//") != -1:
-                    l = l[:l.find("//")]
+                #if l.find("//") != -1:
+                #    l = l[:l.find("//")]
 
                 name = l[:l.find(".", l.find(".") + 1)]
                 id = l[l.find(".", l.find(".") + 1) + 1:l.find("=")]
