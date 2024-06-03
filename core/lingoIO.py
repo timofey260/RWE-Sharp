@@ -2,7 +2,7 @@ import json.decoder
 import re
 import json as jsonenc
 
-def tojson(string: str, replacement: str = None):
+def tojson(string: str, replacement: str = None, log=False):
     try:
         closebracketscount = string.count("]")
         openbracketscount = string.count("[")

@@ -39,9 +39,9 @@ class Manager:
 
         self.levelpath: str = "" if file is None else file
         if file is not None:
-            self.level = RWELevel.openfile(file)
+            self.level = RWELevel.openfile(self, file)
         else:
-            self.level = RWELevel.turntoproject(defaultlevel)
+            self.level = RWELevel.turntoproject(self, defaultlevel)
 
         self.viewport: ViewPort = window.ui.viewPort
 
@@ -138,7 +138,8 @@ class Manager:
         return self.window.ui.menubar
 
     def set_status(self, message: str) -> None:
-        self.window.ui.viewPort.setStatusTip(message)
+        # self.window.ui.viewPort.setStatusTip(message)
+        self.window.statusBar().showMessage(message)
 
     @property
     def editor(self) -> EditorMode:

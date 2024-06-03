@@ -16,7 +16,7 @@ if __name__ == "__main__":
 RWE# - timofey26 and atom
 """)
     parser = argparse.ArgumentParser(PROGNAME, description="Console version of RWE#\n"
-                                                       "Can render levels",
+                                                           "Can render levels",
 
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("-v", "--version", help="show current RWE# version and exit", action="version")
@@ -28,12 +28,12 @@ RWE# - timofey26 and atom
 
     args = parser.parse_args()
 
+    app = QApplication(sys.argv)
     if args.filename is not None:
-        app = QApplication(sys.argv)
         window = MainWindow(args.filename)
         #manager.new_process(args.filename)
-        window.show()
-        sys.exit(app.exec())
+
     else:
-        pass
-        #manager.new_process()
+        window = MainWindow()
+    window.show()
+    sys.exit(app.exec())

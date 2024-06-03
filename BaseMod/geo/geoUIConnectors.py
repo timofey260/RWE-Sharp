@@ -62,6 +62,10 @@ class GeoUI(QWidget):
         self.ui.ToolGeoFloor.clicked.connect(self.set_tool)
         self.ui.ToolGeoWraykAMoleHole.clicked.connect(self.set_tool)
 
+        self.mod.geoconfig.drawl1.link_button(self.ui.ToolGeoApplyToL1, self.mod.geoconfig.drawl1_key)
+        self.mod.geoconfig.drawl2.link_button(self.ui.ToolGeoApplyToL2, self.mod.geoconfig.drawl2_key)
+        self.mod.geoconfig.drawl3.link_button(self.ui.ToolGeoApplyToL3, self.mod.geoconfig.drawl3_key)
+
     @Slot()
     def set_tool(self):
         name = self.sender().objectName()

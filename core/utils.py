@@ -52,7 +52,9 @@ def plotLineHigh(pointa: QPoint, pointb: QPoint, callback):
 
 
 def draw_line(pointa: QPoint, pointb: QPoint, callback):
+    # callback(pointa)
     if abs(pointb.y() - pointa.y()) < abs(pointb.x() - pointa.x()):
         plotLineLow(pointa, pointb, callback)
     else:
         plotLineHigh(pointa, pointb, callback)
+    callback(pointb)

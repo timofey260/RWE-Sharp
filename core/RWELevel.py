@@ -9,12 +9,13 @@ from core.RWLParser import RWLParser
 from PySide6.QtCore import QPoint, Slot
 from core.HistorySystem import HistoryElement
 
-defaultlevel = open(os.path.join(info.PATH_FILES, "default.txt"), "r").readlines()
+defaultlevel = open(os.path.join(info.PATH_FILES, "default.txt"), "r").read()
+defaultlevellines = defaultlevel.split("\n")
 
 
 class RWELevel:
-    def __init__(self, data=None):
-        #self.manager = manager
+    def __init__(self, manager, data=None):
+        self.manager = manager
         if data is None:
             self.data = PathDict({})
         else:
@@ -92,31 +93,31 @@ class RWELevel:
             fl.write(lingoIO.tolingo(string["PR"]) + "\r")
 
     @staticmethod
-    def turntoproject(string: str):
-        proj = RWELevel()
+    def turntoproject(manager, string: str):
+        proj = RWELevel(manager)
         lines = string.split("\n")
         proj["GE"] = json.loads(lines[0])  # geometry
         proj["TE"] = lingoIO.tojson(lines[1])  # tile editor and his settings
         proj["FE"] = lingoIO.tojson(lines[2])  # effect editor params
-        proj["LE"] = lingoIO.tojson(lines[3], defaultlevel[3])  # light editor and presets
-        proj["EX"] = lingoIO.tojson(lines[4], defaultlevel[4])  # map settings
-        proj["EX2"] = lingoIO.tojson(lines[5], defaultlevel[5])  # light and level settings
-        proj["CM"] = lingoIO.tojson(lines[6], defaultlevel[6])  # camera settings
-        proj["WL"] = lingoIO.tojson(lines[7], defaultlevel[7])  # water level
-        proj["PR"] = lingoIO.tojson(lines[8], defaultlevel[8])  # props and settings why the hell i typed both settings wrong???
+        proj["LE"] = lingoIO.tojson(lines[3], defaultlevellines[3])  # light editor and presets
+        proj["EX"] = lingoIO.tojson(lines[4], defaultlevellines[4])  # map settings
+        proj["EX2"] = lingoIO.tojson(lines[5], defaultlevellines[5])  # light and level settings
+        proj["CM"] = lingoIO.tojson(lines[6], defaultlevellines[6])  # camera settings
+        proj["WL"] = lingoIO.tojson(lines[7], defaultlevellines[7])  # water level
+        proj["PR"] = lingoIO.tojson(lines[8], defaultlevellines[8])  # props and settings why the hell i typed both settings wrong???
         return proj
 
     @staticmethod
-    def openfile(file: str):
+    def openfile(manager, file: str):
         if not os.path.exists(file):
             raise FileNotFoundError("No file found!!!")
         _, ext = os.path.splitext(file)
         if ext == ".rwl":
             with open(file, "rb") as f:
-                return RWELevel(RWLParser.parse_rwl(bytearray(f.read())))
+                return RWELevel(manager, RWLParser.parse_rwl(bytearray(f.read())))
         with open(file, "r") as f:
             if ext == ".txt":
-                return RWELevel.turntoproject(f.read())
+                return RWELevel.turntoproject(manager, f.read())
             elif ext == ".wep":
-                return RWELevel(json.load(f))
+                return RWELevel(manager, json.load(f))
             raise FileNotCompatible(f"{file} is not compatible with {info.NAME}!")
