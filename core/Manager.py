@@ -6,6 +6,7 @@ from core.Modify.EditorMode import EditorMode
 from core.Modify.Mod import Mod
 from core.Modify.baseModule import Module
 from core.Config import Config
+from core.Loaders.Loader import Loader
 from BaseMod.baseMod import BaseMod
 from widgets.Viewport import ViewPort
 from ui.splashuiconnector import SplashDialog
@@ -30,12 +31,18 @@ class Manager:
         self.splashwindow = SplashDialog(self)
         self.splashwindow.show()
 
-        self.tiles = TileLoader.loadTiles(self.splashwindow)
-        self.props = ItemData()
-        self.effects = ItemData()
-        self.effect_colors = ItemData()
+        self.loader = Loader(self.splashwindow)
+        # self.loader.finished.connect(self.info_loaded)
+        self.loader.finished.connect(self.loader.deleteLater)
+        self.loader.start()
+        self.loader.wait()
 
-        self.splashwindow.close()
+        self.tiles = self.loader.tiles
+        self.props = self.loader.props
+        self.effects = self.loader.effects
+        self.effect_colors = self.loader.effect_colors
+
+        # self.splashwindow.close()
 
         self.levelpath: str = "" if file is None else file
         if file is not None:
@@ -43,7 +50,7 @@ class Manager:
         else:
             self.level = RWELevel.turntoproject(self, defaultlevel)
 
-        self.viewport: ViewPort = window.ui.viewPort
+        self.viewport: ViewPort = self.window.ui.viewPort
 
         self.current_editor = 0
         self.editors: list[EditorMode] = []
