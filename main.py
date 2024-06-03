@@ -1,20 +1,26 @@
 from core.info import *
 from ui.mainuiconnector import MainWindow
+from ui.splashuiconnector import SplashDialog
 import argparse
 import sys
 from PySide6.QtWidgets import QApplication
 
+args = None
+app = None
+splash = None
 
-if __name__ == "__main__":
+
+def main(argv):
+    global args, app, splash
     print("""
-   ___ _      ______  ____ 
-  / _ \ | /| / / __/_/ / /_
- / , _/ |/ |/ / _//_  . __/
-/_/|_||__/|__/___/_    __/ 
-                  /_/_/    
+       ___ _      ______  ____ 
+      / _ \ | /| / / __/_/ / /_
+     / , _/ |/ |/ / _//_  . __/
+    /_/|_||__/|__/___/_    __/ 
+                      /_/_/    
 
-RWE# - timofey26 and atom
-""")
+    RWE# - timofey26 and atom
+    """)
     parser = argparse.ArgumentParser(PROGNAME, description="Console version of RWE#\n"
                                                            "Can render levels",
 
@@ -28,12 +34,21 @@ RWE# - timofey26 and atom
 
     args = parser.parse_args()
 
-    app = QApplication(sys.argv)
+    app = QApplication(argv)
+    # loading of tiles etc
+    splash = SplashDialog(post_init)
+
+# problem: splash screen and thread gets garbage collected
+def post_init():
+    print("post")
     if args.filename is not None:
-        window = MainWindow(args.filename)
-        #manager.new_process(args.filename)
+        window = MainWindow(splash, args.filename)
+        # manager.new_process(args.filename)
 
     else:
-        window = MainWindow()
+        window = MainWindow(splash)
     window.show()
     sys.exit(app.exec())
+
+if __name__ == "__main__":
+    main(sys.argv)

@@ -20,7 +20,7 @@ class Manager:
     '''
     Manager that controls all of RWE#(except for gui)
     '''
-    def __init__(self, window: MainWindow, file=None):
+    def __init__(self, window: MainWindow, splash: SplashDialog, file=None):
         """
         :param window: RWE# window(main window with viewport and stuff)
         :param file: file to load by default
@@ -28,19 +28,10 @@ class Manager:
         # todo init some tiles and assets (and mods in future)
         self.window: MainWindow = window
 
-        self.splashwindow = SplashDialog(self)
-        self.splashwindow.show()
-
-        self.loader = Loader(self.splashwindow)
-        # self.loader.finished.connect(self.info_loaded)
-        self.loader.finished.connect(self.loader.deleteLater)
-        self.loader.start()
-        self.loader.wait()
-
-        self.tiles = self.loader.tiles
-        self.props = self.loader.props
-        self.effects = self.loader.effects
-        self.effect_colors = self.loader.effect_colors
+        self.tiles = splash.loader.tiles
+        self.props = splash.loader.props
+        self.effects = splash.loader.effects
+        self.effect_colors = splash.loader.effect_colors
 
         # self.splashwindow.close()
 

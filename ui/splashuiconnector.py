@@ -1,5 +1,6 @@
 from ui.uiscripts.splash import Ui_Splash
 from PySide6.QtWidgets import QSplashScreen, QVBoxLayout
+from core.Loaders.Loader import Loader
 from PySide6.QtCore import Qt
 # from PySide6.QtCore import Slot
 # from PySide6.QtMultimediaWidgets import QVideoWidget
@@ -7,11 +8,17 @@ from PySide6.QtCore import Qt
 
 
 class SplashDialog(QSplashScreen):
-    def __init__(self, manager, parent=None):
+    def __init__(self, callback, parent=None):
         super().__init__(parent)
-        self.manager = manager
+        # self.manager = manager
         self.ui = Ui_Splash()
         self.ui.setupUi(self)
+
+        self.loader = Loader(self)
+        self.loader.finished.connect(callback)
+        self.loader.finished.connect(self.loader.deleteLater)
+        self.loader.start()
+        print("thread begun")
         # self.setWindowFlag(Qt.WindowType.SplashScreen, True)
 
         # self.layout = QVBoxLayout(self.ui.widget)

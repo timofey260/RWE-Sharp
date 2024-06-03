@@ -11,7 +11,7 @@ class MainWindow(QMainWindow):
     '''
     Main window and bare ui of RWE#
     '''
-    def __init__(self, filename=None):
+    def __init__(self, splash, filename=None):
         """
 
         :param filename:  file to load by default
@@ -25,7 +25,7 @@ class MainWindow(QMainWindow):
         self.ui.actionClose.triggered.connect(self.close)
         self.ui.actionAbout.triggered.connect(self.open_about)
         self.ui.actionPreferences.triggered.connect(self.open_settings)
-        self.manager = Manager(self, filename)
+        self.manager = Manager(self, splash, filename)
 
         self.ui.viewPort.add_managed_fields(self.manager)
 
