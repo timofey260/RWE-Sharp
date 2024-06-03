@@ -1,10 +1,11 @@
+import multiprocessing
 from core.ItemData import ItemData
 from core.lingoIO import tojson, fromarr
 from core.info import PATH
 from core.Loaders.Tile import Tile
 from ui.splashuiconnector import SplashDialog
 from PySide6.QtGui import QColor, QPixmap, QImage, QPainter
-from PySide6.QtCore import QRect, Qt
+from PySide6.QtCore import QRect, Qt, QThread, QObject, Slot, Signal
 import json
 import os
 from core.info import PATH_DRIZZLE, CELLSIZE, SPRITESIZE, CONSTS, PATH_MAT_PREVIEWS, PATH_FILES_CACHE
@@ -74,6 +75,147 @@ def palette_to_colortable(palette: QImage) -> list[list[list[int], list[int], li
     return table
 
 
+def loadTile(item, colr, cat, catnum, indx) -> Tile | None:
+    renderstep = 15
+    try:
+        origimg = QImage(os.path.join(PATH_DRIZZLE, "Data/Graphics", item["nm"] + ".png"))
+    except FileNotFoundError:
+        return None
+    try:
+        white = origimg.colorTable().index(4294967295)
+        origimg.setColor(white, 0)
+    except ValueError:
+        log_to_load_log(f"Error loading {item['nm']}", True)
+    sz = fromarr(item["sz"], "point")
+    try:
+        ln = len(item["repeatL"])
+    except KeyError:
+        ln = 1
+        # sz:point(x,y) + ( #bfTiles * 2 )) * 20
+    try:
+        tp = item["tp"]
+    except KeyError:
+        tp = ""
+    if tp == "box":  # math
+        ln = 4
+        size = (ln * sz[1] + (item.get("bfTiles", 0) * 2)) * CELLSIZE
+        rect = QRect(0, size, sz[0] * SPRITESIZE, sz[1] * SPRITESIZE)
+    elif ((ln * sz[1] + (item.get("bfTiles", 0) * 2 * ln)) * CELLSIZE + 1) > origimg.height():
+        rect = QRect(0, origimg.height() - sz[1] * SPRITESIZE, sz[0] * SPRITESIZE, sz[1] * SPRITESIZE)
+    else:
+        size = (sz[1] + (item.get("bfTiles", 0) * 2)) * ln * CELLSIZE
+        rect = QRect(0, size + 1, sz[0] * SPRITESIZE, sz[1] * SPRITESIZE)
+
+    if origimg.rect().contains(rect):
+        img = origimg.copy(rect)
+    else:
+        rect = QRect(0, origimg.height() - sz[1] * SPRITESIZE, sz[0] * SPRITESIZE, sz[1] * SPRITESIZE)
+        if origimg.rect().contains(rect):
+            img = origimg.copy(rect)
+        else:
+            rect = QRect(0, 0, 1, 1)
+            img = origimg.copy(rect)
+    # srf = img.copy()
+    # srf.fill(colr)
+    # img.set_colorkey(pg.Color(0, 0, 0))
+    # srf.blit(img, [0, 0])
+    # img.fill(colr)
+    # todo tile preview
+    # image
+    try:
+        black = img.colorTable().index(4278190080)
+        img.setColor(black, colr.rgba())
+    except ValueError:
+        log_to_load_log(f"Error loading {item['nm']}", True)
+
+    # making image2, 3, and 4
+    bftiles = item.get("bfTiles", 0)
+    img2 = QImage((sz[0] + bftiles * 2) * CELLSIZE, (sz[1] + bftiles * 2) * CELLSIZE, QImage.Format.Format_RGBA64)
+    img2.fill(QColor(0, 0, 0, 0))
+    p = QPainter(img2)
+    if tp == "box":
+        p.drawImage(0, 0, origimg.copy(0, sz[0] * CELLSIZE * sz[0], img2.width(), img2.height()))
+    else:
+        repl = len(item.get("repeatL", [1]))
+        for i in range(repl):
+            # for _ in range(repeats):
+            p.drawImage(0, 0, origimg.copy(0, (repl - i - 1) * img2.height(), img2.width(), img2.height()))
+            # p.setOpacity(min(.2, i / repl + .5))
+            p.setCompositionMode(p.CompositionMode.CompositionMode_SourceAtop)
+            p.fillRect(0, 0, img2.width(), img2.height(), QColor(0, 0, 0, renderstep))
+            p.setCompositionMode(p.CompositionMode.CompositionMode_SourceOver)
+    # img3 = img2.convertToFormat(QImage.Format.Format_Indexed8)
+    itempath = os.path.join(PATH_FILES_CACHE, item["nm"] + ".png")
+    if os.path.exists(itempath):
+        img3 = QImage(itempath)
+    else:
+        img3 = QImage(img2.width(), img2.height(), QImage.Format.Format_RGBA64)
+        for xp in range(img3.width()):
+            for yp in range(img3.height()):
+                pc = img2.pixelColor(xp, yp)
+                if pc.alpha() == 0 or pc.rgb() == QColor(0, 0, 0).rgb():
+                    img3.setPixelColor(xp, yp, QColor(0, 0, 0, 0))
+                    continue
+                if pc.red() > pc.green() == pc.blue():
+                    pc = QColor(91 + (255 - pc.red()) // renderstep, 0, 0, 255)
+                elif pc.green() > pc.red() == pc.blue():
+                    pc = QColor(121 + (255 - pc.green()) // renderstep, 0, 0, 255)
+                elif pc.blue() > pc.green() == pc.red():
+                    pc = QColor(151 + (255 - pc.blue()) // renderstep, 0, 0, 255)
+                img3.setPixelColor(xp, yp, pc)
+        img3 = img3.convertToFormat(QImage.Format.Format_Indexed8, colortable[0],
+                                    Qt.ImageConversionFlag.ThresholdDither)
+        img3.save(itempath)
+
+    img4 = img3.copy()
+
+    newitem = {
+        "nm": item["nm"],
+        "tp": item.get("tp"),
+        "repeatL": item.get("repeatL", [1]),
+        "description": "Size" + str(sz),
+        "bfTiles": item.get("bfTiles", 0),
+        "image": img,  # normal rwe# style
+        "image2": img2,  # tile image
+        "image3": img3,  # henry colored
+        "image4": img4,  # rendered tile
+        # "image5": img,  # rendered tile with applied palette
+        "size": sz,
+        "category": cat,
+        "color": colr,
+        "cols": [item.get("specs", [1]), item.get("specs2", 0)],
+        "cat": [catnum + 1, indx + 1],
+        "tags": item["tags"],
+        "printcols": True
+    }
+    return Tile(newitem)
+    tilenum += 1
+    solved_copy[catnum]["items"].append(Tile(newitem))
+
+
+class TilePackLoader(QThread):
+    def __init__(self, data, parent=None):
+        super().__init__(parent)
+        self.data = data
+
+    def run(self):
+        for catnum, catitem in enumerate(self.data):
+            cat = catitem["name"]
+
+            items = catitem["items"]
+            colr: QColor = catitem["color"]
+            self.data[catnum]["items"] = []
+            for indx, item in enumerate(items):
+                # printmessage(f"Loading tile {item['nm']}...", f"({tilenum}/{length})")
+                # window.ui.progressBar.setValue(int(tilenum / length * 100))
+
+                tile = loadTile(item, colr, cat, catnum, indx)
+                if tile is not None:
+                    # tilenum += 1
+                    self.data[catnum]["items"].append(tile)
+        self.finished.emit()
+
+
 def loadTiles(window: SplashDialog) -> ItemData:
     print("Loading Tiles...")
 
@@ -86,129 +228,32 @@ def loadTiles(window: SplashDialog) -> ItemData:
     length = sum(list(map(lambda x: len(x["items"]), solved_copy.data)))
     print(f"loading {length} tiles")
     tilenum = 1
-    renderstep = 15
-    for catnum, catitem in enumerate(solved_copy.data):
-        cat = catitem["name"]
-
-        items = catitem["items"]
-        colr: QColor = catitem["color"]
-        solved_copy[catnum]["items"] = []
-        for indx, item in enumerate(items):
-            printmessage(f"Loading tile {item['nm']}...", f"({tilenum}/{length})")
-            window.ui.progressBar.setValue(int(tilenum / length * 100))
-            try:
-                origimg = QImage(os.path.join(PATH_DRIZZLE, "Data/Graphics", item["nm"] + ".png"))
-            except FileNotFoundError:
-                continue
-            try:
-                white = origimg.colorTable().index(4294967295)
-                origimg.setColor(white, 0)
-            except ValueError:
-                log_to_load_log(f"Error loading {item['nm']}", True)
-            sz = fromarr(item["sz"], "point")
-            try:
-                ln = len(item["repeatL"])
-            except KeyError:
-                ln = 1
-                # sz:point(x,y) + ( #bfTiles * 2 )) * 20
-            try:
-                tp = item["tp"]
-            except KeyError:
-                tp = ""
-            if tp == "box":  # math
-                ln = 4
-                size = (ln * sz[1] + (item.get("bfTiles", 0) * 2)) * CELLSIZE
-                rect = QRect(0, size, sz[0] * SPRITESIZE, sz[1] * SPRITESIZE)
-            elif ((ln * sz[1] + (item.get("bfTiles", 0) * 2 * ln)) * CELLSIZE + 1) > origimg.height():
-                rect = QRect(0, origimg.height() - sz[1] * SPRITESIZE, sz[0] * SPRITESIZE, sz[1] * SPRITESIZE)
-            else:
-                size = (sz[1] + (item.get("bfTiles", 0) * 2)) * ln * CELLSIZE
-                rect = QRect(0, size + 1, sz[0] * SPRITESIZE, sz[1] * SPRITESIZE)
-
-
-            if origimg.rect().contains(rect):
-                img = origimg.copy(rect)
-            else:
-                rect = QRect(0, origimg.height() - sz[1] * SPRITESIZE, sz[0] * SPRITESIZE, sz[1] * SPRITESIZE)
-                if origimg.rect().contains(rect):
-                    img = origimg.copy(rect)
-                else:
-                    rect = QRect(0, 0, 1, 1)
-                    img = origimg.copy(rect)
-            # srf = img.copy()
-            # srf.fill(colr)
-            # img.set_colorkey(pg.Color(0, 0, 0))
-            # srf.blit(img, [0, 0])
-            # img.fill(colr)
-            # todo tile preview
-            # image
-            try:
-                black = img.colorTable().index(4278190080)
-                img.setColor(black, colr.rgba())
-            except ValueError:
-                log_to_load_log(f"Error loading {item['nm']}", True)
-
-            #making image2, 3, and 4
-            bftiles = item.get("bfTiles", 0)
-            img2 = QImage((sz[0] + bftiles * 2) * CELLSIZE, (sz[1] + bftiles * 2) * CELLSIZE, QImage.Format.Format_RGBA64)
-            img2.fill(QColor(0, 0, 0, 0))
-            p = QPainter(img2)
-            if tp == "box":
-                p.drawImage(0, 0, origimg.copy(0, sz[0] * CELLSIZE * sz[0], img2.width(), img2.height()))
-            else:
-                repl = len(item.get("repeatL", [1]))
-                for i in range(repl):
-                    # for _ in range(repeats):
-                    p.drawImage(0, 0, origimg.copy(0, (repl - i - 1) * img2.height(), img2.width(), img2.height()))
-                    # p.setOpacity(min(.2, i / repl + .5))
-                    p.setCompositionMode(p.CompositionMode.CompositionMode_SourceAtop)
-                    p.fillRect(0, 0, img2.width(), img2.height(), QColor(0, 0, 0, renderstep))
-                    p.setCompositionMode(p.CompositionMode.CompositionMode_SourceOver)
-            # img3 = img2.convertToFormat(QImage.Format.Format_Indexed8)
-            itempath = os.path.join(PATH_FILES_CACHE, item["nm"] + ".png")
-            if os.path.exists(itempath):
-                img3 = QImage(itempath)
-            else:
-                img3 = QImage(img2.width(), img2.height(), QImage.Format.Format_RGBA64)
-                for xp in range(img3.width()):
-                    for yp in range(img3.height()):
-                        pc = img2.pixelColor(xp, yp)
-                        if pc.alpha() == 0 or pc.rgb() == QColor(0, 0, 0).rgb():
-                            img3.setPixelColor(xp, yp, QColor(0, 0, 0, 0))
-                            continue
-                        if pc.red() > pc.green() == pc.blue():
-                            pc = QColor(91 + (255 - pc.red()) // renderstep, 0, 0, 255)
-                        elif pc.green() > pc.red() == pc.blue():
-                            pc = QColor(121 + (255 - pc.green()) // renderstep, 0, 0, 255)
-                        elif pc.blue() > pc.green() == pc.red():
-                            pc = QColor(151 + (255 - pc.blue()) // renderstep, 0, 0, 255)
-                        img3.setPixelColor(xp, yp, pc)
-                img3 = img3.convertToFormat(QImage.Format.Format_Indexed8, colortable[0], Qt.ImageConversionFlag.ThresholdDither)
-                img3.save(itempath)
-
-            img4 = img3.copy()
-
-            newitem = {
-                "nm": item["nm"],
-                "tp": item.get("tp"),
-                "repeatL": item.get("repeatL", [1]),
-                "description": "Size" + str(sz),
-                "bfTiles": item.get("bfTiles", 0),
-                "image": img,  # normal rwe# style
-                "image2": img2,  # tile image
-                "image3": img3,  # henry colored
-                "image4": img4,  # rendered tile
-                # "image5": img,  # rendered tile with applied palette
-                "size": sz,
-                "category": cat,
-                "color": colr,
-                "cols": [item.get("specs", [1]), item.get("specs2", 0)],
-                "cat": [catnum + 1, indx + 1],
-                "tags": item["tags"],
-                "printcols": True
-            }
-            tilenum += 1
-            solved_copy[catnum]["items"].append(Tile(newitem))
+    threadsnum = multiprocessing.cpu_count()
+    catsnum = len(solved_copy.data)
+    data_per_thread = catsnum // threadsnum
+    unused = catsnum - data_per_thread * threadsnum
+    # 1. split data to threads
+    # 2. make threads and adress them the data
+    # 3. activate all threads and wait for the result
+    # 4. combine results of all the threads into an itemdata
+    workers: list[TilePackLoader] = []
+    for i in range(threadsnum):
+        # threads.append(QThread())
+        workers.append(TilePackLoader(solved_copy.data[i * data_per_thread:i * data_per_thread + data_per_thread]))
+        workers[i].finished.connect(workers[i].deleteLater)
+        # threads[i].finished.connect(threads[i].deleteLater)
+    if unused > 0:
+        workers.append(TilePackLoader(solved_copy.data[-unused:]))
+        workers[-1].finished.connect(workers[-1].deleteLater)
+    for i in workers:
+        i.start()
+    for i in workers:
+        i.wait()
+    solved_copy = ItemData()
+    for i in workers:
+        for d in i.data:
+            solved_copy.append(d)
+    # aint no way i'm doing multi threading material loading
     matcat = "materials 0"
     matcatcount = 0
     solved_copy.insert(matcatcount, {"name": matcat, "color": QColor(0, 0, 0), "items": []})

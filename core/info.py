@@ -51,3 +51,6 @@ print("clearing load log")
 if os.path.exists(os.path.join(PATH, "loadLog.txt")):
     with open(os.path.join(PATH, "loadLog.txt"), "w") as file:
         file.write("log started!\n")
+
+if not os.path.exists(PATH_FILES_CACHE):
+    os.mkdir(PATH_FILES_CACHE)
