@@ -58,3 +58,20 @@ def draw_line(pointa: QPoint, pointb: QPoint, callback):
     else:
         plotLineHigh(pointa, pointb, callback)
     callback(pointb)
+
+
+def insensitive_path(path) -> str | None:
+    """
+    returns path to case-insensitive file(not path to it)
+    :param path: path to file
+    :return: str
+    """
+    if os.path.exists(path):
+        return path
+    dir, name = os.path.split(path)
+    for dir, d2, a in os.walk(dir):
+        for i in a:
+            if os.path.join(dir, i).lower() == path.lower():
+                return os.path.join(dir, i)
+        break
+    return None

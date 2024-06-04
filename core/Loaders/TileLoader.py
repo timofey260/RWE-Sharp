@@ -9,7 +9,7 @@ from PySide6.QtCore import QRect, Qt, QThread, QObject, Slot, Signal
 import json
 import os
 from core.info import PATH_DRIZZLE, CELLSIZE, SPRITESIZE, CONSTS, PATH_MAT_PREVIEWS, PATH_FILES_CACHE
-from core.utils import log_to_load_log
+from core.utils import log_to_load_log, insensitive_path
 from core.configTypes.BaseTypes import IntConfigurable
 
 colortable = [[], [], []]
@@ -80,7 +80,7 @@ def loadTile(item, colr, cat, catnum, indx) -> Tile | None:
     renderstep = 15
     err = False
     try:
-        origimg = QImage(os.path.join(PATH_DRIZZLE, "Data/Graphics", item["nm"] + ".png"))
+        origimg = QImage(insensitive_path(os.path.join(PATH_DRIZZLE, "Data/Graphics", item["nm"] + ".png")))
     except FileNotFoundError:
         return None
     try:
@@ -122,15 +122,20 @@ def loadTile(item, colr, cat, catnum, indx) -> Tile | None:
         if len(img.colorTable()) == 0:
             # we try
             img = img.convertToFormat(QImage.Format.Format_Indexed8,
-                                      [4294901760, 4278255360, 4278190335, 4278190080, 4294967295, 0],
-                                      Qt.ImageConversionFlag.ThresholdDither)
-            print(img.colorTable())
+                                         [4294901760, 4278255360, 4278190335, 4278190080, 4294967295, 0],
+                                         Qt.ImageConversionFlag.ThresholdDither)
         black = img.colorTable().index(4278190080)
         img.setColor(black, colr.rgba())
     except ValueError:
-        # print(img.colorTable())
-        log_to_load_log(f"Error loading {item['nm']}", True)
-        err = True
+        img = img.convertToFormat(QImage.Format.Format_Indexed8,
+                                  [4294901760, 4278255360, 4278190335, 4278190080, 4294967295, 0],
+                                  Qt.ImageConversionFlag.ThresholdDither)
+        try:
+            black = img.colorTable()[-1]
+            img.setColor(black, colr.rgba())
+        except ValueError:
+            log_to_load_log(f"Error loading {item['nm']}, fixing", True)
+            err = True
 
     # making image2, 3, and 4
     bftiles = item.get("bfTiles", 0)
