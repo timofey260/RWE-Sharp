@@ -61,7 +61,7 @@ class QtEnumConfigurable(Configurable):
         super().update_value(value)
 
     def load_str_value(self, text: str) -> None:
-        for k, v in enumerate(self.enumtouse):  # please forgive me but i have no idea how to not use eval
+        for k, v in enumerate(self.enumtouse):
             if v.name == text:
                 self.value = v
                 self.valueChanged.emit(self.value)

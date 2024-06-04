@@ -24,7 +24,7 @@ class Config:
         # get config file
         path = self.ensure_config()
         for i in self.modules:
-            i.register_config()
+            i.config_init()
         modnames = [f"{i.mod.author_name}:{i.subeditor}" for i in self.modules]
         # print(modnames)
         with open(path) as f:

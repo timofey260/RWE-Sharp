@@ -102,7 +102,9 @@ class GeoViewUI(QWidget):
         self.menu.addAction(self.menu_drawlmisc)
         self.mod.manager.view_menu.addMenu(self.menu)
         self.ui.VGeoAll.checkStateChanged.connect(self.all_layers)
+        self.mod.geoviewconfig.drawoption.link_radio([self.ui.VGeoRWEstyle, self.ui.VGeoOldStyle])
         self.mod.geoviewconfig.drawAll.link_button(self.ui.VGeoAll)
+
         # self.mod.manager.window.ui.menuFile.addAction(self.bgeo)
 
 

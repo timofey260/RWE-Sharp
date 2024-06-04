@@ -21,20 +21,39 @@ class GeoModule(Module):
         self.mod.geoviewconfig.drawlbeams.valueChanged.connect(self.check_beams_change)
         self.mod.geoviewconfig.drawlpipes.valueChanged.connect(self.check_pipes_change)
         self.mod.geoviewconfig.drawlmisc.valueChanged.connect(self.check_misc_change)
-
-
+        self.mod.geoviewconfig.drawoption.valueChanged.connect(self.redraw_option)
 
     @Slot()
     def check_l1_change(self):
-        self.l1.renderedtexture.setOpacity(self.mod.config.opacityl1.value if self.mod.geoviewconfig.drawl1.value else 0)
+        if self.mod.geoviewconfig.drawoption.value == 0:
+            self.l1.renderedtexture.setOpacity(
+                self.mod.geoviewconfig.opacityl1.value if self.mod.geoviewconfig.drawl1.value else 0)
+            return
+        self.l1.renderedtexture.setOpacity(
+            self.mod.geoviewconfig.opacityrgb.value if self.mod.geoviewconfig.drawl1.value else 0)
 
     @Slot()
     def check_l2_change(self):
-        self.l2.renderedtexture.setOpacity(self.mod.config.opacityl2.value if self.mod.geoviewconfig.drawl2.value else 0)
+        if self.mod.geoviewconfig.drawoption.value == 0:
+            self.l2.renderedtexture.setOpacity(
+                self.mod.geoviewconfig.opacityl2.value if self.mod.geoviewconfig.drawl2.value else 0)
+            return
+        self.l2.renderedtexture.setOpacity(
+            self.mod.geoviewconfig.opacityrgb.value if self.mod.geoviewconfig.drawl2.value else 0)
 
     @Slot()
     def check_l3_change(self):
-        self.l3.renderedtexture.setOpacity(self.mod.config.opacityl3.value if self.mod.geoviewconfig.drawl3.value else 0)
+        if self.mod.geoviewconfig.drawoption.value == 0:
+            self.l3.renderedtexture.setOpacity(
+                self.mod.geoviewconfig.opacityl3.value if self.mod.geoviewconfig.drawl3.value else 0)
+            return
+        self.l3.renderedtexture.setOpacity(
+            self.mod.geoviewconfig.opacityrgb.value if self.mod.geoviewconfig.drawl3.value else 0)
+
+    @Slot()
+    def redraw_option(self):
+        self.render_module()
+        self.init_module_textures()
 
     # a lot of bullshit functions to speed up rendering
     @Slot()

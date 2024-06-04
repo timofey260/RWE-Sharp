@@ -10,7 +10,7 @@ class TileViewConfig(ConfigModule):
     def __init__(self, mod):
         super().__init__(mod, "tileView")
 
-    def register_config(self):
+    def config_init(self):
         self.drawl1 = BoolConfigurable(self, "drawl1", True, "Draw layer 1")
         self.drawl2 = BoolConfigurable(self, "drawl2", True, "Draw layer 2")
         self.drawl3 = BoolConfigurable(self, "drawl3", True, "Draw layer 3")

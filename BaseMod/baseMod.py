@@ -2,11 +2,12 @@ from core.Modify.Mod import Mod, ModInfo
 from .geo.geometryEditor import GeometryEditor
 from .geo.geometryModule import GeoModule
 from .geo.geoConfig import GeoConfig, GeoViewConfig
-
 from .tiles.tileModule import TileModule
 from .tiles.tileConfig import TileViewConfig
-
-from .globalConfig import globalConfig
+from .globalConfig import Globalconfig
+from .grid.gridModule import GridModule
+from .grid.gridConfig import GridConfig
+from .grid.gridUIConnector import GridView
 from PySide6.QtWidgets import QWidget, QCheckBox
 from PySide6.QtCore import QCoreApplication, Slot, Qt
 
@@ -22,7 +23,7 @@ class BaseMod(Mod):
         ))
         from .geo.geoUIConnectors import GeoUI, GeoViewUI
         from .tiles.tileUIConnectors import TileViewUI
-        self.config: globalConfig
+        self.config: Globalconfig | None = None
 
         self.geoconfig: GeoConfig | None = None
         self.geoeditor: GeometryEditor | None = None
@@ -35,15 +36,23 @@ class BaseMod(Mod):
         self.tileview: TileViewUI | None = None
         self.tileviewconfig: TileViewConfig | None = None
 
+        self.gridmodule: GridModule | None = None
+        self.gridconfig: GridConfig | None = None
+        self.gridui: GridView | None = None
+
     def pre_mod_init(self):
-        self.config = globalConfig(self)
+        self.config = Globalconfig(self)
         self.geoconfig = GeoConfig(self)
         self.geoviewconfig = GeoViewConfig(self)
         self.tileviewconfig = TileViewConfig(self)
+
+        self.gridconfig = GridConfig(self)
+
         self.add_config_module(self.config)
         self.add_config_module(self.geoconfig)
         self.add_config_module(self.geoviewconfig)
         self.add_config_module(self.tileviewconfig)
+        self.add_config_module(self.gridconfig)
 
     def mod_init(self):
         from .geo.geoUIConnectors import GeoUI, GeoViewUI
@@ -57,12 +66,17 @@ class BaseMod(Mod):
         self.tilemodule = TileModule(self)
         self.tileview = TileViewUI(self)
 
+        self.gridmodule = GridModule(self)
+        self.gridui = GridView(self)
+
         self.add_editor(self.geoeditor, self.geoui)
         self.add_module(self.geomodule)
         self.add_vis_ui(self.geoview)
 
         self.add_module(self.tilemodule)
         self.add_vis_ui(self.tileview)
+
+        self.add_module(self.gridmodule)
 
         self.init_options()
 

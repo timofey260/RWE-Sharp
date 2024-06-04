@@ -15,7 +15,7 @@ class ConfigModule:
         self.values: dict[str, Configurable] = {}
         self.subeditor = subeditor
 
-    def register_config(self):
+    def config_init(self):
         """
         Registering custom config
         Made to be overridden
