@@ -19,7 +19,7 @@ class SplashDialog(QSplashScreen):
         self.loader.finished.connect(self.loader.deleteLater)
         self.loader.finished.connect(self.close)
         self.loader.start()
-        print("thread begun")
+        print("Loading...")
         self.show()
         # self.setWindowFlag(Qt.WindowType.SplashScreen, True)
 

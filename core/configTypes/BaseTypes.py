@@ -3,10 +3,10 @@ from PySide6.QtCore import Slot, Signal, Qt
 from PySide6.QtWidgets import QRadioButton, QAbstractButton
 from PySide6.QtGui import QAction
 import json
-from .QtTypes import KeyConfigurable
 
 
 class BoolConfigurable(Configurable):
+    from .QtTypes import KeyConfigurable
     valueChanged = Signal(bool)
 
     def __init__(self, config, name: str, default: bool=False, description: str=""):

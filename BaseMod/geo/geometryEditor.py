@@ -30,7 +30,7 @@ class GeometryEditor(EditorMode):
 
     def mouse_press_event(self, event: QMouseEvent):
         # todo tools
-        if event.buttons() & Qt.MouseButton.LeftButton:
+        if self.mouse_left:
             fpos = self.viewport.viewport_to_editor(self.mpos)
             self.manager.level.add_history(GEpointChange(self.manager.level.history, fpos, [1, []], self.layers))
 

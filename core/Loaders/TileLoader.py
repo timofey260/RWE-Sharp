@@ -127,14 +127,11 @@ def loadTile(item, colr, cat, catnum, indx) -> Tile | None:
         black = img.colorTable().index(4278190080)
         img.setColor(black, colr.rgba())
     except ValueError:
-        img = img.convertToFormat(QImage.Format.Format_Indexed8,
-                                  [4294901760, 4278255360, 4278190335, 4278190080, 4294967295, 0],
-                                  Qt.ImageConversionFlag.ThresholdDither)
         try:
-            black = img.colorTable()[-1]
+            black = len(img.colorTable()) - 2
             img.setColor(black, colr.rgba())
         except ValueError:
-            log_to_load_log(f"Error loading {item['nm']}, fixing", True)
+            log_to_load_log(f"Error loading {item['nm']}", True)
             err = True
 
     # making image2, 3, and 4

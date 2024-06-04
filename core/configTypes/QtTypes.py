@@ -1,7 +1,8 @@
+import enum
 from .ConfigBase import Configurable
 from PySide6.QtGui import QKeySequence, QColor, QAction
 from PySide6.QtWidgets import QAbstractButton
-from PySide6.QtCore import Signal
+from PySide6.QtCore import Signal, Qt
 
 
 class KeyConfigurable(Configurable):
@@ -48,3 +49,22 @@ class ColorConfigurable(Configurable):
         super().update_value(value)
 
 
+class QtEnumConfigurable(Configurable):
+    valueChanged = Signal(enum.Flag)
+
+    def __init__(self, config, name, default: enum.Flag, enumtouse, description=""):
+        super().__init__(config, name, default, description)
+        self.enumtouse = enumtouse
+
+
+    def update_value(self, value: enum.Flag):
+        super().update_value(value)
+
+    def load_str_value(self, text: str) -> None:
+        for k, v in enumerate(self.enumtouse):  # please forgive me but i have no idea how to not use eval
+            if v.name == text:
+                self.value = v
+                self.valueChanged.emit(self.value)
+
+    def save_str_value(self) -> str:
+        return str(self.value.name)

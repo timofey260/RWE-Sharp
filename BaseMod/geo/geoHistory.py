@@ -1,13 +1,40 @@
 from core.HistorySystem import HistoryElement
-from PySide6.QtCore import QPoint
+from PySide6.QtCore import QPoint, QRect
 from core.utils import draw_line
 
 class GERectChange(HistoryElement):
-    def __init__(self, history, level, rect, block: int, layers: list[bool, bool, bool]):
+    def __init__(self, history, rect: QRect, replace, layers: list[bool, bool, bool]):
         super().__init__(history)
+        self.rect = rect
+        self.replace = replace
+        self.before = []
+        self.layers = layers
+        for x in range(self.rect.x(), self.rect.width()):
+            for y in range(self.rect.y(), self.rect.height()):
+                for i, l in enumerate(self.layers):
+                    if l:
+                        data = self.history.level.GE_data(x, y, i)
+                        self.before.append([data[0], data[1].copy()])
+                        self.history.level.data["GE"][x][y][i] = [replace[0], replace[1].copy()]
+
+    def undo_changes(self, level):
+        c = 0
+        for x in range(self.rect.x(), self.rect.width()):
+            for y in range(self.rect.y(), self.rect.height()):
+                for i, l in enumerate(self.layers):
+                    if l:
+                        self.history.level.data["GE"][x][y][i] = [self.before[0], self.before[1].copy()]
+                        c += 1  # c++ almost
+
+    def redo_changes(self, level):
+        for x in range(self.rect.x(), self.rect.width()):
+            for y in range(self.rect.y(), self.rect.height()):
+                for i, l in enumerate(self.layers):
+                    if l:
+                        self.history.level.data["GE"][x][y][i] = [self.replace[0], self.replace[1].copy()]
 
 class GEpointChange(HistoryElement):
-    def __init__(self, history, start: QPoint, replace, layers:list[bool, bool, bool]):
+    def __init__(self, history, start: QPoint, replace, layers: list[bool, bool, bool]):
         super().__init__(history)
         self.positions: list[QPoint] = []
         self.before = []
