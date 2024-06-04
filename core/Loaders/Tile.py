@@ -20,3 +20,4 @@ class Tile(ItemDataItem):
         self.tags: list[str] = data["tags"]
         self.printcols: bool = data.get("printcols", False)
         self.preview: QImage = data.get("preview")
+        self.err = data.get("err")

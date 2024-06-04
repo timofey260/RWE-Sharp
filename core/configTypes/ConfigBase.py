@@ -20,7 +20,8 @@ class Configurable(QObject):
         self.default = default
         self.value = default
         self.description = description
-        config.values[name] = self
+        if config is not None:
+            config.values[name] = self
 
     def load_str_value(self, text: str) -> None:
         self.valueChanged.emit(self.value)

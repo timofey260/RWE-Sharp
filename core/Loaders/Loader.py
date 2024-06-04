@@ -17,4 +17,4 @@ class Loader(QThread):
         self.props = ItemData()
         self.effects = ItemData()
         self.effect_colors = ItemData()
-        self.finished.emit()
+        # self.finished.emit()

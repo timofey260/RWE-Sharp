@@ -1,17 +1,10 @@
 from core.info import *
-from ui.mainuiconnector import MainWindow
-from ui.splashuiconnector import SplashDialog
 import argparse
 import sys
-from PySide6.QtWidgets import QApplication
-
-args = None
-app = None
-splash = None
+from core.Application import Application
 
 
 def main(argv):
-    global args, app, splash
     print("""
        ___ _      ______  ____ 
       / _ \ | /| / / __/_/ / /_
@@ -34,21 +27,8 @@ def main(argv):
 
     args = parser.parse_args()
 
-    app = QApplication(argv)
-    # loading of tiles etc
-    splash = SplashDialog(post_init)
+    app = Application(args, argv)
 
-# problem: splash screen and thread gets garbage collected
-def post_init():
-    print("post")
-    if args.filename is not None:
-        window = MainWindow(splash, args.filename)
-        # manager.new_process(args.filename)
-
-    else:
-        window = MainWindow(splash)
-    window.show()
-    sys.exit(app.exec())
 
 if __name__ == "__main__":
     main(sys.argv)

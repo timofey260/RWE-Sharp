@@ -32,8 +32,6 @@ class GEpointChange(HistoryElement):
         points = []
         draw_line(start, position, lambda p: points.append(p))
         points.pop(0)
-        print(start, position)
-        print(points)
         for point in points:
             for i, l in enumerate(self.layers):
                 if l:
@@ -41,7 +39,6 @@ class GEpointChange(HistoryElement):
                     self.before.append([data[0], data[1].copy()])  # not using recursive deepcopy bullshit
                     self.history.level.data["GE"][point.x()][point.y()][i] = [self.replace[0], self.replace[1].copy()]
                     [module.l1, module.l2, module.l3][i].draw_geo(point.x(), point.y(), True)
-        print(self.before)
         for i, l in enumerate(self.layers):
             if l:
                 [module.l1, module.l2, module.l3][i].redraw()

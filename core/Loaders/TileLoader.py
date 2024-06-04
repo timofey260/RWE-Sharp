@@ -10,6 +10,7 @@ import json
 import os
 from core.info import PATH_DRIZZLE, CELLSIZE, SPRITESIZE, CONSTS, PATH_MAT_PREVIEWS, PATH_FILES_CACHE
 from core.utils import log_to_load_log
+from core.configTypes.BaseTypes import IntConfigurable
 
 colortable = [[], [], []]
 for l in range(3):
@@ -77,6 +78,7 @@ def palette_to_colortable(palette: QImage) -> list[list[list[int], list[int], li
 
 def loadTile(item, colr, cat, catnum, indx) -> Tile | None:
     renderstep = 15
+    err = False
     try:
         origimg = QImage(os.path.join(PATH_DRIZZLE, "Data/Graphics", item["nm"] + ".png"))
     except FileNotFoundError:
@@ -115,18 +117,20 @@ def loadTile(item, colr, cat, catnum, indx) -> Tile | None:
         else:
             rect = QRect(0, 0, 1, 1)
             img = origimg.copy(rect)
-    # srf = img.copy()
-    # srf.fill(colr)
-    # img.set_colorkey(pg.Color(0, 0, 0))
-    # srf.blit(img, [0, 0])
-    # img.fill(colr)
-    # todo tile preview
     # image
     try:
+        if len(img.colorTable()) == 0:
+            # we try
+            img = img.convertToFormat(QImage.Format.Format_Indexed8,
+                                      [4294901760, 4278255360, 4278190335, 4278190080, 4294967295, 0],
+                                      Qt.ImageConversionFlag.ThresholdDither)
+            print(img.colorTable())
         black = img.colorTable().index(4278190080)
         img.setColor(black, colr.rgba())
     except ValueError:
+        # print(img.colorTable())
         log_to_load_log(f"Error loading {item['nm']}", True)
+        err = True
 
     # making image2, 3, and 4
     bftiles = item.get("bfTiles", 0)
@@ -186,7 +190,8 @@ def loadTile(item, colr, cat, catnum, indx) -> Tile | None:
         "cols": [item.get("specs", [1]), item.get("specs2", 0)],
         "cat": [catnum + 1, indx + 1],
         "tags": item["tags"],
-        "printcols": True
+        "printcols": True,
+        "err": err
     }
     return Tile(newitem)
     tilenum += 1
@@ -197,6 +202,10 @@ class TilePackLoader(QThread):
     def __init__(self, data, parent=None):
         super().__init__(parent)
         self.data = data
+        self.progress = 0
+        self.errors = 0
+        self.amount = sum(list(map(lambda x: len(x["items"]), self.data)))
+        self.finished.connect(self.deleteLater)
 
     def run(self):
         for catnum, catitem in enumerate(self.data):
@@ -210,10 +219,34 @@ class TilePackLoader(QThread):
                 # window.ui.progressBar.setValue(int(tilenum / length * 100))
 
                 tile = loadTile(item, colr, cat, catnum, indx)
+                self.progress += 1
                 if tile is not None:
                     # tilenum += 1
                     self.data[catnum]["items"].append(tile)
-        self.finished.emit()
+                    if tile.err:
+                        self.errors += 1
+                    continue
+                self.errors += 1
+        # self.finished.emit()
+
+
+class Tileprogress(QThread):
+    def __init__(self, window, workers):
+        super().__init__()
+        self.workers = workers
+        self.window = window
+        self.overall = sum(list(map(lambda x: x.amount, self.workers)))
+        self.loaded = IntConfigurable(None, "da", 0)
+        self.loaded.valueChanged.connect(self.window.ui.progressBar.setValue)
+        self.finished.connect(self.deleteLater)
+
+    def run(self):
+        loaded = sum(list(map(lambda x: x.progress, self.workers)))
+        while loaded != self.overall:
+            self.msleep(100)
+            loaded = sum(list(map(lambda x: x.progress, self.workers)))
+            self.window.ui.label_2.setText(f"({loaded}/{self.overall})")
+            self.loaded.update_value(loaded / self.overall * 100)
 
 
 def loadTiles(window: SplashDialog) -> ItemData:
@@ -228,7 +261,7 @@ def loadTiles(window: SplashDialog) -> ItemData:
     length = sum(list(map(lambda x: len(x["items"]), solved_copy.data)))
     print(f"loading {length} tiles")
     tilenum = 1
-    threadsnum = multiprocessing.cpu_count()
+    threadsnum = min(1, multiprocessing.cpu_count() - 1)
     catsnum = len(solved_copy.data)
     data_per_thread = catsnum // threadsnum
     unused = catsnum - data_per_thread * threadsnum
@@ -238,21 +271,22 @@ def loadTiles(window: SplashDialog) -> ItemData:
     # 4. combine results of all the threads into an itemdata
     workers: list[TilePackLoader] = []
     for i in range(threadsnum):
-        # threads.append(QThread())
         workers.append(TilePackLoader(solved_copy.data[i * data_per_thread:i * data_per_thread + data_per_thread]))
-        workers[i].finished.connect(workers[i].deleteLater)
-        # threads[i].finished.connect(threads[i].deleteLater)
     if unused > 0:
         workers.append(TilePackLoader(solved_copy.data[-unused:]))
-        workers[-1].finished.connect(workers[-1].deleteLater)
+    progress = Tileprogress(window, workers)
     for i in workers:
         i.start()
+    progress.start()
     for i in workers:
         i.wait()
+    progress.wait()
+    print(f"Errors: {sum(list(map(lambda x: x.errors, workers)))}")
     solved_copy = ItemData()
     for i in workers:
         for d in i.data:
             solved_copy.append(d)
+    del workers, progress
     # aint no way i'm doing multi threading material loading
     matcat = "materials 0"
     matcatcount = 0

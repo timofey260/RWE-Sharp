@@ -40,7 +40,8 @@ class GeometryEditor(EditorMode):
         cpos = self.viewport.editor_to_viewport(fpos)
         if cpos != self.cursor.pos():
             self.cursor.setPos(self.viewport.editor_to_viewport(fpos))
-        self.manager.set_status(f"x: {fpos.x()}, y: {fpos.y()}, {self.manager.level['GE'][fpos.x()][fpos.y()]}")
+        if self.manager.level.inside(fpos):
+            self.manager.set_status(f"x: {fpos.x()}, y: {fpos.y()}, {self.manager.level['GE'][fpos.x()][fpos.y()]}")
         if self.mouse_left and self.manager.level.inside(fpos) and not (self.lastpos - fpos).isNull():
             self.manager.level.last_history_element.add_move(fpos, self.module)
 

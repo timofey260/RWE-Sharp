@@ -17,8 +17,10 @@ class SplashDialog(QSplashScreen):
         self.loader = Loader(self)
         self.loader.finished.connect(callback)
         self.loader.finished.connect(self.loader.deleteLater)
+        self.loader.finished.connect(self.close)
         self.loader.start()
         print("thread begun")
+        self.show()
         # self.setWindowFlag(Qt.WindowType.SplashScreen, True)
 
         # self.layout = QVBoxLayout(self.ui.widget)
