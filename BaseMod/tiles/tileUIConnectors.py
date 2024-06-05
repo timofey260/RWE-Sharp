@@ -1,15 +1,16 @@
 from .tiles_vis_ui import Ui_TilesView
-from PySide6.QtWidgets import QWidget, QFileDialog, QMenu
+from PySide6.QtWidgets import QFileDialog, QMenu
 from PySide6.QtCore import Slot, Qt
 from PySide6.QtGui import QAction
 from ..baseMod import BaseMod
 from core.info import PATH_FILES_IMAGES_PALETTES
+from core.Modify.ui import UI
 
 
-class TileViewUI(QWidget):
+class TileViewUI(UI):
     def __init__(self, mod, parent=None):
-        super().__init__(parent)
-        self.mod: BaseMod = mod
+        super().__init__(mod, parent)
+        self.mod: BaseMod
         self.ui = Ui_TilesView()
         self.ui.setupUi(self)
 

@@ -22,3 +22,7 @@ class ConfigModule:
         :return: None
         """
 
+    def add_myself(self):
+        self.mod.add_config_module(self)
+        return self
+

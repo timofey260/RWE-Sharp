@@ -41,42 +41,27 @@ class BaseMod(Mod):
         self.gridui: GridView | None = None
 
     def pre_mod_init(self):
-        self.config = Globalconfig(self)
-        self.geoconfig = GeoConfig(self)
-        self.geoviewconfig = GeoViewConfig(self)
-        self.tileviewconfig = TileViewConfig(self)
+        self.config = Globalconfig(self).add_myself()
+        self.geoconfig = GeoConfig(self).add_myself()
+        self.geoviewconfig = GeoViewConfig(self).add_myself()
+        self.tileviewconfig = TileViewConfig(self).add_myself()
 
-        self.gridconfig = GridConfig(self)
-
-        self.add_config_module(self.config)
-        self.add_config_module(self.geoconfig)
-        self.add_config_module(self.geoviewconfig)
-        self.add_config_module(self.tileviewconfig)
-        self.add_config_module(self.gridconfig)
+        self.gridconfig = GridConfig(self).add_myself()
 
     def mod_init(self):
         from .geo.geoUIConnectors import GeoUI, GeoViewUI
         from .tiles.tileUIConnectors import TileViewUI
 
-        self.geomodule = GeoModule(self)
+        self.geomodule = GeoModule(self).add_myself()
         self.geoui = GeoUI(self)
-        self.geoview = GeoViewUI(self)
-        self.geoeditor = GeometryEditor(self)
+        self.geoview = GeoViewUI(self).add_myself()
+        self.geoeditor = GeometryEditor(self).add_myself(self.geoui)
 
-        self.tilemodule = TileModule(self)
-        self.tileview = TileViewUI(self)
+        self.tilemodule = TileModule(self).add_myself()
+        self.tileview = TileViewUI(self).add_myself()
 
-        self.gridmodule = GridModule(self)
-        self.gridui = GridView(self)
-
-        self.add_editor(self.geoeditor, self.geoui)
-        self.add_module(self.geomodule)
-        self.add_vis_ui(self.geoview)
-
-        self.add_module(self.tilemodule)
-        self.add_vis_ui(self.tileview)
-
-        self.add_module(self.gridmodule)
+        self.gridmodule = GridModule(self).add_myself()
+        self.gridui = GridView(self).add_myself()
 
         self.init_options()
 

@@ -4,6 +4,7 @@ from PySide6.QtWidgets import QWidget, QMenu
 from PySide6.QtCore import Slot, Qt
 from PySide6.QtGui import QAction
 from ..baseMod import BaseMod
+from core.Modify.ui import UI
 
 
 button_to_geo = {
@@ -32,10 +33,10 @@ button_to_geo = {
 }
 
 
-class GeoUI(QWidget):
+class GeoUI(UI):
     def __init__(self, mod, parent=None):
-        super().__init__(parent)
-        self.mod: BaseMod = mod
+        super().__init__(mod, parent)
+        self.mod: BaseMod
         self.ui = Ui_Geo()
         self.ui.setupUi(self)
 
@@ -72,10 +73,10 @@ class GeoUI(QWidget):
         self.mod.geoconfig.selectedTool.update_value(button_to_geo.get(name, "none"))
 
 
-class GeoViewUI(QWidget):
+class GeoViewUI(UI):
     def __init__(self, mod, parent=None):
-        super().__init__(parent)
-        self.mod: BaseMod = mod
+        super().__init__(mod, parent)
+        self.mod: BaseMod
         self.ui = Ui_GeoView()
         self.ui.setupUi(self)
 

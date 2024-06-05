@@ -1,18 +1,14 @@
-from core.ItemData import ItemData
-from core.Loaders import TileLoader
 from core.RWELevel import RWELevel, defaultlevel
 from core.Modify.RenderTexture import RenderTexture
 from core.Modify.EditorMode import EditorMode
 from core.Modify.Mod import Mod
 from core.Modify.baseModule import Module
 from core.Config import Config
-from core.Loaders.Loader import Loader
 from BaseMod.baseMod import BaseMod
 from widgets.Viewport import ViewPort
 from ui.splashuiconnector import SplashDialog
 from PySide6.QtWidgets import QWidget, QMenuBar, QMenu
 from PySide6.QtCore import Slot
-from PySide6.QtGui import QAction
 from ui.mainuiconnector import MainWindow
 
 

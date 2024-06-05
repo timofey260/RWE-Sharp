@@ -19,6 +19,12 @@ class ModInfo:
 
 
 class Mod:
+    from core.Modify.ConfigModule import ConfigModule
+    from core.Modify.ui import UI
+    from core.Modify.EditorMode import EditorMode
+    from core.Modify.baseModule import Module
+    from PySide6.QtWidgets import QWidget
+
     def __init__(self, manager, modinfo: ModInfo):
         """
         Base Mod class to load
@@ -44,17 +50,17 @@ class Mod:
         :return:
         """
 
-    def add_editor(self, editor, ui):
+    def add_editor(self, editor: EditorMode, ui: UI):
         self.manager.add_editor(editor, ui)
 
-    def add_module(self, module):
+    def add_module(self, module: Module):
         self.manager.add_module(module)
 
-    def add_vis_ui(self, ui):
+    def add_vis_ui(self, ui: UI):
         self.manager.add_view(ui)
 
-    def add_quickview_option(self, element):
+    def add_quickview_option(self, element: QWidget):
         self.manager.add_quick_option(element)
 
-    def add_config_module(self, config_module):
+    def add_config_module(self, config_module: ConfigModule):
         self.manager.config.add_module(config_module)

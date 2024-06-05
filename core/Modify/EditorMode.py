@@ -53,3 +53,7 @@ class EditorMode:
     @property
     def mpos(self) -> QPoint:
         return self.viewport.mpos
+
+    def add_myself(self, ui):
+        self.mod.add_editor(self, ui)
+        return self

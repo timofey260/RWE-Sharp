@@ -26,3 +26,7 @@ class Module:
 
     def append_layer(self, depth: int, texture: RenderTexture):
         self.editorlayers.append((depth, texture))
+
+    def add_myself(self):
+        self.mod.add_module(self)
+        return self
