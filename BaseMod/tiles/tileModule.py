@@ -79,3 +79,7 @@ class TileModule(Module):
             self.manager.viewport.rect.setBrush(QColor(255, 255, 255))
         else:
             self.manager.viewport.rect.setBrush(self.manager.basemod.config.backgroundcolor.value)
+
+    def get_layer(self, layer: int) -> TileRenderTexture:
+        return [self.l1, self.l2, self.l3][layer]
+

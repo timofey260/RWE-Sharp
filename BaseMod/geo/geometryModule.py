@@ -89,3 +89,6 @@ class GeoModule(Module):
         self.l1.draw_layer()
         self.l2.draw_layer()
         self.l3.draw_layer()
+
+    def get_layer(self, layer: int) -> GeoRenderTexture:
+        return [self.l1, self.l2, self.l3][layer]
