@@ -88,7 +88,7 @@ def loadTile(item, colr, cat, catnum, indx) -> Tile | None:
         origimg.setColor(white, 0)
     except ValueError:
         log_to_load_log(f"Error loading {item['nm']}", True)
-    sz = QPoint(fromarr(item["sz"], "point"))
+    sz = QPoint(*fromarr(item["sz"], "point"))
     try:
         ln = len(item["repeatL"])
     except KeyError:
@@ -99,16 +99,16 @@ def loadTile(item, colr, cat, catnum, indx) -> Tile | None:
         ln = 4
         size = (ln * sz.y() + (item.get("bfTiles", 0) * 2)) * CELLSIZE
         rect = QRect(0, size, sz.x() * SPRITESIZE, sz.y() * SPRITESIZE)
-    elif ((ln * sz[1] + (item.get("bfTiles", 0) * 2 * ln)) * CELLSIZE + 1) > origimg.height():
-        rect = QRect(0, origimg.height() - sz.y() * SPRITESIZE, sz[0] * SPRITESIZE, sz[1] * SPRITESIZE)
+    elif ((ln * sz.y() + (item.get("bfTiles", 0) * 2 * ln)) * CELLSIZE + 1) > origimg.height():
+        rect = QRect(0, origimg.height() - sz.y() * SPRITESIZE, sz.x() * SPRITESIZE, sz.y() * SPRITESIZE)
     else:
-        size = (sz[1] + (item.get("bfTiles", 0) * 2)) * ln * CELLSIZE
-        rect = QRect(0, size + 1, sz[0] * SPRITESIZE, sz[1] * SPRITESIZE)
+        size = (sz.y() + (item.get("bfTiles", 0) * 2)) * ln * CELLSIZE
+        rect = QRect(0, size + 1, sz.x() * SPRITESIZE, sz.y() * SPRITESIZE)
 
     if origimg.rect().contains(rect):
         img = origimg.copy(rect)
     else:
-        rect = QRect(0, origimg.height() - sz[1] * SPRITESIZE, sz[0] * SPRITESIZE, sz[1] * SPRITESIZE)
+        rect = QRect(0, origimg.height() - sz.y() * SPRITESIZE, sz.x() * SPRITESIZE, sz.y() * SPRITESIZE)
         if origimg.rect().contains(rect):
             img = origimg.copy(rect)
         else:
@@ -133,11 +133,11 @@ def loadTile(item, colr, cat, catnum, indx) -> Tile | None:
 
     # making image2, 3, and 4
     bftiles = item.get("bfTiles", 0)
-    img2 = QImage((sz[0] + bftiles * 2) * CELLSIZE, (sz[1] + bftiles * 2) * CELLSIZE, QImage.Format.Format_RGBA64)
+    img2 = QImage((sz.x() + bftiles * 2) * CELLSIZE, (sz.y() + bftiles * 2) * CELLSIZE, QImage.Format.Format_RGBA64)
     img2.fill(QColor(0, 0, 0, 0))
     p = QPainter(img2)
     if tp == "box":
-        p.drawImage(0, 0, origimg.copy(0, sz[0] * CELLSIZE * sz[0], img2.width(), img2.height()))
+        p.drawImage(0, 0, origimg.copy(0, sz.x() * CELLSIZE * sz.x(), img2.width(), img2.height()))
     else:
         repl = len(item.get("repeatL", [1]))
         for i in range(repl):

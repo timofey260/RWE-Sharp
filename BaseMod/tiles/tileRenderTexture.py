@@ -1,6 +1,6 @@
 from core.Modify.RenderTexture import RenderTexture
-from PySide6.QtCore import QRect, QLine, Qt, Slot
-from PySide6.QtGui import QBrush, QColor, QPen, QPainter
+from PySide6.QtCore import QRect, Qt, Slot
+from PySide6.QtGui import QBrush, QColor
 from core.info import CONSTS, CELLSIZE, SPRITESIZE
 from core.Loaders.TileLoader import colortable
 
@@ -99,21 +99,21 @@ class TileRenderTexture(RenderTexture):
             # new one
             case "tileHead":
                 foundtile = self.manager.tiles[tile["data"][1]]
-                cposxo = int((foundtile.size[0] * .5) + .5) - 1
-                cposyo = int((foundtile.size[1] * .5) + .5) - 1
+                cposxo = int((foundtile.size.x() * .5) + .5) - 1
+                cposyo = int((foundtile.size.y() * .5) + .5) - 1
                 if self.module.drawoption.value == 1:
                     drawrect = QRect((x - cposxo - foundtile.bfTiles) * CELLSIZE,
                                      (y - cposyo - foundtile.bfTiles) * CELLSIZE,
-                                     CELLSIZE * (foundtile.size[0] + foundtile.bfTiles * 2),
-                                     CELLSIZE * (foundtile.size[1] + foundtile.bfTiles * 2))  # it works trust
+                                     CELLSIZE * (foundtile.size.x() + foundtile.bfTiles * 2),
+                                     CELLSIZE * (foundtile.size.y() + foundtile.bfTiles * 2))  # it works trust
 
                     self.painter.drawImage(drawrect, foundtile.image2)
 
                 elif self.module.drawoption.value in [2, 3, 4, 5, 6]:
                     drawrect = QRect((x - cposxo - foundtile.bfTiles) * CELLSIZE,
                                      (y - cposyo - foundtile.bfTiles) * CELLSIZE,
-                                     CELLSIZE * (foundtile.size[0] + foundtile.bfTiles * 2),
-                                     CELLSIZE * (foundtile.size[1] + foundtile.bfTiles * 2))  # it works trust
+                                     CELLSIZE * (foundtile.size.x() + foundtile.bfTiles * 2),
+                                     CELLSIZE * (foundtile.size.y() + foundtile.bfTiles * 2))  # it works trust
                     if self.module.drawoption.value == 3:
                         foundtile.image4.setColorTable(colortable[self.layer])
                     elif self.module.drawoption.value == 2:
@@ -123,8 +123,8 @@ class TileRenderTexture(RenderTexture):
                         foundtile.image4.setColorTable(self.module.colortable[col][self.layer])
                     self.painter.drawImage(drawrect, foundtile.image4)
                 else:
-                    sourcerect = QRect(0, 0, SPRITESIZE * foundtile.size[0], SPRITESIZE * foundtile.size[1])
-                    drawrect = QRect((x - cposxo) * CELLSIZE, (y - cposyo) * CELLSIZE, CELLSIZE * foundtile.size[0], CELLSIZE * foundtile.size[1])  # it works trust
+                    sourcerect = QRect(0, 0, SPRITESIZE * foundtile.size.x(), SPRITESIZE * foundtile.size.y())
+                    drawrect = QRect((x - cposxo) * CELLSIZE, (y - cposyo) * CELLSIZE, CELLSIZE * foundtile.size.x(), CELLSIZE * foundtile.size.y())  # it works trust
                     self.painter.drawImage(drawrect, foundtile.image, sourcerect)
 
     def draw_material(self):
