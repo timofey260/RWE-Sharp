@@ -1,33 +1,34 @@
-from .tiles_vis_ui import Ui_TilesView
-from PySide6.QtWidgets import QFileDialog, QMenu
-from PySide6.QtCore import Slot, Qt
+from BaseMod.tiles.tiles_vis_ui import Ui_TilesView
+from PySide6.QtWidgets import QFileDialog, QMenu, QCheckBox
+from PySide6.QtCore import Slot, Qt, QCoreApplication
 from PySide6.QtGui import QAction
-from ..baseMod import BaseMod
+from BaseMod.baseMod import BaseMod
 from core.info import PATH_FILES_IMAGES_PALETTES
-from core.Modify.ui import UI
+from core.Modify.ui import ViewUI
 
 
-class TileViewUI(UI):
+class TileViewUI(ViewUI):
     def __init__(self, mod, parent=None):
         super().__init__(mod, parent)
         self.mod: BaseMod
         self.ui = Ui_TilesView()
         self.ui.setupUi(self)
+        self.module = self.mod.tilemodule
 
         self.menu = QMenu("Tiles")
 
         self.menu_drawl1 = QAction("Layer 1")
-        self.mod.tileviewconfig.drawl1.link_button_action(self.ui.VTilesLayer1, self.menu_drawl1, self.mod.tileviewconfig.drawl1_key)
+        self.module.drawl1.link_button_action(self.ui.VTilesLayer1, self.menu_drawl1, self.module.drawl1_key)
         self.menu.addAction(self.menu_drawl1)
         self.menu_drawl2 = QAction("Layer 2")
-        self.mod.tileviewconfig.drawl2.link_button_action(self.ui.VTilesLayer2, self.menu_drawl2, self.mod.tileviewconfig.drawl2_key)
+        self.module.drawl2.link_button_action(self.ui.VTilesLayer2, self.menu_drawl2, self.module.drawl2_key)
         self.menu.addAction(self.menu_drawl2)
         self.menu_drawl3 = QAction("Layer 3")
-        self.mod.tileviewconfig.drawl3.link_button_action(self.ui.VTilesLayer3, self.menu_drawl3, self.mod.tileviewconfig.drawl3_key)
+        self.module.drawl3.link_button_action(self.ui.VTilesLayer3, self.menu_drawl3, self.module.drawl3_key)
         self.menu.addAction(self.menu_drawl3)
         self.ui.VTilesAllTiles.checkStateChanged.connect(self.all_layers)
         self.mod.manager.view_menu.addMenu(self.menu)
-        self.mod.tileviewconfig.drawoption.link_radio(
+        self.module.drawoption.link_radio(
             [
                 self.ui.VTilesClassic,
                 self.ui.VTilesImage,
@@ -39,12 +40,18 @@ class TileViewUI(UI):
             ])
         self.ui.PaletteSelectButton.clicked.connect(self.change_palette)
 
+        self.VQuickTiles = QCheckBox()
+        self.VQuickTiles.setObjectName(u"VQuickTiles")
+        self.VQuickTiles.setText(QCoreApplication.translate("MainWindow", u"Tiles", None))
+        self.VQuickTiles.setChecked(True)
+        self.VQuickTiles.checkStateChanged.connect(self.toggle_tiles)
+        self.mod.add_quickview_option(self.VQuickTiles)
+
     @Slot()
     def change_palette(self):
         file, _ = QFileDialog.getOpenFileName(self, "Select a Palette", PATH_FILES_IMAGES_PALETTES)
-        print(file)
-        self.mod.tileviewconfig.palettepath.update_value(file)
-        self.mod.tileviewconfig.drawoption.update_value(4)
+        self.module.palettepath.update_value(file)
+        self.module.drawoption.update_value(4)
 
     @Slot(Qt.CheckState)
     def all_layers(self, state: Qt.CheckState):
@@ -58,6 +65,6 @@ class TileViewUI(UI):
     @Slot(Qt.CheckState)
     def toggle_tiles(self, state: Qt.CheckState):
         v = state == Qt.CheckState.Checked
-        self.mod.tileviewconfig.drawl1.update_value(v)
-        self.mod.tileviewconfig.drawl2.update_value(v)
-        self.mod.tileviewconfig.drawl3.update_value(v)
+        self.module.drawl1.update_value(v)
+        self.module.drawl2.update_value(v)
+        self.module.drawl3.update_value(v)

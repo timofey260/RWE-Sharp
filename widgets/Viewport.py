@@ -2,6 +2,7 @@ from PySide6.QtGui import QColor, QBrush
 from PySide6.QtCore import Qt, QPoint, QRect, Slot, QPointF
 from PySide6.QtWidgets import QGraphicsView, QGraphicsScene, QGraphicsPixmapItem, QApplication, QGraphicsRectItem, QGraphicsEllipseItem
 from core.info import CELLSIZE
+from core.configTypes.QtTypes import ColorConfigurable, QtEnumConfigurable, KeyConfigurable
 
 
 class ViewPort(QGraphicsView):
@@ -25,6 +26,7 @@ class ViewPort(QGraphicsView):
         self._rmb = False
         self._mmb = False
         self.mpos = QPoint()
+        self.backgroundcolor = ColorConfigurable(None, "bgcolor", QColor(150, 150, 150), "color of the background")
 
     @Slot()
     def redraw(self):
@@ -37,28 +39,29 @@ class ViewPort(QGraphicsView):
 
     def add_managed_fields(self, manager):
         self.manager = manager
-        self.rect.setBrush(self.manager.basemod.config.backgroundcolor.value)
+        self.backgroundcolor.link_mod(manager.basemod)
+        self.rect.setBrush(self.backgroundcolor.value)
         if len(self.managedfields) > 0:
             self.rect.setRect(self.managedfields[0].sceneBoundingRect())
         # self.setBackgroundBrush(QBrush(QColor(30, 30, 30), Qt.BrushStyle.SolidPattern))
 
     def mousePressEvent(self, event):
         super().mousePressEvent(event)
-        if event.buttons() & self.manager.basemod.config.main_button.value:
+        if event.buttons() & self.manager.basemod.main_button.value:
             self._lmb = True
-        if event.buttons() & self.manager.basemod.config.sec_button.value:
+        if event.buttons() & self.manager.basemod.sec_button.value:
             self._rmb = True
-        if event.buttons() & self.manager.basemod.config.movement_button.value:
+        if event.buttons() & self.manager.basemod.movement_button.value:
             self._mmb = True
         self.manager.editor.mouse_press_event(event)
 
     def mouseReleaseEvent(self, event):
         super().mouseReleaseEvent(event)
-        if event.button() & self.manager.basemod.config.main_button.value:
+        if event.button() & self.manager.basemod.main_button.value:
             self._lmb = False
-        if event.button() & self.manager.basemod.config.sec_button.value:
+        if event.button() & self.manager.basemod.sec_button.value:
             self._rmb = False
-        if event.button() & self.manager.basemod.config.movement_button.value:
+        if event.button() & self.manager.basemod.movement_button.value:
             self._mmb = False
         self.manager.editor.mouse_release_event(event)
 

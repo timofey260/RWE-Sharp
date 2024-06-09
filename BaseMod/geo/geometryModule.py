@@ -1,13 +1,36 @@
 from core.Modify.baseModule import Module
 from BaseMod.geo.geoRenderTexture import GeoRenderTexture
 from PySide6.QtCore import Qt, Slot
+from core.configTypes.BaseTypes import BoolConfigurable, FloatConfigurable, IntConfigurable
+from core.configTypes.QtTypes import KeyConfigurable
 
 
 class GeoModule(Module):
     def __init__(self, mod):
         super().__init__(mod)
-        from ..baseMod import BaseMod
+        from BaseMod.baseMod import BaseMod
         self.mod: BaseMod
+        self.drawAll = BoolConfigurable(mod, "VIEW_geo.drawall", False, "Draw all layers")
+        self.drawl1 = BoolConfigurable(mod, "VIEW_geo.drawl1", True, "Draw layer 1")
+        self.drawl2 = BoolConfigurable(mod, "VIEW_geo.drawl2", True, "Draw layer 2")
+        self.drawl3 = BoolConfigurable(mod, "VIEW_geo.drawl3", True, "Draw layer 3")
+        self.opacityl1 = FloatConfigurable(mod, "VIEW_geo.opacityl1", .9, "opacity of the first layer")
+        self.opacityl2 = FloatConfigurable(mod, "VIEW_geo.opacityl2", .5, "opacity of the second layer")
+        self.opacityl3 = FloatConfigurable(mod, "VIEW_geo.opacityl3", .2, "opacity of the third layer")
+        self.opacityrgb = FloatConfigurable(mod, "VIEW_geo.opacityrgb", .5, "opacity of all layers on old rendering option")
+
+        self.drawlbeams = BoolConfigurable(mod, "VIEW_geo.drawlbeams", True, "Draw Beams")
+        self.drawlpipes = BoolConfigurable(mod, "VIEW_geo.drawlpipes", True, "Draw pipes")
+        self.drawlmisc = BoolConfigurable(mod, "VIEW_geo.drawlmisc", True, "Draw rocks, spears etc")
+
+        self.drawoption = IntConfigurable(mod, "VIEW_geo.drawOption", 0, "method of drawing")
+
+        self.drawl1_key = KeyConfigurable(mod, "VIEW_geo.drawl1_key", "Alt+1", "key to show 1st layer")
+        self.drawl2_key = KeyConfigurable(mod, "VIEW_geo.drawl2_key", "Alt+2", "key to show 2nd layer")
+        self.drawl3_key = KeyConfigurable(mod, "VIEW_geo.drawl3_key", "Alt+3", "key to show 3rd layer")
+        self.drawlbeams_key = KeyConfigurable(mod, "VIEW_geo.drawl3beamskey", "Alt+b", "key to show 3rd layer")
+        self.drawlpipes_key = KeyConfigurable(mod, "VIEW_geo.drawlpipes_key", "Alt+v", "key to show 3rd layer")
+        self.drawlmisc_key = KeyConfigurable(mod, "VIEW_geo.drawlmisc_key", "Alt+c", "key to show 3rd layer")
         self.draw = True
         self.l1 = GeoRenderTexture(self, 0)
         self.l2 = GeoRenderTexture(self, 1)
@@ -15,40 +38,35 @@ class GeoModule(Module):
         self.append_layer(100, self.l3)
         self.append_layer(200, self.l2)
         self.append_layer(300, self.l1)
-        self.mod.geoviewconfig.drawl1.valueChanged.connect(self.check_l1_change)
-        self.mod.geoviewconfig.drawl2.valueChanged.connect(self.check_l2_change)
-        self.mod.geoviewconfig.drawl3.valueChanged.connect(self.check_l3_change)
-        self.mod.geoviewconfig.drawlbeams.valueChanged.connect(self.check_beams_change)
-        self.mod.geoviewconfig.drawlpipes.valueChanged.connect(self.check_pipes_change)
-        self.mod.geoviewconfig.drawlmisc.valueChanged.connect(self.check_misc_change)
-        self.mod.geoviewconfig.drawoption.valueChanged.connect(self.redraw_option)
+
+        self.drawl1.valueChanged.connect(self.check_l1_change)
+        self.drawl2.valueChanged.connect(self.check_l2_change)
+        self.drawl3.valueChanged.connect(self.check_l3_change)
+        self.drawlbeams.valueChanged.connect(self.check_beams_change)
+        self.drawlpipes.valueChanged.connect(self.check_pipes_change)
+        self.drawlmisc.valueChanged.connect(self.check_misc_change)
+        self.drawoption.valueChanged.connect(self.redraw_option)
 
     @Slot()
     def check_l1_change(self):
-        if self.mod.geoviewconfig.drawoption.value == 0:
-            self.l1.renderedtexture.setOpacity(
-                self.mod.geoviewconfig.opacityl1.value if self.mod.geoviewconfig.drawl1.value else 0)
+        if self.drawoption.value == 0:
+            self.l1.renderedtexture.setOpacity(self.opacityl1.value if self.drawl1.value else 0)
             return
-        self.l1.renderedtexture.setOpacity(
-            self.mod.geoviewconfig.opacityrgb.value if self.mod.geoviewconfig.drawl1.value else 0)
+        self.l1.renderedtexture.setOpacity(self.opacityrgb.value if self.drawl1.value else 0)
 
     @Slot()
     def check_l2_change(self):
-        if self.mod.geoviewconfig.drawoption.value == 0:
-            self.l2.renderedtexture.setOpacity(
-                self.mod.geoviewconfig.opacityl2.value if self.mod.geoviewconfig.drawl2.value else 0)
+        if self.drawoption.value == 0:
+            self.l2.renderedtexture.setOpacity(self.opacityl2.value if self.drawl2.value else 0)
             return
-        self.l2.renderedtexture.setOpacity(
-            self.mod.geoviewconfig.opacityrgb.value if self.mod.geoviewconfig.drawl2.value else 0)
+        self.l2.renderedtexture.setOpacity(self.opacityrgb.value if self.drawl2.value else 0)
 
     @Slot()
     def check_l3_change(self):
-        if self.mod.geoviewconfig.drawoption.value == 0:
-            self.l3.renderedtexture.setOpacity(
-                self.mod.geoviewconfig.opacityl3.value if self.mod.geoviewconfig.drawl3.value else 0)
+        if self.drawoption.value == 0:
+            self.l3.renderedtexture.setOpacity(self.opacityl3.value if self.drawl3.value else 0)
             return
-        self.l3.renderedtexture.setOpacity(
-            self.mod.geoviewconfig.opacityrgb.value if self.mod.geoviewconfig.drawl3.value else 0)
+        self.l3.renderedtexture.setOpacity(self.opacityrgb.value if self.drawl3.value else 0)
 
     @Slot()
     def redraw_option(self):

@@ -7,9 +7,12 @@ from PySide6.QtCore import Signal, Qt
 
 class KeyConfigurable(Configurable):
     valueChanged = Signal(QKeySequence)
-    def __init__(self, config, name, default: QKeySequence, description=""):
-        super().__init__(config, name, default, description)
+
+    def __init__(self, mod, name, default: QKeySequence | str, description=""):
+        if isinstance(default, str):
+            default = QKeySequence(default)
         self.buttons: list[QAbstractButton] = []
+        super().__init__(mod, name, default, description)
 
     def save_str_value(self) -> str:
         return self.value.toString()
@@ -34,9 +37,9 @@ class KeyConfigurable(Configurable):
 
 class ColorConfigurable(Configurable):
     valueChanged = Signal(QColor)
-    def __init__(self, config, name, default: QColor, description=""):
-        super().__init__(config, name, default, description)
+    def __init__(self, mod, name, default: QColor, description=""):
         self.value = default
+        super().__init__(mod, name, default, description)
 
     def save_str_value(self) -> str:
         return f"{self.value.red()} {self.value.green()} {self.value.blue()} {self.value.alpha()}"
@@ -52,9 +55,9 @@ class ColorConfigurable(Configurable):
 class QtEnumConfigurable(Configurable):
     valueChanged = Signal(enum.Flag)
 
-    def __init__(self, config, name, default: enum.Flag, enumtouse, description=""):
-        super().__init__(config, name, default, description)
+    def __init__(self, mod, name, default: enum.Flag, enumtouse, description=""):
         self.enumtouse = enumtouse
+        super().__init__(mod, name, default, description)
 
 
     def update_value(self, value: enum.Flag):

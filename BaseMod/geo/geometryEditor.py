@@ -1,9 +1,11 @@
 from core.Modify.EditorMode import EditorMode
 from PySide6.QtCore import QRect, QPoint, Qt
-from PySide6.QtGui import QColor, QPen, QMoveEvent, QWheelEvent, QMouseEvent
+from PySide6.QtGui import QColor, QPen, QMoveEvent, QWheelEvent, QMouseEvent, QKeySequence
 from PySide6.QtWidgets import QGraphicsRectItem
 from core.info import CELLSIZE
 from .geoHistory import GEpointChange
+from core.configTypes.BaseTypes import StringConfigurable, BoolConfigurable
+from core.configTypes.QtTypes import KeyConfigurable
 
 
 class GeometryEditor(EditorMode):
@@ -11,15 +13,22 @@ class GeometryEditor(EditorMode):
         super().__init__(mod)
         from BaseMod.baseMod import BaseMod
         self.mod: BaseMod
-        self.config = self.mod.geoconfig
         self.module = self.mod.geomodule
 
         self.cursor: QGraphicsRectItem | None = None
         self.lastpos = QPoint()
+        self.selectedTool = StringConfigurable(mod, "EDIT_geo.tool", "wall", "Current geo tool")
+        self.drawl1 = BoolConfigurable(mod, "EDIT_geo.drawl1", True, "Draw on l1")
+        self.drawl2 = BoolConfigurable(mod, "EDIT_geo.drawl2", True, "Draw on l2")
+        self.drawl3 = BoolConfigurable(mod, "EDIT_geo.drawl3", True, "Draw on l3")
+
+        self.drawl1_key = KeyConfigurable(mod, "EDIT_geo.drawl1_key", "Ctrl+1", "key to draw on 1st layer")
+        self.drawl2_key = KeyConfigurable(mod, "EDIT_geo.drawl2_key", "Ctrl+2", "key to draw on 2nd layer")
+        self.drawl3_key = KeyConfigurable(mod, "EDIT_geo.drawl3_key", "Ctrl+3", "key to draw on 3rd layer")
 
     @property
     def layers(self) -> list[bool]:
-        return [self.config.drawl1.value, self.config.drawl2.value, self.config.drawl3.value]
+        return [self.drawl1.value, self.drawl2.value, self.drawl3.value]
 
     def init_scene_items(self):
         self.cursor = self.viewport.workscene.addRect(QRect(0, 0, 20, 20), pen=QPen(QColor(255, 0, 0), 3))

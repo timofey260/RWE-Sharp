@@ -52,12 +52,12 @@ class TileRenderTexture(RenderTexture):
             case "default":
                 return
             case "material":
-                if self.module.mod.tileviewconfig.drawoption.value == 0:
+                if self.module.drawoption.value == 0:
                     sz = CONSTS.get("materialsize", [6, 8])
                     self.painter.setBrush(QBrush(QColor(*CONSTS.get("materials", {}).get(tile["data"], [255, 0, 0, 255]))))
                     self.painter.setPen(Qt.PenStyle.NoPen)
                     self.painter.drawRoundedRect(x * CELLSIZE + sz[0], y * CELLSIZE + sz[0], sz[1], sz[1], 2, 2)
-                elif self.module.mod.tileviewconfig.drawoption.value == 3:
+                elif self.module.drawoption.value == 3:
                     self.painter.fillRect(x * CELLSIZE, y * CELLSIZE, CELLSIZE, CELLSIZE, QColor(122, 0, 0, 255))
             # old version
             # case "tileBody":
@@ -101,7 +101,7 @@ class TileRenderTexture(RenderTexture):
                 foundtile = self.manager.tiles[tile["data"][1]]
                 cposxo = int((foundtile.size[0] * .5) + .5) - 1
                 cposyo = int((foundtile.size[1] * .5) + .5) - 1
-                if self.module.mod.tileviewconfig.drawoption.value == 1:
+                if self.module.drawoption.value == 1:
                     drawrect = QRect((x - cposxo - foundtile.bfTiles) * CELLSIZE,
                                      (y - cposyo - foundtile.bfTiles) * CELLSIZE,
                                      CELLSIZE * (foundtile.size[0] + foundtile.bfTiles * 2),
@@ -109,17 +109,17 @@ class TileRenderTexture(RenderTexture):
 
                     self.painter.drawImage(drawrect, foundtile.image2)
 
-                elif self.module.mod.tileviewconfig.drawoption.value in [2, 3, 4, 5, 6]:
+                elif self.module.drawoption.value in [2, 3, 4, 5, 6]:
                     drawrect = QRect((x - cposxo - foundtile.bfTiles) * CELLSIZE,
                                      (y - cposyo - foundtile.bfTiles) * CELLSIZE,
                                      CELLSIZE * (foundtile.size[0] + foundtile.bfTiles * 2),
                                      CELLSIZE * (foundtile.size[1] + foundtile.bfTiles * 2))  # it works trust
-                    if self.module.mod.tileviewconfig.drawoption.value == 3:
+                    if self.module.drawoption.value == 3:
                         foundtile.image4.setColorTable(colortable[self.layer])
-                    elif self.module.mod.tileviewconfig.drawoption.value == 2:
+                    elif self.module.drawoption.value == 2:
                         foundtile.image4.setColorTable(self.color_colortable(foundtile.color))
                     else:
-                        col = self.module.mod.tileviewconfig.drawoption.value - 4
+                        col = self.module.drawoption.value - 4
                         foundtile.image4.setColorTable(self.module.colortable[col][self.layer])
                     self.painter.drawImage(drawrect, foundtile.image4)
                 else:

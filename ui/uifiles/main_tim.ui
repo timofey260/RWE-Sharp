@@ -32,6 +32,15 @@
   <property name="styleSheet">
    <string notr="true"/>
   </property>
+  <property name="tabShape">
+   <enum>QTabWidget::TabShape::Rounded</enum>
+  </property>
+  <property name="dockNestingEnabled">
+   <bool>false</bool>
+  </property>
+  <property name="dockOptions">
+   <set>QMainWindow::DockOption::AllowTabbedDocks|QMainWindow::DockOption::AnimatedDocks|QMainWindow::DockOption::VerticalTabs</set>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_6">
     <item row="0" column="0">
@@ -134,7 +143,7 @@
      <x>0</x>
      <y>0</y>
      <width>1351</width>
-     <height>20</height>
+     <height>33</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -301,8 +310,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>196</width>
-              <height>120</height>
+              <width>194</width>
+              <height>109</height>
              </rect>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout">
@@ -410,7 +419,7 @@
   </action>
   <action name="actionAbout">
    <property name="icon">
-    <iconset theme="QIcon::ThemeIcon::DialogInformation"/>
+    <iconset theme="dialog-information"/>
    </property>
    <property name="text">
     <string>About</string>
@@ -424,7 +433,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset theme="QIcon::ThemeIcon::DialogQuestion"/>
+    <iconset theme="dialog-question"/>
    </property>
    <property name="text">
     <string>Wiki</string>
@@ -432,7 +441,7 @@
   </action>
   <action name="actionAbout_Qt">
    <property name="icon">
-    <iconset theme="QIcon::ThemeIcon::DialogInformation"/>
+    <iconset theme="dialog-information"/>
    </property>
    <property name="text">
     <string>About Qt</string>
@@ -487,7 +496,7 @@
   </action>
   <action name="actionUndo">
    <property name="icon">
-    <iconset theme="QIcon::ThemeIcon::EditUndo"/>
+    <iconset theme="edit-undo"/>
    </property>
    <property name="text">
     <string>Undo</string>
@@ -495,7 +504,7 @@
   </action>
   <action name="actionRedo">
    <property name="icon">
-    <iconset theme="QIcon::ThemeIcon::EditRedo"/>
+    <iconset theme="edit-redo"/>
    </property>
    <property name="text">
     <string>Redo</string>

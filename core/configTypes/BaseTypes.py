@@ -9,8 +9,8 @@ class BoolConfigurable(Configurable):
     from .QtTypes import KeyConfigurable
     valueChanged = Signal(bool)
 
-    def __init__(self, config, name: str, default: bool=False, description: str=""):
-        super().__init__(config, name, default, description)
+    def __init__(self, mod, name: str, default: bool=False, description: str= ""):
+        super().__init__(mod, name, default, description)
 
     def load_str_value(self, text: str) -> None:
         self.value = text == "1"
@@ -73,12 +73,11 @@ class BoolConfigurable(Configurable):
         self.link_action(action, key)
 
 
-
 class StringConfigurable(Configurable):
     valueChanged = Signal(str)
 
-    def __init__(self, config, name: str, default: str="", description: str=""):
-        super().__init__(config, name, default, description)
+    def __init__(self, mod, name: str, default: str= "", description: str= ""):
+        super().__init__(mod, name, default, description)
 
     def load_str_value(self, text: str) -> None:
         self.value = text
@@ -95,9 +94,9 @@ class StringConfigurable(Configurable):
 class IntConfigurable(Configurable):
     valueChanged = Signal(int)
 
-    def __init__(self, config, name: str, default: int=0, description: str=""):
-        super().__init__(config, name, default, description)
+    def __init__(self, mod, name: str, default: int=0, description: str= ""):
         self.radiolist = []
+        super().__init__(mod, name, default, description)
 
     def load_str_value(self, text: str) -> None:
         self.value = int(text)
@@ -130,8 +129,8 @@ class IntConfigurable(Configurable):
 class FloatConfigurable(Configurable):
     valueChanged = Signal(float)
 
-    def __init__(self, config, name: str, default: float=0, description: str=""):
-        super().__init__(config, name, default, description)
+    def __init__(self, mod, name: str, default: float=0, description: str= ""):
+        super().__init__(mod, name, default, description)
 
     def load_str_value(self, text: str) -> None:
         self.value = float(text)
@@ -148,10 +147,10 @@ class FloatConfigurable(Configurable):
 class DictConfigurable(Configurable):
     valueChanged = Signal(dict)
 
-    def __init__(self, config, name: str, default: dict=None, description: str= ""):
+    def __init__(self, mod, name: str, default: dict=None, description: str= ""):
         if default is None:
             default = {}
-        super().__init__(config, name, default, description)
+        super().__init__(mod, name, default, description)
 
     def load_str_value(self, text: str) -> None:
         self.value = json.loads(text)

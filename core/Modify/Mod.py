@@ -31,8 +31,10 @@ class Mod:
         :param manager: manager to use
         :param modinfo: mod info, should be filled with class
         """
+        from core.Modify.ConfigModule import ConfigModule
         self.manager = manager
         self.modinfo = modinfo
+        self.configs = []
 
     @property
     def author_name(self) -> str:

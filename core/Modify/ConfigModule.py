@@ -9,11 +9,10 @@ class ConfigModule:
     all data we store is either level related or editor related
     config module provides easy way to store editor specific data between rwe# sessions
     """
-    def __init__(self, mod, subeditor=""):
+    def __init__(self, mod):
         self.mod = mod
         self.manager = mod.manager
-        self.values: dict[str, Configurable] = {}
-        self.subeditor = subeditor
+        self.values: list[Configurable] = []
 
     def config_init(self):
         """

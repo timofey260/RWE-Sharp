@@ -6,6 +6,8 @@ class UI(QWidget):
         super().__init__(parent)
         self.mod = mod
 
+
+class ViewUI(UI):
     def add_myself(self):
         self.mod.add_vis_ui(self)
         return self

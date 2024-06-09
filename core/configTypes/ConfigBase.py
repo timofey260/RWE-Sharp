@@ -7,10 +7,10 @@ class Configurable(QObject):
     Activated when value is changed
     """
 
-    def __init__(self, config, name: str, default: ..., description: str=""):
+    def __init__(self, mod, name: str, default: ..., description: str=""):
         """
         Abstract object for creating custom config parameters and storing them
-        :param config: config to link
+        :param config: config to link, can be None
         :param name: name of object. should not contain spaces or any special characters
         :param default: default value of variable
         :param description: description in config menu
@@ -20,8 +20,16 @@ class Configurable(QObject):
         self.default = default
         self.value = default
         self.description = description
-        if config is not None:
-            config.values[name] = self
+        self.mod = mod
+        if mod is not None:
+            self.link_mod(mod)
+
+    def link_mod(self, mod):
+        self.mod = mod
+        mod.configs.append(self)
+        value = mod.manager.config.values.get(f"{mod.author_name}.{self.name}")
+        if value is not None:
+            self.load_str_value(value)
 
     def load_str_value(self, text: str) -> None:
         self.valueChanged.emit(self.value)

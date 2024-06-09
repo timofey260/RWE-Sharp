@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'main_timrjqNfw.ui'
+## Form generated from reading UI file 'main_tim.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.7.1
+## Created by: Qt User Interface Compiler version 6.7.0
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -39,6 +39,9 @@ class Ui_MainWindow(object):
         icon.addFile(u":/icons/icon_small.png", QSize(), QIcon.Normal, QIcon.Off)
         MainWindow.setWindowIcon(icon)
         MainWindow.setStyleSheet(u"")
+        MainWindow.setTabShape(QTabWidget.TabShape.Rounded)
+        MainWindow.setDockNestingEnabled(False)
+        MainWindow.setDockOptions(QMainWindow.DockOption.AllowTabbedDocks|QMainWindow.DockOption.AnimatedDocks|QMainWindow.DockOption.VerticalTabs)
         self.actionOpen = QAction(MainWindow)
         self.actionOpen.setObjectName(u"actionOpen")
         icon1 = QIcon(QIcon.fromTheme(u"document-open"))
@@ -64,13 +67,13 @@ class Ui_MainWindow(object):
         self.actionSave_As.setIcon(icon5)
         self.actionAbout = QAction(MainWindow)
         self.actionAbout.setObjectName(u"actionAbout")
-        icon6 = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.DialogInformation))
+        icon6 = QIcon(QIcon.fromTheme(u"dialog-information"))
         self.actionAbout.setIcon(icon6)
         self.actionAbout.setMenuRole(QAction.MenuRole.AboutRole)
         self.actionWiki_window = QAction(MainWindow)
         self.actionWiki_window.setObjectName(u"actionWiki_window")
         self.actionWiki_window.setCheckable(True)
-        icon7 = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.DialogQuestion))
+        icon7 = QIcon(QIcon.fromTheme(u"dialog-question"))
         self.actionWiki_window.setIcon(icon7)
         self.actionAbout_Qt = QAction(MainWindow)
         self.actionAbout_Qt.setObjectName(u"actionAbout_Qt")
@@ -97,11 +100,11 @@ class Ui_MainWindow(object):
         self.actionOpen_2.setObjectName(u"actionOpen_2")
         self.actionUndo = QAction(MainWindow)
         self.actionUndo.setObjectName(u"actionUndo")
-        icon10 = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.EditUndo))
+        icon10 = QIcon(QIcon.fromTheme(u"edit-undo"))
         self.actionUndo.setIcon(icon10)
         self.actionRedo = QAction(MainWindow)
         self.actionRedo.setObjectName(u"actionRedo")
-        icon11 = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.EditRedo))
+        icon11 = QIcon(QIcon.fromTheme(u"edit-redo"))
         self.actionRedo.setIcon(icon11)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
@@ -159,7 +162,7 @@ class Ui_MainWindow(object):
         MainWindow.addDockWidget(Qt.DockWidgetArea.LeftDockWidgetArea, self.DockTools)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 1351, 20))
+        self.menubar.setGeometry(QRect(0, 0, 1351, 33))
         self.menuFile = QMenu(self.menubar)
         self.menuFile.setObjectName(u"menuFile")
         self.menuRecent = QMenu(self.menuFile)
@@ -221,7 +224,7 @@ class Ui_MainWindow(object):
         self.scrollArea_4.setWidgetResizable(True)
         self.scrollAreaWidgetContents_4 = QWidget()
         self.scrollAreaWidgetContents_4.setObjectName(u"scrollAreaWidgetContents_4")
-        self.scrollAreaWidgetContents_4.setGeometry(QRect(0, 0, 196, 120))
+        self.scrollAreaWidgetContents_4.setGeometry(QRect(0, 0, 194, 109))
         self.verticalLayout = QVBoxLayout(self.scrollAreaWidgetContents_4)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.QuickOverlay = QVBoxLayout()

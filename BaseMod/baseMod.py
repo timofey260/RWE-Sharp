@@ -1,15 +1,12 @@
 from core.Modify.Mod import Mod, ModInfo
-from .geo.geometryEditor import GeometryEditor
-from .geo.geometryModule import GeoModule
-from .geo.geoConfig import GeoConfig, GeoViewConfig
-from .tiles.tileModule import TileModule
-from .tiles.tileConfig import TileViewConfig
-from .globalConfig import Globalconfig
-from .grid.gridModule import GridModule
-from .grid.gridConfig import GridConfig
-from .grid.gridUIConnector import GridView
+from BaseMod.geo.geometryEditor import GeometryEditor
+from BaseMod.geo.geometryModule import GeoModule
+from BaseMod.tiles.tileModule import TileModule
+from BaseMod.grid.gridModule import GridModule
+from BaseMod.grid.gridUIConnector import GridView
 from PySide6.QtWidgets import QWidget, QCheckBox
 from PySide6.QtCore import QCoreApplication, Slot, Qt
+from core.configTypes.QtTypes import KeyConfigurable, QtEnumConfigurable
 
 
 class BaseMod(Mod):
@@ -23,39 +20,38 @@ class BaseMod(Mod):
         ))
         from .geo.geoUIConnectors import GeoUI, GeoViewUI
         from .tiles.tileUIConnectors import TileViewUI
-        self.config: Globalconfig | None = None
 
-        self.geoconfig: GeoConfig | None = None
         self.geoeditor: GeometryEditor | None = None
         self.geomodule: GeoModule | None = None
         self.geoui: GeoUI | None = None
         self.geoview: GeoViewUI | None = None
-        self.geoviewconfig: GeoViewConfig | None = None
 
         self.tilemodule: TileModule | None = None
         self.tileview: TileViewUI | None = None
-        self.tileviewconfig: TileViewConfig | None = None
 
         self.gridmodule: GridModule | None = None
-        self.gridconfig: GridConfig | None = None
         self.gridui: GridView | None = None
 
-    def pre_mod_init(self):
-        self.config = Globalconfig(self).add_myself()
-        self.geoconfig = GeoConfig(self).add_myself()
-        self.geoviewconfig = GeoViewConfig(self).add_myself()
-        self.tileviewconfig = TileViewConfig(self).add_myself()
+        self.movement_button: QtEnumConfigurable | None = None
+        self.main_button: QtEnumConfigurable | None = None
+        self.sec_button: QtEnumConfigurable | None = None
 
-        self.gridconfig = GridConfig(self).add_myself()
+        self.undo_key: KeyConfigurable | None = None
+        self.redo_key: KeyConfigurable | None = None
+        self.save_key: KeyConfigurable | None = None
+
+    def pre_mod_init(self):
+        pass
 
     def mod_init(self):
         from .geo.geoUIConnectors import GeoUI, GeoViewUI
         from .tiles.tileUIConnectors import TileViewUI
 
         self.geomodule = GeoModule(self).add_myself()
+        self.geoeditor = GeometryEditor(self)
         self.geoui = GeoUI(self)
         self.geoview = GeoViewUI(self).add_myself()
-        self.geoeditor = GeometryEditor(self).add_myself(self.geoui)
+        self.geoeditor.add_myself(self.geoui)
 
         self.tilemodule = TileModule(self).add_myself()
         self.tileview = TileViewUI(self).add_myself()
@@ -63,19 +59,13 @@ class BaseMod(Mod):
         self.gridmodule = GridModule(self).add_myself()
         self.gridui = GridView(self).add_myself()
 
-        self.init_options()
+        self.movement_button = QtEnumConfigurable(self, "movement_button", Qt.MouseButton.MiddleButton, Qt.MouseButton,
+                                                  "button to move viewport")
+        self.main_button = QtEnumConfigurable(self, "main_button", Qt.MouseButton.LeftButton, Qt.MouseButton,
+                                              "Main button")
+        self.sec_button = QtEnumConfigurable(self, "secondary_button", Qt.MouseButton.RightButton, Qt.MouseButton,
+                                             "Secondary button")
 
-    def init_options(self):
-        self.VQuickGeo = QCheckBox()
-        self.VQuickGeo.setObjectName(u"VQuickGeo")
-        self.VQuickGeo.setText(QCoreApplication.translate("MainWindow", u"Geometry", None))
-        self.VQuickGeo.setChecked(True)
-        self.VQuickGeo.checkStateChanged.connect(self.geoview.toggle_geo)
-        self.add_quickview_option(self.VQuickGeo)
-
-        self.VQuickTiles = QCheckBox()
-        self.VQuickTiles.setObjectName(u"VQuickTiles")
-        self.VQuickTiles.setText(QCoreApplication.translate("MainWindow", u"Tiles", None))
-        self.VQuickTiles.setChecked(True)
-        self.VQuickTiles.checkStateChanged.connect(self.tileview.toggle_tiles)
-        self.add_quickview_option(self.VQuickTiles)
+        self.undo_key = KeyConfigurable(self, "undo", "Ctrl+z", "Key to undo")
+        self.redo_key = KeyConfigurable(self, "redo", "Ctrl+Shift+z", "Key to redo")
+        self.save_key = KeyConfigurable(self, "save", "Ctrl+s", "Key to save the level")
