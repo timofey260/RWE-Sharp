@@ -4,8 +4,7 @@ from BaseMod.geo.geometryModule import GeoModule
 from BaseMod.tiles.tileModule import TileModule
 from BaseMod.grid.gridModule import GridModule
 from BaseMod.grid.gridUIConnector import GridView
-from PySide6.QtWidgets import QWidget, QCheckBox
-from PySide6.QtCore import QCoreApplication, Slot, Qt
+from PySide6.QtCore import Qt
 from core.configTypes.QtTypes import KeyConfigurable, QtEnumConfigurable
 
 

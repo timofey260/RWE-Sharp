@@ -45,3 +45,6 @@ class Configurable(QObject):
 
     def reset_value(self):
         self.update_value(self.default)
+
+    def __call__(self, *args, **kwargs):
+        return self.value

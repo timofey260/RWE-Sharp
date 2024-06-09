@@ -2,6 +2,7 @@ import datetime
 import os
 from core.info import PATH
 from PySide6.QtCore import QPoint
+from collections.abc import Callable
 
 
 def log_to_load_log(message, error=False):
@@ -11,7 +12,7 @@ def log_to_load_log(message, error=False):
         print(msg, end="")
 
 
-def plotLineLow(pointa: QPoint, pointb: QPoint, callback):
+def plotLineLow(pointa: QPoint, pointb: QPoint, callback: Callable):
     if pointa.x() > pointb.x():
         pointa, pointb = pointb, pointa
     d = pointb - pointa
@@ -31,7 +32,7 @@ def plotLineLow(pointa: QPoint, pointb: QPoint, callback):
             D = D + 2 * d.y()
 
 
-def plotLineHigh(pointa: QPoint, pointb: QPoint, callback):
+def plotLineHigh(pointa: QPoint, pointb: QPoint, callback: Callable):
     if pointa.y() > pointb.y():
         pointa, pointb = pointb, pointa
     d = pointb - pointa
@@ -51,7 +52,7 @@ def plotLineHigh(pointa: QPoint, pointb: QPoint, callback):
             D = D + 2 * d.x()
 
 
-def draw_line(pointa: QPoint, pointb: QPoint, callback):
+def draw_line(pointa: QPoint, pointb: QPoint, callback: Callable):
     # callback(pointa)
     if abs(pointb.y() - pointa.y()) < abs(pointb.x() - pointa.x()):
         plotLineLow(pointa, pointb, callback)

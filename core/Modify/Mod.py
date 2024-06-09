@@ -1,21 +1,14 @@
+from dataclasses import dataclass, field
+
+
+@dataclass(frozen=True, init=True)
 class ModInfo:
-    def __init__(self, title: str, description: str, name: str, author: str, version="1.0.0", tags=None):
-        """
-        Info of mod
-        :param title: Title of mod to show
-        :param description: Mod description
-        :param name: id of mod for config management, should not include spaces
-        :param author: Mod author
-        :param version: Mod version, 1.0.0 by default
-        """
-        if tags is None:
-            tags = []
-        self.title = title
-        self.description = description
-        self.name = name
-        self.author = author
-        self.version = version
-        self.tags = tags
+    title: str
+    description: str
+    name: str
+    author: str
+    version: str
+    tags: list[str] = field(default_factory=list)
 
 
 class Mod:

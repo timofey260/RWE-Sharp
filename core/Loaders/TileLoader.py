@@ -4,8 +4,8 @@ from core.lingoIO import tojson, fromarr
 from core.info import PATH
 from core.Loaders.Tile import Tile
 from ui.splashuiconnector import SplashDialog
-from PySide6.QtGui import QColor, QPixmap, QImage, QPainter
-from PySide6.QtCore import QRect, Qt, QThread, QObject, Slot, Signal
+from PySide6.QtGui import QColor, QImage, QPainter
+from PySide6.QtCore import QRect, Qt, QThread, QPoint
 import json
 import os
 from core.info import PATH_DRIZZLE, CELLSIZE, SPRITESIZE, CONSTS, PATH_MAT_PREVIEWS, PATH_FILES_CACHE
@@ -88,22 +88,19 @@ def loadTile(item, colr, cat, catnum, indx) -> Tile | None:
         origimg.setColor(white, 0)
     except ValueError:
         log_to_load_log(f"Error loading {item['nm']}", True)
-    sz = fromarr(item["sz"], "point")
+    sz = QPoint(fromarr(item["sz"], "point"))
     try:
         ln = len(item["repeatL"])
     except KeyError:
         ln = 1
         # sz:point(x,y) + ( #bfTiles * 2 )) * 20
-    try:
-        tp = item["tp"]
-    except KeyError:
-        tp = ""
+    tp = item.get("tp", "")
     if tp == "box":  # math
         ln = 4
-        size = (ln * sz[1] + (item.get("bfTiles", 0) * 2)) * CELLSIZE
-        rect = QRect(0, size, sz[0] * SPRITESIZE, sz[1] * SPRITESIZE)
+        size = (ln * sz.y() + (item.get("bfTiles", 0) * 2)) * CELLSIZE
+        rect = QRect(0, size, sz.x() * SPRITESIZE, sz.y() * SPRITESIZE)
     elif ((ln * sz[1] + (item.get("bfTiles", 0) * 2 * ln)) * CELLSIZE + 1) > origimg.height():
-        rect = QRect(0, origimg.height() - sz[1] * SPRITESIZE, sz[0] * SPRITESIZE, sz[1] * SPRITESIZE)
+        rect = QRect(0, origimg.height() - sz.y() * SPRITESIZE, sz[0] * SPRITESIZE, sz[1] * SPRITESIZE)
     else:
         size = (sz[1] + (item.get("bfTiles", 0) * 2)) * ln * CELLSIZE
         rect = QRect(0, size + 1, sz[0] * SPRITESIZE, sz[1] * SPRITESIZE)
@@ -175,29 +172,9 @@ def loadTile(item, colr, cat, catnum, indx) -> Tile | None:
 
     img4 = img3.copy()
 
-    newitem = {
-        "nm": item["nm"],
-        "tp": item.get("tp"),
-        "repeatL": item.get("repeatL", [1]),
-        "description": "Size" + str(sz),
-        "bfTiles": item.get("bfTiles", 0),
-        "image": img,  # normal rwe# style
-        "image2": img2,  # tile image
-        "image3": img3,  # henry colored
-        "image4": img4,  # rendered tile
-        # "image5": img,  # rendered tile with applied palette
-        "size": sz,
-        "category": cat,
-        "color": colr,
-        "cols": [item.get("specs", [1]), item.get("specs2", 0)],
-        "cat": [catnum + 1, indx + 1],
-        "tags": item["tags"],
-        "printcols": True,
-        "err": err
-    }
-    return Tile(newitem)
-    tilenum += 1
-    solved_copy[catnum]["items"].append(Tile(newitem))
+    return Tile(item["nm"], tp, item.get("repeatL", [1]), "Size" + str(sz), item.get("bfTiles", 0), img, img2, img3,
+                img4, sz, cat, colr, (item.get("specs", [1]), item.get("specs2", 0)), QPoint(catnum + 1, indx + 1),
+                item.get("tags"), True, None, err)
 
 
 class TilePackLoader(QThread):
@@ -305,22 +282,10 @@ def loadTiles(window: SplashDialog) -> ItemData:
             preview = QImage(1, 1, QImage.Format.Format_RGBA64)
         # preview.set_colorkey(pg.Color(255, 255, 255))
         printmessage(f"Loading material {k}")
-        solved_copy[matcatcount]["items"].append(Tile(
-            {
-                "nm": k,
-                "tp": None,
-                "repeatL": [1],
-                "description": "Material",
-                "bfTiles": 0,
-                "image": img,
-                "size": [1, 1],
-                "category": matcat,
-                "color": col,
-                "cols": [[-1], 0],
-                "cat": [matcatcount + 1, len(solved_copy[matcatcount]["items"]) + 1],
-                "tags": ["material"],
-                "preview": preview
-            }))
+        solved_copy[matcatcount]["items"].append(Tile(k, None, [1], "Material", 0, img, None, None, None, QPoint(1, 1),
+                                                      matcat, col, [[-1], 0],
+                                                      QPoint(matcatcount + 1, len(solved_copy[matcatcount]["items"]) + 1),
+                                                      ["material"], False, preview, False))
         if len(solved_copy[matcatcount]["items"]) > 30:
             matcatcount += 1
             matcat = f"materials {matcatcount}"
