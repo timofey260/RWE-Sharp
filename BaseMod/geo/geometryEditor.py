@@ -10,6 +10,9 @@ from enum import Enum, auto
 
 
 class GeoBlocks(Enum):
+    @staticmethod
+    def _generate_next_value_(name, start, count, last_values):
+        return count
     Wall = auto()
     Air = auto()
     Slope = auto()
@@ -31,10 +34,14 @@ class GeoBlocks(Enum):
     ScavengerDen = auto()
     CleanUpper = auto()
     CleanLayer = auto()
+    CleanBlocks = auto()
     CleanAll = auto()
 
 
 class GeoTools(Enum):
+    @staticmethod
+    def _generate_next_value_(name, start, count, last_values):
+        return count
     Pen = auto()
     Brush = auto()
     Bucket = auto()
@@ -78,12 +85,14 @@ class GeometryEditor(EditorMode):
 
     def mouse_press_event(self, event: QMouseEvent):
         if self.mouse_left:
-            fpos = self.viewport.viewport_to_editor(self.mpos)
-            self.manager.level.add_history(GEpointChange(self.manager.level.history, fpos, [1, []], self.layers))
+            self.tool_specific_press(self.toolleft.value)
+        if self.mouse_right:
+            self.tool_specific_press(self.toolright.value)
 
-    def tool_specific_press(self, tool: str):
+    def tool_specific_press(self, tool: GeoTools):
+        fpos = self.viewport.viewport_to_editor(self.mpos)
         if tool == GeoTools.Pen:
-            pass
+            self.manager.level.add_history(GEpointChange(self.manager.level.history, fpos, [1, []], self.layers))
 
 
     def mouse_move_event(self, event: QMoveEvent):

@@ -7,7 +7,7 @@ class Configurable(QObject):
     Activated when value is changed
     """
 
-    def __init__(self, mod, name: str, default: ..., description: str=""):
+    def __init__(self, mod, name: str, default: ..., description: str = ""):
         """
         Abstract object for creating custom config parameters and storing them
         :param config: config to link, can be None

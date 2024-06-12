@@ -2,7 +2,7 @@ import enum
 from .ConfigBase import Configurable
 from PySide6.QtGui import QKeySequence, QColor, QAction
 from PySide6.QtWidgets import QAbstractButton, QComboBox
-from PySide6.QtCore import Signal, Qt
+from PySide6.QtCore import Signal, Qt, Slot
 
 
 class KeyConfigurable(Configurable):
@@ -53,33 +53,16 @@ class ColorConfigurable(Configurable):
         super().update_value(value)
 
 
-class EnumFlagConfigurable(Configurable):
-    valueChanged = Signal(enum.Flag)
-
-    def __init__(self, mod, name, default: enum.Flag, enumtouse, description=""):
-        self.enumtouse = enumtouse
-        super().__init__(mod, name, default, description)
-
-    def update_value(self, value: enum.Flag):
-        super().update_value(value)
-
-    def load_str_value(self, text: str) -> None:
-        for k, v in enumerate(self.enumtouse):
-            if v.name == text:
-                self.value = v
-                self.valueChanged.emit(self.value)
-
-    def save_str_value(self) -> str:
-        return str(self.value.name)
-
-
 class EnumConfigurable(Configurable):
     valueChanged = Signal((enum.Enum, ), (int, ))
 
     def __init__(self, mod, name, default: enum.Enum, enumtouse, description=""):
         self.enumtouse = enumtouse
         super().__init__(mod, name, default, description)
+        self.value: enum.Enum
 
+    @Slot(enum.Enum)
+    @Slot(int)
     def update_value(self, value: enum.Enum | int):
         if isinstance(value, int):
             value = self.enumtouse(value)
@@ -90,16 +73,52 @@ class EnumConfigurable(Configurable):
         self.valueChanged[int].emit(self.value.value)
 
     def load_str_value(self, text: str) -> None:
-        for k, v in enumerate(self.enumtouse):
-            if v.name == text:
-                self.value = v
-                self.valueChanged[enum.Enum].emit(self.value)
-                self.valueChanged[int].emit(self.value.value)
+        try:
+            self.value = self.enumtouse(int(text))
+        except ValueError:
+            self.value = self.enumtouse(0)
+        self.valueChanged[enum.Enum].emit(self.value)
+        self.valueChanged[int].emit(self.value.value)
 
     def save_str_value(self) -> str:
-        return str(self.value.name)
+        return str(self.value.value)
 
     def link_combobox(self, combobox: QComboBox):
+        """
+        Links combobox with configurable
+        Just make sure your enum starts with 0
+        :param combobox: Combobox to link
+        """
         combobox.setCurrentIndex(self.value.value)
         combobox.currentIndexChanged.connect(self.update_value)
         self.valueChanged[int].connect(combobox.setCurrentIndex)
+
+
+class EnumFlagConfigurable(Configurable):
+    valueChanged = Signal((enum.Flag, ), (int, ))
+
+    def __init__(self, mod, name, default: enum.Flag, enumtouse, description=""):
+        self.enumtouse = enumtouse
+        super().__init__(mod, name, default, description)
+
+    @Slot(enum.Flag)
+    @Slot(int)
+    def update_value(self, value: enum.Flag | int):
+        if isinstance(value, int):
+            value = self.enumtouse(value)
+        if self.value == value:
+            return
+        self.value = value
+        self.valueChanged[enum.Flag].emit(self.value)
+        self.valueChanged[int].emit(self.value.value)
+
+    def load_str_value(self, text: str) -> None:
+        try:
+            self.value = self.enumtouse(int(text))
+        except ValueError:
+            self.value = self.enumtouse(1)
+        self.valueChanged[enum.Enum].emit(self.value)
+        self.valueChanged[int].emit(self.value.value)
+
+    def save_str_value(self) -> str:
+        return str(self.value.value)

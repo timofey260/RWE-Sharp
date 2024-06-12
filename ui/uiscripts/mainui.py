@@ -44,7 +44,7 @@ class Ui_MainWindow(object):
         MainWindow.setDockOptions(QMainWindow.DockOption.AllowTabbedDocks|QMainWindow.DockOption.AnimatedDocks|QMainWindow.DockOption.VerticalTabs)
         self.actionOpen = QAction(MainWindow)
         self.actionOpen.setObjectName(u"actionOpen")
-        icon1 = QIcon(QIcon.fromTheme(u"document-open"))
+        icon1 = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.DocumentOpen))
         self.actionOpen.setIcon(icon1)
         self.actionNew = QAction(MainWindow)
         self.actionNew.setObjectName(u"actionNew")

@@ -28,7 +28,8 @@ button_to_geo = {
     "ToolGeoWraykAMoleHole": GeoBlocks.WhackAMoleHole,
     "ToolGeoGarbageWorm": GeoBlocks.GarbageWormDen,
     "ToolGeoScavHole": GeoBlocks.ScavengerDen,
-    "ToolGeoClearUpperLayer": GeoBlocks.CleanUpper,
+    "ToolGeoClearStackabls": GeoBlocks.CleanUpper,
+    "ToolGeoClearBlocks": GeoBlocks.CleanBlocks,
     "ToolGeoClearLayer": GeoBlocks.CleanLayer,
     "ToolGeoClearAll": GeoBlocks.CleanAll,
 }
@@ -55,7 +56,8 @@ class GeoUI(UI):
         self.ui.ToolGeoHive.clicked.connect(self.set_tool)
         self.ui.ToolGeoClearAll.clicked.connect(self.set_tool)
         self.ui.ToolGeoClearLayer.clicked.connect(self.set_tool)
-        self.ui.ToolGeoClearUpperLayer.clicked.connect(self.set_tool)
+        self.ui.ToolGeoClearStackabls.clicked.connect(self.set_tool)
+        self.ui.ToolGeoClearBlocks.clicked.connect(self.set_tool)
         self.ui.ToolGeoScavHole.clicked.connect(self.set_tool)
         self.ui.ToolGeoGarbageWorm.clicked.connect(self.set_tool)
         self.ui.ToolGeoWormGrass.clicked.connect(self.set_tool)

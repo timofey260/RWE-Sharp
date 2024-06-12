@@ -24,7 +24,7 @@ class Ui_Geo(object):
     def setupUi(self, Geo):
         if not Geo.objectName():
             Geo.setObjectName(u"Geo")
-        Geo.resize(391, 776)
+        Geo.resize(278, 714)
         self.verticalLayout_2 = QVBoxLayout(Geo)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.scrollArea = QScrollArea(Geo)
@@ -40,7 +40,7 @@ class Ui_Geo(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 356, 782))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 260, 696))
         self.verticalLayout_7 = QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_7.setObjectName(u"verticalLayout_7")
         self.ToolGeoaApply_to_Label = QLabel(self.scrollAreaWidgetContents)
@@ -158,119 +158,6 @@ class Ui_Geo(object):
         self.gridLayout_11.setObjectName(u"gridLayout_11")
         self.gridLayout = QGridLayout()
         self.gridLayout.setObjectName(u"gridLayout")
-        self.geolayout = QVBoxLayout()
-        self.geolayout.setObjectName(u"geolayout")
-        self.label_Blocks = QLabel(self.ToolMassEditFrame)
-        self.label_Blocks.setObjectName(u"label_Blocks")
-        sizePolicy1.setHeightForWidth(self.label_Blocks.sizePolicy().hasHeightForWidth())
-        self.label_Blocks.setSizePolicy(sizePolicy1)
-        self.label_Blocks.setLocale(QLocale(QLocale.English, QLocale.UnitedStates))
-
-        self.geolayout.addWidget(self.label_Blocks)
-
-        self.ToolGeoWall = QPushButton(self.ToolMassEditFrame)
-        self.ToolGeoWall.setObjectName(u"ToolGeoWall")
-        sizePolicy2.setHeightForWidth(self.ToolGeoWall.sizePolicy().hasHeightForWidth())
-        self.ToolGeoWall.setSizePolicy(sizePolicy2)
-        self.ToolGeoWall.setLocale(QLocale(QLocale.English, QLocale.UnitedStates))
-        self.ToolGeoWall.setIconSize(QSize(16, 16))
-        self.ToolGeoWall.setCheckable(False)
-
-        self.geolayout.addWidget(self.ToolGeoWall)
-
-        self.ToolGeoSlope = QPushButton(self.ToolMassEditFrame)
-        self.ToolGeoSlope.setObjectName(u"ToolGeoSlope")
-        sizePolicy2.setHeightForWidth(self.ToolGeoSlope.sizePolicy().hasHeightForWidth())
-        self.ToolGeoSlope.setSizePolicy(sizePolicy2)
-        self.ToolGeoSlope.setLocale(QLocale(QLocale.English, QLocale.UnitedStates))
-
-        self.geolayout.addWidget(self.ToolGeoSlope)
-
-        self.ToolGeoAir = QPushButton(self.ToolMassEditFrame)
-        self.ToolGeoAir.setObjectName(u"ToolGeoAir")
-        sizePolicy2.setHeightForWidth(self.ToolGeoAir.sizePolicy().hasHeightForWidth())
-        self.ToolGeoAir.setSizePolicy(sizePolicy2)
-        self.ToolGeoAir.setLocale(QLocale(QLocale.English, QLocale.UnitedStates))
-        self.ToolGeoAir.setIconSize(QSize(32, 16))
-
-        self.geolayout.addWidget(self.ToolGeoAir)
-
-        self.ToolGeoBeam = QPushButton(self.ToolMassEditFrame)
-        self.ToolGeoBeam.setObjectName(u"ToolGeoBeam")
-        sizePolicy2.setHeightForWidth(self.ToolGeoBeam.sizePolicy().hasHeightForWidth())
-        self.ToolGeoBeam.setSizePolicy(sizePolicy2)
-        self.ToolGeoBeam.setLocale(QLocale(QLocale.English, QLocale.UnitedStates))
-
-        self.geolayout.addWidget(self.ToolGeoBeam)
-
-        self.ToolGeoFloor = QPushButton(self.ToolMassEditFrame)
-        self.ToolGeoFloor.setObjectName(u"ToolGeoFloor")
-        sizePolicy2.setHeightForWidth(self.ToolGeoFloor.sizePolicy().hasHeightForWidth())
-        self.ToolGeoFloor.setSizePolicy(sizePolicy2)
-        self.ToolGeoFloor.setLocale(QLocale(QLocale.English, QLocale.UnitedStates))
-        self.ToolGeoFloor.setAutoRepeat(False)
-
-        self.geolayout.addWidget(self.ToolGeoFloor)
-
-        self.ToolGeoCrack = QPushButton(self.ToolMassEditFrame)
-        self.ToolGeoCrack.setObjectName(u"ToolGeoCrack")
-        sizePolicy2.setHeightForWidth(self.ToolGeoCrack.sizePolicy().hasHeightForWidth())
-        self.ToolGeoCrack.setSizePolicy(sizePolicy2)
-        self.ToolGeoCrack.setLocale(QLocale(QLocale.English, QLocale.UnitedStates))
-
-        self.geolayout.addWidget(self.ToolGeoCrack)
-
-        self.ToolGeoSpear = QPushButton(self.ToolMassEditFrame)
-        self.ToolGeoSpear.setObjectName(u"ToolGeoSpear")
-        sizePolicy2.setHeightForWidth(self.ToolGeoSpear.sizePolicy().hasHeightForWidth())
-        self.ToolGeoSpear.setSizePolicy(sizePolicy2)
-        self.ToolGeoSpear.setLocale(QLocale(QLocale.English, QLocale.UnitedStates))
-
-        self.geolayout.addWidget(self.ToolGeoSpear)
-
-        self.ToolGeoRock = QPushButton(self.ToolMassEditFrame)
-        self.ToolGeoRock.setObjectName(u"ToolGeoRock")
-        sizePolicy2.setHeightForWidth(self.ToolGeoRock.sizePolicy().hasHeightForWidth())
-        self.ToolGeoRock.setSizePolicy(sizePolicy2)
-        self.ToolGeoRock.setLocale(QLocale(QLocale.English, QLocale.UnitedStates))
-
-        self.geolayout.addWidget(self.ToolGeoRock)
-
-        self.ToolGeoGlass = QPushButton(self.ToolMassEditFrame)
-        self.ToolGeoGlass.setObjectName(u"ToolGeoGlass")
-        sizePolicy2.setHeightForWidth(self.ToolGeoGlass.sizePolicy().hasHeightForWidth())
-        self.ToolGeoGlass.setSizePolicy(sizePolicy2)
-        self.ToolGeoGlass.setLocale(QLocale(QLocale.English, QLocale.UnitedStates))
-
-        self.geolayout.addWidget(self.ToolGeoGlass)
-
-        self.ToolGeoHive = QPushButton(self.ToolMassEditFrame)
-        self.ToolGeoHive.setObjectName(u"ToolGeoHive")
-        sizePolicy2.setHeightForWidth(self.ToolGeoHive.sizePolicy().hasHeightForWidth())
-        self.ToolGeoHive.setSizePolicy(sizePolicy2)
-        self.ToolGeoHive.setLocale(QLocale(QLocale.English, QLocale.UnitedStates))
-
-        self.geolayout.addWidget(self.ToolGeoHive)
-
-        self.ToolGeoForbidChains = QPushButton(self.ToolMassEditFrame)
-        self.ToolGeoForbidChains.setObjectName(u"ToolGeoForbidChains")
-        sizePolicy2.setHeightForWidth(self.ToolGeoForbidChains.sizePolicy().hasHeightForWidth())
-        self.ToolGeoForbidChains.setSizePolicy(sizePolicy2)
-        self.ToolGeoForbidChains.setLocale(QLocale(QLocale.English, QLocale.UnitedStates))
-
-        self.geolayout.addWidget(self.ToolGeoForbidChains)
-
-        self.ToolGeoWormGrass = QPushButton(self.ToolMassEditFrame)
-        self.ToolGeoWormGrass.setObjectName(u"ToolGeoWormGrass")
-        sizePolicy2.setHeightForWidth(self.ToolGeoWormGrass.sizePolicy().hasHeightForWidth())
-        self.ToolGeoWormGrass.setSizePolicy(sizePolicy2)
-        self.ToolGeoWormGrass.setFlat(False)
-
-        self.geolayout.addWidget(self.ToolGeoWormGrass)
-
-
-        self.gridLayout.addLayout(self.geolayout, 0, 0, 2, 1)
-
         self.verticalLayout = QVBoxLayout()
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.ToolGeoLabelPipes = QLabel(self.ToolMassEditFrame)
@@ -332,57 +219,102 @@ class Ui_Geo(object):
 
         self.gridLayout.addLayout(self.verticalLayout, 0, 1, 1, 1)
 
-        self.deletelayout = QVBoxLayout()
-        self.deletelayout.setObjectName(u"deletelayout")
+        self.geolayout = QVBoxLayout()
+        self.geolayout.setObjectName(u"geolayout")
+        self.label_Blocks = QLabel(self.ToolMassEditFrame)
+        self.label_Blocks.setObjectName(u"label_Blocks")
+        sizePolicy1.setHeightForWidth(self.label_Blocks.sizePolicy().hasHeightForWidth())
+        self.label_Blocks.setSizePolicy(sizePolicy1)
+        self.label_Blocks.setLocale(QLocale(QLocale.English, QLocale.UnitedStates))
+
+        self.geolayout.addWidget(self.label_Blocks)
+
+        self.ToolGeoWall = QPushButton(self.ToolMassEditFrame)
+        self.ToolGeoWall.setObjectName(u"ToolGeoWall")
+        sizePolicy2.setHeightForWidth(self.ToolGeoWall.sizePolicy().hasHeightForWidth())
+        self.ToolGeoWall.setSizePolicy(sizePolicy2)
+        self.ToolGeoWall.setLocale(QLocale(QLocale.English, QLocale.UnitedStates))
+        self.ToolGeoWall.setIconSize(QSize(16, 16))
+        self.ToolGeoWall.setCheckable(False)
+
+        self.geolayout.addWidget(self.ToolGeoWall)
+
+        self.ToolGeoAir = QPushButton(self.ToolMassEditFrame)
+        self.ToolGeoAir.setObjectName(u"ToolGeoAir")
+        sizePolicy2.setHeightForWidth(self.ToolGeoAir.sizePolicy().hasHeightForWidth())
+        self.ToolGeoAir.setSizePolicy(sizePolicy2)
+        self.ToolGeoAir.setLocale(QLocale(QLocale.English, QLocale.UnitedStates))
+        self.ToolGeoAir.setIconSize(QSize(32, 16))
+
+        self.geolayout.addWidget(self.ToolGeoAir)
+
+        self.ToolGeoSlope = QPushButton(self.ToolMassEditFrame)
+        self.ToolGeoSlope.setObjectName(u"ToolGeoSlope")
+        sizePolicy2.setHeightForWidth(self.ToolGeoSlope.sizePolicy().hasHeightForWidth())
+        self.ToolGeoSlope.setSizePolicy(sizePolicy2)
+        self.ToolGeoSlope.setLocale(QLocale(QLocale.English, QLocale.UnitedStates))
+
+        self.geolayout.addWidget(self.ToolGeoSlope)
+
+        self.ToolGeoGlass = QPushButton(self.ToolMassEditFrame)
+        self.ToolGeoGlass.setObjectName(u"ToolGeoGlass")
+        sizePolicy2.setHeightForWidth(self.ToolGeoGlass.sizePolicy().hasHeightForWidth())
+        self.ToolGeoGlass.setSizePolicy(sizePolicy2)
+        self.ToolGeoGlass.setLocale(QLocale(QLocale.English, QLocale.UnitedStates))
+
+        self.geolayout.addWidget(self.ToolGeoGlass)
+
+        self.ToolGeoFloor = QPushButton(self.ToolMassEditFrame)
+        self.ToolGeoFloor.setObjectName(u"ToolGeoFloor")
+        sizePolicy2.setHeightForWidth(self.ToolGeoFloor.sizePolicy().hasHeightForWidth())
+        self.ToolGeoFloor.setSizePolicy(sizePolicy2)
+        self.ToolGeoFloor.setLocale(QLocale(QLocale.English, QLocale.UnitedStates))
+        self.ToolGeoFloor.setAutoRepeat(False)
+
+        self.geolayout.addWidget(self.ToolGeoFloor)
+
         self.ToolGeoLabelDeltieTools = QLabel(self.ToolMassEditFrame)
         self.ToolGeoLabelDeltieTools.setObjectName(u"ToolGeoLabelDeltieTools")
         sizePolicy1.setHeightForWidth(self.ToolGeoLabelDeltieTools.sizePolicy().hasHeightForWidth())
         self.ToolGeoLabelDeltieTools.setSizePolicy(sizePolicy1)
 
-        self.deletelayout.addWidget(self.ToolGeoLabelDeltieTools)
-
-        self.ToolGeoClearUpperLayer = QPushButton(self.ToolMassEditFrame)
-        self.ToolGeoClearUpperLayer.setObjectName(u"ToolGeoClearUpperLayer")
-        sizePolicy2.setHeightForWidth(self.ToolGeoClearUpperLayer.sizePolicy().hasHeightForWidth())
-        self.ToolGeoClearUpperLayer.setSizePolicy(sizePolicy2)
-
-        self.deletelayout.addWidget(self.ToolGeoClearUpperLayer)
-
-        self.ToolGeoClearLayer = QPushButton(self.ToolMassEditFrame)
-        self.ToolGeoClearLayer.setObjectName(u"ToolGeoClearLayer")
-        sizePolicy2.setHeightForWidth(self.ToolGeoClearLayer.sizePolicy().hasHeightForWidth())
-        self.ToolGeoClearLayer.setSizePolicy(sizePolicy2)
-
-        self.deletelayout.addWidget(self.ToolGeoClearLayer)
+        self.geolayout.addWidget(self.ToolGeoLabelDeltieTools)
 
         self.ToolGeoClearAll = QPushButton(self.ToolMassEditFrame)
         self.ToolGeoClearAll.setObjectName(u"ToolGeoClearAll")
         sizePolicy2.setHeightForWidth(self.ToolGeoClearAll.sizePolicy().hasHeightForWidth())
         self.ToolGeoClearAll.setSizePolicy(sizePolicy2)
 
-        self.deletelayout.addWidget(self.ToolGeoClearAll)
+        self.geolayout.addWidget(self.ToolGeoClearAll)
 
+        self.ToolGeoClearStackabls = QPushButton(self.ToolMassEditFrame)
+        self.ToolGeoClearStackabls.setObjectName(u"ToolGeoClearStackabls")
+        sizePolicy2.setHeightForWidth(self.ToolGeoClearStackabls.sizePolicy().hasHeightForWidth())
+        self.ToolGeoClearStackabls.setSizePolicy(sizePolicy2)
 
-        self.gridLayout.addLayout(self.deletelayout, 1, 1, 1, 1)
+        self.geolayout.addWidget(self.ToolGeoClearStackabls)
 
-        self.masslayout = QVBoxLayout()
-        self.masslayout.setObjectName(u"masslayout")
+        self.ToolGeoClearBlocks = QPushButton(self.ToolMassEditFrame)
+        self.ToolGeoClearBlocks.setObjectName(u"ToolGeoClearBlocks")
+        sizePolicy2.setHeightForWidth(self.ToolGeoClearBlocks.sizePolicy().hasHeightForWidth())
+        self.ToolGeoClearBlocks.setSizePolicy(sizePolicy2)
+
+        self.geolayout.addWidget(self.ToolGeoClearBlocks)
+
+        self.ToolGeoClearLayer = QPushButton(self.ToolMassEditFrame)
+        self.ToolGeoClearLayer.setObjectName(u"ToolGeoClearLayer")
+        sizePolicy2.setHeightForWidth(self.ToolGeoClearLayer.sizePolicy().hasHeightForWidth())
+        self.ToolGeoClearLayer.setSizePolicy(sizePolicy2)
+
+        self.geolayout.addWidget(self.ToolGeoClearLayer)
+
         self.ToolGeoLabel = QLabel(self.ToolMassEditFrame)
         self.ToolGeoLabel.setObjectName(u"ToolGeoLabel")
         sizePolicy1.setHeightForWidth(self.ToolGeoLabel.sizePolicy().hasHeightForWidth())
         self.ToolGeoLabel.setSizePolicy(sizePolicy1)
         self.ToolGeoLabel.setLocale(QLocale(QLocale.English, QLocale.UnitedStates))
 
-        self.masslayout.addWidget(self.ToolGeoLabel)
-
-        self.ToolGeoCopy = QPushButton(self.ToolMassEditFrame)
-        self.ToolGeoCopy.setObjectName(u"ToolGeoCopy")
-        sizePolicy2.setHeightForWidth(self.ToolGeoCopy.sizePolicy().hasHeightForWidth())
-        self.ToolGeoCopy.setSizePolicy(sizePolicy2)
-        self.ToolGeoCopy.setMinimumSize(QSize(0, 0))
-        self.ToolGeoCopy.setLocale(QLocale(QLocale.English, QLocale.UnitedStates))
-
-        self.masslayout.addWidget(self.ToolGeoCopy)
+        self.geolayout.addWidget(self.ToolGeoLabel)
 
         self.ToolGeoPaste = QPushButton(self.ToolMassEditFrame)
         self.ToolGeoPaste.setObjectName(u"ToolGeoPaste")
@@ -392,23 +324,16 @@ class Ui_Geo(object):
         self.ToolGeoPaste.setIconSize(QSize(16, 16))
         self.ToolGeoPaste.setCheckable(False)
 
-        self.masslayout.addWidget(self.ToolGeoPaste)
+        self.geolayout.addWidget(self.ToolGeoPaste)
 
-        self.ToolGeoMirror = QPushButton(self.ToolMassEditFrame)
-        self.ToolGeoMirror.setObjectName(u"ToolGeoMirror")
-        sizePolicy2.setHeightForWidth(self.ToolGeoMirror.sizePolicy().hasHeightForWidth())
-        self.ToolGeoMirror.setSizePolicy(sizePolicy2)
-        self.ToolGeoMirror.setLocale(QLocale(QLocale.English, QLocale.UnitedStates))
+        self.ToolGeoCopy = QPushButton(self.ToolMassEditFrame)
+        self.ToolGeoCopy.setObjectName(u"ToolGeoCopy")
+        sizePolicy2.setHeightForWidth(self.ToolGeoCopy.sizePolicy().hasHeightForWidth())
+        self.ToolGeoCopy.setSizePolicy(sizePolicy2)
+        self.ToolGeoCopy.setMinimumSize(QSize(0, 0))
+        self.ToolGeoCopy.setLocale(QLocale(QLocale.English, QLocale.UnitedStates))
 
-        self.masslayout.addWidget(self.ToolGeoMirror)
-
-        self.ToolGeoInvert = QPushButton(self.ToolMassEditFrame)
-        self.ToolGeoInvert.setObjectName(u"ToolGeoInvert")
-        sizePolicy2.setHeightForWidth(self.ToolGeoInvert.sizePolicy().hasHeightForWidth())
-        self.ToolGeoInvert.setSizePolicy(sizePolicy2)
-        self.ToolGeoInvert.setLocale(QLocale(QLocale.English, QLocale.UnitedStates))
-
-        self.masslayout.addWidget(self.ToolGeoInvert)
+        self.geolayout.addWidget(self.ToolGeoCopy)
 
         self.ToolGeoMove = QPushButton(self.ToolMassEditFrame)
         self.ToolGeoMove.setObjectName(u"ToolGeoMove")
@@ -417,10 +342,95 @@ class Ui_Geo(object):
         self.ToolGeoMove.setLocale(QLocale(QLocale.English, QLocale.UnitedStates))
         self.ToolGeoMove.setAutoRepeat(False)
 
-        self.masslayout.addWidget(self.ToolGeoMove)
+        self.geolayout.addWidget(self.ToolGeoMove)
+
+        self.ToolGeoMirror = QPushButton(self.ToolMassEditFrame)
+        self.ToolGeoMirror.setObjectName(u"ToolGeoMirror")
+        sizePolicy2.setHeightForWidth(self.ToolGeoMirror.sizePolicy().hasHeightForWidth())
+        self.ToolGeoMirror.setSizePolicy(sizePolicy2)
+        self.ToolGeoMirror.setLocale(QLocale(QLocale.English, QLocale.UnitedStates))
+
+        self.geolayout.addWidget(self.ToolGeoMirror)
+
+        self.ToolGeoInvert = QPushButton(self.ToolMassEditFrame)
+        self.ToolGeoInvert.setObjectName(u"ToolGeoInvert")
+        sizePolicy2.setHeightForWidth(self.ToolGeoInvert.sizePolicy().hasHeightForWidth())
+        self.ToolGeoInvert.setSizePolicy(sizePolicy2)
+        self.ToolGeoInvert.setLocale(QLocale(QLocale.English, QLocale.UnitedStates))
+
+        self.geolayout.addWidget(self.ToolGeoInvert)
 
 
-        self.gridLayout.addLayout(self.masslayout, 2, 0, 1, 2)
+        self.gridLayout.addLayout(self.geolayout, 0, 0, 2, 1)
+
+        self.deletelayout = QVBoxLayout()
+        self.deletelayout.setObjectName(u"deletelayout")
+        self.label_Blocks_2 = QLabel(self.ToolMassEditFrame)
+        self.label_Blocks_2.setObjectName(u"label_Blocks_2")
+        sizePolicy1.setHeightForWidth(self.label_Blocks_2.sizePolicy().hasHeightForWidth())
+        self.label_Blocks_2.setSizePolicy(sizePolicy1)
+        self.label_Blocks_2.setLocale(QLocale(QLocale.English, QLocale.UnitedStates))
+
+        self.deletelayout.addWidget(self.label_Blocks_2)
+
+        self.ToolGeoCrack = QPushButton(self.ToolMassEditFrame)
+        self.ToolGeoCrack.setObjectName(u"ToolGeoCrack")
+        sizePolicy2.setHeightForWidth(self.ToolGeoCrack.sizePolicy().hasHeightForWidth())
+        self.ToolGeoCrack.setSizePolicy(sizePolicy2)
+        self.ToolGeoCrack.setLocale(QLocale(QLocale.English, QLocale.UnitedStates))
+
+        self.deletelayout.addWidget(self.ToolGeoCrack)
+
+        self.ToolGeoWormGrass = QPushButton(self.ToolMassEditFrame)
+        self.ToolGeoWormGrass.setObjectName(u"ToolGeoWormGrass")
+        sizePolicy2.setHeightForWidth(self.ToolGeoWormGrass.sizePolicy().hasHeightForWidth())
+        self.ToolGeoWormGrass.setSizePolicy(sizePolicy2)
+        self.ToolGeoWormGrass.setFlat(False)
+
+        self.deletelayout.addWidget(self.ToolGeoWormGrass)
+
+        self.ToolGeoForbidChains = QPushButton(self.ToolMassEditFrame)
+        self.ToolGeoForbidChains.setObjectName(u"ToolGeoForbidChains")
+        sizePolicy2.setHeightForWidth(self.ToolGeoForbidChains.sizePolicy().hasHeightForWidth())
+        self.ToolGeoForbidChains.setSizePolicy(sizePolicy2)
+        self.ToolGeoForbidChains.setLocale(QLocale(QLocale.English, QLocale.UnitedStates))
+
+        self.deletelayout.addWidget(self.ToolGeoForbidChains)
+
+        self.ToolGeoSpear = QPushButton(self.ToolMassEditFrame)
+        self.ToolGeoSpear.setObjectName(u"ToolGeoSpear")
+        sizePolicy2.setHeightForWidth(self.ToolGeoSpear.sizePolicy().hasHeightForWidth())
+        self.ToolGeoSpear.setSizePolicy(sizePolicy2)
+        self.ToolGeoSpear.setLocale(QLocale(QLocale.English, QLocale.UnitedStates))
+
+        self.deletelayout.addWidget(self.ToolGeoSpear)
+
+        self.ToolGeoRock = QPushButton(self.ToolMassEditFrame)
+        self.ToolGeoRock.setObjectName(u"ToolGeoRock")
+        sizePolicy2.setHeightForWidth(self.ToolGeoRock.sizePolicy().hasHeightForWidth())
+        self.ToolGeoRock.setSizePolicy(sizePolicy2)
+        self.ToolGeoRock.setLocale(QLocale(QLocale.English, QLocale.UnitedStates))
+
+        self.deletelayout.addWidget(self.ToolGeoRock)
+
+        self.ToolGeoHive = QPushButton(self.ToolMassEditFrame)
+        self.ToolGeoHive.setObjectName(u"ToolGeoHive")
+        sizePolicy2.setHeightForWidth(self.ToolGeoHive.sizePolicy().hasHeightForWidth())
+        self.ToolGeoHive.setSizePolicy(sizePolicy2)
+        self.ToolGeoHive.setLocale(QLocale(QLocale.English, QLocale.UnitedStates))
+
+        self.deletelayout.addWidget(self.ToolGeoHive)
+
+        self.ToolGeoBeam = QPushButton(self.ToolMassEditFrame)
+        self.ToolGeoBeam.setObjectName(u"ToolGeoBeam")
+        sizePolicy2.setHeightForWidth(self.ToolGeoBeam.sizePolicy().hasHeightForWidth())
+        self.ToolGeoBeam.setSizePolicy(sizePolicy2)
+        self.ToolGeoBeam.setLocale(QLocale(QLocale.English, QLocale.UnitedStates))
+
+        self.deletelayout.addWidget(self.ToolGeoBeam)
+
+
+        self.gridLayout.addLayout(self.deletelayout, 1, 1, 1, 1)
 
 
         self.gridLayout_11.addLayout(self.gridLayout, 0, 0, 1, 1)
@@ -465,40 +475,50 @@ class Ui_Geo(object):
         self.label.setText(QCoreApplication.translate("Geo", u"Mouse mode:", None))
         self.label_3.setText(QCoreApplication.translate("Geo", u"Left mouse:", None))
         self.label_2.setText(QCoreApplication.translate("Geo", u"Right mouse:", None))
+        self.ToolGeoLabelPipes.setText(QCoreApplication.translate("Geo", u"Pipes", None))
+        self.ToolGeoShortcutEntrance.setText(QCoreApplication.translate("Geo", u"Entrance", None))
+        self.ToolGeoShortcut.setText(QCoreApplication.translate("Geo", u"Path", None))
+        self.ToolGeoDen.setText(QCoreApplication.translate("Geo", u"Den", None))
+        self.ToolGeoEntrance.setText(QCoreApplication.translate("Geo", u"Room Entrance", None))
+#if QT_CONFIG(tooltip)
+        self.ToolGeoWraykAMoleHole.setToolTip(QCoreApplication.translate("Geo", u"Whack a mole hole", None))
+#endif // QT_CONFIG(tooltip)
+        self.ToolGeoWraykAMoleHole.setText(QCoreApplication.translate("Geo", u"Wrayk a mole", None))
+#if QT_CONFIG(tooltip)
+        self.ToolGeoGarbageWorm.setToolTip(QCoreApplication.translate("Geo", u"Garbage worm den", None))
+#endif // QT_CONFIG(tooltip)
+        self.ToolGeoGarbageWorm.setText(QCoreApplication.translate("Geo", u"Wrom den", None))
+        self.ToolGeoScavHole.setText(QCoreApplication.translate("Geo", u"Scav Hole", None))
         self.label_Blocks.setText(QCoreApplication.translate("Geo", u"Geomentry", None))
         self.ToolGeoWall.setText(QCoreApplication.translate("Geo", u"Wall", None))
-        self.ToolGeoSlope.setText(QCoreApplication.translate("Geo", u"Slope", None))
         self.ToolGeoAir.setText(QCoreApplication.translate("Geo", u"Air", None))
-        self.ToolGeoBeam.setText(QCoreApplication.translate("Geo", u"Beam", None))
-        self.ToolGeoFloor.setText(QCoreApplication.translate("Geo", u"Floor", None))
-        self.ToolGeoCrack.setText(QCoreApplication.translate("Geo", u"Crack", None))
-        self.ToolGeoSpear.setText(QCoreApplication.translate("Geo", u"Spear", None))
-        self.ToolGeoRock.setText(QCoreApplication.translate("Geo", u"Rock", None))
+        self.ToolGeoSlope.setText(QCoreApplication.translate("Geo", u"Slope", None))
         self.ToolGeoGlass.setText(QCoreApplication.translate("Geo", u"Glass", None))
-        self.ToolGeoHive.setText(QCoreApplication.translate("Geo", u"Fly hive", None))
-        self.ToolGeoForbidChains.setText(QCoreApplication.translate("Geo", u"Forbid Fly\n"
-"Chains", None))
-        self.ToolGeoWormGrass.setText(QCoreApplication.translate("Geo", u"Worm grass", None))
-        self.ToolGeoLabelPipes.setText(QCoreApplication.translate("Geo", u"Pipes", None))
-        self.ToolGeoShortcutEntrance.setText(QCoreApplication.translate("Geo", u"Shortcut Entrance", None))
-        self.ToolGeoShortcut.setText(QCoreApplication.translate("Geo", u"Shortcut Path", None))
-        self.ToolGeoDen.setText(QCoreApplication.translate("Geo", u"Den", None))
-        self.ToolGeoEntrance.setText(QCoreApplication.translate("Geo", u"Room Enterance", None))
-        self.ToolGeoWraykAMoleHole.setText(QCoreApplication.translate("Geo", u"Wrayk a mole hole", None))
-        self.ToolGeoGarbageWorm.setText(QCoreApplication.translate("Geo", u"Garbage wrom den", None))
-        self.ToolGeoScavHole.setText(QCoreApplication.translate("Geo", u"Scavanger Hole", None))
+        self.ToolGeoFloor.setText(QCoreApplication.translate("Geo", u"Floor", None))
         self.ToolGeoLabelDeltieTools.setText(QCoreApplication.translate("Geo", u"Delete tools", None))
-        self.ToolGeoClearUpperLayer.setText(QCoreApplication.translate("Geo", u"Clear upper layer", None))
-        self.ToolGeoClearLayer.setText(QCoreApplication.translate("Geo", u"Clear layer", None))
         self.ToolGeoClearAll.setText(QCoreApplication.translate("Geo", u"Clear all", None))
-        self.ToolGeoLabel.setText(QCoreApplication.translate("Geo", u"mass edit", None))
+        self.ToolGeoClearStackabls.setText(QCoreApplication.translate("Geo", u"Clear Stackables", None))
+        self.ToolGeoClearBlocks.setText(QCoreApplication.translate("Geo", u"Clear Blocks", None))
+        self.ToolGeoClearLayer.setText(QCoreApplication.translate("Geo", u"Clear Layer", None))
+        self.ToolGeoLabel.setText(QCoreApplication.translate("Geo", u"Mass edit", None))
+        self.ToolGeoPaste.setText(QCoreApplication.translate("Geo", u"Paste", None))
 #if QT_CONFIG(tooltip)
         self.ToolGeoCopy.setToolTip(QCoreApplication.translate("Geo", u"<html><head/><body><p>copy</p><p><br/></p></body></html>", None))
 #endif // QT_CONFIG(tooltip)
         self.ToolGeoCopy.setText(QCoreApplication.translate("Geo", u"Copy tool", None))
-        self.ToolGeoPaste.setText(QCoreApplication.translate("Geo", u"Paste", None))
+        self.ToolGeoMove.setText(QCoreApplication.translate("Geo", u"Move", None))
         self.ToolGeoMirror.setText(QCoreApplication.translate("Geo", u"Mirror", None))
         self.ToolGeoInvert.setText(QCoreApplication.translate("Geo", u"Invert", None))
-        self.ToolGeoMove.setText(QCoreApplication.translate("Geo", u"Move", None))
+        self.label_Blocks_2.setText(QCoreApplication.translate("Geo", u"Stackables", None))
+        self.ToolGeoCrack.setText(QCoreApplication.translate("Geo", u"Crack", None))
+        self.ToolGeoWormGrass.setText(QCoreApplication.translate("Geo", u"Worm grass", None))
+#if QT_CONFIG(tooltip)
+        self.ToolGeoForbidChains.setToolTip(QCoreApplication.translate("Geo", u"Forbid fly chains", None))
+#endif // QT_CONFIG(tooltip)
+        self.ToolGeoForbidChains.setText(QCoreApplication.translate("Geo", u"Forbid Chains", None))
+        self.ToolGeoSpear.setText(QCoreApplication.translate("Geo", u"Spear", None))
+        self.ToolGeoRock.setText(QCoreApplication.translate("Geo", u"Rock", None))
+        self.ToolGeoHive.setText(QCoreApplication.translate("Geo", u"Fly hive", None))
+        self.ToolGeoBeam.setText(QCoreApplication.translate("Geo", u"Beam", None))
     # retranslateUi
 
