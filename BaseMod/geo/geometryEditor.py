@@ -3,9 +3,46 @@ from PySide6.QtCore import QRect, QPoint, Qt
 from PySide6.QtGui import QColor, QPen, QMoveEvent, QWheelEvent, QMouseEvent, QKeySequence
 from PySide6.QtWidgets import QGraphicsRectItem
 from core.info import CELLSIZE
-from .geoHistory import GEpointChange
+from BaseMod.geo.geoHistory import GEpointChange
 from core.configTypes.BaseTypes import StringConfigurable, BoolConfigurable
-from core.configTypes.QtTypes import KeyConfigurable
+from core.configTypes.QtTypes import KeyConfigurable, EnumConfigurable
+from enum import Enum, auto
+
+
+class GeoBlocks(Enum):
+    Wall = auto()
+    Air = auto()
+    Slope = auto()
+    Beam = auto()
+    Floor = auto()
+    Crack = auto()
+    Spear = auto()
+    Rock = auto()
+    Glass = auto()
+    Hive = auto()
+    ForbidFlyChains = auto()
+    WormGrass = auto()
+    ShortcutEntrance = auto()
+    Shortcut = auto()
+    DragonDen = auto()
+    Entrance = auto()
+    WhackAMoleHole = auto()
+    GarbageWormDen = auto()
+    ScavengerDen = auto()
+    CleanUpper = auto()
+    CleanLayer = auto()
+    CleanAll = auto()
+
+
+class GeoTools(Enum):
+    Pen = auto()
+    Brush = auto()
+    Bucket = auto()
+    Line = auto()
+    Rect = auto()
+    RectHollow = auto()
+    Circle = auto()
+    CircleHollow = auto()
 
 
 class GeometryEditor(EditorMode):
@@ -17,7 +54,9 @@ class GeometryEditor(EditorMode):
 
         self.cursor: QGraphicsRectItem | None = None
         self.lastpos = QPoint()
-        self.selectedTool = StringConfigurable(mod, "EDIT_geo.tool", "wall", "Current geo tool")
+        self.block = EnumConfigurable(mod, "EDIT_geo.block", GeoBlocks.Wall, GeoBlocks, "Current geo block")
+        self.toolleft = EnumConfigurable(mod, "EDIT_geo.lmb", GeoTools.Pen, GeoTools, "Current geo tool for LMB")
+        self.toolright = EnumConfigurable(mod, "EDIT_geo.rmb", GeoTools.Rect, GeoTools, "Current geo tool for RMB")
         self.drawl1 = BoolConfigurable(mod, "EDIT_geo.drawl1", True, "Draw on l1")
         self.drawl2 = BoolConfigurable(mod, "EDIT_geo.drawl2", True, "Draw on l2")
         self.drawl3 = BoolConfigurable(mod, "EDIT_geo.drawl3", True, "Draw on l3")
@@ -38,10 +77,14 @@ class GeometryEditor(EditorMode):
         self.cursor.removeFromIndex()
 
     def mouse_press_event(self, event: QMouseEvent):
-        # todo tools
         if self.mouse_left:
             fpos = self.viewport.viewport_to_editor(self.mpos)
             self.manager.level.add_history(GEpointChange(self.manager.level.history, fpos, [1, []], self.layers))
+
+    def tool_specific_press(self, tool: str):
+        if tool == GeoTools.Pen:
+            pass
+
 
     def mouse_move_event(self, event: QMoveEvent):
         super().mouse_move_event(event)

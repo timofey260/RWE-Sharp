@@ -38,7 +38,7 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>-24</y>
+        <y>0</y>
         <width>356</width>
         <height>782</height>
        </rect>
@@ -93,56 +93,6 @@
        <item>
         <layout class="QGridLayout" name="gridLayout_8">
          <item row="1" column="1">
-          <widget class="QComboBox" name="ToolGeoM2Select">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <item>
-            <property name="text">
-             <string>pencil</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>brush</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>bucket</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>line</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>rectangle tool</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>hollow rectanlge</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>circle</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>hollow circle</string>
-            </property>
-           </item>
-          </widget>
-         </item>
-         <item row="2" column="1">
           <widget class="QComboBox" name="ToolGeoM1Select">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -152,70 +102,158 @@
            </property>
            <item>
             <property name="text">
-             <string>pencil</string>
+             <string>Pencil</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../../../resources/res.qrc">
+              <normaloff>:/geoIcons/geo/pen.svg</normaloff>:/geoIcons/geo/pen.svg</iconset>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>brush</string>
+             <string>Brush</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../../../resources/res.qrc">
+              <normaloff>:/geoIcons/geo/brush.svg</normaloff>:/geoIcons/geo/brush.svg</iconset>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>bucket</string>
+             <string>Bucket</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../../../resources/res.qrc">
+              <normaloff>:/geoIcons/geo/bucket.svg</normaloff>:/geoIcons/geo/bucket.svg</iconset>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>line</string>
+             <string>Line</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../../../resources/res.qrc">
+              <normaloff>:/geoIcons/geo/line.svg</normaloff>:/geoIcons/geo/line.svg</iconset>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>rectangle tool</string>
+             <string>Rectangle</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../../../resources/res.qrc">
+              <normaloff>:/geoIcons/geo/rect.svg</normaloff>:/geoIcons/geo/rect.svg</iconset>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>hollow rectanlge</string>
+             <string>Hollow Rectanlge</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../../../resources/res.qrc">
+              <normaloff>:/geoIcons/geo/rect_hollow.svg</normaloff>:/geoIcons/geo/rect_hollow.svg</iconset>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>circle</string>
+             <string>Circle</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../../../resources/res.qrc">
+              <normaloff>:/geoIcons/geo/circle.svg</normaloff>:/geoIcons/geo/circle.svg</iconset>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>hollow circle</string>
+             <string>Hollow Circle</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../../../resources/res.qrc">
+              <normaloff>:/geoIcons/geo/circle_hollow.svg</normaloff>:/geoIcons/geo/circle_hollow.svg</iconset>
             </property>
            </item>
           </widget>
          </item>
-         <item row="1" column="0">
-          <widget class="QLabel" name="label_2">
+         <item row="2" column="1">
+          <widget class="QComboBox" name="ToolGeoM2Select">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
-           <property name="text">
-            <string>Right mouse:</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="0">
-          <widget class="QLabel" name="label_3">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="text">
-            <string>Left mouse:</string>
-           </property>
+           <item>
+            <property name="text">
+             <string>Pencil</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../../../resources/res.qrc">
+              <normaloff>:/geoIcons/geo/pen.svg</normaloff>:/geoIcons/geo/pen.svg</iconset>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Brush</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../../../resources/res.qrc">
+              <normaloff>:/geoIcons/geo/brush.svg</normaloff>:/geoIcons/geo/brush.svg</iconset>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Bucket</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../../../resources/res.qrc">
+              <normaloff>:/geoIcons/geo/bucket.svg</normaloff>:/geoIcons/geo/bucket.svg</iconset>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Line</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../../../resources/res.qrc">
+              <normaloff>:/geoIcons/geo/line.svg</normaloff>:/geoIcons/geo/line.svg</iconset>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Rectangle</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../../../resources/res.qrc">
+              <normaloff>:/geoIcons/geo/rect.svg</normaloff>:/geoIcons/geo/rect.svg</iconset>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Hollow Rectanlge</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../../../resources/res.qrc">
+              <normaloff>:/geoIcons/geo/rect_hollow.svg</normaloff>:/geoIcons/geo/rect_hollow.svg</iconset>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Circle</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../../../resources/res.qrc">
+              <normaloff>:/geoIcons/geo/circle.svg</normaloff>:/geoIcons/geo/circle.svg</iconset>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Hollow Circle</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../../../resources/res.qrc">
+              <normaloff>:/geoIcons/geo/circle_hollow.svg</normaloff>:/geoIcons/geo/circle_hollow.svg</iconset>
+            </property>
+           </item>
           </widget>
          </item>
          <item row="0" column="0">
@@ -228,6 +266,32 @@
            </property>
            <property name="text">
             <string>Mouse mode:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_3">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>Left mouse:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="label_2">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>Right mouse:</string>
            </property>
           </widget>
          </item>
@@ -777,6 +841,8 @@ Chains</string>
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../../../resources/res.qrc"/>
+ </resources>
  <connections/>
 </ui>

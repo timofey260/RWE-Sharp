@@ -3,33 +3,34 @@ from .geometry_vis_ui import Ui_GeoView
 from PySide6.QtWidgets import QMenu, QCheckBox
 from PySide6.QtCore import Slot, Qt, QCoreApplication
 from PySide6.QtGui import QAction
-from ..baseMod import BaseMod
+from BaseMod.baseMod import BaseMod
 from core.Modify.ui import UI, ViewUI
+from BaseMod.geo.geometryEditor import GeoBlocks
 
 
 button_to_geo = {
-    "ToolGeoWall": "wall",
-    "ToolGeoAir": "air",
-    "ToolGeoSlope": "slope",
-    "ToolGeoBeam": "beam",
-    "ToolGeoFloor": "floor",
-    "ToolGeoCrack": "crack",
-    "ToolGeoSpear": "spear",
-    "ToolGeoRock": "rock",
-    "ToolGeoGlass": "glass",
-    "ToolGeoHive": "hive",
-    "ToolGeoForbidChains": "forbidchains",
-    "ToolGeoWormGrass": "wormgrass",
-    "ToolGeoShortcutEntrance": "shortcutentrance",
-    "ToolGeoShortcut": "shortcut",
-    "ToolGeoDen": "den",
-    "ToolGeoEntrance": "entrance",
-    "ToolGeoWraykAMoleHole": "wmh",
-    "ToolGeoGarbageWorm": "worm",
-    "ToolGeoScavHole": "scav",
-    "ToolGeoClearUpperLayer": "cleanupper",
-    "ToolGeoClearLayer": "cleanlayer",
-    "ToolGeoClearAll": "cleanall",
+    "ToolGeoWall": GeoBlocks.Wall,
+    "ToolGeoAir": GeoBlocks.Air,
+    "ToolGeoSlope": GeoBlocks.Slope,
+    "ToolGeoBeam": GeoBlocks.Beam,
+    "ToolGeoFloor": GeoBlocks.Floor,
+    "ToolGeoCrack": GeoBlocks.Crack,
+    "ToolGeoSpear": GeoBlocks.Spear,
+    "ToolGeoRock": GeoBlocks.Rock,
+    "ToolGeoGlass": GeoBlocks.Glass,
+    "ToolGeoHive": GeoBlocks.Hive,
+    "ToolGeoForbidChains": GeoBlocks.ForbidFlyChains,
+    "ToolGeoWormGrass": GeoBlocks.WormGrass,
+    "ToolGeoShortcutEntrance": GeoBlocks.ShortcutEntrance,
+    "ToolGeoShortcut": GeoBlocks.Shortcut,
+    "ToolGeoDen": GeoBlocks.DragonDen,
+    "ToolGeoEntrance": GeoBlocks.Entrance,
+    "ToolGeoWraykAMoleHole": GeoBlocks.WhackAMoleHole,
+    "ToolGeoGarbageWorm": GeoBlocks.GarbageWormDen,
+    "ToolGeoScavHole": GeoBlocks.ScavengerDen,
+    "ToolGeoClearUpperLayer": GeoBlocks.CleanUpper,
+    "ToolGeoClearLayer": GeoBlocks.CleanLayer,
+    "ToolGeoClearAll": GeoBlocks.CleanAll,
 }
 
 
@@ -68,10 +69,13 @@ class GeoUI(UI):
         self.editor.drawl2.link_button(self.ui.ToolGeoApplyToL2, self.editor.drawl2_key)
         self.editor.drawl3.link_button(self.ui.ToolGeoApplyToL3, self.editor.drawl3_key)
 
+        self.editor.toolleft.link_combobox(self.ui.ToolGeoM1Select)
+        self.editor.toolright.link_combobox(self.ui.ToolGeoM2Select)
+
     @Slot()
     def set_tool(self):
         name = self.sender().objectName()
-        self.editor.selectedTool.update_value(button_to_geo.get(name, "none"))
+        self.editor.block.update_value(button_to_geo.get(name, GeoBlocks.Wall))
 
 
 class GeoViewUI(ViewUI):

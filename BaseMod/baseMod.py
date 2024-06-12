@@ -5,7 +5,7 @@ from BaseMod.tiles.tileModule import TileModule
 from BaseMod.grid.gridModule import GridModule
 from BaseMod.grid.gridUIConnector import GridView
 from PySide6.QtCore import Qt
-from core.configTypes.QtTypes import KeyConfigurable, QtEnumConfigurable
+from core.configTypes.QtTypes import KeyConfigurable, EnumFlagConfigurable
 
 
 class BaseMod(Mod):
@@ -31,9 +31,9 @@ class BaseMod(Mod):
         self.gridmodule: GridModule | None = None
         self.gridui: GridView | None = None
 
-        self.movement_button: QtEnumConfigurable | None = None
-        self.main_button: QtEnumConfigurable | None = None
-        self.sec_button: QtEnumConfigurable | None = None
+        self.movement_button: EnumFlagConfigurable | None = None
+        self.main_button: EnumFlagConfigurable | None = None
+        self.sec_button: EnumFlagConfigurable | None = None
 
         self.undo_key: KeyConfigurable | None = None
         self.redo_key: KeyConfigurable | None = None
@@ -58,11 +58,11 @@ class BaseMod(Mod):
         self.gridmodule = GridModule(self).add_myself()
         self.gridui = GridView(self).add_myself()
 
-        self.movement_button = QtEnumConfigurable(self, "movement_button", Qt.MouseButton.MiddleButton, Qt.MouseButton,
+        self.movement_button = EnumFlagConfigurable(self, "movement_button", Qt.MouseButton.MiddleButton, Qt.MouseButton,
                                                   "button to move viewport")
-        self.main_button = QtEnumConfigurable(self, "main_button", Qt.MouseButton.LeftButton, Qt.MouseButton,
+        self.main_button = EnumFlagConfigurable(self, "main_button", Qt.MouseButton.LeftButton, Qt.MouseButton,
                                               "Main button")
-        self.sec_button = QtEnumConfigurable(self, "secondary_button", Qt.MouseButton.RightButton, Qt.MouseButton,
+        self.sec_button = EnumFlagConfigurable(self, "secondary_button", Qt.MouseButton.RightButton, Qt.MouseButton,
                                              "Secondary button")
 
         self.undo_key = KeyConfigurable(self, "undo", "Ctrl+z", "Key to undo")

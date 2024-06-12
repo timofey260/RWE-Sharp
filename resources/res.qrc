@@ -3,6 +3,16 @@
     <file>icon.png</file>
     <file>icon_small.png</file>
   </qresource>
+  <qresource prefix="geoIcons">
+    <file>geo/bucket.svg</file>
+    <file>geo/brush.svg</file>
+    <file>geo/circle.svg</file>
+    <file>geo/circle_hollow.svg</file>
+    <file>geo/line.svg</file>
+    <file>geo/pen.svg</file>
+    <file>geo/rect.svg</file>
+    <file>geo/rect_hollow.svg</file>
+  </qresource>
   <qresource prefix="image">
     <file>splash.png</file>
   </qresource>

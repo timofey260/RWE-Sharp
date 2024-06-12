@@ -2,7 +2,7 @@ from PySide6.QtGui import QColor, QBrush
 from PySide6.QtCore import Qt, QPoint, QRect, Slot, QPointF
 from PySide6.QtWidgets import QGraphicsView, QGraphicsScene, QGraphicsPixmapItem, QApplication, QGraphicsRectItem, QGraphicsEllipseItem
 from core.info import CELLSIZE
-from core.configTypes.QtTypes import ColorConfigurable, QtEnumConfigurable, KeyConfigurable
+from core.configTypes.QtTypes import ColorConfigurable, EnumFlagConfigurable, KeyConfigurable
 
 
 class ViewPort(QGraphicsView):
