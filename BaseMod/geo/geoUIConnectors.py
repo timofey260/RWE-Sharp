@@ -1,11 +1,12 @@
-from .geometry_ui import Ui_Geo
-from .geometry_vis_ui import Ui_GeoView
+from BaseMod.geo.geometry_ui import Ui_Geo
+from BaseMod.geo.geometry_vis_ui import Ui_GeoView
 from PySide6.QtWidgets import QMenu, QCheckBox
 from PySide6.QtCore import Slot, Qt, QCoreApplication
-from PySide6.QtGui import QAction
+from PySide6.QtGui import QAction, QIcon, QColor
 from BaseMod.baseMod import BaseMod
 from core.Modify.ui import UI, ViewUI
 from BaseMod.geo.geometryEditor import GeoBlocks
+from core.utils import paint_svg_qicon
 
 
 button_to_geo = {
@@ -73,6 +74,10 @@ class GeoUI(UI):
 
         self.editor.toolleft.link_combobox(self.ui.ToolGeoM1Select)
         self.editor.toolright.link_combobox(self.ui.ToolGeoM2Select)
+
+        #self.ui.ToolGeoM1Select.setItemIcon(0, paint_svg_qicon(":/geoIcons/geo/pen.svg", QColor(0, 0, 0)))
+        #self.ui.ToolGeoM1Select.setItemIcon(1, paint_svg_qicon(":/geoIcons/geo/brush.svg", QColor(0, 0, 0)))
+        self.ui.ToolGeoM1Select.setItemIcon(2, paint_svg_qicon(":/geoIcons/geo/brush.svg", QColor(0, 0, 0)))
 
     @Slot()
     def set_tool(self):

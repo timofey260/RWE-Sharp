@@ -10,6 +10,7 @@ from ui.splashuiconnector import SplashDialog
 from PySide6.QtWidgets import QWidget, QMenuBar, QMenu
 from PySide6.QtCore import Slot
 from ui.mainuiconnector import MainWindow
+from core.palette import Palette
 
 
 class Manager:
@@ -61,6 +62,10 @@ class Manager:
         """
         list of strings for view specific menu items
         """
+        self.palettes: list[Palette] = []
+        """
+        neat color visuals
+        """
 
         self.editorlayers = []
 
@@ -71,7 +76,12 @@ class Manager:
         self.init_mods()
         self.init_layers()
         self.init_editors()
+        self.change_pallete()
 
+    def change_pallete(self):
+        for i in self.palettes:
+            if self.basemod.palette.value == f"{i.mod.author_name}.{i.name}":
+                self.window.setPalette(i.palette)
 
     def init_layers(self):
         editorlayers: list[tuple[int, RenderTexture]] = []

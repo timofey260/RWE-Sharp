@@ -5,7 +5,9 @@ from BaseMod.tiles.tileModule import TileModule
 from BaseMod.grid.gridModule import GridModule
 from BaseMod.grid.gridUIConnector import GridView
 from PySide6.QtCore import Qt
+from core.configTypes.BaseTypes import StringConfigurable
 from core.configTypes.QtTypes import KeyConfigurable, EnumFlagConfigurable
+from BaseMod.Palettes.RaspberryDark import RaspberryDark
 
 
 class BaseMod(Mod):
@@ -38,6 +40,7 @@ class BaseMod(Mod):
         self.undo_key: KeyConfigurable | None = None
         self.redo_key: KeyConfigurable | None = None
         self.save_key: KeyConfigurable | None = None
+        self.palette: StringConfigurable | None = None
 
     def pre_mod_init(self):
         pass
@@ -45,6 +48,10 @@ class BaseMod(Mod):
     def mod_init(self):
         from .geo.geoUIConnectors import GeoUI, GeoViewUI
         from .tiles.tileUIConnectors import TileViewUI
+
+        rpdark = RaspberryDark(self).add_myself()
+        self.palette = StringConfigurable(self, "palette", f"{self.author_name}.{rpdark.name}", "palette colors")
+        self.palette.valueChanged.connect(self.manager.change_pallete)
 
         self.geomodule = GeoModule(self).add_myself()
         self.geoeditor = GeometryEditor(self)

@@ -1,7 +1,8 @@
 import datetime
 import os
-from core.info import PATH
-from PySide6.QtCore import QPoint
+from PySide6.QtGui import QColor, QIcon
+from core.info import PATH, PATH_FILES_CACHE
+from PySide6.QtCore import QPoint, QFile, QByteArray
 from collections.abc import Callable
 
 
@@ -76,3 +77,32 @@ def insensitive_path(path) -> str | None:
                 return os.path.join(dir, i)
         break
     return None
+
+
+def paint_svg(filename: str, color: QColor) -> str:
+    """
+    Paints svg image with caching and returns path to edited svg in cache
+    works with resources too
+    if file is already stored in cache, passes it instead
+    """
+
+    path, file = os.path.split(filename)
+    file, ex = os.path.splitext(file)
+    newpath = os.path.join(PATH_FILES_CACHE, f"{file}_{color.red()}_{color.green()}_{color.blue()}{ex}")
+    if os.path.exists(newpath):
+        return newpath
+    file = QFile(filename)
+    file.open(QFile.OpenModeFlag.ReadOnly)
+    data: QByteArray = file.readAll()
+    file.close()
+    htindex = data.indexOf(b'"', data.indexOf(b"fill=\"#")) + 1
+    data = data.replace(htindex, data.indexOf(b'"', htindex) - htindex, bytearray(color.name(), "utf-8"))
+    file = QFile(newpath)
+    file.open(QFile.OpenModeFlag.WriteOnly)
+    file.write(data)
+    file.close()
+    return newpath
+
+
+def paint_svg_qicon(filename: str, color: QColor) -> QIcon:
+    return QIcon(paint_svg(filename, color))

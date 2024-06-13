@@ -33,10 +33,12 @@ FULLNAME = "Rain World Editor Sharp"
 
 RP_ID = "1226198202454380677"
 
-CONSTS: dict = json.load(open(os.path.join(PATH_FILES, "Consts.json")))
+CONSTS: dict = {}
 """
 these things should never be changed
 """
+with open(os.path.join(PATH_FILES, "Consts.json")) as f:
+    CONSTS = json.load(f)
 CELLSIZE = CONSTS.get("cellsize", 20)
 """
 size of single cell

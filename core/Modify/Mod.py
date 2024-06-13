@@ -17,6 +17,7 @@ class Mod:
     from core.Modify.EditorMode import EditorMode
     from core.Modify.baseModule import Module
     from PySide6.QtWidgets import QWidget
+    from core.palette import Palette
 
     def __init__(self, manager, modinfo: ModInfo):
         """
@@ -59,3 +60,6 @@ class Mod:
 
     def add_config_module(self, config_module: ConfigModule):
         self.manager.config.add_module(config_module)
+
+    def add_palette(self, palette: Palette):
+        self.manager.palettes.append(palette)

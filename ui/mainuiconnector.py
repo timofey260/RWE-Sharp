@@ -1,10 +1,10 @@
 from PySide6.QtWidgets import QMainWindow, QFileDialog, QSpacerItem, QSizePolicy
 from PySide6.QtCore import Slot
-from PySide6.QtGui import QAction, QKeySequence
 from ui.uiscripts.mainui import Ui_MainWindow
 from ui.aboutuiconnector import AboutDialog
 from ui.settingsuiconnector import SettingsUI
 from core import info
+from BaseMod.Palettes.RaspberryDark import RaspberryDark
 
 
 class MainWindow(QMainWindow):
@@ -45,7 +45,6 @@ class MainWindow(QMainWindow):
         self.ui.actionUndo.triggered.connect(self.manager.level.undo)
         self.manager.basemod.redo_key.connect_action(self.ui.actionRedo)
         self.ui.actionRedo.triggered.connect(self.manager.level.redo)
-
 
     @Slot(int)
     def change_editor(self, val) -> None:

@@ -1,0 +1,8 @@
+IMG_PEN = ":/geoIcons/geo/pen.svg"
+IMG_BRUSH = ":/geoIcons/geo/brush.svg"
+IMG_BUCKET = ":/geoIcons/geo/bucket.svg"
+IMG_RECT = ":/geoIcons/geo/rect.svg"
+IMG_RECT_HOLLOW = ":/geoIcons/geo/rect_hollow.svg"
+IMG_CIRCLE = ":/geoIcons/geo/circle.svg"
+IMG_CIRCLE_HOLLOW = ":/geoIcons/geo/circle_hollow.svg"
+IMG_LINE = ":/geoIcons/geo/line.svg"

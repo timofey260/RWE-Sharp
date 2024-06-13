@@ -76,7 +76,7 @@ class EnumConfigurable(Configurable):
         try:
             self.value = self.enumtouse(int(text))
         except ValueError:
-            self.value = self.enumtouse(0)
+            self.value = self.default
         self.valueChanged[enum.Enum].emit(self.value)
         self.valueChanged[int].emit(self.value.value)
 
@@ -116,7 +116,7 @@ class EnumFlagConfigurable(Configurable):
         try:
             self.value = self.enumtouse(int(text))
         except ValueError:
-            self.value = self.enumtouse(1)
+            self.value = self.default
         self.valueChanged[enum.Enum].emit(self.value)
         self.valueChanged[int].emit(self.value.value)
 
