@@ -186,6 +186,8 @@
     <addaction name="actionAbout_Qt"/>
     <addaction name="actionWiki_window"/>
     <addaction name="actionLediting_help"/>
+    <addaction name="actionModding_Api"/>
+    <addaction name="actionInteractive_Map"/>
    </widget>
    <widget class="QMenu" name="menutools">
     <property name="title">
@@ -508,6 +510,16 @@
    </property>
    <property name="text">
     <string>Redo</string>
+   </property>
+  </action>
+  <action name="actionModding_Api">
+   <property name="text">
+    <string>Modding Api</string>
+   </property>
+  </action>
+  <action name="actionInteractive_Map">
+   <property name="text">
+    <string>Interactive Map</string>
    </property>
   </action>
  </widget>
