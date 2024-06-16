@@ -10,6 +10,7 @@ class GeoModule(Module):
         super().__init__(mod)
         from BaseMod.baseMod import BaseMod
         self.mod: BaseMod
+        self.drawgeo = BoolConfigurable(mod, "VIEW_geo.drawgeo", True, "Draw geometry")
         self.drawAll = BoolConfigurable(mod, "VIEW_geo.drawall", False, "Draw all layers")
         self.drawl1 = BoolConfigurable(mod, "VIEW_geo.drawl1", True, "Draw layer 1")
         self.drawl2 = BoolConfigurable(mod, "VIEW_geo.drawl2", True, "Draw layer 2")
@@ -25,6 +26,7 @@ class GeoModule(Module):
 
         self.drawoption = IntConfigurable(mod, "VIEW_geo.drawOption", 0, "method of drawing")
 
+        self.drawlgeo_key = KeyConfigurable(mod, "VIEW_geo.drawlall_key", "Alt+G", "key to show geo")
         self.drawl1_key = KeyConfigurable(mod, "VIEW_geo.drawl1_key", "Alt+1", "key to show 1st layer")
         self.drawl2_key = KeyConfigurable(mod, "VIEW_geo.drawl2_key", "Alt+2", "key to show 2nd layer")
         self.drawl3_key = KeyConfigurable(mod, "VIEW_geo.drawl3_key", "Alt+3", "key to show 3rd layer")
@@ -46,6 +48,16 @@ class GeoModule(Module):
         self.drawlpipes.valueChanged.connect(self.check_pipes_change)
         self.drawlmisc.valueChanged.connect(self.check_misc_change)
         self.drawoption.valueChanged.connect(self.redraw_option)
+        self.drawgeo.valueChanged.connect(self.hide_geo)
+
+    @Slot()
+    def hide_geo(self):
+        self.draw = False
+        self.drawl1.update_value(self.drawgeo.value)
+        self.drawl2.update_value(self.drawgeo.value)
+        self.drawl3.update_value(self.drawgeo.value)
+        self.draw = True
+        self.render_module()
 
     @Slot()
     def check_l1_change(self):

@@ -15,6 +15,7 @@ class TileModule(Module):
         super().__init__(mod)
         from BaseMod.baseMod import BaseMod
         self.mod: BaseMod
+        self.drawtiles = BoolConfigurable(mod, "VIEW_tile.drawtiles", True, "Draw tiles")
         self.drawl1 = BoolConfigurable(mod, "VIEW_tile.drawl1", True, "Draw layer 1")
         self.drawl2 = BoolConfigurable(mod, "VIEW_tile.drawl2", True, "Draw layer 2")
         self.drawl3 = BoolConfigurable(mod, "VIEW_tile.drawl3", True, "Draw layer 3")
@@ -34,6 +35,7 @@ class TileModule(Module):
         self.drawl2rendered = FloatConfigurable(mod, "VIEW_tile.drawl2rend", 1, "Layer 2 draw opacity(rendered)")
         self.drawl3rendered = FloatConfigurable(mod, "VIEW_tile.drawl3rend", 1, "Layer 3 draw opacity(rendered)")
 
+        self.drawltiles_key = KeyConfigurable(mod, "VIEW_tile.drawltiles_key", "Alt+t", "Hide tiles")
         self.drawl1_key = KeyConfigurable(mod, "VIEW_tile.drawl1_key", "Alt+Shift+1", "layer 1 key")
         self.drawl2_key = KeyConfigurable(mod, "VIEW_tile.drawl2_key", "Alt+Shift+2", "layer 2 key")
         self.drawl3_key = KeyConfigurable(mod, "VIEW_tile.drawl3_key", "Alt+Shift+3", "layer 3 key")
@@ -54,6 +56,13 @@ class TileModule(Module):
         self.drawl2.valueChanged.connect(self.check_l2_change)
         self.drawl3.valueChanged.connect(self.check_l3_change)
         self.drawoption.valueChanged.connect(self.redraw_option)
+        self.drawtiles.valueChanged.connect(self.hide_tiles)
+
+    @Slot()
+    def hide_tiles(self):
+        self.drawl1.update_value(self.drawtiles.value)
+        self.drawl2.update_value(self.drawtiles.value)
+        self.drawl3.update_value(self.drawtiles.value)
 
     @Slot()
     def change_colortable(self):

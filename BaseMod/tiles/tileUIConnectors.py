@@ -16,6 +16,9 @@ class TileViewUI(ViewUI):
         self.module = self.mod.tilemodule
 
         self.menu = QMenu("Tiles")
+        self.menu_drawtiles = QAction("Tiles")
+        self.menu.addAction(self.menu_drawtiles)
+        self.menu.addSeparator()
 
         self.menu_drawl1 = QAction("Layer 1")
         self.module.drawl1.link_button_action(self.ui.VTilesLayer1, self.menu_drawl1, self.module.drawl1_key)
@@ -44,8 +47,9 @@ class TileViewUI(ViewUI):
         self.VQuickTiles.setObjectName(u"VQuickTiles")
         self.VQuickTiles.setText(QCoreApplication.translate("MainWindow", u"Tiles", None))
         self.VQuickTiles.setChecked(True)
-        self.VQuickTiles.checkStateChanged.connect(self.toggle_tiles)
+        # self.VQuickTiles.checkStateChanged.connect(self.toggle_tiles)
         self.mod.add_quickview_option(self.VQuickTiles)
+        self.module.drawtiles.link_button_action(self.VQuickTiles, self.menu_drawtiles, self.module.drawltiles_key)
 
     @Slot()
     def change_palette(self):

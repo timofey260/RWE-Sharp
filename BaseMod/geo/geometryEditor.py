@@ -1,10 +1,10 @@
 from core.Modify.EditorMode import EditorMode
-from PySide6.QtCore import QRect, QPoint, Qt
-from PySide6.QtGui import QColor, QPen, QMoveEvent, QWheelEvent, QMouseEvent, QKeySequence
+from PySide6.QtCore import QRect, QPoint, Slot
+from PySide6.QtGui import QColor, QPen, QMoveEvent, QWheelEvent, QMouseEvent
 from PySide6.QtWidgets import QGraphicsRectItem
 from core.info import CELLSIZE
-from BaseMod.geo.geoHistory import GEpointChange
-from core.configTypes.BaseTypes import StringConfigurable, BoolConfigurable
+from BaseMod.geo.geoHistory import GEBlockChange, GEStackChange, GEClearAll, GEShortcutBlock, GEClearUpper, GEClearBlock, GEClearLayer
+from core.configTypes.BaseTypes import BoolConfigurable, IntConfigurable
 from core.configTypes.QtTypes import KeyConfigurable, EnumConfigurable
 from enum import Enum, auto
 
@@ -30,12 +30,39 @@ class GeoBlocks(Enum):
     DragonDen = auto()
     Entrance = auto()
     WhackAMoleHole = auto()
-    GarbageWormDen = auto()
+    GarbageWormHole = auto()
     ScavengerDen = auto()
+    Waterfall = auto()
     CleanUpper = auto()
     CleanLayer = auto()
     CleanBlocks = auto()
     CleanAll = auto()
+
+
+blocks = [
+    GeoBlocks.Air,
+    GeoBlocks.Wall,
+    GeoBlocks.Slope,
+    GeoBlocks.Floor,
+    GeoBlocks.Glass
+]
+
+stackables = [
+    GeoBlocks.Beam,
+    GeoBlocks.Crack,
+    GeoBlocks.Spear,
+    GeoBlocks.Rock,
+    GeoBlocks.Hive,
+    GeoBlocks.ForbidFlyChains,
+    GeoBlocks.WormGrass,
+    GeoBlocks.Shortcut,
+    GeoBlocks.DragonDen,
+    GeoBlocks.Entrance,
+    GeoBlocks.WhackAMoleHole,
+    GeoBlocks.GarbageWormHole,
+    GeoBlocks.ScavengerDen,
+    GeoBlocks.Waterfall,
+]
 
 
 class GeoTools(Enum):
@@ -64,6 +91,7 @@ class GeometryEditor(EditorMode):
         self.block = EnumConfigurable(mod, "EDIT_geo.block", GeoBlocks.Wall, GeoBlocks, "Current geo block")
         self.toolleft = EnumConfigurable(mod, "EDIT_geo.lmb", GeoTools.Pen, GeoTools, "Current geo tool for LMB")
         self.toolright = EnumConfigurable(mod, "EDIT_geo.rmb", GeoTools.Rect, GeoTools, "Current geo tool for RMB")
+        self.rotation = IntConfigurable(mod, "EDIT_geo.rotation", 0, "Rotation of block")
         self.drawl1 = BoolConfigurable(mod, "EDIT_geo.drawl1", True, "Draw on l1")
         self.drawl2 = BoolConfigurable(mod, "EDIT_geo.drawl2", True, "Draw on l2")
         self.drawl3 = BoolConfigurable(mod, "EDIT_geo.drawl3", True, "Draw on l3")
@@ -75,6 +103,62 @@ class GeometryEditor(EditorMode):
     @property
     def layers(self) -> list[bool]:
         return [self.drawl1.value, self.drawl2.value, self.drawl3.value]
+
+    def block2info(self) -> [int, bool]:  # tile, stackable
+        match self.block.value:
+            case GeoBlocks.Wall:
+                return 1, False
+            case GeoBlocks.Air:
+                return 0, False
+            case GeoBlocks.Floor:
+                return 6, False
+            case GeoBlocks.Slope:
+                return 2 + self.rotation.value, False
+            # case GeoBlocks.ShortcutEntrance:  # obsolete
+            #     return 7, False
+            case GeoBlocks.Glass:
+                return 9, False
+
+            case GeoBlocks.Beam:
+                return 1 + self.rotation.value % 2, True
+            case GeoBlocks.Hive:
+                return 3, True
+            case GeoBlocks.ShortcutEntrance:
+                return -1, True
+            case GeoBlocks.Shortcut:
+                return 5, True
+            case GeoBlocks.Entrance:
+                return 6, True
+            case GeoBlocks.DragonDen:
+                return 7, True
+            case GeoBlocks.Rock:
+                return 9, True
+            case GeoBlocks.Spear:
+                return 10, True
+            case GeoBlocks.Crack:
+                return 11, True
+            case GeoBlocks.ForbidFlyChains:
+                return 12, True
+            case GeoBlocks.GarbageWormHole:
+                return 13, True
+            case GeoBlocks.Waterfall:
+                return 18, True
+            case GeoBlocks.WhackAMoleHole:
+                return 19, True
+            case GeoBlocks.WormGrass:
+                return 20, True
+            case GeoBlocks.ScavengerDen:
+                return 21, True
+
+            case GeoBlocks.CleanUpper:
+                return -2, True
+            case GeoBlocks.CleanBlocks:
+                return -3, True
+            case GeoBlocks.CleanAll:
+                return -4, True
+            case GeoBlocks.CleanLayer:
+                return -5, True
+        return 0, False
 
     def init_scene_items(self):
         self.cursor = self.viewport.workscene.addRect(QRect(0, 0, 20, 20), pen=QPen(QColor(255, 0, 0), 3))
@@ -92,8 +176,21 @@ class GeometryEditor(EditorMode):
     def tool_specific_press(self, tool: GeoTools):
         fpos = self.viewport.viewport_to_editor(self.mpos)
         if tool == GeoTools.Pen:
-            self.manager.level.add_history(GEpointChange(self.manager.level.history, fpos, [1, []], self.layers))
-
+            blk, stak = self.block2info()
+            if not stak:
+                self.manager.level.add_history(GEBlockChange(self.manager.level.history, fpos, blk, self.layers))
+            elif self.block.value in stackables:
+                self.manager.level.add_history(GEStackChange(self.manager.level.history, fpos, blk, self.layers))
+            elif blk == -1:
+                self.manager.level.add_history(GEShortcutBlock(self.manager.level.history, fpos, self.layers))
+            elif blk == -2:
+                self.manager.level.add_history(GEClearUpper(self.manager.level.history, fpos, self.layers))
+            elif blk == -3:
+                self.manager.level.add_history(GEClearBlock(self.manager.level.history, fpos, self.layers))
+            elif blk == -4:
+                self.manager.level.add_history(GEClearAll(self.manager.level.history, fpos))
+            elif blk == -5:
+                self.manager.level.add_history(GEClearLayer(self.manager.level.history, fpos, self.layers))
 
     def mouse_move_event(self, event: QMoveEvent):
         super().mouse_move_event(event)

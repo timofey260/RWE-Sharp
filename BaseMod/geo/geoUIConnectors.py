@@ -27,7 +27,7 @@ button_to_geo = {
     "ToolGeoDen": GeoBlocks.DragonDen,
     "ToolGeoEntrance": GeoBlocks.Entrance,
     "ToolGeoWraykAMoleHole": GeoBlocks.WhackAMoleHole,
-    "ToolGeoGarbageWorm": GeoBlocks.GarbageWormDen,
+    "ToolGeoGarbageWorm": GeoBlocks.GarbageWormHole,
     "ToolGeoScavHole": GeoBlocks.ScavengerDen,
     "ToolGeoClearStackabls": GeoBlocks.CleanUpper,
     "ToolGeoClearBlocks": GeoBlocks.CleanBlocks,
@@ -75,9 +75,9 @@ class GeoUI(UI):
         self.editor.toolleft.link_combobox(self.ui.ToolGeoM1Select)
         self.editor.toolright.link_combobox(self.ui.ToolGeoM2Select)
 
-        #self.ui.ToolGeoM1Select.setItemIcon(0, paint_svg_qicon(":/geoIcons/geo/pen.svg", QColor(0, 0, 0)))
-        #self.ui.ToolGeoM1Select.setItemIcon(1, paint_svg_qicon(":/geoIcons/geo/brush.svg", QColor(0, 0, 0)))
-        self.ui.ToolGeoM1Select.setItemIcon(2, paint_svg_qicon(":/geoIcons/geo/brush.svg", QColor(0, 0, 0)))
+        # self.ui.ToolGeoM1Select.setItemIcon(0, paint_svg_qicon(":/geoIcons/geo/pen.svg", QColor(0, 0, 0)))
+        # self.ui.ToolGeoM1Select.setItemIcon(1, paint_svg_qicon(":/geoIcons/geo/brush.svg", QColor(0, 0, 0)))
+        # self.ui.ToolGeoM1Select.setItemIcon(2, paint_svg_qicon(":/geoIcons/geo/brush.svg", QColor(0, 0, 0)))
 
     @Slot()
     def set_tool(self):
@@ -95,6 +95,10 @@ class GeoViewUI(ViewUI):
 
         # adding menu and stuff
         self.menu = QMenu("Geometry")
+        self.menu_drawlall = QAction("Geo")
+
+        self.menu.addAction(self.menu_drawlall)
+        self.menu.addSeparator()
         self.menu_drawl1 = QAction("Layer 1")
         self.module.drawl1.link_button_action(self.ui.VGeoLayer1, self.menu_drawl1, self.module.drawl1_key)
         self.menu.addAction(self.menu_drawl1)
@@ -114,22 +118,23 @@ class GeoViewUI(ViewUI):
         self.menu_drawlmisc = QAction("Misc")
         self.module.drawlmisc.link_button_action(self.ui.VGeoMisc, self.menu_drawlmisc, self.module.drawlmisc_key)
         self.menu.addAction(self.menu_drawlmisc)
+
         self.mod.manager.view_menu.addMenu(self.menu)
         self.ui.VGeoAll.checkStateChanged.connect(self.all_layers)
         self.module.drawoption.link_radio([self.ui.VGeoRWEstyle, self.ui.VGeoOldStyle])
-        self.module.drawAll.link_button(self.ui.VGeoAll)
 
         self.VQuickGeo = QCheckBox()
         self.VQuickGeo.setObjectName(u"VQuickGeo")
         self.VQuickGeo.setText(QCoreApplication.translate("MainWindow", u"Geometry", None))
         self.VQuickGeo.setChecked(True)
-        self.VQuickGeo.checkStateChanged.connect(self.toggle_geo)
+        # self.VQuickGeo.checkStateChanged.connect(self.toggle_geo)
         self.mod.add_quickview_option(self.VQuickGeo)
+
+        self.module.drawgeo.link_button_action(self.VQuickGeo, self.menu_drawlall, self.module.drawlgeo_key)
 
     @Slot(Qt.CheckState)
     def all_layers(self, state: Qt.CheckState):
         if state == Qt.CheckState.Checked:
-            # todo remove freezes
             self.module.draw = False
             self.ui.VGeoLayer1.setChecked(True)
             self.ui.VGeoLayer2.setChecked(True)
@@ -139,10 +144,3 @@ class GeoViewUI(ViewUI):
             self.ui.VGeoMisc.setChecked(True)
             self.module.draw = True
             self.module.render_module()
-
-    @Slot(Qt.CheckState)
-    def toggle_geo(self, state: Qt.CheckState):
-        v = state == Qt.CheckState.Checked
-        self.module.drawl1.update_value(v)
-        self.module.drawl2.update_value(v)
-        self.module.drawl3.update_value(v)
