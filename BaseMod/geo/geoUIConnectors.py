@@ -79,6 +79,12 @@ class GeoUI(UI):
         # self.ui.ToolGeoM1Select.setItemIcon(1, paint_svg_qicon(":/geoIcons/geo/brush.svg", QColor(0, 0, 0)))
         # self.ui.ToolGeoM1Select.setItemIcon(2, paint_svg_qicon(":/geoIcons/geo/brush.svg", QColor(0, 0, 0)))
 
+        self.editor.controls.wall.link_button(self.ui.ToolGeoWall)
+        self.editor.controls.air.link_button(self.ui.ToolGeoAir)
+        self.editor.controls.slope.link_button(self.ui.ToolGeoSlope)
+        self.editor.controls.floor.link_button(self.ui.ToolGeoFloor)
+        self.editor.controls.glass.link_button(self.ui.ToolGeoGlass)
+
     @Slot()
     def set_tool(self):
         name = self.sender().objectName()

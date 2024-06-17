@@ -52,7 +52,6 @@ class GeoRenderTexture(RenderTexture):
                     self.draw_geo(xp, yp, True)
         self.redraw()
 
-
     def draw_geo(self, x: int, y: int, clear: bool=False):
         cell: int = self.manager.level["GE"][x][y][self.layer][0]
         stackables: list[int] = self.manager.level["GE"][x][y][self.layer][1]

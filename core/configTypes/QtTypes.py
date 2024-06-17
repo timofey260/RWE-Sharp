@@ -26,11 +26,11 @@ class KeyConfigurable(Configurable):
         for i in self.buttons:
             i.setShortcut(self.value)
 
-    def connect_button(self, obj: QAbstractButton):
+    def link_button(self, obj: QAbstractButton):
         self.buttons.append(obj)
         obj.setShortcut(self.value)
 
-    def connect_action(self, obj: QAction):
+    def link_action(self, obj: QAction):
         obj.setShortcut(self.value)
         self.valueChanged.connect(obj.setShortcut)
 

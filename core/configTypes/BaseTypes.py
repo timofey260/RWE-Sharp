@@ -44,7 +44,7 @@ class BoolConfigurable(Configurable):
         button.toggled.connect(self.update_value)
         self.valueChanged.connect(button.setChecked)
         if key is not None:
-            key.connect_button(button)
+            key.link_button(button)
 
     def link_action(self, action: QAction, key: KeyConfigurable=None) -> None:
         """

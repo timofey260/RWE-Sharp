@@ -1,12 +1,14 @@
 from core.Modify.EditorMode import EditorMode
 from PySide6.QtCore import QRect, QPoint, Slot
-from PySide6.QtGui import QColor, QPen, QMoveEvent, QWheelEvent, QMouseEvent
-from PySide6.QtWidgets import QGraphicsRectItem
-from core.info import CELLSIZE
+from PySide6.QtGui import QColor, QPen, QMoveEvent, QWheelEvent, QMouseEvent, QPixmap, QPainter
+from PySide6.QtWidgets import QGraphicsRectItem, QGraphicsPixmapItem
+from core.info import CELLSIZE, PATH_FILES_IMAGES, CONSTS
 from BaseMod.geo.geoHistory import GEBlockChange, GEStackChange, GEClearAll, GEShortcutBlock, GEClearUpper, GEClearBlock, GEClearLayer
 from core.configTypes.BaseTypes import BoolConfigurable, IntConfigurable
 from core.configTypes.QtTypes import KeyConfigurable, EnumConfigurable
 from enum import Enum, auto
+from BaseMod.geo.geoControls import GeoControls
+import os
 
 
 class GeoBlocks(Enum):
@@ -87,6 +89,9 @@ class GeometryEditor(EditorMode):
         self.module = self.mod.geomodule
 
         self.cursor: QGraphicsRectItem | None = None
+        self.cursor_item: QGraphicsPixmapItem | None = None
+        self.pixmap: QPixmap | None = None
+        self.itempainter: QPainter | None = None
         self.lastpos = QPoint()
         self.block = EnumConfigurable(mod, "EDIT_geo.block", GeoBlocks.Wall, GeoBlocks, "Current geo block")
         self.toolleft = EnumConfigurable(mod, "EDIT_geo.lmb", GeoTools.Pen, GeoTools, "Current geo tool for LMB")
@@ -99,6 +104,38 @@ class GeometryEditor(EditorMode):
         self.drawl1_key = KeyConfigurable(mod, "EDIT_geo.drawl1_key", "Ctrl+1", "key to draw on 1st layer")
         self.drawl2_key = KeyConfigurable(mod, "EDIT_geo.drawl2_key", "Ctrl+2", "key to draw on 2nd layer")
         self.drawl3_key = KeyConfigurable(mod, "EDIT_geo.drawl3_key", "Ctrl+3", "key to draw on 3rd layer")
+        self.controls = GeoControls(mod)
+        self.block.valueChanged.connect(self.block_changed)
+
+        if os.path.exists(os.path.join(PATH_FILES_IMAGES, CONSTS.get("geo_image_config", {}).get("image"))):
+            self.geo_texture = QPixmap(os.path.join(PATH_FILES_IMAGES, CONSTS.get("geo_image_config", {}).get("image")))
+        else:
+            self.geo_texture = QPixmap(os.path.join(PATH_FILES_IMAGES, "notfound.png"))
+
+        self.binfo: dict = CONSTS.get("geo_image_config", {}).get("blocksinfo", {})
+        self.sinfo: dict = CONSTS.get("geo_image_config", {}).get("stackablesinfo", {})
+        self._sz = CONSTS.get("geo_image_config", {}).get("itemsize", 100)
+
+    def block_changed(self):
+        self.pixmap.fill(QColor(0, 0, 0, 0))
+        blk, stak = self.block2info()
+        print(blk, stak)
+        if not stak and blk != 0:
+            pos = self.binfo.get(str(blk), [0, 0])
+            cellpos = QRect(pos[0] * self._sz, pos[1] * self._sz, self._sz, self._sz)
+            self.itempainter.drawPixmap(QRect(0, 0, CELLSIZE, CELLSIZE), self.geo_texture, cellpos)
+        elif self.block.value in stackables or blk == -1:
+            if blk == -1:
+                blk = 4
+            pos = self.sinfo.get(str(blk), [0, 0])
+            cellpos = QRect(pos[0] * self._sz, pos[1] * self._sz, self._sz, self._sz)
+            self.itempainter.drawPixmap(QRect(0, 0, CELLSIZE, CELLSIZE), self.geo_texture, cellpos)
+        else:
+            self.itempainter.setBrush(QColor(0, 0, 0, 0))
+            self.itempainter.setPen(QColor(255, 0, 0, 255))
+            self.itempainter.drawLine(QPoint(0, 0), QPoint(CELLSIZE, CELLSIZE))
+            self.itempainter.drawLine(QPoint(CELLSIZE, 0), QPoint(0, CELLSIZE))
+        self.cursor_item.setPixmap(self.pixmap)
 
     @property
     def layers(self) -> list[bool]:
@@ -162,10 +199,19 @@ class GeometryEditor(EditorMode):
 
     def init_scene_items(self):
         self.cursor = self.viewport.workscene.addRect(QRect(0, 0, 20, 20), pen=QPen(QColor(255, 0, 0), 3))
+        self.pixmap = QPixmap(CELLSIZE, CELLSIZE)
+        self.pixmap.fill(QColor(0, 0, 0, 0))
+        self.itempainter = QPainter(self.pixmap)
+        self.cursor_item = self.viewport.workscene.addPixmap(self.pixmap)
+        self.cursor_item.setOpacity(.3)
+        self.itempainter.setCompositionMode(QPainter.CompositionMode.CompositionMode_Source)
+        self.block_changed()
         self.manager.set_status("placing walls")
 
     def remove_items_from_scene(self):
         self.cursor.removeFromIndex()
+        self.cursor_item.removeFromIndex()
+        self.itempainter = None
 
     def mouse_press_event(self, event: QMouseEvent):
         if self.mouse_left:
@@ -198,6 +244,7 @@ class GeometryEditor(EditorMode):
         cpos = self.viewport.editor_to_viewport(fpos)
         if cpos != self.cursor.pos():
             self.cursor.setPos(self.viewport.editor_to_viewport(fpos))
+            self.cursor_item.setPos(self.viewport.editor_to_viewport(fpos))
         if self.manager.level.inside(fpos):
             self.manager.set_status(f"x: {fpos.x()}, y: {fpos.y()}, {self.manager.level['GE'][fpos.x()][fpos.y()]}")
         if self.mouse_left and self.manager.level.inside(fpos) and not (self.lastpos - fpos).isNull():
@@ -211,3 +258,4 @@ class GeometryEditor(EditorMode):
 
     def mouse_wheel_event(self, event: QWheelEvent):
         self.cursor.setRect(QRect(0, 0, CELLSIZE * self.viewport.zoom, CELLSIZE * self.viewport.zoom))
+        self.cursor_item.setScale(self.viewport.zoom)

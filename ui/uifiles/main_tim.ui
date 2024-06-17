@@ -166,11 +166,6 @@
     <addaction name="actionSave"/>
     <addaction name="actionSave_As"/>
    </widget>
-   <widget class="QMenu" name="menuWindow">
-    <property name="title">
-     <string>Window</string>
-    </property>
-   </widget>
    <widget class="QMenu" name="menuSettings">
     <property name="title">
      <string>Settings</string>
@@ -227,10 +222,9 @@
    <addaction name="menuFile"/>
    <addaction name="menuedit"/>
    <addaction name="menuView"/>
-   <addaction name="menuWindow"/>
+   <addaction name="menutools"/>
    <addaction name="menuSettings"/>
    <addaction name="menuHelp"/>
-   <addaction name="menutools"/>
    <addaction name="menuDrizzle"/>
    <addaction name="menuMods"/>
   </widget>
