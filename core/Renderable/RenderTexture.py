@@ -1,11 +1,11 @@
 from PySide6.QtGui import QPixmap, QColor, QPainter
 from PySide6.QtWidgets import QGraphicsPixmapItem
+from core.Renderable.Renderable import Renderable
 
 
-class RenderTexture:
-    def __init__(self, module):
-        self.module = module
-        self.manager = module.manager
+class RenderTexture(Renderable):
+    def __init__(self, module, level):
+        super().__init__(module, level)
         self.image = QPixmap(self.manager.level_width * 20, self.manager.level_height * 20)
         self.image.fill(QColor(0, 0, 0, 0))
         self.painter = QPainter(self.image)
@@ -31,3 +31,12 @@ class RenderTexture:
         called when layer has been added on screen
         :return: None
         """
+
+    def init_graphics(self, viewport):
+        self.renderedtexture = viewport.workscene.addPixmap(self.image)
+
+    def move_event(self, pos):
+        self.renderedtexture.setPos(pos)
+
+    def zoom_event(self, zoom):
+        self.renderedtexture.setScale(zoom)

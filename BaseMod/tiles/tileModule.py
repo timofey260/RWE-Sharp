@@ -45,12 +45,9 @@ class TileModule(Module):
         self.palettepath.valueChanged.connect(self.change_colortable)
         self.colortable = None
         self.change_colortable()
-        self.l1 = TileRenderTexture(self, 0)
-        self.l2 = TileRenderTexture(self, 1)
-        self.l3 = TileRenderTexture(self, 2)
-        self.append_layer(150, self.l3)
-        self.append_layer(250, self.l2)
-        self.append_layer(350, self.l1)
+        self.l1 = TileRenderTexture(self, 150, 0).add_myself()
+        self.l2 = TileRenderTexture(self, 250, 1).add_myself()
+        self.l3 = TileRenderTexture(self, 350, 2).add_myself()
 
         self.drawl1.valueChanged.connect(self.check_l1_change)
         self.drawl2.valueChanged.connect(self.check_l2_change)

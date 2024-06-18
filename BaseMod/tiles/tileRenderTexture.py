@@ -1,14 +1,14 @@
-from core.Modify.RenderTexture import RenderTexture
+from core.Renderable.RenderTexture import RenderTexture
 from PySide6.QtCore import QRect, Qt, Slot
 from PySide6.QtGui import QBrush, QColor
 from core.info import CONSTS, CELLSIZE, SPRITESIZE
 from core.Loaders.TileLoader import colortable
 
-class TileRenderTexture(RenderTexture):
-    def __init__(self, module, layer):
-        super().__init__(module)
-        self.layer = layer
 
+class TileRenderTexture(RenderTexture):
+    def __init__(self, module, layer, tilelayer):
+        super().__init__(module, layer)
+        self.tilelayer = tilelayer
 
     def draw_layer(self, clear=False):
         if clear:
@@ -30,7 +30,7 @@ class TileRenderTexture(RenderTexture):
             pass #todo
         for xp, x in enumerate(self.manager.level["TE"]["tlMatrix"]):
             for yp, y in enumerate(x):
-                if y[self.layer]["tp"] == "material":
+                if y[self.tilelayer]["tp"] == "material":
                     self.draw_tile(xp, yp)
         self.redraw()
 
@@ -47,7 +47,7 @@ class TileRenderTexture(RenderTexture):
 
     def draw_tile(self, x: int, y: int):
         # drawrect = QRect(x * CELLSIZE, y * CELLSIZE, CELLSIZE, CELLSIZE)
-        tile = self.manager.level.TE_data(x, y, self.layer)
+        tile = self.manager.level.TE_data(x, y, self.tilelayer)
         match tile["tp"]:
             case "default":
                 return
@@ -115,12 +115,12 @@ class TileRenderTexture(RenderTexture):
                                      CELLSIZE * (foundtile.size.x() + foundtile.bfTiles * 2),
                                      CELLSIZE * (foundtile.size.y() + foundtile.bfTiles * 2))  # it works trust
                     if self.module.drawoption.value == 3:
-                        foundtile.image4.setColorTable(colortable[self.layer])
+                        foundtile.image4.setColorTable(colortable[self.tilelayer])
                     elif self.module.drawoption.value == 2:
                         foundtile.image4.setColorTable(self.color_colortable(foundtile.color))
                     else:
                         col = self.module.drawoption.value - 4
-                        foundtile.image4.setColorTable(self.module.colortable[col][self.layer])
+                        foundtile.image4.setColorTable(self.module.colortable[col][self.tilelayer])
                     self.painter.drawImage(drawrect, foundtile.image4)
                 else:
                     sourcerect = QRect(0, 0, SPRITESIZE * foundtile.size.x(), SPRITESIZE * foundtile.size.y())

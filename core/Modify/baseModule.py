@@ -1,13 +1,17 @@
-from .RenderTexture import RenderTexture
+from core.Renderable.Renderable import Renderable
+
 
 class Module:
     """
     Module for passive editor and viewport work
     """
     def __init__(self, mod):
+        from widgets.Viewport import ViewPort
+
         self.mod = mod
         self.manager = mod.manager
-        self.editorlayers: list[tuple[int, RenderTexture]] = []
+        self.renderables: list[Renderable] = []
+        self.viewport: ViewPort = mod.manager.viewport
 
     def init_module_textures(self):
         """
@@ -24,9 +28,23 @@ class Module:
         """
         pass
 
-    def append_layer(self, depth: int, texture: RenderTexture):
-        self.editorlayers.append((depth, texture))
+    def on_resize(self):
+        """
+        Called once level is resized
+        """
+        pass
+
+    def append_layer(self, renderable: Renderable):
+        self.renderables.append(renderable)
 
     def add_myself(self):
         self.mod.add_module(self)
         return self
+
+    def zoom_event(self, zoom):
+        for i in self.renderables:
+            i.zoom_event(zoom)
+
+    def move_event(self, pos):
+        for i in self.renderables:
+            i.move_event(pos)

@@ -1,6 +1,8 @@
-from PySide6.QtGui import QColor, QBrush
+from PySide6.QtGui import QColor, QBrush, QPen
 from PySide6.QtCore import Qt, QPoint, QRect, Slot, QPointF
-from PySide6.QtWidgets import QGraphicsView, QGraphicsScene, QGraphicsPixmapItem, QApplication, QGraphicsRectItem, QGraphicsEllipseItem
+from PySide6.QtWidgets import QGraphicsView, QGraphicsScene, QGraphicsPixmapItem, QApplication, QGraphicsRectItem
+
+from core.Modify.baseModule import Module
 from core.info import CELLSIZE
 from core.configTypes.QtTypes import ColorConfigurable, EnumFlagConfigurable, KeyConfigurable
 
@@ -12,14 +14,17 @@ class ViewPort(QGraphicsView):
     :param parent: widget parent
     '''
     def __init__(self, parent):
+        from core.Manager import Manager
         super().__init__(parent)
-        self.manager = None
+        self.manager: Manager = None
         self.workscene: QGraphicsScene = QGraphicsScene(self)
         self.setScene(self.workscene)
         self.zoom = 1
         self.rect: QGraphicsRectItem = self.workscene.addRect(QRect(0, 0, 1, 1))
+        self.borders: QGraphicsRectItem = self.workscene.addRect(QRect(0, 0, 1, 1))
+        self.borders.setPen(QPen(QColor(255, 255, 255, 255), 10, Qt.PenStyle.DashLine))
+        self.borders.setBrush(QColor(0, 0, 0, 0))
         self.origin = self.workscene.addEllipse(0, 0, 1, 1, QColor(0, 0, 0, 0))
-        self.managedfields: list[QGraphicsPixmapItem] = []
         self.verticalScrollBar().sliderReleased.connect(self.redraw)
         self.horizontalScrollBar().sliderReleased.connect(self.redraw)
         self._lmb = False
@@ -32,10 +37,9 @@ class ViewPort(QGraphicsView):
     def redraw(self):
         self.repaint()
 
-    def add_texture(self, pixmap) -> QGraphicsPixmapItem:
-        newpixmap = self.workscene.addPixmap(pixmap)
-        self.managedfields.append(newpixmap)
-        return newpixmap
+    def add_module(self, module: Module):
+        for i in module.renderables:
+            i.init_graphics(self)
 
     def add_managed_fields(self, manager):
         self.manager = manager
@@ -44,6 +48,7 @@ class ViewPort(QGraphicsView):
         if len(self.managedfields) > 0:
             self.rect.setRect(self.managedfields[0].sceneBoundingRect())
         # self.setBackgroundBrush(QBrush(QColor(30, 30, 30), Qt.BrushStyle.SolidPattern))
+        self.borders.setZValue(1000)
 
     def mousePressEvent(self, event):
         super().mousePressEvent(event)
@@ -96,6 +101,12 @@ class ViewPort(QGraphicsView):
             i.setX(i.x() + offset.x())
             i.setY(i.y() + offset.y())
         self.rect.setRect(self.managedfields[0].sceneBoundingRect())
+        borders = self.manager.level.extra_tiles
+        topleft = QPoint(borders[0], borders[1])
+        bottomright = self.manager.level.level_size + QPoint(borders[2], borders[3])
+        self.borders.setRect(QRect(self.editor_to_viewport(topleft), self.editor_to_viewport(bottomright)))
+        for i in self.manager.modules:
+            i.zoom_event(self.zoom)
         self.manager.editor.mouse_wheel_event(event)
         self.manager.editor.mouse_move_event(event)
         #self.verticalScrollBar().size
@@ -106,9 +117,8 @@ class ViewPort(QGraphicsView):
         if self.mouse_middle:
             # self.origin.setX(self.origin.x() + offset.x())
             # self.origin.setY(self.origin.y() + offset.y())
-            for i in self.managedfields:
-                i.setX(i.x() + offset.x())
-                i.setY(i.y() + offset.y())
+            for i in self.manager.modules:
+                i.move_event(self.origin.pos())
             self.rect.setRect(self.managedfields[0].sceneBoundingRect())
         self.mpos = event.pos()
         self.manager.editor.mouse_move_event(event)

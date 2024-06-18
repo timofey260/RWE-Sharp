@@ -65,6 +65,10 @@ class RWELevel:
         """
         return self.data["TE"]["tlMatrix"][int(x)][int(y)][layer]
 
+    @property
+    def extra_tiles(self) -> [int, int, int, int]:
+        return self.data["EX2"]["extraTiles"]
+
     def inside(self, x: int, y: int) -> bool:
         return self.inside(QPoint(x, y))
 
@@ -78,6 +82,10 @@ class RWELevel:
     @property
     def level_height(self) -> int:
         return len(self.data["GE"][0])
+
+    @property
+    def level_size(self) -> QPoint:
+        return QPoint(self.level_width, self.level_height)
 
     @staticmethod
     def turntolingo(string: dict, file):

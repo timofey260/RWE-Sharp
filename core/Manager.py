@@ -1,5 +1,5 @@
 from core.RWELevel import RWELevel, defaultlevel
-from core.Modify.RenderTexture import RenderTexture
+from core.Renderable.RenderTexture import RenderTexture
 from core.Modify.EditorMode import EditorMode
 from core.Modify.Mod import Mod
 from core.Modify.baseModule import Module
@@ -67,14 +67,12 @@ class Manager:
         neat color visuals
         """
 
-        self.editorlayers = []
-
         self.basemod = BaseMod(self)
 
         self.pre_init_mods()
         self.config.init_configs()  # mounting configs and applying them
         self.init_mods()
-        self.init_layers()
+        self.init_modules()
         self.init_editors()
         self.change_pallete()
 
@@ -83,25 +81,9 @@ class Manager:
             if self.basemod.palette.value == f"{i.mod.author_name}.{i.name}":
                 self.window.setPalette(i.palette)
 
-    def init_layers(self):
-        editorlayers: list[tuple[int, RenderTexture]] = []
-        # mod editor layers
-
+    def init_modules(self):
         for i in self.modules:
-            for l in i.editorlayers:
-                editorlayers.append(l)
-        editorlayers.sort(key=lambda x: x[0])
-        self.editorlayers: list[RenderTexture] = list(map(lambda x: x[1], editorlayers))
-
-        for i in self.editorlayers:
-            img = self.viewport.add_texture(i.image)
-            i.renderedtexture = img
-            i.field_init()
-
-        for i in self.modules:
-            i.init_module_textures()
-            i.render_module()
-
+            self.viewport.add_module(i)
 
     def init_editors(self):
         if len(self.editors) <= 0:

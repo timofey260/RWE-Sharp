@@ -1,12 +1,12 @@
-from core.Modify.RenderTexture import RenderTexture
+from core.Renderable.RenderTexture import RenderTexture
 from core.info import CELLSIZE
 from PySide6.QtCore import QLine
 from PySide6.QtGui import QColor
 
 
 class GridRenderTexture(RenderTexture):
-    def __init__(self, module):
-        super().__init__(module)
+    def __init__(self, module, level):
+        super().__init__(module, level)
         self.painter.setPen(QColor(0, 0, 0, 255))
 
     def draw_layer(self) -> None:

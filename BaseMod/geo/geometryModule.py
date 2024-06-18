@@ -34,12 +34,9 @@ class GeoModule(Module):
         self.drawlpipes_key = KeyConfigurable(mod, "VIEW_geo.drawlpipes_key", "Alt+v", "key to show 3rd layer")
         self.drawlmisc_key = KeyConfigurable(mod, "VIEW_geo.drawlmisc_key", "Alt+c", "key to show 3rd layer")
         self.draw = True
-        self.l1 = GeoRenderTexture(self, 0)
-        self.l2 = GeoRenderTexture(self, 1)
-        self.l3 = GeoRenderTexture(self, 2)
-        self.append_layer(100, self.l3)
-        self.append_layer(200, self.l2)
-        self.append_layer(300, self.l1)
+        self.l1 = GeoRenderTexture(self, 100, 0).add_myself()
+        self.l2 = GeoRenderTexture(self, 200, 1).add_myself()
+        self.l3 = GeoRenderTexture(self, 300, 2).add_myself()
 
         self.drawl1.valueChanged.connect(self.check_l1_change)
         self.drawl2.valueChanged.connect(self.check_l2_change)
