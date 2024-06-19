@@ -125,9 +125,11 @@ class GeometryEditor(EditorMode):
             cellpos = QRect(pos[0] * self._sz, pos[1] * self._sz, self._sz, self._sz)
             self.itempainter.drawPixmap(QRect(0, 0, CELLSIZE, CELLSIZE), self.geo_texture, cellpos)
         elif self.block.value in stackables or blk == -1:
+            pos = self.sinfo.get(str(blk), [0, 0])
             if blk == -1:
                 blk = 4
-            pos = self.sinfo.get(str(blk), [0, 0])
+                pos = self.sinfo.get(str(blk), [0, 0])
+                pos = pos[1]
             cellpos = QRect(pos[0] * self._sz, pos[1] * self._sz, self._sz, self._sz)
             self.itempainter.drawPixmap(QRect(0, 0, CELLSIZE, CELLSIZE), self.geo_texture, cellpos)
         else:

@@ -84,6 +84,8 @@ class Manager:
     def init_modules(self):
         for i in self.modules:
             self.viewport.add_module(i)
+        for i in self.modules:
+            i.render_module()
 
     def init_editors(self):
         if len(self.editors) <= 0:

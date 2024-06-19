@@ -6,8 +6,8 @@ from core.Loaders.TileLoader import colortable
 
 
 class TileRenderTexture(RenderTexture):
-    def __init__(self, module, layer, tilelayer):
-        super().__init__(module, layer)
+    def __init__(self, module, depth, tilelayer):
+        super().__init__(module, depth)
         self.tilelayer = tilelayer
 
     def draw_layer(self, clear=False):

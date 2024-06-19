@@ -34,9 +34,9 @@ class GeoModule(Module):
         self.drawlpipes_key = KeyConfigurable(mod, "VIEW_geo.drawlpipes_key", "Alt+v", "key to show 3rd layer")
         self.drawlmisc_key = KeyConfigurable(mod, "VIEW_geo.drawlmisc_key", "Alt+c", "key to show 3rd layer")
         self.draw = True
-        self.l1 = GeoRenderTexture(self, 100, 0).add_myself()
-        self.l2 = GeoRenderTexture(self, 200, 1).add_myself()
-        self.l3 = GeoRenderTexture(self, 300, 2).add_myself()
+        self.l1 = GeoRenderTexture(self, 150, 0).add_myself()
+        self.l2 = GeoRenderTexture(self, 250, 1).add_myself()
+        self.l3 = GeoRenderTexture(self, 350, 2).add_myself()
 
         self.drawl1.valueChanged.connect(self.check_l1_change)
         self.drawl2.valueChanged.connect(self.check_l2_change)
@@ -44,7 +44,7 @@ class GeoModule(Module):
         self.drawlbeams.valueChanged.connect(self.check_beams_change)
         self.drawlpipes.valueChanged.connect(self.check_pipes_change)
         self.drawlmisc.valueChanged.connect(self.check_misc_change)
-        self.drawoption.valueChanged.connect(self.redraw_option)
+        self.drawoption.valueChanged.connect(self.render_module)
         self.drawgeo.valueChanged.connect(self.hide_geo)
 
     @Slot()
@@ -76,11 +76,6 @@ class GeoModule(Module):
             self.l3.renderedtexture.setOpacity(self.opacityl3.value if self.drawl3.value else 0)
             return
         self.l3.renderedtexture.setOpacity(self.opacityrgb.value if self.drawl3.value else 0)
-
-    @Slot()
-    def redraw_option(self):
-        self.render_module()
-        self.init_module_textures()
 
     # a lot of bullshit functions to speed up rendering
     @Slot()
@@ -116,6 +111,7 @@ class GeoModule(Module):
         self.l1.draw_layer()
         self.l2.draw_layer()
         self.l3.draw_layer()
+        self.init_module_textures()
 
     def get_layer(self, layer: int) -> GeoRenderTexture:
         return [self.l1, self.l2, self.l3][layer]

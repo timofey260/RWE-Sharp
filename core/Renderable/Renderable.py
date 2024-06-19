@@ -4,11 +4,11 @@ from PySide6.QtWidgets import QGraphicsItem
 class Renderable:
     from widgets import Viewport
 
-    def __init__(self, module, level: int):
+    def __init__(self, module, depth: int):
         from core.Modify.baseModule import Module
         from core.Manager import Manager
         self.module: Module = module
-        self.depth: int = -level
+        self.depth: int = -depth
         self.manager: Manager = module.manager
 
     def add_myself(self):

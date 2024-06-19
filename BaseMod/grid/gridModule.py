@@ -1,21 +1,33 @@
 from core.Modify.baseModule import Module
 from BaseMod.grid.gridRenderTexture import GridRenderTexture
-from PySide6.QtCore import Slot, QRect
+from core.Renderable.RenderRect import RenderRect
+from PySide6.QtCore import Slot, QRect, Qt, QPoint
+from PySide6.QtGui import QBrush, QColor
 from core.configTypes.BaseTypes import BoolConfigurable, FloatConfigurable
-from core.configTypes.QtTypes import KeyConfigurable
+from core.configTypes.QtTypes import KeyConfigurable, ColorConfigurable
+from core.info import CELLSIZE
 
 
 class GridModule(Module):
     def __init__(self, mod):
         super().__init__(mod)
-        self.enablegrid = BoolConfigurable(mod, "enablegrid", False, "Enable grid")
-        self.gridopacity = FloatConfigurable(mod, "gridopacity", .5, "Opacity grid")
-        self.enablegrid_key = KeyConfigurable(mod, "enablegrid_key", "Alt+G", "Grid key")
-        self.gridtexture = GridRenderTexture(self, 1000).add_myself()
+        self.enablegrid = BoolConfigurable(mod, "grid.enable_grid", False, "Enable grid")
+        self.gridopacity = FloatConfigurable(mod, "grid.grid_opacity", .5, "Opacity grid")
+        self.enablegrid_key = KeyConfigurable(mod, "grid.enable_grid_key", "Alt+G", "Grid key")
+        self.backgroundcolor = ColorConfigurable(mod, "grid.bgcolor", QColor(150, 150, 150), "color of the background")
+        self.gridtexture = GridRenderTexture(self, 0).add_myself()
+        self.rect = RenderRect(self, 1000, QRect(QPoint(0, 0), CELLSIZE * self.manager.level.level_size),
+                               Qt.GlobalColor.transparent, QBrush(self.backgroundcolor.value)).add_myself()
+        borders = self.manager.level.extra_tiles
+        topleft = QPoint(borders[0], borders[1])
+        bottomright = self.manager.level.level_size + QPoint(borders[2], borders[3])
+        self.border = RenderRect(self, 1000,
+                                 QRect(self.viewport.editor_to_viewport(topleft),
+                                       self.viewport.editor_to_viewport(bottomright)),
+                                 Qt.PenStyle.DashLine).add_myself()
+
         self.enablegrid.valueChanged.connect(self.check_change)
         self.gridopacity.valueChanged.connect(self.check_change)
-
-        self.borders = self.viewport.workscene.addRect(QRect(0, 0, 1, 1))
 
     @Slot()
     def check_change(self):

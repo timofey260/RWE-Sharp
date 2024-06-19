@@ -13,13 +13,6 @@ class Module:
         self.renderables: list[Renderable] = []
         self.viewport: ViewPort = mod.manager.viewport
 
-    def init_module_textures(self):
-        """
-        Called after all texture modules were initialized
-        :return: None
-        """
-        pass
-
     def render_module(self):
         """
         Called when user asks for viewport cleanup

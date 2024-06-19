@@ -4,8 +4,8 @@ from core.Renderable.Renderable import Renderable
 
 
 class RenderTexture(Renderable):
-    def __init__(self, module, level):
-        super().__init__(module, level)
+    def __init__(self, module, depth):
+        super().__init__(module, depth)
         self.image = QPixmap(self.manager.level_width * 20, self.manager.level_height * 20)
         self.image.fill(QColor(0, 0, 0, 0))
         self.painter = QPainter(self.image)
@@ -26,14 +26,10 @@ class RenderTexture(Renderable):
         :return: None
         """
 
-    def field_init(self) -> None:
-        """
-        called when layer has been added on screen
-        :return: None
-        """
-
     def init_graphics(self, viewport):
         self.renderedtexture = viewport.workscene.addPixmap(self.image)
+        self.renderedtexture.setZValue(self.depth)
+        self.draw_layer()
 
     def move_event(self, pos):
         self.renderedtexture.setPos(pos)

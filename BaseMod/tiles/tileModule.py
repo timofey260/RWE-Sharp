@@ -45,9 +45,9 @@ class TileModule(Module):
         self.palettepath.valueChanged.connect(self.change_colortable)
         self.colortable = None
         self.change_colortable()
-        self.l1 = TileRenderTexture(self, 150, 0).add_myself()
-        self.l2 = TileRenderTexture(self, 250, 1).add_myself()
-        self.l3 = TileRenderTexture(self, 350, 2).add_myself()
+        self.l1 = TileRenderTexture(self, 100, 0).add_myself()
+        self.l2 = TileRenderTexture(self, 200, 1).add_myself()
+        self.l3 = TileRenderTexture(self, 300, 2).add_myself()
 
         self.drawl1.valueChanged.connect(self.check_l1_change)
         self.drawl2.valueChanged.connect(self.check_l2_change)
@@ -68,7 +68,6 @@ class TileModule(Module):
     @Slot()
     def redraw_option(self):
         self.render_module(True)
-        self.init_module_textures()
 
     def init_module_textures(self):
         self.check_l1_change()
@@ -100,14 +99,15 @@ class TileModule(Module):
         self.l1.draw_layer(clear)
         self.l2.draw_layer(clear)
         self.l3.draw_layer(clear)
+        self.init_module_textures()
         if self.drawoption.value == 6:
-            self.manager.viewport.rect.setBrush(self.colortable[4])
+            self.mod.gridmodule.rect.setBrush(self.colortable[4])
         elif self.drawoption.value in [4, 5]:
-            self.manager.viewport.rect.setBrush(self.colortable[3])
+            self.mod.gridmodule.rect.setBrush(self.colortable[3])
         elif self.drawoption.value == 3:
-            self.manager.viewport.rect.setBrush(QColor(255, 255, 255))
+            self.mod.gridmodule.rect.setBrush(QColor(255, 255, 255))
         else:
-            self.manager.viewport.rect.setBrush(self.manager.viewport.backgroundcolor.value)
+            self.mod.gridmodule.rect.drawrect.setBrush(self.mod.gridmodule.backgroundcolor.value)
 
     def get_layer(self, layer: int) -> TileRenderTexture:
         return [self.l1, self.l2, self.l3][layer]

@@ -5,8 +5,8 @@ from PySide6.QtGui import QColor
 
 
 class GridRenderTexture(RenderTexture):
-    def __init__(self, module, level):
-        super().__init__(module, level)
+    def __init__(self, module, depth):
+        super().__init__(module, depth)
         self.painter.setPen(QColor(0, 0, 0, 255))
 
     def draw_layer(self) -> None:

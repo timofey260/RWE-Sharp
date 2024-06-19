@@ -53,6 +53,9 @@ class BaseMod(Mod):
         self.palette = StringConfigurable(self, "palette", f"{self.author_name}.{rpdark.name}", "palette colors")
         self.palette.valueChanged.connect(self.manager.change_pallete)
 
+        self.gridmodule = GridModule(self).add_myself()
+        self.gridui = GridView(self).add_myself()
+
         self.geomodule = GeoModule(self).add_myself()
         self.geoeditor = GeometryEditor(self)
         self.geoui = GeoUI(self)
@@ -61,9 +64,6 @@ class BaseMod(Mod):
 
         self.tilemodule = TileModule(self).add_myself()
         self.tileview = TileViewUI(self).add_myself()
-
-        self.gridmodule = GridModule(self).add_myself()
-        self.gridui = GridView(self).add_myself()
 
         self.movement_button = EnumFlagConfigurable(self, "movement_button", Qt.MouseButton.MiddleButton, Qt.MouseButton,
                                                   "button to move viewport")

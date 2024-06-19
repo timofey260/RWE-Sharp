@@ -6,8 +6,8 @@ from core.info import PATH_FILES_IMAGES, CONSTS, CELLSIZE
 
 
 class GeoRenderTexture(RenderTexture):
-    def __init__(self, module, layer, geolayer):
-        super().__init__(module, layer)
+    def __init__(self, module, depth, geolayer):
+        super().__init__(module, depth)
         self.geolayer = geolayer
 
         if os.path.exists(os.path.join(PATH_FILES_IMAGES, CONSTS.get("geo_image_config", {}).get("image"))):
