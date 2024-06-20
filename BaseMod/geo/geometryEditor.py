@@ -120,7 +120,6 @@ class GeometryEditor(EditorMode):
     def block_changed(self):
         self.pixmap.fill(QColor(0, 0, 0, 0))
         blk, stak = self.block2info()
-        print(blk, stak)
         if not stak and blk != 0:
             pos = self.binfo.get(str(blk), [0, 0])
             cellpos = QRect(pos[0] * self._sz, pos[1] * self._sz, self._sz, self._sz)

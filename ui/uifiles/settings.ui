@@ -18,23 +18,29 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QSplitter" name="treeSettingPair">
+    <widget class="QSplitter" name="splitter">
      <property name="orientation">
       <enum>Qt::Orientation::Horizontal</enum>
      </property>
-     <property name="childrenCollapsible">
-      <bool>false</bool>
-     </property>
-     <widget class="QTreeView" name="settingsTree">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-        <horstretch>0</horstretch>
-        <verstretch>1</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="editTriggers">
-       <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
-      </property>
+     <widget class="QTreeWidget" name="treeWidget">
+      <column>
+       <property name="text">
+        <string>Setting</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Author</string>
+       </property>
+      </column>
+      <item>
+       <property name="text">
+        <string>RWE#</string>
+       </property>
+       <property name="text">
+        <string>Timofey26</string>
+       </property>
+      </item>
      </widget>
      <widget class="QFrame" name="frame">
       <property name="sizePolicy">
@@ -50,13 +56,6 @@
        <enum>QFrame::Shadow::Raised</enum>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">
-       <item>
-        <widget class="QLabel" name="SettingsLabel">
-         <property name="text">
-          <string>Settings</string>
-         </property>
-        </widget>
-       </item>
        <item>
         <widget class="SettingsViewer" name="SettingsViewer" native="true">
          <property name="sizePolicy">

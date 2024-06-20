@@ -1,15 +1,15 @@
-from .ConfigBase import Configurable
+from core.configTypes.ConfigBase import Configurable
 from PySide6.QtCore import Slot, Signal, Qt
-from PySide6.QtWidgets import QRadioButton, QAbstractButton
+from PySide6.QtWidgets import QRadioButton, QAbstractButton, QSlider
 from PySide6.QtGui import QAction
 import json
 
 
 class BoolConfigurable(Configurable):
-    from .QtTypes import KeyConfigurable
+    from core.configTypes.QtTypes import KeyConfigurable
     valueChanged = Signal(bool)
 
-    def __init__(self, mod, name: str, default: bool=False, description: str= ""):
+    def __init__(self, mod, name: str, default: bool = False, description: str = ""):
         super().__init__(mod, name, default, description)
 
     def load_str_value(self, text: str) -> None:
@@ -33,7 +33,7 @@ class BoolConfigurable(Configurable):
     def flip(self):
         self.update_value(not self.value)
 
-    def link_button(self, button: QAbstractButton, key: KeyConfigurable=None) -> None:
+    def link_button(self, button: QAbstractButton, key: KeyConfigurable = None) -> None:
         """
         Makes link between Button and Configurable, where value gets synced
         :param button: button to link
@@ -46,7 +46,7 @@ class BoolConfigurable(Configurable):
         if key is not None:
             key.link_button(button)
 
-    def link_action(self, action: QAction, key: KeyConfigurable=None) -> None:
+    def link_action(self, action: QAction, key: KeyConfigurable = None) -> None:
         """
         Makes link between Action and Configurable, where state is synced
         :param action: action to link
@@ -61,7 +61,7 @@ class BoolConfigurable(Configurable):
             action.setShortcut(key.value)
             key.valueChanged.connect(action.setShortcut)
 
-    def link_button_action(self, button: QAbstractButton, action: QAction, key: KeyConfigurable=None) -> None:
+    def link_button_action(self, button: QAbstractButton, action: QAction, key: KeyConfigurable = None) -> None:
         """
         Links both Button and Action to a Configurable and syncs the state
         :param button: Button to link
@@ -76,7 +76,7 @@ class BoolConfigurable(Configurable):
 class StringConfigurable(Configurable):
     valueChanged = Signal(str)
 
-    def __init__(self, mod, name: str, default: str= "", description: str= ""):
+    def __init__(self, mod, name: str, default: str = "", description: str = ""):
         super().__init__(mod, name, default, description)
 
     def load_str_value(self, text: str) -> None:
@@ -94,7 +94,7 @@ class StringConfigurable(Configurable):
 class IntConfigurable(Configurable):
     valueChanged = Signal(int)
 
-    def __init__(self, mod, name: str, default: int=0, description: str= ""):
+    def __init__(self, mod, name: str, default: int = 0, description: str = ""):
         self.radiolist: list[QRadioButton] = []
         super().__init__(mod, name, default, description)
 
@@ -130,11 +130,21 @@ class IntConfigurable(Configurable):
         for i in self.radiolist:
             i.clicked.connect(self.update_value)
 
+    def link_slider(self, slider: QSlider):
+        """
+        Links slider to Configurable
+        :param slider: Buttons to press
+        :return: None
+        """
+        slider.setValue(self.value)
+        slider.valueChanged.connect(self.update_value)
+        self.valueChanged.connect(slider.setValue)
+
 
 class FloatConfigurable(Configurable):
     valueChanged = Signal(float)
 
-    def __init__(self, mod, name: str, default: float=0, description: str= ""):
+    def __init__(self, mod, name: str, default: float = 0, description: str = ""):
         super().__init__(mod, name, default, description)
 
     def load_str_value(self, text: str) -> None:
@@ -152,7 +162,7 @@ class FloatConfigurable(Configurable):
 class DictConfigurable(Configurable):
     valueChanged = Signal(dict)
 
-    def __init__(self, mod, name: str, default: dict=None, description: str= ""):
+    def __init__(self, mod, name: str, default: dict = None, description: str = ""):
         if default is None:
             default = {}
         super().__init__(mod, name, default, description)

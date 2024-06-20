@@ -18,7 +18,7 @@ first line of file is level properties
 line with level size, extra tiles, sunlight, tile seed etc.
 
 format: v;w h;el et er eb;l;s
-    * v: slug version
+    * v: rwl version(for compatibility)
     * w, h: width and height
     * el, et, er and eb: extra tiles(left, top right and bottom)
     * l: light(either 0 or 1)
@@ -99,7 +99,7 @@ List of stackables(2 bytes):
     |15| + worm grass                                        [20]
     |16| + waterfall                                         [18]
     * - only ones affecting render on all layers
-    - - might affect render on layers other than 1(not tested)
+    - - might affect render on layers other than 1(not tested but included)
     + - good to be unused on other layers
 
 2. tiles
@@ -574,6 +574,7 @@ class RWLParser:
                     # encodecodes[curpoint].append(tile)
 
         return levelstring
+
 
 if __name__ == '__main__':
     # benchmark

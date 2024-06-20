@@ -89,6 +89,9 @@ class EnumConfigurable(Configurable):
         Just make sure your enum starts with 0
         :param combobox: Combobox to link
         """
+        if combobox.count() == 0:
+            for i in self.enumtouse:
+                combobox.addItem(i.name)
         combobox.setCurrentIndex(self.value.value)
         combobox.currentIndexChanged.connect(self.update_value)
         self.valueChanged[int].connect(combobox.setCurrentIndex)
