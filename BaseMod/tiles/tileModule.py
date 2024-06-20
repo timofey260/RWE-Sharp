@@ -39,7 +39,7 @@ class TileModule(Module):
         self.drawl1_key = KeyConfigurable(mod, "VIEW_tile.drawl1_key", "Alt+Shift+1", "layer 1 key")
         self.drawl2_key = KeyConfigurable(mod, "VIEW_tile.drawl2_key", "Alt+Shift+2", "layer 2 key")
         self.drawl3_key = KeyConfigurable(mod, "VIEW_tile.drawl3_key", "Alt+Shift+3", "layer 3 key")
-        print(self.palettepath.value)
+
         if not os.path.exists(self.palettepath.value):
             self.palettepath.reset_value()
         self.palettepath.valueChanged.connect(self.change_colortable)
