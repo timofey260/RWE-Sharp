@@ -25,7 +25,7 @@ class Ui_Settings(object):
     def setupUi(self, Settings):
         if not Settings.objectName():
             Settings.setObjectName(u"Settings")
-        Settings.resize(709, 542)
+        Settings.resize(795, 542)
         icon = QIcon(QIcon.fromTheme(u"document-properties"))
         Settings.setWindowIcon(icon)
         self.verticalLayout = QVBoxLayout(Settings)
@@ -34,7 +34,6 @@ class Ui_Settings(object):
         self.splitter.setObjectName(u"splitter")
         self.splitter.setOrientation(Qt.Orientation.Horizontal)
         self.treeWidget = QTreeWidget(self.splitter)
-        QTreeWidgetItem(self.treeWidget)
         self.treeWidget.setObjectName(u"treeWidget")
         self.splitter.addWidget(self.treeWidget)
         self.frame = QFrame(self.splitter)
@@ -77,15 +76,6 @@ class Ui_Settings(object):
     def retranslateUi(self, Settings):
         Settings.setWindowTitle(QCoreApplication.translate("Settings", u"Settings", None))
         ___qtreewidgetitem = self.treeWidget.headerItem()
-        ___qtreewidgetitem.setText(1, QCoreApplication.translate("Settings", u"Author", None));
         ___qtreewidgetitem.setText(0, QCoreApplication.translate("Settings", u"Setting", None));
-
-        __sortingEnabled = self.treeWidget.isSortingEnabled()
-        self.treeWidget.setSortingEnabled(False)
-        ___qtreewidgetitem1 = self.treeWidget.topLevelItem(0)
-        ___qtreewidgetitem1.setText(1, QCoreApplication.translate("Settings", u"Timofey26", None));
-        ___qtreewidgetitem1.setText(0, QCoreApplication.translate("Settings", u"RWE#", None));
-        self.treeWidget.setSortingEnabled(__sortingEnabled)
-
     # retranslateUi
 

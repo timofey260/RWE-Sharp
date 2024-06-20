@@ -1,13 +1,13 @@
-from BaseMod.geo.geometry_ui import Ui_Geo
-from BaseMod.geo.geometry_vis_ui import Ui_GeoView
+from BaseMod.geo.ui.geometry_ui import Ui_Geo
+from BaseMod.geo.ui.geometry_vis_ui import Ui_GeoView
 from PySide6.QtWidgets import QMenu, QCheckBox
 from PySide6.QtCore import Slot, Qt, QCoreApplication
-from PySide6.QtGui import QAction, QIcon, QColor
+from PySide6.QtGui import QAction
 from BaseMod.baseMod import BaseMod
-from core.Modify.ui import UI, ViewUI
+from BaseMod.geo.ui.geosettings_ui import Ui_Geometry
+from core.Modify.ui import UI, ViewUI, SettingUI
 from BaseMod.geo.geometryEditor import GeoBlocks
-from core.utils import paint_svg_qicon
-
+from widgets.SettingsViewer import SettingsViewer
 
 button_to_geo = {
     "ToolGeoWall": GeoBlocks.Wall,
@@ -155,3 +155,10 @@ class GeoViewUI(ViewUI):
             self.ui.VGeoMisc.setChecked(True)
             self.module.draw = True
             self.module.render_module()
+
+
+class GeoSettings(SettingUI):
+    def init_ui(self, viewer: SettingsViewer):
+        self.ui = Ui_Geometry()
+        self.ui.setupUi(viewer)
+

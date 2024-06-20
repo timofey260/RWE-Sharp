@@ -1,5 +1,4 @@
 from core.RWELevel import RWELevel, defaultlevel
-from core.Renderable.RenderTexture import RenderTexture
 from core.Modify.EditorMode import EditorMode
 from core.Modify.Mod import Mod
 from core.Modify.baseModule import Module
@@ -11,6 +10,7 @@ from PySide6.QtWidgets import QWidget, QMenuBar, QMenu
 from PySide6.QtCore import Slot
 from ui.mainuiconnector import MainWindow
 from core.palette import Palette
+from core.Modify.ui import SettingUI
 
 
 class Manager:
@@ -66,6 +66,10 @@ class Manager:
         """
         neat color visuals
         """
+        self.settings: list[SettingUI] = []
+        """
+        Collection of ui's for settings window
+        """
 
         self.basemod = BaseMod(self)
 
@@ -89,7 +93,7 @@ class Manager:
 
     def init_editors(self):
         if len(self.editors) <= 0:
-            print("No editors found!!!")
+            print("No editors found!!!")  # fucking explode idk
             return
         self.editors[0].init_scene_items()
 
@@ -116,6 +120,9 @@ class Manager:
 
     def add_quick_option(self, element: QWidget) -> None:
         self.window.ui.QuickOverlay.addWidget(element)
+
+    def add_setting_ui(self, settingui: SettingUI):
+        self.settings.append(settingui)
 
     @property
     def view_menu(self) -> QMenu:

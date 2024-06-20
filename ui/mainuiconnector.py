@@ -58,7 +58,7 @@ class MainWindow(QMainWindow):
 
     @Slot()
     def open_settings(self) -> None:
-        self.settings = SettingsUI(self)
+        self.settings = SettingsUI(self.manager, self)
         self.settings.show()
 
     @Slot()

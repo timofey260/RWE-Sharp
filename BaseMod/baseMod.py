@@ -19,13 +19,14 @@ class BaseMod(Mod):
             "timofey26",
             "1.0.0"
         ))
-        from .geo.geoUIConnectors import GeoUI, GeoViewUI
+        from .geo.geoUIConnectors import GeoUI, GeoViewUI, GeoSettings
         from .tiles.tileUIConnectors import TileViewUI
 
         self.geoeditor: GeometryEditor | None = None
         self.geomodule: GeoModule | None = None
         self.geoui: GeoUI | None = None
         self.geoview: GeoViewUI | None = None
+        self.geosettings: GeoSettings | None = None
 
         self.tilemodule: TileModule | None = None
         self.tileview: TileViewUI | None = None
@@ -46,7 +47,7 @@ class BaseMod(Mod):
         pass
 
     def mod_init(self):
-        from .geo.geoUIConnectors import GeoUI, GeoViewUI
+        from .geo.geoUIConnectors import GeoUI, GeoViewUI, GeoSettings
         from .tiles.tileUIConnectors import TileViewUI
 
         rpdark = RaspberryDark(self).add_myself()
@@ -61,6 +62,7 @@ class BaseMod(Mod):
         self.geoui = GeoUI(self)
         self.geoview = GeoViewUI(self).add_myself()
         self.geoeditor.add_myself(self.geoui)
+        self.geosettings = GeoSettings(self, "geometry").add_myself()
 
         self.tilemodule = TileModule(self).add_myself()
         self.tileview = TileViewUI(self).add_myself()

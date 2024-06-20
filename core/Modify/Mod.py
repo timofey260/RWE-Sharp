@@ -1,4 +1,14 @@
+from __future__ import annotations
 from dataclasses import dataclass, field
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from core.Modify.ConfigModule import ConfigModule
+    from core.Modify.ui import UI, SettingUI, ViewUI
+    from core.Modify.EditorMode import EditorMode
+    from core.Modify.baseModule import Module
+    from PySide6.QtWidgets import QWidget
+    from core.palette import Palette
+    from core.Manager import Manager
 
 
 @dataclass(frozen=True, init=True)
@@ -12,14 +22,8 @@ class ModInfo:
 
 
 class Mod:
-    from core.Modify.ConfigModule import ConfigModule
-    from core.Modify.ui import UI
-    from core.Modify.EditorMode import EditorMode
-    from core.Modify.baseModule import Module
-    from PySide6.QtWidgets import QWidget
-    from core.palette import Palette
 
-    def __init__(self, manager, modinfo: ModInfo):
+    def __init__(self, manager: Manager, modinfo: ModInfo):
         """
         Base Mod class to load
         :param manager: manager to use
@@ -52,7 +56,7 @@ class Mod:
     def add_module(self, module: Module):
         self.manager.add_module(module)
 
-    def add_vis_ui(self, ui: UI):
+    def add_vis_ui(self, ui: ViewUI):
         self.manager.add_view(ui)
 
     def add_quickview_option(self, element: QWidget):
@@ -63,3 +67,6 @@ class Mod:
 
     def add_palette(self, palette: Palette):
         self.manager.palettes.append(palette)
+
+    def add_setting_ui(self, settingui: SettingUI):
+        self.manager.add_setting_ui(settingui)

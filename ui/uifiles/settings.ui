@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>709</width>
+    <width>795</width>
     <height>542</height>
    </rect>
   </property>
@@ -28,19 +28,6 @@
         <string>Setting</string>
        </property>
       </column>
-      <column>
-       <property name="text">
-        <string>Author</string>
-       </property>
-      </column>
-      <item>
-       <property name="text">
-        <string>RWE#</string>
-       </property>
-       <property name="text">
-        <string>Timofey26</string>
-       </property>
-      </item>
      </widget>
      <widget class="QFrame" name="frame">
       <property name="sizePolicy">
