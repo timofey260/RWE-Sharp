@@ -56,6 +56,7 @@ class TileViewUI(ViewUI):
         file, _ = QFileDialog.getOpenFileName(self, "Select a Palette", PATH_FILES_IMAGES_PALETTES)
         self.module.palettepath.update_value(file)
         self.module.drawoption.update_value(4)
+        self.module.render_module()
 
     @Slot(Qt.CheckState)
     def all_layers(self, state: Qt.CheckState):

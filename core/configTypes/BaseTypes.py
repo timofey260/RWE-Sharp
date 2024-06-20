@@ -95,7 +95,7 @@ class IntConfigurable(Configurable):
     valueChanged = Signal(int)
 
     def __init__(self, mod, name: str, default: int=0, description: str= ""):
-        self.radiolist = []
+        self.radiolist: list[QRadioButton] = []
         super().__init__(mod, name, default, description)
 
     def load_str_value(self, text: str) -> None:
@@ -108,15 +108,20 @@ class IntConfigurable(Configurable):
     @Slot(int)
     @Slot()
     def update_value(self, value: int | None):
+        if self.value == value:
+            return
         if isinstance(self.sender(), QRadioButton) and self.sender() in self.radiolist:
             super().update_value(self.radiolist.index(self.sender()))
         elif value is not None:
             super().update_value(value)
+        if value < len(self.radiolist):
+            self.radiolist[value].setChecked(True)
 
     def link_radio(self, buttons: list[QRadioButton]) -> None:
         """
         Links list of radio buttons to Configurable
-        Configurable value becomes index of pressed radio
+        Configurable value becomes index of pressed radio button
+        radio buttons will also be synced to current value
         :param buttons: Buttons to press
         :return: None
         """

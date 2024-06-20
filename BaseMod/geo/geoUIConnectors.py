@@ -88,7 +88,12 @@ class GeoUI(UI):
     @Slot()
     def set_tool(self):
         name = self.sender().objectName()
-        self.editor.block.update_value(button_to_geo.get(name, GeoBlocks.Wall))
+        block = button_to_geo.get(name, GeoBlocks.Wall)
+        self.editor.block.update_value(block)
+        if block == GeoBlocks.CleanAll:
+            self.editor.drawl1.update_value(True)
+            self.editor.drawl2.update_value(True)
+            self.editor.drawl3.update_value(True)
 
 
 class GeoViewUI(ViewUI):

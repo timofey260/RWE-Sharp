@@ -12,3 +12,7 @@ class GeoControls:
         self.rock = KeyConfigurable(mod, "KEYS_geo.rock", "r", "rock key")
         self.spear = KeyConfigurable(mod, "KEYS_geo.spear", "q", "spear key")
         self.crack = KeyConfigurable(mod, "KEYS_geo.crack", "c", "crack key")
+        self.crack = KeyConfigurable(mod, "KEYS_geo.crack", "c", "crack key")
+        self.crack = KeyConfigurable(mod, "KEYS_geo.crack", "c", "crack key")
+        self.crack = KeyConfigurable(mod, "KEYS_geo.crack", "c", "crack key")
+        self.crack = KeyConfigurable(mod, "KEYS_geo.crack", "c", "crack key")

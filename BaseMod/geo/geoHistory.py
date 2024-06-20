@@ -3,6 +3,43 @@ from PySide6.QtCore import QPoint, QRect
 from core.utils import draw_line
 
 
+def grab_return(form: [int, bool], block: [int, list[int]]) -> ([int, list[int]], ...):
+    if form[1] and form[0] < 0:
+        if form[0] == -2:  # upper
+            return [block[0], []], block[1].copy()
+        elif form[0] == -3:  # block
+            return [0, block[1].copy()], block[0]
+        elif form[0] == -4:  # all, no layer check
+            return [0, []], [block[0], block[1].copy()]
+        elif form[0] == -5:  # layer
+            return [0, []], [block[0], block[1].copy()]
+    elif form[1]:  # stack
+        bol = form[0] in block[1]
+        ar = block[1].copy()
+        if not bol:
+            ar.append(form[0])
+        return [block[0], ar], bol
+    return [form[0], block[1].copy()], block[0]
+
+
+def put_return(form: [int, bool], block: [int, list[int]], saved) -> [int, list[int]]:
+    if form[1] and form[0] < 0:
+        if form[0] == -2:  # upper
+            return [block[0], saved.copy()]
+        elif form[0] == -3:  # block
+            return [saved, block[1].copy()]
+        elif form[0] == -4:  # all
+            return [saved[0], saved[1].copy()]
+        elif form[0] == -5:  # layer
+            return [saved[0], saved[1].copy()]
+    elif form[1]:  # stack
+        ar = block[1].copy()
+        if not saved:
+            ar.remove(form[0])
+        return [block[0], ar]
+    return [saved, block[1].copy()]
+
+
 class GERectChange(HistoryElement):
     def __init__(self, history, rect: QRect, replace, layers: list[bool, bool, bool]):
         super().__init__(history)
@@ -36,7 +73,7 @@ class GERectChange(HistoryElement):
 
 
 class GEPointChange(HistoryElement):
-    def __init__(self, history, start: QPoint, replace, layers: [bool, bool, bool]):
+    def __init__(self, history, start: QPoint, replace: [int, bool], layers: [bool, bool, bool]):
         super().__init__(history)
         self.positions: list[QPoint] = []
         self.before: list[int] = []
@@ -46,20 +83,12 @@ class GEPointChange(HistoryElement):
         self.module = self.history.level.manager.basemod.geomodule
         for i, l in enumerate(self.layers):
             if l:
-                self.before.append(self.get_save(start.x(), start.y(), i))
-                self.set_replace(start.x(), start.y(), i)
+                block, save = grab_return(self.replace, self.history.level.GE_data(start.x(), start.y(), i))
+                self.before.append(save)
+                self.history.level.data["GE"][start.x()][start.y()][i] = block
                 t = self.module.get_layer(i)
                 t.draw_geo(start.x(), start.y(), True)
                 t.redraw()
-
-    def get_save(self, x, y, l):
-        return self.history.level.GE_data(x, y, l)
-
-    def set_load(self, x, y, l, data):
-        self.history.level.data["GE"][x][y][l] = data
-
-    def set_replace(self, x, y, l):
-        self.history.level.data["GE"][x][y][l] = self.replace
 
     def add_move(self, position):
         start = self.start
@@ -73,8 +102,9 @@ class GEPointChange(HistoryElement):
         for point in points:
             for i, l in enumerate(self.layers):
                 if l:
-                    self.before.append(self.get_save(point.x(), point.y(), i))
-                    self.set_replace(point.x(), point.y(), i)
+                    block, save = grab_return(self.replace, self.history.level.GE_data(point.x(), point.y(), i))
+                    self.before.append(save)
+                    self.history.level.data["GE"][point.x()][point.y()][i] = block
                     self.module.get_layer(i).draw_geo(point.x(), point.y(), True)
         for i, l in enumerate(self.layers):
             if l:
@@ -97,14 +127,17 @@ class GEPointChange(HistoryElement):
                 allpoints.append(point)
                 for i2, l in enumerate(self.layers):
                     if l:
-                        self.set_load(point.x(), point.y(), i2, self.before[beforeitem])
+                        block = put_return(self.replace, self.history.level.GE_data(point.x(), point.y(), i2), self.before[beforeitem])
+                        self.history.level.data["GE"][point.x()][point.y()][i2] = block
                         self.module.get_layer(i2).draw_geo(point.x(), point.y(), True)
                         beforeitem += 1
             start = v
         layer = 0
         for i, l in enumerate(self.layers):
             if l:
-                self.set_load(self.start.x(), self.start.y(), i, self.before[layer])
+                block = put_return(self.replace, self.history.level.GE_data(self.start.x(), self.start.y(), i),
+                                   self.before[layer])
+                self.history.level.data["GE"][self.start.x()][self.start.y()][i] = block
                 layer += 1
                 self.module.get_layer(i).draw_geo(self.start.x(), self.start.y(), True)
                 self.module.get_layer(i).redraw()
@@ -117,102 +150,11 @@ class GEPointChange(HistoryElement):
             for point in points:
                 for li, l in enumerate(self.layers):
                     if l:
-                        self.set_replace(point.x(), point.y(), li)
+                        block, save = grab_return(self.replace, self.history.level.GE_data(point.x(), point.y(), li))
+                        self.before.append(save)
+                        self.history.level.data["GE"][point.x()][point.y()][li] = block
                         self.module.get_layer(li).draw_geo(point.x(), point.y(), True)
             start = v
         for i, l in enumerate(self.layers):
             if l:
                 self.module.get_layer(i).redraw()
-
-
-class GEBlockChange(GEPointChange):
-    def __init__(self, history, start: QPoint, replace: int, layers: [bool, bool, bool]):
-        super().__init__(history, start, replace, layers)
-
-    def get_save(self, x, y, l):
-        return self.history.level.GE_data(x, y, l)[0]
-
-    def set_load(self, x, y, l, data):
-        self.history.level.data["GE"][x][y][l][0] = data
-
-    def set_replace(self, x, y, l):
-        self.history.level.data["GE"][x][y][l][0] = self.replace
-
-
-class GEStackChange(GEPointChange):
-    def __init__(self, history, start: QPoint, replace: int, layers: [bool, bool, bool]):
-        super().__init__(history, start, replace, layers)
-
-    def get_save(self, x, y, l):
-        return self.replace in self.history.level.GE_data(x, y, l)[1]
-
-    def set_load(self, x, y, l, data):
-        if not data:
-            self.history.level.data["GE"][x][y][l][1].remove(self.replace)
-
-    def set_replace(self, x, y, l):
-        if self.replace not in self.history.level.GE_data(x, y, l)[1]:
-            self.history.level.data["GE"][x][y][l][1].append(self.replace)
-
-
-class GEClearLayer(GEPointChange):
-    def __init__(self, history, start: QPoint, layers: [bool, bool, bool]):
-        super().__init__(history, start, [], layers)
-
-    def get_save(self, x, y, l):
-        data = self.history.level.GE_data(x, y, l)
-        return [data[0], data[1].copy()]
-
-    def set_load(self, x, y, l, data):
-        self.history.level.data["GE"][x][y][l] = [data[0], data[1].copy()]
-
-    def set_replace(self, x, y, l):
-        self.history.level.data["GE"][x][y][l] = [0, []]
-
-
-class GEClearAll(GEClearLayer):
-    def __init__(self, history, start: QPoint):
-        super().__init__(history, start, [True, True, True])
-
-
-class GEClearUpper(GEPointChange):
-    def __init__(self, history, start: QPoint, layers: [bool, bool, bool]):
-        super().__init__(history, start, [], layers)
-
-    def get_save(self, x, y, l):
-        return self.history.level.GE_data(x, y, l)[1].copy()
-
-    def set_load(self, x, y, l, data):
-        self.history.level.data["GE"][x][y][l][1] = data.copy()
-
-    def set_replace(self, x, y, l):
-        self.history.level.data["GE"][x][y][l][1] = []
-
-
-class GEClearBlock(GEPointChange):
-    def __init__(self, history, start: QPoint, layers: [bool, bool, bool]):
-        super().__init__(history, start, [], layers)
-
-    def get_save(self, x, y, l):
-        return self.history.level.GE_data(x, y, l)[0]
-
-    def set_load(self, x, y, l, data):
-        self.history.level.data["GE"][x][y][l][0] = data
-
-    def set_replace(self, x, y, l):
-        self.history.level.data["GE"][x][y][l][0] = 0
-
-
-class GEShortcutBlock(GEPointChange):
-    def __init__(self, history, start: QPoint, layers: [bool, bool, bool]):
-        super().__init__(history, start, [7, [4]], layers)
-
-    def get_save(self, x, y, l):
-        data = self.history.level.GE_data(x, y, l)
-        return [data[0], data[1].copy()]
-
-    def set_load(self, x, y, l, data):
-        self.history.level.data["GE"][x][y][l] = [data[0], data[1].copy()]
-
-    def set_replace(self, x, y, l):
-        self.history.level.data["GE"][x][y][l] = [7, [4]]

@@ -44,7 +44,6 @@ class TileModule(Module):
             self.palettepath.reset_value()
         self.palettepath.valueChanged.connect(self.change_colortable)
         self.colortable = None
-        self.change_colortable()
         self.l1 = TileRenderTexture(self, 100, 0).add_myself()
         self.l2 = TileRenderTexture(self, 200, 1).add_myself()
         self.l3 = TileRenderTexture(self, 300, 2).add_myself()
@@ -54,6 +53,7 @@ class TileModule(Module):
         self.drawl3.valueChanged.connect(self.check_l3_change)
         self.drawoption.valueChanged.connect(self.redraw_option)
         self.drawtiles.valueChanged.connect(self.hide_tiles)
+        self.change_colortable()
 
     @Slot()
     def hide_tiles(self):
@@ -101,11 +101,11 @@ class TileModule(Module):
         self.l3.draw_layer(clear)
         self.init_module_textures()
         if self.drawoption.value == 6:
-            self.mod.gridmodule.rect.setBrush(self.colortable[4])
+            self.mod.gridmodule.rect.drawrect.setBrush(self.colortable[4])
         elif self.drawoption.value in [4, 5]:
-            self.mod.gridmodule.rect.setBrush(self.colortable[3])
+            self.mod.gridmodule.rect.drawrect.setBrush(self.colortable[3])
         elif self.drawoption.value == 3:
-            self.mod.gridmodule.rect.setBrush(QColor(255, 255, 255))
+            self.mod.gridmodule.rect.drawrect.setBrush(QColor(255, 255, 255))
         else:
             self.mod.gridmodule.rect.drawrect.setBrush(self.mod.gridmodule.backgroundcolor.value)
 

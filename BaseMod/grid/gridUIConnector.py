@@ -2,11 +2,15 @@ from PySide6.QtWidgets import QCheckBox
 from PySide6.QtGui import QAction
 from PySide6.QtCore import QCoreApplication
 from core.Modify.ui import ViewUI
+from BaseMod.grid.grid_ui import Ui_GridView
 
 
 class GridView(ViewUI):
     def __init__(self, mod, parent=None):
         super().__init__(mod, parent)
+        self.ui = Ui_GridView()
+        self.ui.setupUi(self)
+
         self.module = mod.gridmodule
         self.VQuickGrid = QCheckBox()
         self.VQuickGrid.setObjectName(u"VQuickGrid")

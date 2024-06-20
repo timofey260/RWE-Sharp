@@ -3,7 +3,7 @@ from PySide6.QtCore import QRect, QPoint, Slot
 from PySide6.QtGui import QColor, QPen, QMoveEvent, QWheelEvent, QMouseEvent, QPixmap, QPainter
 from PySide6.QtWidgets import QGraphicsRectItem, QGraphicsPixmapItem
 from core.info import CELLSIZE, PATH_FILES_IMAGES, CONSTS
-from BaseMod.geo.geoHistory import GEBlockChange, GEStackChange, GEClearAll, GEShortcutBlock, GEClearUpper, GEClearBlock, GEClearLayer
+from BaseMod.geo.geoHistory import GEPointChange
 from core.configTypes.BaseTypes import BoolConfigurable, IntConfigurable
 from core.configTypes.QtTypes import KeyConfigurable, EnumConfigurable
 from enum import Enum, auto
@@ -64,6 +64,7 @@ stackables = [
     GeoBlocks.GarbageWormHole,
     GeoBlocks.ScavengerDen,
     GeoBlocks.Waterfall,
+    GeoBlocks.ShortcutEntrance
 ]
 
 
@@ -124,10 +125,9 @@ class GeometryEditor(EditorMode):
             pos = self.binfo.get(str(blk), [0, 0])
             cellpos = QRect(pos[0] * self._sz, pos[1] * self._sz, self._sz, self._sz)
             self.itempainter.drawPixmap(QRect(0, 0, CELLSIZE, CELLSIZE), self.geo_texture, cellpos)
-        elif self.block.value in stackables or blk == -1:
+        elif self.block.value in stackables:
             pos = self.sinfo.get(str(blk), [0, 0])
-            if blk == -1:
-                blk = 4
+            if blk == 4:
                 pos = self.sinfo.get(str(blk), [0, 0])
                 pos = pos[1]
             cellpos = QRect(pos[0] * self._sz, pos[1] * self._sz, self._sz, self._sz)
@@ -163,7 +163,7 @@ class GeometryEditor(EditorMode):
             case GeoBlocks.Hive:
                 return 3, True
             case GeoBlocks.ShortcutEntrance:
-                return -1, True
+                return 4, True
             case GeoBlocks.Shortcut:
                 return 5, True
             case GeoBlocks.Entrance:
@@ -194,7 +194,7 @@ class GeometryEditor(EditorMode):
             case GeoBlocks.CleanBlocks:
                 return -3, True
             case GeoBlocks.CleanAll:
-                return -4, True
+                return -5, True
             case GeoBlocks.CleanLayer:
                 return -5, True
         return 0, False
@@ -225,20 +225,8 @@ class GeometryEditor(EditorMode):
         fpos = self.viewport.viewport_to_editor(self.mpos)
         if tool == GeoTools.Pen:
             blk, stak = self.block2info()
-            if not stak:
-                self.manager.level.add_history(GEBlockChange(self.manager.level.history, fpos, blk, self.layers))
-            elif self.block.value in stackables:
-                self.manager.level.add_history(GEStackChange(self.manager.level.history, fpos, blk, self.layers))
-            elif blk == -1:
-                self.manager.level.add_history(GEShortcutBlock(self.manager.level.history, fpos, self.layers))
-            elif blk == -2:
-                self.manager.level.add_history(GEClearUpper(self.manager.level.history, fpos, self.layers))
-            elif blk == -3:
-                self.manager.level.add_history(GEClearBlock(self.manager.level.history, fpos, self.layers))
-            elif blk == -4:
-                self.manager.level.add_history(GEClearAll(self.manager.level.history, fpos))
-            elif blk == -5:
-                self.manager.level.add_history(GEClearLayer(self.manager.level.history, fpos, self.layers))
+            print(blk, stak)
+            self.manager.level.add_history(GEPointChange(self.manager.level.history, fpos, [blk, stak], self.layers))
 
     def mouse_move_event(self, event: QMoveEvent):
         super().mouse_move_event(event)
@@ -250,7 +238,8 @@ class GeometryEditor(EditorMode):
         if self.manager.level.inside(fpos):
             self.manager.set_status(f"x: {fpos.x()}, y: {fpos.y()}, {self.manager.level['GE'][fpos.x()][fpos.y()]}")
         if self.mouse_left and self.manager.level.inside(fpos) and not (self.lastpos - fpos).isNull():
-            self.manager.level.last_history_element.add_move(fpos)
+            if self.toolleft.value == GeoTools.Pen:
+                self.manager.level.last_history_element.add_move(fpos)
 
             # self.manager.set_status(str(self.manager.level.TE_data(fpos.x(), fpos.y(), 0)))
             # self.manager.level["GE"][fpos.x()][fpos.y()][0][0] = 1
