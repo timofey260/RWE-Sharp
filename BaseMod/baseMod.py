@@ -52,7 +52,7 @@ class BaseMod(Mod):
         from .tiles.tileUIConnectors import TileViewUI
 
         rpdark = RaspberryDark(self).add_myself()
-        self.palette = StringConfigurable(self, "palette", f"{self.author_name}.{rpdark.name}", "palette colors")
+        self.palette = StringConfigurable(self, "palette", "", "palette colors")
         self.palette.valueChanged.connect(self.manager.change_pallete)
 
         self.gridmodule = GridModule(self).add_myself()

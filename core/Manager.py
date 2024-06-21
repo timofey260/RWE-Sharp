@@ -81,6 +81,8 @@ class Manager:
         self.change_pallete()
 
     def change_pallete(self):
+        if self.basemod.palette.value == "":
+            return 
         for i in self.palettes:
             if self.basemod.palette.value == f"{i.mod.author_name}.{i.name}":
                 self.window.setPalette(i.palette)

@@ -85,7 +85,7 @@ class ViewPort(QGraphicsView):
             self.horizontalScrollBar().wheelEvent(event)
             return
         pointbefore = self.viewport_to_editor_float(self.mpos.toPointF())
-        self.zoom = max(0.1, self.zoom + (event.angleDelta().y() * (-1 if event.inverted() else 1) / 800))
+        self.zoom = max(0.01, self.zoom + (event.angleDelta().y() * (-1 if event.inverted() else 1) / 800))
         offset = (self.viewport_to_editor_float(self.mpos.toPointF()) - pointbefore) * CELLSIZE * self.zoom
         self.topleft.setPos(self.topleft.pos() + offset)
         for i in self.manager.modules:

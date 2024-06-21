@@ -15,10 +15,11 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QCheckBox, QGraphicsView, QGridLayout,
-    QHBoxLayout, QLabel, QRadioButton, QScrollArea,
-    QSizePolicy, QSlider, QSpacerItem, QVBoxLayout,
-    QWidget)
+from PySide6.QtWidgets import (QApplication, QCheckBox, QGridLayout, QHBoxLayout,
+    QLabel, QRadioButton, QScrollArea, QSizePolicy,
+    QSlider, QSpacerItem, QVBoxLayout, QWidget)
+
+from BaseModWidgets import SimpleGeoViewport
 
 class Ui_Geometry(object):
     def setupUi(self, Geometry):
@@ -33,9 +34,7 @@ class Ui_Geometry(object):
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
         self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 596, 462))
-        self.gridLayout_2 = QGridLayout(self.scrollAreaWidgetContents)
-        self.gridLayout_2.setObjectName(u"gridLayout_2")
-        self.horizontalLayout = QHBoxLayout()
+        self.horizontalLayout = QHBoxLayout(self.scrollAreaWidgetContents)
         self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.verticalLayout = QVBoxLayout()
         self.verticalLayout.setObjectName(u"verticalLayout")
@@ -63,26 +62,26 @@ class Ui_Geometry(object):
 
         self.horizontalLayout_2.addWidget(self.label)
 
+        self.label_8 = QLabel(self.scrollAreaWidgetContents)
+        self.label_8.setObjectName(u"label_8")
+        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
+        sizePolicy1.setHorizontalStretch(0)
+        sizePolicy1.setVerticalStretch(0)
+        sizePolicy1.setHeightForWidth(self.label_8.sizePolicy().hasHeightForWidth())
+        self.label_8.setSizePolicy(sizePolicy1)
+        self.label_8.setAlignment(Qt.AlignmentFlag.AlignRight|Qt.AlignmentFlag.AlignTrailing|Qt.AlignmentFlag.AlignVCenter)
+
+        self.horizontalLayout_2.addWidget(self.label_8)
+
 
         self.verticalLayout.addLayout(self.horizontalLayout_2)
 
-        self.horizontalLayout_6 = QHBoxLayout()
-        self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
         self.L1op = QSlider(self.scrollAreaWidgetContents)
         self.L1op.setObjectName(u"L1op")
         self.L1op.setMaximum(256)
         self.L1op.setOrientation(Qt.Orientation.Horizontal)
 
-        self.horizontalLayout_6.addWidget(self.L1op)
-
-        self.label_8 = QLabel(self.scrollAreaWidgetContents)
-        self.label_8.setObjectName(u"label_8")
-        self.label_8.setAlignment(Qt.AlignmentFlag.AlignRight|Qt.AlignmentFlag.AlignTrailing|Qt.AlignmentFlag.AlignVCenter)
-
-        self.horizontalLayout_6.addWidget(self.label_8)
-
-
-        self.verticalLayout.addLayout(self.horizontalLayout_6)
+        self.verticalLayout.addWidget(self.L1op)
 
         self.horizontalLayout_4 = QHBoxLayout()
         self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
@@ -99,26 +98,23 @@ class Ui_Geometry(object):
 
         self.horizontalLayout_4.addWidget(self.label_2)
 
+        self.label_9 = QLabel(self.scrollAreaWidgetContents)
+        self.label_9.setObjectName(u"label_9")
+        sizePolicy1.setHeightForWidth(self.label_9.sizePolicy().hasHeightForWidth())
+        self.label_9.setSizePolicy(sizePolicy1)
+        self.label_9.setAlignment(Qt.AlignmentFlag.AlignRight|Qt.AlignmentFlag.AlignTrailing|Qt.AlignmentFlag.AlignVCenter)
+
+        self.horizontalLayout_4.addWidget(self.label_9)
+
 
         self.verticalLayout.addLayout(self.horizontalLayout_4)
 
-        self.horizontalLayout_7 = QHBoxLayout()
-        self.horizontalLayout_7.setObjectName(u"horizontalLayout_7")
         self.L2op = QSlider(self.scrollAreaWidgetContents)
         self.L2op.setObjectName(u"L2op")
         self.L2op.setMaximum(256)
         self.L2op.setOrientation(Qt.Orientation.Horizontal)
 
-        self.horizontalLayout_7.addWidget(self.L2op)
-
-        self.label_9 = QLabel(self.scrollAreaWidgetContents)
-        self.label_9.setObjectName(u"label_9")
-        self.label_9.setAlignment(Qt.AlignmentFlag.AlignRight|Qt.AlignmentFlag.AlignTrailing|Qt.AlignmentFlag.AlignVCenter)
-
-        self.horizontalLayout_7.addWidget(self.label_9)
-
-
-        self.verticalLayout.addLayout(self.horizontalLayout_7)
+        self.verticalLayout.addWidget(self.L2op)
 
         self.horizontalLayout_5 = QHBoxLayout()
         self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
@@ -135,26 +131,23 @@ class Ui_Geometry(object):
 
         self.horizontalLayout_5.addWidget(self.label_3)
 
+        self.label_10 = QLabel(self.scrollAreaWidgetContents)
+        self.label_10.setObjectName(u"label_10")
+        sizePolicy1.setHeightForWidth(self.label_10.sizePolicy().hasHeightForWidth())
+        self.label_10.setSizePolicy(sizePolicy1)
+        self.label_10.setAlignment(Qt.AlignmentFlag.AlignRight|Qt.AlignmentFlag.AlignTrailing|Qt.AlignmentFlag.AlignVCenter)
+
+        self.horizontalLayout_5.addWidget(self.label_10)
+
 
         self.verticalLayout.addLayout(self.horizontalLayout_5)
 
-        self.horizontalLayout_8 = QHBoxLayout()
-        self.horizontalLayout_8.setObjectName(u"horizontalLayout_8")
         self.L3op = QSlider(self.scrollAreaWidgetContents)
         self.L3op.setObjectName(u"L3op")
         self.L3op.setMaximum(256)
         self.L3op.setOrientation(Qt.Orientation.Horizontal)
 
-        self.horizontalLayout_8.addWidget(self.L3op)
-
-        self.label_10 = QLabel(self.scrollAreaWidgetContents)
-        self.label_10.setObjectName(u"label_10")
-        self.label_10.setAlignment(Qt.AlignmentFlag.AlignRight|Qt.AlignmentFlag.AlignTrailing|Qt.AlignmentFlag.AlignVCenter)
-
-        self.horizontalLayout_8.addWidget(self.label_10)
-
-
-        self.verticalLayout.addLayout(self.horizontalLayout_8)
+        self.verticalLayout.addWidget(self.L3op)
 
         self.label_5 = QLabel(self.scrollAreaWidgetContents)
         self.label_5.setObjectName(u"label_5")
@@ -164,21 +157,23 @@ class Ui_Geometry(object):
 
         self.horizontalLayout_9 = QHBoxLayout()
         self.horizontalLayout_9.setObjectName(u"horizontalLayout_9")
-        self.RGBop = QSlider(self.scrollAreaWidgetContents)
-        self.RGBop.setObjectName(u"RGBop")
-        self.RGBop.setMaximum(256)
-        self.RGBop.setOrientation(Qt.Orientation.Horizontal)
-
-        self.horizontalLayout_9.addWidget(self.RGBop)
-
         self.label_11 = QLabel(self.scrollAreaWidgetContents)
         self.label_11.setObjectName(u"label_11")
+        sizePolicy1.setHeightForWidth(self.label_11.sizePolicy().hasHeightForWidth())
+        self.label_11.setSizePolicy(sizePolicy1)
         self.label_11.setAlignment(Qt.AlignmentFlag.AlignRight|Qt.AlignmentFlag.AlignTrailing|Qt.AlignmentFlag.AlignVCenter)
 
         self.horizontalLayout_9.addWidget(self.label_11)
 
 
         self.verticalLayout.addLayout(self.horizontalLayout_9)
+
+        self.RGBop = QSlider(self.scrollAreaWidgetContents)
+        self.RGBop.setObjectName(u"RGBop")
+        self.RGBop.setMaximum(256)
+        self.RGBop.setOrientation(Qt.Orientation.Horizontal)
+
+        self.verticalLayout.addWidget(self.RGBop)
 
         self.label_6 = QLabel(self.scrollAreaWidgetContents)
         self.label_6.setObjectName(u"label_6")
@@ -213,17 +208,10 @@ class Ui_Geometry(object):
 
         self.horizontalLayout.addLayout(self.verticalLayout)
 
-        self.graphicsView = QGraphicsView(self.scrollAreaWidgetContents)
+        self.graphicsView = SimpleGeoViewport(self.scrollAreaWidgetContents)
         self.graphicsView.setObjectName(u"graphicsView")
 
         self.horizontalLayout.addWidget(self.graphicsView)
-
-
-        self.gridLayout_2.addLayout(self.horizontalLayout, 0, 0, 1, 1)
-
-        self.verticalSpacer_2 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
-
-        self.gridLayout_2.addItem(self.verticalSpacer_2, 1, 0, 1, 1)
 
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
 
@@ -239,21 +227,17 @@ class Ui_Geometry(object):
         self.label_11.setBuddy(self.RGBop)
 #endif // QT_CONFIG(shortcut)
         QWidget.setTabOrder(self.scrollArea, self.L1show)
-        QWidget.setTabOrder(self.L1show, self.L1op)
-        QWidget.setTabOrder(self.L1op, self.L2show)
-        QWidget.setTabOrder(self.L2show, self.L2op)
-        QWidget.setTabOrder(self.L2op, self.L3show)
-        QWidget.setTabOrder(self.L3show, self.L3op)
-        QWidget.setTabOrder(self.L3op, self.RWEpreview)
+        QWidget.setTabOrder(self.L1show, self.L2show)
+        QWidget.setTabOrder(self.L2show, self.L3show)
+        QWidget.setTabOrder(self.L3show, self.RWEpreview)
         QWidget.setTabOrder(self.RWEpreview, self.Leditorpreview)
         QWidget.setTabOrder(self.Leditorpreview, self.OPshift)
-        QWidget.setTabOrder(self.OPshift, self.graphicsView)
 
         self.retranslateUi(Geometry)
         self.L1op.valueChanged.connect(self.label_8.setNum)
         self.L2op.valueChanged.connect(self.label_9.setNum)
-        self.L3op.valueChanged.connect(self.label_10.setNum)
         self.RGBop.valueChanged.connect(self.label_11.setNum)
+        self.L3op.valueChanged.connect(self.label_10.setNum)
 
         QMetaObject.connectSlotsByName(Geometry)
     # setupUi

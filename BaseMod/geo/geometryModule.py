@@ -15,10 +15,10 @@ class GeoModule(Module):
         self.drawl1 = BoolConfigurable(mod, "VIEW_geo.drawl1", True, "Draw layer 1")
         self.drawl2 = BoolConfigurable(mod, "VIEW_geo.drawl2", True, "Draw layer 2")
         self.drawl3 = BoolConfigurable(mod, "VIEW_geo.drawl3", True, "Draw layer 3")
-        self.opacityl1 = FloatConfigurable(mod, "VIEW_geo.opacityl1", .9, "opacity of the first layer")
-        self.opacityl2 = FloatConfigurable(mod, "VIEW_geo.opacityl2", .5, "opacity of the second layer")
-        self.opacityl3 = FloatConfigurable(mod, "VIEW_geo.opacityl3", .2, "opacity of the third layer")
-        self.opacityrgb = FloatConfigurable(mod, "VIEW_geo.opacityrgb", .5, "opacity of all layers on old rendering option")
+        self.opacityl1 = FloatConfigurable(mod, "VIEW_geo.opacityl1", .9, "Opacity of the first layer")
+        self.opacityl2 = FloatConfigurable(mod, "VIEW_geo.opacityl2", .5, "Opacity of the second layer")
+        self.opacityl3 = FloatConfigurable(mod, "VIEW_geo.opacityl3", .2, "Opacity of the third layer")
+        self.opacityrgb = FloatConfigurable(mod, "VIEW_geo.opacityrgb", .5, "Opacity of all layers on old rendering option")
 
         self.drawlbeams = BoolConfigurable(mod, "VIEW_geo.drawlbeams", True, "Draw Beams")
         self.drawlpipes = BoolConfigurable(mod, "VIEW_geo.drawlpipes", True, "Draw pipes")
@@ -45,6 +45,7 @@ class GeoModule(Module):
         self.opacityl1.valueChanged.connect(self.check_l1_change)
         self.opacityl2.valueChanged.connect(self.check_l2_change)
         self.opacityl3.valueChanged.connect(self.init_module_textures)
+        self.opacityrgb.valueChanged.connect(self.init_module_textures)
         self.opacityshift.valueChanged.connect(self.init_module_textures)
 
         self.drawlbeams.valueChanged.connect(self.check_beams_change)
@@ -74,9 +75,9 @@ class GeoModule(Module):
     @Slot()
     def check_l2_change(self):
         if self.drawoption.value == 0:
-            if self.opacityshift.value:
+            if self.opacityshift.value and self.drawl2.value:
                 opval = self.opacityl1.value if not self.drawl1.value else \
-                        self.opacityl2.value if self.drawl2.value else 0
+                        self.opacityl2.value
                 self.check_l3_change()
             else:
                 opval = self.opacityl2.value if self.drawl2.value else 0
@@ -87,10 +88,10 @@ class GeoModule(Module):
     @Slot()
     def check_l3_change(self):
         if self.drawoption.value == 0:
-            if self.opacityshift.value:
+            if self.opacityshift.value and self.drawl3.value:
                 opval = self.opacityl1.value if not self.drawl1.value and not self.drawl2.value else \
                         self.opacityl2.value if not self.drawl2.value or not self.drawl1.value else \
-                        self.opacityl3.value if self.drawl3.value else 0
+                        self.opacityl3.value
             else:
                 opval = self.opacityl3.value if self.drawl3.value else 0
             self.l3.renderedtexture.setOpacity(opval)

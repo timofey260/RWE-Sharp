@@ -195,12 +195,21 @@ class GeoSettings(SettingUI):
         self.l2op.link_slider(self.ui.L2op)
         self.l3op = IntConfigurable(None, "l3op", int(self.module.opacityl3.value * 255), "Opacity of layer 3")
         self.l3op.link_slider(self.ui.L3op)
-        self.rgbop = IntConfigurable(None, "rgbop", int(self.module.opacityrgb.value * 255), "Opacity of layer 3")
+        self.rgbop = IntConfigurable(None, "rgbop", int(self.module.opacityrgb.value * 255),
+                                     "Opacity of all layers on Leditor render option")
         self.rgbop.link_slider(self.ui.RGBop)
 
-        self.opshift = BoolConfigurable(None, "opshift", self.module.opacityshift.value, "Opacity shift\nOnly change opacity of shown layers\n"
-                                                                                         "For example, if layer 1 is hidden, layer 2 will have opacity of layer 1 and layer 3 will have opacity of layer 2")
+        self.opshift = BoolConfigurable(None, "opshift", self.module.opacityshift.value,
+                                        "Opacity shift\nOnly change opacity of shown layers\n"
+                                        "For example, if layer 1 is hidden, layer 2 will have opacity of layer 1 and "
+                                        "layer 3 will have opacity of layer 2")
         self.opshift.link_button(self.ui.OPshift)
+
+        self.ui.graphicsView.add_manager(self.mod.manager, self)
+        self.ui.L1show.setChecked(True)
+        self.ui.L2show.setChecked(True)
+        self.ui.L3show.setChecked(True)
+        self.ui.RWEpreview.setChecked(True)
 
         viewer.apply_button.clicked.connect(self.update_all)
 
@@ -210,4 +219,3 @@ class GeoSettings(SettingUI):
         self.module.opacityl3.update_value(self.l3op.value / 255)
         self.module.opacityrgb.update_value(self.rgbop.value / 255)
         self.module.opacityshift.update_value(self.opshift.value)
-
