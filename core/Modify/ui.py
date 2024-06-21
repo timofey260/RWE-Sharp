@@ -26,6 +26,23 @@ class SettingUI:
         """
         Called when ui is being initiated
         :param viewer:
-        :return:
+        :return: None
         """
-        pass
+
+    def reset_values(self):
+        """
+        Called when values need to be reset to the saved ones
+        :return: None
+        """
+
+    def reset_values_default(self):
+        """
+        Called when values need to be reset to the default
+        :return: None
+        """
+
+    def apply_values(self):
+        """
+        Called when values need to be applied
+        :return: None
+        """

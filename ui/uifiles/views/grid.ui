@@ -68,6 +68,9 @@
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
+           <property name="minimum">
+            <number>1</number>
+           </property>
           </widget>
          </item>
          <item row="2" column="2">
@@ -81,6 +84,9 @@
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
+           <property name="minimum">
+            <number>-99</number>
+           </property>
           </widget>
          </item>
          <item row="2" column="4">
@@ -93,6 +99,9 @@
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="minimum">
+            <number>-99</number>
            </property>
           </widget>
          </item>
@@ -152,6 +161,9 @@
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="minimum">
+            <number>1</number>
            </property>
           </widget>
          </item>

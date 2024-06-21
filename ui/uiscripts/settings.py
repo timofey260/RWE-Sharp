@@ -16,8 +16,8 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QAbstractButton, QApplication, QDialog, QDialogButtonBox,
-    QFrame, QHeaderView, QSizePolicy, QSplitter,
-    QTreeWidget, QTreeWidgetItem, QVBoxLayout, QWidget)
+    QHeaderView, QSizePolicy, QSplitter, QTreeWidget,
+    QTreeWidgetItem, QVBoxLayout, QWidget)
 
 from RWESharpWidgets import SettingsViewer
 
@@ -35,35 +35,26 @@ class Ui_Settings(object):
         self.splitter.setOrientation(Qt.Orientation.Horizontal)
         self.treeWidget = QTreeWidget(self.splitter)
         self.treeWidget.setObjectName(u"treeWidget")
-        self.splitter.addWidget(self.treeWidget)
-        self.frame = QFrame(self.splitter)
-        self.frame.setObjectName(u"frame")
-        sizePolicy = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Expanding)
-        sizePolicy.setHorizontalStretch(3)
+        sizePolicy = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.frame.sizePolicy().hasHeightForWidth())
-        self.frame.setSizePolicy(sizePolicy)
-        self.frame.setFrameShape(QFrame.Shape.NoFrame)
-        self.frame.setFrameShadow(QFrame.Shadow.Raised)
-        self.verticalLayout_2 = QVBoxLayout(self.frame)
-        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
-        self.SettingsViewer = SettingsViewer(self.frame)
+        sizePolicy.setHeightForWidth(self.treeWidget.sizePolicy().hasHeightForWidth())
+        self.treeWidget.setSizePolicy(sizePolicy)
+        self.splitter.addWidget(self.treeWidget)
+        self.SettingsViewer = SettingsViewer(self.splitter)
         self.SettingsViewer.setObjectName(u"SettingsViewer")
         sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
-        sizePolicy1.setHorizontalStretch(0)
+        sizePolicy1.setHorizontalStretch(1)
         sizePolicy1.setVerticalStretch(1)
         sizePolicy1.setHeightForWidth(self.SettingsViewer.sizePolicy().hasHeightForWidth())
         self.SettingsViewer.setSizePolicy(sizePolicy1)
-
-        self.verticalLayout_2.addWidget(self.SettingsViewer)
-
-        self.splitter.addWidget(self.frame)
+        self.splitter.addWidget(self.SettingsViewer)
 
         self.verticalLayout.addWidget(self.splitter)
 
         self.buttonBox = QDialogButtonBox(Settings)
         self.buttonBox.setObjectName(u"buttonBox")
-        self.buttonBox.setStandardButtons(QDialogButtonBox.StandardButton.Apply|QDialogButtonBox.StandardButton.Cancel|QDialogButtonBox.StandardButton.Ok)
+        self.buttonBox.setStandardButtons(QDialogButtonBox.StandardButton.Apply|QDialogButtonBox.StandardButton.Close|QDialogButtonBox.StandardButton.Reset|QDialogButtonBox.StandardButton.RestoreDefaults)
 
         self.verticalLayout.addWidget(self.buttonBox)
 

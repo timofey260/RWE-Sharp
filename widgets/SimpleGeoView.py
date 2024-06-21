@@ -2,7 +2,7 @@ from __future__ import annotations
 import os
 from PySide6.QtWidgets import QGraphicsView, QGraphicsPixmapItem, QGraphicsScene
 from PySide6.QtGui import QColor, QPixmap, QBrush, QPainter
-from PySide6.QtCore import QRect, QPoint
+from PySide6.QtCore import QRect, QPoint, Qt
 from core.info import PATH_FILES_IMAGES, CONSTS
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
@@ -14,6 +14,10 @@ class SimpleGeoViewport(QGraphicsView):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setMouseTracking(True)
+        self.lastpos = QPoint(0, 0)
+        self.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+        self.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+        self.setCursor(Qt.CursorShape.SizeAllCursor)
 
     def add_manager(self, manager, settings: GeoSettings):
         print("yep")
@@ -98,3 +102,14 @@ class SimpleGeoViewport(QGraphicsView):
         else:
             self.l2g.setOpacity(self.settings.l2op.value / 255 if self.settings.ui.L2show.isChecked() else 0)
             self.l3g.setOpacity(self.settings.l3op.value / 255 if self.settings.ui.L3show.isChecked() else 0)
+
+    def mouseMoveEvent(self, event):
+        offset = event.pos() - self.lastpos
+        if event.buttons() & self.manager.basemod.movement_button.value:
+            self.l1g.setPos(self.l1g.pos() + offset)
+            self.l2g.setPos(self.l2g.pos() + offset)
+            self.l3g.setPos(self.l3g.pos() + offset)
+            self.t1.setPos(self.t1.pos() + offset)
+            self.t2.setPos(self.t2.pos() + offset)
+            self.t3.setPos(self.t3.pos() + offset)
+        self.lastpos = event.pos()

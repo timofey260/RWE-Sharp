@@ -183,26 +183,29 @@ class GeoViewUI(ViewUI):
 
 
 class GeoSettings(SettingUI):
-    def init_ui(self, viewer: SettingsViewer):
+    def __init__(self, mod):
+        super().__init__(mod)
         self.mod: BaseMod
         self.module = self.mod.geomodule
-        self.ui = Ui_Geometry()
-        self.ui.setupUi(viewer)
-
-        self.l1op = IntConfigurable(None, "l1op", int(self.module.opacityl1.value * 255), "Opacity of layer 1")
-        self.l1op.link_slider(self.ui.L1op)
-        self.l2op = IntConfigurable(None, "l2op", int(self.module.opacityl2.value * 255), "Opacity of layer 2")
-        self.l2op.link_slider(self.ui.L2op)
-        self.l3op = IntConfigurable(None, "l3op", int(self.module.opacityl3.value * 255), "Opacity of layer 3")
-        self.l3op.link_slider(self.ui.L3op)
-        self.rgbop = IntConfigurable(None, "rgbop", int(self.module.opacityrgb.value * 255),
+        self.l1op = IntConfigurable(None, "l1op", int(self.module.opacityl1.default * 255), "Opacity of layer 1")
+        self.l2op = IntConfigurable(None, "l2op", int(self.module.opacityl2.default * 255), "Opacity of layer 2")
+        self.l3op = IntConfigurable(None, "l3op", int(self.module.opacityl3.default * 255), "Opacity of layer 3")
+        self.rgbop = IntConfigurable(None, "rgbop", int(self.module.opacityrgb.default * 255),
                                      "Opacity of all layers on Leditor render option")
-        self.rgbop.link_slider(self.ui.RGBop)
-
-        self.opshift = BoolConfigurable(None, "opshift", self.module.opacityshift.value,
+        self.opshift = BoolConfigurable(None, "opshift", self.module.opacityshift.default,
                                         "Opacity shift\nOnly change opacity of shown layers\n"
                                         "For example, if layer 1 is hidden, layer 2 will have opacity of layer 1 and "
                                         "layer 3 will have opacity of layer 2")
+
+    def init_ui(self, viewer: SettingsViewer):
+        self.ui = Ui_Geometry()
+        self.ui.setupUi(viewer)
+
+        self.l1op.link_slider(self.ui.L1op)
+        self.l2op.link_slider(self.ui.L2op)
+        self.l3op.link_slider(self.ui.L3op)
+        self.rgbop.link_slider(self.ui.RGBop)
+
         self.opshift.link_button(self.ui.OPshift)
 
         self.ui.graphicsView.add_manager(self.mod.manager, self)
@@ -211,11 +214,23 @@ class GeoSettings(SettingUI):
         self.ui.L3show.setChecked(True)
         self.ui.RWEpreview.setChecked(True)
 
-        viewer.apply_button.clicked.connect(self.update_all)
-
-    def update_all(self):
+    def apply_values(self):
         self.module.opacityl1.update_value(self.l1op.value / 255)
         self.module.opacityl2.update_value(self.l2op.value / 255)
         self.module.opacityl3.update_value(self.l3op.value / 255)
         self.module.opacityrgb.update_value(self.rgbop.value / 255)
         self.module.opacityshift.update_value(self.opshift.value)
+
+    def reset_values(self):
+        self.l1op.update_value(int(self.module.opacityl1.value * 255))
+        self.l2op.update_value(int(self.module.opacityl2.value * 255))
+        self.l3op.update_value(int(self.module.opacityl3.value * 255))
+        self.rgbop.update_value(int(self.module.opacityrgb.value * 255))
+        self.opshift.update_value(self.module.opacityshift.value)
+
+    def reset_values_default(self):
+        self.l1op.update_value(int(self.module.opacityl1.default * 255))
+        self.l2op.update_value(int(self.module.opacityl2.default * 255))
+        self.l3op.update_value(int(self.module.opacityl3.default * 255))
+        self.rgbop.update_value(int(self.module.opacityrgb.default * 255))
+        self.opshift.update_value(self.module.opacityshift.default)

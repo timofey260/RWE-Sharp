@@ -3,7 +3,7 @@ from BaseMod.grid.gridRenderTexture import GridRenderTexture
 from core.Renderable.RenderRect import RenderRect
 from PySide6.QtCore import Slot, QRect, Qt, QPoint
 from PySide6.QtGui import QBrush, QColor, QPen
-from core.configTypes.BaseTypes import BoolConfigurable, FloatConfigurable
+from core.configTypes.BaseTypes import BoolConfigurable, FloatConfigurable, IntConfigurable
 from core.configTypes.QtTypes import KeyConfigurable, ColorConfigurable
 from core.info import CELLSIZE
 
@@ -16,6 +16,11 @@ class GridModule(Module):
         self.enablegrid_key = KeyConfigurable(mod, "grid.enable_grid_key", "Alt+G", "Grid key")
         self.backgroundcolor = ColorConfigurable(mod, "grid.bgcolor", QColor(150, 150, 150), "color of the background")
         self.bordercolor = ColorConfigurable(mod, "grid.bordercolor", QColor(255, 255, 255, 255), "color of the border")
+        self.grid_size_X = IntConfigurable(mod, "grid.gridsizex", 1, "Grid scale X")
+        self.grid_size_Y = IntConfigurable(mod, "grid.gridsizey", 1, "Grid scale Y")
+        self.grid_offset_X = IntConfigurable(mod, "grid.gridoffsetx", 0, "Grid offset X")
+        self.grid_offset_Y = IntConfigurable(mod, "grid.gridoffsety", 0, "Grid offset Y")
+
         self.gridtexture = GridRenderTexture(self, 0).add_myself()
         self.rect = RenderRect(self, 1000, QRect(QPoint(0, 0), CELLSIZE * self.manager.level.level_size),
                                Qt.GlobalColor.transparent, QBrush(self.backgroundcolor.value)).add_myself()

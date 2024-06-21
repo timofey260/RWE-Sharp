@@ -13,9 +13,7 @@ class SettingsUI(QDialog):
         self.manager = manager
         self.ui = Ui_Settings()
         self.ui.setupUi(self)
-        self.ui.SettingsViewer.ok_button = self.ui.buttonBox.button(QDialogButtonBox.StandardButton.Ok)
-        self.ui.SettingsViewer.cancel_button = self.ui.buttonBox.button(QDialogButtonBox.StandardButton.Cancel)
-        self.ui.SettingsViewer.apply_button = self.ui.buttonBox.button(QDialogButtonBox.StandardButton.Apply)
+        self.ui.SettingsViewer.got_buttons(self)
         if parent is not None:
             self.setPalette(parent.palette())
 
@@ -25,7 +23,6 @@ class SettingsUI(QDialog):
 
         self.ui.treeWidget.expandAll()
         self.ui.treeWidget.itemClicked.connect(self.change)
-        print(self.ui.treeWidget.findItems("lmao", Qt.MatchFlag.MatchExactly, 2))
 
     @Slot(QTreeWidgetItem, int)
     def change(self, item: QTreeWidgetItem, column: int):

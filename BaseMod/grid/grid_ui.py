@@ -61,6 +61,7 @@ class Ui_GridView(object):
         sizePolicy1.setVerticalStretch(0)
         sizePolicy1.setHeightForWidth(self.ScaleY.sizePolicy().hasHeightForWidth())
         self.ScaleY.setSizePolicy(sizePolicy1)
+        self.ScaleY.setMinimum(1)
 
         self.gridLayout.addWidget(self.ScaleY, 1, 4, 1, 1)
 
@@ -69,6 +70,7 @@ class Ui_GridView(object):
         self.OffsetX.setEnabled(False)
         sizePolicy1.setHeightForWidth(self.OffsetX.sizePolicy().hasHeightForWidth())
         self.OffsetX.setSizePolicy(sizePolicy1)
+        self.OffsetX.setMinimum(-99)
 
         self.gridLayout.addWidget(self.OffsetX, 2, 2, 1, 1)
 
@@ -77,6 +79,7 @@ class Ui_GridView(object):
         self.OffsetY.setEnabled(False)
         sizePolicy1.setHeightForWidth(self.OffsetY.sizePolicy().hasHeightForWidth())
         self.OffsetY.setSizePolicy(sizePolicy1)
+        self.OffsetY.setMinimum(-99)
 
         self.gridLayout.addWidget(self.OffsetY, 2, 4, 1, 1)
 
@@ -111,6 +114,7 @@ class Ui_GridView(object):
         self.ScaleX.setEnabled(False)
         sizePolicy1.setHeightForWidth(self.ScaleX.sizePolicy().hasHeightForWidth())
         self.ScaleX.setSizePolicy(sizePolicy1)
+        self.ScaleX.setMinimum(1)
 
         self.gridLayout.addWidget(self.ScaleX, 1, 2, 1, 1)
 

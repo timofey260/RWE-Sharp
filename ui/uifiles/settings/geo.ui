@@ -14,6 +14,18 @@
    <string>Geometry</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
    <item row="0" column="0">
     <widget class="QScrollArea" name="scrollArea">
      <property name="widgetResizable">
@@ -24,8 +36,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>596</width>
-        <height>462</height>
+        <width>614</width>
+        <height>480</height>
        </rect>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout">
@@ -70,21 +82,15 @@
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="label_8">
+            <widget class="QSpinBox" name="L1op2">
              <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
-             <property name="text">
-              <string>100</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
-             </property>
-             <property name="buddy">
-              <cstring>L1op</cstring>
+             <property name="maximum">
+              <number>255</number>
              </property>
             </widget>
            </item>
@@ -93,7 +99,7 @@
          <item>
           <widget class="QSlider" name="L1op">
            <property name="maximum">
-            <number>256</number>
+            <number>255</number>
            </property>
            <property name="orientation">
             <enum>Qt::Orientation::Horizontal</enum>
@@ -129,21 +135,15 @@
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="label_9">
+            <widget class="QSpinBox" name="L2op2">
              <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
-             <property name="text">
-              <string>100</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
-             </property>
-             <property name="buddy">
-              <cstring>L2op</cstring>
+             <property name="maximum">
+              <number>255</number>
              </property>
             </widget>
            </item>
@@ -152,7 +152,7 @@
          <item>
           <widget class="QSlider" name="L2op">
            <property name="maximum">
-            <number>256</number>
+            <number>255</number>
            </property>
            <property name="orientation">
             <enum>Qt::Orientation::Horizontal</enum>
@@ -188,21 +188,15 @@
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="label_10">
+            <widget class="QSpinBox" name="L3op2">
              <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
-             <property name="text">
-              <string>100</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
-             </property>
-             <property name="buddy">
-              <cstring>L3op</cstring>
+             <property name="maximum">
+              <number>255</number>
              </property>
             </widget>
            </item>
@@ -211,8 +205,22 @@
          <item>
           <widget class="QSlider" name="L3op">
            <property name="maximum">
-            <number>256</number>
+            <number>255</number>
            </property>
+           <property name="orientation">
+            <enum>Qt::Orientation::Horizontal</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="OPshift">
+           <property name="text">
+            <string>Opacity Shift</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="Line" name="line">
            <property name="orientation">
             <enum>Qt::Orientation::Horizontal</enum>
            </property>
@@ -231,21 +239,28 @@
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_9">
            <item>
-            <widget class="QLabel" name="label_11">
+            <spacer name="horizontalSpacer">
+             <property name="orientation">
+              <enum>Qt::Orientation::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QSpinBox" name="RGBop2">
              <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
-             <property name="text">
-              <string>100</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
-             </property>
-             <property name="buddy">
-              <cstring>RGBop</cstring>
+             <property name="maximum">
+              <number>255</number>
              </property>
             </widget>
            </item>
@@ -254,8 +269,15 @@
          <item>
           <widget class="QSlider" name="RGBop">
            <property name="maximum">
-            <number>256</number>
+            <number>255</number>
            </property>
+           <property name="orientation">
+            <enum>Qt::Orientation::Horizontal</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="Line" name="line_2">
            <property name="orientation">
             <enum>Qt::Orientation::Horizontal</enum>
            </property>
@@ -288,13 +310,6 @@
             </widget>
            </item>
           </layout>
-         </item>
-         <item>
-          <widget class="QCheckBox" name="OPshift">
-           <property name="text">
-            <string>Opacity Shift</string>
-           </property>
-          </widget>
          </item>
          <item>
           <spacer name="verticalSpacer">
@@ -334,71 +349,134 @@
   <tabstop>L3show</tabstop>
   <tabstop>RWEpreview</tabstop>
   <tabstop>Leditorpreview</tabstop>
-  <tabstop>OPshift</tabstop>
  </tabstops>
  <resources/>
  <connections>
   <connection>
-   <sender>L1op</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>label_8</receiver>
-   <slot>setNum(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>268</x>
-     <y>80</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>302</x>
-     <y>58</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>L2op</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>label_9</receiver>
-   <slot>setNum(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>260</x>
-     <y>129</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>302</x>
-     <y>110</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>RGBop</sender>
    <signal>valueChanged(int)</signal>
-   <receiver>label_11</receiver>
-   <slot>setNum(int)</slot>
+   <receiver>RGBop2</receiver>
+   <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>277</x>
-     <y>265</y>
+     <x>22</x>
+     <y>270</y>
     </hint>
     <hint type="destinationlabel">
-     <x>302</x>
-     <y>236</y>
+     <x>161</x>
+     <y>246</y>
     </hint>
    </hints>
   </connection>
   <connection>
    <sender>L3op</sender>
    <signal>valueChanged(int)</signal>
-   <receiver>label_10</receiver>
-   <slot>setNum(int)</slot>
+   <receiver>L3op2</receiver>
+   <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>281</x>
-     <y>179</y>
+     <x>39</x>
+     <y>186</y>
     </hint>
     <hint type="destinationlabel">
-     <x>287</x>
-     <y>159</y>
+     <x>176</x>
+     <y>164</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>L2op</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>L2op2</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>55</x>
+     <y>126</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>173</x>
+     <y>104</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>L1op</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>L1op2</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>76</x>
+     <y>74</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>172</x>
+     <y>51</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>L1op2</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>L1op</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>172</x>
+     <y>47</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>138</x>
+     <y>71</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>L2op2</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>L2op</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>172</x>
+     <y>110</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>117</x>
+     <y>128</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>L3op2</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>L3op</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>172</x>
+     <y>163</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>101</x>
+     <y>186</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>RGBop2</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>RGBop</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>166</x>
+     <y>251</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>86</x>
+     <y>274</y>
     </hint>
    </hints>
   </connection>
