@@ -1,6 +1,6 @@
 from __future__ import annotations
 from ui.uiscripts.settings import Ui_Settings
-from PySide6.QtWidgets import QDialog, QTreeWidgetItem
+from PySide6.QtWidgets import QDialog, QTreeWidgetItem, QDialogButtonBox
 from PySide6.QtCore import Qt, Slot
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
@@ -13,24 +13,24 @@ class SettingsUI(QDialog):
         self.manager = manager
         self.ui = Ui_Settings()
         self.ui.setupUi(self)
+        self.ui.SettingsViewer.ok_button = self.ui.buttonBox.button(QDialogButtonBox.StandardButton.Ok)
+        self.ui.SettingsViewer.cancel_button = self.ui.buttonBox.button(QDialogButtonBox.StandardButton.Cancel)
+        self.ui.SettingsViewer.apply_button = self.ui.buttonBox.button(QDialogButtonBox.StandardButton.Apply)
+        if parent is not None:
+            self.setPalette(parent.palette())
 
-        print(self.manager.settings)
-        self.ui.SettingsViewer.load_ui(self.manager.settings[0])
-        for i in self.manager.settings:
-            self.objectName()
+        # self.ui.SettingsViewer.load_ui(self.manager.setting_trees[0].ui)
+        for i in self.manager.setting_trees:
+            self.ui.treeWidget.addTopLevelItem(i.construct_tree())
 
-        wd = QTreeWidgetItem(["BaseMod", "Timofey26", "BaseMod", "basemod"])
-        wd.addChild(QTreeWidgetItem(["geo", "Timofey26", "BaseMod", "basemod.geo"]))
-        wd.setData(0, Qt.ItemDataRole.UserRole, 100)
-        print(wd.data(0, Qt.ItemDataRole.UserRole))
-        self.ui.treeWidget.addTopLevelItem(wd)
+        self.ui.treeWidget.expandAll()
         self.ui.treeWidget.itemClicked.connect(self.change)
         print(self.ui.treeWidget.findItems("lmao", Qt.MatchFlag.MatchExactly, 2))
 
     @Slot(QTreeWidgetItem, int)
     def change(self, item: QTreeWidgetItem, column: int):
-        for i in self.manager.settings:
-            if i.reference == item.text(3):
-                self.ui.SettingsViewer.load_ui(i)
-                item.setData()
-                return
+        data = item.data(0, Qt.ItemDataRole.UserRole)
+        if data[1] is None:
+            self.ui.SettingsViewer.clear_settings()
+            return
+        self.ui.SettingsViewer.load_ui(data[1])

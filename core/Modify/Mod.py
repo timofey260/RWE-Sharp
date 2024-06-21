@@ -3,12 +3,13 @@ from dataclasses import dataclass, field
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from core.Modify.ConfigModule import ConfigModule
-    from core.Modify.ui import UI, SettingUI, ViewUI
+    from core.Modify.ui import UI, ViewUI
     from core.Modify.EditorMode import EditorMode
     from core.Modify.baseModule import Module
     from PySide6.QtWidgets import QWidget
-    from core.palette import Palette
+    from core.Modify.Palette import Palette
     from core.Manager import Manager
+    from core.SettingTree import SettingElement
 
 
 @dataclass(frozen=True, init=True)
@@ -29,7 +30,6 @@ class Mod:
         :param manager: manager to use
         :param modinfo: mod info, should be filled with class
         """
-        from core.Modify.ConfigModule import ConfigModule
         self.manager = manager
         self.modinfo = modinfo
         self.configs = []
@@ -68,5 +68,5 @@ class Mod:
     def add_palette(self, palette: Palette):
         self.manager.palettes.append(palette)
 
-    def add_setting_ui(self, settingui: SettingUI):
-        self.manager.add_setting_ui(settingui)
+    def add_setting(self, setting: SettingElement):
+        self.manager.add_setting(setting)

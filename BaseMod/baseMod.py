@@ -8,6 +8,7 @@ from PySide6.QtCore import Qt
 from core.configTypes.BaseTypes import StringConfigurable
 from core.configTypes.QtTypes import KeyConfigurable, EnumFlagConfigurable
 from BaseMod.Palettes.RaspberryDark import RaspberryDark
+from core.SettingTree import SettingElement
 
 
 class BaseMod(Mod):
@@ -62,10 +63,14 @@ class BaseMod(Mod):
         self.geoui = GeoUI(self)
         self.geoview = GeoViewUI(self).add_myself()
         self.geoeditor.add_myself(self.geoui)
-        self.geosettings = GeoSettings(self, "geometry").add_myself()
+        self.geosettings = GeoSettings(self)
 
         self.tilemodule = TileModule(self).add_myself()
         self.tileview = TileViewUI(self).add_myself()
+
+        self.settingtree = SettingElement(self, self.modinfo.title, self.modinfo.name)
+        self.settingtree.add_child(SettingElement(self, "Geo", "geo", self.geosettings))
+        self.settingtree.add_myself()
 
         self.movement_button = EnumFlagConfigurable(self, "movement_button", Qt.MouseButton.MiddleButton, Qt.MouseButton,
                                                   "button to move viewport")

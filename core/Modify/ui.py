@@ -1,3 +1,4 @@
+from __future__ import annotations
 from PySide6.QtWidgets import QWidget
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
@@ -6,7 +7,7 @@ if TYPE_CHECKING:
 
 
 class UI(QWidget):
-    def __init__(self, mod: 'Mod', parent=None):
+    def __init__(self, mod: Mod, parent=None):
         super().__init__(parent)
         self.mod = mod
 
@@ -17,17 +18,11 @@ class ViewUI(UI):
         return self
 
 
-class SettingUI(QWidget):
-    def __init__(self, mod: 'Mod', reference: str):
-        super().__init__()
+class SettingUI:
+    def __init__(self, mod: Mod):
         self.mod = mod
-        self.reference = reference
 
-    def add_myself(self):
-        self.mod.add_setting_ui(self)
-        return self
-
-    def init_ui(self, viewer: 'SettingsViewer'):
+    def init_ui(self, viewer: SettingsViewer):
         """
         Called when ui is being initiated
         :param viewer:

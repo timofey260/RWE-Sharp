@@ -8,6 +8,7 @@ from BaseMod.geo.ui.geosettings_ui import Ui_Geometry
 from core.Modify.ui import UI, ViewUI, SettingUI
 from BaseMod.geo.geometryEditor import GeoBlocks
 from widgets.SettingsViewer import SettingsViewer
+from core.configTypes.BaseTypes import IntConfigurable, BoolConfigurable
 
 button_to_geo = {
     "ToolGeoWall": GeoBlocks.Wall,
@@ -22,6 +23,7 @@ button_to_geo = {
     "ToolGeoHive": GeoBlocks.Hive,
     "ToolGeoForbidChains": GeoBlocks.ForbidFlyChains,
     "ToolGeoWormGrass": GeoBlocks.WormGrass,
+    "ToolGeoWaterfall": GeoBlocks.Waterfall,
     "ToolGeoShortcutEntrance": GeoBlocks.ShortcutEntrance,
     "ToolGeoShortcut": GeoBlocks.Shortcut,
     "ToolGeoDen": GeoBlocks.DragonDen,
@@ -43,6 +45,7 @@ class GeoUI(UI):
         self.ui = Ui_Geo()
         self.ui.setupUi(self)
         self.editor = self.mod.geoeditor
+        self.controls = self.editor.controls
 
         self.ui.ToolGeoWall.clicked.connect(self.set_tool)
         self.ui.ToolGeoAir.clicked.connect(self.set_tool)
@@ -79,11 +82,32 @@ class GeoUI(UI):
         # self.ui.ToolGeoM1Select.setItemIcon(1, paint_svg_qicon(":/geoIcons/geo/brush.svg", QColor(0, 0, 0)))
         # self.ui.ToolGeoM1Select.setItemIcon(2, paint_svg_qicon(":/geoIcons/geo/brush.svg", QColor(0, 0, 0)))
 
-        self.editor.controls.wall.link_button(self.ui.ToolGeoWall)
-        self.editor.controls.air.link_button(self.ui.ToolGeoAir)
-        self.editor.controls.slope.link_button(self.ui.ToolGeoSlope)
-        self.editor.controls.floor.link_button(self.ui.ToolGeoFloor)
-        self.editor.controls.glass.link_button(self.ui.ToolGeoGlass)
+        self.controls.wall.link_button(self.ui.ToolGeoWall)
+        self.controls.air.link_button(self.ui.ToolGeoAir)
+        self.controls.slope.link_button(self.ui.ToolGeoSlope)
+        self.controls.floor.link_button(self.ui.ToolGeoFloor)
+        self.controls.glass.link_button(self.ui.ToolGeoGlass)
+
+        self.controls.rock.link_button(self.ui.ToolGeoRock)
+        self.controls.spear.link_button(self.ui.ToolGeoSpear)
+        self.controls.shortcut.link_button(self.ui.ToolGeoShortcut)
+        self.controls.shortcut_entrance.link_button(self.ui.ToolGeoShortcutEntrance)
+        self.controls.dragon_den.link_button(self.ui.ToolGeoDen)
+        self.controls.fly_chains.link_button(self.ui.ToolGeoForbidChains)
+        self.controls.fly_hive.link_button(self.ui.ToolGeoHive)
+        self.controls.scav_hole.link_button(self.ui.ToolGeoScavHole)
+        self.controls.garbage_worm_den.link_button(self.ui.ToolGeoGarbageWorm)
+        self.controls.whack_a_mole_hole.link_button(self.ui.ToolGeoWraykAMoleHole)
+        self.controls.worm_grass.link_button(self.ui.ToolGeoWormGrass)
+        self.controls.entrance.link_button(self.ui.ToolGeoEntrance)
+        self.controls.waterfall.link_button(self.ui.ToolGeoWaterfall)
+
+        self.controls.clear_all.link_button(self.ui.ToolGeoClearAll)
+        self.controls.clear_upper.link_button(self.ui.ToolGeoClearStackabls)
+        self.controls.clear_blocks.link_button(self.ui.ToolGeoClearBlocks)
+        self.controls.clear_layer.link_button(self.ui.ToolGeoClearLayer)
+        self.controls.inverse.link_button(self.ui.ToolGeoInvert)
+        self.controls.mirror.link_button(self.ui.ToolGeoMirror)
 
     @Slot()
     def set_tool(self):
@@ -142,6 +166,7 @@ class GeoViewUI(ViewUI):
         self.mod.add_quickview_option(self.VQuickGeo)
 
         self.module.drawgeo.link_button_action(self.VQuickGeo, self.menu_drawlall, self.module.drawlgeo_key)
+        self.module.drawAll.link_button(self.ui.VGeoAll)
 
     @Slot(Qt.CheckState)
     def all_layers(self, state: Qt.CheckState):
@@ -159,6 +184,30 @@ class GeoViewUI(ViewUI):
 
 class GeoSettings(SettingUI):
     def init_ui(self, viewer: SettingsViewer):
+        self.mod: BaseMod
+        self.module = self.mod.geomodule
         self.ui = Ui_Geometry()
         self.ui.setupUi(viewer)
+
+        self.l1op = IntConfigurable(None, "l1op", int(self.module.opacityl1.value * 255), "Opacity of layer 1")
+        self.l1op.link_slider(self.ui.L1op)
+        self.l2op = IntConfigurable(None, "l2op", int(self.module.opacityl2.value * 255), "Opacity of layer 2")
+        self.l2op.link_slider(self.ui.L2op)
+        self.l3op = IntConfigurable(None, "l3op", int(self.module.opacityl3.value * 255), "Opacity of layer 3")
+        self.l3op.link_slider(self.ui.L3op)
+        self.rgbop = IntConfigurable(None, "rgbop", int(self.module.opacityrgb.value * 255), "Opacity of layer 3")
+        self.rgbop.link_slider(self.ui.RGBop)
+
+        self.opshift = BoolConfigurable(None, "opshift", self.module.opacityshift.value, "Opacity shift\nOnly change opacity of shown layers\n"
+                                                                                         "For example, if layer 1 is hidden, layer 2 will have opacity of layer 1 and layer 3 will have opacity of layer 2")
+        self.opshift.link_button(self.ui.OPshift)
+
+        viewer.apply_button.clicked.connect(self.update_all)
+
+    def update_all(self):
+        self.module.opacityl1.update_value(self.l1op.value / 255)
+        self.module.opacityl2.update_value(self.l2op.value / 255)
+        self.module.opacityl3.update_value(self.l3op.value / 255)
+        self.module.opacityrgb.update_value(self.rgbop.value / 255)
+        self.module.opacityshift.update_value(self.opshift.value)
 

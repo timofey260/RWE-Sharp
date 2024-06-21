@@ -7,6 +7,7 @@ from PySide6.QtCore import Signal, Qt, Slot
 
 class KeyConfigurable(Configurable):
     valueChanged = Signal(QKeySequence)
+    tooltipChanged = Signal(str)
 
     def __init__(self, mod, name, default: QKeySequence | str, description=""):
         if isinstance(default, str):
@@ -20,19 +21,26 @@ class KeyConfigurable(Configurable):
     def load_str_value(self, text: str) -> None:
         self.value = QKeySequence(text)
         self.valueChanged.emit(self.value)
+        self.tooltipChanged.emit(f"{self.description}({self.value.toString()})")
 
     def update_value(self, value: QKeySequence):
         super().update_value(value)
+        self.tooltipChanged.emit(f"{self.description}({self.value.toString()})")
         for i in self.buttons:
             i.setShortcut(self.value)
 
-    def link_button(self, obj: QAbstractButton):
-        self.buttons.append(obj)
-        obj.setShortcut(self.value)
+    def link_button(self, button: QAbstractButton):
+        self.buttons.append(button)
+        if len(self.description) > 0:
+            self.tooltipChanged.connect(button.setToolTip)
+            self.tooltipChanged.emit(f"{self.description}({self.value.toString()})")
+        button.setShortcut(self.value)
 
-    def link_action(self, obj: QAction):
-        obj.setShortcut(self.value)
-        self.valueChanged.connect(obj.setShortcut)
+    def link_action(self, action: QAction):
+        action.setShortcut(self.value)
+        if len(self.description) > 0:
+            action.setToolTip(self.description)
+        self.valueChanged.connect(action.setShortcut)
 
 
 class ColorConfigurable(Configurable):
@@ -89,6 +97,8 @@ class EnumConfigurable(Configurable):
         Just make sure your enum starts with 0
         :param combobox: Combobox to link
         """
+        if len(self.description) > 0:
+            combobox.setToolTip(self.description)
         if combobox.count() == 0:
             for i in self.enumtouse:
                 combobox.addItem(i.name)

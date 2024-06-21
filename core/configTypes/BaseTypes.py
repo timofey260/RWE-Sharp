@@ -41,6 +41,8 @@ class BoolConfigurable(Configurable):
         :return: None
         """
         button.setChecked(self.value)
+        if len(self.description) > 0:
+            button.setToolTip(self.description)
         button.toggled.connect(self.update_value)
         self.valueChanged.connect(button.setChecked)
         if key is not None:
@@ -55,6 +57,8 @@ class BoolConfigurable(Configurable):
         """
         action.setCheckable(True)
         action.setChecked(self.value)
+        if len(self.description) > 0:
+            action.setToolTip(self.description)
         action.triggered.connect(self.update_value)
         self.valueChanged.connect(action.setChecked)
         if key is not None:
@@ -70,6 +74,9 @@ class BoolConfigurable(Configurable):
         :return: None
         """
         self.link_button(button)
+        if len(key.description) > 0:
+            key.tooltipChanged.connect(button.setToolTip)
+            key.tooltipChanged.emit(f"{key.description}({key.value.toString()})")
         self.link_action(action, key)
 
 
@@ -108,10 +115,12 @@ class IntConfigurable(Configurable):
     @Slot(int)
     @Slot()
     def update_value(self, value: int | None):
+        if value is not None:
+            value = int(value)
+        if isinstance(self.sender(), QRadioButton) and self.sender() in self.radiolist:
+            value = self.radiolist.index(self.sender())
         if self.value == value:
             return
-        if isinstance(self.sender(), QRadioButton) and self.sender() in self.radiolist:
-            super().update_value(self.radiolist.index(self.sender()))
         elif value is not None:
             super().update_value(value)
         if value < len(self.radiolist):
@@ -127,6 +136,9 @@ class IntConfigurable(Configurable):
         """
         self.radiolist = buttons
         self.radiolist[self.value].setChecked(True)
+        if len(self.description) > 0:
+            for i in buttons:
+                i.setToolTip(self.description)
         for i in self.radiolist:
             i.clicked.connect(self.update_value)
 
@@ -137,6 +149,8 @@ class IntConfigurable(Configurable):
         :return: None
         """
         slider.setValue(self.value)
+        if len(self.description) > 0:
+            slider.setToolTip(self.description)
         slider.valueChanged.connect(self.update_value)
         self.valueChanged.connect(slider.setValue)
 

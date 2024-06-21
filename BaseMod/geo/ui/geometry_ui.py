@@ -40,7 +40,7 @@ class Ui_Geo(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 260, 696))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 243, 706))
         self.verticalLayout_7 = QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_7.setObjectName(u"verticalLayout_7")
         self.ToolGeoaApply_to_Label = QLabel(self.scrollAreaWidgetContents)
@@ -429,6 +429,14 @@ class Ui_Geo(object):
 
         self.deletelayout.addWidget(self.ToolGeoBeam)
 
+        self.ToolGeoWaterfall = QPushButton(self.ToolMassEditFrame)
+        self.ToolGeoWaterfall.setObjectName(u"ToolGeoWaterfall")
+        sizePolicy2.setHeightForWidth(self.ToolGeoWaterfall.sizePolicy().hasHeightForWidth())
+        self.ToolGeoWaterfall.setSizePolicy(sizePolicy2)
+        self.ToolGeoWaterfall.setLocale(QLocale(QLocale.English, QLocale.UnitedStates))
+
+        self.deletelayout.addWidget(self.ToolGeoWaterfall)
+
 
         self.gridLayout.addLayout(self.deletelayout, 1, 1, 1, 1)
 
@@ -503,9 +511,9 @@ class Ui_Geo(object):
         self.ToolGeoLabel.setText(QCoreApplication.translate("Geo", u"Mass edit", None))
         self.ToolGeoPaste.setText(QCoreApplication.translate("Geo", u"Paste", None))
 #if QT_CONFIG(tooltip)
-        self.ToolGeoCopy.setToolTip(QCoreApplication.translate("Geo", u"<html><head/><body><p>copy</p><p><br/></p></body></html>", None))
+        self.ToolGeoCopy.setToolTip(QCoreApplication.translate("Geo", u"<html><head/><body><p><br/></p></body></html>", None))
 #endif // QT_CONFIG(tooltip)
-        self.ToolGeoCopy.setText(QCoreApplication.translate("Geo", u"Copy tool", None))
+        self.ToolGeoCopy.setText(QCoreApplication.translate("Geo", u"Copy", None))
         self.ToolGeoMove.setText(QCoreApplication.translate("Geo", u"Move", None))
         self.ToolGeoMirror.setText(QCoreApplication.translate("Geo", u"Mirror", None))
         self.ToolGeoInvert.setText(QCoreApplication.translate("Geo", u"Invert", None))
@@ -520,5 +528,6 @@ class Ui_Geo(object):
         self.ToolGeoRock.setText(QCoreApplication.translate("Geo", u"Rock", None))
         self.ToolGeoHive.setText(QCoreApplication.translate("Geo", u"Fly hive", None))
         self.ToolGeoBeam.setText(QCoreApplication.translate("Geo", u"Beam", None))
+        self.ToolGeoWaterfall.setText(QCoreApplication.translate("Geo", u"Waterfall", None))
     # retranslateUi
 

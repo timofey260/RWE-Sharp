@@ -25,6 +25,7 @@ class GeoModule(Module):
         self.drawlmisc = BoolConfigurable(mod, "VIEW_geo.drawlmisc", True, "Draw rocks, spears etc")
 
         self.drawoption = IntConfigurable(mod, "VIEW_geo.drawOption", 0, "method of drawing")
+        self.opacityshift = BoolConfigurable(mod, "VIEW_geo.opacityShift", True, "Does not change opacity of hidden layers")
 
         self.drawlgeo_key = KeyConfigurable(mod, "VIEW_geo.drawlall_key", "Alt+G", "key to show geo")
         self.drawl1_key = KeyConfigurable(mod, "VIEW_geo.drawl1_key", "Alt+1", "key to show 1st layer")
@@ -41,6 +42,11 @@ class GeoModule(Module):
         self.drawl1.valueChanged.connect(self.check_l1_change)
         self.drawl2.valueChanged.connect(self.check_l2_change)
         self.drawl3.valueChanged.connect(self.check_l3_change)
+        self.opacityl1.valueChanged.connect(self.check_l1_change)
+        self.opacityl2.valueChanged.connect(self.check_l2_change)
+        self.opacityl3.valueChanged.connect(self.init_module_textures)
+        self.opacityshift.valueChanged.connect(self.init_module_textures)
+
         self.drawlbeams.valueChanged.connect(self.check_beams_change)
         self.drawlpipes.valueChanged.connect(self.check_pipes_change)
         self.drawlmisc.valueChanged.connect(self.check_misc_change)
@@ -59,6 +65,8 @@ class GeoModule(Module):
     @Slot()
     def check_l1_change(self):
         if self.drawoption.value == 0:
+            if self.opacityshift.value:
+                self.check_l2_change()
             self.l1.renderedtexture.setOpacity(self.opacityl1.value if self.drawl1.value else 0)
             return
         self.l1.renderedtexture.setOpacity(self.opacityrgb.value if self.drawl1.value else 0)
@@ -66,14 +74,26 @@ class GeoModule(Module):
     @Slot()
     def check_l2_change(self):
         if self.drawoption.value == 0:
-            self.l2.renderedtexture.setOpacity(self.opacityl2.value if self.drawl2.value else 0)
+            if self.opacityshift.value:
+                opval = self.opacityl1.value if not self.drawl1.value else \
+                        self.opacityl2.value if self.drawl2.value else 0
+                self.check_l3_change()
+            else:
+                opval = self.opacityl2.value if self.drawl2.value else 0
+            self.l2.renderedtexture.setOpacity(opval)
             return
         self.l2.renderedtexture.setOpacity(self.opacityrgb.value if self.drawl2.value else 0)
 
     @Slot()
     def check_l3_change(self):
         if self.drawoption.value == 0:
-            self.l3.renderedtexture.setOpacity(self.opacityl3.value if self.drawl3.value else 0)
+            if self.opacityshift.value:
+                opval = self.opacityl1.value if not self.drawl1.value and not self.drawl2.value else \
+                        self.opacityl2.value if not self.drawl2.value or not self.drawl1.value else \
+                        self.opacityl3.value if self.drawl3.value else 0
+            else:
+                opval = self.opacityl3.value if self.drawl3.value else 0
+            self.l3.renderedtexture.setOpacity(opval)
             return
         self.l3.renderedtexture.setOpacity(self.opacityrgb.value if self.drawl3.value else 0)
 

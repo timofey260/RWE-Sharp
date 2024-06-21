@@ -9,8 +9,8 @@ from ui.splashuiconnector import SplashDialog
 from PySide6.QtWidgets import QWidget, QMenuBar, QMenu
 from PySide6.QtCore import Slot
 from ui.mainuiconnector import MainWindow
-from core.palette import Palette
-from core.Modify.ui import SettingUI
+from core.Modify.Palette import Palette
+from core.SettingTree import SettingElement
 
 
 class Manager:
@@ -66,7 +66,7 @@ class Manager:
         """
         neat color visuals
         """
-        self.settings: list[SettingUI] = []
+        self.setting_trees: list[SettingElement] = []
         """
         Collection of ui's for settings window
         """
@@ -121,8 +121,8 @@ class Manager:
     def add_quick_option(self, element: QWidget) -> None:
         self.window.ui.QuickOverlay.addWidget(element)
 
-    def add_setting_ui(self, settingui: SettingUI):
-        self.settings.append(settingui)
+    def add_setting(self, setting: SettingElement):
+        self.setting_trees.append(setting)
 
     @property
     def view_menu(self) -> QMenu:

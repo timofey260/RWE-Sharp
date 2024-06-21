@@ -68,6 +68,6 @@ class MainWindow(QMainWindow):
     @Slot()
     def open_file(self) -> None:
         print("open")
-        QFileDialog.getOpenFileName(None, "Open Level", info.PATH)
+        print(QFileDialog.getOpenFileName(None, "Open Level", info.PATH))
 
 

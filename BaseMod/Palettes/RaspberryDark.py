@@ -1,4 +1,4 @@
-from core.palette import Palette
+from core.Modify.Palette import Palette
 from PySide6.QtGui import QPalette, QColor, QBrush
 from PySide6.QtCore import Qt
 
