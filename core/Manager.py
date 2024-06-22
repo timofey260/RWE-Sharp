@@ -2,14 +2,17 @@ from core.RWELevel import RWELevel, defaultlevel
 from core.Modify.EditorMode import EditorMode
 from core.Modify.Mod import Mod
 from core.Modify.baseModule import Module
+from core.Modify.Palette import Palette
 from core.Config import Config
+from core.SettingTree import SettingElement
+from core.info import PATH_MODS
+from core.ModLoader import load_mod
 from widgets.Viewport import ViewPort
-from ui.splashuiconnector import SplashDialog
 from PySide6.QtWidgets import QWidget, QMenuBar, QMenu
 from PySide6.QtCore import Slot
 from ui.mainuiconnector import MainWindow
-from core.Modify.Palette import Palette
-from core.SettingTree import SettingElement
+from ui.splashuiconnector import SplashDialog
+import os
 
 
 class Manager:
@@ -21,7 +24,6 @@ class Manager:
         :param window: RWE# window(main window with viewport and stuff)
         :param file: file to load by default
         """
-        # todo init some tiles and assets (and mods in future)
         self.window: MainWindow = window
 
         self.tiles = splash.loader.tiles
@@ -72,6 +74,7 @@ class Manager:
         from BaseMod.baseMod import BaseMod
         self.basemod = BaseMod(self)
 
+        self.mods.append(self.basemod)
         self.pre_init_mods()
         self.config.init_configs()  # mounting configs and applying them
         self.init_mods()
@@ -81,7 +84,7 @@ class Manager:
 
     def change_pallete(self):
         if self.basemod.palette.value == "":
-            return 
+            return
         for i in self.palettes:
             if self.basemod.palette.value == f"{i.mod.author_name}.{i.name}":
                 self.window.setPalette(i.palette)
@@ -103,7 +106,14 @@ class Manager:
             i.mod_init()
 
     def pre_init_mods(self):
-        self.mods.append(self.basemod)
+        # mods adding
+        for i in os.listdir(PATH_MODS):
+            if not os.path.isdir(os.path.join(PATH_MODS, i)):
+                continue
+            mod = load_mod(os.path.join(PATH_MODS, i), self)
+            print(f"Loaded {mod.modinfo.title} by {mod.modinfo.author} v{mod.modinfo.version}")
+            if mod is not None:
+                self.mods.append(mod)
         for i in self.mods:
             # check if mod is enabled
             i.pre_mod_init()

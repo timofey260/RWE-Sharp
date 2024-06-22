@@ -15,11 +15,12 @@ if TYPE_CHECKING:
 @dataclass(frozen=True, init=True)
 class ModInfo:
     title: str
-    description: str
     name: str
     author: str
     version: str
+    description: str = "No description provided"
     tags: list[str] = field(default_factory=list)
+    requirements: list[str] = field(default_factory=list)
 
 
 class Mod:

@@ -14,10 +14,10 @@ class BaseMod(Mod):
     def __init__(self, manager):
         super().__init__(manager, ModInfo(
             "Base Mod",
-            "RWE# essentials\nincludes all editors, modules and other\ndisable it at your own risk :3",
-            "basemod",
+            "timofey26.basemod",
             "timofey26",
-            "1.0.0"
+            "1.0.0",
+            "RWE# essentials\nincludes all editors, modules and other\ndisable it at your own risk :3"
         ))
         from BaseMod.geo.geoUIConnectors import GeoUI, GeoViewUI, GeoSettings
         from BaseMod.tiles.tileUIConnectors import TileViewUI
@@ -45,9 +45,6 @@ class BaseMod(Mod):
 
         self.settingtree: SettingElement | None = None
 
-    def pre_mod_init(self):
-        pass
-
     def mod_init(self):
         from BaseMod.geo.geoUIConnectors import GeoUI, GeoViewUI, GeoSettings
         from BaseMod.tiles.tileUIConnectors import TileViewUI
@@ -57,7 +54,6 @@ class BaseMod(Mod):
         self.palette.valueChanged.connect(self.manager.change_pallete)
 
         self.gridmodule = GridModule(self).add_myself()
-        self.gridui = GridView(self).add_myself()
 
         self.geomodule = GeoModule(self).add_myself()
         self.geoeditor = GeometryEditor(self)
@@ -68,6 +64,8 @@ class BaseMod(Mod):
 
         self.tilemodule = TileModule(self).add_myself()
         self.tileview = TileViewUI(self).add_myself()
+
+        self.gridui = GridView(self).add_myself()
 
         self.settingtree = SettingElement(self, self.modinfo.title, self.modinfo.name)
         self.settingtree.add_child(SettingElement(self, "Geo", "geo", self.geosettings))
