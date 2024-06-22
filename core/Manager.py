@@ -107,12 +107,12 @@ class Manager:
 
     def pre_init_mods(self):
         # mods adding
-        for i in os.listdir(PATH_MODS):
+        for indx, i in enumerate(os.listdir(PATH_MODS)):
             if not os.path.isdir(os.path.join(PATH_MODS, i)):
                 continue
-            mod = load_mod(os.path.join(PATH_MODS, i), self)
-            print(f"Loaded {mod.modinfo.title} by {mod.modinfo.author} v{mod.modinfo.version}")
+            mod = load_mod(os.path.join(PATH_MODS, i), self, indx)
             if mod is not None:
+                print(f"Loaded {mod.modinfo.title} by {mod.modinfo.author} v{mod.modinfo.version}")
                 self.mods.append(mod)
         for i in self.mods:
             # check if mod is enabled
