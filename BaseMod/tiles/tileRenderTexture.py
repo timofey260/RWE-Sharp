@@ -1,8 +1,8 @@
-from core.Renderable.RenderTexture import RenderTexture
 from PySide6.QtCore import QRect, Qt, Slot
 from PySide6.QtGui import QBrush, QColor
-from core.info import CONSTS, CELLSIZE, SPRITESIZE
-from core.Loaders.TileLoader import colortable
+from RWESharp.Renderable import RenderTexture
+from RWESharp.Core import CONSTS, CELLSIZE, SPRITESIZE
+from RWESharp.Loaders import colortable
 
 
 class TileRenderTexture(RenderTexture):

@@ -1,10 +1,11 @@
-from PySide6.QtWidgets import QWidget, QPushButton, QDialogButtonBox
+from PySide6.QtWidgets import QWidget, QPushButton, QDialogButtonBox, QDialog
 from core.Modify.ui import SettingUI
 
 
 class SettingsViewer(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
+        self.ui: QDialog | None = None
         self.settingui: None | SettingUI = None
         self.apply_button: QPushButton | None = None
         self.reset_button: QPushButton | None = None
@@ -34,6 +35,8 @@ class SettingsViewer(QWidget):
         self.settingui.reset_values()
 
     def close_settings(self):
+        if self.settingui is not None:
+            print(self.settingui.is_changed)
         self.ui.close()
 
     def restore_settings(self):

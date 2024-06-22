@@ -3,7 +3,6 @@ from core.Modify.EditorMode import EditorMode
 from core.Modify.Mod import Mod
 from core.Modify.baseModule import Module
 from core.Config import Config
-from BaseMod.baseMod import BaseMod
 from widgets.Viewport import ViewPort
 from ui.splashuiconnector import SplashDialog
 from PySide6.QtWidgets import QWidget, QMenuBar, QMenu
@@ -70,7 +69,7 @@ class Manager:
         """
         Collection of ui's for settings window
         """
-
+        from BaseMod.baseMod import BaseMod
         self.basemod = BaseMod(self)
 
         self.pre_init_mods()

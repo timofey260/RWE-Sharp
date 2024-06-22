@@ -4,6 +4,7 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from core.Modify.Mod import Mod
     from widgets.SettingsViewer import SettingsViewer
+    from core.configTypes.ConfigBase import Configurable
 
 
 class UI(QWidget):
@@ -21,6 +22,7 @@ class ViewUI(UI):
 class SettingUI:
     def __init__(self, mod: Mod):
         self.mod = mod
+        self.settings: list[Configurable] = []
 
     def init_ui(self, viewer: SettingsViewer):
         """
@@ -46,3 +48,10 @@ class SettingUI:
         Called when values need to be applied
         :return: None
         """
+
+    @property
+    def is_changed(self):
+        for i in self.settings:
+            if i.value != i.default:
+                return True
+        return False

@@ -1,11 +1,10 @@
-from core.Modify.baseModule import Module
 from BaseMod.grid.gridRenderTexture import GridRenderTexture
-from core.Renderable.RenderRect import RenderRect
 from PySide6.QtCore import Slot, QRect, Qt, QPoint
 from PySide6.QtGui import QBrush, QColor, QPen
-from core.configTypes.BaseTypes import BoolConfigurable, FloatConfigurable, IntConfigurable
-from core.configTypes.QtTypes import KeyConfigurable, ColorConfigurable
-from core.info import CELLSIZE
+from RWESharp.Renderable import RenderRect
+from RWESharp.Modify import Module
+from RWESharp.Configurable import BoolConfigurable, FloatConfigurable, IntConfigurable, KeyConfigurable, ColorConfigurable
+from RWESharp.Core import CELLSIZE
 
 
 class GridModule(Module):

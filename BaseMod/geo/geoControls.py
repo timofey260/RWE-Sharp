@@ -1,4 +1,4 @@
-from core.configTypes.QtTypes import KeyConfigurable
+from RWESharp.Configurable import KeyConfigurable
 
 
 class GeoControls:

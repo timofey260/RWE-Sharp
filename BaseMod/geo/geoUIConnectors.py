@@ -1,14 +1,16 @@
 from BaseMod.geo.ui.geometry_ui import Ui_Geo
 from BaseMod.geo.ui.geometry_vis_ui import Ui_GeoView
+from BaseMod.geo.ui.geosettings_ui import Ui_Geometry
+from BaseMod.baseMod import BaseMod
+from BaseMod.geo.geometryEditor import GeoBlocks
+
 from PySide6.QtWidgets import QMenu, QCheckBox
 from PySide6.QtCore import Slot, Qt, QCoreApplication
 from PySide6.QtGui import QAction
-from BaseMod.baseMod import BaseMod
-from BaseMod.geo.ui.geosettings_ui import Ui_Geometry
-from core.Modify.ui import UI, ViewUI, SettingUI
-from BaseMod.geo.geometryEditor import GeoBlocks
-from widgets.SettingsViewer import SettingsViewer
-from core.configTypes.BaseTypes import IntConfigurable, BoolConfigurable
+
+from RWESharp.Ui import ViewUI, SettingUI, UI
+from RWESharp.Core import SettingsViewer
+from RWESharp.Configurable import IntConfigurable, BoolConfigurable
 
 button_to_geo = {
     "ToolGeoWall": GeoBlocks.Wall,
@@ -187,12 +189,12 @@ class GeoSettings(SettingUI):
         super().__init__(mod)
         self.mod: BaseMod
         self.module = self.mod.geomodule
-        self.l1op = IntConfigurable(None, "l1op", int(self.module.opacityl1.default * 255), "Opacity of layer 1")
-        self.l2op = IntConfigurable(None, "l2op", int(self.module.opacityl2.default * 255), "Opacity of layer 2")
-        self.l3op = IntConfigurable(None, "l3op", int(self.module.opacityl3.default * 255), "Opacity of layer 3")
-        self.rgbop = IntConfigurable(None, "rgbop", int(self.module.opacityrgb.default * 255),
+        self.l1op = IntConfigurable(self, "l1op", int(self.module.opacityl1.default * 255), "Opacity of layer 1")
+        self.l2op = IntConfigurable(self, "l2op", int(self.module.opacityl2.default * 255), "Opacity of layer 2")
+        self.l3op = IntConfigurable(self, "l3op", int(self.module.opacityl3.default * 255), "Opacity of layer 3")
+        self.rgbop = IntConfigurable(self, "rgbop", int(self.module.opacityrgb.default * 255),
                                      "Opacity of all layers on Leditor render option")
-        self.opshift = BoolConfigurable(None, "opshift", self.module.opacityshift.default,
+        self.opshift = BoolConfigurable(self, "opshift", self.module.opacityshift.default,
                                         "Opacity shift\nOnly change opacity of shown layers\n"
                                         "For example, if layer 1 is hidden, layer 2 will have opacity of layer 1 and "
                                         "layer 3 will have opacity of layer 2")
@@ -205,6 +207,10 @@ class GeoSettings(SettingUI):
         self.l2op.link_slider(self.ui.L2op)
         self.l3op.link_slider(self.ui.L3op)
         self.rgbop.link_slider(self.ui.RGBop)
+        self.l1op.link_spinbox(self.ui.L1op2)
+        self.l2op.link_slider(self.ui.L2op2)
+        self.l3op.link_slider(self.ui.L3op2)
+        self.rgbop.link_slider(self.ui.RGBop2)
 
         self.opshift.link_button(self.ui.OPshift)
 
@@ -222,11 +228,11 @@ class GeoSettings(SettingUI):
         self.module.opacityshift.update_value(self.opshift.value)
 
     def reset_values(self):
-        self.l1op.update_value(int(self.module.opacityl1.value * 255))
-        self.l2op.update_value(int(self.module.opacityl2.value * 255))
-        self.l3op.update_value(int(self.module.opacityl3.value * 255))
-        self.rgbop.update_value(int(self.module.opacityrgb.value * 255))
-        self.opshift.update_value(self.module.opacityshift.value)
+        self.l1op.update_value_default(int(self.module.opacityl1.value * 255))
+        self.l2op.update_value_default(int(self.module.opacityl2.value * 255))
+        self.l3op.update_value_default(int(self.module.opacityl3.value * 255))
+        self.rgbop.update_value_default(int(self.module.opacityrgb.value * 255))
+        self.opshift.update_value_default(self.module.opacityshift.value)
 
     def reset_values_default(self):
         self.l1op.update_value(int(self.module.opacityl1.default * 255))

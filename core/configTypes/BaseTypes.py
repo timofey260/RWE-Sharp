@@ -1,6 +1,6 @@
 from core.configTypes.ConfigBase import Configurable
 from PySide6.QtCore import Slot, Signal, Qt
-from PySide6.QtWidgets import QRadioButton, QAbstractButton, QSlider
+from PySide6.QtWidgets import QRadioButton, QAbstractButton, QSlider, QSpinBox
 from PySide6.QtGui import QAction
 import json
 
@@ -145,7 +145,7 @@ class IntConfigurable(Configurable):
     def link_slider(self, slider: QSlider):
         """
         Links slider to Configurable
-        :param slider: Buttons to press
+        :param slider: slider
         :return: None
         """
         slider.setValue(self.value)
@@ -153,6 +153,18 @@ class IntConfigurable(Configurable):
             slider.setToolTip(self.description)
         slider.valueChanged.connect(self.update_value)
         self.valueChanged.connect(slider.setValue)
+
+    def link_spinbox(self, spin: QSpinBox):
+        """
+        Links spin box to Configurable
+        :param spin: Spin box
+        :return: None
+        """
+        spin.setValue(self.value)
+        if len(self.description) > 0:
+            spin.setToolTip(self.description)
+        spin.valueChanged.connect(self.update_value)
+        self.valueChanged.connect(spin.setValue)
 
 
 class FloatConfigurable(Configurable):

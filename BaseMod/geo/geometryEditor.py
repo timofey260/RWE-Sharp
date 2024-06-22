@@ -1,14 +1,13 @@
-from core.Modify.EditorMode import EditorMode
+from RWESharp.Modify import EditorMode
+from RWESharp.Core import CELLSIZE, PATH_FILES_IMAGES, CONSTS
+from RWESharp.Configurable import BoolConfigurable, IntConfigurable, KeyConfigurable, EnumConfigurable
 from PySide6.QtCore import QRect, QPoint, Slot
 from PySide6.QtGui import QColor, QPen, QMoveEvent, QWheelEvent, QMouseEvent, QPixmap, QPainter
 from PySide6.QtWidgets import QGraphicsRectItem, QGraphicsPixmapItem
-from core.info import CELLSIZE, PATH_FILES_IMAGES, CONSTS
-from BaseMod.geo.geoHistory import GEPointChange
-from core.configTypes.BaseTypes import BoolConfigurable, IntConfigurable
-from core.configTypes.QtTypes import KeyConfigurable, EnumConfigurable
 from enum import Enum, auto
-from BaseMod.geo.geoControls import GeoControls
 import os
+from BaseMod.geo.geoControls import GeoControls
+from BaseMod.geo.geoHistory import GEPointChange
 
 
 class GeoBlocks(Enum):

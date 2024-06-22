@@ -1,8 +1,8 @@
 import os.path
-from core.Renderable.RenderTexture import RenderTexture
 from PySide6.QtGui import QPixmap, QColor, QPainter
 from PySide6.QtCore import QRect
-from core.info import PATH_FILES_IMAGES, CONSTS, CELLSIZE
+from RWESharp.Renderable import RenderTexture
+from RWESharp.Core import PATH_FILES_IMAGES, CONSTS, CELLSIZE
 
 
 class GeoRenderTexture(RenderTexture):

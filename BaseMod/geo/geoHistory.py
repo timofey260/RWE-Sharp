@@ -1,6 +1,6 @@
-from core.HistorySystem import HistoryElement
+from RWESharp.Modify import HistoryElement
+from RWESharp.Utils import draw_line
 from PySide6.QtCore import QPoint, QRect
-from core.utils import draw_line
 
 
 def grab_return(form: [int, bool], block: [int, list[int]]) -> ([int, list[int]], ...):

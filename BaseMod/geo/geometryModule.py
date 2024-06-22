@@ -1,8 +1,7 @@
-from core.Modify.baseModule import Module
 from BaseMod.geo.geoRenderTexture import GeoRenderTexture
 from PySide6.QtCore import Qt, Slot
-from core.configTypes.BaseTypes import BoolConfigurable, FloatConfigurable, IntConfigurable
-from core.configTypes.QtTypes import KeyConfigurable
+from RWESharp.Modify import Module
+from RWESharp.Configurable import BoolConfigurable, FloatConfigurable, IntConfigurable, KeyConfigurable
 
 
 class GeoModule(Module):

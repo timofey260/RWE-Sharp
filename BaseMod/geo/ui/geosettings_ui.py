@@ -151,6 +151,11 @@ class Ui_Geometry(object):
 
         self.verticalLayout.addWidget(self.L3op)
 
+        self.OPshift = QCheckBox(self.scrollAreaWidgetContents)
+        self.OPshift.setObjectName(u"OPshift")
+
+        self.verticalLayout.addWidget(self.OPshift)
+
         self.line = QFrame(self.scrollAreaWidgetContents)
         self.line.setObjectName(u"line")
         self.line.setFrameShape(QFrame.Shape.HLine)
@@ -219,11 +224,6 @@ class Ui_Geometry(object):
 
         self.verticalLayout.addLayout(self.horizontalLayout_3)
 
-        self.OPshift = QCheckBox(self.scrollAreaWidgetContents)
-        self.OPshift.setObjectName(u"OPshift")
-
-        self.verticalLayout.addWidget(self.OPshift)
-
         self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
         self.verticalLayout.addItem(self.verticalSpacer)
@@ -250,17 +250,8 @@ class Ui_Geometry(object):
         QWidget.setTabOrder(self.L2show, self.L3show)
         QWidget.setTabOrder(self.L3show, self.RWEpreview)
         QWidget.setTabOrder(self.RWEpreview, self.Leditorpreview)
-        QWidget.setTabOrder(self.Leditorpreview, self.OPshift)
 
         self.retranslateUi(Geometry)
-        self.RGBop.valueChanged.connect(self.RGBop2.setValue)
-        self.L3op.valueChanged.connect(self.L3op2.setValue)
-        self.L2op.valueChanged.connect(self.L2op2.setValue)
-        self.L1op.valueChanged.connect(self.L1op2.setValue)
-        self.L1op2.valueChanged.connect(self.L1op.setValue)
-        self.L2op2.valueChanged.connect(self.L2op.setValue)
-        self.L3op2.valueChanged.connect(self.L3op.setValue)
-        self.RGBop2.valueChanged.connect(self.RGBop.setValue)
 
         QMetaObject.connectSlotsByName(Geometry)
     # setupUi
@@ -274,10 +265,10 @@ class Ui_Geometry(object):
         self.label_2.setText(QCoreApplication.translate("Geometry", u"Layer 2", None))
         self.L3show.setText("")
         self.label_3.setText(QCoreApplication.translate("Geometry", u"Layer 3", None))
+        self.OPshift.setText(QCoreApplication.translate("Geometry", u"Opacity Shift", None))
         self.label_5.setText(QCoreApplication.translate("Geometry", u"Old(Leditor) view layers opacity", None))
         self.label_6.setText(QCoreApplication.translate("Geometry", u"Preview", None))
         self.RWEpreview.setText(QCoreApplication.translate("Geometry", u"RWE+", None))
         self.Leditorpreview.setText(QCoreApplication.translate("Geometry", u"Leditor", None))
-        self.OPshift.setText(QCoreApplication.translate("Geometry", u"Opacity Shift", None))
     # retranslateUi
 

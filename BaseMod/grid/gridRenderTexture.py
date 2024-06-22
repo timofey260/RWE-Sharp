@@ -1,5 +1,5 @@
-from core.Renderable.RenderTexture import RenderTexture
-from core.info import CELLSIZE
+from RWESharp.Renderable import RenderTexture
+from RWESharp.Core import CELLSIZE
 from PySide6.QtCore import QLine
 from PySide6.QtGui import QColor
 

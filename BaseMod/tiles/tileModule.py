@@ -1,13 +1,11 @@
 import os.path
-
-from core.Modify.baseModule import Module
 from BaseMod.tiles.tileRenderTexture import TileRenderTexture
 from PySide6.QtCore import Qt, Slot
 from PySide6.QtGui import QImage, QColor
-from core.Loaders.TileLoader import palette_to_colortable
-from core.configTypes.QtTypes import KeyConfigurable
-from core.configTypes.BaseTypes import BoolConfigurable, IntConfigurable, StringConfigurable, FloatConfigurable
-from core.info import PATH_FILES_IMAGES_PALETTES
+from RWESharp.Modify import Module
+from RWESharp.Loaders import palette_to_colortable
+from RWESharp.Configurable import KeyConfigurable, BoolConfigurable, IntConfigurable, StringConfigurable, FloatConfigurable
+from RWESharp.Core import PATH_FILES_IMAGES_PALETTES
 
 
 class TileModule(Module):

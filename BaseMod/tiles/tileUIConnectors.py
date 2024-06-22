@@ -1,10 +1,10 @@
 from BaseMod.tiles.tiles_vis_ui import Ui_TilesView
+from BaseMod.baseMod import BaseMod
 from PySide6.QtWidgets import QFileDialog, QMenu, QCheckBox
 from PySide6.QtCore import Slot, Qt, QCoreApplication
 from PySide6.QtGui import QAction
-from BaseMod.baseMod import BaseMod
-from core.info import PATH_FILES_IMAGES_PALETTES
-from core.Modify.ui import ViewUI
+from RWESharp.Core import PATH_FILES_IMAGES_PALETTES
+from RWESharp.Ui import ViewUI
 
 
 class TileViewUI(ViewUI):

@@ -1,14 +1,13 @@
-from core.Modify.Mod import Mod, ModInfo
 from BaseMod.geo.geometryEditor import GeometryEditor
 from BaseMod.geo.geometryModule import GeoModule
 from BaseMod.tiles.tileModule import TileModule
 from BaseMod.grid.gridModule import GridModule
 from BaseMod.grid.gridUIConnector import GridView
-from PySide6.QtCore import Qt
-from core.configTypes.BaseTypes import StringConfigurable
-from core.configTypes.QtTypes import KeyConfigurable, EnumFlagConfigurable
 from BaseMod.Palettes.RaspberryDark import RaspberryDark
-from core.SettingTree import SettingElement
+from PySide6.QtCore import Qt
+from RWESharp.Modify import Mod, ModInfo
+from RWESharp.Configurable import StringConfigurable, KeyConfigurable, EnumFlagConfigurable
+from RWESharp.Core import SettingElement
 
 
 class BaseMod(Mod):
@@ -20,8 +19,8 @@ class BaseMod(Mod):
             "timofey26",
             "1.0.0"
         ))
-        from .geo.geoUIConnectors import GeoUI, GeoViewUI, GeoSettings
-        from .tiles.tileUIConnectors import TileViewUI
+        from BaseMod.geo.geoUIConnectors import GeoUI, GeoViewUI, GeoSettings
+        from BaseMod.tiles.tileUIConnectors import TileViewUI
 
         self.geoeditor: GeometryEditor | None = None
         self.geomodule: GeoModule | None = None
@@ -44,12 +43,14 @@ class BaseMod(Mod):
         self.save_key: KeyConfigurable | None = None
         self.palette: StringConfigurable | None = None
 
+        self.settingtree: SettingElement | None = None
+
     def pre_mod_init(self):
         pass
 
     def mod_init(self):
-        from .geo.geoUIConnectors import GeoUI, GeoViewUI, GeoSettings
-        from .tiles.tileUIConnectors import TileViewUI
+        from BaseMod.geo.geoUIConnectors import GeoUI, GeoViewUI, GeoSettings
+        from BaseMod.tiles.tileUIConnectors import TileViewUI
 
         rpdark = RaspberryDark(self).add_myself()
         self.palette = StringConfigurable(self, "palette", "", "palette colors")

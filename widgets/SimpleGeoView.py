@@ -3,7 +3,7 @@ import os
 from PySide6.QtWidgets import QGraphicsView, QGraphicsPixmapItem, QGraphicsScene
 from PySide6.QtGui import QColor, QPixmap, QBrush, QPainter
 from PySide6.QtCore import QRect, QPoint, Qt
-from core.info import PATH_FILES_IMAGES, CONSTS
+from RWESharp.Core import PATH_FILES_IMAGES, CONSTS
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from BaseMod.geo.geoUIConnectors import GeoSettings
@@ -20,7 +20,6 @@ class SimpleGeoViewport(QGraphicsView):
         self.setCursor(Qt.CursorShape.SizeAllCursor)
 
     def add_manager(self, manager, settings: GeoSettings):
-        print("yep")
         self.manager = manager
         self.settings = settings
         self.workscene = QGraphicsScene(0, 0, 0, 0)

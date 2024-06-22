@@ -1,4 +1,10 @@
+from __future__ import annotations
 from PySide6.QtCore import Signal, QObject
+from typing import TYPE_CHECKING
+from core.Modify.Mod import Mod
+from core.Modify.ui import SettingUI
+if TYPE_CHECKING:
+    from core.Modify.ui import SettingUI
 
 
 class Configurable(QObject):
@@ -7,7 +13,7 @@ class Configurable(QObject):
     Activated when value is changed
     """
 
-    def __init__(self, mod, name: str, default: ..., description: str = ""):
+    def __init__(self, mod: Mod | SettingUI | None, name: str, default: ..., description: str = ""):
         """
         Abstract object for creating custom config parameters and storing them
         :param config: config to link, can be None
@@ -21,8 +27,10 @@ class Configurable(QObject):
         self.value = default
         self.description = description
         self.mod = mod
-        if mod is not None:
+        if isinstance(mod, Mod):
             self.link_mod(mod)
+        elif isinstance(mod, SettingUI):
+            self.link_setting(mod)
 
     def link_mod(self, mod):
         self.mod = mod
@@ -43,8 +51,16 @@ class Configurable(QObject):
         self.value = value
         self.valueChanged.emit(self.value)
 
+    def update_value_default(self, value:...):
+        self.update_value(value)
+        self.default = value
+
     def reset_value(self):
         self.update_value(self.default)
 
     def __call__(self, *args, **kwargs):
         return self.value
+
+    def link_setting(self, setting: SettingUI):
+        setting.settings.append(self)
+        return self

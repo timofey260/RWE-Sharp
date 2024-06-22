@@ -1,7 +1,7 @@
 from PySide6.QtWidgets import QCheckBox
 from PySide6.QtGui import QAction
 from PySide6.QtCore import QCoreApplication
-from core.Modify.ui import ViewUI
+from RWESharp.Ui import ViewUI
 from BaseMod.grid.grid_ui import Ui_GridView
 
 
