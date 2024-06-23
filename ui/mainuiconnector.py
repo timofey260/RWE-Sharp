@@ -37,13 +37,13 @@ class MainWindow(QMainWindow):
         self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
         self.ui.QuickOverlay.addItem(self.verticalSpacer)
 
-        self.manager.basemod.save_key.link_action(self.ui.actionSave)
+        self.manager.basemod.bmconfig.save_key.link_action(self.ui.actionSave)
         self.ui.actionSave.triggered.connect(self.manager.save_level)
         # self.ui.actionSave_As.setShortcut(QKeySequence("Ctrl+Shift+S"))
 
-        self.manager.basemod.undo_key.link_action(self.ui.actionUndo)
+        self.manager.basemod.bmconfig.undo_key.link_action(self.ui.actionUndo)
         self.ui.actionUndo.triggered.connect(self.manager.level.undo)
-        self.manager.basemod.redo_key.link_action(self.ui.actionRedo)
+        self.manager.basemod.bmconfig.redo_key.link_action(self.ui.actionRedo)
         self.ui.actionRedo.triggered.connect(self.manager.level.redo)
 
     @Slot(int)

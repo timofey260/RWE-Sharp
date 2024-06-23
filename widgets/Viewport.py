@@ -43,22 +43,22 @@ class ViewPort(QGraphicsView):
 
     def mousePressEvent(self, event):
         super().mousePressEvent(event)
-        if event.buttons() & self.manager.basemod.main_button.value:
+        if event.buttons() & self.manager.basemod.bmconfig.main_button.value:
             self._lmb = True
-        if event.buttons() & self.manager.basemod.sec_button.value:
+        if event.buttons() & self.manager.basemod.bmconfig.sec_button.value:
             self._rmb = True
-        if event.buttons() & self.manager.basemod.movement_button.value:
+        if event.buttons() & self.manager.basemod.bmconfig.movement_button.value:
             self.setCursor(Qt.CursorShape.SizeAllCursor)
             self._mmb = True
         self.manager.editor.mouse_press_event(event)
 
     def mouseReleaseEvent(self, event):
         super().mouseReleaseEvent(event)
-        if event.button() & self.manager.basemod.main_button.value:
+        if event.button() & self.manager.basemod.bmconfig.main_button.value:
             self._lmb = False
-        if event.button() & self.manager.basemod.sec_button.value:
+        if event.button() & self.manager.basemod.bmconfig.sec_button.value:
             self._rmb = False
-        if event.button() & self.manager.basemod.movement_button.value:
+        if event.button() & self.manager.basemod.bmconfig.movement_button.value:
             self.setCursor(Qt.CursorShape.ArrowCursor)
             self._mmb = False
         self.manager.editor.mouse_release_event(event)

@@ -88,7 +88,7 @@ List of stackables(2 bytes):
     |04| * bat hive                                          [ 3]
     |05| - shortcut entrance(if used, block is entrance too) [ 4]
     |06| - shortcut path                                     [ 5]
-    |07| + room entrance                                     [ 6]
+    |07| + room entrance (den)                               [ 6]
     |08| + dragon den                                        [ 7]
     |09| + rock                                              [ 9]
     |10| + spear                                             [10]

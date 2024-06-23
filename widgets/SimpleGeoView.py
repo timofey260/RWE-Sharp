@@ -104,7 +104,7 @@ class SimpleGeoViewport(QGraphicsView):
 
     def mouseMoveEvent(self, event):
         offset = event.pos() - self.lastpos
-        if event.buttons() & self.manager.basemod.movement_button.value:
+        if event.buttons() & self.manager.basemod.bmconfig.movement_button.value:
             self.l1g.setPos(self.l1g.pos() + offset)
             self.l2g.setPos(self.l2g.pos() + offset)
             self.l3g.setPos(self.l3g.pos() + offset)

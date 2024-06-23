@@ -8,6 +8,7 @@ from PySide6.QtCore import Qt
 from RWESharp.Modify import Mod, ModInfo
 from RWESharp.Configurable import StringConfigurable, KeyConfigurable, EnumFlagConfigurable
 from RWESharp.Core import SettingElement
+from BaseMod.Configs import BaseModConfig
 
 
 class BaseMod(Mod):
@@ -34,22 +35,16 @@ class BaseMod(Mod):
         self.gridmodule: GridModule | None = None
         self.gridui: GridView | None = None
 
-        self.movement_button: EnumFlagConfigurable | None = None
-        self.main_button: EnumFlagConfigurable | None = None
-        self.sec_button: EnumFlagConfigurable | None = None
-
-        self.undo_key: KeyConfigurable | None = None
-        self.redo_key: KeyConfigurable | None = None
-        self.save_key: KeyConfigurable | None = None
         self.palette: StringConfigurable | None = None
 
         self.settingtree: SettingElement | None = None
+        self.bmconfig: BaseModConfig | None = None
 
     def mod_init(self):
         from BaseMod.geo.geoUIConnectors import GeoUI, GeoViewUI, GeoSettings
         from BaseMod.tiles.tileUIConnectors import TileViewUI
 
-        rpdark = RaspberryDark(self).add_myself()
+        RaspberryDark(self).add_myself()
         self.palette = StringConfigurable(self, "palette", "", "palette colors")
         self.palette.valueChanged.connect(self.manager.change_pallete)
 
@@ -71,13 +66,4 @@ class BaseMod(Mod):
         self.settingtree.add_child(SettingElement(self, "Geo", "geo", self.geosettings))
         self.settingtree.add_myself()
 
-        self.movement_button = EnumFlagConfigurable(self, "movement_button", Qt.MouseButton.MiddleButton, Qt.MouseButton,
-                                                  "button to move viewport")
-        self.main_button = EnumFlagConfigurable(self, "main_button", Qt.MouseButton.LeftButton, Qt.MouseButton,
-                                              "Main button")
-        self.sec_button = EnumFlagConfigurable(self, "secondary_button", Qt.MouseButton.RightButton, Qt.MouseButton,
-                                             "Secondary button")
-
-        self.undo_key = KeyConfigurable(self, "undo", "Ctrl+z", "Key to undo")
-        self.redo_key = KeyConfigurable(self, "redo", "Ctrl+Shift+z", "Key to redo")
-        self.save_key = KeyConfigurable(self, "save", "Ctrl+s", "Key to save the level")
+        self.bmconfig = BaseModConfig(self)

@@ -18,6 +18,7 @@ PATH_MODS = os.path.join(PATH_FILES, "mods")
 PATH_DRIZZLE = os.path.join(PATH, "drizzle")
 PATH_MAT_PREVIEWS = os.path.join(PATH_FILES_IMAGES, "material_previews")
 
+assert os.path.exists(PATH_DRIZZLE), "No drizzle found"
 
 ISLINUX = sys.platform == "linux" or sys.platform == "linux2"
 ISMAC = sys.platform == "darwin"
@@ -38,7 +39,7 @@ CONSTS: dict = {}
 these things should never be changed
 """
 with open(os.path.join(PATH_FILES, "Consts.json")) as f:
-    CONSTS = json.load(f)
+    CONSTS = json.load(f)  # NOQA
 CELLSIZE = CONSTS.get("cellsize", 20)
 """
 size of single cell

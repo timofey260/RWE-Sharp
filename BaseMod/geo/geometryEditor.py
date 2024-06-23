@@ -66,6 +66,14 @@ stackables = [
     GeoBlocks.ShortcutEntrance
 ]
 
+stackables_all_layers = [
+    GeoBlocks.Beam,
+    GeoBlocks.Crack,
+    GeoBlocks.Hive,
+    GeoBlocks.ShortcutEntrance,
+    GeoBlocks.Shortcut
+]
+
 
 class GeoTools(Enum):
     @staticmethod
@@ -117,6 +125,14 @@ class GeometryEditor(EditorMode):
         self._sz = CONSTS.get("geo_image_config", {}).get("itemsize", 100)
 
     def block_changed(self):
+        if self.block.value == GeoBlocks.CleanAll:
+            self.drawl1.update_value(True)
+            self.drawl2.update_value(True)
+            self.drawl3.update_value(True)
+        elif self.block.value in stackables and self.block.value not in stackables_all_layers:
+            self.drawl1.update_value(True)
+            self.drawl2.update_value(False)
+            self.drawl3.update_value(False)
         self.pixmap.fill(QColor(0, 0, 0, 0))
         blk, stak = self.block2info()
         if not stak and blk != 0:

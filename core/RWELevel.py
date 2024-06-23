@@ -2,6 +2,7 @@ import os.path
 from path_dict import PathDict
 from core import lingoIO
 import json
+import ujson
 from core import info
 from core.Exceptions import *
 from core.HistorySystem import History
@@ -14,22 +15,22 @@ defaultlevellines = defaultlevel.split("\n")
 
 
 class RWELevel:
-    def __init__(self, manager, data=None):
+    def __init__(self, manager, file=None):
         self.manager = manager
-        if data is None:
-            self.data = PathDict({})
+        self.file = file
+        if file is not None:
+            self.openfile(file)
         else:
-            self.data = PathDict(data)
+            self.data = RWELevel.turntoproject(defaultlevel)
+
         self.history = History(self)
 
     @Slot()
     def undo(self):
-        print("undo")
         self.history.undo()
 
     @Slot()
     def redo(self):
-        print("redo")
         self.history.redo()
 
     def add_history(self, historyelement: HistoryElement):
@@ -87,22 +88,21 @@ class RWELevel:
     def level_size(self) -> QPoint:
         return QPoint(self.level_width, self.level_height)
 
-    @staticmethod
-    def turntolingo(string: dict, file):
+    def turntolingo(self, file):
         with file as fl:
-            fl.write(str(string["GE"]) + "\r")
-            fl.write(lingoIO.tolingo(string["TE"]) + "\r")
-            fl.write(lingoIO.tolingo(string["FE"]) + "\r")
-            fl.write(lingoIO.tolingo(string["LE"]) + "\r")
-            fl.write(lingoIO.tolingo(string["EX"]) + "\r")
-            fl.write(lingoIO.tolingo(string["EX2"]) + "\r")
-            fl.write(lingoIO.tolingo(string["CM"]) + "\r")
-            fl.write(lingoIO.tolingo(string["WL"]) + "\r")
-            fl.write(lingoIO.tolingo(string["PR"]) + "\r")
+            fl.write(str(self["GE"]) + "\r")
+            fl.write(lingoIO.tolingo(self["TE"]) + "\r")
+            fl.write(lingoIO.tolingo(self["FE"]) + "\r")
+            fl.write(lingoIO.tolingo(self["LE"]) + "\r")
+            fl.write(lingoIO.tolingo(self["EX"]) + "\r")
+            fl.write(lingoIO.tolingo(self["EX2"]) + "\r")
+            fl.write(lingoIO.tolingo(self["CM"]) + "\r")
+            fl.write(lingoIO.tolingo(self["WL"]) + "\r")
+            fl.write(lingoIO.tolingo(self["PR"]) + "\r")
 
     @staticmethod
-    def turntoproject(manager, string: str):
-        proj = RWELevel(manager)
+    def turntoproject(string: str) -> PathDict:
+        proj = {}
         lines = string.split("\n")
         proj["GE"] = json.loads(lines[0])  # geometry
         proj["TE"] = lingoIO.tojson(lines[1])  # tile editor and his settings
@@ -113,19 +113,34 @@ class RWELevel:
         proj["CM"] = lingoIO.tojson(lines[6], defaultlevellines[6])  # camera settings
         proj["WL"] = lingoIO.tojson(lines[7], defaultlevellines[7])  # water level
         proj["PR"] = lingoIO.tojson(lines[8], defaultlevellines[8])  # props and settings why the hell i typed both settings wrong???
-        return proj
+        return PathDict(proj)
 
-    @staticmethod
-    def openfile(manager, file: str):
+    def openfile(self, file: str):
         if not os.path.exists(file):
             raise FileNotFoundError("No file found!!!")
         _, ext = os.path.splitext(file)
         if ext == ".rwl":
             with open(file, "rb") as f:
-                return RWELevel(manager, RWLParser.parse_rwl(bytearray(f.read())))
+                self.data = PathDict(RWLParser.parse_rwl(bytearray(f.read())))
+                return
         with open(file, "r") as f:
             if ext == ".txt":
-                return RWELevel.turntoproject(manager, f.read())
+                self.data = RWELevel.turntoproject(f.read())
+                return
             elif ext == ".wep":
-                return RWELevel(manager, json.load(f))
+                self.data = PathDict(json.load(f))
+                return
             raise FileNotCompatible(f"{file} is not compatible with {info.NAME}!")
+
+    def save_file(self) -> bool:
+        if self.file is None:
+            return False
+        _, ex = os.path.splitext(self.file)
+        if ex == ".txt":
+            self.turntolingo(open(self.file, "w"))
+        elif ex == ".wep":
+            with open(self.file, "w") as f:
+                f.write(ujson.dumps(self.data.data))
+        elif ex == ".rwl":
+            with open(self.file, "wb") as f:
+                f.write(RWLParser.save_rwl(self.data.data))

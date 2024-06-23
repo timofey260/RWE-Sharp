@@ -34,10 +34,7 @@ class Manager:
         # self.splashwindow.close()
 
         self.levelpath: str = "" if file is None else file
-        if file is not None:
-            self.level = RWELevel.openfile(self, file)
-        else:
-            self.level = RWELevel.turntoproject(self, defaultlevel)
+        self.level = RWELevel(self, file)
 
         self.viewport: ViewPort = self.window.ui.viewPort
 
@@ -174,7 +171,6 @@ class Manager:
 
     @Slot()
     def save_level(self):
-        print("saving")
-        # todo level saving
+        self.level.save_file()
         # config saving
         self.config.save_configs()
