@@ -24,9 +24,11 @@ class Ui_Geo(object):
     def setupUi(self, Geo):
         if not Geo.objectName():
             Geo.setObjectName(u"Geo")
-        Geo.resize(278, 714)
+        Geo.resize(274, 729)
         self.verticalLayout_2 = QVBoxLayout(Geo)
+        self.verticalLayout_2.setSpacing(0)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
+        self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
         self.scrollArea = QScrollArea(Geo)
         self.scrollArea.setObjectName(u"scrollArea")
         sizePolicy = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
@@ -40,9 +42,10 @@ class Ui_Geo(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 243, 706))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 274, 729))
         self.verticalLayout_7 = QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_7.setObjectName(u"verticalLayout_7")
+        self.verticalLayout_7.setContentsMargins(9, -1, -1, -1)
         self.ToolGeoaApply_to_Label = QLabel(self.scrollAreaWidgetContents)
         self.ToolGeoaApply_to_Label.setObjectName(u"ToolGeoaApply_to_Label")
         sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Fixed)
@@ -71,6 +74,12 @@ class Ui_Geo(object):
         self.ToolGeoApplyToL3.setLocale(QLocale(QLocale.English, QLocale.UnitedStates))
 
         self.verticalLayout_7.addWidget(self.ToolGeoApplyToL3)
+
+        self.label = QLabel(self.scrollAreaWidgetContents)
+        self.label.setObjectName(u"label")
+        self.label.setMaximumSize(QSize(16777215, 10))
+
+        self.verticalLayout_7.addWidget(self.label)
 
         self.gridLayout_8 = QGridLayout()
         self.gridLayout_8.setObjectName(u"gridLayout_8")
@@ -123,12 +132,6 @@ class Ui_Geo(object):
 
         self.gridLayout_8.addWidget(self.ToolGeoM2Select, 2, 1, 1, 1)
 
-        self.label = QLabel(self.scrollAreaWidgetContents)
-        self.label.setObjectName(u"label")
-        self.label.setMaximumSize(QSize(16777215, 10))
-
-        self.gridLayout_8.addWidget(self.label, 0, 0, 1, 1)
-
         self.label_3 = QLabel(self.scrollAreaWidgetContents)
         self.label_3.setObjectName(u"label_3")
         sizePolicy2.setHeightForWidth(self.label_3.sizePolicy().hasHeightForWidth())
@@ -145,6 +148,11 @@ class Ui_Geo(object):
 
 
         self.verticalLayout_7.addLayout(self.gridLayout_8)
+
+        self.label_4 = QLabel(self.scrollAreaWidgetContents)
+        self.label_4.setObjectName(u"label_4")
+
+        self.verticalLayout_7.addWidget(self.label_4)
 
         self.ToolMassEditFrame = QGroupBox(self.scrollAreaWidgetContents)
         self.ToolMassEditFrame.setObjectName(u"ToolMassEditFrame")
@@ -462,6 +470,7 @@ class Ui_Geo(object):
         self.ToolGeoApplyToL1.setText(QCoreApplication.translate("Geo", u"Layer 1", None))
         self.ToolGeoApplyToL2.setText(QCoreApplication.translate("Geo", u"Layer 2", None))
         self.ToolGeoApplyToL3.setText(QCoreApplication.translate("Geo", u"Layer 3", None))
+        self.label.setText(QCoreApplication.translate("Geo", u"Place:", None))
         self.ToolGeoM1Select.setItemText(0, QCoreApplication.translate("Geo", u"Pencil", None))
         self.ToolGeoM1Select.setItemText(1, QCoreApplication.translate("Geo", u"Brush", None))
         self.ToolGeoM1Select.setItemText(2, QCoreApplication.translate("Geo", u"Bucket", None))
@@ -480,13 +489,13 @@ class Ui_Geo(object):
         self.ToolGeoM2Select.setItemText(6, QCoreApplication.translate("Geo", u"Circle", None))
         self.ToolGeoM2Select.setItemText(7, QCoreApplication.translate("Geo", u"Hollow Circle", None))
 
-        self.label.setText(QCoreApplication.translate("Geo", u"Mouse mode:", None))
-        self.label_3.setText(QCoreApplication.translate("Geo", u"Left mouse:", None))
-        self.label_2.setText(QCoreApplication.translate("Geo", u"Right mouse:", None))
+        self.label_3.setText(QCoreApplication.translate("Geo", u"Left Mouse:", None))
+        self.label_2.setText(QCoreApplication.translate("Geo", u"Right Mouse:", None))
+        self.label_4.setText(QCoreApplication.translate("Geo", u"Blocks:", None))
         self.ToolGeoLabelPipes.setText(QCoreApplication.translate("Geo", u"Pipes", None))
-        self.ToolGeoShortcutEntrance.setText(QCoreApplication.translate("Geo", u"Entrance", None))
-        self.ToolGeoShortcut.setText(QCoreApplication.translate("Geo", u"Path", None))
-        self.ToolGeoDen.setText(QCoreApplication.translate("Geo", u"Den", None))
+        self.ToolGeoShortcutEntrance.setText(QCoreApplication.translate("Geo", u"Sh. Entrance", None))
+        self.ToolGeoShortcut.setText(QCoreApplication.translate("Geo", u"Shortcut Path", None))
+        self.ToolGeoDen.setText(QCoreApplication.translate("Geo", u"Dragon Den", None))
         self.ToolGeoEntrance.setText(QCoreApplication.translate("Geo", u"Room Entrance", None))
 #if QT_CONFIG(tooltip)
         self.ToolGeoWraykAMoleHole.setToolTip(QCoreApplication.translate("Geo", u"Whack a mole hole", None))

@@ -66,7 +66,7 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QDockWidget" name="DockTools">
+  <widget class="ViewDockWidget" name="DockTools">
    <property name="sizePolicy">
     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
      <horstretch>0</horstretch>
@@ -96,7 +96,7 @@
     <locale language="English" country="UnitedStates"/>
    </property>
    <property name="features">
-    <set>QDockWidget::DockWidgetFeature::DockWidgetFloatable|QDockWidget::DockWidgetFeature::DockWidgetMovable</set>
+    <set>QDockWidget::DockWidgetFeature::DockWidgetClosable|QDockWidget::DockWidgetFeature::DockWidgetFloatable|QDockWidget::DockWidgetFeature::DockWidgetMovable</set>
    </property>
    <property name="windowTitle">
     <string>Editors</string>
@@ -219,16 +219,25 @@
     <addaction name="actionUndo"/>
     <addaction name="actionRedo"/>
    </widget>
+   <widget class="QMenu" name="menuWindow">
+    <property name="title">
+     <string>Window</string>
+    </property>
+    <addaction name="actionEditors"/>
+    <addaction name="actionView"/>
+    <addaction name="actionPrefabs"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuedit"/>
    <addaction name="menuView"/>
    <addaction name="menutools"/>
+   <addaction name="menuWindow"/>
    <addaction name="menuSettings"/>
    <addaction name="menuHelp"/>
    <addaction name="menuDrizzle"/>
    <addaction name="menuMods"/>
   </widget>
-  <widget class="QDockWidget" name="DockView">
+  <widget class="ViewDockWidget" name="DockView">
    <property name="enabled">
     <bool>true</bool>
    </property>
@@ -264,7 +273,7 @@
      <normaloff>:/icons/icon_small.png</normaloff>:/icons/icon_small.png</iconset>
    </property>
    <property name="features">
-    <set>QDockWidget::DockWidgetFeature::DockWidgetFloatable|QDockWidget::DockWidgetFeature::DockWidgetMovable</set>
+    <set>QDockWidget::DockWidgetFeature::DockWidgetClosable|QDockWidget::DockWidgetFeature::DockWidgetFloatable|QDockWidget::DockWidgetFeature::DockWidgetMovable</set>
    </property>
    <property name="windowTitle">
     <string>VIew</string>
@@ -333,9 +342,9 @@
     </layout>
    </widget>
   </widget>
-  <widget class="QDockWidget" name="dockWidget_2">
+  <widget class="ViewDockWidget" name="DockPrefabs">
    <property name="features">
-    <set>QDockWidget::DockWidgetFeature::DockWidgetFloatable|QDockWidget::DockWidgetFeature::DockWidgetMovable</set>
+    <set>QDockWidget::DockWidgetFeature::DockWidgetClosable|QDockWidget::DockWidgetFeature::DockWidgetFloatable|QDockWidget::DockWidgetFeature::DockWidgetMovable</set>
    </property>
    <property name="windowTitle">
     <string>Prefabs</string>
@@ -516,6 +525,30 @@
     <string>Interactive Map</string>
    </property>
   </action>
+  <action name="actionEditors">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Editors</string>
+   </property>
+  </action>
+  <action name="actionView">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>View</string>
+   </property>
+  </action>
+  <action name="actionPrefabs">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Prefabs</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
@@ -525,6 +558,12 @@
    <slots>
     <signal>onScroll(int)</signal>
    </slots>
+  </customwidget>
+  <customwidget>
+   <class>ViewDockWidget</class>
+   <extends>QDockWidget</extends>
+   <header>RWESharpWidgets.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources>

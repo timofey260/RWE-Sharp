@@ -6,6 +6,8 @@ from PySide6.QtCore import QPoint, QRect
 def grab_return(form: [int, bool], block: [int, list[int]]) -> ([int, list[int]], ...):
     if form[1] and form[0] < 0:
         if form[0] == -2:  # upper
+            if 4 in block[1]:
+                return [block[0], [4]], block[1].copy()
             return [block[0], []], block[1].copy()
         elif form[0] == -3:  # block
             return [0, block[1].copy()], block[0]

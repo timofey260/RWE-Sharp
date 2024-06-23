@@ -2,7 +2,7 @@ from BaseMod.geo.ui.geometry_ui import Ui_Geo
 from BaseMod.geo.ui.geometry_vis_ui import Ui_GeoView
 from BaseMod.geo.ui.geosettings_ui import Ui_Geometry
 from BaseMod.baseMod import BaseMod
-from BaseMod.geo.geometryEditor import GeoBlocks
+from BaseMod.geo.geometryEditor import GeoBlocks, stackables, stackables_all_layers
 
 from PySide6.QtWidgets import QMenu, QCheckBox
 from PySide6.QtCore import Slot, Qt, QCoreApplication
@@ -116,10 +116,13 @@ class GeoUI(UI):
         name = self.sender().objectName()
         block = button_to_geo.get(name, GeoBlocks.Wall)
         self.editor.block.update_value(block)
-        if block == GeoBlocks.CleanAll:
-            self.editor.drawl1.update_value(True)
-            self.editor.drawl2.update_value(True)
-            self.editor.drawl3.update_value(True)
+
+        self.ui.ToolGeoApplyToL1.setEnabled(True)
+        self.ui.ToolGeoApplyToL2.setEnabled(True)
+        self.ui.ToolGeoApplyToL3.setEnabled(True)
+        if block in stackables and block not in stackables_all_layers:
+            self.ui.ToolGeoApplyToL2.setEnabled(False)
+            self.ui.ToolGeoApplyToL3.setEnabled(False)
 
 
 class GeoViewUI(ViewUI):

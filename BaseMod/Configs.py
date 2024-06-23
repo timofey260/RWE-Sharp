@@ -1,4 +1,4 @@
-from RWESharp.Configurable import KeyConfigurable, IntConfigurable, EnumConfigurable, EnumFlagConfigurable
+from RWESharp.Configurable import KeyConfigurable, EnumFlagConfigurable, StringConfigurable
 from PySide6.QtCore import Qt
 
 
@@ -15,3 +15,4 @@ class BaseModConfig:
         self.undo_key = KeyConfigurable(mod, "undo", "Ctrl+z", "Key to undo")
         self.redo_key = KeyConfigurable(mod, "redo", "Ctrl+Shift+z", "Key to redo")
         self.save_key = KeyConfigurable(mod, "save", "Ctrl+s", "Key to save the level")
+        self.palette = StringConfigurable(mod, "palette", "", "palette colors")

@@ -80,10 +80,10 @@ class Manager:
         self.change_pallete()
 
     def change_pallete(self):
-        if self.basemod.palette.value == "":
+        if self.basemod.bmconfig.palette.value == "":
             return
         for i in self.palettes:
-            if self.basemod.palette.value == f"{i.mod.author_name}.{i.name}":
+            if self.basemod.bmconfig.palette.value == f"{i.mod.author_name}.{i.name}":
                 self.window.setPalette(i.palette)
 
     def init_modules(self):
@@ -139,6 +139,10 @@ class Manager:
     @property
     def tool_menu(self) -> QMenu:
         return self.window.ui.menuView
+
+    @property
+    def window_menu(self) -> QMenu:
+        return self.window.ui.menuWindow
 
     @property
     def edit_menu(self) -> QMenu:

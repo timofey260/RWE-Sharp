@@ -46,6 +46,10 @@ class MainWindow(QMainWindow):
         self.manager.basemod.bmconfig.redo_key.link_action(self.ui.actionRedo)
         self.ui.actionRedo.triggered.connect(self.manager.level.redo)
 
+        self.ui.DockTools.link_action(self.ui.actionEditors)
+        self.ui.DockView.link_action(self.ui.actionView)
+        self.ui.DockPrefabs.link_action(self.ui.actionPrefabs)
+
     @Slot(int)
     def change_editor(self, val) -> None:
         print("editor changed to " + str(val))

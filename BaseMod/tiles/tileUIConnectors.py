@@ -1,10 +1,11 @@
-from BaseMod.tiles.tiles_vis_ui import Ui_TilesView
+from BaseMod.tiles.ui.tiles_vis_ui import Ui_TilesView
+from BaseMod.tiles.ui.tiles_ui import Ui_Tiles
 from BaseMod.baseMod import BaseMod
 from PySide6.QtWidgets import QFileDialog, QMenu, QCheckBox
 from PySide6.QtCore import Slot, Qt, QCoreApplication
 from PySide6.QtGui import QAction
 from RWESharp.Core import PATH_FILES_IMAGES_PALETTES
-from RWESharp.Ui import ViewUI
+from RWESharp.Ui import ViewUI, UI
 
 
 class TileViewUI(ViewUI):
@@ -73,3 +74,10 @@ class TileViewUI(ViewUI):
         self.module.drawl1.update_value(v)
         self.module.drawl2.update_value(v)
         self.module.drawl3.update_value(v)
+
+
+class TileUI(UI):
+    def __init__(self, mod, parent=None):
+        super().__init__(mod, parent)
+        self.ui = Ui_Tiles()
+        self.ui.setupUi(self)

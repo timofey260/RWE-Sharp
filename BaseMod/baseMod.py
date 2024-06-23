@@ -4,11 +4,12 @@ from BaseMod.tiles.tileModule import TileModule
 from BaseMod.grid.gridModule import GridModule
 from BaseMod.grid.gridUIConnector import GridView
 from BaseMod.Palettes.RaspberryDark import RaspberryDark
-from PySide6.QtCore import Qt
-from RWESharp.Modify import Mod, ModInfo
-from RWESharp.Configurable import StringConfigurable, KeyConfigurable, EnumFlagConfigurable
-from RWESharp.Core import SettingElement
 from BaseMod.Configs import BaseModConfig
+from BaseMod.tiles.tileEditor import TileEditor
+from BaseMod.tiles.tileExplorer import TileExplorer
+from RWESharp.Modify import Mod, ModInfo
+from RWESharp.Core import SettingElement
+from PySide6.QtGui import QAction
 
 
 class BaseMod(Mod):
@@ -21,7 +22,7 @@ class BaseMod(Mod):
             "RWE# essentials\nincludes all editors, modules and other\ndisable it at your own risk :3"
         ))
         from BaseMod.geo.geoUIConnectors import GeoUI, GeoViewUI, GeoSettings
-        from BaseMod.tiles.tileUIConnectors import TileViewUI
+        from BaseMod.tiles.tileUIConnectors import TileViewUI, TileUI
 
         self.geoeditor: GeometryEditor | None = None
         self.geomodule: GeoModule | None = None
@@ -31,22 +32,26 @@ class BaseMod(Mod):
 
         self.tilemodule: TileModule | None = None
         self.tileview: TileViewUI | None = None
+        self.tileeditor: TileViewUI | None = None
+        self.tileui: TileUI | None = None
 
         self.gridmodule: GridModule | None = None
         self.gridui: GridView | None = None
 
-        self.palette: StringConfigurable | None = None
-
         self.settingtree: SettingElement | None = None
         self.bmconfig: BaseModConfig | None = None
 
+        self.tile_explorer: TileExplorer | None = None
+        self.tile_explorer_action: QAction | None = None
+
     def mod_init(self):
         from BaseMod.geo.geoUIConnectors import GeoUI, GeoViewUI, GeoSettings
-        from BaseMod.tiles.tileUIConnectors import TileViewUI
+        from BaseMod.tiles.tileUIConnectors import TileViewUI, TileUI
 
         RaspberryDark(self).add_myself()
-        self.palette = StringConfigurable(self, "palette", "", "palette colors")
-        self.palette.valueChanged.connect(self.manager.change_pallete)
+
+        self.bmconfig = BaseModConfig(self)
+        self.bmconfig.palette.valueChanged.connect(self.manager.change_pallete)
 
         self.gridmodule = GridModule(self).add_myself()
 
@@ -59,6 +64,14 @@ class BaseMod(Mod):
 
         self.tilemodule = TileModule(self).add_myself()
         self.tileview = TileViewUI(self).add_myself()
+        self.tileeditor = TileEditor(self)
+        self.tileui = TileUI(self)
+        self.tileeditor.add_myself(self.tileui)
+
+        self.tile_explorer = TileExplorer(self.manager)
+        self.tile_explorer_action = QAction("Tile Explorer")
+        self.manager.window_menu.addAction(self.tile_explorer_action)
+        self.tile_explorer.link_action(self.tile_explorer_action)
 
         self.gridui = GridView(self).add_myself()
 
@@ -66,4 +79,3 @@ class BaseMod(Mod):
         self.settingtree.add_child(SettingElement(self, "Geo", "geo", self.geosettings))
         self.settingtree.add_myself()
 
-        self.bmconfig = BaseModConfig(self)

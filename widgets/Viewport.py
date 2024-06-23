@@ -1,8 +1,10 @@
+from __future__ import annotations
 from PySide6.QtGui import QColor
 from PySide6.QtCore import Qt, QPoint, Slot, QPointF
 from PySide6.QtWidgets import QGraphicsView, QGraphicsScene, QApplication
-
-from core.Modify.baseModule import Module
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from core.Modify.baseModule import Module
 from core.info import CELLSIZE
 from core.configTypes.QtTypes import ColorConfigurable, EnumFlagConfigurable, KeyConfigurable
 
