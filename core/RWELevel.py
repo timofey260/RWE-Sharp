@@ -2,7 +2,7 @@ import os.path
 from path_dict import PathDict
 from core import lingoIO
 import json
-import ujson
+import ujson  # just for json to be more compact and fast
 from core import info
 from core.Exceptions import *
 from core.HistorySystem import History
@@ -123,7 +123,7 @@ class RWELevel:
             with open(file, "rb") as f:
                 self.data = PathDict(RWLParser.parse_rwl(bytearray(f.read())))
                 return
-        with open(file, "r") as f:
+        with open(file) as f:
             if ext == ".txt":
                 self.data = RWELevel.turntoproject(f.read())
                 return
