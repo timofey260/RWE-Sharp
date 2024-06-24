@@ -16,10 +16,10 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QAbstractItemView, QAbstractScrollArea, QApplication, QHBoxLayout,
-    QHeaderView, QLabel, QListWidget, QListWidgetItem,
-    QMainWindow, QMenuBar, QSizePolicy, QSpacerItem,
-    QSplitter, QStatusBar, QTableWidget, QTableWidgetItem,
-    QToolButton, QTreeWidget, QTreeWidgetItem, QVBoxLayout,
+    QHeaderView, QLabel, QLineEdit, QListView,
+    QListWidget, QListWidgetItem, QMainWindow, QMenuBar,
+    QSizePolicy, QSpacerItem, QSplitter, QStatusBar,
+    QTableWidget, QTableWidgetItem, QToolButton, QVBoxLayout,
     QWidget)
 
 from BaseModWidgets import TilePreview
@@ -33,6 +33,13 @@ class Ui_TileExplorer(object):
         self.centralwidget.setObjectName(u"centralwidget")
         self.verticalLayout = QVBoxLayout(self.centralwidget)
         self.verticalLayout.setObjectName(u"verticalLayout")
+        self.lineEdit = QLineEdit(self.centralwidget)
+        self.lineEdit.setObjectName(u"lineEdit")
+        self.lineEdit.setCursorMoveStyle(Qt.CursorMoveStyle.LogicalMoveStyle)
+        self.lineEdit.setClearButtonEnabled(True)
+
+        self.verticalLayout.addWidget(self.lineEdit)
+
         self.splitter = QSplitter(self.centralwidget)
         self.splitter.setObjectName(u"splitter")
         self.splitter.setOrientation(Qt.Orientation.Horizontal)
@@ -40,17 +47,24 @@ class Ui_TileExplorer(object):
         self.CatsTab.setObjectName(u"CatsTab")
         self.verticalLayout_2 = QVBoxLayout(self.CatsTab)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
+        self.verticalLayout_2.setContentsMargins(0, -1, 0, -1)
         self.label = QLabel(self.CatsTab)
         self.label.setObjectName(u"label")
 
         self.verticalLayout_2.addWidget(self.label)
 
         self.Categories = QListWidget(self.CatsTab)
-        icon = QIcon(QIcon.fromTheme(u"emblem-favorite"))
-        __qlistwidgetitem = QListWidgetItem(self.Categories)
-        __qlistwidgetitem.setIcon(icon);
-        QListWidgetItem(self.Categories)
         self.Categories.setObjectName(u"Categories")
+        self.Categories.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
+        self.Categories.setAlternatingRowColors(True)
+        self.Categories.setSelectionMode(QAbstractItemView.SelectionMode.ExtendedSelection)
+        self.Categories.setMovement(QListView.Movement.Static)
+        self.Categories.setFlow(QListView.Flow.TopToBottom)
+        self.Categories.setResizeMode(QListView.ResizeMode.Adjust)
+        self.Categories.setLayoutMode(QListView.LayoutMode.SinglePass)
+        self.Categories.setViewMode(QListView.ViewMode.ListMode)
+        self.Categories.setUniformItemSizes(True)
+        self.Categories.setSelectionRectVisible(False)
 
         self.verticalLayout_2.addWidget(self.Categories)
 
@@ -58,16 +72,16 @@ class Ui_TileExplorer(object):
         self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.toolButton = QToolButton(self.CatsTab)
         self.toolButton.setObjectName(u"toolButton")
-        icon1 = QIcon(QIcon.fromTheme(u"list-add"))
-        self.toolButton.setIcon(icon1)
+        icon = QIcon(QIcon.fromTheme(u"list-add"))
+        self.toolButton.setIcon(icon)
         self.toolButton.setArrowType(Qt.ArrowType.NoArrow)
 
         self.horizontalLayout.addWidget(self.toolButton)
 
         self.toolButton_2 = QToolButton(self.CatsTab)
         self.toolButton_2.setObjectName(u"toolButton_2")
-        icon2 = QIcon(QIcon.fromTheme(u"list-remove"))
-        self.toolButton_2.setIcon(icon2)
+        icon1 = QIcon(QIcon.fromTheme(u"list-remove"))
+        self.toolButton_2.setIcon(icon1)
 
         self.horizontalLayout.addWidget(self.toolButton_2)
 
@@ -83,14 +97,17 @@ class Ui_TileExplorer(object):
         self.TilesTab.setObjectName(u"TilesTab")
         self.verticalLayout_3 = QVBoxLayout(self.TilesTab)
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
+        self.verticalLayout_3.setContentsMargins(0, -1, 0, -1)
         self.label_2 = QLabel(self.TilesTab)
         self.label_2.setObjectName(u"label_2")
 
         self.verticalLayout_3.addWidget(self.label_2)
 
-        self.Tiles = QTreeWidget(self.TilesTab)
-        QTreeWidgetItem(self.Tiles)
+        self.Tiles = QListWidget(self.TilesTab)
         self.Tiles.setObjectName(u"Tiles")
+        self.Tiles.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
+        self.Tiles.setAlternatingRowColors(True)
+        self.Tiles.setViewMode(QListView.ViewMode.IconMode)
 
         self.verticalLayout_3.addWidget(self.Tiles)
 
@@ -98,14 +115,14 @@ class Ui_TileExplorer(object):
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
         self.toolButton_3 = QToolButton(self.TilesTab)
         self.toolButton_3.setObjectName(u"toolButton_3")
-        self.toolButton_3.setIcon(icon1)
+        self.toolButton_3.setIcon(icon)
         self.toolButton_3.setArrowType(Qt.ArrowType.NoArrow)
 
         self.horizontalLayout_2.addWidget(self.toolButton_3)
 
         self.toolButton_4 = QToolButton(self.TilesTab)
         self.toolButton_4.setObjectName(u"toolButton_4")
-        self.toolButton_4.setIcon(icon2)
+        self.toolButton_4.setIcon(icon1)
 
         self.horizontalLayout_2.addWidget(self.toolButton_4)
 
@@ -121,6 +138,7 @@ class Ui_TileExplorer(object):
         self.TileTab.setObjectName(u"TileTab")
         self.verticalLayout_4 = QVBoxLayout(self.TileTab)
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
+        self.verticalLayout_4.setContentsMargins(0, -1, 0, -1)
         self.label_3 = QLabel(self.TileTab)
         self.label_3.setObjectName(u"label_3")
 
@@ -173,9 +191,15 @@ class Ui_TileExplorer(object):
         self.Properties.setSizeAdjustPolicy(QAbstractScrollArea.SizeAdjustPolicy.AdjustToContents)
         self.Properties.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
         self.Properties.setAlternatingRowColors(False)
-        self.Properties.setGridStyle(Qt.PenStyle.SolidLine)
+        self.Properties.setShowGrid(False)
+        self.Properties.setGridStyle(Qt.PenStyle.NoPen)
         self.Properties.setSortingEnabled(False)
+        self.Properties.setCornerButtonEnabled(True)
         self.Properties.horizontalHeader().setVisible(False)
+        self.Properties.horizontalHeader().setHighlightSections(True)
+        self.Properties.verticalHeader().setMinimumSectionSize(20)
+        self.Properties.verticalHeader().setDefaultSectionSize(20)
+        self.Properties.verticalHeader().setHighlightSections(True)
 
         self.verticalLayout_4.addWidget(self.Properties)
 
@@ -183,7 +207,8 @@ class Ui_TileExplorer(object):
         self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
         self.toolButton_9 = QToolButton(self.TileTab)
         self.toolButton_9.setObjectName(u"toolButton_9")
-        self.toolButton_9.setIcon(icon)
+        icon2 = QIcon(QIcon.fromTheme(u"emblem-favorite"))
+        self.toolButton_9.setIcon(icon2)
         self.toolButton_9.setArrowType(Qt.ArrowType.NoArrow)
 
         self.horizontalLayout_5.addWidget(self.toolButton_9)
@@ -215,32 +240,12 @@ class Ui_TileExplorer(object):
 
     def retranslateUi(self, TileExplorer):
         TileExplorer.setWindowTitle(QCoreApplication.translate("TileExplorer", u"Tile Explorer", None))
+        self.lineEdit.setInputMask("")
+        self.lineEdit.setPlaceholderText(QCoreApplication.translate("TileExplorer", u"Search", None))
         self.label.setText(QCoreApplication.translate("TileExplorer", u"Categories", None))
-
-        __sortingEnabled = self.Categories.isSortingEnabled()
-        self.Categories.setSortingEnabled(False)
-        ___qlistwidgetitem = self.Categories.item(0)
-        ___qlistwidgetitem.setText(QCoreApplication.translate("TileExplorer", u"Favorite", None));
-        ___qlistwidgetitem1 = self.Categories.item(1)
-        ___qlistwidgetitem1.setText(QCoreApplication.translate("TileExplorer", u"Funny", None));
-        self.Categories.setSortingEnabled(__sortingEnabled)
-
         self.toolButton.setText("")
         self.toolButton_2.setText("")
         self.label_2.setText(QCoreApplication.translate("TileExplorer", u"Tiles", None))
-        ___qtreewidgetitem = self.Tiles.headerItem()
-        ___qtreewidgetitem.setText(2, QCoreApplication.translate("TileExplorer", u"Size", None));
-        ___qtreewidgetitem.setText(1, QCoreApplication.translate("TileExplorer", u"Category", None));
-        ___qtreewidgetitem.setText(0, QCoreApplication.translate("TileExplorer", u"Name", None));
-
-        __sortingEnabled1 = self.Tiles.isSortingEnabled()
-        self.Tiles.setSortingEnabled(False)
-        ___qtreewidgetitem1 = self.Tiles.topLevelItem(0)
-        ___qtreewidgetitem1.setText(2, QCoreApplication.translate("TileExplorer", u"1, 1", None));
-        ___qtreewidgetitem1.setText(1, QCoreApplication.translate("TileExplorer", u"Funny", None));
-        ___qtreewidgetitem1.setText(0, QCoreApplication.translate("TileExplorer", u"Brick", None));
-        self.Tiles.setSortingEnabled(__sortingEnabled1)
-
         self.toolButton_3.setText("")
         self.toolButton_4.setText("")
         self.label_3.setText(QCoreApplication.translate("TileExplorer", u"Tile", None))

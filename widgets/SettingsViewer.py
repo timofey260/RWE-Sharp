@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import QWidget, QPushButton, QDialogButtonBox, QDialog
+from PySide6.QtWidgets import QWidget, QPushButton, QDialogButtonBox, QDialog, QMessageBox, QAbstractButton
 from core.Modify.ui import SettingUI
 
 
@@ -11,6 +11,7 @@ class SettingsViewer(QWidget):
         self.reset_button: QPushButton | None = None
         self.close_button: QPushButton | None = None
         self.restore_button: QPushButton | None = None
+        self.message: QMessageBox | None = None
 
     def load_ui(self, settingui: SettingUI):
         self.clear_settings()
@@ -36,8 +37,26 @@ class SettingsViewer(QWidget):
 
     def close_settings(self):
         if self.settingui is not None:
-            print(self.settingui.is_changed)
+            if self.settingui.is_changed:
+                self.message = QMessageBox(QMessageBox.Icon.Question,
+                                           "Apply settings?", "Would you like to apply changes?",
+                                           QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No |
+                                           QMessageBox.StandardButton.Cancel, self.ui)
+                self.message.buttonClicked.connect(self.answer)
+                self.message.show()
+                return
+            else:
+                self.ui.close()
+                return
         self.ui.close()
+
+    def answer(self, button: QAbstractButton):
+        if button == self.message.button(QMessageBox.StandardButton.Yes):
+            self.settingui.apply_values()
+            self.ui.close()
+        elif button == self.message.button(QMessageBox.StandardButton.No):
+            self.ui.close()
+
 
     def restore_settings(self):
         if self.settingui is None:

@@ -4,7 +4,7 @@ from core.lingoIO import tojson, fromarr
 from core.info import PATH
 from core.Loaders.Tile import Tile
 from ui.splashuiconnector import SplashDialog
-from PySide6.QtGui import QColor, QImage, QPainter
+from PySide6.QtGui import QColor, QImage, QPainter, QPixmap
 from PySide6.QtCore import QRect, Qt, QThread, QPoint
 import json
 import os
@@ -119,8 +119,8 @@ def loadTile(item, colr, cat, catnum, indx) -> Tile | None:
         if len(img.colorTable()) == 0:
             # we try
             img = img.convertToFormat(QImage.Format.Format_Indexed8,
-                                         [4294901760, 4278255360, 4278190335, 4278190080, 4294967295, 0],
-                                         Qt.ImageConversionFlag.ThresholdDither)
+                                      [4294901760, 4278255360, 4278190335, 4278190080, 4294967295, 0],
+                                      Qt.ImageConversionFlag.ThresholdDither)
         black = img.colorTable().index(4278190080)
         img.setColor(black, colr.rgba())
     except ValueError:
@@ -131,9 +131,9 @@ def loadTile(item, colr, cat, catnum, indx) -> Tile | None:
             log_to_load_log(f"Error loading {item['nm']}", True)
             err = True
 
-    # making image2, 3, and 4
+    # making image2
     bftiles = item.get("bfTiles", 0)
-    img2 = QImage((sz.x() + bftiles * 2) * CELLSIZE, (sz.y() + bftiles * 2) * CELLSIZE, QImage.Format.Format_RGBA64)
+    img2 = QPixmap((sz.x() + bftiles * 2) * CELLSIZE, (sz.y() + bftiles * 2) * CELLSIZE)
     img2.fill(QColor(0, 0, 0, 0))
     p = QPainter(img2)
     if tp == "box":
@@ -142,12 +142,15 @@ def loadTile(item, colr, cat, catnum, indx) -> Tile | None:
         repl = len(item.get("repeatL", [1]))
         for i in range(repl):
             # for _ in range(repeats):
-            p.drawImage(0, 0, origimg.copy(0, (repl - i - 1) * img2.height(), img2.width(), img2.height()))
+            widthcap = min(img2.width(), origimg.width())
+            p.drawImage(0, 0, origimg.copy(0, (repl - i - 1) * img2.height(), widthcap, img2.height()))
             # p.setOpacity(min(.2, i / repl + .5))
             p.setCompositionMode(p.CompositionMode.CompositionMode_SourceAtop)
             p.fillRect(0, 0, img2.width(), img2.height(), QColor(0, 0, 0, renderstep))
             p.setCompositionMode(p.CompositionMode.CompositionMode_SourceOver)
     # img3 = img2.convertToFormat(QImage.Format.Format_Indexed8)
+    # making image 3
+    imagepix = img2.toImage()
     itempath = os.path.join(PATH_FILES_CACHE, item["nm"] + ".png")
     if os.path.exists(itempath):
         img3 = QImage(itempath)
@@ -155,7 +158,7 @@ def loadTile(item, colr, cat, catnum, indx) -> Tile | None:
         img3 = QImage(img2.width(), img2.height(), QImage.Format.Format_RGBA64)
         for xp in range(img3.width()):
             for yp in range(img3.height()):
-                pc = img2.pixelColor(xp, yp)
+                pc = imagepix.pixelColor(xp, yp)
                 if pc.alpha() == 0 or pc.rgb() == QColor(0, 0, 0).rgb():
                     img3.setPixelColor(xp, yp, QColor(0, 0, 0, 0))
                     continue
@@ -170,10 +173,9 @@ def loadTile(item, colr, cat, catnum, indx) -> Tile | None:
                                     Qt.ImageConversionFlag.ThresholdDither)
         img3.save(itempath)
 
-    img4 = img3.copy()
-
-    return Tile(item["nm"], tp, item.get("repeatL", [1]), "Size" + str(sz), item.get("bfTiles", 0), img, img2, img3,
-                img4, sz, cat, colr, (item.get("specs", [1]), item.get("specs2", 0)), QPoint(catnum + 1, indx + 1),
+    return Tile(item["nm"], tp, item.get("repeatL", [1]), "Size" + str(sz), item.get("bfTiles", 0), QPixmap(img), img2, img3,
+                sz, cat, colr, (item.get("specs", [1]), item.get("specs2", 0)),
+                QPoint(catnum + 1, indx + 1),
                 item.get("tags"), True, None, err)
 
 
@@ -272,7 +274,7 @@ def loadTiles(window: SplashDialog) -> ItemData:
     solved_copy.insert(matcatcount, {"name": matcat, "color": QColor(0, 0, 0), "items": []})
     for k, v in CONSTS.get("materials", {}).items():
         col = QColor(*v)
-        img = QImage(20, 20, QImage.Format.Format_RGBA64)
+        img = QPixmap(20, 20)
         img.fill(QColor(0, 0, 0, 0))
         ms = CELLSIZE
         # pg.draw.rect(img, v, pg.Rect(ms[0], ms[0], ms[1], ms[1]))
@@ -282,7 +284,7 @@ def loadTiles(window: SplashDialog) -> ItemData:
             preview = QImage(1, 1, QImage.Format.Format_RGBA64)
         # preview.set_colorkey(pg.Color(255, 255, 255))
         printmessage(f"Loading material {k}")
-        solved_copy[matcatcount]["items"].append(Tile(k, None, [1], "Material", 0, img, None, None, None, QPoint(1, 1),
+        solved_copy[matcatcount]["items"].append(Tile(k, None, [1], "Material", 0, img, None, None, QPoint(1, 1),
                                                       matcat, col, [[-1], 0],
                                                       QPoint(matcatcount + 1, len(solved_copy[matcatcount]["items"]) + 1),
                                                       ["material"], False, preview, False))

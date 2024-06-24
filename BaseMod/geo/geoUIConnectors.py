@@ -229,6 +229,7 @@ class GeoSettings(SettingUI):
         self.module.opacityl3.update_value(self.l3op.value / 255)
         self.module.opacityrgb.update_value(self.rgbop.value / 255)
         self.module.opacityshift.update_value(self.opshift.value)
+        self.reset_values()
 
     def reset_values(self):
         self.l1op.update_value_default(int(self.module.opacityl1.value * 255))

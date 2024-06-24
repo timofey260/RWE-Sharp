@@ -1,4 +1,4 @@
-from PySide6.QtGui import QImage, QColor
+from PySide6.QtGui import QImage, QColor, QPixmap
 from PySide6.QtCore import QPoint
 from dataclasses import dataclass
 
@@ -10,10 +10,9 @@ class Tile:
     repeatl: list[int]
     description: str
     bfTiles: int
-    image: QImage
-    image2: QImage | None
+    image: QPixmap
+    image2: QPixmap | None
     image3: QImage | None
-    image4: QImage | None
     size: QPoint
     category: str
     color: QColor

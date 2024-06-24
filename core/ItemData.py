@@ -1,3 +1,6 @@
+from PySide6.QtGui import QColor
+
+
 class ItemDataItem:
     def __init__(self, name):
         self.name = name
@@ -8,15 +11,15 @@ class ItemData:
         self.data = []
 
     def __getitem__(self, item):
-        if type(item) is str:
+        if isinstance(item, str):
             return self.searchitem(item)
-        elif type(item) is int:
+        elif isinstance(item, int):
             return self.data[item]
-        elif type(item) is tuple:
+        elif isinstance(item, tuple):
             return self.searchitem(item[1], item[0])
         return None
 
-    def searchitem(self, name, category=None):
+    def searchitem(self, name: str, category: str = None) -> ItemDataItem | None:
         if category is None:
             for catnum, cat in enumerate(self.data):
                 for itemnum, items in enumerate(cat["items"]):
@@ -28,19 +31,21 @@ class ItemData:
                     return items
         return None
 
-    def getnameindex(self, cat, name):
-        for i, v in enumerate(self.data[cat]["items"]):
+    def getnameindex(self, cat: int, name: str) -> int | None:
+        for i, v in enumerate(self.get_items(cat)):
             if v.name == name:
                 return i
         return None
 
+    def get_items(self, cat: int) -> list[ItemDataItem]:
+        return self.data[cat]["items"]
 
     @property
-    def categories(self):
+    def categories(self) -> list[str]:
         return [i["name"] for i in self.data]
 
     @property
-    def colors(self):
+    def colors(self) -> list[QColor]:
         return [i["color"] for i in self.data]
 
     def append(self, category_data):

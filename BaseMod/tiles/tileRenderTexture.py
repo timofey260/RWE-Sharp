@@ -107,7 +107,7 @@ class TileRenderTexture(RenderTexture):
                                      CELLSIZE * (foundtile.size.x() + foundtile.bfTiles * 2),
                                      CELLSIZE * (foundtile.size.y() + foundtile.bfTiles * 2))  # it works trust
 
-                    self.painter.drawImage(drawrect, foundtile.image2)
+                    self.painter.drawPixmap(drawrect, foundtile.image2)
 
                 elif self.module.drawoption.value in [2, 3, 4, 5, 6]:
                     drawrect = QRect((x - cposxo - foundtile.bfTiles) * CELLSIZE,
@@ -115,17 +115,17 @@ class TileRenderTexture(RenderTexture):
                                      CELLSIZE * (foundtile.size.x() + foundtile.bfTiles * 2),
                                      CELLSIZE * (foundtile.size.y() + foundtile.bfTiles * 2))  # it works trust
                     if self.module.drawoption.value == 3:
-                        foundtile.image4.setColorTable(colortable[self.tilelayer])
+                        foundtile.image3.setColorTable(colortable[self.tilelayer])
                     elif self.module.drawoption.value == 2:
-                        foundtile.image4.setColorTable(self.color_colortable(foundtile.color))
+                        foundtile.image3.setColorTable(self.color_colortable(foundtile.color))
                     else:
                         col = self.module.drawoption.value - 4
-                        foundtile.image4.setColorTable(self.module.colortable[col][self.tilelayer])
-                    self.painter.drawImage(drawrect, foundtile.image4)
+                        foundtile.image3.setColorTable(self.module.colortable[col][self.tilelayer])
+                    self.painter.drawImage(drawrect, foundtile.image3)
                 else:
                     sourcerect = QRect(0, 0, SPRITESIZE * foundtile.size.x(), SPRITESIZE * foundtile.size.y())
                     drawrect = QRect((x - cposxo) * CELLSIZE, (y - cposyo) * CELLSIZE, CELLSIZE * foundtile.size.x(), CELLSIZE * foundtile.size.y())  # it works trust
-                    self.painter.drawImage(drawrect, foundtile.image, sourcerect)
+                    self.painter.drawPixmap(drawrect, foundtile.image, sourcerect)
 
     def draw_material(self):
         pass
