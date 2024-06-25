@@ -1,5 +1,5 @@
 from PySide6.QtGui import QImage, QColor, QPixmap
-from PySide6.QtCore import QPoint
+from PySide6.QtCore import QPoint, QSize
 from dataclasses import dataclass
 
 
@@ -13,10 +13,10 @@ class Tile:
     image: QPixmap
     image2: QPixmap | None
     image3: QImage | None
-    size: QPoint
+    size: QSize
     category: str
     color: QColor
-    cols: tuple[list[int], [list[int] | int]]
+    cols: [list[int], [list[int] | int]]
     cat: QPoint
     tags: list[str]
     printcols: bool

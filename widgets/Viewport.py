@@ -22,14 +22,14 @@ class ViewPort(QGraphicsView):
         self.workscene: QGraphicsScene = QGraphicsScene(self)
         self.setScene(self.workscene)
         self.zoom = 1
-        self.origin = self.workscene.addEllipse(0, 0, 1, 1, QColor(0, 0, 0, 0))
+        # self.origin = self.workscene.addEllipse(0, 0, 1, 1, QColor(0, 0, 0, 0))
         self.topleft = self.workscene.addEllipse(0, 0, 1, 1, QColor(0, 0, 0, 0))
         self.verticalScrollBar().sliderReleased.connect(self.redraw)
         self.horizontalScrollBar().sliderReleased.connect(self.redraw)
         self._lmb = False
         self._rmb = False
         self._mmb = False
-        self.mpos = QPoint()
+        self.mouse_pos = QPoint()
 
     @Slot()
     def redraw(self):
@@ -88,9 +88,9 @@ class ViewPort(QGraphicsView):
             event.setModifiers(Qt.KeyboardModifier.NoModifier)
             self.horizontalScrollBar().wheelEvent(event)
             return
-        pointbefore = self.viewport_to_editor_float(self.mpos.toPointF())
+        pointbefore = self.viewport_to_editor_float(self.mouse_pos.toPointF())
         self.zoom = max(0.01, self.zoom + (event.angleDelta().y() * (-1 if event.inverted() else 1) / 800))
-        offset = (self.viewport_to_editor_float(self.mpos.toPointF()) - pointbefore) * CELLSIZE * self.zoom
+        offset = (self.viewport_to_editor_float(self.mouse_pos.toPointF()) - pointbefore) * CELLSIZE * self.zoom
         self.topleft.setPos(self.topleft.pos() + offset)
         for i in self.manager.modules:
             i.zoom_event(self.zoom)
@@ -101,14 +101,14 @@ class ViewPort(QGraphicsView):
         #self.horizontalScrollBar().adjustSize()
 
     def mouseMoveEvent(self, event):
-        offset = event.pos() - self.mpos
+        offset = event.pos() - self.mouse_pos
         if self.mouse_middle:
             # self.origin.setX(self.origin.x() + offset.x())
             # self.origin.setY(self.origin.y() + offset.y())
             self.topleft.setPos(self.topleft.pos() + offset)
             for i in self.manager.modules:
                 i.move_event(self.topleft.pos())
-        self.mpos = event.pos()
+        self.mouse_pos = event.pos()
         self.manager.editor.mouse_move_event(event)
 
     def viewport_to_editor(self, point: QPoint) -> QPoint:

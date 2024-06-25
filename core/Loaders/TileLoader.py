@@ -5,7 +5,7 @@ from core.info import PATH
 from core.Loaders.Tile import Tile
 from ui.splashuiconnector import SplashDialog
 from PySide6.QtGui import QColor, QImage, QPainter, QPixmap
-from PySide6.QtCore import QRect, Qt, QThread, QPoint
+from PySide6.QtCore import QRect, Qt, QThread, QPoint, QSize
 import json
 import os
 from core.info import PATH_DRIZZLE, CELLSIZE, SPRITESIZE, CONSTS, PATH_MAT_PREVIEWS, PATH_FILES_CACHE
@@ -88,7 +88,7 @@ def loadTile(item, colr, cat, catnum, indx) -> Tile | None:
         origimg.setColor(white, 0)
     except ValueError:
         log_to_load_log(f"Error loading {item['nm']}", True)
-    sz = QPoint(*fromarr(item["sz"], "point"))
+    sz = QSize(*fromarr(item["sz"], "point"))
     try:
         ln = len(item["repeatL"])
     except KeyError:
@@ -97,18 +97,18 @@ def loadTile(item, colr, cat, catnum, indx) -> Tile | None:
     tp = item.get("tp", "")
     if tp == "box":  # math
         ln = 4
-        size = (ln * sz.y() + (item.get("bfTiles", 0) * 2)) * CELLSIZE
-        rect = QRect(0, size, sz.x() * SPRITESIZE, sz.y() * SPRITESIZE)
-    elif ((ln * sz.y() + (item.get("bfTiles", 0) * 2 * ln)) * CELLSIZE + 1) > origimg.height():
-        rect = QRect(0, origimg.height() - sz.y() * SPRITESIZE, sz.x() * SPRITESIZE, sz.y() * SPRITESIZE)
+        size = (ln * sz.height() + (item.get("bfTiles", 0) * 2)) * CELLSIZE
+        rect = QRect(0, size, sz.width() * SPRITESIZE, sz.height() * SPRITESIZE)
+    elif ((ln * sz.height() + (item.get("bfTiles", 0) * 2 * ln)) * CELLSIZE + 1) > origimg.height():
+        rect = QRect(0, origimg.height() - sz.height() * SPRITESIZE, sz.width() * SPRITESIZE, sz.height() * SPRITESIZE)
     else:
-        size = (sz.y() + (item.get("bfTiles", 0) * 2)) * ln * CELLSIZE
-        rect = QRect(0, size + 1, sz.x() * SPRITESIZE, sz.y() * SPRITESIZE)
+        size = (sz.height() + (item.get("bfTiles", 0) * 2)) * ln * CELLSIZE
+        rect = QRect(0, size + 1, sz.width() * SPRITESIZE, sz.height() * SPRITESIZE)
 
     if origimg.rect().contains(rect):
         img = origimg.copy(rect)
     else:
-        rect = QRect(0, origimg.height() - sz.y() * SPRITESIZE, sz.x() * SPRITESIZE, sz.y() * SPRITESIZE)
+        rect = QRect(0, origimg.height() - sz.height() * SPRITESIZE, sz.width() * SPRITESIZE, sz.height() * SPRITESIZE)
         if origimg.rect().contains(rect):
             img = origimg.copy(rect)
         else:
@@ -133,11 +133,11 @@ def loadTile(item, colr, cat, catnum, indx) -> Tile | None:
 
     # making image2
     bftiles = item.get("bfTiles", 0)
-    img2 = QPixmap((sz.x() + bftiles * 2) * CELLSIZE, (sz.y() + bftiles * 2) * CELLSIZE)
+    img2 = QPixmap((sz.width() + bftiles * 2) * CELLSIZE, (sz.height() + bftiles * 2) * CELLSIZE)
     img2.fill(QColor(0, 0, 0, 0))
     p = QPainter(img2)
     if tp == "box":
-        p.drawImage(0, 0, origimg.copy(0, sz.x() * CELLSIZE * sz.x(), img2.width(), img2.height()))
+        p.drawImage(0, 0, origimg.copy(0, sz.width() * CELLSIZE * sz.width(), img2.width(), img2.height()))
     else:
         repl = len(item.get("repeatL", [1]))
         for i in range(repl):
@@ -284,7 +284,7 @@ def loadTiles(window: SplashDialog) -> ItemData:
             preview = QImage(1, 1, QImage.Format.Format_RGBA64)
         # preview.set_colorkey(pg.Color(255, 255, 255))
         printmessage(f"Loading material {k}")
-        solved_copy[matcatcount]["items"].append(Tile(k, None, [1], "Material", 0, img, img, img.toImage(), QPoint(1, 1),
+        solved_copy[matcatcount]["items"].append(Tile(k, None, [1], "Material", 0, img, img, img.toImage(), QSize(1, 1),
                                                       matcat, col, [[-1], 0],
                                                       QPoint(matcatcount + 1, len(solved_copy[matcatcount]["items"]) + 1),
                                                       ["material"], False, preview, False))

@@ -194,11 +194,12 @@ class Ui_TileExplorer(object):
 
         self.Preview = TilePreview(self.TileTab)
         self.Preview.setObjectName(u"Preview")
-        sizePolicy = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
+        sizePolicy = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(1)
         sizePolicy.setHeightForWidth(self.Preview.sizePolicy().hasHeightForWidth())
         self.Preview.setSizePolicy(sizePolicy)
+        self.Preview.setMouseTracking(True)
 
         self.verticalLayout_4.addWidget(self.Preview)
 

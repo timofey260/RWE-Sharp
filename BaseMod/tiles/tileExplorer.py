@@ -137,7 +137,10 @@ class TileExplorer(QMainWindow):
         if len(selection) == 1:
             self.preview.tileimage.setOpacity(1)
             self.preview.tileimage.setPixmap(selection[0].data(Qt.ItemDataRole.UserRole).image2)
+            self.preview.topleft.setPos(0, 0)
             self.preview.tileimage.setPos(0, 0)
+            self.preview.verticalScrollBar().setValue(0)
+            self.preview.horizontalScrollBar().setValue(0)
 
     def link_action(self, action: QAction):
         action.setCheckable(True)

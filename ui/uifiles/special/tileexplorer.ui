@@ -288,10 +288,13 @@
         <item>
          <widget class="TilePreview" name="Preview">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
             <horstretch>0</horstretch>
             <verstretch>1</verstretch>
            </sizepolicy>
+          </property>
+          <property name="mouseTracking">
+           <bool>true</bool>
           </property>
          </widget>
         </item>

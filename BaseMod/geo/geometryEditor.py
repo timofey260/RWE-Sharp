@@ -236,7 +236,7 @@ class GeometryEditor(EditorMode):
             self.tool_specific_press(self.toolright.value)
 
     def tool_specific_press(self, tool: GeoTools):
-        fpos = self.viewport.viewport_to_editor(self.mpos)
+        fpos = self.viewport.viewport_to_editor(self.mouse_pos)
         if tool == GeoTools.Pen:
             blk, stak = self.block2info()
             print(blk, stak)
@@ -244,7 +244,7 @@ class GeometryEditor(EditorMode):
 
     def mouse_move_event(self, event: QMoveEvent):
         super().mouse_move_event(event)
-        fpos = self.viewport.viewport_to_editor(self.mpos)
+        fpos = self.viewport.viewport_to_editor(self.mouse_pos)
         cpos = self.viewport.editor_to_viewport(fpos)
         if cpos != self.cursor.pos():
             self.cursor.setPos(self.viewport.editor_to_viewport(fpos))

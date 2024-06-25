@@ -56,8 +56,8 @@ class EditorMode:
         return self.viewport.mouse_right
 
     @property
-    def mpos(self) -> QPoint:
-        return self.viewport.mpos
+    def mouse_pos(self) -> QPoint:
+        return self.viewport.mouse_pos
 
     def add_myself(self, ui):
         self.mod.add_editor(self, ui)
