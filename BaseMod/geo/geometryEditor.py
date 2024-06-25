@@ -214,11 +214,11 @@ class GeometryEditor(EditorMode):
         return 0, False
 
     def init_scene_items(self):
-        self.cursor = self.viewport.workscene.addRect(QRect(0, 0, 20, 20), pen=QPen(QColor(255, 0, 0), 3))
+        self.cursor = self.workscene.addRect(QRect(0, 0, 20, 20), pen=QPen(QColor(255, 0, 0), 3))
         self.pixmap = QPixmap(CELLSIZE, CELLSIZE)
         self.pixmap.fill(QColor(0, 0, 0, 0))
         self.itempainter = QPainter(self.pixmap)
-        self.cursor_item = self.viewport.workscene.addPixmap(self.pixmap)
+        self.cursor_item = self.workscene.addPixmap(self.pixmap)
         self.cursor_item.setOpacity(.3)
         self.itempainter.setCompositionMode(QPainter.CompositionMode.CompositionMode_Source)
         self.block_changed()

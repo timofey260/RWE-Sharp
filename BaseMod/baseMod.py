@@ -62,13 +62,13 @@ class BaseMod(Mod):
         self.geoeditor.add_myself(self.geoui)
         self.geosettings = GeoSettings(self)
 
+        self.tile_explorer = TileExplorer(self.manager)
         self.tilemodule = TileModule(self).add_myself()
         self.tileview = TileViewUI(self).add_myself()
         self.tileeditor = TileEditor(self)
         self.tileui = TileUI(self)
         self.tileeditor.add_myself(self.tileui)
 
-        self.tile_explorer = TileExplorer(self.manager)
         self.tile_explorer_action = QAction("Tile Explorer")
         self.manager.window_menu.addAction(self.tile_explorer_action)
         self.tile_explorer.link_action(self.tile_explorer_action)

@@ -54,7 +54,9 @@ class Config:
         """
         path = appdirs.user_config_dir(NAME, AUTHOR)
         if not os.path.exists(path):
-            os.makedirs(appdirs.user_config_dir(NAME, AUTHOR), exist_ok=True)
+            os.makedirs(path, exist_ok=True)
+        if not os.path.exists(os.path.join(path, "config.txt")):
             with open(os.path.join(path, "config.txt"), "w") as f:
-                f.write("# rwe# config file\n#use # for comments")
+                pass
+
         return os.path.join(path, "config.txt")

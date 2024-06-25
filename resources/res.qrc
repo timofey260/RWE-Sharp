@@ -3,6 +3,12 @@
     <file>icon.png</file>
     <file>icon_small.png</file>
   </qresource>
+  <qresource prefix="grids">
+    <file>grid/list.svg</file>
+    <file>grid/mediumgrid.svg</file>
+    <file>grid/smallgrid.svg</file>
+    <file>grid/smallgrid2.svg</file>
+  </qresource>
   <qresource prefix="geoIcons">
     <file>geo/bucket.svg</file>
     <file>geo/brush.svg</file>

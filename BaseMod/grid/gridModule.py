@@ -12,7 +12,7 @@ class GridModule(Module):
         super().__init__(mod)
         self.enablegrid = BoolConfigurable(mod, "grid.enable_grid", False, "Enable grid")
         self.gridopacity = FloatConfigurable(mod, "grid.grid_opacity", .5, "Opacity grid")
-        self.enablegrid_key = KeyConfigurable(mod, "grid.enable_grid_key", "Alt+G", "Grid key")
+        self.enablegrid_key = KeyConfigurable(mod, "grid.enable_grid_key", "Ctrl+G", "Grid key")
         self.backgroundcolor = ColorConfigurable(mod, "grid.bgcolor", QColor(150, 150, 150), "color of the background")
         self.bordercolor = ColorConfigurable(mod, "grid.bordercolor", QColor(255, 255, 255, 255), "color of the border")
         self.grid_size_X = IntConfigurable(mod, "grid.gridsizex", 1, "Grid scale X")

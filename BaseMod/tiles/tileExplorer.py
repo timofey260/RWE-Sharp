@@ -9,6 +9,7 @@ from RWESharp.Configurable import BoolConfigurable
 
 class TileExplorer(QMainWindow):
     stateChanged = Signal(bool)
+    tileSelected = Signal(list)
 
     def __init__(self, manager, parent=None):
         super().__init__(parent)
@@ -27,12 +28,57 @@ class TileExplorer(QMainWindow):
         self.view_categories.setEditTriggers(QListWidget.EditTrigger.DoubleClicked)
         self.view_categories.itemSelectionChanged.connect(self.change_tiles)
         self.view_tiles.itemSelectionChanged.connect(self.change_tile)
+        self.view_tiles.setDragDropMode(QListWidget.DragDropMode.NoDragDrop)  # todo change in future
+        self.view_tiles.setSelectionMode(QListWidget.SelectionMode.ExtendedSelection)
+        self.view_categories.setDragDropMode(QListWidget.DragDropMode.NoDragDrop)
+        self.view_tiles.setIconSize(QSize(20, 20))
+
+        self.ui.TilesListView.clicked.connect(self.tiles_list)
+        self.ui.TilesGridViewBig.clicked.connect(self.tiles_grid)
+        self.ui.TilesGridViewSmall.clicked.connect(self.tiles_grid_small)
+        self.ui.TilesIconView.clicked.connect(self.tiles_grid_ununiform)
+        self.view_tiles.setResizeMode(QListWidget.ResizeMode.Adjust)
+
+        self.ui.SearchBar.textChanged.connect(self.search)
+        self.selected_tiles: list[Tile] = []
         self.load_tiles()
+        self.tiles_grid()
+
+    def search(self, text: str):
+        self.load_tiles()
+        self.change_tiles()
+
+    def tiles_grid(self):
+        self.view_tiles.setViewMode(QListWidget.ViewMode.IconMode)
+        self.view_tiles.setIconSize(QSize(40, 40))
+        self.view_tiles.setSpacing(10)
+        self.view_tiles.setUniformItemSizes(True)
+
+    def tiles_grid_ununiform(self):
+        self.view_tiles.setViewMode(QListWidget.ViewMode.IconMode)
+        self.view_tiles.setIconSize(QSize(40, 40))
+        self.view_tiles.setSpacing(10)
+        self.view_tiles.setUniformItemSizes(False)
+
+    def tiles_grid_small(self):
+        self.view_tiles.setViewMode(QListWidget.ViewMode.IconMode)
+        self.view_tiles.setIconSize(QSize(20, 20))
+        self.view_tiles.setSpacing(5)
+        self.view_tiles.setUniformItemSizes(True)
+
+    def tiles_list(self):
+        self.view_tiles.setViewMode(QListWidget.ViewMode.ListMode)
+        self.view_tiles.setIconSize(QSize(20, 20))
+        self.view_tiles.setSpacing(0)
+        self.view_tiles.setUniformItemSizes(True)
 
     def load_tiles(self):
+        filter = self.ui.SearchBar.text()
         self.view_categories.clear()
         self.view_categories.setAlternatingRowColors(True)
         for category, color in zip(range(len(self.tiles.categories)), self.tiles.colors):
+            if filter != "" and filter.lower() not in self.tiles.categories[category].lower():
+                continue
             color: QColor
             image = QPixmap(20, 20)
             image.fill(color)
@@ -54,26 +100,44 @@ class TileExplorer(QMainWindow):
 
     @Slot()
     def change_tiles(self):
-        if len(self.view_categories.selectedItems()) == 0:
+        filter = self.ui.SearchBar.text()
+        if len(self.view_categories.selectedItems()) == 0 and filter == "":
             return
         self.view_tiles.clear()
+        if filter != "":
+            for i in self.tiles.all_items():
+                i: Tile
+                if filter.lower() not in i.name.lower():
+                    continue
+                item = QListWidgetItem(i.name)
+                item.setData(Qt.ItemDataRole.UserRole, i)
+                item.setIcon(i.image2)
+                self.view_tiles.addItem(item)
+            return
         categories = []
         for i in self.view_categories.selectedItems():
             categories.append(i.data(Qt.ItemDataRole.UserRole))
         for category in categories:
             for i in self.tiles.get_items(category):
-                i: Tile
                 item = QListWidgetItem(i.name)
                 item.setData(Qt.ItemDataRole.UserRole, i)
                 item.setIcon(i.image2)
                 self.view_tiles.addItem(item)
-        self.view_tiles.setUniformItemSizes(True)
 
     @Slot()
     def change_tile(self):
         selection = self.view_tiles.selectedItems()
+        if len(selection) == 0:
+            return
+        self.selected_tiles = []
+        for i in selection:
+            self.selected_tiles.append(i.data(Qt.ItemDataRole.UserRole))
+        self.tileSelected.emit(self.selected_tiles)
+        self.preview.tileimage.setOpacity(0)
         if len(selection) == 1:
+            self.preview.tileimage.setOpacity(1)
             self.preview.tileimage.setPixmap(selection[0].data(Qt.ItemDataRole.UserRole).image2)
+            self.preview.tileimage.setPos(0, 0)
 
     def link_action(self, action: QAction):
         action.setCheckable(True)

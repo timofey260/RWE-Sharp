@@ -1,6 +1,7 @@
 from widgets.Viewport import ViewPort
 from PySide6.QtGui import QMoveEvent, QMouseEvent, QWheelEvent
 from PySide6.QtCore import QPoint, QPointF, QEvent
+from PySide6.QtWidgets import QGraphicsScene
 from core.info import CELLSIZE
 
 class EditorMode:
@@ -43,11 +44,15 @@ class EditorMode:
         """
 
     @property
-    def mouse_left(self):
+    def workscene(self) -> QGraphicsScene:
+        return self.viewport.workscene
+
+    @property
+    def mouse_left(self) -> bool:
         return self.viewport.mouse_left
 
     @property
-    def mouse_right(self):
+    def mouse_right(self) -> bool:
         return self.viewport.mouse_right
 
     @property

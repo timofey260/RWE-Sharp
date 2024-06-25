@@ -40,6 +40,13 @@ class ItemData:
     def get_items(self, cat: int) -> list[ItemDataItem]:
         return self.data[cat]["items"]
 
+    def all_items(self):
+        items = []
+        for i in range(len(self.categories)):
+            for item in self.get_items(i):
+                items.append(item)
+        return items
+
     @property
     def categories(self) -> list[str]:
         return [i["name"] for i in self.data]

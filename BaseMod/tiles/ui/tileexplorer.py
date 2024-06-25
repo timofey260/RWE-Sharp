@@ -23,6 +23,7 @@ from PySide6.QtWidgets import (QAbstractItemView, QAbstractScrollArea, QApplicat
     QWidget)
 
 from BaseModWidgets import TilePreview
+import ui.res_rc
 
 class Ui_TileExplorer(object):
     def setupUi(self, TileExplorer):
@@ -33,12 +34,12 @@ class Ui_TileExplorer(object):
         self.centralwidget.setObjectName(u"centralwidget")
         self.verticalLayout = QVBoxLayout(self.centralwidget)
         self.verticalLayout.setObjectName(u"verticalLayout")
-        self.lineEdit = QLineEdit(self.centralwidget)
-        self.lineEdit.setObjectName(u"lineEdit")
-        self.lineEdit.setCursorMoveStyle(Qt.CursorMoveStyle.LogicalMoveStyle)
-        self.lineEdit.setClearButtonEnabled(True)
+        self.SearchBar = QLineEdit(self.centralwidget)
+        self.SearchBar.setObjectName(u"SearchBar")
+        self.SearchBar.setCursorMoveStyle(Qt.CursorMoveStyle.LogicalMoveStyle)
+        self.SearchBar.setClearButtonEnabled(True)
 
-        self.verticalLayout.addWidget(self.lineEdit)
+        self.verticalLayout.addWidget(self.SearchBar)
 
         self.splitter = QSplitter(self.centralwidget)
         self.splitter.setObjectName(u"splitter")
@@ -69,21 +70,22 @@ class Ui_TileExplorer(object):
         self.verticalLayout_2.addWidget(self.Categories)
 
         self.horizontalLayout = QHBoxLayout()
+        self.horizontalLayout.setSpacing(0)
         self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.toolButton = QToolButton(self.CatsTab)
-        self.toolButton.setObjectName(u"toolButton")
+        self.CatsAddCC = QToolButton(self.CatsTab)
+        self.CatsAddCC.setObjectName(u"CatsAddCC")
         icon = QIcon(QIcon.fromTheme(u"list-add"))
-        self.toolButton.setIcon(icon)
-        self.toolButton.setArrowType(Qt.ArrowType.NoArrow)
+        self.CatsAddCC.setIcon(icon)
+        self.CatsAddCC.setArrowType(Qt.ArrowType.NoArrow)
 
-        self.horizontalLayout.addWidget(self.toolButton)
+        self.horizontalLayout.addWidget(self.CatsAddCC)
 
-        self.toolButton_2 = QToolButton(self.CatsTab)
-        self.toolButton_2.setObjectName(u"toolButton_2")
+        self.CatsRemoveCC = QToolButton(self.CatsTab)
+        self.CatsRemoveCC.setObjectName(u"CatsRemoveCC")
         icon1 = QIcon(QIcon.fromTheme(u"list-remove"))
-        self.toolButton_2.setIcon(icon1)
+        self.CatsRemoveCC.setIcon(icon1)
 
-        self.horizontalLayout.addWidget(self.toolButton_2)
+        self.horizontalLayout.addWidget(self.CatsRemoveCC)
 
         self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
@@ -105,30 +107,76 @@ class Ui_TileExplorer(object):
 
         self.Tiles = QListWidget(self.TilesTab)
         self.Tiles.setObjectName(u"Tiles")
+        self.Tiles.setMouseTracking(True)
+        self.Tiles.setAutoFillBackground(True)
         self.Tiles.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
         self.Tiles.setAlternatingRowColors(True)
+        self.Tiles.setResizeMode(QListView.ResizeMode.Fixed)
+        self.Tiles.setLayoutMode(QListView.LayoutMode.SinglePass)
+        self.Tiles.setSpacing(10)
         self.Tiles.setViewMode(QListView.ViewMode.IconMode)
 
         self.verticalLayout_3.addWidget(self.Tiles)
 
         self.horizontalLayout_2 = QHBoxLayout()
+        self.horizontalLayout_2.setSpacing(0)
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
-        self.toolButton_3 = QToolButton(self.TilesTab)
-        self.toolButton_3.setObjectName(u"toolButton_3")
-        self.toolButton_3.setIcon(icon)
-        self.toolButton_3.setArrowType(Qt.ArrowType.NoArrow)
+        self.TilesListView = QToolButton(self.TilesTab)
+        self.TilesListView.setObjectName(u"TilesListView")
+        icon2 = QIcon()
+        icon2.addFile(u":/grids/grid/list.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.TilesListView.setIcon(icon2)
+        self.TilesListView.setArrowType(Qt.ArrowType.NoArrow)
 
-        self.horizontalLayout_2.addWidget(self.toolButton_3)
+        self.horizontalLayout_2.addWidget(self.TilesListView)
 
-        self.toolButton_4 = QToolButton(self.TilesTab)
-        self.toolButton_4.setObjectName(u"toolButton_4")
-        self.toolButton_4.setIcon(icon1)
+        self.TilesGridViewBig = QToolButton(self.TilesTab)
+        self.TilesGridViewBig.setObjectName(u"TilesGridViewBig")
+        icon3 = QIcon()
+        icon3.addFile(u":/grids/grid/mediumgrid.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.TilesGridViewBig.setIcon(icon3)
 
-        self.horizontalLayout_2.addWidget(self.toolButton_4)
+        self.horizontalLayout_2.addWidget(self.TilesGridViewBig)
+
+        self.TilesGridViewSmall = QToolButton(self.TilesTab)
+        self.TilesGridViewSmall.setObjectName(u"TilesGridViewSmall")
+        icon4 = QIcon()
+        icon4.addFile(u":/grids/grid/smallgrid.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.TilesGridViewSmall.setIcon(icon4)
+
+        self.horizontalLayout_2.addWidget(self.TilesGridViewSmall)
+
+        self.TilesIconView = QToolButton(self.TilesTab)
+        self.TilesIconView.setObjectName(u"TilesIconView")
+        icon5 = QIcon()
+        icon5.addFile(u":/grids/grid/smallgrid2.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.TilesIconView.setIcon(icon5)
+
+        self.horizontalLayout_2.addWidget(self.TilesIconView)
 
         self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_2.addItem(self.horizontalSpacer_2)
+
+        self.TilesClassic = QToolButton(self.TilesTab)
+        self.TilesClassic.setObjectName(u"TilesClassic")
+
+        self.horizontalLayout_2.addWidget(self.TilesClassic)
+
+        self.TilesImage = QToolButton(self.TilesTab)
+        self.TilesImage.setObjectName(u"TilesImage")
+
+        self.horizontalLayout_2.addWidget(self.TilesImage)
+
+        self.TilesUnrendered = QToolButton(self.TilesTab)
+        self.TilesUnrendered.setObjectName(u"TilesUnrendered")
+
+        self.horizontalLayout_2.addWidget(self.TilesUnrendered)
+
+        self.TilesRendered = QToolButton(self.TilesTab)
+        self.TilesRendered.setObjectName(u"TilesRendered")
+
+        self.horizontalLayout_2.addWidget(self.TilesRendered)
 
 
         self.verticalLayout_3.addLayout(self.horizontalLayout_2)
@@ -156,11 +204,11 @@ class Ui_TileExplorer(object):
 
         self.horizontalLayout_6 = QHBoxLayout()
         self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
-        self.toolButton_10 = QToolButton(self.TileTab)
-        self.toolButton_10.setObjectName(u"toolButton_10")
-        self.toolButton_10.setArrowType(Qt.ArrowType.NoArrow)
+        self.OnetoOne = QToolButton(self.TileTab)
+        self.OnetoOne.setObjectName(u"OnetoOne")
+        self.OnetoOne.setArrowType(Qt.ArrowType.NoArrow)
 
-        self.horizontalLayout_6.addWidget(self.toolButton_10)
+        self.horizontalLayout_6.addWidget(self.OnetoOne)
 
         self.horizontalSpacer_6 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
@@ -204,11 +252,12 @@ class Ui_TileExplorer(object):
         self.verticalLayout_4.addWidget(self.Properties)
 
         self.horizontalLayout_5 = QHBoxLayout()
+        self.horizontalLayout_5.setSpacing(0)
         self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
         self.toolButton_9 = QToolButton(self.TileTab)
         self.toolButton_9.setObjectName(u"toolButton_9")
-        icon2 = QIcon(QIcon.fromTheme(u"emblem-favorite"))
-        self.toolButton_9.setIcon(icon2)
+        icon6 = QIcon(QIcon.fromTheme(u"emblem-favorite"))
+        self.toolButton_9.setIcon(icon6)
         self.toolButton_9.setArrowType(Qt.ArrowType.NoArrow)
 
         self.horizontalLayout_5.addWidget(self.toolButton_9)
@@ -240,16 +289,22 @@ class Ui_TileExplorer(object):
 
     def retranslateUi(self, TileExplorer):
         TileExplorer.setWindowTitle(QCoreApplication.translate("TileExplorer", u"Tile Explorer", None))
-        self.lineEdit.setInputMask("")
-        self.lineEdit.setPlaceholderText(QCoreApplication.translate("TileExplorer", u"Search", None))
+        self.SearchBar.setInputMask("")
+        self.SearchBar.setPlaceholderText(QCoreApplication.translate("TileExplorer", u"Search", None))
         self.label.setText(QCoreApplication.translate("TileExplorer", u"Categories", None))
-        self.toolButton.setText("")
-        self.toolButton_2.setText("")
+        self.CatsAddCC.setText("")
+        self.CatsRemoveCC.setText("")
         self.label_2.setText(QCoreApplication.translate("TileExplorer", u"Tiles", None))
-        self.toolButton_3.setText("")
-        self.toolButton_4.setText("")
+        self.TilesListView.setText("")
+        self.TilesGridViewBig.setText("")
+        self.TilesGridViewSmall.setText("")
+        self.TilesIconView.setText("")
+        self.TilesClassic.setText(QCoreApplication.translate("TileExplorer", u"C", None))
+        self.TilesImage.setText(QCoreApplication.translate("TileExplorer", u"T", None))
+        self.TilesUnrendered.setText(QCoreApplication.translate("TileExplorer", u"U", None))
+        self.TilesRendered.setText(QCoreApplication.translate("TileExplorer", u"R", None))
         self.label_3.setText(QCoreApplication.translate("TileExplorer", u"Tile", None))
-        self.toolButton_10.setText(QCoreApplication.translate("TileExplorer", u"1:1", None))
+        self.OnetoOne.setText(QCoreApplication.translate("TileExplorer", u"1:1", None))
         ___qtablewidgetitem = self.Properties.horizontalHeaderItem(0)
         ___qtablewidgetitem.setText(QCoreApplication.translate("TileExplorer", u"Value", None));
         ___qtablewidgetitem1 = self.Properties.verticalHeaderItem(0)

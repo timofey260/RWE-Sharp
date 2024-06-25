@@ -284,7 +284,7 @@ def loadTiles(window: SplashDialog) -> ItemData:
             preview = QImage(1, 1, QImage.Format.Format_RGBA64)
         # preview.set_colorkey(pg.Color(255, 255, 255))
         printmessage(f"Loading material {k}")
-        solved_copy[matcatcount]["items"].append(Tile(k, None, [1], "Material", 0, img, None, None, QPoint(1, 1),
+        solved_copy[matcatcount]["items"].append(Tile(k, None, [1], "Material", 0, img, img, img.toImage(), QPoint(1, 1),
                                                       matcat, col, [[-1], 0],
                                                       QPoint(matcatcount + 1, len(solved_copy[matcatcount]["items"]) + 1),
                                                       ["material"], False, preview, False))
