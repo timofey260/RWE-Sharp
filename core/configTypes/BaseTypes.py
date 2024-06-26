@@ -1,6 +1,6 @@
 from core.configTypes.ConfigBase import Configurable
 from PySide6.QtCore import Slot, Signal, Qt
-from PySide6.QtWidgets import QRadioButton, QAbstractButton, QSlider, QSpinBox
+from PySide6.QtWidgets import QRadioButton, QAbstractButton, QSlider, QSpinBox, QComboBox
 from PySide6.QtGui import QAction
 import json
 
@@ -165,6 +165,17 @@ class IntConfigurable(Configurable):
             spin.setToolTip(self.description)
         spin.valueChanged.connect(self.update_value)
         self.valueChanged.connect(spin.setValue)
+
+    def link_combobox(self, combobox: QComboBox):
+        """
+        Links combobox with configurable
+        :param combobox: Combobox to link
+        """
+        if len(self.description) > 0:
+            combobox.setToolTip(self.description)
+        combobox.setCurrentIndex(self.value)
+        combobox.currentIndexChanged.connect(self.update_value)
+        self.valueChanged.connect(combobox.setCurrentIndex)
 
 
 class FloatConfigurable(Configurable):

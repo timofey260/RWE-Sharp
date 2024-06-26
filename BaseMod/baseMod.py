@@ -32,7 +32,7 @@ class BaseMod(Mod):
 
         self.tilemodule: TileModule | None = None
         self.tileview: TileViewUI | None = None
-        self.tileeditor: TileViewUI | None = None
+        self.tileeditor: TileEditor | None = None
         self.tileui: TileUI | None = None
 
         self.gridmodule: GridModule | None = None
@@ -62,10 +62,10 @@ class BaseMod(Mod):
         self.geoeditor.add_myself(self.geoui)
         self.geosettings = GeoSettings(self)
 
-        self.tile_explorer = TileExplorer(self.manager)
         self.tilemodule = TileModule(self).add_myself()
-        self.tileview = TileViewUI(self).add_myself()
         self.tileeditor = TileEditor(self)
+        self.tile_explorer = TileExplorer(self.manager)
+        self.tileview = TileViewUI(self).add_myself()
         self.tileui = TileUI(self)
         self.tileeditor.add_myself(self.tileui)
 

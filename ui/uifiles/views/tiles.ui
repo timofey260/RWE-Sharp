@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>380</width>
-    <height>374</height>
+    <height>741</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -24,8 +24,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>343</width>
-        <height>408</height>
+        <width>360</width>
+        <height>721</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -139,21 +139,21 @@
        <item>
         <widget class="QRadioButton" name="VTilesRendered">
          <property name="text">
-          <string>Render preview (sun)</string>
+          <string>Rendered Tiles (sun)</string>
          </property>
         </widget>
        </item>
        <item>
         <widget class="QRadioButton" name="VTilesRendered_shade">
          <property name="text">
-          <string>Render preview (shaded)</string>
+          <string>Rendered Tiles (shaded)</string>
          </property>
         </widget>
        </item>
        <item>
         <widget class="QRadioButton" name="VTilesRendered_rain">
          <property name="text">
-          <string>Render preview (rain)</string>
+          <string>Rendered Tiles (rain)</string>
          </property>
         </widget>
        </item>

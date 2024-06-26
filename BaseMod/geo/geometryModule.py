@@ -26,13 +26,6 @@ class GeoModule(Module):
         self.drawoption = IntConfigurable(mod, "VIEW_geo.drawOption", 0, "method of drawing")
         self.opacityshift = BoolConfigurable(mod, "VIEW_geo.opacityShift", True, "Does not change opacity of hidden layers")
 
-        self.drawlgeo_key = KeyConfigurable(mod, "VIEW_geo.drawlall_key", "Alt+G", "key to show geo")
-        self.drawl1_key = KeyConfigurable(mod, "VIEW_geo.drawl1_key", "Alt+1", "key to show 1st layer")
-        self.drawl2_key = KeyConfigurable(mod, "VIEW_geo.drawl2_key", "Alt+2", "key to show 2nd layer")
-        self.drawl3_key = KeyConfigurable(mod, "VIEW_geo.drawl3_key", "Alt+3", "key to show 3rd layer")
-        self.drawlbeams_key = KeyConfigurable(mod, "VIEW_geo.drawl3beamskey", "Alt+b", "key to show 3rd layer")
-        self.drawlpipes_key = KeyConfigurable(mod, "VIEW_geo.drawlpipes_key", "Alt+v", "key to show 3rd layer")
-        self.drawlmisc_key = KeyConfigurable(mod, "VIEW_geo.drawlmisc_key", "Alt+c", "key to show 3rd layer")
         self.draw = True
         self.l1 = GeoRenderTexture(self, 150, 0).add_myself()
         self.l2 = GeoRenderTexture(self, 250, 1).add_myself()

@@ -1,10 +1,11 @@
 from BaseMod.tiles.ui.tileexplorer import Ui_TileExplorer
 from PySide6.QtWidgets import QMainWindow, QTreeWidgetItem, QListWidgetItem, QListWidget
-from PySide6.QtGui import QAction, QPixmap, QColor
-from PySide6.QtCore import Slot, Signal, Qt, QSize
-from RWESharp.Core import ItemData
-from RWESharp.Loaders import Tile
-from RWESharp.Configurable import BoolConfigurable
+from PySide6.QtGui import QAction, QPixmap, QColor, QImage
+from PySide6.QtCore import Slot, Signal, Qt, QSize, QPoint
+from RWESharp.Core import ItemData, PATH_FILES_IMAGES_PALETTES
+from RWESharp.Loaders import Tile, palette_to_colortable, return_tile_pixmap
+from RWESharp.Configurable import BoolConfigurable, IntConfigurable, StringConfigurable
+import os
 
 
 class TileExplorer(QMainWindow):
@@ -15,13 +16,19 @@ class TileExplorer(QMainWindow):
         super().__init__(parent)
         self.manager = manager
         self.mod = manager.basemod
-        self.category_colors = BoolConfigurable(self.mod, "TileExplorer.Category_colors", False, "Color of categories")
+        self.category_colors = BoolConfigurable(self.mod, "TileExplorer.category_colors", False, "Color of categories")
+        self.tile_cols = BoolConfigurable(self.mod, "TileExplorer.tile_collisions", True, "show tile collisions")
+        self.tile_prev = BoolConfigurable(self.mod, "TileExplorer.tile_preview", True, "show tile preview")
+        self.drawoption = IntConfigurable(self.mod, "TileExplorer.drawoption", 7, "show tile collisions")
+        self.layer = IntConfigurable(self.mod, "TileExplorer.layer", 0, "layer")
+        self.palette_path = StringConfigurable(self.mod, "TileExplorer.palettepath", os.path.join(PATH_FILES_IMAGES_PALETTES, "palette0.png"), "path to pallete")
+        self.colortable = palette_to_colortable(QImage(self.palette_path.value))
         self.tiles: ItemData = manager.tiles
         self.ui = Ui_TileExplorer()
         self.ui.setupUi(self)
         self.state = False
         self.preview = self.ui.Preview
-        self.preview.add_manager(manager)
+        self.preview.add_manager(manager, self)
         self.view_categories = self.ui.Categories
         self.view_tiles = self.ui.Tiles
         self.view_tile = self.ui.Properties
@@ -40,9 +47,38 @@ class TileExplorer(QMainWindow):
         self.view_tiles.setResizeMode(QListWidget.ResizeMode.Adjust)
 
         self.ui.SearchBar.textChanged.connect(self.search)
+        self.tile_cols.link_button(self.ui.ToggleCollisions)
+        self.tile_cols.valueChanged.connect(self.hide_cols)
+        self.tile_prev.link_button(self.ui.TogglePreview)
+        self.tile_prev.valueChanged.connect(self.hide_preview)
+        self.drawoption.link_combobox(self.ui.RenderOption)
+        self.drawoption.valueChanged.connect(self.change_draw_option)
+        self.layer.link_combobox(self.ui.LayerBox)
+        self.layer.valueChanged.connect(self.change_draw_option)
+        self.mod.tilemodule.drawoption.valueChanged.connect(self.change_draw_option)
+        self.tileSelected.connect(self.mod.tileeditor.add_tile)
+        self.palette_path.valueChanged.connect(self.update_palette)
         self.selected_tiles: list[Tile] = []
         self.load_tiles()
         self.tiles_grid()
+
+    def update_palette(self):
+        self.colortable = palette_to_colortable(QImage(self.palette_path.value))
+
+    def change_draw_option(self):
+        self.change_tiles()
+        if len(self.selected_tiles) > 0:
+            self.preview.preview_tile(self.selected_tiles[0])
+
+    @property
+    def synced_draw_option(self):
+        return self.drawoption.value if self.drawoption.value != 7 else self.mod.tilemodule.drawoption.value
+
+    def hide_cols(self, value):
+        self.preview.tilecolsimage.setOpacity(1 if value else 0)
+
+    def hide_preview(self, value):
+        self.preview.tileimage.setOpacity(1 if value and len(self.selected_tiles) > 0 else 0)
 
     def search(self, text: str):
         self.load_tiles()
@@ -111,7 +147,7 @@ class TileExplorer(QMainWindow):
                     continue
                 item = QListWidgetItem(i.name)
                 item.setData(Qt.ItemDataRole.UserRole, i)
-                item.setIcon(i.image2)
+                item.setIcon(self.get_icon(i))
                 self.view_tiles.addItem(item)
             return
         categories = []
@@ -121,8 +157,11 @@ class TileExplorer(QMainWindow):
             for i in self.tiles.get_items(category):
                 item = QListWidgetItem(i.name)
                 item.setData(Qt.ItemDataRole.UserRole, i)
-                item.setIcon(i.image2)
+                item.setIcon(self.get_icon(i))
                 self.view_tiles.addItem(item)
+
+    def get_icon(self, tile: Tile):
+        return return_tile_pixmap(tile, self.synced_draw_option, self.layer.value, self.colortable)
 
     @Slot()
     def change_tile(self):
@@ -134,13 +173,8 @@ class TileExplorer(QMainWindow):
             self.selected_tiles.append(i.data(Qt.ItemDataRole.UserRole))
         self.tileSelected.emit(self.selected_tiles)
         self.preview.tileimage.setOpacity(0)
-        if len(selection) == 1:
-            self.preview.tileimage.setOpacity(1)
-            self.preview.tileimage.setPixmap(selection[0].data(Qt.ItemDataRole.UserRole).image2)
-            self.preview.topleft.setPos(0, 0)
-            self.preview.tileimage.setPos(0, 0)
-            self.preview.verticalScrollBar().setValue(0)
-            self.preview.horizontalScrollBar().setValue(0)
+        if len(self.selected_tiles) == 1:
+            self.preview.preview_tile(self.selected_tiles[0])
 
     def link_action(self, action: QAction):
         action.setCheckable(True)

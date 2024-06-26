@@ -2,7 +2,7 @@ from PySide6.QtCore import QRect, Qt, Slot
 from PySide6.QtGui import QBrush, QColor
 from RWESharp.Renderable import RenderTexture
 from RWESharp.Core import CONSTS, CELLSIZE, SPRITESIZE
-from RWESharp.Loaders import colortable
+from RWESharp.Loaders import colortable, color_colortable
 
 
 class TileRenderTexture(RenderTexture):
@@ -33,17 +33,6 @@ class TileRenderTexture(RenderTexture):
                 if y[self.tilelayer]["tp"] == "material":
                     self.draw_tile(xp, yp)
         self.redraw()
-
-    def color_colortable(self, color: QColor) -> list[int]:
-        table = []
-        mult = 1
-        table = []
-        for i in range(3):
-            for i2 in range(10):
-                newcol = QColor.fromHsv(color.hue(), color.saturation(), color.value() - 90 + (30 * i + i2))
-                table.append(newcol.rgba())
-        table.append(QColor(0, 0, 0, 0).rgba())
-        return table
 
     def draw_tile(self, x: int, y: int):
         # drawrect = QRect(x * CELLSIZE, y * CELLSIZE, CELLSIZE, CELLSIZE)
@@ -117,7 +106,7 @@ class TileRenderTexture(RenderTexture):
                     if self.module.drawoption.value == 3:
                         foundtile.image3.setColorTable(colortable[self.tilelayer])
                     elif self.module.drawoption.value == 2:
-                        foundtile.image3.setColorTable(self.color_colortable(foundtile.color))
+                        foundtile.image3.setColorTable(color_colortable(foundtile.color))
                     else:
                         col = self.module.drawoption.value - 4
                         foundtile.image3.setColorTable(self.module.colortable[col][self.tilelayer])

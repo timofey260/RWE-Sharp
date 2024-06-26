@@ -1,6 +1,6 @@
 from RWESharp.Modify import EditorMode
 from RWESharp.Core import CELLSIZE, PATH_FILES_IMAGES, CONSTS
-from RWESharp.Configurable import BoolConfigurable, IntConfigurable, KeyConfigurable, EnumConfigurable
+from RWESharp.Configurable import BoolConfigurable, IntConfigurable, EnumConfigurable
 from PySide6.QtCore import QRect, QPoint, Slot
 from PySide6.QtGui import QColor, QPen, QMoveEvent, QWheelEvent, QMouseEvent, QPixmap, QPainter
 from PySide6.QtWidgets import QGraphicsRectItem, QGraphicsPixmapItem
@@ -109,9 +109,6 @@ class GeometryEditor(EditorMode):
         self.drawl2 = BoolConfigurable(mod, "EDIT_geo.drawl2", True, "Draw on l2")
         self.drawl3 = BoolConfigurable(mod, "EDIT_geo.drawl3", True, "Draw on l3")
 
-        self.drawl1_key = KeyConfigurable(mod, "EDIT_geo.drawl1_key", "Ctrl+1", "key to draw on 1st layer")
-        self.drawl2_key = KeyConfigurable(mod, "EDIT_geo.drawl2_key", "Ctrl+2", "key to draw on 2nd layer")
-        self.drawl3_key = KeyConfigurable(mod, "EDIT_geo.drawl3_key", "Ctrl+3", "key to draw on 3rd layer")
         self.controls = GeoControls(mod)
         self.block.valueChanged.connect(self.block_changed)
 

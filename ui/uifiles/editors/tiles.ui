@@ -50,17 +50,17 @@
        </item>
        <item>
         <layout class="QGridLayout" name="gridLayout">
-         <item row="0" column="0">
-          <widget class="QLabel" name="label">
+         <item row="0" column="2">
+          <widget class="QCheckBox" name="DeleteM1">
            <property name="text">
-            <string>Left Mouse:</string>
+            <string>Delete</string>
            </property>
           </widget>
          </item>
-         <item row="2" column="0">
-          <widget class="QLabel" name="label_2">
+         <item row="3" column="0">
+          <widget class="QLabel" name="label_4">
            <property name="text">
-            <string>Right Mouse</string>
+            <string>Brush size:</string>
            </property>
           </widget>
          </item>
@@ -85,69 +85,90 @@
             <property name="text">
              <string>Brush</string>
             </property>
+            <property name="icon">
+             <iconset resource="../../../resources/res.qrc">
+              <normaloff>:/geoIcons/geo/brush.svg</normaloff>:/geoIcons/geo/brush.svg</iconset>
+            </property>
            </item>
            <item>
             <property name="text">
              <string>Bucket</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../../../resources/res.qrc">
+              <normaloff>:/geoIcons/geo/bucket.svg</normaloff>:/geoIcons/geo/bucket.svg</iconset>
             </property>
            </item>
            <item>
             <property name="text">
              <string>Line</string>
             </property>
+            <property name="icon">
+             <iconset resource="../../../resources/res.qrc">
+              <normaloff>:/geoIcons/geo/line.svg</normaloff>:/geoIcons/geo/line.svg</iconset>
+            </property>
            </item>
            <item>
             <property name="text">
              <string>Rectangle</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../../../resources/res.qrc">
+              <normaloff>:/geoIcons/geo/rect.svg</normaloff>:/geoIcons/geo/rect.svg</iconset>
             </property>
            </item>
            <item>
             <property name="text">
              <string>Hollow Rectangle</string>
             </property>
+            <property name="icon">
+             <iconset resource="../../../resources/res.qrc">
+              <normaloff>:/geoIcons/geo/rect_hollow.svg</normaloff>:/geoIcons/geo/rect_hollow.svg</iconset>
+            </property>
            </item>
            <item>
             <property name="text">
              <string>Circle</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../../../resources/res.qrc">
+              <normaloff>:/geoIcons/geo/circle.svg</normaloff>:/geoIcons/geo/circle.svg</iconset>
             </property>
            </item>
            <item>
             <property name="text">
              <string>Hollow Circle</string>
             </property>
+            <property name="icon">
+             <iconset resource="../../../resources/res.qrc">
+              <normaloff>:/geoIcons/geo/circle_hollow.svg</normaloff>:/geoIcons/geo/circle_hollow.svg</iconset>
+            </property>
            </item>
           </widget>
          </item>
-         <item row="0" column="2">
-          <widget class="QCheckBox" name="checkBox">
+         <item row="0" column="0">
+          <widget class="QLabel" name="label">
            <property name="text">
-            <string>Delete</string>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="0">
-          <widget class="QLabel" name="label_4">
-           <property name="text">
-            <string>Brush size:</string>
+            <string>Left Mouse:</string>
            </property>
           </widget>
          </item>
          <item row="3" column="1">
-          <widget class="QSpinBox" name="spinBox">
+          <widget class="QSpinBox" name="BrushSize">
            <property name="minimum">
             <number>1</number>
            </property>
           </widget>
          </item>
          <item row="2" column="2">
-          <widget class="QCheckBox" name="checkBox_2">
+          <widget class="QCheckBox" name="DeleteM2">
            <property name="text">
             <string>Delete</string>
            </property>
           </widget>
          </item>
          <item row="2" column="1">
-          <widget class="QComboBox" name="ToolTilesM1Select_2">
+          <widget class="QComboBox" name="ToolTilesM2Select">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
              <horstretch>0</horstretch>
@@ -158,47 +179,104 @@
             <property name="text">
              <string>Pen</string>
             </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Delete</string>
+            <property name="icon">
+             <iconset resource="../../../resources/res.qrc">
+              <normaloff>:/geoIcons/geo/pen.svg</normaloff>:/geoIcons/geo/pen.svg</iconset>
             </property>
            </item>
            <item>
             <property name="text">
              <string>Brush</string>
             </property>
+            <property name="icon">
+             <iconset resource="../../../resources/res.qrc">
+              <normaloff>:/geoIcons/geo/brush.svg</normaloff>:/geoIcons/geo/brush.svg</iconset>
+            </property>
            </item>
            <item>
             <property name="text">
              <string>Bucket</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../../../resources/res.qrc">
+              <normaloff>:/geoIcons/geo/bucket.svg</normaloff>:/geoIcons/geo/bucket.svg</iconset>
             </property>
            </item>
            <item>
             <property name="text">
              <string>Line</string>
             </property>
+            <property name="icon">
+             <iconset resource="../../../resources/res.qrc">
+              <normaloff>:/geoIcons/geo/line.svg</normaloff>:/geoIcons/geo/line.svg</iconset>
+            </property>
            </item>
            <item>
             <property name="text">
              <string>Rectangle</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../../../resources/res.qrc">
+              <normaloff>:/geoIcons/geo/rect.svg</normaloff>:/geoIcons/geo/rect.svg</iconset>
             </property>
            </item>
            <item>
             <property name="text">
              <string>Hollow Rectangle</string>
             </property>
+            <property name="icon">
+             <iconset resource="../../../resources/res.qrc">
+              <normaloff>:/geoIcons/geo/rect_hollow.svg</normaloff>:/geoIcons/geo/rect_hollow.svg</iconset>
+            </property>
            </item>
            <item>
             <property name="text">
              <string>Circle</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../../../resources/res.qrc">
+              <normaloff>:/geoIcons/geo/circle.svg</normaloff>:/geoIcons/geo/circle.svg</iconset>
             </property>
            </item>
            <item>
             <property name="text">
              <string>Hollow Circle</string>
             </property>
+            <property name="icon">
+             <iconset resource="../../../resources/res.qrc">
+              <normaloff>:/geoIcons/geo/circle_hollow.svg</normaloff>:/geoIcons/geo/circle_hollow.svg</iconset>
+            </property>
            </item>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="label_2">
+           <property name="text">
+            <string>Right Mouse</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="0">
+          <widget class="QLabel" name="label_7">
+           <property name="text">
+            <string>Layer</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="1">
+          <widget class="QSpinBox" name="Layer">
+           <property name="wrapping">
+            <bool>true</bool>
+           </property>
+           <property name="correctionMode">
+            <enum>QAbstractSpinBox::CorrectionMode::CorrectToNearestValue</enum>
+           </property>
+           <property name="minimum">
+            <number>1</number>
+           </property>
+           <property name="maximum">
+            <number>3</number>
+           </property>
           </widget>
          </item>
         </layout>
@@ -211,7 +289,68 @@
         </widget>
        </item>
        <item>
-        <widget class="QGraphicsView" name="graphicsView"/>
+        <widget class="QCheckBox" name="ToggleCollisions">
+         <property name="text">
+          <string>Collisions</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="RenderOption">
+         <item>
+          <property name="text">
+           <string>Classic</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Tile image</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Henry</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Unrendered</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Rendered (sun)</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Rendered (shaded)</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Rendered (rain)</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Sync</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="PalleteSelect">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>Select Palette</string>
+         </property>
+        </widget>
        </item>
        <item>
         <widget class="QLabel" name="label_5">
@@ -221,7 +360,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QTreeWidget" name="treeWidget">
+        <widget class="QTreeWidget" name="RecentTiles">
          <column>
           <property name="text">
            <string>Tile</string>

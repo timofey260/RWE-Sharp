@@ -4,8 +4,8 @@ from core.lingoIO import tojson, fromarr
 from core.info import PATH
 from core.Loaders.Tile import Tile
 from ui.splashuiconnector import SplashDialog
-from PySide6.QtGui import QColor, QImage, QPainter, QPixmap
-from PySide6.QtCore import QRect, Qt, QThread, QPoint, QSize
+from PySide6.QtGui import QColor, QImage, QPainter, QPixmap, QPen
+from PySide6.QtCore import QRect, Qt, QThread, QPoint, QSize, QLine
 import json
 import os
 from core.info import PATH_DRIZZLE, CELLSIZE, SPRITESIZE, CONSTS, PATH_MAT_PREVIEWS, PATH_FILES_CACHE
@@ -20,6 +20,77 @@ for l in range(3):
 colortable[0].append(QColor(0, 0, 0, 0).rgba())
 colortable[1].append(QColor(0, 0, 0, 0).rgba())
 colortable[2].append(QColor(0, 0, 0, 0).rgba())
+
+
+def return_tile_pixmap(tile: Tile, option: int, layer: int, layercolortable) -> QPixmap:
+    if option == 0:
+        return tile.image
+    elif option == 1:
+        return tile.image2
+    elif option == 3:
+        tile.image3.setColorTable(colortable[layer])
+        return QPixmap.fromImage(tile.image3)
+    elif option == 2:
+        tile.image3.setColorTable(color_colortable(tile.color))
+        return QPixmap.fromImage(tile.image3)
+    else:
+        col = option - 4
+        tile.image3.setColorTable(layercolortable[col][layer])
+        return QPixmap.fromImage(tile.image3)
+
+
+def collisions_image(tile: Tile) -> QPixmap:
+    tile_image = QPixmap((tile.size + QSize(tile.bfTiles * 2, tile.bfTiles * 2)) * CELLSIZE)
+    tile_image.fill(QColor(0, 0, 0, 0))
+    painter = QPainter(tile_image)
+
+    def drawlayer(specs):
+        nonlocal painter
+        for i, v in enumerate(specs):
+            pos = QPoint(i // tile.size.height(), i % tile.size.height()) * CELLSIZE
+            endpos = pos + QPoint(CELLSIZE, CELLSIZE)
+            match v:
+                case 1:
+                    painter.drawRect(QRect(pos, QSize(CELLSIZE - 2, CELLSIZE - 2)))
+                case 0:
+                    c = CELLSIZE / 2
+                    painter.drawEllipse(pos + QPoint(c, c), c, c)
+                case 2:
+                    pos2 = QPoint(pos.x(), endpos.y())
+                    painter.drawLines([QLine(pos, pos2), QLine(pos2, endpos), QLine(endpos, pos)])
+                case 3:
+                    pos2 = QPoint(pos.x(), endpos.y())
+                    pos3 = QPoint(endpos.x(), pos.y())
+                    painter.drawLines([QLine(pos2, endpos), QLine(endpos, pos3), QLine(pos3, pos2)])
+                case 4:
+                    pos2 = QPoint(pos.x(), endpos.y())
+                    pos3 = QPoint(endpos.x(), pos.y())
+                    painter.drawLines([QLine(pos, pos2), QLine(pos2, pos3), QLine(pos3, pos)])
+                case 5:
+                    pos3 = QPoint(endpos.x(), pos.y())
+                    painter.drawLines([QLine(pos, endpos), QLine(endpos, pos3), QLine(pos3, pos)])
+
+    painter.setBrush(QColor(0, 0, 0, 0))
+    if isinstance(tile.cols[1], list):
+        painter.setPen(QPen(QColor(0, 0, 255, 255), 2, Qt.PenStyle.DotLine))
+        drawlayer(tile.cols[1])
+    painter.setPen(QPen(QColor(255, 0, 0, 255), 1, Qt.PenStyle.DashLine))
+    drawlayer(tile.cols[0])
+    return tile_image
+
+
+def tile_offset(tile: Tile) -> QPoint:
+    return QPoint(int((tile.size.width() * 0.5) + .5) - 1, int((tile.size.height() * .5) + .5) - 1)
+
+
+def color_colortable(color: QColor) -> list[int]:
+    table = []
+    for i in range(3):
+        for i2 in range(10):
+            newcol = QColor.fromHsv(color.hue(), color.saturation(), color.value() - 90 + (30 * i + i2))
+            table.append(newcol.rgba())
+    table.append(QColor(0, 0, 0, 0).rgba())
+    return table
 
 
 def init_solve(file: str):

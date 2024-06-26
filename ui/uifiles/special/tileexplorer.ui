@@ -239,31 +239,66 @@
            </spacer>
           </item>
           <item>
-           <widget class="QToolButton" name="TilesClassic">
-            <property name="text">
-             <string>C</string>
-            </property>
+           <widget class="QComboBox" name="RenderOption">
+            <item>
+             <property name="text">
+              <string>Classic</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Tile image</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Henry</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Unrendered</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Rendered (sun)</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Rendered (shaded)</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Rendered (rain)</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Sync</string>
+             </property>
+            </item>
            </widget>
           </item>
           <item>
-           <widget class="QToolButton" name="TilesImage">
-            <property name="text">
-             <string>T</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QToolButton" name="TilesUnrendered">
-            <property name="text">
-             <string>U</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QToolButton" name="TilesRendered">
-            <property name="text">
-             <string>R</string>
-            </property>
+           <widget class="QComboBox" name="LayerBox">
+            <item>
+             <property name="text">
+              <string>1</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>2</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>3</string>
+             </property>
+            </item>
            </widget>
           </item>
          </layout>
@@ -311,7 +346,17 @@
            </widget>
           </item>
           <item>
-           <spacer name="horizontalSpacer_6">
+           <widget class="QToolButton" name="FitInScreen">
+            <property name="text">
+             <string>Fit</string>
+            </property>
+            <property name="arrowType">
+             <enum>Qt::ArrowType::NoArrow</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_7">
             <property name="orientation">
              <enum>Qt::Orientation::Horizontal</enum>
             </property>
@@ -322,6 +367,32 @@
              </size>
             </property>
            </spacer>
+          </item>
+          <item>
+           <widget class="QToolButton" name="ToggleCollisions">
+            <property name="text">
+             <string>Collisions</string>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+            <property name="arrowType">
+             <enum>Qt::ArrowType::NoArrow</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="TogglePreview">
+            <property name="text">
+             <string>Preview</string>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+            <property name="arrowType">
+             <enum>Qt::ArrowType::NoArrow</enum>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
@@ -403,6 +474,16 @@
             </property>
             <property name="icon">
              <iconset theme="emblem-favorite"/>
+            </property>
+            <property name="arrowType">
+             <enum>Qt::ArrowType::NoArrow</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="toolButton_10">
+            <property name="text">
+             <string>Pin</string>
             </property>
             <property name="arrowType">
              <enum>Qt::ArrowType::NoArrow</enum>

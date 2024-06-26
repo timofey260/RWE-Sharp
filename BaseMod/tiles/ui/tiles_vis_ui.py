@@ -23,7 +23,7 @@ class Ui_TilesView(object):
     def setupUi(self, TilesView):
         if not TilesView.objectName():
             TilesView.setObjectName(u"TilesView")
-        TilesView.resize(380, 374)
+        TilesView.resize(380, 741)
         self.verticalLayout = QVBoxLayout(TilesView)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.scrollArea = QScrollArea(TilesView)
@@ -31,7 +31,7 @@ class Ui_TilesView(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 343, 408))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 360, 721))
         self.verticalLayout_2 = QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.VTilesMaterialsLabel = QLabel(self.scrollAreaWidgetContents)
@@ -156,9 +156,9 @@ class Ui_TilesView(object):
         self.VTilesImage.setText(QCoreApplication.translate("TilesView", u"Tile image preview", None))
         self.VTilesHenry.setText(QCoreApplication.translate("TilesView", u"Henry's category colors", None))
         self.VTilesUnrendered.setText(QCoreApplication.translate("TilesView", u"Unrendered tiles", None))
-        self.VTilesRendered.setText(QCoreApplication.translate("TilesView", u"Render preview (sun)", None))
-        self.VTilesRendered_shade.setText(QCoreApplication.translate("TilesView", u"Render preview (shaded)", None))
-        self.VTilesRendered_rain.setText(QCoreApplication.translate("TilesView", u"Render preview (rain)", None))
+        self.VTilesRendered.setText(QCoreApplication.translate("TilesView", u"Rendered Tiles (sun)", None))
+        self.VTilesRendered_shade.setText(QCoreApplication.translate("TilesView", u"Rendered Tiles (shaded)", None))
+        self.VTilesRendered_rain.setText(QCoreApplication.translate("TilesView", u"Rendered Tiles (rain)", None))
         self.PaletteSelectButton.setText(QCoreApplication.translate("TilesView", u"Select Palette", None))
     # retranslateUi
 

@@ -10,7 +10,7 @@ from PySide6.QtGui import QAction
 
 from RWESharp.Ui import ViewUI, SettingUI, UI
 from RWESharp.Core import SettingsViewer
-from RWESharp.Configurable import IntConfigurable, BoolConfigurable
+from RWESharp.Configurable import IntConfigurable, BoolConfigurable, KeyConfigurable
 
 button_to_geo = {
     "ToolGeoWall": GeoBlocks.Wall,
@@ -49,6 +49,10 @@ class GeoUI(UI):
         self.editor = self.mod.geoeditor
         self.controls = self.editor.controls
 
+        self.drawl1_key = KeyConfigurable(mod, "EDIT_geo.drawl1_key", "Ctrl+1", "key to draw on 1st layer")
+        self.drawl2_key = KeyConfigurable(mod, "EDIT_geo.drawl2_key", "Ctrl+2", "key to draw on 2nd layer")
+        self.drawl3_key = KeyConfigurable(mod, "EDIT_geo.drawl3_key", "Ctrl+3", "key to draw on 3rd layer")
+
         self.ui.ToolGeoWall.clicked.connect(self.set_tool)
         self.ui.ToolGeoAir.clicked.connect(self.set_tool)
         self.ui.ToolGeoSlope.clicked.connect(self.set_tool)
@@ -73,9 +77,9 @@ class GeoUI(UI):
         self.ui.ToolGeoFloor.clicked.connect(self.set_tool)
         self.ui.ToolGeoWraykAMoleHole.clicked.connect(self.set_tool)
 
-        self.editor.drawl1.link_button(self.ui.ToolGeoApplyToL1, self.editor.drawl1_key)
-        self.editor.drawl2.link_button(self.ui.ToolGeoApplyToL2, self.editor.drawl2_key)
-        self.editor.drawl3.link_button(self.ui.ToolGeoApplyToL3, self.editor.drawl3_key)
+        self.editor.drawl1.link_button(self.ui.ToolGeoApplyToL1, self.drawl1_key)
+        self.editor.drawl2.link_button(self.ui.ToolGeoApplyToL2, self.drawl2_key)
+        self.editor.drawl3.link_button(self.ui.ToolGeoApplyToL3, self.drawl3_key)
 
         self.editor.toolleft.link_combobox(self.ui.ToolGeoM1Select)
         self.editor.toolright.link_combobox(self.ui.ToolGeoM2Select)
@@ -133,6 +137,14 @@ class GeoViewUI(ViewUI):
         self.ui.setupUi(self)
         self.module = self.mod.geomodule
 
+        self.drawlgeo_key = KeyConfigurable(mod, "VIEW_geo.drawlall_key", "Alt+G", "key to show geo")
+        self.drawl1_key = KeyConfigurable(mod, "VIEW_geo.drawl1_key", "Alt+1", "key to show 1st layer")
+        self.drawl2_key = KeyConfigurable(mod, "VIEW_geo.drawl2_key", "Alt+2", "key to show 2nd layer")
+        self.drawl3_key = KeyConfigurable(mod, "VIEW_geo.drawl3_key", "Alt+3", "key to show 3rd layer")
+        self.drawlbeams_key = KeyConfigurable(mod, "VIEW_geo.drawl3beamskey", "Alt+b", "key to show 3rd layer")
+        self.drawlpipes_key = KeyConfigurable(mod, "VIEW_geo.drawlpipes_key", "Alt+v", "key to show 3rd layer")
+        self.drawlmisc_key = KeyConfigurable(mod, "VIEW_geo.drawlmisc_key", "Alt+c", "key to show 3rd layer")
+
         # adding menu and stuff
         self.menu = QMenu("Geometry")
         self.menu_drawlall = QAction("Geo")
@@ -140,23 +152,23 @@ class GeoViewUI(ViewUI):
         self.menu.addAction(self.menu_drawlall)
         self.menu.addSeparator()
         self.menu_drawl1 = QAction("Layer 1")
-        self.module.drawl1.link_button_action(self.ui.VGeoLayer1, self.menu_drawl1, self.module.drawl1_key)
+        self.module.drawl1.link_button_action(self.ui.VGeoLayer1, self.menu_drawl1, self.drawl1_key)
         self.menu.addAction(self.menu_drawl1)
         self.menu_drawl2 = QAction("Layer 2")
-        self.module.drawl2.link_button_action(self.ui.VGeoLayer2, self.menu_drawl2, self.module.drawl2_key)
+        self.module.drawl2.link_button_action(self.ui.VGeoLayer2, self.menu_drawl2, self.drawl2_key)
         self.menu.addAction(self.menu_drawl2)
         self.menu_drawl3 = QAction("Layer 3")
-        self.module.drawl3.link_button_action(self.ui.VGeoLayer3, self.menu_drawl3, self.module.drawl3_key)
+        self.module.drawl3.link_button_action(self.ui.VGeoLayer3, self.menu_drawl3, self.drawl3_key)
         self.menu.addAction(self.menu_drawl3)
         self.menu.addSeparator()
         self.menu_drawlbeams = QAction("Beams")
-        self.module.drawlbeams.link_button_action(self.ui.VGeoBeams, self.menu_drawlbeams, self.module.drawlbeams_key)
+        self.module.drawlbeams.link_button_action(self.ui.VGeoBeams, self.menu_drawlbeams, self.drawlbeams_key)
         self.menu.addAction(self.menu_drawlbeams)
         self.menu_drawlpipes = QAction("Paths")
-        self.module.drawlpipes.link_button_action(self.ui.VGeoPipes, self.menu_drawlpipes, self.module.drawlpipes_key)
+        self.module.drawlpipes.link_button_action(self.ui.VGeoPipes, self.menu_drawlpipes, self.drawlpipes_key)
         self.menu.addAction(self.menu_drawlpipes)
         self.menu_drawlmisc = QAction("Misc")
-        self.module.drawlmisc.link_button_action(self.ui.VGeoMisc, self.menu_drawlmisc, self.module.drawlmisc_key)
+        self.module.drawlmisc.link_button_action(self.ui.VGeoMisc, self.menu_drawlmisc, self.drawlmisc_key)
         self.menu.addAction(self.menu_drawlmisc)
 
         self.mod.manager.view_menu.addMenu(self.menu)
@@ -170,7 +182,7 @@ class GeoViewUI(ViewUI):
         # self.VQuickGeo.checkStateChanged.connect(self.toggle_geo)
         self.mod.add_quickview_option(self.VQuickGeo)
 
-        self.module.drawgeo.link_button_action(self.VQuickGeo, self.menu_drawlall, self.module.drawlgeo_key)
+        self.module.drawgeo.link_button_action(self.VQuickGeo, self.menu_drawlall, self.drawlgeo_key)
         self.module.drawAll.link_button(self.ui.VGeoAll)
 
     @Slot(Qt.CheckState)

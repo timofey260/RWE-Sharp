@@ -15,12 +15,12 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QAbstractItemView, QAbstractScrollArea, QApplication, QHBoxLayout,
-    QHeaderView, QLabel, QLineEdit, QListView,
-    QListWidget, QListWidgetItem, QMainWindow, QMenuBar,
-    QSizePolicy, QSpacerItem, QSplitter, QStatusBar,
-    QTableWidget, QTableWidgetItem, QToolButton, QVBoxLayout,
-    QWidget)
+from PySide6.QtWidgets import (QAbstractItemView, QAbstractScrollArea, QApplication, QComboBox,
+    QHBoxLayout, QHeaderView, QLabel, QLineEdit,
+    QListView, QListWidget, QListWidgetItem, QMainWindow,
+    QMenuBar, QSizePolicy, QSpacerItem, QSplitter,
+    QStatusBar, QTableWidget, QTableWidgetItem, QToolButton,
+    QVBoxLayout, QWidget)
 
 from BaseModWidgets import TilePreview
 import ui.res_rc
@@ -158,25 +158,26 @@ class Ui_TileExplorer(object):
 
         self.horizontalLayout_2.addItem(self.horizontalSpacer_2)
 
-        self.TilesClassic = QToolButton(self.TilesTab)
-        self.TilesClassic.setObjectName(u"TilesClassic")
+        self.RenderOption = QComboBox(self.TilesTab)
+        self.RenderOption.addItem("")
+        self.RenderOption.addItem("")
+        self.RenderOption.addItem("")
+        self.RenderOption.addItem("")
+        self.RenderOption.addItem("")
+        self.RenderOption.addItem("")
+        self.RenderOption.addItem("")
+        self.RenderOption.addItem("")
+        self.RenderOption.setObjectName(u"RenderOption")
 
-        self.horizontalLayout_2.addWidget(self.TilesClassic)
+        self.horizontalLayout_2.addWidget(self.RenderOption)
 
-        self.TilesImage = QToolButton(self.TilesTab)
-        self.TilesImage.setObjectName(u"TilesImage")
+        self.LayerBox = QComboBox(self.TilesTab)
+        self.LayerBox.addItem("")
+        self.LayerBox.addItem("")
+        self.LayerBox.addItem("")
+        self.LayerBox.setObjectName(u"LayerBox")
 
-        self.horizontalLayout_2.addWidget(self.TilesImage)
-
-        self.TilesUnrendered = QToolButton(self.TilesTab)
-        self.TilesUnrendered.setObjectName(u"TilesUnrendered")
-
-        self.horizontalLayout_2.addWidget(self.TilesUnrendered)
-
-        self.TilesRendered = QToolButton(self.TilesTab)
-        self.TilesRendered.setObjectName(u"TilesRendered")
-
-        self.horizontalLayout_2.addWidget(self.TilesRendered)
+        self.horizontalLayout_2.addWidget(self.LayerBox)
 
 
         self.verticalLayout_3.addLayout(self.horizontalLayout_2)
@@ -211,9 +212,29 @@ class Ui_TileExplorer(object):
 
         self.horizontalLayout_6.addWidget(self.OnetoOne)
 
-        self.horizontalSpacer_6 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+        self.FitInScreen = QToolButton(self.TileTab)
+        self.FitInScreen.setObjectName(u"FitInScreen")
+        self.FitInScreen.setArrowType(Qt.ArrowType.NoArrow)
 
-        self.horizontalLayout_6.addItem(self.horizontalSpacer_6)
+        self.horizontalLayout_6.addWidget(self.FitInScreen)
+
+        self.horizontalSpacer_7 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_6.addItem(self.horizontalSpacer_7)
+
+        self.ToggleCollisions = QToolButton(self.TileTab)
+        self.ToggleCollisions.setObjectName(u"ToggleCollisions")
+        self.ToggleCollisions.setCheckable(True)
+        self.ToggleCollisions.setArrowType(Qt.ArrowType.NoArrow)
+
+        self.horizontalLayout_6.addWidget(self.ToggleCollisions)
+
+        self.TogglePreview = QToolButton(self.TileTab)
+        self.TogglePreview.setObjectName(u"TogglePreview")
+        self.TogglePreview.setCheckable(True)
+        self.TogglePreview.setArrowType(Qt.ArrowType.NoArrow)
+
+        self.horizontalLayout_6.addWidget(self.TogglePreview)
 
 
         self.verticalLayout_4.addLayout(self.horizontalLayout_6)
@@ -263,6 +284,12 @@ class Ui_TileExplorer(object):
 
         self.horizontalLayout_5.addWidget(self.toolButton_9)
 
+        self.toolButton_10 = QToolButton(self.TileTab)
+        self.toolButton_10.setObjectName(u"toolButton_10")
+        self.toolButton_10.setArrowType(Qt.ArrowType.NoArrow)
+
+        self.horizontalLayout_5.addWidget(self.toolButton_10)
+
         self.horizontalSpacer_5 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_5.addItem(self.horizontalSpacer_5)
@@ -300,12 +327,24 @@ class Ui_TileExplorer(object):
         self.TilesGridViewBig.setText("")
         self.TilesGridViewSmall.setText("")
         self.TilesIconView.setText("")
-        self.TilesClassic.setText(QCoreApplication.translate("TileExplorer", u"C", None))
-        self.TilesImage.setText(QCoreApplication.translate("TileExplorer", u"T", None))
-        self.TilesUnrendered.setText(QCoreApplication.translate("TileExplorer", u"U", None))
-        self.TilesRendered.setText(QCoreApplication.translate("TileExplorer", u"R", None))
+        self.RenderOption.setItemText(0, QCoreApplication.translate("TileExplorer", u"Classic", None))
+        self.RenderOption.setItemText(1, QCoreApplication.translate("TileExplorer", u"Tile image", None))
+        self.RenderOption.setItemText(2, QCoreApplication.translate("TileExplorer", u"Henry", None))
+        self.RenderOption.setItemText(3, QCoreApplication.translate("TileExplorer", u"Unrendered", None))
+        self.RenderOption.setItemText(4, QCoreApplication.translate("TileExplorer", u"Rendered (sun)", None))
+        self.RenderOption.setItemText(5, QCoreApplication.translate("TileExplorer", u"Rendered (shaded)", None))
+        self.RenderOption.setItemText(6, QCoreApplication.translate("TileExplorer", u"Rendered (rain)", None))
+        self.RenderOption.setItemText(7, QCoreApplication.translate("TileExplorer", u"Sync", None))
+
+        self.LayerBox.setItemText(0, QCoreApplication.translate("TileExplorer", u"1", None))
+        self.LayerBox.setItemText(1, QCoreApplication.translate("TileExplorer", u"2", None))
+        self.LayerBox.setItemText(2, QCoreApplication.translate("TileExplorer", u"3", None))
+
         self.label_3.setText(QCoreApplication.translate("TileExplorer", u"Tile", None))
         self.OnetoOne.setText(QCoreApplication.translate("TileExplorer", u"1:1", None))
+        self.FitInScreen.setText(QCoreApplication.translate("TileExplorer", u"Fit", None))
+        self.ToggleCollisions.setText(QCoreApplication.translate("TileExplorer", u"Collisions", None))
+        self.TogglePreview.setText(QCoreApplication.translate("TileExplorer", u"Preview", None))
         ___qtablewidgetitem = self.Properties.horizontalHeaderItem(0)
         ___qtablewidgetitem.setText(QCoreApplication.translate("TileExplorer", u"Value", None));
         ___qtablewidgetitem1 = self.Properties.verticalHeaderItem(0)
@@ -315,5 +354,6 @@ class Ui_TileExplorer(object):
         ___qtablewidgetitem3 = self.Properties.verticalHeaderItem(2)
         ___qtablewidgetitem3.setText(QCoreApplication.translate("TileExplorer", u"Category", None));
         self.toolButton_9.setText("")
+        self.toolButton_10.setText(QCoreApplication.translate("TileExplorer", u"Pin", None))
     # retranslateUi
 

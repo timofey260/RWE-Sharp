@@ -6,6 +6,7 @@ from PySide6.QtCore import Slot, Qt, QCoreApplication
 from PySide6.QtGui import QAction
 from RWESharp.Core import PATH_FILES_IMAGES_PALETTES
 from RWESharp.Ui import ViewUI, UI
+from RWESharp.Configurable import KeyConfigurable
 
 
 class TileViewUI(ViewUI):
@@ -16,19 +17,24 @@ class TileViewUI(ViewUI):
         self.ui.setupUi(self)
         self.module = self.mod.tilemodule
 
+        self.drawltiles_key = KeyConfigurable(mod, "VIEW_tile.drawltiles_key", "Alt+t", "Hide tiles")
+        self.drawl1_key = KeyConfigurable(mod, "VIEW_tile.drawl1_key", "Alt+Shift+1", "layer 1 key")
+        self.drawl2_key = KeyConfigurable(mod, "VIEW_tile.drawl2_key", "Alt+Shift+2", "layer 2 key")
+        self.drawl3_key = KeyConfigurable(mod, "VIEW_tile.drawl3_key", "Alt+Shift+3", "layer 3 key")
+
         self.menu = QMenu("Tiles")
         self.menu_drawtiles = QAction("Tiles")
         self.menu.addAction(self.menu_drawtiles)
         self.menu.addSeparator()
 
         self.menu_drawl1 = QAction("Layer 1")
-        self.module.drawl1.link_button_action(self.ui.VTilesLayer1, self.menu_drawl1, self.module.drawl1_key)
+        self.module.drawl1.link_button_action(self.ui.VTilesLayer1, self.menu_drawl1, self.drawl1_key)
         self.menu.addAction(self.menu_drawl1)
         self.menu_drawl2 = QAction("Layer 2")
-        self.module.drawl2.link_button_action(self.ui.VTilesLayer2, self.menu_drawl2, self.module.drawl2_key)
+        self.module.drawl2.link_button_action(self.ui.VTilesLayer2, self.menu_drawl2, self.drawl2_key)
         self.menu.addAction(self.menu_drawl2)
         self.menu_drawl3 = QAction("Layer 3")
-        self.module.drawl3.link_button_action(self.ui.VTilesLayer3, self.menu_drawl3, self.module.drawl3_key)
+        self.module.drawl3.link_button_action(self.ui.VTilesLayer3, self.menu_drawl3, self.drawl3_key)
         self.menu.addAction(self.menu_drawl3)
         self.ui.VTilesAllTiles.checkStateChanged.connect(self.all_layers)
         self.mod.manager.view_menu.addMenu(self.menu)
@@ -50,7 +56,7 @@ class TileViewUI(ViewUI):
         self.VQuickTiles.setChecked(True)
         # self.VQuickTiles.checkStateChanged.connect(self.toggle_tiles)
         self.mod.add_quickview_option(self.VQuickTiles)
-        self.module.drawtiles.link_button_action(self.VQuickTiles, self.menu_drawtiles, self.module.drawltiles_key)
+        self.module.drawtiles.link_button_action(self.VQuickTiles, self.menu_drawtiles, self.drawltiles_key)
 
     @Slot()
     def change_palette(self):
@@ -81,3 +87,8 @@ class TileUI(UI):
         super().__init__(mod, parent)
         self.ui = Ui_Tiles()
         self.ui.setupUi(self)
+        mod: BaseMod
+        self.editor = mod.tileeditor
+        self.editor.previewoption.link_combobox(self.ui.RenderOption)
+        self.editor.show_collisions.link_button(self.ui.ToggleCollisions)
+        self.editor.layer.link_spinbox(self.ui.Layer)
