@@ -1,11 +1,13 @@
-from BaseMod.tiles.ui.tileexplorer import Ui_TileExplorer
-from PySide6.QtWidgets import QMainWindow, QTreeWidgetItem, QListWidgetItem, QListWidget
+import os
+
+from PySide6.QtCore import Slot, Signal, Qt, QSize
 from PySide6.QtGui import QAction, QPixmap, QColor, QImage
-from PySide6.QtCore import Slot, Signal, Qt, QSize, QPoint
+from PySide6.QtWidgets import QMainWindow, QListWidgetItem, QListWidget
+
+from BaseMod.tiles.ui.tileexplorer import Ui_TileExplorer
+from RWESharp.Configurable import BoolConfigurable, IntConfigurable, StringConfigurable
 from RWESharp.Core import ItemData, PATH_FILES_IMAGES_PALETTES
 from RWESharp.Loaders import Tile, palette_to_colortable, return_tile_pixmap
-from RWESharp.Configurable import BoolConfigurable, IntConfigurable, StringConfigurable
-import os
 
 
 class TileExplorer(QMainWindow):

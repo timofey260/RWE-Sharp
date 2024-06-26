@@ -1,16 +1,15 @@
+from PySide6.QtCore import Slot, Qt, QCoreApplication
+from PySide6.QtGui import QAction
+from PySide6.QtWidgets import QMenu, QCheckBox
+
+from BaseMod.baseMod import BaseMod
+from BaseMod.geo.geometryEditor import GeoBlocks, stackables, stackables_all_layers
 from BaseMod.geo.ui.geometry_ui import Ui_Geo
 from BaseMod.geo.ui.geometry_vis_ui import Ui_GeoView
 from BaseMod.geo.ui.geosettings_ui import Ui_Geometry
-from BaseMod.baseMod import BaseMod
-from BaseMod.geo.geometryEditor import GeoBlocks, stackables, stackables_all_layers
-
-from PySide6.QtWidgets import QMenu, QCheckBox
-from PySide6.QtCore import Slot, Qt, QCoreApplication
-from PySide6.QtGui import QAction
-
-from RWESharp.Ui import ViewUI, SettingUI, UI
-from RWESharp.Core import SettingsViewer
 from RWESharp.Configurable import IntConfigurable, BoolConfigurable, KeyConfigurable
+from RWESharp.Core import SettingsViewer
+from RWESharp.Ui import ViewUI, SettingUI, UI
 
 button_to_geo = {
     "ToolGeoWall": GeoBlocks.Wall,

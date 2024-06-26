@@ -1,14 +1,18 @@
 from __future__ import annotations
-from RWESharp.Modify import EditorMode
-from RWESharp.Loaders import Tile
-from RWESharp.Core import CELLSIZE, SPRITESIZE, PATH_FILES_IMAGES_PALETTES
-from RWESharp.Configurable import IntConfigurable, BoolConfigurable, StringConfigurable
-from RWESharp.Loaders import colortable, palette_to_colortable, return_tile_pixmap, collisions_image, tile_offset
-from PySide6.QtGui import QPixmap, QColor, QPainter, QWheelEvent, QMoveEvent, QPen, QBrush, QImage
-from PySide6.QtWidgets import QGraphicsPixmapItem
-from PySide6.QtCore import QPoint, QRect, QSize, Qt, QLine
+
 import os
 from typing import TYPE_CHECKING
+
+from PySide6.QtCore import QPoint
+from PySide6.QtGui import QPixmap, QWheelEvent, QMoveEvent, QImage
+from PySide6.QtWidgets import QGraphicsPixmapItem
+
+from RWESharp.Configurable import IntConfigurable, BoolConfigurable, StringConfigurable
+from RWESharp.Core import CELLSIZE, SPRITESIZE, PATH_FILES_IMAGES_PALETTES
+from RWESharp.Loaders import Tile
+from RWESharp.Loaders import palette_to_colortable, return_tile_pixmap, collisions_image, tile_offset
+from RWESharp.Modify import EditorMode
+
 if TYPE_CHECKING:
     from BaseMod.baseMod import BaseMod
 
@@ -39,7 +43,7 @@ class TileEditor(EditorMode):
         self.module.drawoption.valueChanged.connect(self.redraw_tile)
         self.palette_image.valueChanged.connect(self.change_palette)
 
-    def change_palette(self, value):
+    def change_palette(self):
         self.colortable = palette_to_colortable(QImage(self.palette_image.value))
         self.redraw_tile()
 
