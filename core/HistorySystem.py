@@ -1,7 +1,9 @@
 """
 All elements and actions are not made untill specific change in history happends
 """
+from __future__ import annotations
 from copy import deepcopy
+
 
 class HistoryElement:
     """
@@ -9,13 +11,14 @@ class HistoryElement:
     """
 
     def __init__(self, history):
-        self.history = history
+        self.history: History = history
 
     def undo_changes(self, level):
         pass
 
     def redo_changes(self, level):
         pass
+
 
 class History:
     def __init__(self, level):

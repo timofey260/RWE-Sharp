@@ -92,4 +92,4 @@ class TileUI(UI):
         self.editor = mod.tileeditor
         self.editor.previewoption.link_combobox(self.ui.RenderOption)
         self.editor.show_collisions.link_button(self.ui.ToggleCollisions)
-        self.editor.layer.link_spinbox(self.ui.Layer)
+        self.editor.vis_layer.link_spinbox(self.ui.Layer)
