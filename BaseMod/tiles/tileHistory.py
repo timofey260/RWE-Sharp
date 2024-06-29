@@ -7,7 +7,7 @@ from PySide6.QtGui import QGuiApplication
 from PySide6.QtCore import QPoint
 
 
-def point_collision(level: RWELevel, pos: QPoint, layer, tilepos: QPoint, tile: Tile) -> bool:
+def point_collision(level: RWELevel, pos: QPoint, layer: int, tilepos: QPoint, tile: Tile) -> bool:
     tiledata = level.tile_data(pos, layer)
     tp = tiledata.get("tp", "default")
     # data = tiledata.get("data", 0)
@@ -33,11 +33,13 @@ def point_collision(level: RWELevel, pos: QPoint, layer, tilepos: QPoint, tile: 
     return True
 
 
-def check_collisions(level: RWELevel, layer: int, pos: QPoint, tile: Tile) -> bool:
+def check_collisions(level: RWELevel, pos: QPoint, layer: int, tile: Tile) -> bool:
     for x in range(pos.x(), pos.x() + tile.size.width()):
         for y in range(pos.y(), pos.y() + tile.size.height()):
             levelpos = QPoint(x, y)
             tilepos = levelpos - pos
+            if not level.inside(levelpos):
+                continue
             result = point_collision(level, levelpos, layer, tilepos, tile)
             if not result:
                 return False
@@ -45,16 +47,21 @@ def check_collisions(level: RWELevel, layer: int, pos: QPoint, tile: Tile) -> bo
 
 
 def can_place(level: RWELevel,
+              pos: QPoint,
               layer: int,
               tile: Tile,
-              pos: QPoint,
               area: list[list[bool]],
               area2: list[list[bool]],
               force_place: bool,
               force_geometry: bool) -> bool:
+    headpos = tile_offset(tile) + pos
+    if not level.inside(headpos):
+        return False
     # if area is available
     for x in range(pos.x(), pos.x() + tile.size.width()):
         for y in range(pos.y(), pos.y() + tile.size.height()):
+            if not level.inside(QPoint(x, y)):
+                continue
             if not area[x][y]:
                 return False
             if isinstance(tile.cols[1], list) and not area2[x][y]:
@@ -62,51 +69,119 @@ def can_place(level: RWELevel,
     # mf got through our defence
     if force_place or force_geometry:
         return False
-    return check_collisions(level, layer, pos, tile)
+    return check_collisions(level, pos, layer, tile)
 
 
 def place_tile(level: RWELevel,
+               pos: QPoint,
                layer: int,
                tile: Tile,
-               pos: QPoint,
-               area: list[list[bool]],
-               area2: list[list[bool]],
-               force_place: bool,
-               force_geometry: bool):
+               area: list[list[bool]] = None,
+               area2: list[list[bool]] = None,
+               force_place: bool = False,
+               force_geometry: bool = False) -> PlacedTile | None:
     if tile.type == "material":
         level.data["TE"]["tlMatrix"][pos.x()][pos.y()][layer] = {"tp": "material", "data": tile.name}
-        level.manager.basemod.tilemodule.get_layer(layer).draw_tile(pos.x(), pos.y())
+        level.manager.basemod.tilemodule.get_layer(layer).draw_tile(pos)
         level.manager.basemod.tilemodule.get_layer(layer).redraw()
-        return
-    headpos = tile_offset(tile)
-    for x in range(pos.x(), pos.x() + tile.size.width()):
-        for y in range(pos.y(), pos.y() + tile.size.height()):
-            area[x][y] = False
+        return PlacedTile(pos, layer, tile)
+    headpos = tile_offset(tile) + pos
+    if not level.inside(headpos):
+        return None
+    for x in range(tile.size.width()):
+        for y in range(tile.size.height()):
+            tilepos = QPoint(x, y) + pos
+            if not level.inside(tilepos):
+                continue
+            if area is not None:
+                area[tilepos.x()][tilepos.y()] = False
             # area2[x][y] = False
-            if QPoint(x, y) - pos == headpos:
-                level.data["TE"]["tlMatrix"][x][y][layer] = {"tp": "tileHead", "data": [
+            try:
+                col = tile.cols[0][x * tile.size.height() + y]
+            except IndexError:
+                col = 1
+            if isinstance(tile.cols[1], list) and layer + 1 < 3:
+                if area2 is not None:
+                    area2[tilepos.x()][tilepos.y()] = False
+                try:
+                    col = tile.cols[1][x * tile.size.height() + y]
+                except IndexError:
+                    col = 1
+                if col != -1:
+                    level.data["TE"]["tlMatrix"][tilepos.x()][tilepos.y()][layer + 1] = \
+                        {"tp": "tileBody", "data": [lingoIO.makearr([headpos.x(), headpos.y()], "point"), layer]}
+            if col == -1:
+                continue
+            if tilepos == headpos:
+                level.data["TE"]["tlMatrix"][tilepos.x()][tilepos.y()][layer] = {"tp": "tileHead", "data": [
                     lingoIO.makearr([tile.cat.x(), tile.cat.y()], "point"), tile.name]}
                 continue
-            level.data["TE"]["tlMatrix"][x][y][layer] = {"tp": "tileBody", "data": [lingoIO.makearr([headpos.x(), headpos.y()], "point"), layer]}
-    level.manager.basemod.tilemodule.get_layer(layer).draw_tile(pos.x(), pos.y())
-    level.manager.basemod.tilemodule.get_layer(layer).redraw()
+            level.data["TE"]["tlMatrix"][tilepos.x()][tilepos.y()][layer] =\
+                {"tp": "tileBody", "data": [lingoIO.makearr([headpos.x(), headpos.y()], "point"), layer]}
+    level.manager.basemod.tilemodule.get_layer(layer).draw_tile(headpos)
+    return PlacedTile(pos, layer, tile)
 
 
 def remove_tile(level: RWELevel, pos: QPoint, layer: int):
+    if not level.inside(pos):
+        return
     data = level.tile_data(pos, layer)
+    tp = data.get("tp", "default")
+    head = [lingoIO.makearr([pos.x(), pos.y()], "point"), layer]
+    if tp == "default":
+        return
+    elif tp == "material":
+        level.data["TE"]["tlMatrix"][pos.x()][pos.y()][layer] = {"tp": "default", "data": 0}
+        level.manager.basemod.tilemodule.get_layer(layer).clean_pixel(pos)
+        level.manager.basemod.tilemodule.get_layer(layer).redraw()
+        return
+    elif tp == "tileBody":
+        head = data.get("data")
+        level.data["TE"]["tlMatrix"][pos.x()][pos.y()][layer] = {"tp": "default", "data": 0}
+        if head is None:
+            return
+    headpos = QPoint(*lingoIO.fromarr(head[0], "point"))
+    headdata = level.tile_data(headpos, head[1])
+    if headdata.get("tp") != "tileHead":
+        return
+    foundtile = level.manager.tiles[headdata.get("data")[1]]
+    if foundtile is None:
+        return
+    offset = tile_offset(foundtile)
+    for x in range(foundtile.size.width()):
+        for y in range(foundtile.size.height()):
+            bodypos = QPoint(x, y) + headpos - offset
+            if not level.inside(bodypos):
+                continue
+            try:
+                col = foundtile.cols[0][x * foundtile.size.height() + y]
+            except IndexError:
+                col = 1
+            if isinstance(foundtile.cols[1], list) and layer + 1 < 3:
+                try:
+                    col2 = foundtile.cols[1][x * foundtile.size.height() + y]
+                except IndexError:
+                    col2 = 1
+                if col2 != -1:
+                    level.manager.basemod.tilemodule.get_layer(layer + 1).clean_pixel(bodypos)
+                    level.data["TE"]["tlMatrix"][bodypos.x()][bodypos.y()][layer + 1] = {"tp": "default", "data": 0}
+            if col == -1:
+                continue
+            level.manager.basemod.tilemodule.get_layer(layer).clean_pixel(bodypos)
+            level.data["TE"]["tlMatrix"][bodypos.x()][bodypos.y()][layer] = {"tp": "default", "data": 0}
 
 
 class PlacedTile:
-    def __init__(self, element: TileHistory, pos: QPoint):
-        self.element = element
+    def __init__(self, pos: QPoint, layer: int, tile: Tile):
         self.pos = pos
-        place_tile(element.history.level, element.layer, element.tile, pos, element.area, element.area2, False, False)
+        self.layer = layer
+        self.tile = tile
 
-    def undo(self):
-        pass
+    def undo(self, element: TileHistory):
+        remove_tile(element.history.level, self.pos, self.layer)
 
-    def redo(self):
-        pass
+    def redo(self, element: TileHistory):
+        place_tile(element.history.level, self.pos, self.layer, self.tile)
 
 
 class TileHistory(HistoryElement):
@@ -116,6 +191,17 @@ class TileHistory(HistoryElement):
         self.area2 = [[True for _ in range(self.history.level.level_height)] for _ in range(self.history.level.level_width)]
         self.layer = layer
         self.tile = tile
+        self.savedtiles: list[PlacedTile] = []
+
+    def undo_changes(self, level):
+        for i in self.savedtiles:
+            i.undo(self)
+        self.history.level.manager.basemod.tilemodule.get_layer(self.layer).redraw()
+
+    def redo_changes(self, level):
+        for i in self.savedtiles:
+            i.redo(self)
+        self.history.level.manager.basemod.tilemodule.get_layer(self.layer).redraw()
 
 
 class TilePen(TileHistory):
@@ -123,7 +209,11 @@ class TilePen(TileHistory):
         super().__init__(history, tile, layer)
         self.positions = []
         self.start = start
-        self.savedtiles: list[PlacedTile] = []
+
+        if can_place(self.history.level, self.start, self.layer, self.tile, self.area, self.area2, False, False):
+            tile = place_tile(self.history.level, self.start, self.layer, self.tile, self.area, self.area2, False, False)
+            if tile is not None:
+                self.savedtiles.append(tile)
 
     def add_move(self, position):
         start = self.start
@@ -135,6 +225,9 @@ class TilePen(TileHistory):
         draw_line(start, position, lambda p: points.append(p))
         points.pop(0)
         for point in points:
-            canplace = can_place(self.history.level, self.layer, self.tile, point, self.area, self.area2, False, False)
+            canplace = can_place(self.history.level, point, self.layer, self.tile, self.area, self.area2, False, False)
             if canplace:
-                place_tile(self.history.level, self.layer, self.tile, point, self.area, self.area2, False, False)
+                tile = place_tile(self.history.level, point, self.layer, self.tile, self.area, self.area2, False, False)
+                if tile is not None:
+                    self.savedtiles.append(tile)
+        self.history.level.manager.basemod.tilemodule.get_layer(self.layer).redraw()

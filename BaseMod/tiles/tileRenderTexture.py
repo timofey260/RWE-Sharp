@@ -1,5 +1,5 @@
-from PySide6.QtCore import QRect, Qt, Slot
-from PySide6.QtGui import QBrush, QColor
+from PySide6.QtCore import QRect, Qt, Slot, QPoint, QSize
+from PySide6.QtGui import QBrush, QColor, QPainter
 
 from RWESharp.Core import CONSTS, CELLSIZE, SPRITESIZE
 from RWESharp.Loaders import colortable, color_colortable
@@ -21,7 +21,7 @@ class TileRenderTexture(RenderTexture):
             # self.painter.setCompositionMode(QPainter.CompositionMode.CompositionMode_SourceOver)
         for xp, x in enumerate(self.manager.level["TE"]["tlMatrix"]):
             for yp, y in enumerate(x):
-                self.draw_tile(xp, yp)
+                self.draw_tile(QPoint(xp, yp))
         self.redraw()
 
     @Slot(bool)
@@ -32,12 +32,19 @@ class TileRenderTexture(RenderTexture):
         for xp, x in enumerate(self.manager.level["TE"]["tlMatrix"]):
             for yp, y in enumerate(x):
                 if y[self.tilelayer]["tp"] == "material":
-                    self.draw_tile(xp, yp)
+                    self.draw_tile(QPoint(xp, yp))
         self.redraw()
 
-    def draw_tile(self, x: int, y: int):
+    def clean_pixel(self, pos: QPoint):
+        self.painter.setCompositionMode(QPainter.CompositionMode.CompositionMode_Clear)
+        self.painter.eraseRect(QRect(pos * CELLSIZE, QSize(CELLSIZE, CELLSIZE)))
+        self.painter.setCompositionMode(QPainter.CompositionMode.CompositionMode_SourceOver)
+
+    def draw_tile(self, pos: QPoint):
         # drawrect = QRect(x * CELLSIZE, y * CELLSIZE, CELLSIZE, CELLSIZE)
-        tile = self.manager.level.tile_data(x, y, self.tilelayer)
+        tile = self.manager.level.tile_data(pos, self.tilelayer)
+        x = pos.x()
+        y = pos.y()
         match tile["tp"]:
             case "default":
                 return
@@ -91,7 +98,11 @@ class TileRenderTexture(RenderTexture):
                 foundtile = self.manager.tiles[tile["data"][1]]
                 cposxo = int((foundtile.size.width() * .5) + .5) - 1
                 cposyo = int((foundtile.size.height() * .5) + .5) - 1
-                if self.module.drawoption.value == 1:
+                if self.module.drawoption.value == 0:
+                    sourcerect = QRect(0, 0, SPRITESIZE * foundtile.size.width(), SPRITESIZE * foundtile.size.height())
+                    drawrect = QRect((x - cposxo) * CELLSIZE, (y - cposyo) * CELLSIZE, CELLSIZE * foundtile.size.width(), CELLSIZE * foundtile.size.height())  # it works trust
+                    self.painter.drawPixmap(drawrect, foundtile.image, sourcerect)
+                elif self.module.drawoption.value == 1:
                     drawrect = QRect((x - cposxo - foundtile.bfTiles) * CELLSIZE,
                                      (y - cposyo - foundtile.bfTiles) * CELLSIZE,
                                      CELLSIZE * (foundtile.size.width() + foundtile.bfTiles * 2),
@@ -99,7 +110,7 @@ class TileRenderTexture(RenderTexture):
 
                     self.painter.drawPixmap(drawrect, foundtile.image2)
 
-                elif self.module.drawoption.value in [2, 3, 4, 5, 6]:
+                else:
                     drawrect = QRect((x - cposxo - foundtile.bfTiles) * CELLSIZE,
                                      (y - cposyo - foundtile.bfTiles) * CELLSIZE,
                                      CELLSIZE * (foundtile.size.width() + foundtile.bfTiles * 2),
@@ -112,10 +123,6 @@ class TileRenderTexture(RenderTexture):
                         col = self.module.drawoption.value - 4
                         foundtile.image3.setColorTable(self.module.colortable[col][self.tilelayer])
                     self.painter.drawImage(drawrect, foundtile.image3)
-                else:
-                    sourcerect = QRect(0, 0, SPRITESIZE * foundtile.size.width(), SPRITESIZE * foundtile.size.height())
-                    drawrect = QRect((x - cposxo) * CELLSIZE, (y - cposyo) * CELLSIZE, CELLSIZE * foundtile.size.width(), CELLSIZE * foundtile.size.height())  # it works trust
-                    self.painter.drawPixmap(drawrect, foundtile.image, sourcerect)
 
     def draw_material(self):
         pass

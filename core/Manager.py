@@ -12,6 +12,7 @@ from PySide6.QtWidgets import QWidget, QMenuBar, QMenu
 from PySide6.QtCore import Slot
 from ui.mainuiconnector import MainWindow
 from ui.splashuiconnector import SplashDialog
+from core.ItemData import ItemData
 import os
 
 
@@ -26,8 +27,8 @@ class Manager:
         """
         self.window: MainWindow = window
 
-        self.tiles = splash.loader.tiles
-        self.props = splash.loader.props
+        self.tiles: ItemData = splash.loader.tiles
+        self.props: ItemData = splash.loader.props
         self.effects = splash.loader.effects
         self.effect_colors = splash.loader.effect_colors
 
