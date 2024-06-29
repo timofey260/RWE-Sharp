@@ -37,7 +37,7 @@ class TileRenderTexture(RenderTexture):
 
     def draw_tile(self, x: int, y: int):
         # drawrect = QRect(x * CELLSIZE, y * CELLSIZE, CELLSIZE, CELLSIZE)
-        tile = self.manager.level.TE_data(x, y, self.tilelayer)
+        tile = self.manager.level.tile_data(x, y, self.tilelayer)
         match tile["tp"]:
             case "default":
                 return

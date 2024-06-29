@@ -46,7 +46,7 @@ class RWELevel:
     def __setitem__(self, key, value):
         self.data[key] = value
 
-    def GE_data(self, x: int, y: int, layer: int) -> list[int, list[int]]:
+    def geo_data(self, x: int, y: int, layer: int) -> list[int, list[int]]:
         """
         returns cell on specific layer
         :param x: x position of cell
@@ -54,9 +54,18 @@ class RWELevel:
         :param layer: layer of cell
         :return:
         """
-        return self.data["GE"][int(x)][int(y)][layer]
+        return self.data["GE"][x][y][layer]
 
-    def TE_data(self, x: int, y: int, layer: int) -> dict[str, ...]:
+    def geo_data(self, pos: QPoint, layer: int) -> list[int, list[int]]:
+        """
+        returns cell on specific layer
+        :param pos: position of cell
+        :param layer: layer of cell
+        :return:
+        """
+        return self.data["GE"][pos.x()][pos.y()][layer]
+
+    def tile_data(self, x: int, y: int, layer: int) -> dict[str, ...]:
         """
         returns tile on specific layer
         :param x: x position of tile
@@ -64,7 +73,16 @@ class RWELevel:
         :param layer: layer of tile(0-2)
         :return:
         """
-        return self.data["TE"]["tlMatrix"][int(x)][int(y)][layer]
+        return self.data["TE"]["tlMatrix"][x][y][layer]
+
+    def tile_data(self, pos: QPoint, layer: int) -> dict[str, ...]:
+        """
+        returns tile on specific layer
+        :param pos: position of tile
+        :param layer: layer of tile(0-2)
+        :return:
+        """
+        return self.data["TE"]["tlMatrix"][pos.x()][pos.y()][layer]
 
     @property
     def extra_tiles(self) -> [int, int, int, int]:

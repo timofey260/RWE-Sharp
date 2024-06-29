@@ -1,3 +1,4 @@
+from __future__ import annotations
 from RWESharp.Modify import HistoryElement
 from RWESharp.Loaders import Tile, tile_offset
 from RWESharp.Utils import draw_line
@@ -7,12 +8,12 @@ from PySide6.QtCore import QPoint
 
 
 def point_collision(level: RWELevel, pos: QPoint, layer, tilepos: QPoint, tile: Tile) -> bool:
-    tiledata = level.TE_data(pos.x(), pos.y(), layer)
+    tiledata = level.tile_data(pos, layer)
     tp = tiledata.get("tp", "default")
     # data = tiledata.get("data", 0)
     if tp != "default":
         return False
-    geodata = level.GE_data(pos.x(), pos.y(), layer)[0]
+    geodata = level.geo_data(pos, layer)[0]
     try:
         collision = tile.cols[0][tilepos.x() * tile.size.height() + tilepos.y()]
     except IndexError:
@@ -22,7 +23,7 @@ def point_collision(level: RWELevel, pos: QPoint, layer, tilepos: QPoint, tile: 
     # next layer
     if not isinstance(tile.cols[1], list) or layer + 1 > 2:
         return True
-    geodata = level.GE_data(pos.x(), pos.y(), layer + 1)[0]
+    geodata = level.geo_data(pos, layer + 1)[0]
     try:
         collision = tile.cols[1][tilepos.x() * tile.size.height() + tilepos.y()]
     except IndexError:
@@ -72,6 +73,11 @@ def place_tile(level: RWELevel,
                area2: list[list[bool]],
                force_place: bool,
                force_geometry: bool):
+    if tile.type == "material":
+        level.data["TE"]["tlMatrix"][pos.x()][pos.y()][layer] = {"tp": "material", "data": tile.name}
+        level.manager.basemod.tilemodule.get_layer(layer).draw_tile(pos.x(), pos.y())
+        level.manager.basemod.tilemodule.get_layer(layer).redraw()
+        return
     headpos = tile_offset(tile)
     for x in range(pos.x(), pos.x() + tile.size.width()):
         for y in range(pos.y(), pos.y() + tile.size.height()):
@@ -86,20 +92,38 @@ def place_tile(level: RWELevel,
     level.manager.basemod.tilemodule.get_layer(layer).redraw()
 
 
+def remove_tile(level: RWELevel, pos: QPoint, layer: int):
+    data = level.tile_data(pos, layer)
+
+
 class PlacedTile:
-    def __init__(self, tile: Tile, pos: QPoint):
+    def __init__(self, element: TileHistory, pos: QPoint):
+        self.element = element
+        self.pos = pos
+        place_tile(element.history.level, element.layer, element.tile, pos, element.area, element.area2, False, False)
+
+    def undo(self):
+        pass
+
+    def redo(self):
         pass
 
 
-class TilePen(HistoryElement):
-    def __init__(self, history, start: QPoint, tile: Tile, layer: int):
+class TileHistory(HistoryElement):
+    def __init__(self, history, tile: Tile, layer: int):
         super().__init__(history)
         self.area = [[True for _ in range(self.history.level.level_height)] for _ in range(self.history.level.level_width)]
         self.area2 = [[True for _ in range(self.history.level.level_height)] for _ in range(self.history.level.level_width)]
         self.layer = layer
         self.tile = tile
+
+
+class TilePen(TileHistory):
+    def __init__(self, history, start: QPoint, tile: Tile, layer: int):
+        super().__init__(history, tile, layer)
         self.positions = []
         self.start = start
+        self.savedtiles: list[PlacedTile] = []
 
     def add_move(self, position):
         start = self.start
