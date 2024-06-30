@@ -6,24 +6,26 @@ from PySide6.QtWidgets import QMainWindow, QListWidgetItem, QListWidget
 
 from BaseMod.tiles.ui.tileexplorer import Ui_TileExplorer
 from RWESharp.Configurable import BoolConfigurable, IntConfigurable, StringConfigurable
-from RWESharp.Core import ItemData, PATH_FILES_IMAGES_PALETTES
+from RWESharp.Core import ItemData, PATH_FILES_IMAGES_PALETTES, ViewDockWidget
 from RWESharp.Loaders import Tile, palette_to_colortable, return_tile_pixmap
 
 
-class TileExplorer(QMainWindow):
-    stateChanged = Signal(bool)
+class TileExplorer(ViewDockWidget):
     tileSelected = Signal(list)
 
-    def __init__(self, manager, parent=None):
+    def __init__(self, manager, parent: QMainWindow):
         super().__init__(parent)
         self.manager = manager
         self.mod = manager.basemod
+        parent.addDockWidget(Qt.DockWidgetArea.BottomDockWidgetArea, self)
+
         self.category_colors = BoolConfigurable(self.mod, "TileExplorer.category_colors", False, "Color of categories")
         self.tile_cols = BoolConfigurable(self.mod, "TileExplorer.tile_collisions", True, "show tile collisions")
         self.tile_preview = BoolConfigurable(self.mod, "TileExplorer.tile_preview", True, "show tile preview")
         self.drawoption = IntConfigurable(self.mod, "TileExplorer.drawoption", 7, "show tile collisions")
         self.layer = IntConfigurable(self.mod, "TileExplorer.layer", 0, "layer")
         self.palette_path = StringConfigurable(self.mod, "TileExplorer.palettepath", os.path.join(PATH_FILES_IMAGES_PALETTES, "palette0.png"), "path to pallete")
+
         self.colortable = palette_to_colortable(QImage(self.palette_path.value))
         self.tiles: ItemData = manager.tiles
         self.ui = Ui_TileExplorer()
@@ -64,9 +66,16 @@ class TileExplorer(QMainWindow):
         self.selected_tiles: list[Tile] = []
         self.load_tiles()
         self.tiles_grid()
+        self.change_tiles()
 
         self.category = 0
         self.tile = 0
+
+        self.ui.CatNext.clicked.connect(self.cat_next)
+        self.ui.CatPrev.clicked.connect(self.cat_prev)
+        self.ui.TileNext.clicked.connect(self.tile_next)
+        self.ui.TilePrev.clicked.connect(self.tile_prev)
+        self.setFloating(True)
 
     @property
     def categoryindex(self):
@@ -208,30 +217,3 @@ class TileExplorer(QMainWindow):
         self.preview.tileimage.setOpacity(0)
         if len(self.selected_tiles) == 1:
             self.preview.preview_tile(self.selected_tiles[0])
-
-    def link_action(self, action: QAction):
-        action.setCheckable(True)
-        action.setChecked(self.state)
-        action.toggled.connect(self.change_visibility)
-        self.stateChanged.connect(action.setChecked)
-
-    @Slot(bool)
-    def change_visibility(self, value: bool):
-        if self.state == value:
-            return
-        self.state = value
-        if value:
-            self.stateChanged.emit(value)
-            self.show()
-            self.view_categories.editItem(self.view_categories.itemAt(0, 0))
-            return
-        self.stateChanged.emit(value)
-        self.hide()
-
-    def hideEvent(self, event):
-        self.change_visibility(False)
-        super().hideEvent(event)
-
-    def showEvent(self, event):
-        self.change_visibility(True)
-        super().showEvent(event)

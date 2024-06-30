@@ -1,5 +1,5 @@
 from PySide6.QtWidgets import QDockWidget
-from PySide6.QtCore import Signal, Slot
+from PySide6.QtCore import Signal, Slot, QEvent
 from PySide6.QtGui import QAction
 
 
@@ -27,12 +27,11 @@ class ViewDockWidget(QDockWidget):
             return
         self.stateChanged.emit(value)
         self.hide()
-        
-    def hide(self):
-        print(3)
-        self.change_visibility(False)
-        super().hide()
 
-    def show(self):
+    def showEvent(self, event):
         self.change_visibility(True)
-        super().show()
+        super().showEvent(event)
+
+    def closeEvent(self, event):
+        self.change_visibility(False)
+        super().closeEvent(event)

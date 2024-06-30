@@ -90,15 +90,16 @@ class TileUI(UI):
         self.ui.setupUi(self)
         mod: BaseMod
 
-        self.tile_prev_key = KeyConfigurable(mod, "VIEW_tile.tile_prev", "w", "previous tile key")
-        self.cat_prev_key = KeyConfigurable(mod, "VIEW_tile.cat_prev", "a", "previous category key")
-        self.tile_next_key = KeyConfigurable(mod, "VIEW_tile.tile_next", "s", "next tile key")
-        self.cat_next_key = KeyConfigurable(mod, "VIEW_tile.cat_next", "d", "next category key")
         self.explorer = mod.tile_explorer
         self.editor = mod.tileeditor
         self.editor.previewoption.link_combobox(self.ui.RenderOption)
         self.editor.show_collisions.link_button(self.ui.ToggleCollisions)
         self.editor.vis_layer.link_spinbox(self.ui.Layer)
+
+        self.tile_prev_key = KeyConfigurable(mod, "VIEW_tile.tile_prev", "w", "previous tile key")
+        self.cat_prev_key = KeyConfigurable(mod, "VIEW_tile.cat_prev", "a", "previous category key")
+        self.tile_next_key = KeyConfigurable(mod, "VIEW_tile.tile_next", "s", "next tile key")
+        self.cat_next_key = KeyConfigurable(mod, "VIEW_tile.cat_next", "d", "next category key")
 
         self.tile_next_key.link_button(self.ui.TileNext)
         self.tile_prev_key.link_button(self.ui.TilePrev)
