@@ -27,11 +27,12 @@ class ViewDockWidget(QDockWidget):
             return
         self.stateChanged.emit(value)
         self.hide()
-
-    def hideEvent(self, event):
+        
+    def hide(self):
+        print(3)
         self.change_visibility(False)
-        super().hideEvent(event)
+        super().hide()
 
-    def showEvent(self, event):
+    def show(self):
         self.change_visibility(True)
-        super().showEvent(event)
+        super().show()

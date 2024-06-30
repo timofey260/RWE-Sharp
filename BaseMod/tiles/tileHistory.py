@@ -1,43 +1,10 @@
 from __future__ import annotations
 
-from BaseMod.tiles.tileEditor import can_place, place_tile, remove_tile
-from RWESharp.Modify import HistoryElement
-from RWESharp.Loaders import Tile
+from BaseMod.tiles.tileUtils import can_place, place_tile, TileHistory
 from RWESharp.Utils import draw_line
+from RWESharp.Loaders import Tile
+
 from PySide6.QtCore import QPoint
-
-
-class PlacedTile:
-    def __init__(self, pos: QPoint, layer: int, tile: Tile):
-        self.pos = pos
-        self.layer = layer
-        self.tile = tile
-
-    def undo(self, element: TileHistory):
-        remove_tile(element.history.level, self.pos, self.layer)
-
-    def redo(self, element: TileHistory):
-        place_tile(element.history.level, self.pos, self.layer, self.tile)
-
-
-class TileHistory(HistoryElement):
-    def __init__(self, history, tile: Tile, layer: int):
-        super().__init__(history)
-        self.area = [[True for _ in range(self.history.level.level_height)] for _ in range(self.history.level.level_width)]
-        self.area2 = [[True for _ in range(self.history.level.level_height)] for _ in range(self.history.level.level_width)]
-        self.layer = layer
-        self.tile = tile
-        self.savedtiles: list[PlacedTile] = []
-
-    def undo_changes(self, level):
-        for i in self.savedtiles:
-            i.undo(self)
-        self.history.level.manager.basemod.tilemodule.get_layer(self.layer).redraw()
-
-    def redo_changes(self, level):
-        for i in self.savedtiles:
-            i.redo(self)
-        self.history.level.manager.basemod.tilemodule.get_layer(self.layer).redraw()
 
 
 class TilePen(TileHistory):

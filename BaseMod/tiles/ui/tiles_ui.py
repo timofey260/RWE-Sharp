@@ -141,6 +141,56 @@ class Ui_Tiles(object):
 
         self.verticalLayout_2.addLayout(self.gridLayout)
 
+        self.ForceGeo = QCheckBox(self.scrollAreaWidgetContents)
+        self.ForceGeo.setObjectName(u"ForceGeo")
+
+        self.verticalLayout_2.addWidget(self.ForceGeo)
+
+        self.ForcePlace = QCheckBox(self.scrollAreaWidgetContents)
+        self.ForcePlace.setObjectName(u"ForcePlace")
+
+        self.verticalLayout_2.addWidget(self.ForcePlace)
+
+        self.label_8 = QLabel(self.scrollAreaWidgetContents)
+        self.label_8.setObjectName(u"label_8")
+
+        self.verticalLayout_2.addWidget(self.label_8)
+
+        self.gridLayout_4 = QGridLayout()
+        self.gridLayout_4.setObjectName(u"gridLayout_4")
+        self.CatPrev = QPushButton(self.scrollAreaWidgetContents)
+        self.CatPrev.setObjectName(u"CatPrev")
+
+        self.gridLayout_4.addWidget(self.CatPrev, 1, 0, 1, 1)
+
+        self.TileNext = QPushButton(self.scrollAreaWidgetContents)
+        self.TileNext.setObjectName(u"TileNext")
+
+        self.gridLayout_4.addWidget(self.TileNext, 2, 1, 1, 1)
+
+        self.TilePrev = QPushButton(self.scrollAreaWidgetContents)
+        self.TilePrev.setObjectName(u"TilePrev")
+
+        self.gridLayout_4.addWidget(self.TilePrev, 0, 1, 1, 1)
+
+        self.CatNext = QPushButton(self.scrollAreaWidgetContents)
+        self.CatNext.setObjectName(u"CatNext")
+
+        self.gridLayout_4.addWidget(self.CatNext, 1, 2, 1, 1)
+
+        self.ShowTE = QPushButton(self.scrollAreaWidgetContents)
+        self.ShowTE.setObjectName(u"ShowTE")
+
+        self.gridLayout_4.addWidget(self.ShowTE, 0, 0, 1, 1)
+
+        self.FindTE = QPushButton(self.scrollAreaWidgetContents)
+        self.FindTE.setObjectName(u"FindTE")
+
+        self.gridLayout_4.addWidget(self.FindTE, 0, 2, 1, 1)
+
+
+        self.verticalLayout_2.addLayout(self.gridLayout_4)
+
         self.label_6 = QLabel(self.scrollAreaWidgetContents)
         self.label_6.setObjectName(u"label_6")
 
@@ -225,6 +275,15 @@ class Ui_Tiles(object):
 
         self.label_2.setText(QCoreApplication.translate("Tiles", u"Right Mouse", None))
         self.label_7.setText(QCoreApplication.translate("Tiles", u"Layer", None))
+        self.ForceGeo.setText(QCoreApplication.translate("Tiles", u"Force Geometry", None))
+        self.ForcePlace.setText(QCoreApplication.translate("Tiles", u"Force Place", None))
+        self.label_8.setText(QCoreApplication.translate("Tiles", u"Tile Explorer:", None))
+        self.CatPrev.setText(QCoreApplication.translate("Tiles", u"Category-", None))
+        self.TileNext.setText(QCoreApplication.translate("Tiles", u"Tile+", None))
+        self.TilePrev.setText(QCoreApplication.translate("Tiles", u"Tile-", None))
+        self.CatNext.setText(QCoreApplication.translate("Tiles", u"Category+", None))
+        self.ShowTE.setText(QCoreApplication.translate("Tiles", u"Show", None))
+        self.FindTE.setText(QCoreApplication.translate("Tiles", u"Find", None))
         self.label_6.setText(QCoreApplication.translate("Tiles", u"Tile Preview:", None))
         self.ToggleCollisions.setText(QCoreApplication.translate("Tiles", u"Collisions", None))
         self.RenderOption.setItemText(0, QCoreApplication.translate("Tiles", u"Classic", None))

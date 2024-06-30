@@ -64,7 +64,7 @@ class BaseMod(Mod):
 
         self.tilemodule = TileModule(self).add_myself()
         self.tileeditor = TileEditor(self)
-        self.tile_explorer = TileExplorer(self.manager)
+        self.tile_explorer = TileExplorer(self.manager, self.manager.window)
         self.tileview = TileViewUI(self).add_myself()
         self.tileui = TileUI(self)
         self.tileeditor.add_myself(self.tileui)

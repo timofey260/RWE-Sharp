@@ -1,46 +1,8 @@
 from PySide6.QtCore import QPoint, QRect
 
+from BaseMod.geo.geoUtils import geo_save, geo_undo
 from RWESharp.Modify import HistoryElement
 from RWESharp.Utils import draw_line
-
-
-def grab_return(form: [int, bool], block: [int, list[int]]) -> ([int, list[int]], ...):
-    if form[1] and form[0] < 0:
-        if form[0] == -2:  # upper
-            if 4 in block[1]:
-                return [block[0], [4]], block[1].copy()
-            return [block[0], []], block[1].copy()
-        elif form[0] == -3:  # block
-            return [0, block[1].copy()], block[0]
-        elif form[0] == -4:  # all, no layer check
-            return [0, []], [block[0], block[1].copy()]
-        elif form[0] == -5:  # layer
-            return [0, []], [block[0], block[1].copy()]
-    elif form[1]:  # stack
-        bol = form[0] in block[1]
-        ar = block[1].copy()
-        if not bol:
-            ar.append(form[0])
-        return [block[0], ar], bol
-    return [form[0], block[1].copy()], block[0]
-
-
-def put_return(form: [int, bool], block: [int, list[int]], saved) -> [int, list[int]]:
-    if form[1] and form[0] < 0:
-        if form[0] == -2:  # upper
-            return [block[0], saved.copy()]
-        elif form[0] == -3:  # block
-            return [saved, block[1].copy()]
-        elif form[0] == -4:  # all
-            return [saved[0], saved[1].copy()]
-        elif form[0] == -5:  # layer
-            return [saved[0], saved[1].copy()]
-    elif form[1]:  # stack
-        ar = block[1].copy()
-        if not saved:
-            ar.remove(form[0])
-        return [block[0], ar]
-    return [saved, block[1].copy()]
 
 
 class GERectChange(HistoryElement):
@@ -86,7 +48,7 @@ class GEPointChange(HistoryElement):
         self.module = self.history.level.manager.basemod.geomodule
         for i, l in enumerate(self.layers):
             if l:
-                block, save = grab_return(self.replace, self.history.level.geo_data(start, i))
+                block, save = geo_save(self.replace, self.history.level.geo_data(start, i))
                 self.before.append(save)
                 self.history.level.data["GE"][start.x()][start.y()][i] = block
                 t = self.module.get_layer(i)
@@ -105,7 +67,7 @@ class GEPointChange(HistoryElement):
         for point in points:
             for i, l in enumerate(self.layers):
                 if l:
-                    block, save = grab_return(self.replace, self.history.level.geo_data(point, i))
+                    block, save = geo_save(self.replace, self.history.level.geo_data(point, i))
                     self.before.append(save)
                     self.history.level.data["GE"][point.x()][point.y()][i] = block
                     self.module.get_layer(i).draw_geo(point.x(), point.y(), True)
@@ -130,7 +92,7 @@ class GEPointChange(HistoryElement):
                 allpoints.append(point)
                 for i2, l in enumerate(self.layers):
                     if l:
-                        block = put_return(self.replace, self.history.level.geo_data(point, i2), self.before[beforeitem])
+                        block = geo_undo(self.replace, self.history.level.geo_data(point, i2), self.before[beforeitem])
                         self.history.level.data["GE"][point.x()][point.y()][i2] = block
                         self.module.get_layer(i2).draw_geo(point.x(), point.y(), True)
                         beforeitem += 1
@@ -138,8 +100,8 @@ class GEPointChange(HistoryElement):
         layer = 0
         for i, l in enumerate(self.layers):
             if l:
-                block = put_return(self.replace, self.history.level.geo_data(self.start, i),
-                                   self.before[layer])
+                block = geo_undo(self.replace, self.history.level.geo_data(self.start, i),
+                                 self.before[layer])
                 self.history.level.data["GE"][self.start.x()][self.start.y()][i] = block
                 layer += 1
                 self.module.get_layer(i).draw_geo(self.start.x(), self.start.y(), True)
@@ -153,7 +115,7 @@ class GEPointChange(HistoryElement):
             for point in points:
                 for li, l in enumerate(self.layers):
                     if l:
-                        block, save = grab_return(self.replace, self.history.level.geo_data(point, li))
+                        block, save = geo_save(self.replace, self.history.level.geo_data(point, li))
                         self.before.append(save)
                         self.history.level.data["GE"][point.x()][point.y()][li] = block
                         self.module.get_layer(li).draw_geo(point.x(), point.y(), True)

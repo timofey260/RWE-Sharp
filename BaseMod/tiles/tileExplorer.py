@@ -1,6 +1,6 @@
 import os
 
-from PySide6.QtCore import Slot, Signal, Qt, QSize
+from PySide6.QtCore import Slot, Signal, Qt, QSize, QPoint
 from PySide6.QtGui import QAction, QPixmap, QColor, QImage
 from PySide6.QtWidgets import QMainWindow, QListWidgetItem, QListWidget
 
@@ -20,7 +20,7 @@ class TileExplorer(QMainWindow):
         self.mod = manager.basemod
         self.category_colors = BoolConfigurable(self.mod, "TileExplorer.category_colors", False, "Color of categories")
         self.tile_cols = BoolConfigurable(self.mod, "TileExplorer.tile_collisions", True, "show tile collisions")
-        self.tile_prev = BoolConfigurable(self.mod, "TileExplorer.tile_preview", True, "show tile preview")
+        self.tile_preview = BoolConfigurable(self.mod, "TileExplorer.tile_preview", True, "show tile preview")
         self.drawoption = IntConfigurable(self.mod, "TileExplorer.drawoption", 7, "show tile collisions")
         self.layer = IntConfigurable(self.mod, "TileExplorer.layer", 0, "layer")
         self.palette_path = StringConfigurable(self.mod, "TileExplorer.palettepath", os.path.join(PATH_FILES_IMAGES_PALETTES, "palette0.png"), "path to pallete")
@@ -34,6 +34,7 @@ class TileExplorer(QMainWindow):
         self.view_categories = self.ui.Categories
         self.view_tiles = self.ui.Tiles
         self.view_tile = self.ui.Properties
+        self.view_categories.setAlternatingRowColors(True)
         self.view_categories.setEditTriggers(QListWidget.EditTrigger.DoubleClicked)
         self.view_categories.itemSelectionChanged.connect(self.change_tiles)
         self.view_tiles.itemSelectionChanged.connect(self.change_tile)
@@ -51,8 +52,8 @@ class TileExplorer(QMainWindow):
         self.ui.SearchBar.textChanged.connect(self.search)
         self.tile_cols.link_button(self.ui.ToggleCollisions)
         self.tile_cols.valueChanged.connect(self.hide_cols)
-        self.tile_prev.link_button(self.ui.TogglePreview)
-        self.tile_prev.valueChanged.connect(self.hide_preview)
+        self.tile_preview.link_button(self.ui.TogglePreview)
+        self.tile_preview.valueChanged.connect(self.hide_preview)
         self.drawoption.link_combobox(self.ui.RenderOption)
         self.drawoption.valueChanged.connect(self.change_draw_option)
         self.layer.link_combobox(self.ui.LayerBox)
@@ -63,6 +64,37 @@ class TileExplorer(QMainWindow):
         self.selected_tiles: list[Tile] = []
         self.load_tiles()
         self.tiles_grid()
+
+        self.category = 0
+        self.tile = 0
+
+    @property
+    def categoryindex(self):
+        return self.view_categories.row(self.view_categories.selectedItems()[0]) if len(self.view_categories.selectedItems()) > 0 else self.category
+
+    @property
+    def tileindex(self):
+        return self.view_tiles.row(self.view_tiles.selectedItems()[0]) if len(self.view_tiles.selectedItems()) > 0 else self.tile
+
+    def cat_next(self):
+        self.category = (self.categoryindex + 1) % self.view_categories.count()
+        self.view_categories.setCurrentRow(self.category)
+        self.tile = self.tileindex % self.view_tiles.count()
+        self.view_tiles.setCurrentRow(self.tile)
+
+    def cat_prev(self):
+        self.category = (self.categoryindex - 1) % self.view_categories.count()
+        self.view_categories.setCurrentRow(self.category)
+        self.tile = self.tileindex % self.view_tiles.count()
+        self.view_tiles.setCurrentRow(self.tile)
+
+    def tile_next(self):
+        self.tile = (self.tileindex + 1) % self.view_tiles.count()
+        self.view_tiles.setCurrentRow(self.tile)
+
+    def tile_prev(self):
+        self.tile = (self.tileindex - 1) % self.view_tiles.count()
+        self.view_tiles.setCurrentRow(self.tile)
 
     def update_palette(self):
         self.colortable = palette_to_colortable(QImage(self.palette_path.value))
@@ -113,7 +145,6 @@ class TileExplorer(QMainWindow):
     def load_tiles(self):
         filter = self.ui.SearchBar.text()
         self.view_categories.clear()
-        self.view_categories.setAlternatingRowColors(True)
         for category, color in zip(range(len(self.tiles.categories)), self.tiles.colors):
             if filter != "" and filter.lower() not in self.tiles.categories[category].lower():
                 continue
