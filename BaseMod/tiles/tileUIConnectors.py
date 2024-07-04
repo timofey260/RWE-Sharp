@@ -95,6 +95,10 @@ class TileUI(UI):
         self.editor.previewoption.link_combobox(self.ui.RenderOption)
         self.editor.show_collisions.link_button(self.ui.ToggleCollisions)
         self.editor.vis_layer.link_spinbox(self.ui.Layer)
+        self.editor.toolleft.link_combobox(self.ui.ToolTilesM1Select)
+        self.editor.toolright.link_combobox(self.ui.ToolTilesM2Select)
+        self.editor.deleteleft.link_button(self.ui.DeleteM1)
+        self.editor.deleteright.link_button(self.ui.DeleteM2)
 
         self.tile_prev_key = KeyConfigurable(mod, "VIEW_tile.tile_prev", "w", "previous tile key")
         self.cat_prev_key = KeyConfigurable(mod, "VIEW_tile.cat_prev", "a", "previous category key")

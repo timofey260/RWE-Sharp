@@ -1,19 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>TileExplorer</class>
- <widget class="QMainWindow" name="TileExplorer">
+ <widget class="QDockWidget" name="TileExplorer">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>907</width>
+    <height>606</height>
    </rect>
+  </property>
+  <property name="floating">
+   <bool>false</bool>
+  </property>
+  <property name="features">
+   <set>QDockWidget::DockWidgetFeature::DockWidgetClosable|QDockWidget::DockWidgetFeature::DockWidgetFloatable|QDockWidget::DockWidgetFeature::DockWidgetMovable</set>
   </property>
   <property name="windowTitle">
    <string>Tile Explorer</string>
   </property>
-  <widget class="QWidget" name="centralwidget">
+  <widget class="QWidget" name="dockWidgetContents">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
      <widget class="QLineEdit" name="SearchBar">
@@ -125,6 +131,26 @@
              </size>
             </property>
            </spacer>
+          </item>
+          <item>
+           <widget class="QToolButton" name="CatPrev">
+            <property name="text">
+             <string>...</string>
+            </property>
+            <property name="arrowType">
+             <enum>Qt::ArrowType::LeftArrow</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="CatNext">
+            <property name="text">
+             <string>...</string>
+            </property>
+            <property name="arrowType">
+             <enum>Qt::ArrowType::RightArrow</enum>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
@@ -239,66 +265,23 @@
            </spacer>
           </item>
           <item>
-           <widget class="QComboBox" name="RenderOption">
-            <item>
-             <property name="text">
-              <string>Classic</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Tile image</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Henry</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Unrendered</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Rendered (sun)</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Rendered (shaded)</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Rendered (rain)</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Sync</string>
-             </property>
-            </item>
+           <widget class="QToolButton" name="TilePrev">
+            <property name="text">
+             <string>...</string>
+            </property>
+            <property name="arrowType">
+             <enum>Qt::ArrowType::UpArrow</enum>
+            </property>
            </widget>
           </item>
           <item>
-           <widget class="QComboBox" name="LayerBox">
-            <item>
-             <property name="text">
-              <string>1</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>2</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>3</string>
-             </property>
-            </item>
+           <widget class="QToolButton" name="TileNext">
+            <property name="text">
+             <string>...</string>
+            </property>
+            <property name="arrowType">
+             <enum>Qt::ArrowType::DownArrow</enum>
+            </property>
            </widget>
           </item>
          </layout>
@@ -503,6 +486,69 @@
             </property>
            </spacer>
           </item>
+          <item>
+           <widget class="QComboBox" name="RenderOption">
+            <item>
+             <property name="text">
+              <string>Classic</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Tile image</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Henry</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Unrendered</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Rendered (sun)</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Rendered (shaded)</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Rendered (rain)</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Sync</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="LayerBox">
+            <item>
+             <property name="text">
+              <string>1</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>2</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>3</string>
+             </property>
+            </item>
+           </widget>
+          </item>
          </layout>
         </item>
        </layout>
@@ -511,17 +557,6 @@
     </item>
    </layout>
   </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>800</width>
-     <height>33</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <customwidgets>
   <customwidget>
