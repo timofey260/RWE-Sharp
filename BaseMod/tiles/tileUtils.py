@@ -98,7 +98,7 @@ def check4tile_col(level: RWELevel,
     level.manager.basemod.tilemodule.get_layer(layer).clean_pixel(pos)
     if fg and col != level.geo_data(pos, layer)[0]:
         geochange = [pos, layer, col, level.geo_data(pos, layer)[0]]
-        level.data["GE"][pos.x()][pos.y()][layer][0] = 1
+        level.data["GE"][pos.x()][pos.y()][layer][0] = col
         level.manager.basemod.geomodule.get_layer(layer).draw_geo(pos.x(), pos.y(), True)
     if not secondlayer and pos == head:
         change = [pos, layer,
@@ -212,13 +212,13 @@ def remove_tile(level: RWELevel, pos: QPoint, layer: int) -> RemovedTile | None:
                 except IndexError:
                     col2 = 1
                 if col2 != -1 and level.tile_data(bodypos, layer + 1) == tiledata:
-                    changes.append([bodypos, layer + 1, copy_tile(level.tile_data(bodypos, layer + 1))])
                     level.manager.basemod.tilemodule.get_layer(layer + 1).clean_pixel(bodypos)
+                    changes.append([bodypos, layer + 1, copy_tile(level.tile_data(bodypos, layer + 1))])
                     level.data["TE"]["tlMatrix"][bodypos.x()][bodypos.y()][layer + 1] = {"tp": "default", "data": 0}
             if col == -1 or level.tile_data(bodypos, layer) != tiledata:
                 continue
-            changes.append([bodypos, layer, copy_tile(level.tile_data(bodypos, layer))])
             level.manager.basemod.tilemodule.get_layer(layer).clean_pixel(bodypos)
+            changes.append([bodypos, layer, copy_tile(level.tile_data(bodypos, layer))])
             level.data["TE"]["tlMatrix"][bodypos.x()][bodypos.y()][layer] = {"tp": "default", "data": 0}
     changes.append([headpos, layer, copy_tile(level.tile_data(headpos, layer))])
     level.manager.basemod.tilemodule.get_layer(layer).clean_pixel(headpos)
