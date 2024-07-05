@@ -49,6 +49,8 @@ class TileEditor(EditorMode):
         self.toolright = EnumConfigurable(mod, "EDIT_tiles.rmb", TileTools.Rect, TileTools, "Current geo tool for RMB")
         self.deleteleft = BoolConfigurable(mod, "EDIT_tiles.deletelmb", False, "Delete tiles with LMB")
         self.deleteright = BoolConfigurable(mod, "EDIT_tiles.deletermb", False, "Delete tiles with RMB")
+        self.force_place = BoolConfigurable(mod, "EDIT_tiles.fp", False, "Force place")
+        self.force_geo = BoolConfigurable(mod, "EDIT_tiles.fg", False, "Force geometry")
 
         self.colortable = palette_to_colortable(QImage(self.palette_image.value))
         self.explorer = mod.tile_explorer
@@ -147,14 +149,13 @@ class TileEditor(EditorMode):
         self.tile_cols_item.removeFromIndex()
 
     def mouse_press_event(self, event: QMouseEvent):
-        offset = tile_offset(self.tile)
-        point = self.viewport.viewport_to_editor(self.mouse_pos) - offset
         if self.mouse_left:
             self.tool_specific_press(self.toolleft.value, self.deleteleft.value)
         if self.mouse_left:
             self.tool_specific_press(self.toolright.value, self.deleteright.value)
 
     def tool_specific_press(self, tool: TileTools, delete: bool):
-        fpos = self.viewport.viewport_to_editor(self.mouse_pos)
+        offset = tile_offset(self.tile)
+        fpos = self.viewport.viewport_to_editor(self.mouse_pos) - offset
         if tool == TileTools.Pen:
-            self.manager.level.add_history(TilePen(self.manager.level.history, fpos, self.tile, self.layer, delete))
+            self.manager.level.add_history(TilePen(self.manager.level.history, fpos, self.tile, self.layer, delete, self.force_place.value, self.force_geo.value))
