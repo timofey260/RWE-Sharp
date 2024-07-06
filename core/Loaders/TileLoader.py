@@ -151,7 +151,10 @@ def loadTile(item, colr, cat, catnum, indx) -> Tile | None:
     renderstep = 15
     err = False
     try:
-        origimg = QImage(insensitive_path(os.path.join(PATH_DRIZZLE, "Data/Graphics", item["nm"] + ".png")))
+        imagepath = insensitive_path(os.path.join(PATH_DRIZZLE, "Data/Graphics", item["nm"] + ".png"))
+        if imagepath is None:
+            return None
+        origimg = QImage(imagepath)
     except FileNotFoundError:
         return None
     try:
