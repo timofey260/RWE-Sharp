@@ -96,6 +96,8 @@ class TileRenderTexture(RenderTexture):
             # new one
             case "tileHead":
                 foundtile = self.manager.tiles[tile["data"][1]]
+                if foundtile is None:
+                    return
                 cposxo = int((foundtile.size.width() * .5) + .5) - 1
                 cposyo = int((foundtile.size.height() * .5) + .5) - 1
                 if self.module.drawoption.value == 0:

@@ -275,13 +275,13 @@ class TilePackLoader(QThread):
 
                 tile = loadTile(item, colr, cat, catnum, indx)
                 self.progress += 1
-                if tile is not None:
-                    # tilenum += 1
-                    self.data[catnum]["items"].append(tile)
-                    if tile.err:
-                        self.errors += 1
+                if tile is None:
+                    self.errors += 1
                     continue
-                self.errors += 1
+                # tilenum += 1
+                self.data[catnum]["items"].append(tile)
+                if tile.err:
+                    self.errors += 1
         # self.finished.emit()
 
 
