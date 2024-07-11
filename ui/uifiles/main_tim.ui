@@ -491,7 +491,7 @@
     <iconset theme="input-keyboard"/>
    </property>
    <property name="text">
-    <string>Hotkeys</string>
+    <string>Hotkeys...</string>
    </property>
   </action>
   <action name="actionOpen_2">

@@ -13,6 +13,7 @@ from PySide6.QtCore import Slot
 from ui.mainuiconnector import MainWindow
 from ui.splashuiconnector import SplashDialog
 from core.ItemData import ItemData
+from core.Application import Application
 import os
 
 
@@ -20,12 +21,14 @@ class Manager:
     '''
     Manager that controls all of RWE#(except for gui)
     '''
-    def __init__(self, window: MainWindow, splash: SplashDialog, file=None):
+    def __init__(self, window: MainWindow, app: Application, file=None):
         """
         :param window: RWE# window(main window with viewport and stuff)
         :param file: file to load by default
         """
+        splash = app.splash
         self.window: MainWindow = window
+        self.application: Application = app
 
         self.tiles: ItemData = splash.loader.tiles
         self.props: ItemData = splash.loader.props

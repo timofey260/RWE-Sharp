@@ -17,10 +17,10 @@ class Application:
 
     def post_init(self):
         if self.args.filename is not None:
-            self.window = MainWindow(self.splash, self.args.filename)
+            self.window = MainWindow(self, self.args.filename)
             # manager.new_process(args.filename)
 
         else:
-            self.window = MainWindow(self.splash)
+            self.window = MainWindow(self)
         self.window.show()
         # sys.exit(self.app.exec())

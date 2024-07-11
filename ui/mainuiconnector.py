@@ -3,6 +3,7 @@ from PySide6.QtCore import Slot
 from ui.uiscripts.mainui import Ui_MainWindow
 from ui.aboutuiconnector import AboutDialog
 from ui.settingsuiconnector import SettingsUI
+from ui.hotkeysuiconnector import HotkeysUI
 from core import info
 from BaseMod.Palettes.RaspberryDark import RaspberryDark
 
@@ -11,7 +12,7 @@ class MainWindow(QMainWindow):
     '''
     Main window and bare ui of RWE#
     '''
-    def __init__(self, splash, filename=None):
+    def __init__(self, app, filename=None):
         """
 
         :param filename:  file to load by default
@@ -25,14 +26,16 @@ class MainWindow(QMainWindow):
         self.ui.actionClose.triggered.connect(self.close)
         self.ui.actionAbout.triggered.connect(self.open_about)
         self.ui.actionPreferences.triggered.connect(self.open_settings)
-        self.manager = Manager(self, splash, filename)
+        self.ui.actionHotkeys.triggered.connect(self.open_hotkeys)
+        self.manager = Manager(self, app, filename)
 
         self.ui.viewPort.add_managed_fields(self.manager)
 
         # self.ui.menuRecent.addAction(QAction("lol", self.ui.menuRecent))
         self.ui.ToolsTabs.currentChanged.connect(self.change_editor)
         self.about = None
-        self.settings = None
+        self.settings: SettingsUI | None = None
+        self.hotkeys: HotkeysUI | None = None
 
         self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
         self.ui.QuickOverlay.addItem(self.verticalSpacer)
@@ -52,7 +55,6 @@ class MainWindow(QMainWindow):
 
     @Slot(int)
     def change_editor(self, val) -> None:
-        print("editor changed to " + str(val))
         self.manager.change_editor(val)
 
     @Slot()
@@ -66,7 +68,13 @@ class MainWindow(QMainWindow):
         self.settings.show()
 
     @Slot()
+    def open_hotkeys(self) -> None:
+        self.hotkeys = HotkeysUI(self.manager, self)
+        self.hotkeys.show()
+
+    @Slot()
     def close(self) -> None:
+        self.manager.application.app.exit()
         print("imagine it closes")
 
     @Slot()

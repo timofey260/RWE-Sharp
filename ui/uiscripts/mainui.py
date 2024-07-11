@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'main_tim.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.7.0
+## Created by: Qt User Interface Compiler version 6.7.2
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -36,7 +36,7 @@ class Ui_MainWindow(object):
         MainWindow.setSizePolicy(sizePolicy)
         MainWindow.setMinimumSize(QSize(1, 400))
         icon = QIcon()
-        icon.addFile(u":/icons/icon_small.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon.addFile(u":/icons/icon_small.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         MainWindow.setWindowIcon(icon)
         MainWindow.setStyleSheet(u"")
         MainWindow.setTabShape(QTabWidget.TabShape.Rounded)
@@ -335,7 +335,7 @@ class Ui_MainWindow(object):
         self.actionexplode_leditor.setText(QCoreApplication.translate("MainWindow", u"explode leditor", None))
         self.actionLediting_help.setText(QCoreApplication.translate("MainWindow", u"Lediting help", None))
         self.actionRender_2.setText(QCoreApplication.translate("MainWindow", u"Render", None))
-        self.actionHotkeys.setText(QCoreApplication.translate("MainWindow", u"Hotkeys", None))
+        self.actionHotkeys.setText(QCoreApplication.translate("MainWindow", u"Hotkeys...", None))
         self.actionOpen_2.setText(QCoreApplication.translate("MainWindow", u"Open", None))
         self.actionUndo.setText(QCoreApplication.translate("MainWindow", u"Undo", None))
         self.actionRedo.setText(QCoreApplication.translate("MainWindow", u"Redo", None))
