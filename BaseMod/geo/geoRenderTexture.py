@@ -4,12 +4,13 @@ from PySide6.QtCore import QRect
 from PySide6.QtGui import QPixmap, QColor, QPainter
 
 from RWESharp.Core import PATH_FILES_IMAGES, CONSTS, CELLSIZE
-from RWESharp.Renderable import RenderTexture
+from RWESharp.Renderable import RenderLevelImage
 
 
-class GeoRenderTexture(RenderTexture):
+class GeoRenderLevelImage(RenderLevelImage):
     def __init__(self, module, depth, geolayer):
-        super().__init__(module, depth)
+        super().__init__(module.mod, depth)
+        self.module = module
         self.geolayer = geolayer
 
         if os.path.exists(os.path.join(PATH_FILES_IMAGES, CONSTS.get("geo_image_config", {}).get("image"))):

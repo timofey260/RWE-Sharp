@@ -97,6 +97,8 @@ class ViewPort(QGraphicsView):
             i.move_event(self.topleft.pos())
         self.manager.editor.mouse_wheel_event(event)
         self.manager.editor.mouse_move_event(event)
+        self.manager.editor.zoom_event(self.zoom)
+        self.manager.editor.move_event(self.topleft.pos())
         #self.verticalScrollBar().size
         #self.horizontalScrollBar().adjustSize()
 
@@ -110,6 +112,7 @@ class ViewPort(QGraphicsView):
                 i.move_event(self.topleft.pos())
         self.mouse_pos = event.pos()
         self.manager.editor.mouse_move_event(event)
+        self.manager.editor.move_event(self.topleft.pos())
 
     def viewport_to_editor(self, point: QPoint) -> QPoint:
         npoint = point + QPoint(self.horizontalScrollBar().value(), self.verticalScrollBar().value()) - self.topleft.pos().toPoint()

@@ -6,8 +6,8 @@ from widgets import Viewport
 
 
 class RenderRect(Renderable):
-    def __init__(self, module, depth, rect: QRect, pen=QPen(Qt.GlobalColor.red), brush=QBrush(Qt.GlobalColor.transparent)):
-        super().__init__(module, depth)
+    def __init__(self, mod, depth, rect: QRect, pen=QPen(Qt.GlobalColor.red), brush=QBrush(Qt.GlobalColor.transparent)):
+        super().__init__(mod, depth)
         self.rect = rect
         self.drawrect: None | QGraphicsRectItem = None
         self.pen = QPen(pen)
@@ -20,6 +20,9 @@ class RenderRect(Renderable):
         self.drawrect.setZValue(self.depth)
         self.drawrect.setPen(self.pen)
         self.drawrect.setBrush(self.brush)
+
+    def remove_graphics(self):
+        self.drawrect.removeFromIndex()
 
     def move_event(self, pos):
         self.drawrect.setPos(pos)

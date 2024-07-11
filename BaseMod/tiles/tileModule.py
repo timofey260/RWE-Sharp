@@ -3,7 +3,7 @@ import os.path
 from PySide6.QtCore import Slot
 from PySide6.QtGui import QImage, QColor
 
-from BaseMod.tiles.tileRenderTexture import TileRenderTexture
+from BaseMod.tiles.tileRenderTexture import TileRenderLevelImage
 from RWESharp.Configurable import BoolConfigurable, IntConfigurable, StringConfigurable, FloatConfigurable
 from RWESharp.Core import PATH_FILES_IMAGES_PALETTES
 from RWESharp.Loaders import palette_to_colortable
@@ -39,9 +39,9 @@ class TileModule(Module):
             self.palettepath.reset_value()
         self.palettepath.valueChanged.connect(self.change_colortable)
         self.colortable = None
-        self.l1 = TileRenderTexture(self, 100, 0).add_myself()
-        self.l2 = TileRenderTexture(self, 200, 1).add_myself()
-        self.l3 = TileRenderTexture(self, 300, 2).add_myself()
+        self.l1 = TileRenderLevelImage(self, 100, 0).add_myself(self)
+        self.l2 = TileRenderLevelImage(self, 200, 1).add_myself(self)
+        self.l3 = TileRenderLevelImage(self, 300, 2).add_myself(self)
 
         self.drawl1.valueChanged.connect(self.check_l1_change)
         self.drawl2.valueChanged.connect(self.check_l2_change)
@@ -104,6 +104,6 @@ class TileModule(Module):
         else:
             self.mod.gridmodule.rect.drawrect.setBrush(self.mod.gridmodule.backgroundcolor.value)
 
-    def get_layer(self, layer: int) -> TileRenderTexture:
+    def get_layer(self, layer: int) -> TileRenderLevelImage:
         return [self.l1, self.l2, self.l3][layer]
 

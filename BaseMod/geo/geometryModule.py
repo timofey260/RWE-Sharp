@@ -1,6 +1,6 @@
 from PySide6.QtCore import Slot
 
-from BaseMod.geo.geoRenderTexture import GeoRenderTexture
+from BaseMod.geo.geoRenderTexture import GeoRenderLevelImage
 from RWESharp.Configurable import BoolConfigurable, FloatConfigurable, IntConfigurable
 from RWESharp.Modify import Module
 
@@ -28,9 +28,9 @@ class GeoModule(Module):
         self.opacityshift = BoolConfigurable(mod, "VIEW_geo.opacityShift", True, "Does not change opacity of hidden layers")
 
         self.draw = True
-        self.l1 = GeoRenderTexture(self, 150, 0).add_myself()
-        self.l2 = GeoRenderTexture(self, 250, 1).add_myself()
-        self.l3 = GeoRenderTexture(self, 350, 2).add_myself()
+        self.l1 = GeoRenderLevelImage(self, 150, 0).add_myself(self)
+        self.l2 = GeoRenderLevelImage(self, 250, 1).add_myself(self)
+        self.l3 = GeoRenderLevelImage(self, 350, 2).add_myself(self)
 
         self.drawl1.valueChanged.connect(self.check_l1_change)
         self.drawl2.valueChanged.connect(self.check_l2_change)
@@ -127,5 +127,5 @@ class GeoModule(Module):
         self.l3.draw_layer()
         self.init_module_textures()
 
-    def get_layer(self, layer: int) -> GeoRenderTexture:
+    def get_layer(self, layer: int) -> GeoRenderLevelImage:
         return [self.l1, self.l2, self.l3][layer]

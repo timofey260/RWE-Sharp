@@ -1,4 +1,7 @@
-from core.Renderable.Renderable import Renderable
+from __future__ import annotations
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from core.Renderable.Renderable import Renderable
 
 
 class Module:
@@ -27,7 +30,7 @@ class Module:
         """
         pass
 
-    def append_layer(self, renderable: Renderable):
+    def add_renderable(self, renderable: Renderable):
         self.renderables.append(renderable)
 
     def add_myself(self):

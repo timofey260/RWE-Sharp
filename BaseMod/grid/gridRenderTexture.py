@@ -1,12 +1,12 @@
-from RWESharp.Renderable import RenderTexture
+from RWESharp.Renderable import RenderLevelImage
 from RWESharp.Core import CELLSIZE
 from PySide6.QtCore import QLine
 from PySide6.QtGui import QColor
 
 
-class GridRenderTexture(RenderTexture):
+class GridRenderLevelImage(RenderLevelImage):
     def __init__(self, module, depth):
-        super().__init__(module, depth)
+        super().__init__(module.mod, depth)
         self.painter.setPen(QColor(0, 0, 0, 255))
 
     def draw_layer(self) -> None:

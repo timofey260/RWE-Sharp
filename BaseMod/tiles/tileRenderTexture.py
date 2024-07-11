@@ -3,12 +3,13 @@ from PySide6.QtGui import QBrush, QColor, QPainter
 
 from RWESharp.Core import CONSTS, CELLSIZE, SPRITESIZE
 from RWESharp.Loaders import colortable, color_colortable
-from RWESharp.Renderable import RenderTexture
+from RWESharp.Renderable import RenderLevelImage
 
 
-class TileRenderTexture(RenderTexture):
+class TileRenderLevelImage(RenderLevelImage):
     def __init__(self, module, depth, tilelayer):
-        super().__init__(module, depth)
+        super().__init__(module.mod, depth)
+        self.module = module
         self.tilelayer = tilelayer
 
     def draw_layer(self, clear=False):
