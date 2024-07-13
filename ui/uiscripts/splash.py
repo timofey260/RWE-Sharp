@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'splash.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.7.0
+## Created by: Qt User Interface Compiler version 6.7.2
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -25,7 +25,7 @@ class Ui_Splash(object):
             Splash.setObjectName(u"Splash")
         Splash.resize(495, 320)
         icon = QIcon()
-        icon.addFile(u":/icons/icon_small.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon.addFile(u":/icons/icon_small.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         Splash.setWindowIcon(icon)
         self.verticalLayout = QVBoxLayout(Splash)
         self.verticalLayout.setObjectName(u"verticalLayout")

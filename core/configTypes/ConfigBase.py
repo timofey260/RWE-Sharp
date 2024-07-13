@@ -64,3 +64,6 @@ class Configurable(QObject):
     def link_setting(self, setting: SettingUI):
         setting.settings.append(self)
         return self
+
+    def __repr__(self):
+        return f"{self.name}={self.value}"

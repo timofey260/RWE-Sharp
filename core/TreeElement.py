@@ -17,6 +17,8 @@ class TreeElement:
         self.parent: TreeElement | None = parent
         if children is not None:
             self.add_children(*children)
+        if parent is not None:
+            self.parent.add_child(self)
 
     def add_children(self, *children: TreeElement):
         for i in children:
@@ -36,14 +38,13 @@ class TreeElement:
 
     def construct_tree(self) -> QTreeWidgetItem:
         me = QTreeWidgetItem([self.text])
-        me.setData(0, Qt.ItemDataRole.UserRole, self.store_data)
+        self.set_data(me)
         for i in self.children:
             me.addChild(i.construct_tree())
         return me
 
-    @property
-    def store_data(self):
-        return [self.name]
+    def set_data(self, item):
+        item.setData(0, Qt.ItemDataRole.UserRole, [self.name])
 
 
 class SettingElement(TreeElement):
@@ -53,20 +54,36 @@ class SettingElement(TreeElement):
 
     def add_myself(self):
         self.mod.add_setting(self)
+        return self
 
-    @property
-    def store_data(self):
-        return [self.name, self.ui]
+    def set_data(self, item):
+        item.setData(0, Qt.ItemDataRole.UserRole, [self.name, self.ui])
 
 
 class HotkeyElement(TreeElement):
-    def __init__(self, mod: Mod, text: str, name: str, key: KeyConfigurable = None, parent=None, children: list[HotkeyElement] = None):
+    def __init__(self, mod: Mod, text: str, name: str, key: KeyConfigurable | None = None, parent=None, children: list[HotkeyElement] = None):
         super().__init__(mod, text, name, parent, children)
-        self.key: KeyConfigurable = key
+        self.key: KeyConfigurable | None = key
 
     def add_myself(self):
         self.mod.add_hotkey(self)
+        return self
 
-    @property
-    def store_data(self):
-        return [self.name, self.key]
+    def set_data(self, item):
+        if self.key is None:
+            item.setData(0, Qt.ItemDataRole.UserRole, [self.name])
+            return
+        item.setData(0, Qt.ItemDataRole.UserRole, [self.name, self.key])
+        item.setText(1, self.key.value.toString())
+
+    def add_children_configurables(self, *keys: KeyConfigurable):
+        for i in keys:
+            HotkeyElement(self.mod, i.description, i.name, i, self)
+
+
+def get_hotkeys_from_pattern(mod: Mod, pattern: str) -> list[KeyConfigurable]:
+    keys = []
+    for i in mod.configs:
+        if isinstance(i, KeyConfigurable) and pattern in i.name:
+            keys.append(i)
+    return keys

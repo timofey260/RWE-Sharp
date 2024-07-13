@@ -1,7 +1,7 @@
 import enum
 from .ConfigBase import Configurable
 from PySide6.QtGui import QKeySequence, QColor, QAction
-from PySide6.QtWidgets import QAbstractButton, QComboBox
+from PySide6.QtWidgets import QAbstractButton, QComboBox, QKeySequenceEdit
 from PySide6.QtCore import Signal, Qt, Slot
 
 
@@ -41,6 +41,11 @@ class KeyConfigurable(Configurable):
         if len(self.description) > 0:
             action.setToolTip(self.description)
         self.valueChanged.connect(action.setShortcut)
+
+    def link_keysequenceedit(self, edit: QKeySequenceEdit):
+        edit.setKeySequence(self.value)
+        edit.keySequenceChanged.connect(self.update_value)
+        self.valueChanged.connect(edit.setKeySequence)
 
 
 class ColorConfigurable(Configurable):

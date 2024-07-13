@@ -57,7 +57,6 @@ class SettingsViewer(QWidget):
         elif button == self.message.button(QMessageBox.StandardButton.No):
             self.ui.close()
 
-
     def restore_settings(self):
         if self.settingui is None:
             return

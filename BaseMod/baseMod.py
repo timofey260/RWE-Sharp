@@ -8,7 +8,7 @@ from BaseMod.Configs import BaseModConfig
 from BaseMod.tiles.tileEditor import TileEditor
 from BaseMod.tiles.tileExplorer import TileExplorer
 from RWESharp.Modify import Mod, ModInfo
-from RWESharp.Core import SettingElement
+from RWESharp.Core import SettingElement, HotkeyElement, get_hotkeys_from_pattern
 from PySide6.QtGui import QAction
 
 
@@ -16,7 +16,7 @@ class BaseMod(Mod):
     def __init__(self, manager):
         super().__init__(manager, ModInfo(
             "Base Mod",
-            "timofey26.basemod",
+            "basemod",
             "timofey26",
             "1.0.0",
             "RWE# essentials\nincludes all editors, modules and other\ndisable it at your own risk :3"
@@ -39,6 +39,7 @@ class BaseMod(Mod):
         self.gridui: GridView | None = None
 
         self.settingtree: SettingElement | None = None
+        self.hotkeytree: HotkeyElement | None = None
         self.bmconfig: BaseModConfig | None = None
 
         self.tile_explorer: TileExplorer | None = None
@@ -75,7 +76,13 @@ class BaseMod(Mod):
 
         self.gridui = GridView(self).add_myself()
 
-        self.settingtree = SettingElement(self, self.modinfo.title, self.modinfo.name)
+        self.settingtree = SettingElement(self, self.modinfo.title, self.modinfo.name).add_myself()
         self.settingtree.add_child(SettingElement(self, "Geo", "geo", self.geosettings))
-        self.settingtree.add_myself()
+
+        self.hotkeytree = HotkeyElement(self, "BaseMod", "basemod").add_myself()
+        geoelement = HotkeyElement(self, "Geometry Editor", "geoedit", parent=self.hotkeytree)
+        geoviewelement = HotkeyElement(self, "Geometry View", "geoedit", parent=self.hotkeytree)
+
+        geoelement.add_children_configurables(*get_hotkeys_from_pattern(self, "KEYS_geo"), *get_hotkeys_from_pattern(self, "EDIT_geo"))
+        geoviewelement.add_children_configurables(*get_hotkeys_from_pattern(self, "VIEW_geo"))
 

@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'aboutdialog.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.7.0
+## Created by: Qt User Interface Compiler version 6.7.2
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -20,21 +20,21 @@ from PySide6.QtWidgets import (QApplication, QDialog, QFrame, QGridLayout,
     QSpacerItem, QVBoxLayout, QWidget)
 import ui.res_rc
 
-class Ui_Dialog(object):
-    def setupUi(self, Dialog):
-        if not Dialog.objectName():
-            Dialog.setObjectName(u"Dialog")
-        Dialog.resize(602, 316)
+class Ui_About(object):
+    def setupUi(self, About):
+        if not About.objectName():
+            About.setObjectName(u"About")
+        About.resize(602, 316)
         sizePolicy = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(Dialog.sizePolicy().hasHeightForWidth())
-        Dialog.setSizePolicy(sizePolicy)
+        sizePolicy.setHeightForWidth(About.sizePolicy().hasHeightForWidth())
+        About.setSizePolicy(sizePolicy)
         icon = QIcon(QIcon.fromTheme(u"help-about"))
-        Dialog.setWindowIcon(icon)
-        self.gridLayout = QGridLayout(Dialog)
+        About.setWindowIcon(icon)
+        self.gridLayout = QGridLayout(About)
         self.gridLayout.setObjectName(u"gridLayout")
-        self.label = QLabel(Dialog)
+        self.label = QLabel(About)
         self.label.setObjectName(u"label")
         sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Preferred)
         sizePolicy1.setHorizontalStretch(2)
@@ -52,7 +52,7 @@ class Ui_Dialog(object):
         self.verticalLayout = QVBoxLayout()
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.verticalLayout.setSizeConstraint(QLayout.SizeConstraint.SetDefaultConstraint)
-        self.frame = QFrame(Dialog)
+        self.frame = QFrame(About)
         self.frame.setObjectName(u"frame")
         sizePolicy2 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
         sizePolicy2.setHorizontalStretch(0)
@@ -61,7 +61,7 @@ class Ui_Dialog(object):
         self.frame.setSizePolicy(sizePolicy2)
         self.frame.setMinimumSize(QSize(50, 50))
         self.frame.setMaximumSize(QSize(50, 50))
-        self.frame.setCursor(QCursor(Qt.CrossCursor))
+        self.frame.setCursor(QCursor(Qt.CursorShape.CrossCursor))
         self.frame.setStyleSheet(u"image: url(:/icons/icon.png)")
         self.frame.setFrameShape(QFrame.Shape.NoFrame)
         self.frame.setFrameShadow(QFrame.Shadow.Plain)
@@ -69,7 +69,7 @@ class Ui_Dialog(object):
 
         self.verticalLayout.addWidget(self.frame)
 
-        self.label_2 = QLabel(Dialog)
+        self.label_2 = QLabel(About)
         self.label_2.setObjectName(u"label_2")
         font = QFont()
         font.setFamilies([u"Rodondo"])
@@ -85,12 +85,12 @@ class Ui_Dialog(object):
 
         self.verticalLayout.addItem(self.verticalSpacer)
 
-        self.pushButton = QPushButton(Dialog)
+        self.pushButton = QPushButton(About)
         self.pushButton.setObjectName(u"pushButton")
 
         self.verticalLayout.addWidget(self.pushButton)
 
-        self.pushButton_2 = QPushButton(Dialog)
+        self.pushButton_2 = QPushButton(About)
         self.pushButton_2.setObjectName(u"pushButton_2")
 
         self.verticalLayout.addWidget(self.pushButton_2)
@@ -99,17 +99,17 @@ class Ui_Dialog(object):
         self.gridLayout.addLayout(self.verticalLayout, 0, 0, 1, 1)
 
 
-        self.retranslateUi(Dialog)
-        self.pushButton.clicked.connect(Dialog.accept)
+        self.retranslateUi(About)
+        self.pushButton.clicked.connect(About.accept)
 
-        QMetaObject.connectSlotsByName(Dialog)
+        QMetaObject.connectSlotsByName(About)
     # setupUi
 
-    def retranslateUi(self, Dialog):
-        Dialog.setWindowTitle(QCoreApplication.translate("Dialog", u"About", None))
-        self.label.setText(QCoreApplication.translate("Dialog", u"<html><head/><body><p>RWE# made by timofey</p><p>funny</p></body></html>", None))
-        self.label_2.setText(QCoreApplication.translate("Dialog", u"RWE#", None))
-        self.pushButton.setText(QCoreApplication.translate("Dialog", u"Ok", None))
-        self.pushButton_2.setText(QCoreApplication.translate("Dialog", u"Github", None))
+    def retranslateUi(self, About):
+        About.setWindowTitle(QCoreApplication.translate("About", u"About", None))
+        self.label.setText(QCoreApplication.translate("About", u"<html><head/><body><p>RWE# made by timofey</p><p>funny</p></body></html>", None))
+        self.label_2.setText(QCoreApplication.translate("About", u"RWE#", None))
+        self.pushButton.setText(QCoreApplication.translate("About", u"Ok", None))
+        self.pushButton_2.setText(QCoreApplication.translate("About", u"Github", None))
     # retranslateUi
 
