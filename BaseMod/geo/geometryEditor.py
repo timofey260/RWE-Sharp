@@ -1,8 +1,8 @@
 import os
 from enum import Enum, auto
 
-from PySide6.QtCore import QRect, QPoint
-from PySide6.QtGui import QColor, QPen, QMoveEvent, QWheelEvent, QMouseEvent, QPixmap, QPainter
+from PySide6.QtCore import QRect, QPoint, QSize, QPointF
+from PySide6.QtGui import QColor, QMoveEvent, QMouseEvent, QPixmap, QPainter
 from PySide6.QtWidgets import QGraphicsRectItem, QGraphicsPixmapItem
 
 from BaseMod.geo.geoControls import GeoControls
@@ -10,6 +10,7 @@ from BaseMod.geo.geoHistory import GEPointChange
 from RWESharp.Configurable import BoolConfigurable, IntConfigurable, EnumConfigurable
 from RWESharp.Core import CELLSIZE, PATH_FILES_IMAGES, CONSTS
 from RWESharp.Modify import EditorMode
+from RWESharp.Renderable import RenderImage, RenderRect
 
 
 class GeoBlocks(Enum):
@@ -98,10 +99,10 @@ class GeometryEditor(EditorMode):
         self.mod: BaseMod
         self.module = self.mod.geomodule
 
-        self.cursor: QGraphicsRectItem | None = None
-        self.cursor_item: QGraphicsPixmapItem | None = None
-        self.pixmap: QPixmap | None = None
-        self.itempainter: QPainter | None = None
+        self.cursor: RenderRect | None = None
+        # self.cursor_item: QGraphicsPixmapItem | None = None
+        self.pixmap: RenderImage | None = None
+        # self.itempainter: QPainter | None = None
         self.lastpos = QPoint()
         self.block = EnumConfigurable(mod, "EDIT_geo.block", GeoBlocks.Wall, GeoBlocks, "Current geo block")
         self.toolleft = EnumConfigurable(mod, "EDIT_geo.lmb", GeoTools.Pen, GeoTools, "Current geo tool for LMB")
@@ -132,25 +133,25 @@ class GeometryEditor(EditorMode):
             self.drawl1.update_value(True)
             self.drawl2.update_value(False)
             self.drawl3.update_value(False)
-        self.pixmap.fill(QColor(0, 0, 0, 0))
+        self.pixmap.image.fill(QColor(0, 0, 0, 0))
         blk, stak = self.block2info()
         if not stak and blk != 0:
             pos = self.binfo.get(str(blk), [0, 0])
             cellpos = QRect(pos[0] * self._sz, pos[1] * self._sz, self._sz, self._sz)
-            self.itempainter.drawPixmap(QRect(0, 0, CELLSIZE, CELLSIZE), self.geo_texture, cellpos)
+            self.pixmap.painter.drawPixmap(QRect(0, 0, CELLSIZE, CELLSIZE), self.geo_texture, cellpos)
         elif self.block.value in stackables:
             pos = self.sinfo.get(str(blk), [0, 0])
             if blk == 4:
                 pos = self.sinfo.get(str(blk), [0, 0])
                 pos = pos[1]
             cellpos = QRect(pos[0] * self._sz, pos[1] * self._sz, self._sz, self._sz)
-            self.itempainter.drawPixmap(QRect(0, 0, CELLSIZE, CELLSIZE), self.geo_texture, cellpos)
+            self.pixmap.painter.drawPixmap(QRect(0, 0, CELLSIZE, CELLSIZE), self.geo_texture, cellpos)
         else:
-            self.itempainter.setBrush(QColor(0, 0, 0, 0))
-            self.itempainter.setPen(QColor(255, 0, 0, 255))
-            self.itempainter.drawLine(QPoint(0, 0), QPoint(CELLSIZE, CELLSIZE))
-            self.itempainter.drawLine(QPoint(CELLSIZE, 0), QPoint(0, CELLSIZE))
-        self.cursor_item.setPixmap(self.pixmap)
+            self.pixmap.painter.setBrush(QColor(0, 0, 0, 0))
+            self.pixmap.painter.setPen(QColor(255, 0, 0, 255))
+            self.pixmap.painter.drawLine(QPoint(0, 0), QPoint(CELLSIZE, CELLSIZE))
+            self.pixmap.painter.drawLine(QPoint(CELLSIZE, 0), QPoint(0, CELLSIZE))
+        self.pixmap.redraw()
 
     @property
     def layers(self) -> list[bool]:
@@ -213,20 +214,15 @@ class GeometryEditor(EditorMode):
         return 0, False
 
     def init_scene_items(self):
-        self.cursor = self.workscene.addRect(QRect(0, 0, 20, 20), pen=QPen(QColor(255, 0, 0), 3))
-        self.pixmap = QPixmap(CELLSIZE, CELLSIZE)
-        self.pixmap.fill(QColor(0, 0, 0, 0))
-        self.itempainter = QPainter(self.pixmap)
-        self.cursor_item = self.workscene.addPixmap(self.pixmap)
-        self.cursor_item.setOpacity(.3)
-        self.itempainter.setCompositionMode(QPainter.CompositionMode.CompositionMode_Source)
+        self.cursor = RenderRect(self.mod, 0, QRect(0, 0, CELLSIZE, CELLSIZE)).add_myself(self)
+        self.pixmap = RenderImage(self.mod, 1, QSize(CELLSIZE, CELLSIZE)).add_myself(self)
+        super().init_scene_items()
+        self.pixmap.renderedtexture.setOpacity(.3)
+        # self.cursor_item = self.workscene.addPixmap(self.pixmap)
+        # self.cursor_item.setOpacity(.3)
+        self.pixmap.painter.setCompositionMode(QPainter.CompositionMode.CompositionMode_Source)
         self.block_changed()
         self.manager.set_status("placing walls")
-
-    def remove_items_from_scene(self):
-        self.cursor.removeFromIndex()
-        self.cursor_item.removeFromIndex()
-        self.itempainter = None
 
     def mouse_press_event(self, event: QMouseEvent):
         if self.mouse_left:
@@ -244,10 +240,11 @@ class GeometryEditor(EditorMode):
     def mouse_move_event(self, event: QMoveEvent):
         super().mouse_move_event(event)
         fpos = self.viewport.viewport_to_editor(self.mouse_pos)
-        cpos = self.viewport.editor_to_viewport(fpos)
-        if cpos != self.cursor.pos():
-            self.cursor.setPos(self.viewport.editor_to_viewport(fpos))
-            self.cursor_item.setPos(self.viewport.editor_to_viewport(fpos))
+        if fpos * CELLSIZE != self.cursor.pos.toPoint():
+            print(fpos * CELLSIZE, self.cursor.pos.toPoint())
+            self.cursor.setPos(fpos.toPointF() * CELLSIZE)
+            self.pixmap.setPos(fpos.toPointF() * CELLSIZE)
+            # self.cursor_item.setPos(self.viewport.editor_to_viewport(fpos))
         if self.manager.level.inside(fpos):
             self.manager.set_status(f"x: {fpos.x()}, y: {fpos.y()}, {self.manager.level['GE'][fpos.x()][fpos.y()]}")
         if self.mouse_left and self.manager.level.inside(fpos) and not (self.lastpos - fpos).isNull():
@@ -259,7 +256,3 @@ class GeometryEditor(EditorMode):
             # self.module.l1.draw_geo(fpos.x(), fpos.y(), True)
             # self.module.l1.redraw()
         self.lastpos = fpos
-
-    def mouse_wheel_event(self, event: QWheelEvent):
-        self.cursor.setRect(QRect(0, 0, CELLSIZE * self.viewport.zoom, CELLSIZE * self.viewport.zoom))
-        self.cursor_item.setScale(self.viewport.zoom)

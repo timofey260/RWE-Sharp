@@ -12,13 +12,23 @@ class GERectChange(HistoryElement):
         self.replace = replace
         self.before = []
         self.layers = layers
+        self.module = self.history.level.manager.basemod.geomodule
         for x in range(self.rect.x(), self.rect.width()):
             for y in range(self.rect.y(), self.rect.height()):
                 for i, l in enumerate(self.layers):
                     if l:
-                        data = self.history.level.geo_data(x, y, i)
-                        self.before.append([data[0], data[1].copy()])
-                        self.history.level.data["GE"][x][y][i] = [replace[0], replace[1].copy()]
+                        block, save = geo_save(self.replace, self.history.level.geo_data(x, y, i))
+                        self.before.append(save)
+                        self.history.level.data["GE"][x][y][i] = block
+                        t = self.module.get_layer(i)
+                        t.draw_geo(x, y, True)
+        self.redraw()
+
+    def redraw(self):
+        for i, l in enumerate(self.layers):
+            if l:
+                t = self.module.get_layer(i)
+                t.redraw()
 
     def undo_changes(self, level):
         c = 0
@@ -26,15 +36,23 @@ class GERectChange(HistoryElement):
             for y in range(self.rect.y(), self.rect.height()):
                 for i, l in enumerate(self.layers):
                     if l:
-                        self.history.level.data["GE"][x][y][i] = [self.before[0], self.before[1].copy()]
+                        block = geo_undo(self.replace, self.history.level.geo_data(x, y, i), self.before[c])
+                        self.history.level.data["GE"][x][y][i] = block
+                        self.module.get_layer(i).draw_geo(x, y, True)
                         c += 1  # c++ almost
+        self.redraw()
 
     def redo_changes(self, level):
         for x in range(self.rect.x(), self.rect.width()):
             for y in range(self.rect.y(), self.rect.height()):
                 for i, l in enumerate(self.layers):
                     if l:
-                        self.history.level.data["GE"][x][y][i] = [self.replace[0], self.replace[1].copy()]
+                        block, save = geo_save(self.replace, self.history.level.geo_data(x, y, i))
+                        self.before.append(save)
+                        self.history.level.data["GE"][x][y][i] = block
+                        t = self.module.get_layer(i)
+                        t.draw_geo(x, y, True)
+        self.redraw()
 
 
 class GEPointChange(HistoryElement):

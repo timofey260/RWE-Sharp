@@ -28,6 +28,8 @@ class EditorMode:
         Called when editor is changed, should add drawables to scene
         :return:
         """
+        for i in self.renderables:
+            i.init_graphics(self.viewport)
 
     def mouse_move_event(self, event: QMoveEvent):
         pass
@@ -55,7 +57,7 @@ class EditorMode:
         :return: None
         """
         for i in self.renderables:
-            i.remove_graphics()
+            i.init_graphics(self.viewport)
 
     def add_renderable(self, renderable: Renderable):
         self.renderables.append(renderable)
