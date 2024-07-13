@@ -8,4 +8,4 @@ class HotkeysUI(QDialog):
         self.manager = manager
         self.ui = Ui_Hotkeys()
         self.ui.setupUi(self)
-        self.ui.keySequenceEdit.keySequence()
+        self.ui.treeWidget.addTopLevelItem()

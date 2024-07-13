@@ -4,7 +4,7 @@ from core.Modify.Mod import Mod
 from core.Modify.baseModule import Module
 from core.Modify.Palette import Palette
 from core.Config import Config
-from core.SettingTree import SettingElement
+from core.TreeElement import SettingElement, HotkeyElement
 from core.info import PATH_MODS
 from core.ModLoader import load_mod
 from widgets.Viewport import ViewPort
@@ -60,15 +60,15 @@ class Manager:
         """
         Configs are used to store editor-specific data
         """
-        self.viewfolders: list[str] = []
-        """
-        list of strings for view specific menu items
-        """
         self.palettes: list[Palette] = []
         """
         neat color visuals
         """
         self.setting_trees: list[SettingElement] = []
+        """
+        Collection of ui's for settings window
+        """
+        self.hotkey_trees: list[HotkeyElement] = []
         """
         Collection of ui's for settings window
         """
@@ -135,6 +135,9 @@ class Manager:
 
     def add_setting(self, setting: SettingElement):
         self.setting_trees.append(setting)
+
+    def add_hotkeytree(self, hotkey: HotkeyElement):
+        self.hotkey_trees.append(hotkey)
 
     @property
     def view_menu(self) -> QMenu:

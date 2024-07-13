@@ -9,7 +9,7 @@ if TYPE_CHECKING:
     from PySide6.QtWidgets import QWidget
     from core.Modify.Palette import Palette
     from core.Manager import Manager
-    from core.SettingTree import SettingElement
+    from core.TreeElement import SettingElement, HotkeyElement
 
 
 @dataclass(frozen=True, init=True)
@@ -71,3 +71,6 @@ class Mod:
 
     def add_setting(self, setting: SettingElement):
         self.manager.add_setting(setting)
+
+    def add_hotkey(self, hotkey: HotkeyElement):
+        self.manager.add_hotkeytree(hotkey)
