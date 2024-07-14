@@ -115,10 +115,11 @@ class ViewPort(QGraphicsView):
         self.manager.editor.move_event(self.topleft.pos())
 
     def viewport_to_editor(self, point: QPoint) -> QPoint:
-        npoint = point + QPoint(self.horizontalScrollBar().value(), self.verticalScrollBar().value()) - self.topleft.pos().toPoint()
+        npoint = point.toPointF() + QPointF(self.horizontalScrollBar().value(), self.verticalScrollBar().value()) - self.topleft.pos()
         npoint.setX(npoint.x() / (CELLSIZE * self.zoom))
         npoint.setY(npoint.y() / (CELLSIZE * self.zoom))
-        return npoint
+        npoint -= QPointF(.5, .5)
+        return npoint.toPoint()
 
     def viewport_to_editor_float(self, point: QPointF) -> QPointF:
         npoint = point + QPointF(self.horizontalScrollBar().value(), self.verticalScrollBar().value()) - self.topleft.pos()

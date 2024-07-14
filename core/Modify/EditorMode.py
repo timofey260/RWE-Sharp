@@ -57,7 +57,7 @@ class EditorMode:
         :return: None
         """
         for i in self.renderables:
-            i.init_graphics(self.viewport)
+            i.remove_graphics()
 
     def add_renderable(self, renderable: Renderable):
         self.renderables.append(renderable)

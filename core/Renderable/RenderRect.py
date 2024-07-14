@@ -9,7 +9,6 @@ class RenderRect(Renderable):
     def __init__(self, mod, depth, rect: QRect, pen=QPen(Qt.GlobalColor.red), brush=QBrush(Qt.GlobalColor.transparent)):
         super().__init__(mod, depth)
         self.rect = rect
-        self.pos = QPointF()
         self.drawrect: None | QGraphicsRectItem = None
         self.pen = QPen(pen)
         self.brush = QBrush(brush)
@@ -23,10 +22,13 @@ class RenderRect(Renderable):
         self.drawrect.setBrush(self.brush)
 
     def remove_graphics(self):
+        super().remove_graphics()
         self.drawrect.removeFromIndex()
+        self.drawrect = None
 
     def move_event(self, pos):
-        self.drawrect.setPos(pos + self.pos)
+        super().move_event(pos)
+        self.drawrect.setPos(self.actual_offset)
 
     def zoom_event(self, zoom):
         self.drawrect.setScale(zoom)
@@ -36,5 +38,5 @@ class RenderRect(Renderable):
         self.drawrect.setRect(rect)
 
     def setPos(self, pos: QPointF):
-        self.drawrect.setPos(self.drawrect.pos() - self.pos + pos)
-        self.pos = pos
+        super().setPos(pos)
+        self.drawrect.setPos(self.actual_offset)

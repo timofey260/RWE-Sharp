@@ -1,3 +1,4 @@
+from core.info import CELLSIZE
 from core.Renderable.Renderable import Renderable
 from PySide6.QtCore import QSize, QPointF
 from PySide6.QtGui import QPixmap, QColor, QPainter
@@ -10,7 +11,6 @@ class RenderImage(Renderable):
         self.image = QPixmap(imagesize)
         self.image.fill(QColor(0, 0, 0, 0))
         self.painter = QPainter(self.image)
-        self.pos: QPointF = QPointF()
         self.renderedtexture: QGraphicsPixmapItem | None = None
 
     def redraw(self) -> None:
@@ -35,13 +35,15 @@ class RenderImage(Renderable):
 
     def remove_graphics(self):
         self.renderedtexture.removeFromIndex()
+        self.renderedtexture = None
 
     def move_event(self, pos):
-        self.renderedtexture.setPos(pos + self.pos)
+        super().move_event(pos)
+        self.renderedtexture.setPos(self.actual_offset)
 
     def zoom_event(self, zoom):
         self.renderedtexture.setScale(zoom)
 
     def setPos(self, pos: QPointF):
-        self.renderedtexture.setPos(self.renderedtexture.pos() - self.pos + pos)
-        self.pos = pos
+        super().setPos(pos)
+        self.renderedtexture.setPos(self.actual_offset)

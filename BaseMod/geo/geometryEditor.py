@@ -99,10 +99,8 @@ class GeometryEditor(EditorMode):
         self.mod: BaseMod
         self.module = self.mod.geomodule
 
-        self.cursor: RenderRect | None = None
-        # self.cursor_item: QGraphicsPixmapItem | None = None
-        self.pixmap: RenderImage | None = None
-        # self.itempainter: QPainter | None = None
+        self.cursor = RenderRect(self.mod, 0, QRect(0, 0, CELLSIZE, CELLSIZE)).add_myself(self)
+        self.pixmap = RenderImage(self.mod, 1, QSize(CELLSIZE, CELLSIZE)).add_myself(self)
         self.lastpos = QPoint()
         self.block = EnumConfigurable(mod, "EDIT_geo.block", GeoBlocks.Wall, GeoBlocks, "Current geo block")
         self.toolleft = EnumConfigurable(mod, "EDIT_geo.lmb", GeoTools.Pen, GeoTools, "Current geo tool for LMB")
@@ -214,8 +212,6 @@ class GeometryEditor(EditorMode):
         return 0, False
 
     def init_scene_items(self):
-        self.cursor = RenderRect(self.mod, 0, QRect(0, 0, CELLSIZE, CELLSIZE)).add_myself(self)
-        self.pixmap = RenderImage(self.mod, 1, QSize(CELLSIZE, CELLSIZE)).add_myself(self)
         super().init_scene_items()
         self.pixmap.renderedtexture.setOpacity(.3)
         # self.cursor_item = self.workscene.addPixmap(self.pixmap)
@@ -223,6 +219,9 @@ class GeometryEditor(EditorMode):
         self.pixmap.painter.setCompositionMode(QPainter.CompositionMode.CompositionMode_Source)
         self.block_changed()
         self.manager.set_status("placing walls")
+        
+    def remove_items_from_scene(self):
+        super().remove_items_from_scene()
 
     def mouse_press_event(self, event: QMouseEvent):
         if self.mouse_left:
@@ -230,7 +229,7 @@ class GeometryEditor(EditorMode):
         if self.mouse_right:
             self.tool_specific_press(self.toolright.value)
 
-    def tool_specific_press(self, tool: GeoTools):
+    def tool_specific_press(self, tool: Enum):
         fpos = self.viewport.viewport_to_editor(self.mouse_pos)
         if tool == GeoTools.Pen:
             blk, stak = self.block2info()
@@ -240,8 +239,8 @@ class GeometryEditor(EditorMode):
     def mouse_move_event(self, event: QMoveEvent):
         super().mouse_move_event(event)
         fpos = self.viewport.viewport_to_editor(self.mouse_pos)
+        # print(fpos * CELLSIZE, self.viewport.viewport_to_editor_float(self.mouse_pos.toPointF()))
         if fpos * CELLSIZE != self.cursor.pos.toPoint():
-            print(fpos * CELLSIZE, self.cursor.pos.toPoint())
             self.cursor.setPos(fpos.toPointF() * CELLSIZE)
             self.pixmap.setPos(fpos.toPointF() * CELLSIZE)
             # self.cursor_item.setPos(self.viewport.editor_to_viewport(fpos))

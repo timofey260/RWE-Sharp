@@ -1,7 +1,6 @@
-from PySide6.QtWidgets import QGraphicsItem
+from PySide6.QtCore import QPointF
 from core.Modify.baseModule import Module
 from core.Modify.EditorMode import EditorMode
-
 
 class Renderable:
     from widgets import Viewport
@@ -12,6 +11,8 @@ class Renderable:
         self.mod: Mod = mod
         self.depth: int = -depth
         self.manager: Manager = mod.manager
+        self.pos: QPointF = QPointF()
+        self.offset: QPointF = QPointF()
 
     def add_myself(self, where: Module | EditorMode):
         if isinstance(where, Module):
@@ -21,13 +22,24 @@ class Renderable:
         return self
 
     def init_graphics(self, viewport: Viewport):
-        raise NotImplementedError("Abstract method should be overridden")
+        pass
 
     def remove_graphics(self):
-        raise NotImplementedError("Abstract method should be overridden")
+        pass
 
     def zoom_event(self, zoom):
-        raise NotImplementedError("Abstract method should be overridden")
+        pass
 
     def move_event(self, pos):
-        raise NotImplementedError("Abstract method should be overridden")
+        self.pos = pos
+
+    def setPos(self, pos):
+        self.offset = pos
+
+    @property
+    def actual_offset(self):
+        return self.pos + self.offset * self.zoom
+
+    @property
+    def zoom(self):
+        return self.manager.viewport.zoom
