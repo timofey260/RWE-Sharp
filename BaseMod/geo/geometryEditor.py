@@ -233,7 +233,6 @@ class GeometryEditor(EditorMode):
         fpos = self.viewport.viewport_to_editor(self.mouse_pos)
         if tool == GeoTools.Pen:
             blk, stak = self.block2info()
-            print(blk, stak)
             self.manager.level.add_history(GEPointChange(self.manager.level.history, fpos, [blk, stak], self.layers))
 
     def mouse_move_event(self, event: QMoveEvent):

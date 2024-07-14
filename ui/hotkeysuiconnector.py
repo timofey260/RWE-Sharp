@@ -14,14 +14,43 @@ class HotkeysUI(QDialog):
         self.manager = manager
         self.ui = Ui_Hotkeys()
         self.ui.setupUi(self)
-        for i in self.manager.hotkey_trees:
-            self.ui.treeWidget.addTopLevelItem(i.construct_tree())
+        self.loaditems()
         self.ui.treeWidget.itemDoubleClicked.connect(self.change)
         self.dialog: KeyDialog | None = None
         self.ui.treeWidget.expandAll()
         self.ui.treeWidget.resizeColumnToContents(0)
         self.ui.treeWidget.collapseAll()
         self.ui.treeWidget.setAlternatingRowColors(True)
+        self.ui.Search.textChanged.connect(self.update_filters)
+        self.found = []
+        self.ui.spinBox.valueChanged.connect(self.spinfounditems)
+        self.ui.spinBox.hide()
+
+    def spinfounditems(self):
+        if len(self.found) == 0:
+            return
+        self.ui.treeWidget.setCurrentItem(self.found[self.ui.spinBox.value() - 1])
+        print(self.ui.treeWidget.selectedItems())
+
+    def loaditems(self):
+        for i in self.manager.hotkey_trees:
+            self.ui.treeWidget.addTopLevelItem(i.construct_tree())
+
+    def update_filters(self, text: str):
+        # self.loaditems()
+        # self.ui.treeWidget.clearSelection()
+        # self.ui.treeWidget.collapseAll()
+        if text == "":
+            self.ui.spinBox.hide()
+            return
+        self.found = [*self.ui.treeWidget.findItems(text, Qt.MatchFlag.MatchContains | Qt.MatchFlag.MatchRecursive, 1),
+                      *self.ui.treeWidget.findItems(text, Qt.MatchFlag.MatchContains | Qt.MatchFlag.MatchRecursive, 0)]
+        # self.found = [i for i in self.found if len(i.data(0, Qt.ItemDataRole.UserRole)) > 1]
+        self.ui.spinBox.setMinimum(1)
+        self.ui.spinBox.setMaximum(len(self.found))
+        self.ui.spinBox.setSuffix(f"/{len(self.found)}")
+        self.ui.spinBox.setVisible(len(self.found) > 0)
+        self.spinfounditems()
 
     @Slot(QTreeWidgetItem, int)
     def change(self, item: QTreeWidgetItem, column: int):

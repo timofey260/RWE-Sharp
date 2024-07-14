@@ -102,10 +102,10 @@ class TileUI(UI):
         self.editor.force_place.link_button(self.ui.ForcePlace)
         self.editor.force_geo.link_button(self.ui.ForceGeo)
 
-        self.tile_prev_key = KeyConfigurable(mod, "VIEW_tile.tile_prev", "w", "previous tile key")
-        self.cat_prev_key = KeyConfigurable(mod, "VIEW_tile.cat_prev", "a", "previous category key")
-        self.tile_next_key = KeyConfigurable(mod, "VIEW_tile.tile_next", "s", "next tile key")
-        self.cat_next_key = KeyConfigurable(mod, "VIEW_tile.cat_next", "d", "next category key")
+        self.tile_prev_key = KeyConfigurable(mod, "EDIT_tile.tile_prev", "w", "Previous Tile")
+        self.cat_prev_key = KeyConfigurable(mod, "EDIT_tile.cat_prev", "a", "Previous Category")
+        self.tile_next_key = KeyConfigurable(mod, "EDIT_tile.tile_next", "s", "Next Tile")
+        self.cat_next_key = KeyConfigurable(mod, "EDIT_tile.cat_next", "d", "Next Category")
 
         self.tile_next_key.link_button(self.ui.TileNext)
         self.tile_prev_key.link_button(self.ui.TilePrev)

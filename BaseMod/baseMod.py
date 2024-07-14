@@ -39,7 +39,7 @@ class BaseMod(Mod):
         self.gridui: GridView | None = None
 
         self.settingtree: SettingElement | None = None
-        self.hotkeytree: HotkeyElement | None = None
+        self.editorsTree: HotkeyElement | None = None
         self.bmconfig: BaseModConfig | None = None
 
         self.tile_explorer: TileExplorer | None = None
@@ -79,10 +79,15 @@ class BaseMod(Mod):
         self.settingtree = SettingElement(self, self.modinfo.title, self.modinfo.name).add_myself()
         self.settingtree.add_child(SettingElement(self, "Geo", "geo", self.geosettings))
 
-        self.hotkeytree = HotkeyElement(self, "BaseMod", "basemod").add_myself()
-        geoelement = HotkeyElement(self, "Geometry Editor", "geoedit", parent=self.hotkeytree)
-        geoviewelement = HotkeyElement(self, "Geometry View", "geoedit", parent=self.hotkeytree)
-
+        self.editorsTree = HotkeyElement(self, "Editors", "editors").add_myself()
+        geoelement = HotkeyElement(self, "Geometry Editor", "geoedit", parent=self.editorsTree)
         geoelement.add_children_configurables(*get_hotkeys_from_pattern(self, "KEYS_geo"), *get_hotkeys_from_pattern(self, "EDIT_geo"))
+        tileelement = HotkeyElement(self, "Tile Editor", "tileedit", parent=self.editorsTree)
+        tileelement.add_children_configurables(*get_hotkeys_from_pattern(self, "EDIT_tile"))
+        self.visualsTree = HotkeyElement(self, "Visuals(Modules)", "visuals").add_myself()
+        geoviewelement = HotkeyElement(self, "Geometry View", "geoview", parent=self.visualsTree)
         geoviewelement.add_children_configurables(*get_hotkeys_from_pattern(self, "VIEW_geo"))
+        tileviewelement = HotkeyElement(self, "Tiles View", "tileview", parent=self.visualsTree)
+        tileviewelement.add_children_configurables(*get_hotkeys_from_pattern(self, "VIEW_tile"))
+
 
