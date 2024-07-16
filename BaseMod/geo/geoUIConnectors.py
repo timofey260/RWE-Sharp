@@ -137,9 +137,9 @@ class GeoViewUI(ViewUI):
         self.module = self.mod.geomodule
 
         self.drawlgeo_key = KeyConfigurable(mod, "VIEW_geo.drawlall_key", "Alt+G", "Show geometry")
-        self.drawl1_key = KeyConfigurable(mod, "VIEW_geo.drawl1_key", "Alt+1", "Show 1st layer")
-        self.drawl2_key = KeyConfigurable(mod, "VIEW_geo.drawl2_key", "Alt+2", "Show 2nd layer")
-        self.drawl3_key = KeyConfigurable(mod, "VIEW_geo.drawl3_key", "Alt+3", "Show 3rd layer")
+        self.drawl1_key = KeyConfigurable(mod, "VIEW_geo.drawl1_key", "Alt+1", "Show 1st layer geometry")
+        self.drawl2_key = KeyConfigurable(mod, "VIEW_geo.drawl2_key", "Alt+2", "Show 2nd layer geometry")
+        self.drawl3_key = KeyConfigurable(mod, "VIEW_geo.drawl3_key", "Alt+3", "Show 3rd layer geometry")
         self.drawlbeams_key = KeyConfigurable(mod, "VIEW_geo.drawl3beamskey", "Alt+b", "Show beams")
         self.drawlpipes_key = KeyConfigurable(mod, "VIEW_geo.drawlpipes_key", "Alt+v", "Show connection pipes")
         self.drawlmisc_key = KeyConfigurable(mod, "VIEW_geo.drawlmisc_key", "Alt+c", "Show other/misc")
