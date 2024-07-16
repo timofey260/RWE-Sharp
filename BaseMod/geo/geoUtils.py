@@ -11,6 +11,8 @@ def geo_save(form: [int, bool], block: [int, list[int]]) -> ([int, list[int]], .
         elif form[0] == -5:  # layer
             return [0, []], [block[0], block[1].copy()]
     elif form[1]:  # stack
+        if form[0] == 4:
+            return [7, [4, *block[1]]], [block[0], 4 in block[1]]
         bol = form[0] in block[1]
         ar = block[1].copy()
         if not bol:
@@ -30,6 +32,12 @@ def geo_undo(form: [int, bool], block: [int, list[int]], saved) -> [int, list[in
         elif form[0] == -5:  # layer
             return [saved[0], saved[1].copy()]
     elif form[1]:  # stack
+        if form[0] == 4:
+            l = block[1].copy()
+            if saved[1]:
+                return [saved[0], l.copy()]
+            l.remove(4)
+            return [saved[0], l.copy()]
         ar = block[1].copy()
         if not saved:
             ar.remove(form[0])

@@ -46,7 +46,7 @@ class RWELevel:
     def __setitem__(self, key, value):
         self.data[key] = value
 
-    def geo_data(self, x: int, y: int, layer: int) -> list[int, list[int]]:
+    def geo_data_xy(self, x: int, y: int, layer: int) -> [int, list[int]]:
         """
         returns cell on specific layer
         :param x: x position of cell
@@ -56,7 +56,7 @@ class RWELevel:
         """
         return self.data["GE"][x][y][layer]
 
-    def geo_data(self, pos: QPoint, layer: int) -> list[int, list[int]]:
+    def geo_data(self, pos: QPoint, layer: int) -> [int, list[int]]:
         """
         returns cell on specific layer
         :param pos: position of cell
@@ -65,7 +65,7 @@ class RWELevel:
         """
         return self.data["GE"][pos.x()][pos.y()][layer]
 
-    def tile_data(self, x: int, y: int, layer: int) -> dict[str, ...]:
+    def tile_data_xy(self, x: int, y: int, layer: int) -> dict[str, ...]:
         """
         returns tile on specific layer
         :param x: x position of tile

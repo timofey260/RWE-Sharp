@@ -100,6 +100,7 @@ class GeometryEditor(EditorMode):
         self.module = self.mod.geomodule
 
         self.cursor = RenderRect(self.mod, 0, QRect(0, 0, CELLSIZE, CELLSIZE)).add_myself(self)
+        self.rect = RenderRect(self.mod, 0, QRect(0, 0, CELLSIZE, CELLSIZE)).add_myself(self)
         self.pixmap = RenderImage(self.mod, 1, QSize(CELLSIZE, CELLSIZE)).add_myself(self)
         self.lastpos = QPoint()
         self.block = EnumConfigurable(mod, "EDIT_geo.block", GeoBlocks.Wall, GeoBlocks, "Current geo block")
@@ -244,19 +245,24 @@ class GeometryEditor(EditorMode):
             blk, stak = self.block2info()
             self.manager.level.add_history(GERectChange(self.manager.level.history, QRect.span(lpos, fpos), [blk, stak], self.layers))
             self.cursor.setRect(QRect(0, 0, CELLSIZE, CELLSIZE))
+            self.rect.drawrect.setOpacity(0)
 
     def tool_specific_press(self, tool: Enum):
         fpos = self.viewport.viewport_to_editor(self.mouse_pos)
         if tool == GeoTools.Pen:
             blk, stak = self.block2info()
             self.manager.level.add_history(GEPointChange(self.manager.level.history, fpos, [blk, stak], self.layers))
+        elif tool == GeoTools.Rect:
+            lpos = self.viewport.viewport_to_editor(self.lastclick)
+            self.rect.setRect(QRect.span(lpos * CELLSIZE, fpos * CELLSIZE))
+            self.rect.drawrect.setOpacity(1)
 
     def tool_specific_update(self, tool: Enum, pos: QPoint):
         if tool == GeoTools.Pen and self.manager.level.inside(pos):
             self.manager.level.last_history_element.add_move(pos)
         if tool == GeoTools.Rect:
             lpos = self.viewport.viewport_to_editor(self.lastclick)
-            self.cursor.setRect(QRect.span(lpos * CELLSIZE, pos * CELLSIZE))
+            self.rect.setRect(QRect.span(lpos * CELLSIZE, pos * CELLSIZE))
 
     def mouse_move_event(self, event: QMoveEvent):
         super().mouse_move_event(event)
