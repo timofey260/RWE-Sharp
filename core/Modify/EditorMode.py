@@ -81,3 +81,21 @@ class EditorMode:
     def add_myself(self, ui):
         self.mod.add_editor(self, ui)
         return self
+
+    def mouse_left_release(self):
+        pass
+
+    def mouse_right_release(self):
+        pass
+
+    def mouse_middle_release(self):
+        pass
+
+    def mouse_left_press(self):
+        pass
+
+    def mouse_right_press(self):
+        pass
+
+    def mouse_middle_press(self):
+        pass

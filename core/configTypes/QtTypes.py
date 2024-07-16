@@ -1,5 +1,5 @@
 import enum
-from .ConfigBase import Configurable
+from core.configTypes.ConfigBase import Configurable
 from PySide6.QtGui import QKeySequence, QColor, QAction
 from PySide6.QtWidgets import QAbstractButton, QComboBox, QKeySequenceEdit
 from PySide6.QtCore import Signal, Qt, Slot
@@ -9,7 +9,10 @@ class KeyConfigurable(Configurable):
     valueChanged = Signal(QKeySequence)
     tooltipChanged = Signal(str)
 
-    def __init__(self, mod, name, default: QKeySequence | str, description=""):
+    def __init__(self, mod, name, default: QKeySequence | str, description="", shortdesc=""):
+        if shortdesc == "":
+            shortdesc = description
+        self.shortdesc = shortdesc
         if isinstance(default, str):
             default = QKeySequence(default)
         self.buttons: list[QAbstractButton] = []

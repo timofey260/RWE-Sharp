@@ -121,6 +121,7 @@ class GeometryEditor(EditorMode):
         self.binfo: dict = CONSTS.get("geo_image_config", {}).get("blocksinfo", {})
         self.sinfo: dict = CONSTS.get("geo_image_config", {}).get("stackablesinfo", {})
         self._sz = CONSTS.get("geo_image_config", {}).get("itemsize", 100)
+        self.lastclick = QPoint()
 
     def block_changed(self):
         if self.block.value == GeoBlocks.CleanAll:
@@ -224,10 +225,20 @@ class GeometryEditor(EditorMode):
         super().remove_items_from_scene()
 
     def mouse_press_event(self, event: QMouseEvent):
+        self.lastclick = self.mouse_pos
         if self.mouse_left:
             self.tool_specific_press(self.toolleft.value)
         if self.mouse_right:
             self.tool_specific_press(self.toolright.value)
+
+    def mouse_left_release(self):
+        self.tool_specific_release(self.toolleft.value)
+
+    def mouse_right_release(self):
+        self.tool_specific_release(self.toolright.value)
+
+    def tool_specific_release(self, tool: Enum):
+        pass
 
     def tool_specific_press(self, tool: Enum):
         fpos = self.viewport.viewport_to_editor(self.mouse_pos)
@@ -245,7 +256,7 @@ class GeometryEditor(EditorMode):
             # self.cursor_item.setPos(self.viewport.editor_to_viewport(fpos))
         if self.manager.level.inside(fpos):
             self.manager.set_status(f"x: {fpos.x()}, y: {fpos.y()}, {self.manager.level['GE'][fpos.x()][fpos.y()]}")
-        if self.mouse_left and self.manager.level.inside(fpos) and not (self.lastpos - fpos).isNull():
+        if (self.mouse_left or self.mouse_right) and self.manager.level.inside(fpos) and not (self.lastpos - fpos).isNull():
             if self.toolleft.value == GeoTools.Pen:
                 self.manager.level.last_history_element.add_move(fpos)
 

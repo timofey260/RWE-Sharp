@@ -47,23 +47,29 @@ class ViewPort(QGraphicsView):
         super().mousePressEvent(event)
         if event.buttons() & self.manager.basemod.bmconfig.main_button.value:
             self._lmb = True
+            self.editor.mouse_left_press()
         if event.buttons() & self.manager.basemod.bmconfig.sec_button.value:
             self._rmb = True
+            self.editor.mouse_right_press()
         if event.buttons() & self.manager.basemod.bmconfig.movement_button.value:
             self.setCursor(Qt.CursorShape.SizeAllCursor)
             self._mmb = True
-        self.manager.editor.mouse_press_event(event)
+            self.editor.mouse_middle_press()
+        self.editor.mouse_press_event(event)
 
     def mouseReleaseEvent(self, event):
         super().mouseReleaseEvent(event)
         if event.button() & self.manager.basemod.bmconfig.main_button.value:
             self._lmb = False
+            self.editor.mouse_left_release()
         if event.button() & self.manager.basemod.bmconfig.sec_button.value:
             self._rmb = False
+            self.editor.mouse_right_release()
         if event.button() & self.manager.basemod.bmconfig.movement_button.value:
             self.setCursor(Qt.CursorShape.ArrowCursor)
             self._mmb = False
-        self.manager.editor.mouse_release_event(event)
+            self.editor.mouse_middle_release()
+        self.editor.mouse_release_event(event)
 
     @property
     def mouse_left(self) -> bool:
@@ -76,6 +82,10 @@ class ViewPort(QGraphicsView):
     @property
     def mouse_middle(self):
         return self._mmb
+
+    @property
+    def editor(self):
+        return self.manager.editor
 
     def wheelEvent(self, event):
         mods = QApplication.keyboardModifiers()
@@ -95,10 +105,10 @@ class ViewPort(QGraphicsView):
         for i in self.manager.modules:
             i.zoom_event(self.zoom)
             i.move_event(self.topleft.pos())
-        self.manager.editor.mouse_wheel_event(event)
-        self.manager.editor.mouse_move_event(event)
-        self.manager.editor.zoom_event(self.zoom)
-        self.manager.editor.move_event(self.topleft.pos())
+        self.editor.mouse_wheel_event(event)
+        self.editor.mouse_move_event(event)
+        self.editor.zoom_event(self.zoom)
+        self.editor.move_event(self.topleft.pos())
         #self.verticalScrollBar().size
         #self.horizontalScrollBar().adjustSize()
 
@@ -111,8 +121,8 @@ class ViewPort(QGraphicsView):
             for i in self.manager.modules:
                 i.move_event(self.topleft.pos())
         self.mouse_pos = event.pos()
-        self.manager.editor.mouse_move_event(event)
-        self.manager.editor.move_event(self.topleft.pos())
+        self.editor.mouse_move_event(event)
+        self.editor.move_event(self.topleft.pos())
 
     def viewport_to_editor(self, point: QPoint) -> QPoint:
         npoint = point.toPointF() + QPointF(self.horizontalScrollBar().value(), self.verticalScrollBar().value()) - self.topleft.pos()

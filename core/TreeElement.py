@@ -78,7 +78,7 @@ class HotkeyElement(TreeElement):
 
     def add_children_configurables(self, *keys: KeyConfigurable):
         for i in keys:
-            HotkeyElement(self.mod, i.description, i.name, i, self)
+            HotkeyElement(self.mod, i.shortdesc, i.name, i, self)
 
 
 def get_hotkeys_from_pattern(mod: Mod, pattern: str) -> list[KeyConfigurable]:
