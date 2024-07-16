@@ -6,7 +6,7 @@ from RWESharp.Utils import draw_line
 
 
 class GERectChange(HistoryElement):
-    def __init__(self, history, rect: QRect, replace, layers: list[bool, bool, bool]):
+    def __init__(self, history, rect: QRect, replace, layers: [bool, bool, bool]):
         super().__init__(history)
         self.rect = rect
         self.replace = replace

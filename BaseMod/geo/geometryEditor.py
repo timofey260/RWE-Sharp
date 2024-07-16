@@ -6,7 +6,7 @@ from PySide6.QtGui import QColor, QMoveEvent, QMouseEvent, QPixmap, QPainter
 from PySide6.QtWidgets import QGraphicsRectItem, QGraphicsPixmapItem
 
 from BaseMod.geo.geoControls import GeoControls
-from BaseMod.geo.geoHistory import GEPointChange
+from BaseMod.geo.geoHistory import GEPointChange, GERectChange
 from RWESharp.Configurable import BoolConfigurable, IntConfigurable, EnumConfigurable
 from RWESharp.Core import CELLSIZE, PATH_FILES_IMAGES, CONSTS
 from RWESharp.Modify import EditorMode
@@ -238,13 +238,25 @@ class GeometryEditor(EditorMode):
         self.tool_specific_release(self.toolright.value)
 
     def tool_specific_release(self, tool: Enum):
-        pass
+        fpos = self.viewport.viewport_to_editor(self.mouse_pos)
+        lpos = self.viewport.viewport_to_editor(self.lastclick)
+        if tool == GeoTools.Rect:
+            blk, stak = self.block2info()
+            self.manager.level.add_history(GERectChange(self.manager.level.history, QRect.span(lpos, fpos), [blk, stak], self.layers))
+            self.cursor.setRect(QRect(0, 0, CELLSIZE, CELLSIZE))
 
     def tool_specific_press(self, tool: Enum):
         fpos = self.viewport.viewport_to_editor(self.mouse_pos)
         if tool == GeoTools.Pen:
             blk, stak = self.block2info()
             self.manager.level.add_history(GEPointChange(self.manager.level.history, fpos, [blk, stak], self.layers))
+
+    def tool_specific_update(self, tool: Enum, pos: QPoint):
+        if tool == GeoTools.Pen and self.manager.level.inside(pos):
+            self.manager.level.last_history_element.add_move(pos)
+        if tool == GeoTools.Rect:
+            lpos = self.viewport.viewport_to_editor(self.lastclick)
+            self.cursor.setRect(QRect.span(lpos * CELLSIZE, pos * CELLSIZE))
 
     def mouse_move_event(self, event: QMoveEvent):
         super().mouse_move_event(event)
@@ -256,9 +268,11 @@ class GeometryEditor(EditorMode):
             # self.cursor_item.setPos(self.viewport.editor_to_viewport(fpos))
         if self.manager.level.inside(fpos):
             self.manager.set_status(f"x: {fpos.x()}, y: {fpos.y()}, {self.manager.level['GE'][fpos.x()][fpos.y()]}")
-        if (self.mouse_left or self.mouse_right) and self.manager.level.inside(fpos) and not (self.lastpos - fpos).isNull():
-            if self.toolleft.value == GeoTools.Pen:
-                self.manager.level.last_history_element.add_move(fpos)
+        if not (self.lastpos - fpos).isNull():
+            if self.mouse_left:
+                self.tool_specific_update(self.toolleft.value, fpos)
+            elif self.mouse_right:
+                self.tool_specific_update(self.toolright.value, fpos)
 
             # self.manager.set_status(str(self.manager.level.TE_data(fpos.x(), fpos.y(), 0)))
             # self.manager.level["GE"][fpos.x()][fpos.y()][0][0] = 1
