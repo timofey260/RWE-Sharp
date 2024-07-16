@@ -3,30 +3,37 @@ from RWESharp.Configurable import KeyConfigurable
 
 class GeoControls:
     def __init__(self, mod):
-        self.wall = KeyConfigurable(mod, "KEYS_geo.wall", "w", "Wall key")
-        self.air = KeyConfigurable(mod, "KEYS_geo.air", "a", "Air key")
-        self.slope = KeyConfigurable(mod, "KEYS_geo.slope", "s", "Slope key")
-        self.floor = KeyConfigurable(mod, "KEYS_geo.floor", "f", "Floor key")
-        self.glass = KeyConfigurable(mod, "KEYS_geo.glass", "g", "Glass key")
+        self.wall = KeyConfigurable(mod, "KEYS_geo.wall", "w", "Select tool to place walls at the cursor")
+        self.air = KeyConfigurable(mod, "KEYS_geo.air", "a", "Select tool to place air at the cursor")
+        self.slope = KeyConfigurable(mod, "KEYS_geo.slope", "s", "Select tool to place slopes at the cursor")
+        self.floor = KeyConfigurable(mod, "KEYS_geo.floor", "f", "Select tool to place floors at the cursor")
+        self.glass = KeyConfigurable(mod, "KEYS_geo.glass", "g", "Select tool to place glass at the cursor")
 
-        self.rock = KeyConfigurable(mod, "KEYS_geo.rock", "r", "Rock key")
-        self.spear = KeyConfigurable(mod, "KEYS_geo.spear", "q", "Spear key")
-        self.beam = KeyConfigurable(mod, "KEYS_geo.beam", "b", "Beam key")
-        self.shortcut = KeyConfigurable(mod, "KEYS_geo.shortcut", "z", "Shortcut key")
-        self.shortcut_entrance = KeyConfigurable(mod, "KEYS_geo.shortcut_entrance", "x", "Shortcut Entrance key")
-        self.dragon_den = KeyConfigurable(mod, "KEYS_geo.dragon_den", "t", "Dragon Den key")
-        self.fly_chains = KeyConfigurable(mod, "KEYS_geo.fly_chains", "y", "Forbid Fly Chains key")
-        self.fly_hive = KeyConfigurable(mod, "KEYS_geo.fly_hive", "h", "Fly Hive key")
-        self.scav_hole = KeyConfigurable(mod, "KEYS_geo.scav_hole", "n", "Scavenger Hole key")
-        self.garbage_worm_den = KeyConfigurable(mod, "KEYS_geo.garbage_worm_den", "j", "Garbage Worm Den key")
-        self.whack_a_mole_hole = KeyConfigurable(mod, "KEYS_geo.whack_a_mole_hole", "p", "Whack a Mole Hole key")
-        self.worm_grass = KeyConfigurable(mod, "KEYS_geo.worm_grass", "k", "Worm Grass key")
-        self.entrance = KeyConfigurable(mod, "KEYS_geo.entrance", "e", "Entrance key")
-        self.waterfall = KeyConfigurable(mod, "KEYS_geo.waterfall", "u", "Waterfall key")
+        self.rock = KeyConfigurable(mod, "KEYS_geo.rock", "r", "Place a guaranteed rock at the cursor")
+        self.spear = KeyConfigurable(mod, "KEYS_geo.spear", "q", "Place a guaranteed spear at the cursor")
+        self.beam = KeyConfigurable(mod, "KEYS_geo.beam", "b",
+                                    "Place a climbable beam at the cursor. Use space to rotate")
+        self.shortcut = KeyConfigurable(mod, "KEYS_geo.shortcut", "z", "Place a pipe entrance at the cursor")
+        self.shortcut_entrance = KeyConfigurable(mod, "KEYS_geo.shortcut_entrance", "x",
+                                                 "Place a shortcut entrance at the cursor")
+        self.dragon_den = KeyConfigurable(mod, "KEYS_geo.dragon_den", "t", "Place a creature den at the cursor")
+        self.fly_chains = KeyConfigurable(mod, "KEYS_geo.fly_chains", "y", "Forbid fly chains in the area")
+        self.fly_hive = KeyConfigurable(mod, "KEYS_geo.fly_hive", "h", "Create a fly hive at the cursor")
+        self.scav_hole = KeyConfigurable(mod, "KEYS_geo.scav_hole", "n", "Create a scavenger den at the cursor")
+        self.garbage_worm_den = KeyConfigurable(mod, "KEYS_geo.garbage_worm_den", "j",
+                                                "Create a garbage worm den at the cursor.")
+        self.whack_a_mole_hole = KeyConfigurable(mod, "KEYS_geo.whack_a_mole_hole", "p",
+                                                 "Place a Whack-a-Mole hole at the cursor")
+        self.worm_grass = KeyConfigurable(mod, "KEYS_geo.worm_grass", "k", "Place worm grass at the cursor")
+        self.entrance = KeyConfigurable(mod, "KEYS_geo.entrance", "e", "Place a room entrance at the cursor")
+        self.waterfall = KeyConfigurable(mod, "KEYS_geo.waterfall", "u", "Create a waterfall at the cursor")
 
-        self.clear_all = KeyConfigurable(mod, "KEYS_geo.clear_all", "Ctrl+d", "Clear All key\nClears all blocks on all layers", "Clear All")
-        self.clear_upper = KeyConfigurable(mod, "KEYS_geo.clear_upper", "Ctrl+w", "Clear Upper key\nClears only stackables, such as beams, pipes etc", "Clear Upper")
-        self.clear_blocks = KeyConfigurable(mod, "KEYS_geo.clear_blocks", "Ctrl+q", "Clear Block key\nClears only blocks, such as walls, slopes, floors, glass and entrances", "Clear Block")
-        self.clear_layer = KeyConfigurable(mod, "KEYS_geo.clear_layer", "d", "Clear Layer key\nClears all on selected layers", "Clear Layer")
-        self.inverse = KeyConfigurable(mod, "KEYS_geo.inverse", "i", "Inverse key\nInverses wall so air and vice versa\nalso inverses slopes", "Inverse Key")
-        self.mirror = KeyConfigurable(mod, "KEYS_geo.mirror", "m", "Mirror key\nAdds a second cursor", "Mirror Key")
+        self.clear_all = KeyConfigurable(mod, "KEYS_geo.clear_all", "Ctrl+d", "Clear all blocks on all layers")
+        self.clear_upper = KeyConfigurable(mod, "KEYS_geo.clear_upper", "Ctrl+w",
+                                           "Clear stable structures such as beams, pipes, etc.")
+        self.clear_blocks = KeyConfigurable(mod, "KEYS_geo.clear_blocks", "Ctrl+q",
+                                            "Clear solid blocks such as walls, slopes, floors, glass, and entrances")
+        self.clear_layer = KeyConfigurable(mod, "KEYS_geo.clear_layer", "d", "Clear everything on the selected layer")
+        self.inverse = KeyConfigurable(mod, "KEYS_geo.inverse", "i", "Replace air with solid blocks and invert slopes")
+        self.mirror = KeyConfigurable(mod, "KEYS_geo.mirror", "m",
+                                      "Create a mirror axis. Everything on one side will be copied to the other")
