@@ -1,12 +1,14 @@
 from PySide6.QtCore import Slot, Qt, QCoreApplication
 from PySide6.QtGui import QAction
 from PySide6.QtWidgets import QFileDialog, QMenu, QCheckBox
+
 from BaseMod.baseMod import BaseMod
 from BaseMod.tiles.ui.tiles_ui import Ui_Tiles
 from BaseMod.tiles.ui.tiles_vis_ui import Ui_TilesView
 from RWESharp.Configurable import KeyConfigurable
 from RWESharp.Core import PATH_FILES_IMAGES_PALETTES
 from RWESharp.Ui import ViewUI, UI
+
 
 class TileViewUI(ViewUI):
     def __init__(self, mod, parent=None):
@@ -16,10 +18,10 @@ class TileViewUI(ViewUI):
         self.ui.setupUi(self)
         self.module = self.mod.tilemodule
 
-        self.drawltiles_key = KeyConfigurable(mod, "VIEW_tile.drawltiles_key", "Alt+t", "Hide all tiles")
-        self.drawl1_key = KeyConfigurable(mod, "VIEW_tile.drawl1_key", "Alt+Shift+1", "hide or show tiles on layer 1")
-        self.drawl2_key = KeyConfigurable(mod, "VIEW_tile.drawl2_key", "Alt+Shift+2", "hide or show tiles on layer 2")
-        self.drawl3_key = KeyConfigurable(mod, "VIEW_tile.drawl3_key", "Alt+Shift+3", "hide or show tiles on layer 3")
+        self.drawltiles_key = KeyConfigurable(mod, "VIEW_tile.drawltiles_key", "Alt+t", "Hide tiles")
+        self.drawl1_key = KeyConfigurable(mod, "VIEW_tile.drawl1_key", "Alt+Shift+1", "layer 1 key")
+        self.drawl2_key = KeyConfigurable(mod, "VIEW_tile.drawl2_key", "Alt+Shift+2", "layer 2 key")
+        self.drawl3_key = KeyConfigurable(mod, "VIEW_tile.drawl3_key", "Alt+Shift+3", "layer 3 key")
 
         self.menu = QMenu("Tiles")
         self.menu_drawtiles = QAction("Tiles")
@@ -100,10 +102,10 @@ class TileUI(UI):
         self.editor.force_place.link_button(self.ui.ForcePlace)
         self.editor.force_geo.link_button(self.ui.ForceGeo)
 
-        self.tile_prev_key = KeyConfigurable(mod, "EDIT_tile.tile_prev", "w", "select previous tile from the list")
-        self.tile_next_key = KeyConfigurable(mod, "EDIT_tile.tile_next", "s", "select next tile from the list")
-        self.cat_prev_key = KeyConfigurable(mod, "EDIT_tile.cat_prev", "a", "switch to previous category")
-        self.cat_next_key = KeyConfigurable(mod, "EDIT_tile.cat_next", "d", "switch to next category")
+        self.tile_prev_key = KeyConfigurable(mod, "EDIT_tile.tile_prev", "w", "Previous Tile")
+        self.cat_prev_key = KeyConfigurable(mod, "EDIT_tile.cat_prev", "a", "Previous Category")
+        self.tile_next_key = KeyConfigurable(mod, "EDIT_tile.tile_next", "s", "Next Tile")
+        self.cat_next_key = KeyConfigurable(mod, "EDIT_tile.cat_next", "d", "Next Category")
 
         self.tile_next_key.link_button(self.ui.TileNext)
         self.tile_prev_key.link_button(self.ui.TilePrev)

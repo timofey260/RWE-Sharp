@@ -34,7 +34,6 @@ NAME = "RWE#"
 PROGNAME = "RWESharp.exe" if ISWIN else "RWESharp"
 FULLNAME = "Rain World Editor Sharp"
 
-NUCLEAR_LAUNCH_CODES = 3
 RP_ID = "1226198202454380677"
 
 CONSTS: dict = {}
