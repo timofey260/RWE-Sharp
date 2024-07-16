@@ -1,3 +1,17 @@
+# RWE# Information Document
+
+## Overview
+
+RWE# consists of two main components: the core (referred to as the carcass) and the basemod (which includes all the tools and editors that make up the RWE# editor).
+
+## Basemod
+
+The basemod is a mod that contains all the editors, modules, and settings necessary to modify RWE#. It is controlled primarily by the Manager, which stores all assets and initiates mods, editors, and modules.
+
+### Initialization Process
+
+1. **Loader**: Starts loading assets when RWE# is launched.
+2. **Main Window**: Opens after loading is finished.
 3. **Manager**: Gets created, storing all assets and initiating mods.
 4. **Mods**: Initiate their respective editors and modules.
 
@@ -60,3 +74,4 @@ Tree elements are used for settings and hotkeys menus, containing a list of othe
 - **HistoryElement**: Modifies levels and can undo changes, delegating level modifications to history elements.
 - **ConfigModule**: Part of the mod that stores all configurables specified for the mod.
 - **Renderable Changes**: Renderables now have a `remove_graphics` method to remove graphics when the editor is changed.
+
