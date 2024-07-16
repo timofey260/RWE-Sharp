@@ -9,15 +9,16 @@ class GERectChange(HistoryElement):
     def __init__(self, history, rect: QRect, replace, layers: [bool, bool, bool]):
         super().__init__(history)
         self.rect = rect
+        print(rect)
         self.replace = replace
         self.before = []
         self.layers = layers
         self.module = self.history.level.manager.basemod.geomodule
-        for x in range(self.rect.x(), self.rect.width()):
-            for y in range(self.rect.y(), self.rect.height()):
+        for x in range(self.rect.x(), self.rect.x() + self.rect.width() - 1):
+            for y in range(self.rect.y(), self.rect.y() + self.rect.height() - 1):
                 for i, l in enumerate(self.layers):
                     if l:
-                        block, save = geo_save(self.replace, self.history.level.geo_data(x, y, i))
+                        block, save = geo_save(self.replace, self.history.level.geo_data_xy(x, y, i))
                         self.before.append(save)
                         self.history.level.data["GE"][x][y][i] = block
                         t = self.module.get_layer(i)
@@ -32,22 +33,22 @@ class GERectChange(HistoryElement):
 
     def undo_changes(self, level):
         c = 0
-        for x in range(self.rect.x(), self.rect.width()):
-            for y in range(self.rect.y(), self.rect.height()):
+        for x in range(self.rect.x(), self.rect.x() + self.rect.width() - 1):
+            for y in range(self.rect.y(), self.rect.y() + self.rect.height() - 1):
                 for i, l in enumerate(self.layers):
                     if l:
-                        block = geo_undo(self.replace, self.history.level.geo_data(x, y, i), self.before[c])
+                        block = geo_undo(self.replace, self.history.level.geo_data_xy(x, y, i), self.before[c])
                         self.history.level.data["GE"][x][y][i] = block
                         self.module.get_layer(i).draw_geo(x, y, True)
                         c += 1  # c++ almost
         self.redraw()
 
     def redo_changes(self, level):
-        for x in range(self.rect.x(), self.rect.width()):
-            for y in range(self.rect.y(), self.rect.height()):
+        for x in range(self.rect.x(), self.rect.x() + self.rect.width() - 1):
+            for y in range(self.rect.y(), self.rect.y() + self.rect.height() - 1):
                 for i, l in enumerate(self.layers):
                     if l:
-                        block, save = geo_save(self.replace, self.history.level.geo_data(x, y, i))
+                        block, save = geo_save(self.replace, self.history.level.geo_data_xy(x, y, i))
                         self.before.append(save)
                         self.history.level.data["GE"][x][y][i] = block
                         t = self.module.get_layer(i)
