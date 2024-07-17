@@ -6,18 +6,20 @@ from RWESharp.Utils import draw_line
 
 
 class GERectChange(HistoryElement):
-    def __init__(self, history, rect: QRect, replace, layers: [bool, bool, bool]):
+    def __init__(self, history, rect: QRect, replace, layers: [bool, bool, bool], hollow=False):
         super().__init__(history)
         self.rect = rect
-        print(rect)
         self.replace = replace
         self.before = []
         self.layers = layers
+        self.hollow = hollow
         self.module = self.history.level.manager.basemod.geomodule
-        for x in range(self.rect.x(), self.rect.x() + self.rect.width() - 1):
-            for y in range(self.rect.y(), self.rect.y() + self.rect.height() - 1):
+        for x in range(self.rect.x(), self.rect.x() + self.rect.width()):
+            for y in range(self.rect.y(), self.rect.y() + self.rect.height()):
                 for i, l in enumerate(self.layers):
                     if l:
+                        if self.ishollow(x, y):
+                            continue
                         block, save = geo_save(self.replace, self.history.level.geo_data_xy(x, y, i))
                         self.before.append(save)
                         self.history.level.data["GE"][x][y][i] = block
@@ -31,12 +33,21 @@ class GERectChange(HistoryElement):
                 t = self.module.get_layer(i)
                 t.redraw()
 
+    def ishollow(self, x, y):
+        if self.hollow and (x == self.rect.x() or y == self.rect.y() or
+                            x == self.rect.x() + self.rect.width() - 1 or
+                            y == self.rect.y() + self.rect.height() - 1):
+            return False
+        return self.hollow
+
     def undo_changes(self, level):
         c = 0
-        for x in range(self.rect.x(), self.rect.x() + self.rect.width() - 1):
-            for y in range(self.rect.y(), self.rect.y() + self.rect.height() - 1):
+        for x in range(self.rect.x(), self.rect.x() + self.rect.width()):
+            for y in range(self.rect.y(), self.rect.y() + self.rect.height()):
                 for i, l in enumerate(self.layers):
                     if l:
+                        if self.ishollow(x, y):
+                            continue
                         block = geo_undo(self.replace, self.history.level.geo_data_xy(x, y, i), self.before[c])
                         self.history.level.data["GE"][x][y][i] = block
                         self.module.get_layer(i).draw_geo(x, y, True)
@@ -44,12 +55,13 @@ class GERectChange(HistoryElement):
         self.redraw()
 
     def redo_changes(self, level):
-        for x in range(self.rect.x(), self.rect.x() + self.rect.width() - 1):
-            for y in range(self.rect.y(), self.rect.y() + self.rect.height() - 1):
+        for x in range(self.rect.x(), self.rect.x() + self.rect.width()):
+            for y in range(self.rect.y(), self.rect.y() + self.rect.height()):
                 for i, l in enumerate(self.layers):
                     if l:
+                        if self.ishollow(x, y):
+                            continue
                         block, save = geo_save(self.replace, self.history.level.geo_data_xy(x, y, i))
-                        self.before.append(save)
                         self.history.level.data["GE"][x][y][i] = block
                         t = self.module.get_layer(i)
                         t.draw_geo(x, y, True)

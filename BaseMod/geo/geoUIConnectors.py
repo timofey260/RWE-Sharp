@@ -36,6 +36,7 @@ button_to_geo = {
     "ToolGeoClearBlocks": GeoBlocks.CleanBlocks,
     "ToolGeoClearLayer": GeoBlocks.CleanLayer,
     "ToolGeoClearAll": GeoBlocks.CleanAll,
+    "ToolGeoInvert": GeoBlocks.Inverse,
 }
 
 
@@ -75,6 +76,7 @@ class GeoUI(UI):
         self.ui.ToolGeoBeam.clicked.connect(self.set_tool)
         self.ui.ToolGeoFloor.clicked.connect(self.set_tool)
         self.ui.ToolGeoWraykAMoleHole.clicked.connect(self.set_tool)
+        self.ui.ToolGeoInvert.clicked.connect(self.set_tool)
 
         self.editor.drawl1.link_button(self.ui.ToolGeoApplyToL1, self.drawl1_key)
         self.editor.drawl2.link_button(self.ui.ToolGeoApplyToL2, self.drawl2_key)

@@ -41,6 +41,7 @@ class GeoBlocks(Enum):
     CleanLayer = auto()
     CleanBlocks = auto()
     CleanAll = auto()
+    Inverse = auto()
 
 
 blocks = [
@@ -211,6 +212,8 @@ class GeometryEditor(EditorMode):
                 return -5, True
             case GeoBlocks.CleanLayer:
                 return -5, True
+            case GeoBlocks.Inverse:
+                return -6, True
         return 0, False
 
     def init_scene_items(self):
@@ -241,9 +244,9 @@ class GeometryEditor(EditorMode):
     def tool_specific_release(self, tool: Enum):
         fpos = self.viewport.viewport_to_editor(self.mouse_pos)
         lpos = self.viewport.viewport_to_editor(self.lastclick)
-        if tool == GeoTools.Rect:
+        if tool == GeoTools.Rect or tool == GeoTools.RectHollow:
             blk, stak = self.block2info()
-            self.manager.level.add_history(GERectChange(self.manager.level.history, QRect.span(lpos, fpos), [blk, stak], self.layers))
+            self.manager.level.add_history(GERectChange(self.manager.level.history, QRect.span(lpos, fpos), [blk, stak], self.layers, tool == GeoTools.RectHollow))
             self.cursor.setRect(QRect(0, 0, CELLSIZE, CELLSIZE))
             self.rect.drawrect.setOpacity(0)
 
@@ -252,7 +255,7 @@ class GeometryEditor(EditorMode):
         if tool == GeoTools.Pen:
             blk, stak = self.block2info()
             self.manager.level.add_history(GEPointChange(self.manager.level.history, fpos, [blk, stak], self.layers))
-        elif tool == GeoTools.Rect:
+        elif tool == GeoTools.Rect or tool == GeoTools.RectHollow:
             lpos = self.viewport.viewport_to_editor(self.lastclick)
             self.rect.setRect(QRect.span(lpos * CELLSIZE, fpos * CELLSIZE))
             self.rect.drawrect.setOpacity(1)
@@ -260,9 +263,11 @@ class GeometryEditor(EditorMode):
     def tool_specific_update(self, tool: Enum, pos: QPoint):
         if tool == GeoTools.Pen and self.manager.level.inside(pos):
             self.manager.level.last_history_element.add_move(pos)
-        if tool == GeoTools.Rect:
+        if tool == GeoTools.Rect or tool == GeoTools.RectHollow:
             lpos = self.viewport.viewport_to_editor(self.lastclick)
-            self.rect.setRect(QRect.span(lpos * CELLSIZE, pos * CELLSIZE))
+            rect = QRect.span(lpos * CELLSIZE, pos * CELLSIZE)
+            rect.setSize(rect.size() + QSize(CELLSIZE, CELLSIZE))
+            self.rect.setRect(rect)
 
     def mouse_move_event(self, event: QMoveEvent):
         super().mouse_move_event(event)
