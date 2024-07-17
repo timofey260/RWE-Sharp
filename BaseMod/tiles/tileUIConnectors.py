@@ -1,13 +1,15 @@
 from PySide6.QtCore import Slot, Qt, QCoreApplication
-from PySide6.QtGui import QAction
+from PySide6.QtGui import QAction, QColor
 from PySide6.QtWidgets import QFileDialog, QMenu, QCheckBox
 
 from BaseMod.baseMod import BaseMod
 from BaseMod.tiles.ui.tiles_ui import Ui_Tiles
 from BaseMod.tiles.ui.tiles_vis_ui import Ui_TilesView
+from BaseMod.geo.GeoConsts import *
 from RWESharp.Configurable import KeyConfigurable
 from RWESharp.Core import PATH_FILES_IMAGES_PALETTES
 from RWESharp.Ui import ViewUI, UI
+from RWESharp.Utils import paint_svg_qicon
 
 
 class TileViewUI(ViewUI):
@@ -115,3 +117,17 @@ class TileUI(UI):
         self.ui.CatPrev.clicked.connect(self.explorer.cat_prev)
         self.ui.TileNext.clicked.connect(self.explorer.tile_next)
         self.ui.TilePrev.clicked.connect(self.explorer.tile_prev)
+        self.ui.PalleteSelect.clicked.connect(self.change_palette)
+        mod.bmconfig.icon_color.valueChanged.connect(self.change_color)
+        self.change_color(mod.bmconfig.icon_color.value)
+
+    def change_color(self, color: QColor):
+        items = [IMG_PEN, IMG_BRUSH, IMG_BUCKET, IMG_LINE, IMG_RECT, IMG_RECT_HOLLOW, IMG_CIRCLE, IMG_CIRCLE_HOLLOW]
+        for i in range(8):
+            self.ui.ToolTilesM1Select.setItemIcon(i, paint_svg_qicon(items[i], color))
+            self.ui.ToolTilesM2Select.setItemIcon(i, paint_svg_qicon(items[i], color))
+
+    def change_palette(self):
+        file, _ = QFileDialog.getOpenFileName(self, "Select a Palette", PATH_FILES_IMAGES_PALETTES)
+        self.editor.palette_image.update_value(file)
+        self.editor.tile_item.set_tile(self.editor.tile_item.tile, self.editor.colortable, 4)

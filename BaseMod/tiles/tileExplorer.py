@@ -2,7 +2,7 @@ import os
 
 from PySide6.QtCore import Slot, Signal, Qt, QSize, QPoint
 from PySide6.QtGui import QAction, QPixmap, QColor, QImage
-from PySide6.QtWidgets import QMainWindow, QListWidgetItem, QListWidget
+from PySide6.QtWidgets import QMainWindow, QListWidgetItem, QListWidget, QFileDialog
 
 from BaseMod.tiles.ui.tileexplorer import Ui_TileExplorer
 from RWESharp.Configurable import BoolConfigurable, IntConfigurable, StringConfigurable
@@ -25,7 +25,8 @@ class TileExplorer(ViewDockWidget):
         self.drawoption = IntConfigurable(self.mod, "TileExplorer.drawoption", 7, "show tile collisions")
         self.layer = IntConfigurable(self.mod, "TileExplorer.layer", 0, "layer")
         self.palette_path = StringConfigurable(self.mod, "TileExplorer.palettepath", os.path.join(PATH_FILES_IMAGES_PALETTES, "palette0.png"), "path to pallete")
-
+        if not os.path.exists(self.palette_path.value):
+            self.palette_path.reset_value()
         self.colortable = palette_to_colortable(QImage(self.palette_path.value))
         self.tiles: ItemData = manager.tiles
         self.ui = Ui_TileExplorer()
@@ -76,6 +77,12 @@ class TileExplorer(ViewDockWidget):
         self.ui.TileNext.clicked.connect(self.tile_next)
         self.ui.TilePrev.clicked.connect(self.tile_prev)
         self.setFloating(True)
+
+    def change_palette(self):
+        file, _ = QFileDialog.getOpenFileName(self, "Select a Palette", PATH_FILES_IMAGES_PALETTES)
+        self.palette_path.update_value(file)
+        self.drawoption.update_value(4)
+        self.preview.preview_tile(self.preview.tile)
 
     @property
     def categoryindex(self):

@@ -109,8 +109,8 @@ class GeometryEditor(EditorMode):
         self.toolright = EnumConfigurable(mod, "EDIT_geo.rmb", GeoTools.Rect, GeoTools, "Current geo tool for RMB")
         self.rotation = IntConfigurable(mod, "EDIT_geo.rotation", 0, "Rotation of block")
         self.drawl1 = BoolConfigurable(mod, "EDIT_geo.drawl1", True, "Draw on l1")
-        self.drawl2 = BoolConfigurable(mod, "EDIT_geo.drawl2", True, "Draw on l2")
-        self.drawl3 = BoolConfigurable(mod, "EDIT_geo.drawl3", True, "Draw on l3")
+        self.drawl2 = BoolConfigurable(mod, "EDIT_geo.drawl2", False, "Draw on l2")
+        self.drawl3 = BoolConfigurable(mod, "EDIT_geo.drawl3", False, "Draw on l3")
 
         self.controls = GeoControls(mod)
         self.block.valueChanged.connect(self.block_changed)

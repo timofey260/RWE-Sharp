@@ -1,5 +1,5 @@
 from PySide6.QtCore import Slot, Qt, QCoreApplication
-from PySide6.QtGui import QAction
+from PySide6.QtGui import QAction, QColor
 from PySide6.QtWidgets import QMenu, QCheckBox
 
 from BaseMod.baseMod import BaseMod
@@ -7,9 +7,12 @@ from BaseMod.geo.geometryEditor import GeoBlocks, stackables, stackables_all_lay
 from BaseMod.geo.ui.geometry_ui import Ui_Geo
 from BaseMod.geo.ui.geometry_vis_ui import Ui_GeoView
 from BaseMod.geo.ui.geosettings_ui import Ui_Geometry
+from BaseMod.geo.GeoConsts import *
+
 from RWESharp.Configurable import IntConfigurable, BoolConfigurable, KeyConfigurable
 from RWESharp.Core import SettingsViewer
 from RWESharp.Ui import ViewUI, SettingUI, UI
+from RWESharp.Utils import paint_svg_qicon
 
 button_to_geo = {
     "ToolGeoWall": GeoBlocks.Wall,
@@ -85,9 +88,8 @@ class GeoUI(UI):
         self.editor.toolleft.link_combobox(self.ui.ToolGeoM1Select)
         self.editor.toolright.link_combobox(self.ui.ToolGeoM2Select)
 
-        # self.ui.ToolGeoM1Select.setItemIcon(0, paint_svg_qicon(":/geoIcons/geo/pen.svg", QColor(0, 0, 0)))
-        # self.ui.ToolGeoM1Select.setItemIcon(1, paint_svg_qicon(":/geoIcons/geo/brush.svg", QColor(0, 0, 0)))
-        # self.ui.ToolGeoM1Select.setItemIcon(2, paint_svg_qicon(":/geoIcons/geo/brush.svg", QColor(0, 0, 0)))
+        self.mod.bmconfig.icon_color.valueChanged.connect(self.change_color)
+        self.change_color(self.mod.bmconfig.icon_color.value)
 
         self.controls.wall.link_button(self.ui.ToolGeoWall)
         self.controls.air.link_button(self.ui.ToolGeoAir)
@@ -115,6 +117,13 @@ class GeoUI(UI):
         self.controls.clear_layer.link_button(self.ui.ToolGeoClearLayer)
         self.controls.inverse.link_button(self.ui.ToolGeoInvert)
         self.controls.mirror.link_button(self.ui.ToolGeoMirror)
+
+    def change_color(self, color: QColor):
+        items = [IMG_PEN, IMG_BRUSH, IMG_BUCKET, IMG_LINE, IMG_RECT, IMG_RECT_HOLLOW, IMG_CIRCLE, IMG_CIRCLE_HOLLOW]
+        for i in range(8):
+            self.ui.ToolGeoM1Select.setItemIcon(i, paint_svg_qicon(items[i], color))
+            self.ui.ToolGeoM2Select.setItemIcon(i, paint_svg_qicon(items[i], color))
+
 
     @Slot()
     def set_tool(self):

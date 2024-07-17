@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING
 
 from PySide6.QtCore import QPoint
 from PySide6.QtGui import QPixmap, QWheelEvent, QMoveEvent, QImage, QMouseEvent
-from PySide6.QtWidgets import QGraphicsPixmapItem
+from PySide6.QtWidgets import QGraphicsPixmapItem, QFileDialog
 
 from RWESharp.Configurable import IntConfigurable, BoolConfigurable, StringConfigurable, EnumConfigurable
 from RWESharp.Core import CELLSIZE, SPRITESIZE, PATH_FILES_IMAGES_PALETTES
@@ -46,6 +46,8 @@ class TileEditor(EditorMode):
         self.palette_image = StringConfigurable(mod, "EDIT_tiles.palette",
                                                 os.path.join(PATH_FILES_IMAGES_PALETTES, "palette0.png"),
                                                 "Layer to place tiles on")
+        if not os.path.exists(self.palette_image.value):
+            self.palette_image.reset_value()
         self.toolleft = EnumConfigurable(mod, "EDIT_tiles.lmb", TileTools.Pen, TileTools, "Current geo tool for LMB")
         self.toolright = EnumConfigurable(mod, "EDIT_tiles.rmb", TileTools.Rect, TileTools, "Current geo tool for RMB")
         self.deleteleft = BoolConfigurable(mod, "EDIT_tiles.deletelmb", False, "Delete tiles with LMB")
@@ -87,6 +89,7 @@ class TileEditor(EditorMode):
     def redraw_tile(self):
         if self.tile is None or self.tile_item.renderedtexture is None:
             return
+        self.tile_item.layer = self.layer
         self.tile_item.set_tile(self.tile, self.colortable, self.tile_preview_option)
 
     def hide_collisions(self, value):
