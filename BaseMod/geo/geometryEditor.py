@@ -219,6 +219,7 @@ class GeometryEditor(EditorMode):
     def init_scene_items(self):
         super().init_scene_items()
         self.pixmap.renderedtexture.setOpacity(.3)
+        self.rect.drawrect.setOpacity(0)
         # self.cursor_item = self.workscene.addPixmap(self.pixmap)
         # self.cursor_item.setOpacity(.3)
         self.pixmap.painter.setCompositionMode(QPainter.CompositionMode.CompositionMode_Source)
