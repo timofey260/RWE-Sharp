@@ -194,7 +194,7 @@
      <string>Drizzle</string>
     </property>
     <addaction name="actionRender_2"/>
-    <addaction name="actionOpen_2"/>
+    <addaction name="actionDrizzleOpen"/>
    </widget>
    <widget class="QMenu" name="menuMods">
     <property name="title">
@@ -494,7 +494,7 @@
     <string>Hotkeys...</string>
    </property>
   </action>
-  <action name="actionOpen_2">
+  <action name="actionDrizzleOpen">
    <property name="text">
     <string>Open</string>
    </property>

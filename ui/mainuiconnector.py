@@ -28,6 +28,16 @@ class MainWindow(QMainWindow):
         self.ui.actionPreferences.triggered.connect(self.open_settings)
         self.ui.actionHotkeys.triggered.connect(self.open_hotkeys)
         self.manager = Manager(self, app, filename)
+        self.manager.basemod.bmconfig.hotkey_key.link_action(self.ui.actionHotkeys)
+        self.manager.basemod.bmconfig.settings_key.link_action(self.ui.actionPreferences)
+        self.manager.basemod.bmconfig.view_key.link_action(self.ui.actionView)
+        self.manager.basemod.bmconfig.edit_key.link_action(self.ui.actionEditors)
+        self.manager.basemod.bmconfig.prefabs_key.link_action(self.ui.actionPrefabs)
+
+        self.manager.basemod.bmconfig.new_key.link_action(self.ui.actionNew)
+        self.manager.basemod.bmconfig.open_key.link_action(self.ui.actionOpen)
+        self.manager.basemod.bmconfig.save_as_key.link_action(self.ui.actionSave_As)
+        self.manager.basemod.bmconfig.close_key.link_action(self.ui.actionClose)
 
         self.ui.viewPort.add_managed_fields(self.manager)
 
