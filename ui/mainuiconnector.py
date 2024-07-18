@@ -4,7 +4,7 @@ from ui.uiscripts.mainui import Ui_MainWindow
 from ui.aboutuiconnector import AboutDialog
 from ui.settingsuiconnector import SettingsUI
 from ui.hotkeysuiconnector import HotkeysUI
-from core import info
+from core.info import PATH_LEVELS
 from BaseMod.Palettes.RaspberryDark import RaspberryDark
 
 
@@ -38,6 +38,10 @@ class MainWindow(QMainWindow):
         self.manager.basemod.bmconfig.open_key.link_action(self.ui.actionOpen)
         self.manager.basemod.bmconfig.save_as_key.link_action(self.ui.actionSave_As)
         self.manager.basemod.bmconfig.close_key.link_action(self.ui.actionClose)
+        self.manager.basemod.bmconfig.render_key.link_action(self.ui.actionRender)
+        self.manager.basemod.bmconfig.opendrizzle_key.link_action(self.ui.actionDrizzleOpen)
+
+        self.manager.basemod.bmconfig.about_key.link_action(self.ui.actionAbout)
 
         self.ui.viewPort.add_managed_fields(self.manager)
 
@@ -63,6 +67,9 @@ class MainWindow(QMainWindow):
         self.ui.DockView.link_action(self.ui.actionView)
         self.ui.DockPrefabs.link_action(self.ui.actionPrefabs)
 
+        self.hotkeys = HotkeysUI(self.manager, self)
+        self.settings = SettingsUI(self.manager, self)
+
     @Slot(int)
     def change_editor(self, val) -> None:
         self.manager.change_editor(val)
@@ -74,22 +81,17 @@ class MainWindow(QMainWindow):
 
     @Slot()
     def open_settings(self) -> None:
-        self.settings = SettingsUI(self.manager, self)
-        self.settings.show()
+        self.settings.setVisible(True)
 
     @Slot()
     def open_hotkeys(self) -> None:
-        self.hotkeys = HotkeysUI(self.manager, self)
-        self.hotkeys.show()
+        self.hotkeys.setVisible(True)
 
     @Slot()
     def close(self) -> None:
         self.manager.application.app.exit()
-        print("imagine it closes")
 
     @Slot()
     def open_file(self) -> None:
-        print("open")
-        print(QFileDialog.getOpenFileName(None, "Open Level", info.PATH))
-
-
+        name, _ = QFileDialog.getOpenFileName(None, "Open Level", PATH_LEVELS)
+        self.manager.change_level(name)

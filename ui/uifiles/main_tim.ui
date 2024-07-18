@@ -193,7 +193,7 @@
     <property name="title">
      <string>Drizzle</string>
     </property>
-    <addaction name="actionRender_2"/>
+    <addaction name="actionRender"/>
     <addaction name="actionDrizzleOpen"/>
    </widget>
    <widget class="QMenu" name="menuMods">
@@ -466,22 +466,12 @@
     <enum>QAction::MenuRole::PreferencesRole</enum>
    </property>
   </action>
-  <action name="actionRender">
-   <property name="text">
-    <string>Render</string>
-   </property>
-  </action>
-  <action name="actionexplode_leditor">
-   <property name="text">
-    <string>explode leditor</string>
-   </property>
-  </action>
   <action name="actionLediting_help">
    <property name="text">
     <string>Lediting help</string>
    </property>
   </action>
-  <action name="actionRender_2">
+  <action name="actionRender">
    <property name="text">
     <string>Render</string>
    </property>

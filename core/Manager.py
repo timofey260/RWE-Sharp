@@ -83,6 +83,10 @@ class Manager:
         self.init_editors()
         self.change_pallete()
 
+    def change_level(self, path):
+        self.level = RWELevel(self, path)
+        self.viewport.levelchanged()
+
     def change_pallete(self):
         if self.basemod.bmconfig.palette.value == "":
             return

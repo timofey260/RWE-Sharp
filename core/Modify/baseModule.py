@@ -24,11 +24,12 @@ class Module:
         """
         pass
 
-    def on_resize(self):
+    def level_resized(self):
         """
         Called once level is resized
         """
-        pass
+        for i in self.renderables:
+            i.level_resized()
 
     def add_renderable(self, renderable: Renderable):
         self.renderables.append(renderable)

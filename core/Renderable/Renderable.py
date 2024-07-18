@@ -43,3 +43,6 @@ class Renderable:
     @property
     def zoom(self):
         return self.manager.viewport.zoom
+
+    def level_resized(self):
+        pass

@@ -87,6 +87,13 @@ class ViewPort(QGraphicsView):
     def editor(self):
         return self.manager.editor
 
+    def levelchanged(self):
+        for i in self.editor.renderables:
+            i.level_resized()
+        for i in self.manager.modules:
+            i.level_resized()
+
+
     def wheelEvent(self, event):
         mods = QApplication.keyboardModifiers()
         #print(self.map.scale() + (event.angleDelta().y() / 80))

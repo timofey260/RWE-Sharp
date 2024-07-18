@@ -41,6 +41,10 @@ class TileRenderLevelImage(RenderLevelImage):
         self.painter.eraseRect(QRect(pos * CELLSIZE, QSize(CELLSIZE, CELLSIZE)))
         self.painter.setCompositionMode(QPainter.CompositionMode.CompositionMode_SourceOver)
 
+    def level_resized(self):
+        self.draw_layer(True)
+        super().level_resized()
+
     def draw_tile(self, pos: QPoint):
         # drawrect = QRect(x * CELLSIZE, y * CELLSIZE, CELLSIZE, CELLSIZE)
         tile = self.manager.level.tile_data(pos, self.tilelayer)
