@@ -89,6 +89,8 @@ class Manager:
         for i in self.palettes:
             if self.basemod.bmconfig.palette.value == f"{i.mod.author_name}.{i.name}":
                 self.window.setPalette(i.palette)
+                print("using palette")
+                return
 
     def init_modules(self):
         for i in self.modules:

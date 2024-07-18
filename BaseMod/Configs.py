@@ -1,6 +1,5 @@
 from RWESharp.Configurable import KeyConfigurable, EnumFlagConfigurable, StringConfigurable, ColorConfigurable
-from RWESharp.Core import HotkeyElement
-from RWESharp.Core import get_hotkeys_from_pattern
+from RWESharp.Core import HotkeyElement, get_hotkeys_from_pattern, ISWIN
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QColor
 
@@ -30,7 +29,7 @@ class BaseModConfig:
         self.edit_key = KeyConfigurable(mod, "basemod.edit", "Ctrl+Shift+e", "Key to open edit tab")
         self.prefabs_key = KeyConfigurable(mod, "basemod.prefabs", "Ctrl+Shift+p", "Key to open prefabs tab")
         self.explorer_key = KeyConfigurable(mod, "basemod.explorer", "Ctrl+shift+r", "Key to open settings menu")
-        self.palette = StringConfigurable(mod, "basemod.palette", "", "palette colors")
+        self.palette = StringConfigurable(mod, "basemod.palette", "timofey26.basemod.Raspberry Dark" if ISWIN else "", "palette colors")
 
         edittab = HotkeyElement(mod, "Edit", "edit").add_myself()
         edittab.add_children_configurables(*get_hotkeys_from_pattern(mod, "basemod"))

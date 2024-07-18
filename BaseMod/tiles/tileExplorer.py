@@ -8,6 +8,7 @@ from BaseMod.tiles.ui.tileexplorer import Ui_TileExplorer
 from RWESharp.Configurable import BoolConfigurable, IntConfigurable, StringConfigurable
 from RWESharp.Core import ItemData, PATH_FILES_IMAGES_PALETTES, ViewDockWidget
 from RWESharp.Loaders import Tile, palette_to_colortable, return_tile_pixmap
+from RWESharp.Utils import paint_svg_qicon
 
 
 class TileExplorer(ViewDockWidget):
@@ -77,6 +78,15 @@ class TileExplorer(ViewDockWidget):
         self.ui.TileNext.clicked.connect(self.tile_next)
         self.ui.TilePrev.clicked.connect(self.tile_prev)
         self.setFloating(True)
+
+        self.mod.bmconfig.icon_color.valueChanged.connect(self.changecolor)
+        self.changecolor(self.mod.bmconfig.icon_color.value)
+
+    def changecolor(self, color: QColor):
+        self.ui.TilesListView.setIcon(paint_svg_qicon(u":/grids/grid/list.svg", color))
+        self.ui.TilesGridViewBig.setIcon(paint_svg_qicon(u":/grids/grid/mediumgrid.svg", color))
+        self.ui.TilesGridViewSmall.setIcon(paint_svg_qicon(u":/grids/grid/smallgrid.svg", color))
+        self.ui.TilesIconView.setIcon(paint_svg_qicon(u":/grids/grid/smallgrid2.svg", color))
 
     def change_palette(self):
         file, _ = QFileDialog.getOpenFileName(self, "Select a Palette", PATH_FILES_IMAGES_PALETTES)
