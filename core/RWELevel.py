@@ -34,6 +34,7 @@ class RWELevel:
         self.history.redo()
 
     def add_history(self, historyelement: HistoryElement):
+        print("yaya")
         self.history.add_element(historyelement)
 
     @property

@@ -12,7 +12,7 @@ class Application:
         self.app = QApplication(argv)
         self.splash = SplashDialog(self.post_init)
         self.args = args
-        self.window = None
+        self.window: MainWindow | None = None
         sys.exit(self.app.exec())
 
     def post_init(self):
@@ -24,3 +24,8 @@ class Application:
             self.window = MainWindow(self)
         self.window.show()
         # sys.exit(self.app.exec())
+
+    def restart(self):
+        self.window.deleteLater()
+        self.window.manager = None
+        self.post_init()

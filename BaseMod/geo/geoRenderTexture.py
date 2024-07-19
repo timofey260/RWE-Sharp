@@ -36,9 +36,9 @@ class GeoRenderLevelImage(RenderLevelImage):
         self.redraw()
         
     def level_resized(self):
+        super().level_resized()
         self.image.fill(QColor(0, 0, 0, 0))
         self.draw_layer()
-        super().level_resized()
 
     def redraw_beams(self):
         for xp, x in enumerate(self.manager.level["GE"]):

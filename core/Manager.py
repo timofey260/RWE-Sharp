@@ -37,7 +37,7 @@ class Manager:
 
         # self.splashwindow.close()
 
-        self.levelpath: str = "" if file is None else file
+        # self.levelpath: str = "" if file is None else file
         self.level = RWELevel(self, file)
 
         self.viewport: ViewPort = self.window.ui.viewPort
@@ -84,6 +84,7 @@ class Manager:
         self.change_pallete()
 
     def change_level(self, path):
+        self.level = None
         self.level = RWELevel(self, path)
         self.viewport.levelchanged()
 

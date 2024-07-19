@@ -41,3 +41,11 @@ class GridModule(Module):
     def render_module(self):
         self.check_change()
         self.gridtexture.draw_layer()
+
+    def level_resized(self):
+        self.rect.setRect(QRect(QPoint(0, 0), CELLSIZE * self.manager.level.level_size))
+        borders = self.manager.level.extra_tiles
+        topleft = QPoint(borders[0], borders[1])
+        bottomright = self.manager.level.level_size - QPoint(borders[2], borders[3])
+        self.border.setRect(QRect(self.viewport.editor_to_viewport(topleft), self.viewport.editor_to_viewport(bottomright)))
+        super().level_resized()
