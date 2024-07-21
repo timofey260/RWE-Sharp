@@ -73,7 +73,7 @@ class BaseMod(Mod):
         self.tile_explorer_action = QAction("Tile Explorer")
         self.manager.window_menu.addAction(self.tile_explorer_action)
         self.tile_explorer.link_action(self.tile_explorer_action)
-        self.tile_explorer.hide()
+        self.tile_explorer.change_visibility(False)
         self.bmconfig.explorer_key.link_action(self.tile_explorer_action)
 
         self.gridui = GridView(self).add_myself()

@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'tileexplorer.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.7.0
+## Created by: Qt User Interface Compiler version 6.7.1
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -280,19 +280,22 @@ class Ui_TileExplorer(object):
         self.horizontalLayout_5 = QHBoxLayout()
         self.horizontalLayout_5.setSpacing(0)
         self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
-        self.toolButton_9 = QToolButton(self.TileTab)
-        self.toolButton_9.setObjectName(u"toolButton_9")
+        self.Favourite = QToolButton(self.TileTab)
+        self.Favourite.setObjectName(u"Favourite")
         icon6 = QIcon(QIcon.fromTheme(u"emblem-favorite"))
-        self.toolButton_9.setIcon(icon6)
-        self.toolButton_9.setArrowType(Qt.ArrowType.NoArrow)
+        self.Favourite.setIcon(icon6)
+        self.Favourite.setArrowType(Qt.ArrowType.NoArrow)
 
-        self.horizontalLayout_5.addWidget(self.toolButton_9)
+        self.horizontalLayout_5.addWidget(self.Favourite)
 
-        self.toolButton_10 = QToolButton(self.TileTab)
-        self.toolButton_10.setObjectName(u"toolButton_10")
-        self.toolButton_10.setArrowType(Qt.ArrowType.NoArrow)
+        self.Pin = QToolButton(self.TileTab)
+        self.Pin.setObjectName(u"Pin")
+        icon7 = QIcon()
+        icon7.addFile(u":/special/special/pin.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.Pin.setIcon(icon7)
+        self.Pin.setArrowType(Qt.ArrowType.NoArrow)
 
-        self.horizontalLayout_5.addWidget(self.toolButton_10)
+        self.horizontalLayout_5.addWidget(self.Pin)
 
         self.horizontalSpacer_5 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
@@ -362,8 +365,8 @@ class Ui_TileExplorer(object):
         ___qtablewidgetitem2.setText(QCoreApplication.translate("TileExplorer", u"Size", None));
         ___qtablewidgetitem3 = self.Properties.verticalHeaderItem(2)
         ___qtablewidgetitem3.setText(QCoreApplication.translate("TileExplorer", u"Category", None));
-        self.toolButton_9.setText("")
-        self.toolButton_10.setText(QCoreApplication.translate("TileExplorer", u"Pin", None))
+        self.Favourite.setText("")
+        self.Pin.setText(QCoreApplication.translate("TileExplorer", u"Pin", None))
         self.RenderOption.setItemText(0, QCoreApplication.translate("TileExplorer", u"Classic", None))
         self.RenderOption.setItemText(1, QCoreApplication.translate("TileExplorer", u"Tile image", None))
         self.RenderOption.setItemText(2, QCoreApplication.translate("TileExplorer", u"Henry", None))

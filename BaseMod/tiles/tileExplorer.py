@@ -87,6 +87,7 @@ class TileExplorer(ViewDockWidget):
         self.ui.TilesGridViewBig.setIcon(paint_svg_qicon(u":/grids/grid/mediumgrid.svg", color))
         self.ui.TilesGridViewSmall.setIcon(paint_svg_qicon(u":/grids/grid/smallgrid.svg", color))
         self.ui.TilesIconView.setIcon(paint_svg_qicon(u":/grids/grid/smallgrid2.svg", color))
+        self.ui.Pin.setIcon(paint_svg_qicon(u":/special/special/pin.svg", color))
 
     def change_palette(self):
         file, _ = QFileDialog.getOpenFileName(self, "Select a Palette", PATH_FILES_IMAGES_PALETTES)
@@ -147,26 +148,30 @@ class TileExplorer(ViewDockWidget):
     def tiles_grid(self):
         self.view_tiles.setViewMode(QListWidget.ViewMode.IconMode)
         self.view_tiles.setIconSize(QSize(40, 40))
-        self.view_tiles.setSpacing(10)
+        self.view_tiles.setSpacing(20)
         self.view_tiles.setUniformItemSizes(True)
+        self.view_tiles.setAlternatingRowColors(False)
 
     def tiles_grid_ununiform(self):
         self.view_tiles.setViewMode(QListWidget.ViewMode.IconMode)
         self.view_tiles.setIconSize(QSize(40, 40))
         self.view_tiles.setSpacing(10)
         self.view_tiles.setUniformItemSizes(False)
+        self.view_tiles.setAlternatingRowColors(False)
 
     def tiles_grid_small(self):
         self.view_tiles.setViewMode(QListWidget.ViewMode.IconMode)
         self.view_tiles.setIconSize(QSize(20, 20))
         self.view_tiles.setSpacing(5)
         self.view_tiles.setUniformItemSizes(True)
+        self.view_tiles.setAlternatingRowColors(False)
 
     def tiles_list(self):
         self.view_tiles.setViewMode(QListWidget.ViewMode.ListMode)
         self.view_tiles.setIconSize(QSize(20, 20))
         self.view_tiles.setSpacing(0)
         self.view_tiles.setUniformItemSizes(True)
+        self.view_tiles.setAlternatingRowColors(True)
 
     def load_tiles(self):
         filter = self.ui.SearchBar.text()

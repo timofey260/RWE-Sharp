@@ -3,6 +3,10 @@
     <file>icon.png</file>
     <file>icon_small.png</file>
   </qresource>
+  <qresource prefix="special">
+    <file>special/pin.svg</file>
+    <file>special/unpin.svg</file>
+  </qresource>
   <qresource prefix="grids">
     <file>grid/list.svg</file>
     <file>grid/mediumgrid.svg</file>

@@ -53,10 +53,12 @@ SPRITESIZE = CONSTS.get("spritesize", 16)
 size of tile sprite
 """
 
+os.makedirs(PATH_MODS, exist_ok=True)
+os.makedirs(PATH_COLLECTIONS_PROPS, exist_ok=True)
+os.makedirs(PATH_COLLECTIONS_TILES, exist_ok=True)
+os.makedirs(PATH_FILES_CACHE, exist_ok=True)
+
 print("clearing load log")
 if os.path.exists(os.path.join(PATH, "loadLog.txt")):
     with open(os.path.join(PATH, "loadLog.txt"), "w") as file:
         file.write("log started!\n")
-
-if not os.path.exists(PATH_FILES_CACHE):
-    os.mkdir(PATH_FILES_CACHE)

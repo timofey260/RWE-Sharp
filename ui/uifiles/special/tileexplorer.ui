@@ -451,7 +451,7 @@
            <number>0</number>
           </property>
           <item>
-           <widget class="QToolButton" name="toolButton_9">
+           <widget class="QToolButton" name="Favourite">
             <property name="text">
              <string/>
             </property>
@@ -464,9 +464,13 @@
            </widget>
           </item>
           <item>
-           <widget class="QToolButton" name="toolButton_10">
+           <widget class="QToolButton" name="Pin">
             <property name="text">
              <string>Pin</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../../../resources/res.qrc">
+              <normaloff>:/special/special/pin.svg</normaloff>:/special/special/pin.svg</iconset>
             </property>
             <property name="arrowType">
              <enum>Qt::ArrowType::NoArrow</enum>
