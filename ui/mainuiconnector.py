@@ -14,7 +14,7 @@ from PySide6.QtMultimedia import QMediaPlayer, QAudioOutput
 class FunnyVideo(QWidget):
     def __init__(self, manager, closeonfinish, url, title):
         super().__init__()
-        self.setWindowFlag(Qt.WindowType.FramelessWindowHint)
+        # self.setWindowFlag(Qt.WindowType.FramelessWindowHint)
         self.manager = manager
         self.video = QVideoWidget(self)
         self.audio = QAudioOutput(self)

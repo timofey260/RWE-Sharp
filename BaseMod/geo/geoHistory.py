@@ -163,14 +163,55 @@ class GEBrushChange(HistoryElement):
         self.brushsize = brushsize
         self.before = []
         self.module = history.level.manager.basemod.geomodule
+        self.area = [[True for _ in range(self.history.level.level_height)] for _ in
+                     range(self.history.level.level_width)]
+        self.lastpos = start
+        self.paint_sphere(start, self.paintpoint)
 
-    def paintpoint(self, pos):
-        draw_ellipse()
-        draw_line()
+    def redraw(self):
         for i, l in enumerate(self.layers):
             if l:
+                self.module.get_layer(i).redraw()
+
+    def paintpoint(self, pos: QPoint):
+        if not self.module.manager.level.inside(pos) or not self.area[pos.x()][pos.y()]:
+            return
+        for i, l in enumerate(self.layers):
+            if l:
+                self.area[pos.x()][pos.y()] = False
                 block, save = geo_save(self.replace, self.history.level.geo_data(pos, i))
-                self.before.append(save)
+                self.before.append([pos, i, save])
                 self.history.level.data["GE"][pos.x()][pos.y()][i] = block
                 t = self.module.get_layer(i)
                 t.draw_geo(pos.x(), pos.y(), True)
+
+    def paint_sphere(self, pos, callback):
+        point = QPoint(self.brushsize // 2, self.brushsize // 2)
+        rect = QRect(pos - point, pos + point)
+        draw_ellipse(rect, False, callback)
+
+    def add_move(self, position):
+        points = []
+        draw_line(self.lastpos, position, lambda p: points.append(p))
+        points.pop(0)
+        for point in points:
+            self.paint_sphere(point, self.paintpoint)
+        self.lastpos = position
+        self.redraw()
+
+    def undo_changes(self, level):
+        for i in self.before:
+            point, layer, save = i
+            block = geo_undo(self.replace, self.history.level.geo_data(point, layer), save)
+            self.history.level.data["GE"][point.x()][point.y()][layer] = block
+            self.module.get_layer(layer).draw_geo(point.x(), point.y(), True)
+        self.redraw()
+
+    def redo_changes(self, level):
+        for i in self.before:
+            pos, layer, _ = i
+            block, save = geo_save(self.replace, self.history.level.geo_data(pos, layer))
+            self.history.level.data["GE"][pos.x()][pos.y()][layer] = block
+            t = self.module.get_layer(layer)
+            t.draw_geo(pos.x(), pos.y(), True)
+        self.redraw()

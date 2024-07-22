@@ -31,7 +31,7 @@ class GeoControls:
         self.clear_all = KeyConfigurable(mod, "KEYS_geo.clear_all", "Ctrl+d", "Clear all blocks on all layers")
         self.clear_upper = KeyConfigurable(mod, "KEYS_geo.clear_upper", "Ctrl+w",
                                            "Clear stable structures such as beams, pipes, etc.")
-        self.clear_blocks = KeyConfigurable(mod, "KEYS_geo.clear_blocks", "Ctrl+q",
+        self.clear_blocks = KeyConfigurable(mod, "KEYS_geo.clear_blocks", "Ctrl+e",
                                             "Clear solid blocks such as walls, slopes, floors, glass, and entrances")
         self.clear_layer = KeyConfigurable(mod, "KEYS_geo.clear_layer", "d", "Clear everything on the selected layer")
         self.inverse = KeyConfigurable(mod, "KEYS_geo.inverse", "i", "Replace air with solid blocks and invert slopes")
