@@ -59,9 +59,9 @@ class MainWindow(QMainWindow):
         # self.ui.actionSave_As.setShortcut(QKeySequence("Ctrl+Shift+S"))
 
         self.manager.basemod.bmconfig.undo_key.link_action(self.ui.actionUndo)
-        self.ui.actionUndo.triggered.connect(self.manager.level.undo)
+        self.ui.actionUndo.triggered.connect(self.manager.undo)
         self.manager.basemod.bmconfig.redo_key.link_action(self.ui.actionRedo)
-        self.ui.actionRedo.triggered.connect(self.manager.level.redo)
+        self.ui.actionRedo.triggered.connect(self.manager.redo)
 
         self.ui.DockTools.link_action(self.ui.actionEditors)
         self.ui.DockView.link_action(self.ui.actionView)

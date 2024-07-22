@@ -146,6 +146,12 @@ class Manager:
     def add_hotkeytree(self, hotkey: HotkeyElement):
         self.hotkey_trees.append(hotkey)
 
+    def undo(self):
+        self.level.undo()
+
+    def redo(self):
+        self.level.redo()
+
     @property
     def view_menu(self) -> QMenu:
         return self.window.ui.menuView

@@ -28,7 +28,6 @@ class History:
         self.level: RWELevel = level
 
     def undo(self):
-        print(self.undoactions, self.level.file)
         if len(self.undoactions) == 0:
             return
         action = self.undoactions.pop()
@@ -50,7 +49,6 @@ class History:
             return None
 
     def add_element(self, element: HistoryElement):
-        print(element, self.level.file)
         self.redoactions = []
         self.undoactions.append(element)
 
