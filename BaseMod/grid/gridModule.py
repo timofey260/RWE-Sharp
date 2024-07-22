@@ -27,8 +27,7 @@ class GridModule(Module):
         topleft = QPoint(borders[0], borders[1])
         bottomright = self.manager.level.level_size - QPoint(borders[2], borders[3])
         self.border = RenderRect(self.mod, 0,
-                                 QRect(self.viewport.editor_to_viewport(topleft),
-                                       self.viewport.editor_to_viewport(bottomright)),
+                                 QRect(topleft * CELLSIZE, bottomright * CELLSIZE),
                                  QPen(self.bordercolor.value, 5, Qt.PenStyle.DashLine)).add_myself(self)
 
         self.enablegrid.valueChanged.connect(self.check_change)
@@ -47,5 +46,5 @@ class GridModule(Module):
         borders = self.manager.level.extra_tiles
         topleft = QPoint(borders[0], borders[1])
         bottomright = self.manager.level.level_size - QPoint(borders[2], borders[3])
-        self.border.setRect(QRect(self.viewport.editor_to_viewport(topleft), self.viewport.editor_to_viewport(bottomright)))
+        self.border.setRect(QRect(topleft * CELLSIZE, bottomright * CELLSIZE))
         super().level_resized()

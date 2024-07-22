@@ -1,11 +1,38 @@
 from PySide6.QtWidgets import QMainWindow, QFileDialog, QSpacerItem, QSizePolicy
 from PySide6.QtCore import Slot
-from ui.uiscripts.mainui import Ui_MainWindow
+from ui.uiscripts.mainui import Ui_MainWindow, QWidget
 from ui.aboutuiconnector import AboutDialog
 from ui.settingsuiconnector import SettingsUI
 from ui.hotkeysuiconnector import HotkeysUI
-from core.info import PATH_LEVELS
-from BaseMod.Palettes.RaspberryDark import RaspberryDark
+from core.info import PATH_LEVELS, PATH_FILES
+
+import os
+from PySide6.QtMultimediaWidgets import QVideoWidget
+from PySide6.QtMultimedia import QMediaPlayer, QAudioOutput
+
+
+class FunnyVideo(QWidget):
+    def __init__(self, manager):
+        super().__init__()
+        self.manager = manager
+        self.video = QVideoWidget(self)
+        self.audio = QAudioOutput(self)
+        self.player = QMediaPlayer(self)
+        self.player.setVideoOutput(self.video)
+        self.player.setAudioOutput(self.audio)
+        self.player.setSource(os.path.join(PATH_FILES, "fnuuy.mp4").replace("\\", "/"))  # reasons beyond
+        self.player.mediaStatusChanged.connect(self.frame)
+        self.player.play()
+        size = 250
+        self.setMinimumSize(size, size)
+        self.video.setMinimumSize(size, size)
+        self.setWindowTitle("Goodbye")
+        self.show()
+
+    @Slot(QMediaPlayer.MediaStatus)
+    def frame(self, status: QMediaPlayer.MediaStatus):
+        if status == status.EndOfMedia:
+            self.manager.application.app.exit()
 
 
 class MainWindow(QMainWindow):
@@ -56,7 +83,6 @@ class MainWindow(QMainWindow):
 
         self.manager.basemod.bmconfig.save_key.link_action(self.ui.actionSave)
         self.ui.actionSave.triggered.connect(self.manager.save_level)
-        # self.ui.actionSave_As.setShortcut(QKeySequence("Ctrl+Shift+S"))
 
         self.manager.basemod.bmconfig.undo_key.link_action(self.ui.actionUndo)
         self.ui.actionUndo.triggered.connect(self.manager.undo)
@@ -69,6 +95,8 @@ class MainWindow(QMainWindow):
 
         self.hotkeys = HotkeysUI(self.manager, self)
         self.settings = SettingsUI(self.manager, self)
+
+        self.vid = None
 
     @Slot(int)
     def change_editor(self, val) -> None:
@@ -89,9 +117,17 @@ class MainWindow(QMainWindow):
 
     @Slot()
     def close(self) -> None:
-        self.manager.application.app.exit()
+        if self.manager.basemod.bmconfig.funny_vid.value:
+            self.vid = FunnyVideo(self.manager)
+        else:
+            self.manager.application.app.exit()
+
+    def closeEvent(self, event):
+        self.close()
 
     @Slot()
     def open_file(self) -> None:
-        name, _ = QFileDialog.getOpenFileName(None, "Open Level", PATH_LEVELS)
+        name, _ = QFileDialog.getOpenFileName(None, "Open Level", PATH_LEVELS, "Level files (*.txt *.wep *.rwl)")
+        if name == "":
+            return
         self.manager.change_level(name)
