@@ -158,7 +158,7 @@ class Manager:
 
     @property
     def tool_menu(self) -> QMenu:
-        return self.window.ui.menuView
+        return self.window.ui.menutools
 
     @property
     def window_menu(self) -> QMenu:
@@ -166,7 +166,7 @@ class Manager:
 
     @property
     def edit_menu(self) -> QMenu:
-        return self.window.ui.menuView
+        return self.window.ui.menuedit
 
     @property
     def menu_bar(self) -> QMenuBar:

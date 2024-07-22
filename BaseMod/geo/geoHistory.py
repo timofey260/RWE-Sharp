@@ -2,7 +2,7 @@ from PySide6.QtCore import QPoint, QRect
 
 from BaseMod.geo.geoUtils import geo_save, geo_undo
 from RWESharp.Modify import HistoryElement
-from RWESharp.Utils import draw_line
+from RWESharp.Utils import draw_line, draw_ellipse
 
 
 class GERectChange(HistoryElement):
@@ -77,14 +77,22 @@ class GEPointChange(HistoryElement):
         self.start: QPoint = start
         self.layers = layers
         self.module = self.history.level.manager.basemod.geomodule
+        self.paintpoint(start)
+        self.redraw()
+
+    def paintpoint(self, pos):
         for i, l in enumerate(self.layers):
             if l:
-                block, save = geo_save(self.replace, self.history.level.geo_data(start, i))
+                block, save = geo_save(self.replace, self.history.level.geo_data(pos, i))
                 self.before.append(save)
-                self.history.level.data["GE"][start.x()][start.y()][i] = block
+                self.history.level.data["GE"][pos.x()][pos.y()][i] = block
                 t = self.module.get_layer(i)
-                t.draw_geo(start.x(), start.y(), True)
-                t.redraw()
+                t.draw_geo(pos.x(), pos.y(), True)
+
+    def redraw(self):
+        for i, l in enumerate(self.layers):
+            if l:
+                self.module.get_layer(i).redraw()
 
     def add_move(self, position):
         start = self.start
@@ -96,15 +104,8 @@ class GEPointChange(HistoryElement):
         draw_line(start, position, lambda p: points.append(p))
         points.pop(0)
         for point in points:
-            for i, l in enumerate(self.layers):
-                if l:
-                    block, save = geo_save(self.replace, self.history.level.geo_data(point, i))
-                    self.before.append(save)
-                    self.history.level.data["GE"][point.x()][point.y()][i] = block
-                    self.module.get_layer(i).draw_geo(point.x(), point.y(), True)
-        for i, l in enumerate(self.layers):
-            if l:
-                self.module.get_layer(i).redraw()
+            self.paintpoint(point)
+        self.redraw()
 
     def undo_changes(self, level):  # removing placed cells with replaced ones
         allpoints = []
@@ -146,11 +147,30 @@ class GEPointChange(HistoryElement):
             for point in points:
                 for li, l in enumerate(self.layers):
                     if l:
-                        block, save = geo_save(self.replace, self.history.level.geo_data(point, li))
-                        self.before.append(save)
+                        block, _ = geo_save(self.replace, self.history.level.geo_data(point, li))
                         self.history.level.data["GE"][point.x()][point.y()][li] = block
                         self.module.get_layer(li).draw_geo(point.x(), point.y(), True)
             start = v
+        self.redraw()
+
+
+class GEBrushChange(HistoryElement):
+    def __init__(self, history, start: QPoint, replace: [int, bool], layers: [bool, bool, bool], brushsize: int):
+        super().__init__(history)
+        self.start = start
+        self.replace = replace
+        self.layers = layers
+        self.brushsize = brushsize
+        self.before = []
+        self.module = history.level.manager.basemod.geomodule
+
+    def paintpoint(self, pos):
+        draw_ellipse()
+        draw_line()
         for i, l in enumerate(self.layers):
             if l:
-                self.module.get_layer(i).redraw()
+                block, save = geo_save(self.replace, self.history.level.geo_data(pos, i))
+                self.before.append(save)
+                self.history.level.data["GE"][pos.x()][pos.y()][i] = block
+                t = self.module.get_layer(i)
+                t.draw_geo(pos.x(), pos.y(), True)

@@ -79,7 +79,7 @@ def insensitive_path(path) -> str | None:
     return None
 
 
-def rect2ellipse(rect: QRect, hollow: bool, callback: Callable):
+def draw_ellipse(rect: QRect, hollow: bool, callback: Callable):
     width = rect.width() // 2
     height = rect.height() // 2
     origin = rect.center()

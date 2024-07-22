@@ -1,10 +1,10 @@
 from PySide6.QtWidgets import QMainWindow, QFileDialog, QSpacerItem, QSizePolicy
-from PySide6.QtCore import Slot
+from PySide6.QtCore import Slot, Qt
 from ui.uiscripts.mainui import Ui_MainWindow, QWidget
 from ui.aboutuiconnector import AboutDialog
 from ui.settingsuiconnector import SettingsUI
 from ui.hotkeysuiconnector import HotkeysUI
-from core.info import PATH_LEVELS, PATH_FILES
+from core.info import PATH_LEVELS, PATH_FILES_VIDEOS
 
 import os
 from PySide6.QtMultimediaWidgets import QVideoWidget
@@ -12,27 +12,31 @@ from PySide6.QtMultimedia import QMediaPlayer, QAudioOutput
 
 
 class FunnyVideo(QWidget):
-    def __init__(self, manager):
+    def __init__(self, manager, closeonfinish, url, title):
         super().__init__()
+        self.setWindowFlag(Qt.WindowType.FramelessWindowHint)
         self.manager = manager
         self.video = QVideoWidget(self)
         self.audio = QAudioOutput(self)
         self.player = QMediaPlayer(self)
         self.player.setVideoOutput(self.video)
         self.player.setAudioOutput(self.audio)
-        self.player.setSource(os.path.join(PATH_FILES, "fnuuy.mp4").replace("\\", "/"))  # reasons beyond
+        self.player.setSource(url)  # reasons beyond
+        self.closeonfinish = closeonfinish
         self.player.mediaStatusChanged.connect(self.frame)
         self.player.play()
         size = 250
         self.setMinimumSize(size, size)
         self.video.setMinimumSize(size, size)
-        self.setWindowTitle("Goodbye")
+        self.setWindowTitle(title)
         self.show()
 
     @Slot(QMediaPlayer.MediaStatus)
     def frame(self, status: QMediaPlayer.MediaStatus):
-        if status == status.EndOfMedia:
-            self.manager.application.app.exit()
+        if status == status.NoMedia or status == status.EndOfMedia:
+            self.deleteLater()
+            if self.closeonfinish:
+                self.manager.application.app.exit()
 
 
 class MainWindow(QMainWindow):
@@ -118,7 +122,7 @@ class MainWindow(QMainWindow):
     @Slot()
     def close(self) -> None:
         if self.manager.basemod.bmconfig.funny_vid.value:
-            self.vid = FunnyVideo(self.manager)
+            self.vid = FunnyVideo(self.manager, True, os.path.join(PATH_FILES_VIDEOS, "fnuuy.mp4").replace("\\", "/"), "GoodBye")
         else:
             self.manager.application.app.exit()
 

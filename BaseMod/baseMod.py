@@ -8,8 +8,10 @@ from BaseMod.Configs import BaseModConfig
 from BaseMod.tiles.tileEditor import TileEditor
 from BaseMod.tiles.tileExplorer import TileExplorer
 from RWESharp.Modify import Mod, ModInfo
-from RWESharp.Core import SettingElement, HotkeyElement, get_hotkeys_from_pattern
+from RWESharp.Core import SettingElement, HotkeyElement, get_hotkeys_from_pattern, PATH_FILES_VIDEOS
 from PySide6.QtGui import QAction
+from RWESharp.Ui import FunnyVideo
+import os
 
 
 class BaseMod(Mod):
@@ -70,6 +72,10 @@ class BaseMod(Mod):
         self.tileui = TileUI(self)
         self.tileeditor.add_myself(self.tileui)
 
+        self.sex = QAction("sex")
+        self.manager.tool_menu.addAction(self.sex)
+        self.sex.triggered.connect(self.sexthing)
+
         self.tile_explorer_action = QAction("Tile Explorer")
         self.manager.window_menu.addAction(self.tile_explorer_action)
         self.tile_explorer.link_action(self.tile_explorer_action)
@@ -92,4 +98,5 @@ class BaseMod(Mod):
         tileviewelement = HotkeyElement(self, "Tiles View", "tileview", parent=self.visualsTree)
         tileviewelement.add_children_configurables(*get_hotkeys_from_pattern(self, "VIEW_tile"))
 
-
+    def sexthing(self):
+        self.vid = FunnyVideo(self.manager, False, os.path.join(PATH_FILES_VIDEOS, "sex.mp4").replace("\\", "/"), "SEX")
