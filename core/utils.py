@@ -99,8 +99,13 @@ def draw_ellipse(rect: QRect, hollow: bool, callback: Callable):
             x1 -= 1
         dx = x0 - x1
         x0 = x1
-        for x in range(-x0, x0 + 1):
-            if x == -x0 or x == x0 or not hollow:
+        if hollow:
+            callback(QPoint(origin.x() - x0, origin.y() - y))
+            callback(QPoint(origin.x() - x0, origin.y() + y))
+            callback(QPoint(origin.x() + x0, origin.y() - y))
+            callback(QPoint(origin.x() + x0, origin.y() + y))
+        else:
+            for x in range(-x0, x0 + 1):
                 callback(QPoint(origin.x() + x, origin.y() - y))
                 callback(QPoint(origin.x() + x, origin.y() + y))
 
@@ -120,8 +125,13 @@ def draw_ellipse(rect: QRect, hollow: bool, callback: Callable):
             y1 -= 1
         dy = y0 - y1
         y0 = y1
-        for y in range(-y0, y0 + 1):
-            if y == -y0 or y == y0 or not hollow:
+        if hollow:
+            callback(QPoint(origin.x() - x, origin.y() - y0))
+            callback(QPoint(origin.x() - x, origin.y() + y0))
+            callback(QPoint(origin.x() + x, origin.y() - y0))
+            callback(QPoint(origin.x() + x, origin.y() + y0))
+        else:
+            for y in range(-y0, y0 + 1):
                 callback(QPoint(origin.x() - x, origin.y() + y))
                 callback(QPoint(origin.x() + x, origin.y() + y))
 

@@ -68,6 +68,55 @@ class GERectChange(HistoryElement):
         self.redraw()
 
 
+class GEEllipseChange(HistoryElement):
+    def __init__(self, history, rect: QRect, replace, layers: [bool, bool, bool], hollow=False):
+        super().__init__(history)
+        self.rect = rect
+        self.replace = replace
+        self.before = []
+        self.layers = layers
+        self.hollow = hollow
+        self.module = self.history.level.manager.basemod.geomodule
+        self.area = [[True for _ in range(self.history.level.level_height)] for _ in
+                     range(self.history.level.level_width)]
+        draw_ellipse(self.rect, self.hollow, self.drawpoint)
+        self.redraw()
+
+    def drawpoint(self, pos: QPoint, saveblock=True):
+        if not self.area[pos.x()][pos.y()]:
+            return
+        self.area[pos.x()][pos.y()] = False
+        for i, l in enumerate(self.layers):
+            if l:
+                block, save = geo_save(self.replace, self.history.level.geo_data(pos, i))
+                if saveblock:
+                    self.before.append([pos, i, save])
+                self.history.level.data["GE"][pos.x()][pos.y()][i] = block
+                t = self.module.get_layer(i)
+                t.draw_geo(pos.x(), pos.y(), True)
+
+    def drawpointredo(self, pos):
+        self.drawpoint(pos, False)
+
+    def redraw(self):
+        for i, l in enumerate(self.layers):
+            if l:
+                t = self.module.get_layer(i)
+                t.redraw()
+
+    def undo_changes(self, level):
+        for i in self.before:
+            point, layer, save = i
+            block = geo_undo(self.replace, self.history.level.geo_data(point, layer), save)
+            self.history.level.data["GE"][point.x()][point.y()][layer] = block
+            self.module.get_layer(layer).draw_geo(point.x(), point.y(), True)
+        self.redraw()
+
+    def redo_changes(self, level):
+        draw_ellipse(self.rect, self.hollow, self.drawpointredo)
+        self.redraw()
+
+
 class GEPointChange(HistoryElement):
     def __init__(self, history, start: QPoint, replace: [int, bool], layers: [bool, bool, bool]):
         super().__init__(history)

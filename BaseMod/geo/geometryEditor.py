@@ -5,11 +5,11 @@ from PySide6.QtCore import QRect, QPoint, QSize, QPointF
 from PySide6.QtGui import QColor, QMoveEvent, QMouseEvent, QPixmap, QPainter
 
 from BaseMod.geo.geoControls import GeoControls
-from BaseMod.geo.geoHistory import GEPointChange, GERectChange, GEBrushChange
+from BaseMod.geo.geoHistory import GEPointChange, GERectChange, GEBrushChange, GEEllipseChange
 from RWESharp.Configurable import BoolConfigurable, IntConfigurable, EnumConfigurable
 from RWESharp.Core import CELLSIZE, PATH_FILES_IMAGES, CONSTS
 from RWESharp.Modify import EditorMode
-from RWESharp.Renderable import RenderImage, RenderRect
+from RWESharp.Renderable import RenderImage, RenderRect, RenderEllipse
 
 
 class GeoBlocks(Enum):
@@ -101,6 +101,7 @@ class GeometryEditor(EditorMode):
 
         self.cursor = RenderRect(self.mod, 0, QRect(0, 0, CELLSIZE, CELLSIZE)).add_myself(self)
         self.rect = RenderRect(self.mod, 0, QRect(0, 0, CELLSIZE, CELLSIZE)).add_myself(self)
+        self.ellipse = RenderEllipse(self.mod, 0, QRect(0, 0, CELLSIZE, CELLSIZE)).add_myself(self)
         self.pixmap = RenderImage(self.mod, 1, QSize(CELLSIZE, CELLSIZE)).add_myself(self)
         self.lastpos = QPoint()
         self.block = EnumConfigurable(mod, "EDIT_geo.block", GeoBlocks.Wall, GeoBlocks, "Current geo block")
@@ -219,6 +220,7 @@ class GeometryEditor(EditorMode):
         super().init_scene_items()
         self.pixmap.renderedtexture.setOpacity(.3)
         self.rect.drawrect.setOpacity(0)
+        self.ellipse.drawellipse.setOpacity(0)
         # self.cursor_item = self.workscene.addPixmap(self.pixmap)
         # self.cursor_item.setOpacity(.3)
         self.pixmap.painter.setCompositionMode(QPainter.CompositionMode.CompositionMode_Source)
@@ -249,6 +251,11 @@ class GeometryEditor(EditorMode):
             self.manager.level.add_history(GERectChange(self.manager.level.history, QRect.span(lpos, fpos), [blk, stak], self.layers, tool == GeoTools.RectHollow))
             self.cursor.setRect(QRect(0, 0, CELLSIZE, CELLSIZE))
             self.rect.drawrect.setOpacity(0)
+        elif tool == GeoTools.Circle or tool == GeoTools.CircleHollow:
+            blk, stak = self.block2info()
+            self.manager.level.add_history(GEEllipseChange(self.manager.level.history, QRect.span(lpos, fpos), [blk, stak], self.layers, tool == GeoTools.CircleHollow))
+            self.cursor.setRect(QRect(0, 0, CELLSIZE, CELLSIZE))
+            self.ellipse.drawellipse.setOpacity(0)
 
     def tool_specific_press(self, tool: Enum):
         fpos = self.viewport.viewport_to_editor(self.mouse_pos)
@@ -262,6 +269,10 @@ class GeometryEditor(EditorMode):
             lpos = self.viewport.viewport_to_editor(self.lastclick)
             self.rect.setRect(QRect.span(lpos * CELLSIZE, fpos * CELLSIZE))
             self.rect.drawrect.setOpacity(1)
+        elif tool == GeoTools.Circle or tool == GeoTools.CircleHollow:
+            lpos = self.viewport.viewport_to_editor(self.lastclick)
+            self.ellipse.setRect(QRect.span(lpos * CELLSIZE, fpos * CELLSIZE))
+            self.ellipse.drawellipse.setOpacity(1)
 
     def tool_specific_update(self, tool: Enum, pos: QPoint):
         if (tool == GeoTools.Pen or tool == GeoTools.Brush) and self.manager.level.inside(pos):
@@ -271,6 +282,11 @@ class GeometryEditor(EditorMode):
             rect = QRect.span(lpos * CELLSIZE, pos * CELLSIZE)
             rect.setSize(rect.size() + QSize(CELLSIZE, CELLSIZE))
             self.rect.setRect(rect)
+        if tool == GeoTools.Circle or tool == GeoTools.CircleHollow:
+            lpos = self.viewport.viewport_to_editor(self.lastclick)
+            rect = QRect.span(lpos * CELLSIZE, pos * CELLSIZE)
+            rect.setSize(rect.size() + QSize(CELLSIZE, CELLSIZE))
+            self.ellipse.setRect(rect)
 
     def mouse_move_event(self, event: QMoveEvent):
         super().mouse_move_event(event)
