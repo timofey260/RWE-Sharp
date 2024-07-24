@@ -143,8 +143,11 @@ class GeometryEditor(EditorMode):
         elif self.block.value in stackables:
             pos = self.sinfo.get(str(blk), [0, 0])
             if blk == 4:
-                pos = self.sinfo.get(str(blk), [0, 0])
+                pos = self.sinfo.get(str(blk), [[0, 0]])
                 pos = pos[1]
+            if blk == 11:
+                pos = self.sinfo.get(str(blk), [[0, 0]])
+                pos = pos[0]
             cellpos = QRect(pos[0] * self._sz, pos[1] * self._sz, self._sz, self._sz)
             self.pixmap.painter.drawPixmap(QRect(0, 0, CELLSIZE, CELLSIZE), self.geo_texture, cellpos)
         else:

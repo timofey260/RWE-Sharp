@@ -7,7 +7,7 @@ from core import info
 from core.Exceptions import *
 from core.HistorySystem import History
 from core.RWLParser import RWLParser
-from PySide6.QtCore import QPoint, Slot
+from PySide6.QtCore import QPoint, Slot, QRect
 from core.HistorySystem import HistoryElement
 
 defaultlevel = open(os.path.join(info.PATH_FILES, "default.txt"), "r").read()
@@ -90,6 +90,13 @@ class RWELevel:
 
     def inside(self, point: QPoint) -> bool:
         return 0 <= point.x() < self.level_width and 0 <= point.y() < self.level_height
+
+    def inside_border(self, point: QPoint) -> bool:
+        borders = self.extra_tiles
+        topleft = QPoint(borders[0], borders[1])
+        bottomright = self.manager.level.level_size - QPoint(borders[2], borders[3])
+        rect = QRect(topleft, bottomright)
+        return rect.contains(point)
 
     @property
     def level_width(self) -> int:

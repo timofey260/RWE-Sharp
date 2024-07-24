@@ -1,10 +1,18 @@
 import os.path
 
-from PySide6.QtCore import QRect
+from PySide6.QtCore import QRect, QPoint
 from PySide6.QtGui import QPixmap, QColor, QPainter
 
 from RWESharp.Core import PATH_FILES_IMAGES, CONSTS, CELLSIZE
 from RWESharp.Renderable import RenderLevelImage
+
+checkpoints = [QPoint(-1, -1), QPoint(0, -1), QPoint(1, -1),
+               QPoint(-1, 0), QPoint(1, 0),
+               QPoint(-1, 1), QPoint(0, 1), QPoint(1, 1)]
+
+checkpoints2 = [QPoint(0, -1),
+               QPoint(-1, 0), QPoint(1, 0),
+               QPoint(0, 1)]
 
 
 class GeoRenderLevelImage(RenderLevelImage):
@@ -32,9 +40,9 @@ class GeoRenderLevelImage(RenderLevelImage):
         self.image.fill(QColor(0, 0, 0, 0))
         for xp, x in enumerate(self.manager.level["GE"]):
             for yp, y in enumerate(x):
-                self.draw_geo(xp, yp)
+                self.draw_geo(xp, yp, updatearound=False)
         self.redraw()
-        
+
     def level_resized(self):
         super().level_resized()
         self.image.fill(QColor(0, 0, 0, 0))
@@ -44,34 +52,44 @@ class GeoRenderLevelImage(RenderLevelImage):
         for xp, x in enumerate(self.manager.level["GE"]):
             for yp, y in enumerate(x):
                 if 1 in y[self.geolayer][1] or 2 in y[self.geolayer][1]:
-                    self.draw_geo(xp, yp, True)
+                    self.draw_geo(xp, yp, True, False)
         self.redraw()
 
     def redraw_misc(self):
         for xp, x in enumerate(self.manager.level["GE"]):
             for yp, y in enumerate(x):
-                self.draw_geo(xp, yp, True)
+                self.draw_geo(xp, yp, True, False)
         self.redraw()
 
     def redraw_pipes(self):
         for xp, x in enumerate(self.manager.level["GE"]):
             for yp, y in enumerate(x):
-                if 5 in y[self.geolayer][1] or 6 in y[self.geolayer][1] or 7 in y[self.geolayer][1] or 19 in y[self.geolayer][1]:
+                if 5 in y[self.geolayer][1] or 6 in y[self.geolayer][1] or 7 in y[self.geolayer][1] or 19 in \
+                        y[self.geolayer][1]:
                     self.draw_geo(xp, yp, True)
         self.redraw()
 
-    def draw_geo(self, x: int, y: int, clear: bool = False, updatearound: bool = False):
+    def draw_geo(self, x: int, y: int, clear: bool = False, updatearound=True):
         cell: int = self.manager.level["GE"][x][y][self.geolayer][0]
         stackables: list[int] = self.manager.level["GE"][x][y][self.geolayer][1]
         pos = self.binfo.get(str(cell), [0, 0])
         cellpos = QRect(pos[0] * self._sz, pos[1] * self._sz, self._sz, self._sz)
         placepos = QRect(x * CELLSIZE, y * CELLSIZE, 20, 20)
         drawmap = self.geo_texture if self.module.drawoption.value == 0 else self.geo_texture_colored
+        point = QPoint(x, y)
         if clear:
             self.painter.setCompositionMode(QPainter.CompositionMode.CompositionMode_Clear)
             self.painter.fillRect(placepos, QColor(0, 0, 0, 0))
             self.painter.setCompositionMode(QPainter.CompositionMode.CompositionMode_SourceOver)
-        self.painter.drawPixmap(placepos, drawmap, cellpos)
+        if updatearound:
+            for i in checkpoints:
+                p = point + i
+                if (self.manager.level.inside(p) and
+                        (4 in self.manager.level.geo_data(p, self.geolayer)[1] or
+                         11 in self.manager.level.geo_data(p, self.geolayer)[1])):
+                    self.draw_geo(p.x(), p.y(), True, False)
+        if cell != 7:
+            self.painter.drawPixmap(placepos, drawmap, cellpos)
         for s in stackables:
             if (s == 1 or s == 2) and not self.module.drawlbeams.value:
                 continue
@@ -81,7 +99,80 @@ class GeoRenderLevelImage(RenderLevelImage):
                 continue
             if s == 4:
                 # checking structures
+                if not self.manager.level.inside_border(point):
+                    self.painter.drawPixmap(placepos, drawmap, self.stackpos(self.getinfo2(s, 0)))
+                    continue
+                counter = 0
+                for i in checkpoints:
+                    if not self.manager.level.inside(point + i):
+                        counter += 1
+                    elif self.manager.level.geo_data(point + i, self.geolayer)[0] == 1:
+                        counter += 1
+                if counter != 7:
+                    self.painter.drawPixmap(placepos, drawmap, self.stackpos(self.getinfo2(s, 0)))
+                    continue
+                spos = self.getinfo2(s, 0)
+                if self.insidedouble(point, QPoint(0, 1)):
+                    if self.checkrot(point, QPoint(0, -1)):
+                        spos = self.getinfo2(s, 1)
+                    elif self.checkrot(point, QPoint(0, 1)):
+                        spos = self.getinfo2(s, 4)
+                if self.insidedouble(point, QPoint(1, 0)):
+                    if self.checkrot(point, QPoint(-1, 0)):
+                        spos = self.getinfo2(s, 2)
+                    elif self.checkrot(point, QPoint(1, 0)):
+                        spos = self.getinfo2(s, 3)
+                self.painter.drawPixmap(placepos, drawmap, self.stackpos(spos))
                 continue
-            spos = self.sinfo.get(str(s), [0, 0])
-            stackpos = QRect(spos[0] * self._sz, spos[1] * self._sz, self._sz, self._sz)
-            self.painter.drawPixmap(placepos, drawmap, stackpos)
+            elif s == 11:
+                counter = 0
+                for i in checkpoints2:
+                    if not self.manager.level.inside(point + i):
+                        counter += 1
+                    elif 11 in self.manager.level.geo_data(point + i, self.geolayer)[1]:
+                        counter += 1
+                if counter >= 3 or counter == 0:
+                    spos = self.getinfo2(s, 0)
+                    self.painter.drawPixmap(placepos, drawmap, self.stackpos(spos))
+                    continue
+                h = False
+                v = False
+                if self.checkcrack(point, QPoint(-1, 0)) or self.checkcrack(point, QPoint(1, 0)):
+                    h = True
+                if self.checkcrack(point, QPoint(0, -1)) or self.checkcrack(point, QPoint(0, 1)):
+                    v = True
+                spos = self.getinfo2(s, 0)
+                if h and not v:
+                    spos = self.getinfo2(s, 1)
+                elif v and not h:
+                    spos = self.getinfo2(s, 2)
+                self.painter.drawPixmap(placepos, drawmap, self.stackpos(spos))
+                continue
+            spos = self.getinfo(s)
+            self.painter.drawPixmap(placepos, drawmap, self.stackpos(spos))
+
+    def getinfo(self, s):
+        return self.sinfo.get(str(s), [0, 0])
+
+    def getinfo2(self, s, t):
+        return self.sinfo.get(str(s), [[0, 0]])[t]
+
+    def stackpos(self, spos):
+        return QRect(spos[0] * self._sz, spos[1] * self._sz, self._sz, self._sz)
+
+    def insidedouble(self, point: QPoint, offset: QPoint) -> bool:
+        return self.manager.level.inside(point + offset) and self.manager.level.inside(point - offset)
+
+    def checkrot(self, point: QPoint, offset: QPoint) -> bool:
+        return self.is_path(self.manager.level.geo_data(point + offset, self.geolayer)[1]) and \
+                            self.manager.level.geo_data(point - offset, self.geolayer)[0] != 1
+
+    def checkcrack(self, point: QPoint, offset: QPoint) -> bool:
+        return self.manager.level.inside(point + offset) and 11 in \
+                self.manager.level.geo_data(point + offset, self.geolayer)[1]
+
+    def is_path(self, array) -> bool:
+        for i in [5, 6, 7, 21]:
+            if i in array:
+                return True
+        return False

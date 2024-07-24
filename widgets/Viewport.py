@@ -6,7 +6,6 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from core.Modify.baseModule import Module
 from core.info import CELLSIZE
-from core.configTypes.QtTypes import ColorConfigurable, EnumFlagConfigurable, KeyConfigurable
 
 
 class ViewPort(QGraphicsView):

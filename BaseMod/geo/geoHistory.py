@@ -24,7 +24,7 @@ class GERectChange(HistoryElement):
                         self.before.append(save)
                         self.history.level.data["GE"][x][y][i] = block
                         t = self.module.get_layer(i)
-                        t.draw_geo(x, y, True)
+                        t.draw_geo(x, y, True, self.inborder(x, y))
         self.redraw()
 
     def redraw(self):
@@ -33,10 +33,13 @@ class GERectChange(HistoryElement):
                 t = self.module.get_layer(i)
                 t.redraw()
 
+    def inborder(self, x, y):
+        return (x == self.rect.x() or y == self.rect.y() or
+                x == self.rect.x() + self.rect.width() - 1 or
+                y == self.rect.y() + self.rect.height() - 1)
+
     def ishollow(self, x, y):
-        if self.hollow and (x == self.rect.x() or y == self.rect.y() or
-                            x == self.rect.x() + self.rect.width() - 1 or
-                            y == self.rect.y() + self.rect.height() - 1):
+        if self.hollow and self.inborder(x, y):
             return False
         return self.hollow
 
@@ -50,7 +53,7 @@ class GERectChange(HistoryElement):
                             continue
                         block = geo_undo(self.replace, self.history.level.geo_data_xy(x, y, i), self.before[c])
                         self.history.level.data["GE"][x][y][i] = block
-                        self.module.get_layer(i).draw_geo(x, y, True)
+                        self.module.get_layer(i).draw_geo(x, y, True, self.inborder(x, y))
                         c += 1  # c++ almost
         self.redraw()
 
@@ -64,7 +67,7 @@ class GERectChange(HistoryElement):
                         block, save = geo_save(self.replace, self.history.level.geo_data_xy(x, y, i))
                         self.history.level.data["GE"][x][y][i] = block
                         t = self.module.get_layer(i)
-                        t.draw_geo(x, y, True)
+                        t.draw_geo(x, y, True, self.inborder(x, y))
         self.redraw()
 
 
