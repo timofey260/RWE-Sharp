@@ -30,7 +30,6 @@ class HotkeysUI(QDialog):
         if len(self.found) == 0:
             return
         self.ui.treeWidget.setCurrentItem(self.found[self.ui.spinBox.value() - 1])
-        print(self.ui.treeWidget.selectedItems())
 
     def loaditems(self):
         for i in self.manager.hotkey_trees:

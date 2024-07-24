@@ -114,9 +114,8 @@ def draw_ellipse(rect: QRect, hollow: bool, callback: Callable):
 
     y0 = height
     dy = 0
-    for y in range(-height, height + 1):
-        if y == -height or y == height or not hollow:
-            callback(QPoint(origin.x(), origin.y() + y))
+    callback(QPoint(origin.x(), origin.y() - height))
+    callback(QPoint(origin.x(), origin.y() + height))
     for x in range(1, width + 1):
         y1 = y0 - (dy - 1)
         while y1 > 0:
@@ -125,15 +124,10 @@ def draw_ellipse(rect: QRect, hollow: bool, callback: Callable):
             y1 -= 1
         dy = y0 - y1
         y0 = y1
-        if hollow:
-            callback(QPoint(origin.x() - x, origin.y() - y0))
-            callback(QPoint(origin.x() - x, origin.y() + y0))
-            callback(QPoint(origin.x() + x, origin.y() - y0))
-            callback(QPoint(origin.x() + x, origin.y() + y0))
-        else:
-            for y in range(-y0, y0 + 1):
-                callback(QPoint(origin.x() - x, origin.y() + y))
-                callback(QPoint(origin.x() + x, origin.y() + y))
+        callback(QPoint(origin.x() - x, origin.y() - y0))
+        callback(QPoint(origin.x() - x, origin.y() + y0))
+        callback(QPoint(origin.x() + x, origin.y() - y0))
+        callback(QPoint(origin.x() + x, origin.y() + y0))
 
 
 def paint_svg(filename: str, color: QColor) -> str:

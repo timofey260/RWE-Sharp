@@ -27,8 +27,8 @@ class BaseModConfig:
 
         self.about_key = KeyConfigurable(mod, "basemod.about", "F1", "About menu")
 
-        self.hotkey_key = KeyConfigurable(mod, "basemod.hotkeys", "Ctrl+Shift+`", "Open hotkey menu")
         self.settings_key = KeyConfigurable(mod, "basemod.settings", "Ctrl+`", "Open settings menu")
+        self.hotkey_key = KeyConfigurable(mod, "basemod.hotkeys", "Ctrl+Shift+`", "Open hotkey menu")
         self.view_key = KeyConfigurable(mod, "basemod.view", "Ctrl+Shift+v", "Open view tab")
         self.edit_key = KeyConfigurable(mod, "basemod.edit", "Ctrl+Shift+e", "Open edit tab")
         self.prefabs_key = KeyConfigurable(mod, "basemod.prefabs", "Ctrl+Shift+p", "Open prefabs tab")
