@@ -1,11 +1,11 @@
 import os
 from enum import Enum, auto
 
-from PySide6.QtCore import QRect, QPoint, QSize, QPointF
+from PySide6.QtCore import QRect, QPoint, QSize
 from PySide6.QtGui import QColor, QMoveEvent, QMouseEvent, QPixmap, QPainter
 
 from BaseMod.geo.geoControls import GeoControls
-from BaseMod.geo.geoHistory import GEPointChange, GERectChange, GEBrushChange, GEEllipseChange
+from BaseMod.geo.geoHistory import GEPointChange, GERectChange, GEBrushChange, GEEllipseChange, GEFillChange
 from RWESharp.Configurable import BoolConfigurable, IntConfigurable, EnumConfigurable
 from RWESharp.Core import CELLSIZE, PATH_FILES_IMAGES, CONSTS
 from RWESharp.Modify import EditorMode
@@ -276,6 +276,9 @@ class GeometryEditor(EditorMode):
             lpos = self.viewport.viewport_to_editor(self.lastclick)
             self.ellipse.setRect(QRect.span(lpos * CELLSIZE, fpos * CELLSIZE))
             self.ellipse.drawellipse.setOpacity(1)
+        elif tool == GeoTools.Bucket:
+            blk, stak = self.block2info()
+            self.manager.level.add_history(GEFillChange(self.manager.level.history, fpos, [blk, stak], self.layers))
 
     def tool_specific_update(self, tool: Enum, pos: QPoint):
         if (tool == GeoTools.Pen or tool == GeoTools.Brush) and self.manager.level.inside(pos):
