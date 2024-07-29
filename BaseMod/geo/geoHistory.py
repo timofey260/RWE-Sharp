@@ -288,13 +288,14 @@ class GEFillChange(GEChange):
                     if not val:
                         continue
                     for p in nearpoints:
-                        if not self.history.level.inside(pos) or not self.area[i][pos.x()][pos.y()]:
+                        newpos = pos + p
+                        if not self.history.level.inside(newpos) or not self.area[i][newpos.x()][newpos.y()]:
                             continue
-                        self.area[i][pos.x()][pos.y()] = False
-                        if self.history.level.geo_data(pos, i)[0] != self.replacefrom[i]:
+                        self.area[i][newpos.x()][newpos.y()] = False
+                        if self.history.level.geo_data(newpos, i)[0] != self.replacefrom[i]:
                             continue
-                        self.drawpoint(pos + p, i, save)
-                    self.before[i][item] = False
+                        self.drawpoint(newpos, i, save)
+                    self.before[i][item][2] = False
             newlen = sum([len(i) for i in self.before])
             if newlen == lastlen:
                 break
@@ -311,16 +312,15 @@ class GEFillChange(GEChange):
     def undo_changes(self, level):
         for i, l in enumerate(self.before):
             for item in l:
-                point, save = item
+                point, save, _ = item
                 block = geo_undo(self.replace, self.history.level.geo_data(point, i), save)
                 self.history.level.data["GE"][point.x()][point.y()][i] = block
                 self.module.get_layer(i).draw_geo(point.x(), point.y(), True)
         self.redraw()
 
     def redo_changes(self, level):
-        for i, l in enumerate(self.layers):
-            if not l:
-                continue
-            self.drawpoint(self.start, i)
-        self.dobrush(False)
+        for i, l in enumerate(self.before):
+            for item in l:
+                point, save, _ = item
+                self.drawpoint(point, i, False)
         self.redraw()
