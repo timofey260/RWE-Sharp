@@ -284,13 +284,17 @@ class GEFillChange(GEChange):
                 if not l:
                     continue
                 for item in range(len(self.before[i])):
-                    pos, _ = self.before[i][item]
+                    pos, _, val = self.before[i][item]
+                    if not val:
+                        continue
                     for p in nearpoints:
                         if not self.history.level.inside(pos) or not self.area[i][pos.x()][pos.y()]:
                             continue
+                        self.area[i][pos.x()][pos.y()] = False
                         if self.history.level.geo_data(pos, i)[0] != self.replacefrom[i]:
                             continue
                         self.drawpoint(pos + p, i, save)
+                    self.before[i][item] = False
             newlen = sum([len(i) for i in self.before])
             if newlen == lastlen:
                 break
@@ -298,13 +302,9 @@ class GEFillChange(GEChange):
         self.redraw()
 
     def drawpoint(self, pos: QPoint, layer: int, saveblock=True):
-        geodata = self.history.level.geo_data(pos, layer)
-        self.area[layer][pos.x()][pos.y()] = False
-        if geodata[0] != self.replacefrom[layer]:
-            return
-        block, save = geo_save(self.replace, geodata)
+        block, save = geo_save(self.replace, self.history.level.geo_data(pos, layer))
         if saveblock:
-            self.before[layer].append([pos, save])
+            self.before[layer].append([pos, save, True])
         self.history.level.data["GE"][pos.x()][pos.y()][layer] = block
         self.module.get_layer(layer).draw_geo(pos.x(), pos.y(), True)
 
