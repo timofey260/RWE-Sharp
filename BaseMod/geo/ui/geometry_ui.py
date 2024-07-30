@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'geometry.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.7.0
+## Created by: Qt User Interface Compiler version 6.7.2
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -16,15 +16,16 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QCheckBox, QComboBox, QFrame,
-    QGridLayout, QGroupBox, QLabel, QPushButton,
-    QScrollArea, QSizePolicy, QVBoxLayout, QWidget)
+    QGridLayout, QGroupBox, QHBoxLayout, QLabel,
+    QPushButton, QScrollArea, QSizePolicy, QSpacerItem,
+    QSpinBox, QToolButton, QVBoxLayout, QWidget)
 import ui.res_rc
 
 class Ui_Geo(object):
     def setupUi(self, Geo):
         if not Geo.objectName():
             Geo.setObjectName(u"Geo")
-        Geo.resize(274, 729)
+        Geo.resize(274, 804)
         self.verticalLayout_2 = QVBoxLayout(Geo)
         self.verticalLayout_2.setSpacing(0)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
@@ -42,7 +43,7 @@ class Ui_Geo(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 274, 729))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 260, 820))
         self.verticalLayout_7 = QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_7.setObjectName(u"verticalLayout_7")
         self.verticalLayout_7.setContentsMargins(9, -1, -1, -1)
@@ -57,23 +58,32 @@ class Ui_Geo(object):
 
         self.verticalLayout_7.addWidget(self.ToolGeoaApply_to_Label)
 
-        self.ToolGeoApplyToL1 = QCheckBox(self.scrollAreaWidgetContents)
+        self.frame = QFrame(self.scrollAreaWidgetContents)
+        self.frame.setObjectName(u"frame")
+        self.frame.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame.setFrameShadow(QFrame.Shadow.Raised)
+        self.verticalLayout_4 = QVBoxLayout(self.frame)
+        self.verticalLayout_4.setObjectName(u"verticalLayout_4")
+        self.ToolGeoApplyToL1 = QCheckBox(self.frame)
         self.ToolGeoApplyToL1.setObjectName(u"ToolGeoApplyToL1")
         self.ToolGeoApplyToL1.setLocale(QLocale(QLocale.English, QLocale.UnitedStates))
 
-        self.verticalLayout_7.addWidget(self.ToolGeoApplyToL1)
+        self.verticalLayout_4.addWidget(self.ToolGeoApplyToL1)
 
-        self.ToolGeoApplyToL2 = QCheckBox(self.scrollAreaWidgetContents)
+        self.ToolGeoApplyToL2 = QCheckBox(self.frame)
         self.ToolGeoApplyToL2.setObjectName(u"ToolGeoApplyToL2")
         self.ToolGeoApplyToL2.setLocale(QLocale(QLocale.English, QLocale.UnitedStates))
 
-        self.verticalLayout_7.addWidget(self.ToolGeoApplyToL2)
+        self.verticalLayout_4.addWidget(self.ToolGeoApplyToL2)
 
-        self.ToolGeoApplyToL3 = QCheckBox(self.scrollAreaWidgetContents)
+        self.ToolGeoApplyToL3 = QCheckBox(self.frame)
         self.ToolGeoApplyToL3.setObjectName(u"ToolGeoApplyToL3")
         self.ToolGeoApplyToL3.setLocale(QLocale(QLocale.English, QLocale.UnitedStates))
 
-        self.verticalLayout_7.addWidget(self.ToolGeoApplyToL3)
+        self.verticalLayout_4.addWidget(self.ToolGeoApplyToL3)
+
+
+        self.verticalLayout_7.addWidget(self.frame)
 
         self.label = QLabel(self.scrollAreaWidgetContents)
         self.label.setObjectName(u"label")
@@ -81,32 +91,43 @@ class Ui_Geo(object):
 
         self.verticalLayout_7.addWidget(self.label)
 
+        self.frame_2 = QFrame(self.scrollAreaWidgetContents)
+        self.frame_2.setObjectName(u"frame_2")
+        self.frame_2.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_2.setFrameShadow(QFrame.Shadow.Raised)
+        self.verticalLayout_3 = QVBoxLayout(self.frame_2)
+        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
         self.gridLayout_8 = QGridLayout()
         self.gridLayout_8.setObjectName(u"gridLayout_8")
-        self.ToolGeoM1Select = QComboBox(self.scrollAreaWidgetContents)
+        self.label_5 = QLabel(self.frame_2)
+        self.label_5.setObjectName(u"label_5")
+
+        self.gridLayout_8.addWidget(self.label_5, 3, 0, 1, 1)
+
+        self.ToolGeoM1Select = QComboBox(self.frame_2)
         icon = QIcon()
-        icon.addFile(u":/geoIcons/geo/pen.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon.addFile(u":/geoIcons/geo/pen.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.ToolGeoM1Select.addItem(icon, "")
         icon1 = QIcon()
-        icon1.addFile(u":/geoIcons/geo/brush.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon1.addFile(u":/geoIcons/geo/brush.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.ToolGeoM1Select.addItem(icon1, "")
         icon2 = QIcon()
-        icon2.addFile(u":/geoIcons/geo/bucket.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon2.addFile(u":/geoIcons/geo/bucket.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.ToolGeoM1Select.addItem(icon2, "")
         icon3 = QIcon()
-        icon3.addFile(u":/geoIcons/geo/line.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon3.addFile(u":/geoIcons/geo/line.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.ToolGeoM1Select.addItem(icon3, "")
         icon4 = QIcon()
-        icon4.addFile(u":/geoIcons/geo/rect.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon4.addFile(u":/geoIcons/geo/rect.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.ToolGeoM1Select.addItem(icon4, "")
         icon5 = QIcon()
-        icon5.addFile(u":/geoIcons/geo/rect_hollow.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon5.addFile(u":/geoIcons/geo/rect_hollow.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.ToolGeoM1Select.addItem(icon5, "")
         icon6 = QIcon()
-        icon6.addFile(u":/geoIcons/geo/circle.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon6.addFile(u":/geoIcons/geo/circle.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.ToolGeoM1Select.addItem(icon6, "")
         icon7 = QIcon()
-        icon7.addFile(u":/geoIcons/geo/circle_hollow.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon7.addFile(u":/geoIcons/geo/circle_hollow.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.ToolGeoM1Select.addItem(icon7, "")
         self.ToolGeoM1Select.setObjectName(u"ToolGeoM1Select")
         sizePolicy2 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
@@ -117,7 +138,21 @@ class Ui_Geo(object):
 
         self.gridLayout_8.addWidget(self.ToolGeoM1Select, 1, 1, 1, 1)
 
-        self.ToolGeoM2Select = QComboBox(self.scrollAreaWidgetContents)
+        self.label_2 = QLabel(self.frame_2)
+        self.label_2.setObjectName(u"label_2")
+        sizePolicy2.setHeightForWidth(self.label_2.sizePolicy().hasHeightForWidth())
+        self.label_2.setSizePolicy(sizePolicy2)
+
+        self.gridLayout_8.addWidget(self.label_2, 2, 0, 1, 1)
+
+        self.label_3 = QLabel(self.frame_2)
+        self.label_3.setObjectName(u"label_3")
+        sizePolicy2.setHeightForWidth(self.label_3.sizePolicy().hasHeightForWidth())
+        self.label_3.setSizePolicy(sizePolicy2)
+
+        self.gridLayout_8.addWidget(self.label_3, 1, 0, 1, 1)
+
+        self.ToolGeoM2Select = QComboBox(self.frame_2)
         self.ToolGeoM2Select.addItem(icon, "")
         self.ToolGeoM2Select.addItem(icon1, "")
         self.ToolGeoM2Select.addItem(icon2, "")
@@ -132,22 +167,38 @@ class Ui_Geo(object):
 
         self.gridLayout_8.addWidget(self.ToolGeoM2Select, 2, 1, 1, 1)
 
-        self.label_3 = QLabel(self.scrollAreaWidgetContents)
-        self.label_3.setObjectName(u"label_3")
-        sizePolicy2.setHeightForWidth(self.label_3.sizePolicy().hasHeightForWidth())
-        self.label_3.setSizePolicy(sizePolicy2)
+        self.Brushsize = QSpinBox(self.frame_2)
+        self.Brushsize.setObjectName(u"Brushsize")
+        self.Brushsize.setMinimum(1)
 
-        self.gridLayout_8.addWidget(self.label_3, 1, 0, 1, 1)
-
-        self.label_2 = QLabel(self.scrollAreaWidgetContents)
-        self.label_2.setObjectName(u"label_2")
-        sizePolicy2.setHeightForWidth(self.label_2.sizePolicy().hasHeightForWidth())
-        self.label_2.setSizePolicy(sizePolicy2)
-
-        self.gridLayout_8.addWidget(self.label_2, 2, 0, 1, 1)
+        self.gridLayout_8.addWidget(self.Brushsize, 3, 1, 1, 1)
 
 
-        self.verticalLayout_7.addLayout(self.gridLayout_8)
+        self.verticalLayout_3.addLayout(self.gridLayout_8)
+
+        self.horizontalLayout = QHBoxLayout()
+        self.horizontalLayout.setObjectName(u"horizontalLayout")
+        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout.addItem(self.horizontalSpacer)
+
+        self.BrushSizeUp = QToolButton(self.frame_2)
+        self.BrushSizeUp.setObjectName(u"BrushSizeUp")
+        self.BrushSizeUp.setBaseSize(QSize(16, 16))
+
+        self.horizontalLayout.addWidget(self.BrushSizeUp)
+
+        self.BrushSizeDown = QToolButton(self.frame_2)
+        self.BrushSizeDown.setObjectName(u"BrushSizeDown")
+        self.BrushSizeDown.setBaseSize(QSize(16, 16))
+
+        self.horizontalLayout.addWidget(self.BrushSizeDown)
+
+
+        self.verticalLayout_3.addLayout(self.horizontalLayout)
+
+
+        self.verticalLayout_7.addWidget(self.frame_2)
 
         self.label_4 = QLabel(self.scrollAreaWidgetContents)
         self.label_4.setObjectName(u"label_4")
@@ -471,6 +522,7 @@ class Ui_Geo(object):
         self.ToolGeoApplyToL2.setText(QCoreApplication.translate("Geo", u"Layer 2", None))
         self.ToolGeoApplyToL3.setText(QCoreApplication.translate("Geo", u"Layer 3", None))
         self.label.setText(QCoreApplication.translate("Geo", u"Place:", None))
+        self.label_5.setText(QCoreApplication.translate("Geo", u"Brush Size:", None))
         self.ToolGeoM1Select.setItemText(0, QCoreApplication.translate("Geo", u"Pencil", None))
         self.ToolGeoM1Select.setItemText(1, QCoreApplication.translate("Geo", u"Brush", None))
         self.ToolGeoM1Select.setItemText(2, QCoreApplication.translate("Geo", u"Bucket", None))
@@ -480,6 +532,8 @@ class Ui_Geo(object):
         self.ToolGeoM1Select.setItemText(6, QCoreApplication.translate("Geo", u"Circle", None))
         self.ToolGeoM1Select.setItemText(7, QCoreApplication.translate("Geo", u"Hollow Circle", None))
 
+        self.label_2.setText(QCoreApplication.translate("Geo", u"Right Mouse:", None))
+        self.label_3.setText(QCoreApplication.translate("Geo", u"Left Mouse:", None))
         self.ToolGeoM2Select.setItemText(0, QCoreApplication.translate("Geo", u"Pencil", None))
         self.ToolGeoM2Select.setItemText(1, QCoreApplication.translate("Geo", u"Brush", None))
         self.ToolGeoM2Select.setItemText(2, QCoreApplication.translate("Geo", u"Bucket", None))
@@ -489,8 +543,8 @@ class Ui_Geo(object):
         self.ToolGeoM2Select.setItemText(6, QCoreApplication.translate("Geo", u"Circle", None))
         self.ToolGeoM2Select.setItemText(7, QCoreApplication.translate("Geo", u"Hollow Circle", None))
 
-        self.label_3.setText(QCoreApplication.translate("Geo", u"Left Mouse:", None))
-        self.label_2.setText(QCoreApplication.translate("Geo", u"Right Mouse:", None))
+        self.BrushSizeUp.setText(QCoreApplication.translate("Geo", u"+", None))
+        self.BrushSizeDown.setText(QCoreApplication.translate("Geo", u"-", None))
         self.label_4.setText(QCoreApplication.translate("Geo", u"Blocks:", None))
         self.ToolGeoLabelPipes.setText(QCoreApplication.translate("Geo", u"Pipes", None))
         self.ToolGeoShortcutEntrance.setText(QCoreApplication.translate("Geo", u"Sh. Entrance", None))

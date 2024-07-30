@@ -1,7 +1,7 @@
 from RWESharp.Configurable import KeyConfigurable, EnumFlagConfigurable, StringConfigurable, ColorConfigurable, BoolConfigurable
 from RWESharp.Core import HotkeyElement, get_hotkeys_from_pattern, ISWIN
 from PySide6.QtCore import Qt
-from PySide6.QtGui import QColor
+from PySide6.QtGui import QColor, QKeySequence
 
 
 class BaseModConfig:
@@ -15,17 +15,17 @@ class BaseModConfig:
                                                "Secondary button")
         self.icon_color = ColorConfigurable(mod, "basemod.icon_theme", QColor(255, 255, 255, 255))
 
-        self.undo_key = KeyConfigurable(mod, "basemod.undo", "Ctrl+z", "Undo")
-        self.redo_key = KeyConfigurable(mod, "basemod.redo", "Ctrl+Shift+z", "Redo")
-        self.save_key = KeyConfigurable(mod, "basemod.save", "Ctrl+s", "Save the level")
-        self.save_as_key = KeyConfigurable(mod, "basemod.saveas", "Ctrl+Shift+s", "Save level but different")
-        self.open_key = KeyConfigurable(mod, "basemod.open", "Ctrl+o", "Open the level")
-        self.new_key = KeyConfigurable(mod, "basemod.new", "Ctrl+n", "New level")
-        self.close_key = KeyConfigurable(mod, "basemod.close", "Ctrl+q", "Close RWE#")
+        self.undo_key = KeyConfigurable(mod, "basemod.undo", QKeySequence.StandardKey.Undo, "Undo")
+        self.redo_key = KeyConfigurable(mod, "basemod.redo", QKeySequence.StandardKey.Redo, "Redo")
+        self.save_key = KeyConfigurable(mod, "basemod.save", QKeySequence.StandardKey.Save, "Save the level")
+        self.save_as_key = KeyConfigurable(mod, "basemod.saveas", QKeySequence.StandardKey.SaveAs, "Save level but different")
+        self.open_key = KeyConfigurable(mod, "basemod.open", QKeySequence.StandardKey.Open, "Open the level")
+        self.new_key = KeyConfigurable(mod, "basemod.new", QKeySequence.StandardKey.New, "New level")
+        self.close_key = KeyConfigurable(mod, "basemod.close", QKeySequence.StandardKey.Close, "Close RWE#")
         self.render_key = KeyConfigurable(mod, "basemod.render", "Ctrl+r", "Render")
         self.opendrizzle_key = KeyConfigurable(mod, "basemod.opendrizzle", "Ctrl+Shift+d", "Open Drizzle")
 
-        self.about_key = KeyConfigurable(mod, "basemod.about", "F1", "About menu")
+        self.about_key = KeyConfigurable(mod, "basemod.about", QKeySequence.StandardKey.HelpContents, "About menu")
 
         self.settings_key = KeyConfigurable(mod, "basemod.settings", "Ctrl+`", "Open settings menu")
         self.hotkey_key = KeyConfigurable(mod, "basemod.hotkeys", "Ctrl+Shift+`", "Open hotkey menu")

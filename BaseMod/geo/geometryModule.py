@@ -37,7 +37,7 @@ class GeoModule(Module):
         self.drawl3.valueChanged.connect(self.check_l3_change)
         self.opacityl1.valueChanged.connect(self.check_l1_change)
         self.opacityl2.valueChanged.connect(self.check_l2_change)
-        self.opacityl3.valueChanged.connect(self.init_module_textures)
+        self.opacityl3.valueChanged.connect(self.check_l3_change)
         self.opacityrgb.valueChanged.connect(self.init_module_textures)
         self.opacityshift.valueChanged.connect(self.init_module_textures)
 
@@ -58,20 +58,21 @@ class GeoModule(Module):
 
     @Slot()
     def check_l1_change(self):
+        if self.opacityshift.value:
+            self.check_l2_change()
         if self.drawoption.value == 0:
-            if self.opacityshift.value:
-                self.check_l2_change()
             self.l1.renderedtexture.setOpacity(self.opacityl1.value if self.drawl1.value else 0)
             return
         self.l1.renderedtexture.setOpacity(self.opacityrgb.value if self.drawl1.value else 0)
 
     @Slot()
     def check_l2_change(self):
+        if self.opacityshift.value:
+            self.check_l3_change()
         if self.drawoption.value == 0:
             if self.opacityshift.value and self.drawl2.value:
                 opval = self.opacityl1.value if not self.drawl1.value else \
                         self.opacityl2.value
-                self.check_l3_change()
             else:
                 opval = self.opacityl2.value if self.drawl2.value else 0
             self.l2.renderedtexture.setOpacity(opval)

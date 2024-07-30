@@ -102,6 +102,7 @@ class GeometryEditor(EditorMode):
         self.cursor = RenderRect(self.mod, 0, QRect(0, 0, CELLSIZE, CELLSIZE)).add_myself(self)
         self.rect = RenderRect(self.mod, 0, QRect(0, 0, CELLSIZE, CELLSIZE)).add_myself(self)
         self.ellipse = RenderEllipse(self.mod, 0, QRect(0, 0, CELLSIZE, CELLSIZE)).add_myself(self)
+        self.brushellipse = RenderEllipse(self.mod, 0, QRect(0, 0, CELLSIZE, CELLSIZE)).add_myself(self)
         self.pixmap = RenderImage(self.mod, 1, QSize(CELLSIZE, CELLSIZE)).add_myself(self)
         self.lastpos = QPoint()
         self.block = EnumConfigurable(mod, "EDIT_geo.block", GeoBlocks.Wall, GeoBlocks, "Current geo block")
@@ -111,6 +112,7 @@ class GeometryEditor(EditorMode):
         self.drawl1 = BoolConfigurable(mod, "EDIT_geo.drawl1", True, "Draw on l1")
         self.drawl2 = BoolConfigurable(mod, "EDIT_geo.drawl2", False, "Draw on l2")
         self.drawl3 = BoolConfigurable(mod, "EDIT_geo.drawl3", False, "Draw on l3")
+        self.brushsize = IntConfigurable(mod, "EDIT_geo.brushsize", 4, "Brush size")
 
         self.controls = GeoControls(mod)
         self.block.valueChanged.connect(self.block_changed)
@@ -124,6 +126,14 @@ class GeometryEditor(EditorMode):
         self.sinfo: dict = CONSTS.get("geo_image_config", {}).get("stackablesinfo", {})
         self._sz = CONSTS.get("geo_image_config", {}).get("itemsize", 100)
         self.lastclick = QPoint()
+        self.toolleft.valueChanged.connect(self.tool_changed)
+        self.toolright.valueChanged.connect(self.tool_changed)
+        self.brushsize.valueChanged.connect(self.repos_brush)
+
+    def tool_changed(self, tool):
+        self.brushellipse.drawellipse.setOpacity(0)
+        if tool == GeoTools.Brush:
+            self.brushellipse.drawellipse.setOpacity(1)
 
     def block_changed(self):
         if self.block.value == GeoBlocks.CleanAll:
@@ -224,6 +234,7 @@ class GeometryEditor(EditorMode):
         self.pixmap.renderedtexture.setOpacity(.3)
         self.rect.drawrect.setOpacity(0)
         self.ellipse.drawellipse.setOpacity(0)
+        self.brushellipse.drawellipse.setOpacity(0)
         # self.cursor_item = self.workscene.addPixmap(self.pixmap)
         # self.cursor_item.setOpacity(.3)
         self.pixmap.painter.setCompositionMode(QPainter.CompositionMode.CompositionMode_Source)
@@ -267,7 +278,7 @@ class GeometryEditor(EditorMode):
             self.manager.level.add_history(GEPointChange(self.manager.level.history, fpos, [blk, stak], self.layers))
         elif tool == GeoTools.Brush:
             blk, stak = self.block2info()
-            self.manager.level.add_history(GEBrushChange(self.manager.level.history, fpos, [blk, stak], self.layers, 4))
+            self.manager.level.add_history(GEBrushChange(self.manager.level.history, fpos, [blk, stak], self.layers, self.brushsize.value))
         elif tool == GeoTools.Rect or tool == GeoTools.RectHollow:
             lpos = self.viewport.viewport_to_editor(self.lastclick)
             self.rect.setRect(QRect.span(lpos * CELLSIZE, fpos * CELLSIZE))
@@ -281,18 +292,26 @@ class GeometryEditor(EditorMode):
             self.manager.level.add_history(GEFillChange(self.manager.level.history, fpos, [blk, stak], self.layers))
 
     def tool_specific_update(self, tool: Enum, pos: QPoint):
-        if (tool == GeoTools.Pen or tool == GeoTools.Brush) and self.manager.level.inside(pos):
+        if tool == GeoTools.Pen or tool == GeoTools.Brush:
             self.manager.level.last_history_element.add_move(pos)
-        if tool == GeoTools.Rect or tool == GeoTools.RectHollow:
+        elif tool == GeoTools.Rect or tool == GeoTools.RectHollow:
             lpos = self.viewport.viewport_to_editor(self.lastclick)
             rect = QRect.span(lpos * CELLSIZE, pos * CELLSIZE)
             rect.setSize(rect.size() + QSize(CELLSIZE, CELLSIZE))
             self.rect.setRect(rect)
-        if tool == GeoTools.Circle or tool == GeoTools.CircleHollow:
+        elif tool == GeoTools.Circle or tool == GeoTools.CircleHollow:
             lpos = self.viewport.viewport_to_editor(self.lastclick)
             rect = QRect.span(lpos * CELLSIZE, pos * CELLSIZE)
             rect.setSize(rect.size() + QSize(CELLSIZE, CELLSIZE))
             self.ellipse.setRect(rect)
+
+    def repos_brush(self):
+        pos = self.viewport.viewport_to_editor(self.mouse_pos)
+        brushpos = (pos - QPoint(self.brushsize.value // 2, self.brushsize.value // 2)) * CELLSIZE
+        rect = QRect(brushpos, QSize(self.brushsize.value, self.brushsize.value) * CELLSIZE)
+        if self.brushsize.value % 2 == 0:
+            rect.moveTo(brushpos + QPoint(CELLSIZE // 2, CELLSIZE // 2))
+        self.brushellipse.setRect(rect)
 
     def mouse_move_event(self, event: QMoveEvent):
         super().mouse_move_event(event)
@@ -301,6 +320,7 @@ class GeometryEditor(EditorMode):
         if fpos * CELLSIZE != self.cursor.pos.toPoint():
             self.cursor.setPos(fpos.toPointF() * CELLSIZE)
             self.pixmap.setPos(fpos.toPointF() * CELLSIZE)
+            self.repos_brush()
             # self.cursor_item.setPos(self.viewport.editor_to_viewport(fpos))
         if self.manager.level.inside(fpos):
             self.manager.set_status(f"x: {fpos.x()}, y: {fpos.y()}, {self.manager.level['GE'][fpos.x()][fpos.y()]}")

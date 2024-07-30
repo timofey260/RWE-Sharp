@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>274</width>
-    <height>729</height>
+    <height>804</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -54,8 +54,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>274</width>
-        <height>729</height>
+        <width>260</width>
+        <height>820</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -79,33 +79,45 @@
         </widget>
        </item>
        <item>
-        <widget class="QCheckBox" name="ToolGeoApplyToL1">
-         <property name="locale">
-          <locale language="English" country="UnitedStates"/>
+        <widget class="QFrame" name="frame">
+         <property name="frameShape">
+          <enum>QFrame::Shape::StyledPanel</enum>
          </property>
-         <property name="text">
-          <string>Layer 1</string>
+         <property name="frameShadow">
+          <enum>QFrame::Shadow::Raised</enum>
          </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="ToolGeoApplyToL2">
-         <property name="locale">
-          <locale language="English" country="UnitedStates"/>
-         </property>
-         <property name="text">
-          <string>Layer 2</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="ToolGeoApplyToL3">
-         <property name="locale">
-          <locale language="English" country="UnitedStates"/>
-         </property>
-         <property name="text">
-          <string>Layer 3</string>
-         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_4">
+          <item>
+           <widget class="QCheckBox" name="ToolGeoApplyToL1">
+            <property name="locale">
+             <locale language="English" country="UnitedStates"/>
+            </property>
+            <property name="text">
+             <string>Layer 1</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="ToolGeoApplyToL2">
+            <property name="locale">
+             <locale language="English" country="UnitedStates"/>
+            </property>
+            <property name="text">
+             <string>Layer 2</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="ToolGeoApplyToL3">
+            <property name="locale">
+             <locale language="English" country="UnitedStates"/>
+            </property>
+            <property name="text">
+             <string>Layer 3</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </widget>
        </item>
        <item>
@@ -122,198 +134,267 @@
         </widget>
        </item>
        <item>
-        <layout class="QGridLayout" name="gridLayout_8">
-         <item row="1" column="1">
-          <widget class="QComboBox" name="ToolGeoM1Select">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <item>
-            <property name="text">
-             <string>Pencil</string>
-            </property>
-            <property name="icon">
-             <iconset resource="../../../resources/res.qrc">
-              <normaloff>:/geoIcons/geo/pen.svg</normaloff>:/geoIcons/geo/pen.svg</iconset>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Brush</string>
-            </property>
-            <property name="icon">
-             <iconset resource="../../../resources/res.qrc">
-              <normaloff>:/geoIcons/geo/brush.svg</normaloff>:/geoIcons/geo/brush.svg</iconset>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Bucket</string>
-            </property>
-            <property name="icon">
-             <iconset resource="../../../resources/res.qrc">
-              <normaloff>:/geoIcons/geo/bucket.svg</normaloff>:/geoIcons/geo/bucket.svg</iconset>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Line</string>
-            </property>
-            <property name="icon">
-             <iconset resource="../../../resources/res.qrc">
-              <normaloff>:/geoIcons/geo/line.svg</normaloff>:/geoIcons/geo/line.svg</iconset>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Rectangle</string>
-            </property>
-            <property name="icon">
-             <iconset resource="../../../resources/res.qrc">
-              <normaloff>:/geoIcons/geo/rect.svg</normaloff>:/geoIcons/geo/rect.svg</iconset>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Hollow Rectanlge</string>
-            </property>
-            <property name="icon">
-             <iconset resource="../../../resources/res.qrc">
-              <normaloff>:/geoIcons/geo/rect_hollow.svg</normaloff>:/geoIcons/geo/rect_hollow.svg</iconset>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Circle</string>
-            </property>
-            <property name="icon">
-             <iconset resource="../../../resources/res.qrc">
-              <normaloff>:/geoIcons/geo/circle.svg</normaloff>:/geoIcons/geo/circle.svg</iconset>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Hollow Circle</string>
-            </property>
-            <property name="icon">
-             <iconset resource="../../../resources/res.qrc">
-              <normaloff>:/geoIcons/geo/circle_hollow.svg</normaloff>:/geoIcons/geo/circle_hollow.svg</iconset>
-            </property>
-           </item>
-          </widget>
-         </item>
-         <item row="2" column="1">
-          <widget class="QComboBox" name="ToolGeoM2Select">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <item>
-            <property name="text">
-             <string>Pencil</string>
-            </property>
-            <property name="icon">
-             <iconset resource="../../../resources/res.qrc">
-              <normaloff>:/geoIcons/geo/pen.svg</normaloff>:/geoIcons/geo/pen.svg</iconset>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Brush</string>
-            </property>
-            <property name="icon">
-             <iconset resource="../../../resources/res.qrc">
-              <normaloff>:/geoIcons/geo/brush.svg</normaloff>:/geoIcons/geo/brush.svg</iconset>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Bucket</string>
-            </property>
-            <property name="icon">
-             <iconset resource="../../../resources/res.qrc">
-              <normaloff>:/geoIcons/geo/bucket.svg</normaloff>:/geoIcons/geo/bucket.svg</iconset>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Line</string>
-            </property>
-            <property name="icon">
-             <iconset resource="../../../resources/res.qrc">
-              <normaloff>:/geoIcons/geo/line.svg</normaloff>:/geoIcons/geo/line.svg</iconset>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Rectangle</string>
-            </property>
-            <property name="icon">
-             <iconset resource="../../../resources/res.qrc">
-              <normaloff>:/geoIcons/geo/rect.svg</normaloff>:/geoIcons/geo/rect.svg</iconset>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Hollow Rectanlge</string>
-            </property>
-            <property name="icon">
-             <iconset resource="../../../resources/res.qrc">
-              <normaloff>:/geoIcons/geo/rect_hollow.svg</normaloff>:/geoIcons/geo/rect_hollow.svg</iconset>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Circle</string>
-            </property>
-            <property name="icon">
-             <iconset resource="../../../resources/res.qrc">
-              <normaloff>:/geoIcons/geo/circle.svg</normaloff>:/geoIcons/geo/circle.svg</iconset>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Hollow Circle</string>
-            </property>
-            <property name="icon">
-             <iconset resource="../../../resources/res.qrc">
-              <normaloff>:/geoIcons/geo/circle_hollow.svg</normaloff>:/geoIcons/geo/circle_hollow.svg</iconset>
-            </property>
-           </item>
-          </widget>
-         </item>
-         <item row="1" column="0">
-          <widget class="QLabel" name="label_3">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="text">
-            <string>Left Mouse:</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="0">
-          <widget class="QLabel" name="label_2">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="text">
-            <string>Right Mouse:</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
+        <widget class="QFrame" name="frame_2">
+         <property name="frameShape">
+          <enum>QFrame::Shape::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Shadow::Raised</enum>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_3">
+          <item>
+           <layout class="QGridLayout" name="gridLayout_8">
+            <item row="3" column="0">
+             <widget class="QLabel" name="label_5">
+              <property name="text">
+               <string>Brush Size:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QComboBox" name="ToolGeoM1Select">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <item>
+               <property name="text">
+                <string>Pencil</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../../../resources/res.qrc">
+                 <normaloff>:/geoIcons/geo/pen.svg</normaloff>:/geoIcons/geo/pen.svg</iconset>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Brush</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../../../resources/res.qrc">
+                 <normaloff>:/geoIcons/geo/brush.svg</normaloff>:/geoIcons/geo/brush.svg</iconset>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Bucket</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../../../resources/res.qrc">
+                 <normaloff>:/geoIcons/geo/bucket.svg</normaloff>:/geoIcons/geo/bucket.svg</iconset>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Line</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../../../resources/res.qrc">
+                 <normaloff>:/geoIcons/geo/line.svg</normaloff>:/geoIcons/geo/line.svg</iconset>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Rectangle</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../../../resources/res.qrc">
+                 <normaloff>:/geoIcons/geo/rect.svg</normaloff>:/geoIcons/geo/rect.svg</iconset>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Hollow Rectanlge</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../../../resources/res.qrc">
+                 <normaloff>:/geoIcons/geo/rect_hollow.svg</normaloff>:/geoIcons/geo/rect_hollow.svg</iconset>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Circle</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../../../resources/res.qrc">
+                 <normaloff>:/geoIcons/geo/circle.svg</normaloff>:/geoIcons/geo/circle.svg</iconset>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Hollow Circle</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../../../resources/res.qrc">
+                 <normaloff>:/geoIcons/geo/circle_hollow.svg</normaloff>:/geoIcons/geo/circle_hollow.svg</iconset>
+               </property>
+              </item>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="label_2">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>Right Mouse:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_3">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>Left Mouse:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QComboBox" name="ToolGeoM2Select">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <item>
+               <property name="text">
+                <string>Pencil</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../../../resources/res.qrc">
+                 <normaloff>:/geoIcons/geo/pen.svg</normaloff>:/geoIcons/geo/pen.svg</iconset>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Brush</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../../../resources/res.qrc">
+                 <normaloff>:/geoIcons/geo/brush.svg</normaloff>:/geoIcons/geo/brush.svg</iconset>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Bucket</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../../../resources/res.qrc">
+                 <normaloff>:/geoIcons/geo/bucket.svg</normaloff>:/geoIcons/geo/bucket.svg</iconset>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Line</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../../../resources/res.qrc">
+                 <normaloff>:/geoIcons/geo/line.svg</normaloff>:/geoIcons/geo/line.svg</iconset>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Rectangle</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../../../resources/res.qrc">
+                 <normaloff>:/geoIcons/geo/rect.svg</normaloff>:/geoIcons/geo/rect.svg</iconset>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Hollow Rectanlge</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../../../resources/res.qrc">
+                 <normaloff>:/geoIcons/geo/rect_hollow.svg</normaloff>:/geoIcons/geo/rect_hollow.svg</iconset>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Circle</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../../../resources/res.qrc">
+                 <normaloff>:/geoIcons/geo/circle.svg</normaloff>:/geoIcons/geo/circle.svg</iconset>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Hollow Circle</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../../../resources/res.qrc">
+                 <normaloff>:/geoIcons/geo/circle_hollow.svg</normaloff>:/geoIcons/geo/circle_hollow.svg</iconset>
+               </property>
+              </item>
+             </widget>
+            </item>
+            <item row="3" column="1">
+             <widget class="QSpinBox" name="Brushsize">
+              <property name="minimum">
+               <number>1</number>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout">
+            <item>
+             <spacer name="horizontalSpacer">
+              <property name="orientation">
+               <enum>Qt::Orientation::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QToolButton" name="BrushSizeUp">
+              <property name="baseSize">
+               <size>
+                <width>16</width>
+                <height>16</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>+</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QToolButton" name="BrushSizeDown">
+              <property name="baseSize">
+               <size>
+                <width>16</width>
+                <height>16</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>-</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
        </item>
        <item>
         <widget class="QLabel" name="label_4">

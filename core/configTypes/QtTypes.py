@@ -9,12 +9,11 @@ class KeyConfigurable(Configurable):
     valueChanged = Signal(QKeySequence)
     tooltipChanged = Signal(str)
 
-    def __init__(self, mod, name, default: QKeySequence | str, description="", shortdesc=""):
+    def __init__(self, mod, name, default: QKeySequence | str | QKeySequence.StandardKey, description="", shortdesc=""):
         if shortdesc == "":
             shortdesc = description
         self.shortdesc = shortdesc
-        if isinstance(default, str):
-            default = QKeySequence(default)
+        default = QKeySequence(default)
         self.buttons: list[QAbstractButton] = []
         super().__init__(mod, name, default, description)
 
