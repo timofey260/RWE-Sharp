@@ -4,14 +4,12 @@ import os
 from enum import Enum, auto
 from typing import TYPE_CHECKING
 
-from PySide6.QtCore import QPoint
-from PySide6.QtGui import QPixmap, QWheelEvent, QMoveEvent, QImage, QMouseEvent
-from PySide6.QtWidgets import QGraphicsPixmapItem, QFileDialog
+from PySide6.QtGui import QMoveEvent, QImage, QMouseEvent
 
 from RWESharp.Configurable import IntConfigurable, BoolConfigurable, StringConfigurable, EnumConfigurable
-from RWESharp.Core import CELLSIZE, SPRITESIZE, PATH_FILES_IMAGES_PALETTES
+from RWESharp.Core import CELLSIZE, PATH_FILES_IMAGES_PALETTES
 from RWESharp.Modify import EditorMode
-from RWESharp.Loaders import palette_to_colortable, return_tile_pixmap, collisions_image, tile_offset, Tile
+from RWESharp.Loaders import palette_to_colortable, tile_offset, Tile
 from RWESharp.Renderable import RenderTile
 
 from BaseMod.tiles.tileHistory import TilePen
