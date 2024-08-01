@@ -4,3 +4,4 @@ from core.Renderable.RenderRect import RenderRect
 from core.Renderable.RenderImage import RenderImage
 from core.Renderable.RenderTile import RenderTile
 from core.Renderable.RenderEllipse import RenderEllipse
+from core.Renderable.RenderLine import RenderLine

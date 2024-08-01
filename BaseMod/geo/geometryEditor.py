@@ -1,15 +1,15 @@
 import os
 from enum import Enum, auto
 
-from PySide6.QtCore import QRect, QPoint, QSize
-from PySide6.QtGui import QColor, QMoveEvent, QMouseEvent, QPixmap, QPainter
+from PySide6.QtCore import QRect, QPoint, QSize, QLine, Qt, QLineF
+from PySide6.QtGui import QColor, QMoveEvent, QMouseEvent, QPixmap, QPainter, QGuiApplication
 
 from BaseMod.geo.geoControls import GeoControls
 from BaseMod.geo.geoHistory import GEPointChange, GERectChange, GEBrushChange, GEEllipseChange, GEFillChange
 from RWESharp.Configurable import BoolConfigurable, IntConfigurable, EnumConfigurable
 from RWESharp.Core import CELLSIZE, PATH_FILES_IMAGES, CONSTS
 from RWESharp.Modify import EditorMode
-from RWESharp.Renderable import RenderImage, RenderRect, RenderEllipse
+from RWESharp.Renderable import RenderImage, RenderRect, RenderEllipse, RenderLine
 
 
 class GeoBlocks(Enum):
@@ -103,6 +103,7 @@ class GeometryEditor(EditorMode):
         self.rect = RenderRect(self.mod, 0, QRect(0, 0, CELLSIZE, CELLSIZE)).add_myself(self)
         self.ellipse = RenderEllipse(self.mod, 0, QRect(0, 0, CELLSIZE, CELLSIZE)).add_myself(self)
         self.brushellipse = RenderEllipse(self.mod, 0, QRect(0, 0, CELLSIZE, CELLSIZE)).add_myself(self)
+        self.lineline = RenderLine(self.mod, 0, QLine(0, 0, 0, 0)).add_myself(self)
         self.pixmap = RenderImage(self.mod, 1, QSize(CELLSIZE, CELLSIZE)).add_myself(self)
         self.lastpos = QPoint()
         self.block = EnumConfigurable(mod, "EDIT_geo.block", GeoBlocks.Wall, GeoBlocks, "Current geo block")
@@ -132,7 +133,7 @@ class GeometryEditor(EditorMode):
 
     def tool_changed(self, tool):
         self.brushellipse.drawellipse.setOpacity(0)
-        if tool == GeoTools.Brush:
+        if tool == GeoTools.Brush or tool == GeoTools.Line:
             self.brushellipse.drawellipse.setOpacity(1)
 
     def block_changed(self):
@@ -235,6 +236,7 @@ class GeometryEditor(EditorMode):
         self.rect.drawrect.setOpacity(0)
         self.ellipse.drawellipse.setOpacity(0)
         self.brushellipse.drawellipse.setOpacity(0)
+        self.lineline.drawline.setOpacity(0)
         # self.cursor_item = self.workscene.addPixmap(self.pixmap)
         # self.cursor_item.setOpacity(.3)
         self.pixmap.painter.setCompositionMode(QPainter.CompositionMode.CompositionMode_Source)
@@ -258,18 +260,27 @@ class GeometryEditor(EditorMode):
         self.tool_specific_release(self.toolright.value)
 
     def tool_specific_release(self, tool: Enum):
+        mods = QGuiApplication.keyboardModifiers()
+        alt = mods & Qt.KeyboardModifier.AltModifier
+        shift = mods & Qt.KeyboardModifier.ShiftModifier
         fpos = self.viewport.viewport_to_editor(self.mouse_pos)
         lpos = self.viewport.viewport_to_editor(self.lastclick)
         if tool == GeoTools.Rect or tool == GeoTools.RectHollow:
             blk, stak = self.block2info()
-            self.manager.level.add_history(GERectChange(self.manager.level.history, QRect.span(lpos, fpos), [blk, stak], self.layers, tool == GeoTools.RectHollow))
-            self.cursor.setRect(QRect(0, 0, CELLSIZE, CELLSIZE))
+            rect = self.fit_rect(lpos, fpos, shift, alt)
+            self.manager.level.add_history(GERectChange(self.manager.level.history, rect, [blk, stak], self.layers, tool == GeoTools.RectHollow))
             self.rect.drawrect.setOpacity(0)
         elif tool == GeoTools.Circle or tool == GeoTools.CircleHollow:
             blk, stak = self.block2info()
-            self.manager.level.add_history(GEEllipseChange(self.manager.level.history, QRect.span(lpos, fpos), [blk, stak], self.layers, tool == GeoTools.CircleHollow))
-            self.cursor.setRect(QRect(0, 0, CELLSIZE, CELLSIZE))
+            rect = self.fit_rect(lpos, fpos, shift, alt)
+            self.manager.level.add_history(GEEllipseChange(self.manager.level.history, rect, [blk, stak], self.layers, tool == GeoTools.CircleHollow))
             self.ellipse.drawellipse.setOpacity(0)
+        elif tool == GeoTools.Line:
+            self.lineline.drawline.setOpacity(0)
+            blk, stak = self.block2info()
+            self.manager.level.add_history(GEBrushChange(self.manager.level.history, lpos, [blk, stak], self.layers, self.brushsize.value))
+            line = self.fit_line(lpos, fpos, shift)
+            self.manager.level.last_history_element.add_move(line.p2())
 
     def tool_specific_press(self, tool: Enum):
         fpos = self.viewport.viewport_to_editor(self.mouse_pos)
@@ -290,20 +301,64 @@ class GeometryEditor(EditorMode):
         elif tool == GeoTools.Bucket:
             blk, stak = self.block2info()
             self.manager.level.add_history(GEFillChange(self.manager.level.history, fpos, [blk, stak], self.layers))
+        elif tool == GeoTools.Line:
+            self.lineline.drawline.setOpacity(1)
 
     def tool_specific_update(self, tool: Enum, pos: QPoint):
+        mods = QGuiApplication.keyboardModifiers()
+        alt = mods & Qt.KeyboardModifier.AltModifier
+        shift = mods & Qt.KeyboardModifier.ShiftModifier
         if tool == GeoTools.Pen or tool == GeoTools.Brush:
             self.manager.level.last_history_element.add_move(pos)
-        elif tool == GeoTools.Rect or tool == GeoTools.RectHollow:
+        elif tool in [GeoTools.Rect, GeoTools.RectHollow, GeoTools.Circle, GeoTools.CircleHollow]:
             lpos = self.viewport.viewport_to_editor(self.lastclick)
-            rect = QRect.span(lpos * CELLSIZE, pos * CELLSIZE)
-            rect.setSize(rect.size() + QSize(CELLSIZE, CELLSIZE))
-            self.rect.setRect(rect)
-        elif tool == GeoTools.Circle or tool == GeoTools.CircleHollow:
-            lpos = self.viewport.viewport_to_editor(self.lastclick)
-            rect = QRect.span(lpos * CELLSIZE, pos * CELLSIZE)
-            rect.setSize(rect.size() + QSize(CELLSIZE, CELLSIZE))
+            rect = self.fit_rect(lpos, pos, shift, alt)
+            rect.setRect(rect.x() * CELLSIZE, rect.y() * CELLSIZE, rect.width() * CELLSIZE, rect.height() * CELLSIZE)
+            # rect.setRect(rect.x(), rect.y(), rect.width(), rect.height())
+            #rect.setSize(rect.size() + QSize(CELLSIZE, CELLSIZE))
             self.ellipse.setRect(rect)
+            self.rect.setRect(rect)
+        elif tool == GeoTools.Line:
+            lpos = self.viewport.viewport_to_editor(self.lastclick)
+            point = QPoint(CELLSIZE // 2, CELLSIZE // 2)
+            line = self.fit_line(lpos, pos, shift)
+            self.lineline.setLine(QLine(line.p1() * CELLSIZE + point, line.p2() * CELLSIZE + point))
+
+    def fit_rect(self, lastpos, pos, shift, alt):
+        if shift:
+            pos2 = pos - lastpos
+            absx = abs(pos2.x())
+            xmul = 0 if absx == 0 else (pos2.x() // absx)
+            absy = abs(pos2.y())
+            ymul = 0 if absy == 0 else (pos2.y() // absy)
+            if absy > absx:
+                pos = QPoint(lastpos.x() + absy * xmul, lastpos.y() + absy * ymul)
+            elif absx > absy:
+                pos = QPoint(lastpos.x() + absx * xmul, lastpos.y() + absx * ymul)
+        rect = QRect.span(lastpos, pos)
+        if alt:
+            rect = QRect.span(lastpos - (pos - lastpos), pos)
+        return rect
+
+    def fit_line(self, lastpos: QPoint, pos: QPoint, shift):
+        if shift:
+            magnitude = QLineF(lastpos, pos).length()
+            points = [QLineF.fromPolar(magnitude, 0).p2().toPoint(),
+                      QLineF.fromPolar(magnitude, 45).p2().toPoint(),
+                      QLineF.fromPolar(magnitude, 90).p2().toPoint(),
+                      QLineF.fromPolar(magnitude, 135).p2().toPoint(),
+                      QLineF.fromPolar(magnitude, 180).p2().toPoint(),
+                      QLineF.fromPolar(magnitude, 225).p2().toPoint(),
+                      QLineF.fromPolar(magnitude, 270).p2().toPoint(),
+                      QLineF.fromPolar(magnitude, 315).p2().toPoint()]
+            smallest = points[0]
+            smallestdis = 9999
+            for i in points:
+                if QLineF(i, pos - lastpos).length() < smallestdis:
+                    smallest = i
+                    smallestdis = QLineF(i, pos - lastpos).length()
+            return QLine(lastpos, lastpos + smallest)
+        return QLine(lastpos, pos)
 
     def repos_brush(self):
         pos = self.viewport.viewport_to_editor(self.mouse_pos)
