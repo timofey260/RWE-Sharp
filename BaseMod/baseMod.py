@@ -15,14 +15,14 @@ import os
 
 
 class BaseMod(Mod):
-    def __init__(self, manager):
+    def __init__(self, manager, path):
         super().__init__(manager, ModInfo(
             "Base Mod",
             "basemod",
             "timofey26",
             "1.0.0",
             "RWE# essentials\nincludes all editors, modules and other\ndisable it at your own risk :3"
-        ))
+        ), path)
         from BaseMod.geo.geoUIConnectors import GeoUI, GeoViewUI, GeoSettings
         from BaseMod.tiles.tileUIConnectors import TileViewUI, TileUI
 

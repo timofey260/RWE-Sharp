@@ -25,14 +25,16 @@ class ModInfo:
 
 class Mod:
 
-    def __init__(self, manager: Manager, modinfo: ModInfo):
+    def __init__(self, manager: Manager, modinfo: ModInfo, path=""):
         """
         Base Mod class to load
         :param manager: manager to use
         :param modinfo: mod info, should be filled with class
+        :param path: path to mod
         """
         self.manager = manager
         self.modinfo = modinfo
+        self.path = path
         self.configs = []
 
     @property

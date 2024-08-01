@@ -24,14 +24,14 @@ def load_mod(path: str, manager, index) -> Mod | None:
                 a = eval(f"{name}.mod.mod")
                 del sys.modules[f"{name}.mod"]
                 sys.path.remove(p)
-                return a(manager)  # NOQA
+                return a(manager, path)  # NOQA
             else:
                 sys.path.insert(0, path)
                 import mod
                 a = mod.mod
                 del sys.modules["mod"]
                 sys.path.remove(path)
-                return a(manager)  # NOQA
+                return a(manager, path)  # NOQA
         except Exception as e:
             log_to_load_log(f"Mod Loading failed!!! path: {path}", True)
             traceback.print_exc()

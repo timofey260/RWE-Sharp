@@ -120,12 +120,8 @@ class GeoUI(UI):
         self.editor.brushsize.link_spinbox(self.ui.Brushsize)
         self.editor.controls.brushsizeup.link_button(self.ui.BrushSizeUp)
         self.editor.controls.brushsizedown.link_button(self.ui.BrushSizeDown)
-
-    def brushsize_minus(self):
-        self.ui.Brushsize.stepDown()
-
-    def brushsize_plus(self):
-        self.ui.Brushsize.stepUp()
+        self.ui.BrushSizeUp.clicked.connect(self.ui.Brushsize.stepUp)
+        self.ui.BrushSizeDown.clicked.connect(self.ui.Brushsize.stepDown)
 
     def change_color(self, color: QColor):
         items = [IMG_PEN, IMG_BRUSH, IMG_BUCKET, IMG_LINE, IMG_RECT, IMG_RECT_HOLLOW, IMG_CIRCLE, IMG_CIRCLE_HOLLOW]

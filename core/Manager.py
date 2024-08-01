@@ -73,7 +73,7 @@ class Manager:
         Collection of ui's for settings window
         """
         from BaseMod.baseMod import BaseMod
-        self.basemod = BaseMod(self)
+        self.basemod = BaseMod(self, "")
 
         self.mods.append(self.basemod)
         self.pre_init_mods()
