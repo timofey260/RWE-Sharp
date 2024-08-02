@@ -35,6 +35,9 @@ class BaseModConfig:
         self.explorer_key = KeyConfigurable(mod, "basemod.explorer", "Ctrl+shift+r", "Open settings menu")
         self.palette = StringConfigurable(mod, "basemod.palette", "timofey26.basemod.Raspberry Dark" if ISWIN else "", "palette colors")
 
+        self.geometry_editor = KeyConfigurable(mod, "basemod.geo", "1", "Open Geometry editor")
+        self.tile_editor = KeyConfigurable(mod, "basemod.geo", "2", "Open Tile editor")
+
         self.funny_vid = BoolConfigurable(mod, "basemod.funnyvid", True, "Funny video when you close rwe#")
 
         edittab = HotkeyElement(mod, "Edit", "edit").add_myself()

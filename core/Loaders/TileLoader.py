@@ -9,7 +9,7 @@ from PySide6.QtCore import QRect, Qt, QThread, QPoint, QSize, QLine
 import json
 import os
 from core.info import PATH_DRIZZLE, CELLSIZE, SPRITESIZE, CONSTS, PATH_MAT_PREVIEWS, PATH_FILES_CACHE
-from core.utils import log_to_load_log, insensitive_path
+from core.utils import log, insensitive_path
 from core.configTypes.BaseTypes import IntConfigurable
 
 colortable = [[], [], []]
@@ -111,7 +111,7 @@ def init_solve(file: str):
                     item_counter = 0
                     findcategory = False
                 except json.JSONDecodeError:
-                    log_to_load_log(
+                    log(
                         f"Failed to convert init CATEGORY line \"{i}\" (line number: {ln}) in file \"{os.path.relpath(file, PATH)}\"! Skipping line and all subsequent tiles!",
                         True)
                     findcategory = True
@@ -125,7 +125,7 @@ def init_solve(file: str):
                     category_data["items"].append(item)
                     item_counter += 1
                 except json.JSONDecodeError:
-                    log_to_load_log(
+                    log(
                     f"Failed to convert init ITEM line \"{i}\" (line number: {ln}) in file \"{os.path.relpath(file, PATH)}\"! Skipping line!",
                     True)
                     continue
@@ -161,7 +161,7 @@ def loadTile(item, colr, cat, catnum, indx) -> Tile | None:
         white = origimg.colorTable().index(4294967295)
         origimg.setColor(white, 0)
     except ValueError:
-        log_to_load_log(f"Error loading {item['nm']}", True)
+        log(f"Error loading {item['nm']}", True)
     sz = QSize(*fromarr(item["sz"], "point"))
     try:
         ln = len(item["repeatL"])
@@ -202,7 +202,7 @@ def loadTile(item, colr, cat, catnum, indx) -> Tile | None:
             black = len(img.colorTable()) - 2
             img.setColor(black, colr.rgba())
         except ValueError:
-            log_to_load_log(f"Error loading {item['nm']}", True)
+            log(f"Error loading {item['nm']}", True)
             err = True
 
     # making image2
@@ -305,7 +305,7 @@ class Tileprogress(QThread):
 
 
 def loadTiles(window: SplashDialog) -> ItemData:
-    print("Loading Tiles...")
+    log("Loading Tiles...")
 
     def printmessage(message, message2=None):
         window.ui.label.setText(message)
@@ -314,7 +314,7 @@ def loadTiles(window: SplashDialog) -> ItemData:
 
     solved_copy = init_solve(os.path.join(PATH_DRIZZLE, "Data/Graphics/Init.txt"))
     length = sum(list(map(lambda x: len(x["items"]), solved_copy.data)))
-    print(f"loading {length} tiles")
+    log(f"loading {length} tiles")
     tilenum = 1
     threadsnum = min(1, multiprocessing.cpu_count() - 1)
     catsnum = len(solved_copy.data)
@@ -336,7 +336,7 @@ def loadTiles(window: SplashDialog) -> ItemData:
     for i in workers:
         i.wait()
     progress.wait()
-    print(f"Errors: {sum(list(map(lambda x: x.errors, workers)))}")
+    log(f"Errors: {sum(list(map(lambda x: x.errors, workers)))}")
     solved_copy = ItemData()
     for i in workers:
         for d in i.data:

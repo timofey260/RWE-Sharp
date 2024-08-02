@@ -1,4 +1,4 @@
-from core.RWELevel import RWELevel, defaultlevel
+from core.RWELevel import RWELevel
 from core.Modify.EditorMode import EditorMode
 from core.Modify.Mod import Mod
 from core.Modify.baseModule import Module
@@ -7,11 +7,11 @@ from core.Config import Config
 from core.TreeElement import SettingElement, HotkeyElement
 from core.info import PATH_MODS
 from core.ModLoader import load_mod
+from core.utils import log
 from widgets.Viewport import ViewPort
 from PySide6.QtWidgets import QWidget, QMenuBar, QMenu
 from PySide6.QtCore import Slot
 from ui.mainuiconnector import MainWindow
-from ui.splashuiconnector import SplashDialog
 from core.ItemData import ItemData
 from core.Application import Application
 import os
@@ -24,6 +24,7 @@ class Manager:
     def __init__(self, window: MainWindow, app: Application, file=None):
         """
         :param window: RWE# window(main window with viewport and stuff)
+        :param app: RWE# application class
         :param file: file to load by default
         """
         splash = app.splash
@@ -94,7 +95,7 @@ class Manager:
         for i in self.palettes:
             if self.basemod.bmconfig.palette.value == f"{i.mod.author_name}.{i.name}":
                 self.window.setPalette(i.palette)
-                print("using palette")
+                log("using palette")
                 return
 
     def init_modules(self):
@@ -105,7 +106,7 @@ class Manager:
 
     def init_editors(self):
         if len(self.editors) <= 0:
-            print("No editors found!!!")  # fucking explode idk
+            log("No editors found!!!", True)  # fucking explode idk
             return
         self.editors[0].init_scene_items()
 
@@ -120,7 +121,7 @@ class Manager:
                 continue
             mod = load_mod(os.path.join(PATH_MODS, i), self, indx)
             if mod is not None:
-                print(f"Loaded {mod.modinfo.title} by {mod.modinfo.author} v{mod.modinfo.version}")
+                log(f"Loaded {mod.modinfo.title} by {mod.modinfo.author} v{mod.modinfo.version}")
                 self.mods.append(mod)
         for i in self.mods:
             # check if mod is enabled
@@ -129,6 +130,7 @@ class Manager:
     def add_editor(self, editor, ui: QWidget):
         self.editors.append(editor)
         self.window.ui.ToolsTabs.addTab(ui, ui.objectName())
+        #self.window.ui.menuEditors.addAction()
         # ui.setParent(self.window.ui.ToolsTabs)
 
     def add_module(self, module):
@@ -169,6 +171,10 @@ class Manager:
         return self.window.ui.menuedit
 
     @property
+    def editors_menu(self) -> QMenu:
+        return self.window.ui.menuEditors
+
+    @property
     def menu_bar(self) -> QMenuBar:
         return self.window.ui.menubar
 
@@ -180,10 +186,19 @@ class Manager:
     def editor(self) -> EditorMode:
         return self.editors[self.current_editor]
 
+    def change_editor_name(self, name: str):
+        for i in range(self.window.ui.ToolsTabs.count()):
+            if self.window.ui.ToolsTabs.tabText(i).lower() == name.lower():
+                self.window.ui.ToolsTabs.setCurrentIndex(i)
+                # self.change_editor(i)
+                return
+        log(f"Couldn't find editor {name}", True)
+
     def change_editor(self, value: int):
         self.editor.remove_items_from_scene()
         self.current_editor = value
         self.editor.init_scene_items()
+        self.viewport.repaint()
 
     @property
     def level_width(self):

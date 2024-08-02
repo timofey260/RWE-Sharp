@@ -2,7 +2,7 @@ import os
 import sys
 import traceback
 from core.Modify.Mod import Mod
-from core.utils import log_to_load_log
+from core.utils import log
 
 
 def load_mod(path: str, manager, index) -> Mod | None:
@@ -33,6 +33,6 @@ def load_mod(path: str, manager, index) -> Mod | None:
                 sys.path.remove(path)
                 return a(manager, path)  # NOQA
         except Exception as e:
-            log_to_load_log(f"Mod Loading failed!!! path: {path}", True)
+            log(f"Mod Loading failed!!! path: {path}", True)
             traceback.print_exc()
             return None

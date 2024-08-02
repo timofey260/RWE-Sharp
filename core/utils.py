@@ -1,16 +1,15 @@
 import datetime
 import os
-from core.info import PATH, PATH_FILES_CACHE
+from core.info import PATH_FILES_CACHE, LOG
 from PySide6.QtGui import QColor, QIcon
 from PySide6.QtCore import QPoint, QFile, QByteArray, QRect
 from collections.abc import Callable
 
 
-def log_to_load_log(message, error=False):
-    with open(os.path.join(PATH, "loadLog.txt"), "a") as file:
-        msg = f"[{datetime.datetime.now().strftime('%H:%M')}; {'ERROR' if error else ' INFO'}]: {message}\n"
-        file.write(msg)
-        print(msg, end="")
+def log(message, error=False):
+    s = f"[{datetime.datetime.now().strftime('%H:%M')}; {'ERROR' if error else ' INFO'}]: {message}\n"
+    print(s, end="", file=LOG, flush=True)
+    print(s, end="")
 
 
 def plotLineLow(pointa: QPoint, pointb: QPoint, callback: Callable):

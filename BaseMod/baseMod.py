@@ -9,8 +9,8 @@ from BaseMod.tiles.tileEditor import TileEditor
 from BaseMod.tiles.tileExplorer import TileExplorer
 from RWESharp.Modify import Mod, ModInfo
 from RWESharp.Core import SettingElement, HotkeyElement, get_hotkeys_from_pattern, PATH_FILES_VIDEOS
-from PySide6.QtGui import QAction
 from RWESharp.Ui import FunnyVideo
+from PySide6.QtGui import QAction
 import os
 
 
@@ -72,9 +72,7 @@ class BaseMod(Mod):
         self.tileui = TileUI(self)
         self.tileeditor.add_myself(self.tileui)
 
-        self.sex = QAction("sex")
-        self.manager.tool_menu.addAction(self.sex)
-        self.sex.triggered.connect(self.sexthing)
+        #self.sex = QAction("sex")
 
         self.tile_explorer_action = QAction("Tile Explorer")
         self.manager.window_menu.addAction(self.tile_explorer_action)
@@ -97,6 +95,16 @@ class BaseMod(Mod):
         geoviewelement.add_children_configurables(*get_hotkeys_from_pattern(self, "VIEW_geo"))
         tileviewelement = HotkeyElement(self, "Tiles View", "tileview", parent=self.visualsTree)
         tileviewelement.add_children_configurables(*get_hotkeys_from_pattern(self, "VIEW_tile"))
+
+        self.action_geoeditor = QAction("Geometry Editor")
+        self.bmconfig.geometry_editor.link_action(self.action_geoeditor)
+        self.action_geoeditor.triggered.connect(lambda: self.manager.change_editor_name("geo"))
+        self.manager.editors_menu.addAction(self.action_geoeditor)
+
+        self.action_tileeditor = QAction("Tile Editor")
+        self.bmconfig.tile_editor.link_action(self.action_tileeditor)
+        self.action_tileeditor.triggered.connect(lambda: self.manager.change_editor_name("tiles"))
+        self.manager.editors_menu.addAction(self.action_tileeditor)
 
     def sexthing(self):
         self.vid = FunnyVideo(self.manager, False, os.path.join(PATH_FILES_VIDEOS, "sex.mp4").replace("\\", "/"), "SEX")
