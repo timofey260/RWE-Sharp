@@ -72,7 +72,10 @@ class BaseMod(Mod):
         self.tileui = TileUI(self)
         self.tileeditor.add_myself(self.tileui)
 
-        #self.sex = QAction("sex")
+        if self.bmconfig.funny.value:
+            self.sex = QAction("sex")
+            self.manager.tool_menu.addAction(self.sex)
+            self.sex.triggered.connect(self.sexthing)
 
         self.tile_explorer_action = QAction("Tile Explorer")
         self.manager.window_menu.addAction(self.tile_explorer_action)

@@ -39,6 +39,7 @@ class BaseModConfig:
         self.tile_editor = KeyConfigurable(mod, "basemod.geo", "2", "Open Tile editor")
 
         self.funny_vid = BoolConfigurable(mod, "basemod.funnyvid", True, "Funny video when you close rwe#")
+        self.funny = BoolConfigurable(mod, "basemod.funny", True, "Adds funny")
 
         edittab = HotkeyElement(mod, "Edit", "edit").add_myself()
         edittab.add_children_configurables(*get_hotkeys_from_pattern(mod, "basemod"))
