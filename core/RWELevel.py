@@ -84,6 +84,34 @@ class RWELevel:
         """
         return self.data["TE"]["tlMatrix"][pos.x()][pos.y()][layer]
 
+    def effect_data(self, index: int) -> list[list[float]]:
+        """
+        returns matrix for specific effect
+        :param index: effect index
+        """
+        return self.data["FE"]["effects"][index]
+
+    def effect_data_pixel(self, index: int, pos: QPoint) -> float:
+        """
+        returns specific value of effect
+        :param index: effect index
+        :param pos: value position
+        """
+        return self.data["FE"]["effects"][index]["mtrx"][pos.x()][pos.y()]
+
+    def effect_data_xy(self, index: int, x: int, y:int) -> float:
+        """
+        returns specific value of effect
+        :param index: effect index
+        :param x: x pos of value
+        :param y: y pos of value
+        """
+        return self.data["FE"]["effects"][index]["mtrx"][x][y]
+
+    @property
+    def effect_len(self) -> int:
+        return len(self.data["FE"]["effects"])
+
     @property
     def extra_tiles(self) -> [int, int, int, int]:
         return self.data["EX2"]["extraTiles"]

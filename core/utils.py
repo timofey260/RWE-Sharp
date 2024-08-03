@@ -160,3 +160,14 @@ def paint_svg_qicon(filename: str, color: QColor) -> QIcon:
 
 def amap(x: float, in_min: float, in_max: float, out_min: float, out_max: float) -> float:
     return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
+
+
+def lerp(a: float, b: float, t: float) -> float:  # laundmo
+    return (1 - t) * a + t * b
+
+
+def color_lerp(c1: QColor, c2: QColor, t: float) -> QColor:
+    return QColor.fromHsvF(lerp(c1.hueF(), c2.hueF(), t),
+                           lerp(c1.saturationF(), c2.saturationF(), t),
+                           lerp(c1.valueF(), c2.valueF(), t),
+                           lerp(c1.alphaF(), c2.alphaF(), t))

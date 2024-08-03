@@ -7,6 +7,8 @@ from BaseMod.Palettes.RaspberryDark import RaspberryDark
 from BaseMod.Configs import BaseModConfig
 from BaseMod.tiles.tileEditor import TileEditor
 from BaseMod.tiles.tileExplorer import TileExplorer
+from BaseMod.effects.effectEditor import EffectEditor
+from BaseMod.effects.effectsUIConnector import EffectsUI
 from RWESharp.Modify import Mod, ModInfo
 from RWESharp.Core import SettingElement, HotkeyElement, get_hotkeys_from_pattern, PATH_FILES_VIDEOS
 from RWESharp.Ui import FunnyVideo
@@ -36,6 +38,9 @@ class BaseMod(Mod):
         self.tileview: TileViewUI | None = None
         self.tileeditor: TileEditor | None = None
         self.tileui: TileUI | None = None
+
+        self.effecteditor: EffectEditor | None = None
+        self.effectui: EffectsUI | None = None
 
         self.gridmodule: GridModule | None = None
         self.gridui: GridView | None = None
@@ -71,6 +76,10 @@ class BaseMod(Mod):
         self.tileview = TileViewUI(self).add_myself()
         self.tileui = TileUI(self)
         self.tileeditor.add_myself(self.tileui)
+
+        self.effectui = EffectsUI(self)
+        self.effecteditor = EffectEditor(self)
+        self.effecteditor.add_myself(self.effectui)
 
         if self.bmconfig.funny.value:
             self.sex = QAction("sex")
