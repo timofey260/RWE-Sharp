@@ -43,7 +43,7 @@ class Ui_Geo(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 260, 820))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 260, 821))
         self.verticalLayout_7 = QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_7.setObjectName(u"verticalLayout_7")
         self.verticalLayout_7.setContentsMargins(9, -1, -1, -1)
@@ -178,6 +178,22 @@ class Ui_Geo(object):
 
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
+        self.RotateLeft = QToolButton(self.frame_2)
+        self.RotateLeft.setObjectName(u"RotateLeft")
+        icon8 = QIcon()
+        icon8.addFile(u":/special/special/rotatel.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.RotateLeft.setIcon(icon8)
+
+        self.horizontalLayout.addWidget(self.RotateLeft)
+
+        self.RotateRight = QToolButton(self.frame_2)
+        self.RotateRight.setObjectName(u"RotateRight")
+        icon9 = QIcon()
+        icon9.addFile(u":/special/special/rotater.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.RotateRight.setIcon(icon9)
+
+        self.horizontalLayout.addWidget(self.RotateRight)
+
         self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout.addItem(self.horizontalSpacer)
@@ -543,6 +559,8 @@ class Ui_Geo(object):
         self.ToolGeoM2Select.setItemText(6, QCoreApplication.translate("Geo", u"Circle", None))
         self.ToolGeoM2Select.setItemText(7, QCoreApplication.translate("Geo", u"Hollow Circle", None))
 
+        self.RotateLeft.setText("")
+        self.RotateRight.setText("")
         self.BrushSizeUp.setText(QCoreApplication.translate("Geo", u"+", None))
         self.BrushSizeDown.setText(QCoreApplication.translate("Geo", u"-", None))
         self.label_4.setText(QCoreApplication.translate("Geo", u"Blocks:", None))

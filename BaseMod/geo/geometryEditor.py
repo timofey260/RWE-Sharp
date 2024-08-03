@@ -117,6 +117,7 @@ class GeometryEditor(EditorMode):
 
         self.controls = GeoControls(mod)
         self.block.valueChanged.connect(self.block_changed)
+        self.rotation.valueChanged.connect(self.block_changed)
 
         if os.path.exists(os.path.join(PATH_FILES_IMAGES, CONSTS.get("geo_image_config", {}).get("image"))):
             self.geo_texture = QPixmap(os.path.join(PATH_FILES_IMAGES, CONSTS.get("geo_image_config", {}).get("image")))
@@ -130,6 +131,14 @@ class GeometryEditor(EditorMode):
         self.toolleft.valueChanged.connect(self.tool_changed)
         self.toolright.valueChanged.connect(self.tool_changed)
         self.brushsize.valueChanged.connect(self.repos_brush)
+
+    def rotate(self):
+        if self.block.value in [GeoBlocks.Slope, GeoBlocks.Beam]:
+            self.rotation.update_value((self.rotation.value + 1) % (4 if self.block.value == GeoBlocks.Slope else 2))
+
+    def rotate_back(self):
+        if self.block.value in [GeoBlocks.Slope, GeoBlocks.Beam]:
+            self.rotation.update_value((self.rotation.value - 1) % (4 if self.block.value == GeoBlocks.Slope else 2))
 
     def tool_changed(self, tool):
         self.brushellipse.drawellipse.setOpacity(0)

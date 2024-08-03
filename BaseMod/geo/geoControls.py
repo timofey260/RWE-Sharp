@@ -37,5 +37,8 @@ class GeoControls:
         self.inverse = KeyConfigurable(mod, "KEYS_geo.inverse", "i", "Replace air with solid blocks and invert slopes", "Inverse")
         self.mirror = KeyConfigurable(mod, "KEYS_geo.mirror", "m",
                                       "Create a mirror axis. Everything on one side will be copied to the other", "Mirror")
-        self.brushsizeup = KeyConfigurable(mod, "KEYS_geo.brushsizeup", "Ctrl+Plus", "Increases brush size", "Brush size+")
-        self.brushsizedown = KeyConfigurable(mod, "KEYS_geo.brushsizedown", "Ctrl+-", "Decreases brush size", "Brush size-")
+        self.brushsizeup = KeyConfigurable(mod, "KEYS_geo.brushsizeup", "Ctrl+Shift++", "Increases brush size", "Brush size+")
+        self.brushsizedown = KeyConfigurable(mod, "KEYS_geo.brushsizedown", "Ctrl+Shift+-", "Decreases brush size", "Brush size-")
+
+        self.rotate = KeyConfigurable(mod, "KEYS_geo.rotate", "Space", "Rotate beams and slopes")
+        self.rotate_back = KeyConfigurable(mod, "KEYS_geo.rotate_back", "Ctrl+Space", "Rotate beams and slopes backwards")

@@ -123,12 +123,16 @@ class GeoUI(UI):
         self.ui.BrushSizeUp.clicked.connect(self.ui.Brushsize.stepUp)
         self.ui.BrushSizeDown.clicked.connect(self.ui.Brushsize.stepDown)
 
+        self.controls.rotate.link_button(self.ui.RotateRight)
+        self.controls.rotate_back.link_button(self.ui.RotateLeft)
+        self.ui.RotateRight.clicked.connect(self.editor.rotate)
+        self.ui.RotateLeft.clicked.connect(self.editor.rotate_back)
+
     def change_color(self, color: QColor):
         items = [IMG_PEN, IMG_BRUSH, IMG_BUCKET, IMG_LINE, IMG_RECT, IMG_RECT_HOLLOW, IMG_CIRCLE, IMG_CIRCLE_HOLLOW]
         for i in range(8):
             self.ui.ToolGeoM1Select.setItemIcon(i, paint_svg_qicon(items[i], color))
             self.ui.ToolGeoM2Select.setItemIcon(i, paint_svg_qicon(items[i], color))
-
 
     @Slot()
     def set_tool(self):

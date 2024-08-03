@@ -55,7 +55,7 @@
         <x>0</x>
         <y>0</y>
         <width>260</width>
-        <height>820</height>
+        <height>821</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -352,6 +352,28 @@
           </item>
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout">
+            <item>
+             <widget class="QToolButton" name="RotateLeft">
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset resource="../../../resources/res.qrc">
+                <normaloff>:/special/special/rotatel.svg</normaloff>:/special/special/rotatel.svg</iconset>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QToolButton" name="RotateRight">
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset resource="../../../resources/res.qrc">
+                <normaloff>:/special/special/rotater.svg</normaloff>:/special/special/rotater.svg</iconset>
+              </property>
+             </widget>
+            </item>
             <item>
              <spacer name="horizontalSpacer">
               <property name="orientation">
