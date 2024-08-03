@@ -109,6 +109,10 @@ class RWELevel:
         return self.data["FE"]["effects"][index]["mtrx"][x][y]
 
     @property
+    def effects(self):
+        return self.data["FE"]["effects"]
+
+    @property
     def effect_len(self) -> int:
         return len(self.data["FE"]["effects"])
 

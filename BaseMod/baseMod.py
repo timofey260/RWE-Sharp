@@ -77,8 +77,8 @@ class BaseMod(Mod):
         self.tileui = TileUI(self)
         self.tileeditor.add_myself(self.tileui)
 
-        self.effectui = EffectsUI(self)
         self.effecteditor = EffectEditor(self)
+        self.effectui = EffectsUI(self)
         self.effecteditor.add_myself(self.effectui)
 
         if self.bmconfig.funny.value:
@@ -107,6 +107,9 @@ class BaseMod(Mod):
         geoviewelement.add_children_configurables(*get_hotkeys_from_pattern(self, "VIEW_geo"))
         tileviewelement = HotkeyElement(self, "Tiles View", "tileview", parent=self.visualsTree)
         tileviewelement.add_children_configurables(*get_hotkeys_from_pattern(self, "VIEW_tile"))
+
+        effectskeys = HotkeyElement(self, "Effect editor", "effectedit", parent=self.editorsTree)
+        effectskeys.add_children_configurables(*get_hotkeys_from_pattern(self, "EDIT_effect"))
 
         self.action_geoeditor = QAction("Geometry Editor")
         self.bmconfig.geometry_editor.link_action(self.action_geoeditor)

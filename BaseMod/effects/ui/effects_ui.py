@@ -17,7 +17,8 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QGridLayout, QHeaderView, QLabel,
     QPushButton, QScrollArea, QSizePolicy, QSpacerItem,
-    QTreeWidget, QTreeWidgetItem, QVBoxLayout, QWidget)
+    QToolButton, QTreeWidget, QTreeWidgetItem, QVBoxLayout,
+    QWidget)
 
 class Ui_Effects(object):
     def setupUi(self, Effects):
@@ -41,7 +42,7 @@ class Ui_Effects(object):
 
         self.EffectsTree = QTreeWidget(self.scrollAreaWidgetContents_3)
         __qtreewidgetitem = QTreeWidgetItem()
-        __qtreewidgetitem.setText(0, u"1");
+        __qtreewidgetitem.setText(0, u"Index");
         self.EffectsTree.setHeaderItem(__qtreewidgetitem)
         self.EffectsTree.setObjectName(u"EffectsTree")
         self.EffectsTree.setHeaderHidden(True)
@@ -50,50 +51,62 @@ class Ui_Effects(object):
 
         self.gridLayout_5 = QGridLayout()
         self.gridLayout_5.setObjectName(u"gridLayout_5")
-        self.MoveDown = QPushButton(self.scrollAreaWidgetContents_3)
-        self.MoveDown.setObjectName(u"MoveDown")
+        self.PasteEffect = QPushButton(self.scrollAreaWidgetContents_3)
+        self.PasteEffect.setObjectName(u"PasteEffect")
         sizePolicy = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.MoveDown.sizePolicy().hasHeightForWidth())
-        self.MoveDown.setSizePolicy(sizePolicy)
+        sizePolicy.setHeightForWidth(self.PasteEffect.sizePolicy().hasHeightForWidth())
+        self.PasteEffect.setSizePolicy(sizePolicy)
 
-        self.gridLayout_5.addWidget(self.MoveDown, 1, 2, 1, 1)
+        self.gridLayout_5.addWidget(self.PasteEffect, 2, 2, 1, 1)
+
+        self.Up = QToolButton(self.scrollAreaWidgetContents_3)
+        self.Up.setObjectName(u"Up")
+        self.Up.setArrowType(Qt.ArrowType.UpArrow)
+
+        self.gridLayout_5.addWidget(self.Up, 1, 0, 1, 1)
 
         self.MoveUp = QPushButton(self.scrollAreaWidgetContents_3)
         self.MoveUp.setObjectName(u"MoveUp")
         sizePolicy.setHeightForWidth(self.MoveUp.sizePolicy().hasHeightForWidth())
         self.MoveUp.setSizePolicy(sizePolicy)
 
-        self.gridLayout_5.addWidget(self.MoveUp, 1, 0, 1, 1)
+        self.gridLayout_5.addWidget(self.MoveUp, 1, 1, 1, 1)
 
-        self.DeleteEffect = QPushButton(self.scrollAreaWidgetContents_3)
-        self.DeleteEffect.setObjectName(u"DeleteEffect")
-        sizePolicy.setHeightForWidth(self.DeleteEffect.sizePolicy().hasHeightForWidth())
-        self.DeleteEffect.setSizePolicy(sizePolicy)
+        self.Down = QToolButton(self.scrollAreaWidgetContents_3)
+        self.Down.setObjectName(u"Down")
+        self.Down.setArrowType(Qt.ArrowType.DownArrow)
 
-        self.gridLayout_5.addWidget(self.DeleteEffect, 1, 1, 1, 1)
+        self.gridLayout_5.addWidget(self.Down, 2, 0, 1, 1)
 
-        self.DuplicateEffect = QPushButton(self.scrollAreaWidgetContents_3)
-        self.DuplicateEffect.setObjectName(u"DuplicateEffect")
-        sizePolicy.setHeightForWidth(self.DuplicateEffect.sizePolicy().hasHeightForWidth())
-        self.DuplicateEffect.setSizePolicy(sizePolicy)
+        self.MoveDown = QPushButton(self.scrollAreaWidgetContents_3)
+        self.MoveDown.setObjectName(u"MoveDown")
+        sizePolicy.setHeightForWidth(self.MoveDown.sizePolicy().hasHeightForWidth())
+        self.MoveDown.setSizePolicy(sizePolicy)
 
-        self.gridLayout_5.addWidget(self.DuplicateEffect, 2, 2, 1, 1)
-
-        self.PasteEffect = QPushButton(self.scrollAreaWidgetContents_3)
-        self.PasteEffect.setObjectName(u"PasteEffect")
-        sizePolicy.setHeightForWidth(self.PasteEffect.sizePolicy().hasHeightForWidth())
-        self.PasteEffect.setSizePolicy(sizePolicy)
-
-        self.gridLayout_5.addWidget(self.PasteEffect, 2, 1, 1, 1)
+        self.gridLayout_5.addWidget(self.MoveDown, 2, 1, 1, 1)
 
         self.CopyEffect = QPushButton(self.scrollAreaWidgetContents_3)
         self.CopyEffect.setObjectName(u"CopyEffect")
         sizePolicy.setHeightForWidth(self.CopyEffect.sizePolicy().hasHeightForWidth())
         self.CopyEffect.setSizePolicy(sizePolicy)
 
-        self.gridLayout_5.addWidget(self.CopyEffect, 2, 0, 1, 1)
+        self.gridLayout_5.addWidget(self.CopyEffect, 1, 2, 1, 1)
+
+        self.DuplicateEffect = QPushButton(self.scrollAreaWidgetContents_3)
+        self.DuplicateEffect.setObjectName(u"DuplicateEffect")
+        sizePolicy.setHeightForWidth(self.DuplicateEffect.sizePolicy().hasHeightForWidth())
+        self.DuplicateEffect.setSizePolicy(sizePolicy)
+
+        self.gridLayout_5.addWidget(self.DuplicateEffect, 1, 3, 1, 1)
+
+        self.DeleteEffect = QPushButton(self.scrollAreaWidgetContents_3)
+        self.DeleteEffect.setObjectName(u"DeleteEffect")
+        sizePolicy.setHeightForWidth(self.DeleteEffect.sizePolicy().hasHeightForWidth())
+        self.DeleteEffect.setSizePolicy(sizePolicy)
+
+        self.gridLayout_5.addWidget(self.DeleteEffect, 2, 3, 1, 1)
 
 
         self.verticalLayout_12.addLayout(self.gridLayout_5)
@@ -129,12 +142,16 @@ class Ui_Effects(object):
     def retranslateUi(self, Effects):
         Effects.setWindowTitle(QCoreApplication.translate("Effects", u"Effects", None))
         self.label_6.setText(QCoreApplication.translate("Effects", u"Effects:", None))
-        self.MoveDown.setText(QCoreApplication.translate("Effects", u"Move down", None))
-        self.MoveUp.setText(QCoreApplication.translate("Effects", u"Move up", None))
-        self.DeleteEffect.setText(QCoreApplication.translate("Effects", u"Delete", None))
-        self.DuplicateEffect.setText(QCoreApplication.translate("Effects", u"Duplicate", None))
+        ___qtreewidgetitem = self.EffectsTree.headerItem()
+        ___qtreewidgetitem.setText(1, QCoreApplication.translate("Effects", u"Name", None));
         self.PasteEffect.setText(QCoreApplication.translate("Effects", u"Paste", None))
+        self.Up.setText(QCoreApplication.translate("Effects", u"...", None))
+        self.MoveUp.setText(QCoreApplication.translate("Effects", u"Move up", None))
+        self.Down.setText(QCoreApplication.translate("Effects", u"...", None))
+        self.MoveDown.setText(QCoreApplication.translate("Effects", u"Move down", None))
         self.CopyEffect.setText(QCoreApplication.translate("Effects", u"Copy", None))
+        self.DuplicateEffect.setText(QCoreApplication.translate("Effects", u"Duplicate", None))
+        self.DeleteEffect.setText(QCoreApplication.translate("Effects", u"Delete", None))
         self.label_7.setText(QCoreApplication.translate("Effects", u"Options:", None))
     # retranslateUi
 

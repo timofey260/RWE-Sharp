@@ -158,7 +158,7 @@ def paint_svg_qicon(filename: str, color: QColor) -> QIcon:
     return QIcon(paint_svg(filename, color))
 
 
-def amap(x: float, in_min: float, in_max: float, out_min: float, out_max: float) -> float:
+def remap(x: float, in_min: float, in_max: float, out_min: float, out_max: float) -> float:
     return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
 
 
