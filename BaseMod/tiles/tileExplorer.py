@@ -34,7 +34,7 @@ class TileExplorer(ViewDockWidget):
         self.ui.setupUi(self)
         self.state = False
         self.preview = self.ui.Preview
-        self.preview.add_manager(manager, self)
+        self.preview.add_manager(manager)
         self.view_categories = self.ui.Categories
         self.view_tiles = self.ui.Tiles
         self.view_tile = self.ui.Properties
@@ -93,7 +93,7 @@ class TileExplorer(ViewDockWidget):
         file, _ = QFileDialog.getOpenFileName(self, "Select a Palette", PATH_FILES_IMAGES_PALETTES)
         self.palette_path.update_value(file)
         self.drawoption.update_value(4)
-        self.preview.preview_tile(self.preview.tile)
+        self.preview.preview_tile(self.preview.tile, self.synced_draw_option, self.layer.value, self.colortable)
 
     @property
     def categoryindex(self):
@@ -129,7 +129,7 @@ class TileExplorer(ViewDockWidget):
     def change_draw_option(self):
         self.change_tiles()
         if len(self.selected_tiles) > 0:
-            self.preview.preview_tile(self.selected_tiles[0])
+            self.preview.preview_tile(self.selected_tiles[0], self.synced_draw_option, self.layer.value, self.colortable)
 
     @property
     def synced_draw_option(self):
@@ -238,4 +238,4 @@ class TileExplorer(ViewDockWidget):
         self.tileSelected.emit(self.selected_tiles)
         self.preview.tileimage.setOpacity(0)
         if len(self.selected_tiles) == 1:
-            self.preview.preview_tile(self.selected_tiles[0])
+            self.preview.preview_tile(self.selected_tiles[0], self.synced_draw_option, self.layer.value, self.colortable)

@@ -128,6 +128,11 @@ class GeoUI(UI):
         self.ui.RotateRight.clicked.connect(self.editor.rotate)
         self.ui.RotateLeft.clicked.connect(self.editor.rotate_back)
 
+        self.ui.NextLayer.clicked.connect(self.editor.next_layer)
+        self.ui.PreviousLayer.clicked.connect(self.editor.prev_layer)
+        self.controls.nextlayer.link_button(self.ui.NextLayer)
+        self.controls.prevlayer.link_button(self.ui.PreviousLayer)
+
     def change_color(self, color: QColor):
         items = [IMG_PEN, IMG_BRUSH, IMG_BUCKET, IMG_LINE, IMG_RECT, IMG_RECT_HOLLOW, IMG_CIRCLE, IMG_CIRCLE_HOLLOW]
         for i in range(8):
@@ -225,28 +230,25 @@ class GeoSettings(SettingUI):
         super().__init__(mod)
         self.mod: BaseMod
         self.module = self.mod.geomodule
-        self.l1op = IntConfigurable(self, "l1op", int(self.module.opacityl1.default * 255), "Opacity of layer 1")
-        self.l2op = IntConfigurable(self, "l2op", int(self.module.opacityl2.default * 255), "Opacity of layer 2")
-        self.l3op = IntConfigurable(self, "l3op", int(self.module.opacityl3.default * 255), "Opacity of layer 3")
-        self.rgbop = IntConfigurable(self, "rgbop", int(self.module.opacityrgb.default * 255),
+        self.l1op = IntConfigurable(self, "l1op", 0, "Opacity of layer 1")
+        self.l2op = IntConfigurable(self, "l2op", 0, "Opacity of layer 2")
+        self.l3op = IntConfigurable(self, "l3op", 0, "Opacity of layer 3")
+        self.rgbop = IntConfigurable(self, "rgbop", 0,
                                      "Opacity of all layers on Leditor render option")
-        self.opshift = BoolConfigurable(self, "opshift", self.module.opacityshift.default,
+        self.opshift = BoolConfigurable(self, "opshift", False,
                                         "Opacity shift\nOnly change opacity of shown layers\n"
                                         "For example, if layer 1 is hidden, layer 2 will have opacity of layer 1 and "
                                         "layer 3 will have opacity of layer 2")
+        self.reset_values()
 
     def init_ui(self, viewer: SettingsViewer):
         self.ui = Ui_Geometry()
         self.ui.setupUi(viewer)
 
-        self.l1op.link_slider(self.ui.L1op)
-        self.l2op.link_slider(self.ui.L2op)
-        self.l3op.link_slider(self.ui.L3op)
-        self.rgbop.link_slider(self.ui.RGBop)
-        self.l1op.link_spinbox(self.ui.L1op2)
-        self.l2op.link_slider(self.ui.L2op2)
-        self.l3op.link_slider(self.ui.L3op2)
-        self.rgbop.link_slider(self.ui.RGBop2)
+        self.l1op.link_slider_spinbox(self.ui.L1op, self.ui.L1op2)
+        self.l2op.link_slider_spinbox(self.ui.L2op, self.ui.L2op2)
+        self.l3op.link_slider_spinbox(self.ui.L3op, self.ui.L3op2)
+        self.rgbop.link_slider_spinbox(self.ui.RGBop, self.ui.RGBop2)
 
         self.opshift.link_button(self.ui.OPshift)
 

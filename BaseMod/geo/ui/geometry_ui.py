@@ -43,7 +43,7 @@ class Ui_Geo(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 260, 821))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 260, 852))
         self.verticalLayout_7 = QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_7.setObjectName(u"verticalLayout_7")
         self.verticalLayout_7.setContentsMargins(9, -1, -1, -1)
@@ -81,6 +81,21 @@ class Ui_Geo(object):
         self.ToolGeoApplyToL3.setLocale(QLocale(QLocale.English, QLocale.UnitedStates))
 
         self.verticalLayout_4.addWidget(self.ToolGeoApplyToL3)
+
+        self.horizontalLayout_2 = QHBoxLayout()
+        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
+        self.NextLayer = QPushButton(self.frame)
+        self.NextLayer.setObjectName(u"NextLayer")
+
+        self.horizontalLayout_2.addWidget(self.NextLayer)
+
+        self.PreviousLayer = QPushButton(self.frame)
+        self.PreviousLayer.setObjectName(u"PreviousLayer")
+
+        self.horizontalLayout_2.addWidget(self.PreviousLayer)
+
+
+        self.verticalLayout_4.addLayout(self.horizontalLayout_2)
 
 
         self.verticalLayout_7.addWidget(self.frame)
@@ -537,6 +552,8 @@ class Ui_Geo(object):
         self.ToolGeoApplyToL1.setText(QCoreApplication.translate("Geo", u"Layer 1", None))
         self.ToolGeoApplyToL2.setText(QCoreApplication.translate("Geo", u"Layer 2", None))
         self.ToolGeoApplyToL3.setText(QCoreApplication.translate("Geo", u"Layer 3", None))
+        self.NextLayer.setText(QCoreApplication.translate("Geo", u"Next", None))
+        self.PreviousLayer.setText(QCoreApplication.translate("Geo", u"Previous", None))
         self.label.setText(QCoreApplication.translate("Geo", u"Place:", None))
         self.label_5.setText(QCoreApplication.translate("Geo", u"Brush Size:", None))
         self.ToolGeoM1Select.setItemText(0, QCoreApplication.translate("Geo", u"Pencil", None))

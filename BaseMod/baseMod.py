@@ -26,7 +26,7 @@ class BaseMod(Mod):
             "RWE# essentials\nincludes all editors, modules and other\ndisable it at your own risk :3"
         ), path)
         from BaseMod.geo.geoUIConnectors import GeoUI, GeoViewUI, GeoSettings
-        from BaseMod.tiles.tileUIConnectors import TileViewUI, TileUI
+        from BaseMod.tiles.tileUIConnectors import TileViewUI, TileUI, TileSettings
 
         self.geoeditor: GeometryEditor | None = None
         self.geomodule: GeoModule | None = None
@@ -38,6 +38,7 @@ class BaseMod(Mod):
         self.tileview: TileViewUI | None = None
         self.tileeditor: TileEditor | None = None
         self.tileui: TileUI | None = None
+        self.tilesettings: TileSettings | None = None
 
         self.effecteditor: EffectEditor | None = None
         self.effectui: EffectsUI | None = None
@@ -54,7 +55,7 @@ class BaseMod(Mod):
 
     def mod_init(self):
         from BaseMod.geo.geoUIConnectors import GeoUI, GeoViewUI, GeoSettings
-        from BaseMod.tiles.tileUIConnectors import TileViewUI, TileUI
+        from BaseMod.tiles.tileUIConnectors import TileViewUI, TileUI, TileSettings
 
         RaspberryDark(self).add_myself()
 
@@ -75,6 +76,7 @@ class BaseMod(Mod):
         self.tile_explorer = TileExplorer(self.manager, self.manager.window)
         self.tileview = TileViewUI(self).add_myself()
         self.tileui = TileUI(self)
+        self.tilesettings = TileSettings(self)
         self.tileeditor.add_myself(self.tileui)
 
         self.effecteditor = EffectEditor(self)
@@ -96,6 +98,7 @@ class BaseMod(Mod):
 
         self.settingtree = SettingElement(self, self.modinfo.title, self.modinfo.name).add_myself()
         self.settingtree.add_child(SettingElement(self, "Geo", "geo", self.geosettings))
+        self.settingtree.add_child(SettingElement(self, "Tiles", "tiles", self.tilesettings))
 
         self.editorsTree = HotkeyElement(self, "Editors", "editors").add_myself()
         geoelement = HotkeyElement(self, "Geometry Editor", "geoedit", parent=self.editorsTree)
@@ -120,6 +123,11 @@ class BaseMod(Mod):
         self.bmconfig.tile_editor.link_action(self.action_tileeditor)
         self.action_tileeditor.triggered.connect(lambda: self.manager.change_editor_name("tiles"))
         self.manager.editors_menu.addAction(self.action_tileeditor)
+
+        self.action_effecteditor = QAction("Effect Editor")
+        self.bmconfig.effect_editor.link_action(self.action_effecteditor)
+        self.action_effecteditor.triggered.connect(lambda: self.manager.change_editor_name("effects"))
+        self.manager.editors_menu.addAction(self.action_effecteditor)
 
     def sexthing(self):
         self.vid = FunnyVideo(self.manager, False, os.path.join(PATH_FILES_VIDEOS, "sex.mp4").replace("\\", "/"), "SEX")

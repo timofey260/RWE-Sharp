@@ -12,8 +12,6 @@ class RenderEllipse(Renderable):
         self.drawellipse: None | QGraphicsEllipseItem = None
         self.pen = QPen(pen)
         self.brush = QBrush(brush)
-        self.setPen = None
-        self.setBrush = None
 
     def init_graphics(self, viewport: Viewport):
         self.drawellipse = viewport.workscene.addEllipse(self.rect)

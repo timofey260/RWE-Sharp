@@ -12,8 +12,6 @@ class RenderRect(Renderable):
         self.drawrect: None | QGraphicsRectItem = None
         self.pen = QPen(pen)
         self.brush = QBrush(brush)
-        self.setPen = None
-        self.setBrush = None
 
     def init_graphics(self, viewport: Viewport):
         self.drawrect = viewport.workscene.addRect(self.rect)

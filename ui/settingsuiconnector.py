@@ -7,7 +7,7 @@ if TYPE_CHECKING:
     from core.Manager import Manager
 
 
-class SettingsUI(QDialog):
+class SettingsDialogUI(QDialog):
     def __init__(self, manager: Manager, parent=None):
         super().__init__(parent)
         self.manager = manager

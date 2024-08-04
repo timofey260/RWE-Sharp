@@ -12,8 +12,6 @@ class RenderLine(Renderable):
         self.drawline: None | QGraphicsLineItem = None
         self.pen = QPen(pen)
         self.brush = QBrush(brush)
-        self.setPen = None
-        self.setBrush = None
 
     def init_graphics(self, viewport: Viewport):
         self.drawline = viewport.workscene.addLine(self.line)

@@ -1,7 +1,9 @@
 from RWESharp.Modify import EditorMode
 from RWESharp.Configurable import ColorConfigurable, KeyConfigurable
+from RWESharp.Renderable import RenderEllipse
 from BaseMod.effects.effectRenderTexture import EffectRenderLevelImage
 from PySide6.QtGui import QColor
+from PySide6.QtCore import QRect
 
 
 class EffectEditor(EditorMode):
@@ -17,3 +19,5 @@ class EffectEditor(EditorMode):
         self.effectmovedown = KeyConfigurable(mod, "EDIT_effect.effectmovedown", "Shift+s", "Move effect forward")
         self.duplicate = KeyConfigurable(mod, "EDIT_effect.duplicate", "Ctrl+d", "Duplicate effect")
         self.delete = KeyConfigurable(mod, "EDIT_effect.delete", "Delete", "Delete effect")
+
+        self.brush = RenderEllipse(mod, 0, QRect(0, 0, 1, 1))

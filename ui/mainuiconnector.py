@@ -4,7 +4,7 @@ from PySide6.QtCore import Slot
 from ui.FunnyVideo import FunnyVideo
 from ui.uiscripts.mainui import Ui_MainWindow
 from ui.aboutuiconnector import AboutDialog
-from ui.settingsuiconnector import SettingsUI
+from ui.settingsuiconnector import SettingsDialogUI
 from ui.hotkeysuiconnector import HotkeysUI
 from core.info import PATH_LEVELS, PATH_FILES_VIDEOS
 
@@ -51,7 +51,7 @@ class MainWindow(QMainWindow):
         # self.ui.menuRecent.addAction(QAction("lol", self.ui.menuRecent))
         self.ui.ToolsTabs.currentChanged.connect(self.change_editor)
         self.about = None
-        self.settings: SettingsUI | None = None
+        self.settings: SettingsDialogUI | None = None
         self.hotkeys: HotkeysUI | None = None
 
         self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
@@ -70,7 +70,7 @@ class MainWindow(QMainWindow):
         self.ui.DockPrefabs.link_action(self.ui.actionPrefabs)
 
         self.hotkeys = HotkeysUI(self.manager, self)
-        self.settings = SettingsUI(self.manager, self)
+        self.settings = SettingsDialogUI(self.manager, self)
 
         self.vid = None
 

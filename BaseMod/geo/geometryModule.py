@@ -58,6 +58,8 @@ class GeoModule(Module):
 
     @Slot()
     def check_l1_change(self):
+        if not self.drawgeo.value:
+            return
         if self.opacityshift.value:
             self.check_l2_change()
         if self.drawoption.value == 0:
@@ -67,6 +69,8 @@ class GeoModule(Module):
 
     @Slot()
     def check_l2_change(self):
+        if not self.drawgeo.value:
+            return
         if self.opacityshift.value:
             self.check_l3_change()
         if self.drawoption.value == 0:
@@ -81,6 +85,8 @@ class GeoModule(Module):
 
     @Slot()
     def check_l3_change(self):
+        if not self.drawgeo.value:
+            return
         if self.drawoption.value == 0:
             if self.opacityshift.value and self.drawl3.value:
                 opval = self.opacityl1.value if not self.drawl1.value and not self.drawl2.value else \
@@ -91,6 +97,11 @@ class GeoModule(Module):
             self.l3.renderedtexture.setOpacity(opval)
             return
         self.l3.renderedtexture.setOpacity(self.opacityrgb.value if self.drawl3.value else 0)
+
+    def showlayer(self, currentlayer):
+        self.drawl1.update_value(currentlayer == 0)
+        self.drawl2.update_value(currentlayer <= 1)
+        self.drawl3.update_value(True)
 
     # a lot of bullshit functions to speed up rendering
     @Slot()

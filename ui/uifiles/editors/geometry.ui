@@ -55,7 +55,7 @@
         <x>0</x>
         <y>0</y>
         <width>260</width>
-        <height>821</height>
+        <height>852</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -116,6 +116,24 @@
              <string>Layer 3</string>
             </property>
            </widget>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_2">
+            <item>
+             <widget class="QPushButton" name="NextLayer">
+              <property name="text">
+               <string>Next</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="PreviousLayer">
+              <property name="text">
+               <string>Previous</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
          </layout>
         </widget>

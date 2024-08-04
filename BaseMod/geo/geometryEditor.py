@@ -6,7 +6,7 @@ from PySide6.QtGui import QColor, QMoveEvent, QMouseEvent, QPixmap, QPainter, QG
 
 from BaseMod.geo.geoControls import GeoControls
 from BaseMod.geo.geoHistory import GEPointChange, GERectChange, GEBrushChange, GEEllipseChange, GEFillChange
-from RWESharp.Configurable import BoolConfigurable, IntConfigurable, EnumConfigurable
+from RWESharp.Configurable import BoolConfigurable, IntConfigurable, EnumConfigurable, ColorConfigurable
 from RWESharp.Core import CELLSIZE, PATH_FILES_IMAGES, CONSTS
 from RWESharp.Modify import EditorMode
 from RWESharp.Renderable import RenderImage, RenderRect, RenderEllipse, RenderLine
@@ -131,6 +131,15 @@ class GeometryEditor(EditorMode):
         self.toolleft.valueChanged.connect(self.tool_changed)
         self.toolright.valueChanged.connect(self.tool_changed)
         self.brushsize.valueChanged.connect(self.repos_brush)
+        self.toolcolor = ColorConfigurable(mod, "EDIT_geo.toolcolor", QColor(255, 0, 0, 255), "Tool color")
+        self.toolcolor.valueChanged.connect(self.change_color)
+
+    def change_color(self):
+        self.rect.drawrect.setPen(self.toolcolor.value)
+        self.cursor.drawrect.setPen(self.toolcolor.value)
+        self.brushellipse.drawellipse.setPen(self.toolcolor.value)
+        self.ellipse.drawellipse.setPen(self.toolcolor.value)
+        self.lineline.drawline.setPen(self.toolcolor.value)
 
     def rotate(self):
         if self.block.value in [GeoBlocks.Slope, GeoBlocks.Beam]:
@@ -250,7 +259,7 @@ class GeometryEditor(EditorMode):
         # self.cursor_item.setOpacity(.3)
         self.pixmap.painter.setCompositionMode(QPainter.CompositionMode.CompositionMode_Source)
         self.block_changed()
-        self.manager.set_status("placing walls")
+        self.change_color()
         
     def remove_items_from_scene(self):
         super().remove_items_from_scene()
@@ -377,6 +386,24 @@ class GeometryEditor(EditorMode):
             rect.moveTo(brushpos + QPoint(CELLSIZE // 2, CELLSIZE // 2))
         self.brushellipse.setRect(rect)
 
+    def next_layer(self):
+        currentlayer = 0 if self.drawl1.value else 1 if self.drawl2.value else 2
+        currentlayer = (currentlayer + 1) % 3
+        self.showlayer(currentlayer)
+
+    def prev_layer(self):
+        currentlayer = 0 if self.drawl1.value else 1 if self.drawl2.value else 2
+        currentlayer = (currentlayer - 1) % 3
+        self.showlayer(currentlayer)
+
+    def showlayer(self, currentlayer):
+        self.drawl1.update_value(False)
+        self.drawl2.update_value(False)
+        self.drawl3.update_value(False)
+        [self.drawl1, self.drawl2, self.drawl3][currentlayer].update_value(True)
+        self.module.showlayer(currentlayer)
+        self.manager.basemod.tilemodule.showlayer(currentlayer)
+
     def mouse_move_event(self, event: QMoveEvent):
         super().mouse_move_event(event)
         fpos = self.viewport.viewport_to_editor(self.mouse_pos)
@@ -387,7 +414,8 @@ class GeometryEditor(EditorMode):
             self.repos_brush()
             # self.cursor_item.setPos(self.viewport.editor_to_viewport(fpos))
         if self.manager.level.inside(fpos):
-            self.manager.set_status(f"x: {fpos.x()}, y: {fpos.y()}, {self.manager.level['GE'][fpos.x()][fpos.y()]}")
+            self.manager.set_status(f"x: {fpos.x()}, y: {fpos.y()}, {self.manager.level['GE'][fpos.x()][fpos.y()]}"
+                                    f" Placing {self.block.value.name}")
         if not (self.lastpos - fpos).isNull():
             if self.mouse_left:
                 self.tool_specific_update(self.toolleft.value, fpos)

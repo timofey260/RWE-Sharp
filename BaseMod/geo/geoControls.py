@@ -42,3 +42,6 @@ class GeoControls:
 
         self.rotate = KeyConfigurable(mod, "KEYS_geo.rotate", "Space", "Rotate beams and slopes")
         self.rotate_back = KeyConfigurable(mod, "KEYS_geo.rotate_back", "Ctrl+Space", "Rotate beams and slopes backwards")
+
+        self.nextlayer = KeyConfigurable(mod, "KEYS_geo.nextlayer", "l", "Next layer")
+        self.prevlayer = KeyConfigurable(mod, "KEYS_geo.prevlayer", "Ctrl+l", "Previous layer")

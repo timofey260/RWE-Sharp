@@ -166,6 +166,15 @@ class IntConfigurable(Configurable):
         spin.valueChanged.connect(self.update_value)
         self.valueChanged.connect(spin.setValue)
 
+    def link_slider_spinbox(self, slider: QSlider, spinbox: QSpinBox):
+        """
+        Links both slider and spinbox to a Configurable
+        :param slider: slider to link
+        :param spinbox: spinbox to link
+        """
+        self.link_slider(slider)
+        self.link_spinbox(spinbox)
+
     def link_combobox(self, combobox: QComboBox):
         """
         Links combobox with configurable
