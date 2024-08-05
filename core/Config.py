@@ -55,8 +55,7 @@ class Config:
         path = appdirs.user_config_dir(NAME, AUTHOR)
         if not os.path.exists(path):
             os.makedirs(path, exist_ok=True)
-        if not os.path.exists(os.path.join(path, "config.txt")):
-            with open(os.path.join(path, "config.txt"), "w") as f:
-                pass
+        with open(os.path.join(path, "config.txt"), "w") as f:
+            pass
 
         return os.path.join(path, "config.txt")
