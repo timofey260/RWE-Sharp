@@ -30,9 +30,10 @@ class BaseModConfig:
         self.settings_key = KeyConfigurable(mod, "basemod.settings", "Ctrl+`", "Open settings menu")
         self.hotkey_key = KeyConfigurable(mod, "basemod.hotkeys", "Ctrl+Shift+`", "Open hotkey menu")
         self.view_key = KeyConfigurable(mod, "basemod.view", "Ctrl+Shift+v", "Open view tab")
-        self.edit_key = KeyConfigurable(mod, "basemod.edit", "Ctrl+Shift+e", "Open edit tab")
+        self.edit_key = KeyConfigurable(mod, "basemod.edit", "Ctrl+Shift+t", "Open edit tab")
         self.prefabs_key = KeyConfigurable(mod, "basemod.prefabs", "Ctrl+Shift+p", "Open prefabs tab")
-        self.explorer_key = KeyConfigurable(mod, "basemod.explorer", "Ctrl+shift+r", "Open settings menu")
+        self.tileexplorer_key = KeyConfigurable(mod, "basemod.explorer", "Ctrl+shift+r", "Open settings menu")
+        self.effectexplorer_key = KeyConfigurable(mod, "basemod.explorer", "Ctrl+shift+e", "Open settings menu")
         self.palette = StringConfigurable(mod, "basemod.palette", "timofey26.basemod.Raspberry Dark" if ISWIN else "", "palette colors")
 
         self.geometry_editor = KeyConfigurable(mod, "basemod.geo", "1", "Open Geometry editor")

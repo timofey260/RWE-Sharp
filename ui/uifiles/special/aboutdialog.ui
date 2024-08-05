@@ -59,7 +59,7 @@
      <item>
       <widget class="QFrame" name="frame">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
@@ -70,17 +70,11 @@
          <height>50</height>
         </size>
        </property>
-       <property name="maximumSize">
-        <size>
-         <width>50</width>
-         <height>50</height>
-        </size>
-       </property>
        <property name="cursor">
         <cursorShape>CrossCursor</cursorShape>
        </property>
        <property name="styleSheet">
-        <string notr="true">image: url(:/icons/icon.png)</string>
+        <string notr="true">image: url(:/icons/icon.svg);</string>
        </property>
        <property name="frameShape">
         <enum>QFrame::Shape::NoFrame</enum>

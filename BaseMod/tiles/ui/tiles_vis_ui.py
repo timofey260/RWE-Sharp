@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'tiles.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.7.0
+## Created by: Qt User Interface Compiler version 6.7.2
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -15,9 +15,9 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QCheckBox, QLabel, QPushButton,
-    QRadioButton, QScrollArea, QSizePolicy, QSpacerItem,
-    QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QApplication, QCheckBox, QFrame, QLabel,
+    QPushButton, QRadioButton, QScrollArea, QSizePolicy,
+    QSpacerItem, QVBoxLayout, QWidget)
 
 class Ui_TilesView(object):
     def setupUi(self, TilesView):
@@ -77,6 +77,18 @@ class Ui_TilesView(object):
         self.VTilesHeads.setChecked(True)
 
         self.verticalLayout_2.addWidget(self.VTilesHeads)
+
+        self.line = QFrame(self.scrollAreaWidgetContents)
+        self.line.setObjectName(u"line")
+        self.line.setFrameShape(QFrame.Shape.HLine)
+        self.line.setFrameShadow(QFrame.Shadow.Sunken)
+
+        self.verticalLayout_2.addWidget(self.line)
+
+        self.label = QLabel(self.scrollAreaWidgetContents)
+        self.label.setObjectName(u"label")
+
+        self.verticalLayout_2.addWidget(self.label)
 
         self.VTilesClassic = QRadioButton(self.scrollAreaWidgetContents)
         self.VTilesClassic.setObjectName(u"VTilesClassic")
@@ -152,6 +164,7 @@ class Ui_TilesView(object):
         self.VTilesLayer3.setText(QCoreApplication.translate("TilesView", u"Layer 3", None))
         self.VTilesMaterials.setText(QCoreApplication.translate("TilesView", u"Materials", None))
         self.VTilesHeads.setText(QCoreApplication.translate("TilesView", u"Tile heads", None))
+        self.label.setText(QCoreApplication.translate("TilesView", u"Preview:", None))
         self.VTilesClassic.setText(QCoreApplication.translate("TilesView", u"Classic tile preview", None))
         self.VTilesImage.setText(QCoreApplication.translate("TilesView", u"Tile image preview", None))
         self.VTilesHenry.setText(QCoreApplication.translate("TilesView", u"Henry's category colors", None))

@@ -30,7 +30,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QTreeWidget" name="treeWidget">
+         <widget class="QTreeWidget" name="Effects">
           <attribute name="headerVisible">
            <bool>false</bool>
           </attribute>
@@ -53,12 +53,12 @@
          </widget>
         </item>
         <item>
-         <widget class="QGraphicsView" name="graphicsView"/>
+         <widget class="QGraphicsView" name="Effectpreview"/>
         </item>
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_2">
           <item>
-           <widget class="QToolButton" name="toolButton">
+           <widget class="QToolButton" name="Favorite">
             <property name="text">
              <string/>
             </property>
@@ -68,7 +68,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton">
+           <widget class="QPushButton" name="AddEffect">
             <property name="text">
              <string>Add</string>
             </property>

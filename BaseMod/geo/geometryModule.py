@@ -59,6 +59,7 @@ class GeoModule(Module):
     @Slot()
     def check_l1_change(self):
         if not self.drawgeo.value:
+            self.l1.renderedtexture.setOpacity(0)
             return
         if self.opacityshift.value:
             self.check_l2_change()
@@ -70,6 +71,7 @@ class GeoModule(Module):
     @Slot()
     def check_l2_change(self):
         if not self.drawgeo.value:
+            self.l2.renderedtexture.setOpacity(0)
             return
         if self.opacityshift.value:
             self.check_l3_change()
@@ -86,6 +88,7 @@ class GeoModule(Module):
     @Slot()
     def check_l3_change(self):
         if not self.drawgeo.value:
+            self.l3.renderedtexture.setOpacity(0)
             return
         if self.drawoption.value == 0:
             if self.opacityshift.value and self.drawl3.value:

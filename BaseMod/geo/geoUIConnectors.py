@@ -98,6 +98,7 @@ class GeoUI(UI):
         self.controls.glass.link_button(self.ui.ToolGeoGlass)
 
         self.controls.rock.link_button(self.ui.ToolGeoRock)
+        self.controls.beam.link_button(self.ui.ToolGeoBeam)
         self.controls.spear.link_button(self.ui.ToolGeoSpear)
         self.controls.shortcut.link_button(self.ui.ToolGeoShortcut)
         self.controls.shortcut_entrance.link_button(self.ui.ToolGeoShortcutEntrance)

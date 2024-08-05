@@ -46,6 +46,10 @@ class RWELevel:
     def __setitem__(self, key, value):
         self.data[key] = value
 
+    @property
+    def level_rect(self) -> QRect:
+        return QRect(0, 0, self.level_width, self.level_height)
+
     def geo_data_xy(self, x: int, y: int, layer: int) -> [int, list[int]]:
         """
         returns cell on specific layer

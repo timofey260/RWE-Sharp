@@ -27,7 +27,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="../../resources/res.qrc">
-    <normaloff>:/icons/icon_small.png</normaloff>:/icons/icon_small.png</iconset>
+    <normaloff>:/icons/icon.svg</normaloff>:/icons/icon.svg</iconset>
   </property>
   <property name="styleSheet">
    <string notr="true"/>
@@ -86,7 +86,7 @@
     </size>
    </property>
    <property name="windowIcon">
-    <iconset resource="../../resources/res.qrc">
+    <iconset>
      <normaloff>:/icons/icon_small.png</normaloff>:/icons/icon_small.png</iconset>
    </property>
    <property name="styleSheet">
@@ -275,7 +275,7 @@
     <bool>true</bool>
    </property>
    <property name="windowIcon">
-    <iconset resource="../../resources/res.qrc">
+    <iconset>
      <normaloff>:/icons/icon_small.png</normaloff>:/icons/icon_small.png</iconset>
    </property>
    <property name="features">

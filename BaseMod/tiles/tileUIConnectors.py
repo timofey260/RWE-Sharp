@@ -111,11 +111,15 @@ class TileUI(UI):
         self.cat_prev_key = KeyConfigurable(mod, "EDIT_tile.cat_prev", "a", "Previous Category")
         self.tile_next_key = KeyConfigurable(mod, "EDIT_tile.tile_next", "s", "Next Tile")
         self.cat_next_key = KeyConfigurable(mod, "EDIT_tile.cat_next", "d", "Next Category")
+        self.force_geo_key = KeyConfigurable(mod, "EDIT_tiles.fgkey", "g", "Force geometry")
+        self.force_place_key = KeyConfigurable(mod, "EDIT_tiles.fpkey", "f", "Force place")
 
         self.tile_next_key.link_button(self.ui.TileNext)
         self.tile_prev_key.link_button(self.ui.TilePrev)
         self.cat_next_key.link_button(self.ui.CatNext)
         self.cat_prev_key.link_button(self.ui.CatPrev)
+        self.force_geo_key.link_button(self.ui.ForceGeo)
+        self.force_place_key.link_button(self.ui.ForcePlace)
 
         self.ui.CatNext.clicked.connect(self.explorer.cat_next)
         self.ui.CatPrev.clicked.connect(self.explorer.cat_prev)
@@ -124,6 +128,7 @@ class TileUI(UI):
         self.ui.PalleteSelect.clicked.connect(self.change_palette)
         mod.bmconfig.icon_color.valueChanged.connect(self.change_color)
         self.change_color(mod.bmconfig.icon_color.value)
+        self.ui.OpenExplorer.clicked.connect(self.open_explorer)
 
     def change_color(self, color: QColor):
         items = [IMG_PEN, IMG_BRUSH, IMG_BUCKET, IMG_LINE, IMG_RECT, IMG_RECT_HOLLOW, IMG_CIRCLE, IMG_CIRCLE_HOLLOW]
@@ -135,6 +140,9 @@ class TileUI(UI):
         file, _ = QFileDialog.getOpenFileName(self, "Select a Palette", PATH_FILES_IMAGES_PALETTES)
         self.editor.palette_image.update_value(file)
         self.editor.tile_item.set_tile(self.editor.tile_item.tile, self.editor.colortable, 4)
+
+    def open_explorer(self):
+        self.mod.tile_explorer.change_visibility(True)
 
 
 class TileSettings(SettingUI):

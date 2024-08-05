@@ -9,6 +9,7 @@ from BaseMod.tiles.tileEditor import TileEditor
 from BaseMod.tiles.tileExplorer import TileExplorer
 from BaseMod.effects.effectEditor import EffectEditor
 from BaseMod.effects.effectsUIConnector import EffectsUI
+from BaseMod.effects.effectExplorer import EffectExplorer
 from RWESharp.Modify import Mod, ModInfo
 from RWESharp.Core import SettingElement, HotkeyElement, get_hotkeys_from_pattern, PATH_FILES_VIDEOS
 from RWESharp.Ui import FunnyVideo
@@ -42,6 +43,8 @@ class BaseMod(Mod):
 
         self.effecteditor: EffectEditor | None = None
         self.effectui: EffectsUI | None = None
+        self.effect_explorer: EffectExplorer | None = None
+        self.effect_explorer_action: QAction | None = None
 
         self.gridmodule: GridModule | None = None
         self.gridui: GridView | None = None
@@ -80,6 +83,7 @@ class BaseMod(Mod):
         self.tileeditor.add_myself(self.tileui)
 
         self.effecteditor = EffectEditor(self)
+        self.effect_explorer = EffectExplorer(self)
         self.effectui = EffectsUI(self)
         self.effecteditor.add_myself(self.effectui)
 
@@ -92,7 +96,13 @@ class BaseMod(Mod):
         self.manager.window_menu.addAction(self.tile_explorer_action)
         self.tile_explorer.link_action(self.tile_explorer_action)
         self.tile_explorer.change_visibility(False)
-        self.bmconfig.explorer_key.link_action(self.tile_explorer_action)
+        self.bmconfig.tileexplorer_key.link_action(self.tile_explorer_action)
+
+        self.effect_explorer_action = QAction("Effect Explorer")
+        self.manager.window_menu.addAction(self.effect_explorer_action)
+        self.effect_explorer.link_action(self.effect_explorer_action)
+        self.effect_explorer.change_visibility(False)
+        self.bmconfig.effectexplorer_key.link_action(self.effect_explorer_action)
 
         self.gridui = GridView(self).add_myself()
 

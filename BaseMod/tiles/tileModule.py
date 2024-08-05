@@ -82,6 +82,7 @@ class TileModule(Module):
     @Slot()
     def check_l1_change(self):
         if not self.drawtiles.value:
+            self.l1.renderedtexture.setOpacity(0)
             return
         if self.opacityshift.value:
             self.check_l2_change()
@@ -91,6 +92,7 @@ class TileModule(Module):
     @Slot()
     def check_l2_change(self):
         if not self.drawtiles.value:
+            self.l2.renderedtexture.setOpacity(0)
             return
         if self.opacityshift.value:
             self.check_l3_change()
@@ -105,6 +107,7 @@ class TileModule(Module):
     @Slot()
     def check_l3_change(self):
         if not self.drawtiles.value:
+            self.l3.renderedtexture.setOpacity(0)
             return
         opacityl1 = self.drawl1rendered.value if self.drawoption.value > 2 else self.drawl1notrendered.value
         opacityl2 = self.drawl2rendered.value if self.drawoption.value > 2 else self.drawl2notrendered.value

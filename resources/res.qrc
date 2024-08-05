@@ -1,7 +1,6 @@
 <RCC>
   <qresource prefix="icons">
-    <file>icon.png</file>
-    <file>icon_small.png</file>
+    <file>icon.svg</file>
   </qresource>
   <qresource prefix="special">
     <file>special/rotatel.svg</file>

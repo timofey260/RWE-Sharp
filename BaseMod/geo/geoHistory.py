@@ -32,7 +32,7 @@ class GERectChange(GEChange):
         for x in range(self.rect.x(), self.rect.x() + self.rect.width()):
             for y in range(self.rect.y(), self.rect.y() + self.rect.height()):
                 for i, l in enumerate(self.layers):
-                    if not l:
+                    if not l or not self.history.level.inside(QPoint(x, y)):
                         continue
                     if self.ishollow(x, y):
                         continue
@@ -58,7 +58,7 @@ class GERectChange(GEChange):
         for x in range(self.rect.x(), self.rect.x() + self.rect.width()):
             for y in range(self.rect.y(), self.rect.y() + self.rect.height()):
                 for i, l in enumerate(self.layers):
-                    if not l:
+                    if not l or not self.history.level.inside(QPoint(x, y)):
                         continue
                     if self.ishollow(x, y):
                         continue
@@ -72,7 +72,7 @@ class GERectChange(GEChange):
         for x in range(self.rect.x(), self.rect.x() + self.rect.width()):
             for y in range(self.rect.y(), self.rect.y() + self.rect.height()):
                 for i, l in enumerate(self.layers):
-                    if not l:
+                    if not l or not self.history.level.inside(QPoint(x, y)):
                         continue
                     if self.ishollow(x, y):
                         continue

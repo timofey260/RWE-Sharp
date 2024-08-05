@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'tiles.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.7.0
+## Created by: Qt User Interface Compiler version 6.7.2
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -56,28 +56,28 @@ class Ui_Tiles(object):
 
         self.ToolTilesM1Select = QComboBox(self.scrollAreaWidgetContents)
         icon = QIcon()
-        icon.addFile(u":/geoIcons/geo/pen.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon.addFile(u":/geoIcons/geo/pen.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.ToolTilesM1Select.addItem(icon, "")
         icon1 = QIcon()
-        icon1.addFile(u":/geoIcons/geo/brush.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon1.addFile(u":/geoIcons/geo/brush.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.ToolTilesM1Select.addItem(icon1, "")
         icon2 = QIcon()
-        icon2.addFile(u":/geoIcons/geo/bucket.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon2.addFile(u":/geoIcons/geo/bucket.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.ToolTilesM1Select.addItem(icon2, "")
         icon3 = QIcon()
-        icon3.addFile(u":/geoIcons/geo/line.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon3.addFile(u":/geoIcons/geo/line.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.ToolTilesM1Select.addItem(icon3, "")
         icon4 = QIcon()
-        icon4.addFile(u":/geoIcons/geo/rect.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon4.addFile(u":/geoIcons/geo/rect.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.ToolTilesM1Select.addItem(icon4, "")
         icon5 = QIcon()
-        icon5.addFile(u":/geoIcons/geo/rect_hollow.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon5.addFile(u":/geoIcons/geo/rect_hollow.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.ToolTilesM1Select.addItem(icon5, "")
         icon6 = QIcon()
-        icon6.addFile(u":/geoIcons/geo/circle.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon6.addFile(u":/geoIcons/geo/circle.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.ToolTilesM1Select.addItem(icon6, "")
         icon7 = QIcon()
-        icon7.addFile(u":/geoIcons/geo/circle_hollow.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon7.addFile(u":/geoIcons/geo/circle_hollow.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.ToolTilesM1Select.addItem(icon7, "")
         self.ToolTilesM1Select.setObjectName(u"ToolTilesM1Select")
         sizePolicy = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
@@ -188,6 +188,11 @@ class Ui_Tiles(object):
 
         self.gridLayout_4.addWidget(self.FindTE, 0, 2, 1, 1)
 
+        self.OpenExplorer = QPushButton(self.scrollAreaWidgetContents)
+        self.OpenExplorer.setObjectName(u"OpenExplorer")
+
+        self.gridLayout_4.addWidget(self.OpenExplorer, 2, 2, 1, 1)
+
 
         self.verticalLayout_2.addLayout(self.gridLayout_4)
 
@@ -284,6 +289,7 @@ class Ui_Tiles(object):
         self.CatNext.setText(QCoreApplication.translate("Tiles", u"Category+", None))
         self.ShowTE.setText(QCoreApplication.translate("Tiles", u"Show", None))
         self.FindTE.setText(QCoreApplication.translate("Tiles", u"Find", None))
+        self.OpenExplorer.setText(QCoreApplication.translate("Tiles", u"Open Explorer", None))
         self.label_6.setText(QCoreApplication.translate("Tiles", u"Tile Preview:", None))
         self.ToggleCollisions.setText(QCoreApplication.translate("Tiles", u"Collisions", None))
         self.RenderOption.setItemText(0, QCoreApplication.translate("Tiles", u"Classic", None))
