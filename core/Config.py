@@ -56,11 +56,12 @@ class Config:
         if not os.path.exists(path):
             os.makedirs(path, exist_ok=True)
         if not os.path.exists(os.path.join(path, "config.txt")):
+            print(f'Trying to create {os.path.join(path, "config.txt"),}')
             with open(os.path.join(path, "config.txt"), "w") as _:
                 pass
         if not os.path.exists(os.path.join(path, "config.txt")):
-            # shit happend
             path = PATH_FILES
+            print(f'Trying to create {os.path.join(path, "config.txt"),}')
             with open(os.path.join(path, "config.txt"), "w") as _:
                 pass
         if not os.path.exists(os.path.join(path, "config.txt")):
