@@ -1,5 +1,5 @@
 import appdirs
-from core.info import NAME, PROGNAME, AUTHOR
+from core.info import NAME, PROGNAME, AUTHOR, PATH_FILES
 import os
 
 
@@ -38,12 +38,7 @@ class Config:
 
     def save_configs(self):
         path = self.ensure_config()
-        print("shit should work now")
-        print("let's pray 🙏🙏🙏")
         with open(path, "w") as f:
-            print("file opened yay")
-            f.write("shithole")
-            print("file written")
             for i in self.manager.mods:
                 # f.write(f"// {i.subeditor.title()}\n")
                 for v in i.configs:
@@ -61,7 +56,14 @@ class Config:
         if not os.path.exists(path):
             os.makedirs(path, exist_ok=True)
         if not os.path.exists(os.path.join(path, "config.txt")):
-            with open(os.path.join(path, "config.txt"), "w") as f:
+            with open(os.path.join(path, "config.txt"), "w") as _:
                 pass
+        if not os.path.exists(os.path.join(path, "config.txt")):
+            # shit happend
+            path = PATH_FILES
+            with open(os.path.join(path, "config.txt"), "w") as _:
+                pass
+        if not os.path.exists(os.path.join(path, "config.txt")):
+            print("well shit")
 
         return os.path.join(path, "config.txt")
