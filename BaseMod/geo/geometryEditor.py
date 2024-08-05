@@ -269,13 +269,15 @@ class GeometryEditor(EditorMode):
         self.lastclick = self.mouse_pos
         if self.mouse_left:
             self.tool_specific_press(self.toolleft.value)
-        if self.mouse_right:
+        elif self.mouse_right:  # it's elif for a reason
             self.tool_specific_press(self.toolright.value)
 
     def mouse_left_release(self):
         self.tool_specific_release(self.toolleft.value)
 
     def mouse_right_release(self):
+        if self.mouse_left:
+            return
         self.tool_specific_release(self.toolright.value)
 
     def tool_specific_release(self, tool: Enum):
