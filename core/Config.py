@@ -38,7 +38,12 @@ class Config:
 
     def save_configs(self):
         path = self.ensure_config()
+        print("shit should work now")
+        print("let's pray 🙏🙏🙏")
         with open(path, "w") as f:
+            print("file opened yay")
+            f.write("shithole")
+            print("file written")
             for i in self.manager.mods:
                 # f.write(f"// {i.subeditor.title()}\n")
                 for v in i.configs:
@@ -55,7 +60,8 @@ class Config:
         path = appdirs.user_config_dir(NAME, AUTHOR)
         if not os.path.exists(path):
             os.makedirs(path, exist_ok=True)
-        with open(os.path.join(path, "config.txt"), "w") as f:
-            pass
+        if not os.path.exists(os.path.join(path, "config.txt")):
+            with open(os.path.join(path, "config.txt"), "w") as f:
+                pass
 
         return os.path.join(path, "config.txt")
