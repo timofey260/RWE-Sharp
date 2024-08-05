@@ -1,6 +1,7 @@
 from __future__ import annotations
 from PySide6.QtWidgets import QWidget
 from typing import TYPE_CHECKING
+from abc import ABC, abstractmethod
 if TYPE_CHECKING:
     from core.Modify.Mod import Mod
     from widgets.SettingsViewer import SettingsViewer
@@ -19,11 +20,12 @@ class ViewUI(UI):
         return self
 
 
-class SettingUI:
+class SettingUI(ABC):
     def __init__(self, mod: Mod):
         self.mod = mod
         self.settings: list[Configurable] = []
 
+    @abstractmethod
     def init_ui(self, viewer: SettingsViewer):
         """
         Called when ui is being initiated
@@ -31,18 +33,21 @@ class SettingUI:
         :return: None
         """
 
+    @abstractmethod
     def reset_values(self):
         """
         Called when values need to be reset to the saved ones
         :return: None
         """
 
+    @abstractmethod
     def reset_values_default(self):
         """
         Called when values need to be reset to the default
         :return: None
         """
 
+    @abstractmethod
     def apply_values(self):
         """
         Called when values need to be applied

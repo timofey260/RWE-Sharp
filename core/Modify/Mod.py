@@ -1,6 +1,7 @@
 from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import TYPE_CHECKING
+from abc import ABC
 if TYPE_CHECKING:
     from core.Modify.ConfigModule import ConfigModule
     from core.Modify.ui import UI, ViewUI
@@ -23,7 +24,7 @@ class ModInfo:
     requirements: list[str] = field(default_factory=list)
 
 
-class Mod:
+class Mod(ABC):
 
     def __init__(self, manager: Manager, modinfo: ModInfo, path=""):
         """
@@ -40,12 +41,6 @@ class Mod:
     @property
     def author_name(self) -> str:
         return f"{self.modinfo.author}.{self.modinfo.name}"
-
-    def pre_mod_init(self):
-        """
-        Called before mod init, specifically for registering configs
-        :return:
-        """
 
     def mod_init(self):
         """

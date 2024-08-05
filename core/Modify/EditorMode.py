@@ -3,11 +3,12 @@ from PySide6.QtGui import QMoveEvent, QMouseEvent, QWheelEvent
 from PySide6.QtCore import QPoint
 from PySide6.QtWidgets import QGraphicsScene
 from typing import TYPE_CHECKING
+from abc import ABC
 if TYPE_CHECKING:
     from core.Renderable.Renderable import Renderable
 
 
-class EditorMode:
+class EditorMode(ABC):
     """
     Base for creating custom viewport editors
     """

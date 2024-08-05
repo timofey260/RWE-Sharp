@@ -1,10 +1,11 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING
+from abc import ABC, abstractmethod
 if TYPE_CHECKING:
     from core.Renderable.Renderable import Renderable
 
 
-class Module:
+class Module(ABC):
     """
     Module for passive editor and viewport work
     """
@@ -16,6 +17,7 @@ class Module:
         self.renderables: list[Renderable] = []
         self.viewport: ViewPort = mod.manager.viewport
 
+    @abstractmethod
     def render_module(self):
         """
         Called when user asks for viewport cleanup

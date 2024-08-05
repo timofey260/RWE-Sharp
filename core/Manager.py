@@ -123,9 +123,6 @@ class Manager:
             if mod is not None:
                 log(f"Loaded {mod.modinfo.title} by {mod.modinfo.author} v{mod.modinfo.version}")
                 self.mods.append(mod)
-        for i in self.mods:
-            # check if mod is enabled
-            i.pre_mod_init()
 
     def add_editor(self, editor, ui: QWidget):
         self.editors.append(editor)

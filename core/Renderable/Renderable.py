@@ -1,8 +1,10 @@
 from PySide6.QtCore import QPointF
 from core.Modify.baseModule import Module
 from core.Modify.EditorMode import EditorMode
+from abc import abstractmethod, ABC
 
-class Renderable:
+
+class Renderable(ABC):
     from widgets import Viewport
 
     def __init__(self, mod, depth: int):
@@ -21,12 +23,15 @@ class Renderable:
             where.add_renderable(self)
         return self
 
+    @abstractmethod
     def init_graphics(self, viewport: Viewport):
         pass
 
+    @abstractmethod
     def remove_graphics(self):
         pass
 
+    @abstractmethod
     def zoom_event(self, zoom):
         pass
 

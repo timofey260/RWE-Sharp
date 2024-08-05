@@ -3,6 +3,7 @@ from PySide6.QtCore import Signal, QObject
 from typing import TYPE_CHECKING
 from core.Modify.Mod import Mod
 from core.Modify.ui import SettingUI
+from abc import abstractmethod
 if TYPE_CHECKING:
     from core.Modify.ui import SettingUI
 
@@ -42,8 +43,9 @@ class Configurable(QObject):
     def load_str_value(self, text: str) -> None:
         self.valueChanged.emit(self.value)
 
+    @abstractmethod
     def save_str_value(self) -> str:
-        ...
+        pass
 
     def update_value(self, value: ...):
         if self.value == value:
