@@ -1,6 +1,5 @@
 from RWESharp.Modify import Palette
-from PySide6.QtGui import QPalette, QColor, QBrush
-from PySide6.QtCore import Qt
+from PySide6.QtGui import QPalette, QColor
 
 
 class RaspberryDark(Palette):
