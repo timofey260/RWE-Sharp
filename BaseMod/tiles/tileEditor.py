@@ -55,7 +55,7 @@ class TileEditor(EditorMode):
 
         self.colortable = palette_to_colortable(QImage(self.palette_image.value))
         self.explorer = mod.tile_explorer
-        self.tile: Tile | None = mod.manager.tiles["Four Holes"]
+        self.tile: Tile | None = mod.manager.tiles.find_tile("Four Holes")
         self.tile_item = RenderTile(mod, 0, self.layer).add_myself(self)
         # self.tile_cols_image = QPixmap(1, 1)
         # self.tile_cols_painter = QPainter(self.tile_cols_image)

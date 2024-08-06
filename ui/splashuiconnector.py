@@ -39,3 +39,8 @@ class SplashDialog(QSplashScreen):
     # def frame(self, status: QMediaPlayer.MediaStatus):
     #     if status == status.EndOfMedia:
     #         print("end")
+
+    def printmessage(self, message, message2=None):
+        self.ui.label.setText(message)
+        if message2 is not None:
+            self.ui.label_2.setText(message2)

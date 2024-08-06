@@ -100,7 +100,7 @@ class TileRenderLevelImage(RenderLevelImage):
 
             # new one
             case "tileHead":
-                foundtile = self.manager.tiles[tile["data"][1]]
+                foundtile = self.manager.tiles.find_tile(tile["data"][1])
                 if foundtile is None:
                     return
                 cposxo = int((foundtile.size.width() * .5) + .5) - 1

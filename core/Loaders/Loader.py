@@ -12,9 +12,10 @@ class Loader(QThread):
         self.effect_colors = None
 
     def run(self):
-        from .TileLoader import loadTiles
-        self.tiles = loadTiles(self.splashwindow)
+        from core.Loaders.TileLoader import load_tiles
+        from core.Loaders.EffectLoader import load_effects
+        self.tiles = load_tiles(self.splashwindow)
         self.props = ItemData()
-        self.effects = ItemData()
+        self.effects = load_effects(self.splashwindow)
         self.effect_colors = ItemData()
         # self.finished.emit()

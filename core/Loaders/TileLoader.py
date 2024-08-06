@@ -2,7 +2,7 @@ import multiprocessing
 from core.ItemData import ItemData
 from core.lingoIO import tojson, fromarr
 from core.info import PATH
-from core.Loaders.Tile import Tile
+from core.Loaders.Tile import Tile, TileCategory, Tiles
 from ui.splashuiconnector import SplashDialog
 from PySide6.QtGui import QColor, QImage, QPainter, QPixmap, QPen
 from PySide6.QtCore import QRect, Qt, QThread, QPoint, QSize, QLine
@@ -147,7 +147,7 @@ def palette_to_colortable(palette: QImage) -> list[list[list[int], list[int], li
     return table
 
 
-def loadTile(item, colr, cat, catnum, indx) -> Tile | None:
+def loadTile(item, colr, category, catnum, indx) -> Tile | None:
     renderstep = 15
     err = False
     try:
@@ -248,15 +248,16 @@ def loadTile(item, colr, cat, catnum, indx) -> Tile | None:
         img3.save(itempath)
 
     return Tile(item["nm"], tp, item.get("repeatL", [1]), "Size" + str(sz), item.get("bfTiles", 0), QPixmap(img), img2, img3,
-                sz, cat, colr, (item.get("specs", [1]), item.get("specs2", 0)),
+                sz, colr, (item.get("specs", [1]), item.get("specs2", 0)),
                 QPoint(catnum + 1, indx + 1),
-                item.get("tags"), True, None, err)
+                item.get("tags"), True, None, err, category)
 
 
 class TilePackLoader(QThread):
     def __init__(self, data, parent=None):
         super().__init__(parent)
         self.data = data
+        self.cats = []
         self.progress = 0
         self.errors = 0
         self.amount = sum(list(map(lambda x: len(x["items"]), self.data)))
@@ -264,24 +265,27 @@ class TilePackLoader(QThread):
 
     def run(self):
         for catnum, catitem in enumerate(self.data):
-            cat = catitem["name"]
+            tileslist = []
+            tilecat = TileCategory(catitem["name"], catitem["color"], tileslist)
 
             items = catitem["items"]
             colr: QColor = catitem["color"]
-            self.data[catnum]["items"] = []
+            # self.data[catnum]["items"] = []
             for indx, item in enumerate(items):
                 # printmessage(f"Loading tile {item['nm']}...", f"({tilenum}/{length})")
                 # window.ui.progressBar.setValue(int(tilenum / length * 100))
 
-                tile = loadTile(item, colr, cat, catnum, indx)
+                tile = loadTile(item, colr, tilecat, catnum, indx)
                 self.progress += 1
                 if tile is None:
                     self.errors += 1
                     continue
                 # tilenum += 1
-                self.data[catnum]["items"].append(tile)
+                # self.data[catnum]["items"].append(tile)
+                tileslist.append(tile)
                 if tile.err:
                     self.errors += 1
+            self.cats.append(tilecat)
         # self.finished.emit()
 
 
@@ -304,13 +308,8 @@ class Tileprogress(QThread):
             self.loaded.update_value(loaded / self.overall * 100)
 
 
-def loadTiles(window: SplashDialog) -> ItemData:
+def load_tiles(window: SplashDialog) -> Tiles:
     log("Loading Tiles...")
-
-    def printmessage(message, message2=None):
-        window.ui.label.setText(message)
-        if message2 is not None:
-            window.ui.label_2.setText(message2)
 
     solved_copy = init_solve(os.path.join(PATH_DRIZZLE, "Data/Graphics/Init.txt"))
     length = sum(list(map(lambda x: len(x["items"]), solved_copy.data)))
@@ -337,15 +336,18 @@ def loadTiles(window: SplashDialog) -> ItemData:
         i.wait()
     progress.wait()
     log(f"Errors: {sum(list(map(lambda x: x.errors, workers)))}")
-    solved_copy = ItemData()
+    # solved_copy = ItemData()
+    categories_list = []
     for i in workers:
-        for d in i.data:
-            solved_copy.append(d)
+        for d in i.cats:
+            categories_list.append(d)
     del workers, progress
     # aint no way i'm doing multi threading material loading
-    matcat = "materials 0"
+    # matcat = "materials 0"
     matcatcount = 0
-    solved_copy.insert(matcatcount, {"name": matcat, "color": QColor(0, 0, 0), "items": []})
+    materialtiles = []
+    material_category = TileCategory("materials", QColor(0, 0, 0), materialtiles)
+    # solved_copy.insert(matcatcount, {"name": matcat, "color": QColor(0, 0, 0), "items": []})
     for k, v in CONSTS.get("materials", {}).items():
         col = QColor(*v)
         img = QPixmap(20, 20)
@@ -357,14 +359,19 @@ def loadTiles(window: SplashDialog) -> ItemData:
         except FileNotFoundError or TypeError:
             preview = QImage(1, 1, QImage.Format.Format_RGBA64)
         # preview.set_colorkey(pg.Color(255, 255, 255))
-        printmessage(f"Loading material {k}")
-        solved_copy[matcatcount]["items"].append(Tile(k, None, [1], "Material", 0, img, img, img.toImage(), QSize(1, 1),
-                                                      matcat, col, [[-1], 0],
+        window.printmessage(f"Loading material {k}")
+        materialtiles.append(Tile(k, None, [1], "Material", 0, img, img, img.toImage(), QSize(1, 1), col, [[-1], 0],
                                                       QPoint(matcatcount + 1, len(solved_copy[matcatcount]["items"]) + 1),
-                                                      ["material"], False, preview, False))
-        if len(solved_copy[matcatcount]["items"]) > 30:
-            matcatcount += 1
-            matcat = f"materials {matcatcount}"
-            solved_copy.insert(matcatcount, {"name": matcat, "color": QColor(0, 0, 0), "items": []})
-    printmessage("All tiles loaded!")
-    return solved_copy
+                                                      ["material"], False, preview, False, material_category))
+        # solved_copy[matcatcount]["items"].append(Tile(k, None, [1], "Material", 0, img, img, img.toImage(), QSize(1, 1),
+        #                                               matcat, col, [[-1], 0],
+        #                                               QPoint(matcatcount + 1, len(solved_copy[matcatcount]["items"]) + 1),
+        #                                               ["material"], False, preview, False))
+
+        # if len(solved_copy[matcatcount]["items"]) > 30:
+        #     matcatcount += 1
+        #     matcat = f"materials {matcatcount}"
+        #     solved_copy.insert(matcatcount, {"name": matcat, "color": QColor(0, 0, 0), "items": []})
+    window.printmessage("All tiles loaded!")
+    categories_list.append(material_category)
+    return Tiles(categories_list)

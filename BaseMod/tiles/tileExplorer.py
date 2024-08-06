@@ -7,7 +7,7 @@ from PySide6.QtWidgets import QMainWindow, QListWidgetItem, QListWidget, QFileDi
 from BaseMod.tiles.ui.tileexplorer import Ui_TileExplorer
 from RWESharp.Configurable import BoolConfigurable, IntConfigurable, StringConfigurable
 from RWESharp.Core import ItemData, PATH_FILES_IMAGES_PALETTES, ViewDockWidget
-from RWESharp.Loaders import Tile, palette_to_colortable, return_tile_pixmap
+from RWESharp.Loaders import Tile, palette_to_colortable, return_tile_pixmap, Tiles
 from RWESharp.Utils import paint_svg_qicon
 
 
@@ -29,7 +29,7 @@ class TileExplorer(ViewDockWidget):
         if not os.path.exists(self.palette_path.value):
             self.palette_path.reset_value()
         self.colortable = palette_to_colortable(QImage(self.palette_path.value))
-        self.tiles: ItemData = manager.tiles
+        self.tiles: Tiles = manager.tiles
         self.ui = Ui_TileExplorer()
         self.ui.setupUi(self)
         self.state = False
@@ -176,13 +176,14 @@ class TileExplorer(ViewDockWidget):
     def load_tiles(self):
         filter = self.ui.SearchBar.text()
         self.view_categories.clear()
-        for category, color in zip(range(len(self.tiles.categories)), self.tiles.colors):
-            if filter != "" and filter.lower() not in self.tiles.categories[category].lower():
+        for category in self.tiles.categories:
+            color = category.color
+            if filter != "" and filter.lower() not in category.name.lower():
                 continue
             color: QColor
             image = QPixmap(20, 20)
             image.fill(color)
-            item = QListWidgetItem(image, self.tiles.categories[category])
+            item = QListWidgetItem(image, category.name)
             item.setData(Qt.ItemDataRole.UserRole, category)
             if self.category_colors.value:
                 biggestratio = 0
@@ -205,7 +206,7 @@ class TileExplorer(ViewDockWidget):
             return
         self.view_tiles.clear()
         if filter != "":
-            for i in self.tiles.all_items():
+            for i in self.tiles.all_tiles():
                 i: Tile
                 if filter.lower() not in i.name.lower():
                     continue
@@ -218,7 +219,7 @@ class TileExplorer(ViewDockWidget):
         for i in self.view_categories.selectedItems():
             categories.append(i.data(Qt.ItemDataRole.UserRole))
         for category in categories:
-            for i in self.tiles.get_items(category):
+            for i in category.tiles:
                 item = QListWidgetItem(i.name)
                 item.setData(Qt.ItemDataRole.UserRole, i)
                 item.setIcon(self.get_icon(i))
