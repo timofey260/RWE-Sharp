@@ -83,7 +83,7 @@ class BaseMod(Mod):
         self.tileeditor.add_myself(self.tileui)
 
         self.effecteditor = EffectEditor(self)
-        self.effect_explorer = EffectExplorer(self)
+        self.effect_explorer = EffectExplorer(self, self.manager.window)
         self.effectui = EffectsUI(self)
         self.effecteditor.add_myself(self.effectui)
 

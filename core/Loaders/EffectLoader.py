@@ -1,11 +1,12 @@
 from core.info import PATH_FILES, PATH_EFFECT_PREVIEWS
 import ujson
 import os
-from core.Loaders.Effect import EffectCategory, Effect, MoveDeleteOption, SeedOption, EffectOption
+from core.Loaders.Effect import EffectCategory, Effect, MoveDeleteOption, SeedOption, EffectOption, Effects
 from PySide6.QtGui import QColor, QPixmap
 
 
 def load_effects(splash):
+    splash.printmessage("Loading Effects")
     effects_file = os.path.join(PATH_FILES, "effects.json")
     effects = ujson.load(open(effects_file))
     loaded_effects = []
@@ -26,4 +27,4 @@ def load_effects(splash):
                             currentcat)
             currentcat.effects.append(effect)
         loaded_effects.append(currentcat)
-    return loaded_effects
+    return Effects(loaded_effects)

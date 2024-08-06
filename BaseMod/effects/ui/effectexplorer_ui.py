@@ -15,10 +15,12 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QDockWidget, QGraphicsView, QHBoxLayout,
-    QHeaderView, QLabel, QPushButton, QSizePolicy,
+from PySide6.QtWidgets import (QApplication, QDockWidget, QHBoxLayout, QHeaderView,
+    QLabel, QLineEdit, QPushButton, QSizePolicy,
     QSplitter, QToolButton, QTreeWidget, QTreeWidgetItem,
     QVBoxLayout, QWidget)
+
+from BaseModWidgets import SimpleEffectPreview
 
 class Ui_EffectExplorer(object):
     def setupUi(self, EffectExplorer):
@@ -27,22 +29,27 @@ class Ui_EffectExplorer(object):
         EffectExplorer.resize(582, 355)
         self.dockWidgetContents = QWidget()
         self.dockWidgetContents.setObjectName(u"dockWidgetContents")
-        self.horizontalLayout = QHBoxLayout(self.dockWidgetContents)
-        self.horizontalLayout.setObjectName(u"horizontalLayout")
+        self.verticalLayout_3 = QVBoxLayout(self.dockWidgetContents)
+        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
+        self.Search = QLineEdit(self.dockWidgetContents)
+        self.Search.setObjectName(u"Search")
+
+        self.verticalLayout_3.addWidget(self.Search)
+
         self.splitter = QSplitter(self.dockWidgetContents)
         self.splitter.setObjectName(u"splitter")
         self.splitter.setOrientation(Qt.Orientation.Horizontal)
-        self.widget = QWidget(self.splitter)
-        self.widget.setObjectName(u"widget")
-        self.verticalLayout = QVBoxLayout(self.widget)
+        self.layoutWidget = QWidget(self.splitter)
+        self.layoutWidget.setObjectName(u"layoutWidget")
+        self.verticalLayout = QVBoxLayout(self.layoutWidget)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
-        self.label = QLabel(self.widget)
+        self.label = QLabel(self.layoutWidget)
         self.label.setObjectName(u"label")
 
         self.verticalLayout.addWidget(self.label)
 
-        self.Effects = QTreeWidget(self.widget)
+        self.Effects = QTreeWidget(self.layoutWidget)
         __qtreewidgetitem = QTreeWidgetItem()
         __qtreewidgetitem.setText(0, u"1");
         self.Effects.setHeaderItem(__qtreewidgetitem)
@@ -51,32 +58,32 @@ class Ui_EffectExplorer(object):
 
         self.verticalLayout.addWidget(self.Effects)
 
-        self.splitter.addWidget(self.widget)
-        self.widget1 = QWidget(self.splitter)
-        self.widget1.setObjectName(u"widget1")
-        self.verticalLayout_2 = QVBoxLayout(self.widget1)
+        self.splitter.addWidget(self.layoutWidget)
+        self.layoutWidget1 = QWidget(self.splitter)
+        self.layoutWidget1.setObjectName(u"layoutWidget1")
+        self.verticalLayout_2 = QVBoxLayout(self.layoutWidget1)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
-        self.label_2 = QLabel(self.widget1)
+        self.label_2 = QLabel(self.layoutWidget1)
         self.label_2.setObjectName(u"label_2")
 
         self.verticalLayout_2.addWidget(self.label_2)
 
-        self.Effectpreview = QGraphicsView(self.widget1)
+        self.Effectpreview = SimpleEffectPreview(self.layoutWidget1)
         self.Effectpreview.setObjectName(u"Effectpreview")
 
         self.verticalLayout_2.addWidget(self.Effectpreview)
 
         self.horizontalLayout_2 = QHBoxLayout()
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
-        self.Favorite = QToolButton(self.widget1)
+        self.Favorite = QToolButton(self.layoutWidget1)
         self.Favorite.setObjectName(u"Favorite")
         icon = QIcon(QIcon.fromTheme(u"emblem-favorite"))
         self.Favorite.setIcon(icon)
 
         self.horizontalLayout_2.addWidget(self.Favorite)
 
-        self.AddEffect = QPushButton(self.widget1)
+        self.AddEffect = QPushButton(self.layoutWidget1)
         self.AddEffect.setObjectName(u"AddEffect")
 
         self.horizontalLayout_2.addWidget(self.AddEffect)
@@ -84,9 +91,9 @@ class Ui_EffectExplorer(object):
 
         self.verticalLayout_2.addLayout(self.horizontalLayout_2)
 
-        self.splitter.addWidget(self.widget1)
+        self.splitter.addWidget(self.layoutWidget1)
 
-        self.horizontalLayout.addWidget(self.splitter)
+        self.verticalLayout_3.addWidget(self.splitter)
 
         EffectExplorer.setWidget(self.dockWidgetContents)
 
@@ -97,6 +104,7 @@ class Ui_EffectExplorer(object):
 
     def retranslateUi(self, EffectExplorer):
         EffectExplorer.setWindowTitle(QCoreApplication.translate("EffectExplorer", u"Effect Explorer", None))
+        self.Search.setPlaceholderText(QCoreApplication.translate("EffectExplorer", u"Search for effects", None))
         self.label.setText(QCoreApplication.translate("EffectExplorer", u"Effects:", None))
         self.label_2.setText(QCoreApplication.translate("EffectExplorer", u"Preview:", None))
         self.Favorite.setText("")

@@ -260,7 +260,6 @@ class GeometryEditor(EditorMode):
         self.pixmap.painter.setCompositionMode(QPainter.CompositionMode.CompositionMode_Source)
         self.block_changed()
         self.change_color()
-        self.zoom_event(self.viewport.zoom)
         
     def remove_items_from_scene(self):
         super().remove_items_from_scene()

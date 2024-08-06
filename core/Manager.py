@@ -198,6 +198,11 @@ class Manager:
         self.current_editor = value
         self.editor.init_scene_items()
         self.viewport.repaint()
+        self.editor.zoom_event(self.viewport.zoom)
+        self.editor.move_event(self.viewport.topleft.pos())
+        for i in self.modules:
+            i.zoom_event(self.viewport.zoom)
+            i.move_event(self.viewport.topleft.pos())
 
     @property
     def level_width(self):

@@ -6,7 +6,7 @@ from PySide6.QtWidgets import QMainWindow, QListWidgetItem, QListWidget, QFileDi
 
 from BaseMod.tiles.ui.tileexplorer import Ui_TileExplorer
 from RWESharp.Configurable import BoolConfigurable, IntConfigurable, StringConfigurable
-from RWESharp.Core import ItemData, PATH_FILES_IMAGES_PALETTES, ViewDockWidget
+from RWESharp.Core import PATH_FILES_IMAGES_PALETTES, ViewDockWidget
 from RWESharp.Loaders import Tile, palette_to_colortable, return_tile_pixmap, Tiles
 from RWESharp.Utils import paint_svg_qicon
 
