@@ -3,9 +3,10 @@ All elements and actions are not made untill specific change in history happends
 """
 from __future__ import annotations
 from copy import deepcopy
+from abc import ABC, abstractmethod
 
 
-class HistoryElement:
+class HistoryElement(ABC):
     """
     Base for creating history elements
     """
@@ -13,9 +14,11 @@ class HistoryElement:
     def __init__(self, history):
         self.history: History = history
 
+    @abstractmethod
     def undo_changes(self, level):
         pass
 
+    @abstractmethod
     def redo_changes(self, level):
         pass
 

@@ -21,3 +21,6 @@ class EffectEditor(EditorMode):
         self.delete = KeyConfigurable(mod, "EDIT_effect.delete", "Delete", "Delete effect")
 
         self.brush = RenderEllipse(mod, 0, QRect(0, 0, 1, 1))
+
+    def select_effect(self, index):
+        self.layer.change_index(index)

@@ -167,7 +167,7 @@ def lerp(a: float, b: float, t: float) -> float:  # laundmo
 
 
 def color_lerp(c1: QColor, c2: QColor, t: float) -> QColor:
-    return QColor.fromHsvF(lerp(c1.hueF(), c2.hueF(), t),
-                           lerp(c1.saturationF(), c2.saturationF(), t),
-                           lerp(c1.valueF(), c2.valueF(), t),
+    return QColor.fromRgbF(lerp(c1.redF(), c2.redF(), t),
+                           lerp(c1.greenF(), c2.greenF(), t),
+                           lerp(c1.blueF(), c2.blueF(), t),
                            lerp(c1.alphaF(), c2.alphaF(), t))

@@ -11,11 +11,12 @@ class EffectRenderLevelImage(RenderLevelImage):
         self.index = effect_index
         self.editor = editor
 
-    def redraw(self) -> None:
-        super().redraw()
+    def change_index(self, index):
+        self.index = index
+        self.draw_layer()
 
     def draw_layer(self) -> None:
-        # self.image.fill(QColor(0, 0, 0, 0))
+        self.image.fill(QColor(0, 0, 0, 0))
         if self.manager.level.effect_len == 0:
             return
         for xi, x in enumerate(self.manager.level.effect_data(self.index)["mtrx"]):

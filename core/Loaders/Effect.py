@@ -1,6 +1,7 @@
 from __future__ import annotations
 from dataclasses import dataclass, field
 from PySide6.QtGui import QColor, QPixmap
+from PySide6.QtCore import QSize
 from random import randint
 
 
@@ -10,10 +11,16 @@ class EffectOption:
     options: list[str]
     selectedOption: str
 
+    def tolist(self):
+        return [self.name, self.options.copy(), self.selectedOption]
+
 
 class SeedOption(EffectOption):
     def __init__(self):
         super().__init__("Seed", [], str(randint(0, 100)))
+
+    def tolist(self):
+        return [self.name, self.options.copy(), int(self.selectedOption)]
 
 
 class MoveDeleteOption(EffectOption):
@@ -33,6 +40,12 @@ class Effect:
     affect_open_areas: float
     preview: QPixmap
     category: EffectCategory
+
+    def todict(self, size: QSize):
+        newoptions = [i.tolist() for i in self.options]
+        matrix = [[0 for _ in range(size.height())] for _ in range(size.width())]
+        return {"nm": self.name, "tp": self.tp, "options": newoptions, "repeats": self.repeats,
+                "affectOpenAreas": self.affect_open_areas, "crossScreen": self.crossscreen, "mtrx": matrix}
 
 
 @dataclass

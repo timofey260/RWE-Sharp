@@ -7,7 +7,7 @@ from core import info
 from core.Exceptions import *
 from core.HistorySystem import History
 from core.RWLParser import RWLParser
-from PySide6.QtCore import QPoint, Slot, QRect
+from PySide6.QtCore import QPoint, Slot, QRect, QSize
 from core.HistorySystem import HistoryElement
 
 defaultlevel = open(os.path.join(info.PATH_FILES, "default.txt"), "r").read()
@@ -145,6 +145,10 @@ class RWELevel:
     @property
     def level_size(self) -> QPoint:
         return QPoint(self.level_width, self.level_height)
+
+    @property
+    def level_size_qsize(self) -> QSize:
+        return QSize(self.level_width, self.level_height)
 
     def turntolingo(self, file):
         with file as fl:
