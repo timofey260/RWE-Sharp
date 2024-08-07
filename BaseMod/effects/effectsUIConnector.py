@@ -1,7 +1,7 @@
 from RWESharp.Ui import UI
 from BaseMod.effects.ui.effects_ui import Ui_Effects
 from PySide6.QtWidgets import QTreeWidgetItem
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt, QPoint, QItemSelectionModel, QRect
 
 
 class EffectsUI(UI):
@@ -36,5 +36,9 @@ class EffectsUI(UI):
         self.ui.EffectsTree.resizeColumnToContents(0)
 
     def effect_pressed(self, item: QTreeWidgetItem, column: int):
-        self.editor.select_effect(item.data(0, Qt.ItemDataRole.UserRole))
+        self.effect_select(item.data(0, Qt.ItemDataRole.UserRole))
+
+    def effect_select(self, row):
+        self.editor.select_effect(row)
+        self.ui.EffectsTree.setCurrentItem(self.ui.EffectsTree.itemAt(0, row), 0, QItemSelectionModel.SelectionFlag.ClearAndSelect)
 

@@ -10,6 +10,7 @@ class EffectRenderLevelImage(RenderLevelImage):
         super().__init__(editor.mod, depth)
         self.index = effect_index
         self.editor = editor
+        # self.painter.setCompositionMode(self.painter.CompositionMode.CompositionMode_Source)
 
     def change_index(self, index):
         self.index = index
