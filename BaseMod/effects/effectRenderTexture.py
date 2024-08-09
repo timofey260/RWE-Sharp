@@ -26,11 +26,16 @@ class EffectRenderLevelImage(RenderLevelImage):
                 self.draw_pixel(QPoint(xi, yi))
         self.redraw()
 
+    def level_resized(self):
+        super().level_resized()
+        self.draw_layer()
+
     def draw_pixel(self, point: QPoint, clear=False):
         drawpoint = point * CELLSIZE
         val = self.manager.level.effect_data_pixel(self.index, point)
         color = color_lerp(self.editor.coloroff.value, self.editor.coloron.value, val / 100)
         self.painter.setBrush(color)
+        self.painter.setPen(QColor(0, 0, 0, 0))
         rect = QRect(drawpoint, QSize(CELLSIZE, CELLSIZE))
         if clear:
             self.painter.setCompositionMode(self.painter.CompositionMode.CompositionMode_Clear)

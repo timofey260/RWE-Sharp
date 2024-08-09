@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>TilePin</class>
+ <widget class="QDockWidget" name="TilePin">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>240</width>
+    <height>371</height>
+   </rect>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../../../resources/res.qrc">
+    <normaloff>:/special/special/pin.svg</normaloff>:/special/special/pin.svg</iconset>
+  </property>
+  <property name="windowTitle">
+   <string>Pinned Tile</string>
+  </property>
+  <widget class="QWidget" name="dockWidgetContents">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QLabel" name="tileLabel">
+      <property name="text">
+       <string>Preview:</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="TilePreview" name="Preview"/>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QCheckBox" name="Collisions">
+        <property name="text">
+         <string>Collisions</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QSpinBox" name="Layer">
+        <property name="wrapping">
+         <bool>true</bool>
+        </property>
+        <property name="minimum">
+         <number>1</number>
+        </property>
+        <property name="maximum">
+         <number>3</number>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <widget class="QComboBox" name="RenderOption">
+      <item>
+       <property name="text">
+        <string>Classic</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Tile image</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Henry</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Unrendered</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Rendered (sun)</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Rendered (shaded)</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Rendered (rain)</string>
+       </property>
+      </item>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="Select">
+      <property name="text">
+       <string>Select</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>TilePreview</class>
+   <extends>QGraphicsView</extends>
+   <header>BaseModWidgets.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="../../../resources/res.qrc"/>
+ </resources>
+ <connections/>
+</ui>

@@ -104,3 +104,10 @@ class EditorMode(ABC):
 
     def mouse_middle_press(self):
         pass
+
+    def level_resized(self):
+        """
+        Called once level is resized
+        """
+        for i in self.renderables:
+            i.level_resized()

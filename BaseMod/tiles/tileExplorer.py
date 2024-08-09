@@ -5,6 +5,7 @@ from PySide6.QtGui import QAction, QPixmap, QColor, QImage
 from PySide6.QtWidgets import QMainWindow, QListWidgetItem, QListWidget, QFileDialog
 
 from BaseMod.tiles.ui.tileexplorer import Ui_TileExplorer
+from BaseMod.tiles.tilePin import TilePin
 from RWESharp.Configurable import BoolConfigurable, IntConfigurable, StringConfigurable
 from RWESharp.Core import PATH_FILES_IMAGES_PALETTES, ViewDockWidget
 from RWESharp.Loaders import Tile, palette_to_colortable, return_tile_pixmap, Tiles
@@ -65,6 +66,7 @@ class TileExplorer(ViewDockWidget):
         self.mod.tilemodule.drawoption.valueChanged.connect(self.change_draw_option)
         self.tileSelected.connect(self.mod.tileeditor.add_tile)
         self.palette_path.valueChanged.connect(self.update_palette)
+        self.ui.Pin.clicked.connect(self.pin_tile)
         self.selected_tiles: list[Tile] = []
         self.load_tiles()
         self.tiles_grid()
@@ -72,6 +74,8 @@ class TileExplorer(ViewDockWidget):
 
         self.category = 0
         self.tile = 0
+
+        self.pins = []
 
         self.ui.CatNext.clicked.connect(self.cat_next)
         self.ui.CatPrev.clicked.connect(self.cat_prev)
@@ -81,6 +85,18 @@ class TileExplorer(ViewDockWidget):
 
         self.mod.bmconfig.icon_color.valueChanged.connect(self.changecolor)
         self.changecolor(self.mod.bmconfig.icon_color.value)
+
+    def pin_tile(self):
+        for i in self.selected_tiles:
+            pin = TilePin(i, self, self.manager.window)
+            pin.change_visibility(True)
+            self.pins.append(pin)
+            pin.setFocus()
+
+    def remove_pin(self, pin):
+        pin.deleteLater()
+        self.pins.remove(pin)
+        print(pin, " is removed")
 
     def changecolor(self, color: QColor):
         self.ui.TilesListView.setIcon(paint_svg_qicon(u":/grids/grid/list.svg", color))

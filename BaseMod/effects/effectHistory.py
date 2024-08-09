@@ -1,7 +1,7 @@
 from RWESharp.Modify import HistoryElement
 from RWESharp.Loaders import Effect
 from RWESharp.Utils import draw_line
-from PySide6.QtCore import QPoint, QLineF
+from PySide6.QtCore import QPoint, QLineF, QRect
 
 
 class EffectBrush(HistoryElement):
@@ -34,18 +34,23 @@ class EffectBrush(HistoryElement):
         strength = 10 + (90 if self.ultra else 0)
         if self.effect.ultrablack:
             strength = 10000
-
-        for xp, xd in enumerate(self.history.level["FE"]["effects"][self.index]['mtrx']):
-            for yp, yd in enumerate(xd):
+        rect = QRect(point - QPoint(self.size, self.size), point + QPoint(self.size, self.size))
+        for xp in range(rect.x(), rect.topRight().x()):
+            for yp in range(rect.y(), rect.bottomLeft().y()):
                 newpoint = QPoint(xp, yp)
-                val = yd
-                dist = 1.0 - QLineF(newpoint, point).length() / self.size
+                if not self.history.level.inside(newpoint):
+                    continue
+                cellval = self.history.level["FE"]["effects"][self.index]['mtrx'][xp][yp]
+                val = cellval
+                dist = self.size - QLineF(newpoint, point).length()
                 if dist > 0:
                     val = round(min(max(val + strength * dist * (-1 if self.remove else 1), 0), 100), 4)
+                    if val == cellval:
+                        continue
                     if self.changes.get(newpoint):
                         self.changes[newpoint] = [self.changes[newpoint][0], val]
                     else:
-                        self.changes[newpoint] = [yd, val]
+                        self.changes[newpoint] = [cellval, val]
                     self.history.level["FE"]["effects"][self.index]['mtrx'][xp][yp] = val
                     self.history.level.manager.basemod.effecteditor.layer.draw_pixel(newpoint, True)
 

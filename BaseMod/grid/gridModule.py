@@ -11,6 +11,7 @@ class GridModule(Module):
     def __init__(self, mod):
         super().__init__(mod)
         self.enablegrid = BoolConfigurable(mod, "grid.enable_grid", False, "Enable grid")
+        self.enableborder = BoolConfigurable(mod, "grid.enable_border", True, "Enable grid")
         self.gridopacity = FloatConfigurable(mod, "grid.grid_opacity", .5, "Opacity grid")
         self.enablegrid_key = KeyConfigurable(mod, "grid.enable_grid_key", "Ctrl+G", "Grid key")
         self.backgroundcolor = ColorConfigurable(mod, "grid.bgcolor", QColor(150, 150, 150), "color of the background")
@@ -32,10 +33,14 @@ class GridModule(Module):
 
         self.enablegrid.valueChanged.connect(self.check_change)
         self.gridopacity.valueChanged.connect(self.check_change)
+        self.enableborder.valueChanged.connect(self.change_border)
 
     @Slot()
     def check_change(self):
         self.gridtexture.renderedtexture.setOpacity(self.gridopacity.value if self.enablegrid.value else 0)
+
+    def change_border(self):
+        self.border.drawrect.setOpacity(1 if self.enableborder.value else 0)
 
     def render_module(self):
         self.check_change()

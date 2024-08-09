@@ -15,7 +15,7 @@ class EffectEditor(EditorMode):
         self.coloron = ColorConfigurable(mod, "EDIT_effect.color_on", QColor(37, 204, 18, 130), "Full value color")
         self.layer = EffectRenderLevelImage(self, 100, 0).add_myself(self)
         self.effectindex = IntConfigurable(None, "EDIT_effect.effectindex", 0, "Current effect")
-        self.brushsize = IntConfigurable(mod, "EDIT_effect.brushsize", 2, "Current effect")
+        self.brushsize = IntConfigurable(mod, "EDIT_effect.brushsize", 4, "Current effect")
 
         self.effectup = KeyConfigurable(mod, "EDIT_effect.effectup", "w", "Previous effect")
         self.effectdown = KeyConfigurable(mod, "EDIT_effect.effectdown", "s", "Next effect")
@@ -35,8 +35,8 @@ class EffectEditor(EditorMode):
     def mouse_move_event(self, event: QMoveEvent):
         super().mouse_move_event(event)
         pos = self.viewport.viewport_to_editor(self.mouse_pos)
-        brushpos = (pos - QPoint(self.brushsize.value // 2, self.brushsize.value // 2)) * CELLSIZE
-        rect = QRect(brushpos, QSize(self.brushsize.value, self.brushsize.value) * CELLSIZE)
+        brushpos = (pos - QPoint(self.brushsize.value, self.brushsize.value)) * CELLSIZE
+        rect = QRect(brushpos, QSize(self.brushsize.value * 2, self.brushsize.value * 2) * CELLSIZE)
         if self.brushsize.value % 2 == 0:
             rect.moveTo(brushpos + QPoint(CELLSIZE // 2, CELLSIZE // 2))
         self.brush.setRect(rect)

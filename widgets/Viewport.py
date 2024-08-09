@@ -23,6 +23,7 @@ class ViewPort(QGraphicsView):
         self.zoom = 1
         # self.origin = self.workscene.addEllipse(0, 0, 1, 1, QColor(0, 0, 0, 0))
         self.topleft = self.workscene.addEllipse(0, 0, 1, 1, QColor(0, 0, 0, 0))
+        self.uselessthing = self.workscene.addRect(0, 0, 9999, 9999, QColor(0, 0, 0, 0))  # just a big rect to keep shit working
         self.verticalScrollBar().sliderReleased.connect(self.redraw)
         self.horizontalScrollBar().sliderReleased.connect(self.redraw)
         self._lmb = False
@@ -87,11 +88,12 @@ class ViewPort(QGraphicsView):
         return self.manager.editor
 
     def levelchanged(self):
-        for i in self.editor.renderables:
-            i.level_resized()
+        # for i in self.editor.renderables:
+        #     i.level_resized()
         for i in self.manager.modules:
             i.level_resized()
-
+        for i in self.manager.editors:
+            i.level_resized()
 
     def wheelEvent(self, event):
         mods = QApplication.keyboardModifiers()

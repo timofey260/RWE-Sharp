@@ -21,4 +21,6 @@ class GridView(ViewUI):
 
         self.grid = QAction("Grid")
         self.module.enablegrid.link_button_action(self.VQuickGrid, self.grid, self.module.enablegrid_key)
+        self.module.enablegrid.link_button(self.ui.ShowGrid)
+        self.module.enableborder.link_button(self.ui.ShowBorder)
         self.mod.manager.view_menu.addAction(self.grid)

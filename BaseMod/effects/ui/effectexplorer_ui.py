@@ -17,8 +17,8 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QDockWidget, QHBoxLayout, QHeaderView,
     QLabel, QLineEdit, QPushButton, QSizePolicy,
-    QSplitter, QToolButton, QTreeWidget, QTreeWidgetItem,
-    QVBoxLayout, QWidget)
+    QSpacerItem, QSplitter, QToolButton, QTreeWidget,
+    QTreeWidgetItem, QVBoxLayout, QWidget)
 
 from BaseModWidgets import SimpleEffectPreview
 
@@ -57,6 +57,27 @@ class Ui_EffectExplorer(object):
         self.Effects.header().setVisible(False)
 
         self.verticalLayout.addWidget(self.Effects)
+
+        self.horizontalLayout = QHBoxLayout()
+        self.horizontalLayout.setObjectName(u"horizontalLayout")
+        self.Up = QToolButton(self.layoutWidget)
+        self.Up.setObjectName(u"Up")
+        self.Up.setArrowType(Qt.ArrowType.UpArrow)
+
+        self.horizontalLayout.addWidget(self.Up)
+
+        self.Down = QToolButton(self.layoutWidget)
+        self.Down.setObjectName(u"Down")
+        self.Down.setArrowType(Qt.ArrowType.DownArrow)
+
+        self.horizontalLayout.addWidget(self.Down)
+
+        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout.addItem(self.horizontalSpacer)
+
+
+        self.verticalLayout.addLayout(self.horizontalLayout)
 
         self.splitter.addWidget(self.layoutWidget)
         self.layoutWidget1 = QWidget(self.splitter)
@@ -106,6 +127,8 @@ class Ui_EffectExplorer(object):
         EffectExplorer.setWindowTitle(QCoreApplication.translate("EffectExplorer", u"Effect Explorer", None))
         self.Search.setPlaceholderText(QCoreApplication.translate("EffectExplorer", u"Search for effects", None))
         self.label.setText(QCoreApplication.translate("EffectExplorer", u"Effects:", None))
+        self.Up.setText(QCoreApplication.translate("EffectExplorer", u"...", None))
+        self.Down.setText(QCoreApplication.translate("EffectExplorer", u"...", None))
         self.label_2.setText(QCoreApplication.translate("EffectExplorer", u"Preview:", None))
         self.Favorite.setText("")
         self.AddEffect.setText(QCoreApplication.translate("EffectExplorer", u"Add", None))
