@@ -2,7 +2,7 @@ import os
 
 from PySide6.QtCore import Slot, Signal, Qt, QSize, QPoint
 from PySide6.QtGui import QAction, QPixmap, QColor, QImage
-from PySide6.QtWidgets import QMainWindow, QListWidgetItem, QListWidget, QFileDialog
+from PySide6.QtWidgets import QMainWindow, QTreeWidgetItem, QListWidgetItem, QListWidget, QFileDialog
 
 from BaseMod.tiles.ui.tileexplorer import Ui_TileExplorer
 from BaseMod.tiles.tilePin import TilePin
@@ -67,7 +67,10 @@ class TileExplorer(ViewDockWidget):
         self.tileSelected.connect(self.mod.tileeditor.add_tile)
         self.palette_path.valueChanged.connect(self.update_palette)
         self.ui.Pin.clicked.connect(self.pin_tile)
+        self.ui.splitter.splitterMoved.connect(self.splitter_moved)
         self.selected_tiles: list[Tile] = []
+        self.tileshowmode = False
+
         self.load_tiles()
         self.tiles_grid()
         self.change_tiles()
@@ -86,6 +89,16 @@ class TileExplorer(ViewDockWidget):
         self.mod.bmconfig.icon_color.valueChanged.connect(self.changecolor)
         self.changecolor(self.mod.bmconfig.icon_color.value)
 
+    def splitter_moved(self, pos, index):
+        if self.ui.splitter.sizes()[1] == 0 and not self.tileshowmode:
+            self.tileshowmode = True
+            self.load_tiles()
+            self.view_tiles.clear()
+        elif self.ui.splitter.sizes()[1] != 0 and self.tileshowmode:
+            self.tileshowmode = False
+            self.load_tiles()
+            self.change_tiles()
+
     def pin_tile(self):
         for i in self.selected_tiles:
             pin = TilePin(i, self, self.manager.window)
@@ -93,10 +106,18 @@ class TileExplorer(ViewDockWidget):
             self.pins.append(pin)
             pin.setFocus()
 
+    def unpin_tile(self, tile: Tile):
+        for i in range(len(self.pins) - 1, -1, -1):
+            if self.pins[i].tile == tile:
+                self.remove_pin(self.pins[i])
+
+    def unpin_all(self):
+        for i in range(len(self.pins) - 1, -1, -1):
+            self.remove_pin(self.pins[i])
+
     def remove_pin(self, pin):
         pin.deleteLater()
         self.pins.remove(pin)
-        print(pin, " is removed")
 
     def changecolor(self, color: QColor):
         self.ui.TilesListView.setIcon(paint_svg_qicon(u":/grids/grid/list.svg", color))
@@ -194,13 +215,14 @@ class TileExplorer(ViewDockWidget):
         self.view_categories.clear()
         for category in self.tiles.categories:
             color = category.color
-            if filter != "" and filter.lower() not in category.name.lower():
+            if filter != "" and filter.lower() not in category.name.lower() and not self.tileshowmode:
                 continue
             color: QColor
             image = QPixmap(20, 20)
             image.fill(color)
-            item = QListWidgetItem(image, category.name)
-            item.setData(Qt.ItemDataRole.UserRole, category)
+            item = QTreeWidgetItem([category.name])
+            item.setIcon(0, image)
+            item.setData(0, Qt.ItemDataRole.UserRole, category)
             if self.category_colors.value:
                 biggestratio = 0
                 biggestcolor = Qt.GlobalColor.white
@@ -211,12 +233,26 @@ class TileExplorer(ViewDockWidget):
                     if diff > biggestratio:
                         biggestratio = diff
                         biggestcolor = i
-                item.setForeground(biggestcolor)
+                item.setForeground(0, biggestcolor)
             # self.view_categories.setIconSize(QSize(2000, 2000))
-            self.view_categories.addItem(item)
+            if not self.tileshowmode:
+                self.view_categories.addTopLevelItem(item)
+                continue
+            for i in category.tiles:
+                if filter != "" and filter.lower() not in i.name.lower():
+                    continue
+                tileitem = QTreeWidgetItem([i.name])
+                tileitem.setData(0, Qt.ItemDataRole.UserRole, i)
+                tileitem.setIcon(0, self.get_icon(i))
+                item.addChild(tileitem)
+            if filter == "" or item.childCount() > 0:
+                self.view_categories.addTopLevelItem(item)
 
     @Slot()
     def change_tiles(self):
+        if self.tileshowmode:
+            self.change_tile()
+            return
         filter = self.ui.SearchBar.text()
         if len(self.view_categories.selectedItems()) == 0 and filter == "":
             return
@@ -233,7 +269,7 @@ class TileExplorer(ViewDockWidget):
             return
         categories = []
         for i in self.view_categories.selectedItems():
-            categories.append(i.data(Qt.ItemDataRole.UserRole))
+            categories.append(i.data(0, Qt.ItemDataRole.UserRole))
         for category in categories:
             for i in category.tiles:
                 item = QListWidgetItem(i.name)
@@ -246,12 +282,16 @@ class TileExplorer(ViewDockWidget):
 
     @Slot()
     def change_tile(self):
-        selection = self.view_tiles.selectedItems()
-        if len(selection) == 0:
-            return
-        self.selected_tiles = []
-        for i in selection:
-            self.selected_tiles.append(i.data(Qt.ItemDataRole.UserRole))
+        if self.tileshowmode:
+            selection = list(filter(lambda x: isinstance(x, Tile), list(map(lambda x: x.data(0, Qt.ItemDataRole.UserRole), self.view_categories.selectedItems()))))
+            if len(selection) == 0:
+                return
+            self.selected_tiles = selection
+        else:
+            selection = list(map(lambda x: x.data(Qt.ItemDataRole.UserRole), self.view_tiles.selectedItems()))
+            if len(selection) == 0:
+                return
+            self.selected_tiles = selection
         self.tileSelected.emit(self.selected_tiles)
         self.preview.tileimage.setOpacity(0)
         if len(self.selected_tiles) == 1:

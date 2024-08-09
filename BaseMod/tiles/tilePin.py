@@ -26,8 +26,8 @@ class TilePin(ViewDockWidget):
 
         self.setFloating(True)
 
-    def hideEvent(self, event):
-        super().hideEvent(event)
+    def closeEvent(self, event):
+        super().closeEvent(event)
         self.explorer.remove_pin(self)
 
     def select_tile(self):

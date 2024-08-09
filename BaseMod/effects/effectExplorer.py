@@ -3,7 +3,7 @@ from PySide6.QtWidgets import QTreeWidgetItem
 from PySide6.QtGui import QPixmap
 from PySide6.QtCore import Qt
 from BaseMod.effects.ui.effectexplorer_ui import Ui_EffectExplorer
-from RWESharp.Loaders import Effect
+from RWESharp.Loaders import Effect, EffectCategory
 from BaseMod.effects.effectHistory import EffectAdd
 
 
@@ -20,6 +20,9 @@ class EffectExplorer(ViewDockWidget):
         self.ui.Effects.itemSelectionChanged.connect(self.selection_changed)
         self.ui.AddEffect.clicked.connect(self.add_effect)
         self.ui.Effects.itemDoubleClicked.connect(self.add_effect)
+        # self.ui.splitter.widget(0)
+        self.ui.splitter.setSizes([2, 5])
+        # self.ui.splitter.splitterMoved.connect(self.moved)
 
     def add_effect(self):
         self.mod.manager.level.add_history(EffectAdd(self.mod.manager.level.history, self.ui.Effectpreview.effect))
@@ -50,3 +53,5 @@ class EffectExplorer(ViewDockWidget):
     def set_preview(self, item: QTreeWidgetItem):
         if isinstance(item.data(0, Qt.ItemDataRole.UserRole), Effect):
             self.ui.Effectpreview.load_effect(item.data(0, Qt.ItemDataRole.UserRole))
+        elif isinstance(item.data(0, Qt.ItemDataRole.UserRole), EffectCategory):
+            self.ui.Effects.expand(self.ui.Effects.indexFromItem(item, 0))

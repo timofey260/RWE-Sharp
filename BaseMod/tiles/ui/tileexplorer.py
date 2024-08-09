@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'tileexplorer.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.7.1
+## Created by: Qt User Interface Compiler version 6.7.2
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -19,7 +19,8 @@ from PySide6.QtWidgets import (QAbstractItemView, QAbstractScrollArea, QApplicat
     QDockWidget, QHBoxLayout, QHeaderView, QLabel,
     QLineEdit, QListView, QListWidget, QListWidgetItem,
     QSizePolicy, QSpacerItem, QSplitter, QTableWidget,
-    QTableWidgetItem, QToolButton, QVBoxLayout, QWidget)
+    QTableWidgetItem, QToolButton, QTreeWidget, QTreeWidgetItem,
+    QVBoxLayout, QWidget)
 
 from BaseModWidgets import TilePreview
 import ui.res_rc
@@ -55,18 +56,15 @@ class Ui_TileExplorer(object):
 
         self.verticalLayout_2.addWidget(self.label)
 
-        self.Categories = QListWidget(self.CatsTab)
+        self.Categories = QTreeWidget(self.CatsTab)
+        __qtreewidgetitem = QTreeWidgetItem()
+        __qtreewidgetitem.setText(0, u"1");
+        self.Categories.setHeaderItem(__qtreewidgetitem)
         self.Categories.setObjectName(u"Categories")
         self.Categories.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
         self.Categories.setAlternatingRowColors(True)
         self.Categories.setSelectionMode(QAbstractItemView.SelectionMode.ExtendedSelection)
-        self.Categories.setMovement(QListView.Movement.Static)
-        self.Categories.setFlow(QListView.Flow.TopToBottom)
-        self.Categories.setResizeMode(QListView.ResizeMode.Adjust)
-        self.Categories.setLayoutMode(QListView.LayoutMode.SinglePass)
-        self.Categories.setViewMode(QListView.ViewMode.ListMode)
-        self.Categories.setUniformItemSizes(True)
-        self.Categories.setSelectionRectVisible(False)
+        self.Categories.header().setVisible(False)
 
         self.verticalLayout_2.addWidget(self.Categories)
 
@@ -137,7 +135,7 @@ class Ui_TileExplorer(object):
         self.TilesListView = QToolButton(self.TilesTab)
         self.TilesListView.setObjectName(u"TilesListView")
         icon2 = QIcon()
-        icon2.addFile(u":/grids/grid/list.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon2.addFile(u":/grids/grid/list.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.TilesListView.setIcon(icon2)
         self.TilesListView.setArrowType(Qt.ArrowType.NoArrow)
 
@@ -146,7 +144,7 @@ class Ui_TileExplorer(object):
         self.TilesGridViewBig = QToolButton(self.TilesTab)
         self.TilesGridViewBig.setObjectName(u"TilesGridViewBig")
         icon3 = QIcon()
-        icon3.addFile(u":/grids/grid/mediumgrid.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon3.addFile(u":/grids/grid/mediumgrid.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.TilesGridViewBig.setIcon(icon3)
 
         self.horizontalLayout_2.addWidget(self.TilesGridViewBig)
@@ -154,7 +152,7 @@ class Ui_TileExplorer(object):
         self.TilesGridViewSmall = QToolButton(self.TilesTab)
         self.TilesGridViewSmall.setObjectName(u"TilesGridViewSmall")
         icon4 = QIcon()
-        icon4.addFile(u":/grids/grid/smallgrid.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon4.addFile(u":/grids/grid/smallgrid.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.TilesGridViewSmall.setIcon(icon4)
 
         self.horizontalLayout_2.addWidget(self.TilesGridViewSmall)
@@ -162,7 +160,7 @@ class Ui_TileExplorer(object):
         self.TilesIconView = QToolButton(self.TilesTab)
         self.TilesIconView.setObjectName(u"TilesIconView")
         icon5 = QIcon()
-        icon5.addFile(u":/grids/grid/smallgrid2.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon5.addFile(u":/grids/grid/smallgrid2.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.TilesIconView.setIcon(icon5)
 
         self.horizontalLayout_2.addWidget(self.TilesIconView)
@@ -291,7 +289,7 @@ class Ui_TileExplorer(object):
         self.Pin = QToolButton(self.TileTab)
         self.Pin.setObjectName(u"Pin")
         icon7 = QIcon()
-        icon7.addFile(u":/special/special/pin.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon7.addFile(u":/special/special/pin.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.Pin.setIcon(icon7)
         self.Pin.setArrowType(Qt.ArrowType.NoArrow)
 

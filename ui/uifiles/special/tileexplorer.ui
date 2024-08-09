@@ -58,7 +58,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QListWidget" name="Categories">
+         <widget class="QTreeWidget" name="Categories">
           <property name="editTriggers">
            <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
           </property>
@@ -68,27 +68,14 @@
           <property name="selectionMode">
            <enum>QAbstractItemView::SelectionMode::ExtendedSelection</enum>
           </property>
-          <property name="movement">
-           <enum>QListView::Movement::Static</enum>
-          </property>
-          <property name="flow">
-           <enum>QListView::Flow::TopToBottom</enum>
-          </property>
-          <property name="resizeMode">
-           <enum>QListView::ResizeMode::Adjust</enum>
-          </property>
-          <property name="layoutMode">
-           <enum>QListView::LayoutMode::SinglePass</enum>
-          </property>
-          <property name="viewMode">
-           <enum>QListView::ViewMode::ListMode</enum>
-          </property>
-          <property name="uniformItemSizes">
-           <bool>true</bool>
-          </property>
-          <property name="selectionRectVisible">
+          <attribute name="headerVisible">
            <bool>false</bool>
-          </property>
+          </attribute>
+          <column>
+           <property name="text">
+            <string notr="true">1</string>
+           </property>
+          </column>
          </widget>
         </item>
         <item>
