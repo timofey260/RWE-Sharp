@@ -71,7 +71,7 @@ class TileExplorer(ViewDockWidget):
         self.selected_tiles: list[Tile] = []
         self.tileshowmode = False
 
-        self.load_tiles()
+        self.load_categories()
         self.tiles_grid()
         self.change_tiles()
 
@@ -92,11 +92,11 @@ class TileExplorer(ViewDockWidget):
     def splitter_moved(self, pos, index):
         if self.ui.splitter.sizes()[1] == 0 and not self.tileshowmode:
             self.tileshowmode = True
-            self.load_tiles()
+            self.load_categories()
             self.view_tiles.clear()
         elif self.ui.splitter.sizes()[1] != 0 and self.tileshowmode:
             self.tileshowmode = False
-            self.load_tiles()
+            self.load_categories()
             self.change_tiles()
 
     def pin_tile(self):
@@ -167,6 +167,8 @@ class TileExplorer(ViewDockWidget):
         self.change_tiles()
         if len(self.selected_tiles) > 0:
             self.preview.preview_tile(self.selected_tiles[0], self.synced_draw_option, self.layer.value, self.colortable)
+        if self.tileshowmode:
+            self.load_categories()
 
     @property
     def synced_draw_option(self):
@@ -179,7 +181,7 @@ class TileExplorer(ViewDockWidget):
         self.preview.tileimage.setOpacity(1 if value and len(self.selected_tiles) > 0 else 0)
 
     def search(self, text: str):
-        self.load_tiles()
+        self.load_categories()
         self.change_tiles()
 
     def tiles_grid(self):
@@ -210,9 +212,10 @@ class TileExplorer(ViewDockWidget):
         self.view_tiles.setUniformItemSizes(True)
         self.view_tiles.setAlternatingRowColors(True)
 
-    def load_tiles(self):
+    def load_categories(self):
         filter = self.ui.SearchBar.text()
         self.view_categories.clear()
+        self.view_categories.collapseAll()
         for category in self.tiles.categories:
             color = category.color
             if filter != "" and filter.lower() not in category.name.lower() and not self.tileshowmode:
@@ -247,6 +250,8 @@ class TileExplorer(ViewDockWidget):
                 item.addChild(tileitem)
             if filter == "" or item.childCount() > 0:
                 self.view_categories.addTopLevelItem(item)
+        if filter != "":
+            self.view_categories.expandAll()
 
     @Slot()
     def change_tiles(self):
