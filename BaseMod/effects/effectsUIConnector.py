@@ -2,6 +2,7 @@ from RWESharp.Ui import UI
 from BaseMod.effects.ui.effects_ui import Ui_Effects
 from PySide6.QtWidgets import QTreeWidgetItem
 from PySide6.QtCore import Qt, QPoint, QItemSelectionModel, QRect
+from PySide6.QtGui import QPixmap
 
 
 class EffectsUI(UI):
@@ -24,7 +25,16 @@ class EffectsUI(UI):
         self.ui.EffectsTree.itemClicked.connect(self.effect_pressed)
 
         self.explorer.ui.AddEffect.clicked.connect(self.add_effects)
+        self.editor.effectindex.valueChanged.connect(self.effect_select)
+        self.ui.Up.clicked.connect(self.effect_up)
+        self.ui.Down.clicked.connect(self.effect_down)
         self.add_effects()
+
+    def effect_up(self):
+        self.editor.effectindex.update_value((self.editor.effectindex.value - 1) % self.mod.manager.level.effect_len)
+
+    def effect_down(self):
+        self.editor.effectindex.update_value((self.editor.effectindex.value + 1) % self.mod.manager.level.effect_len)
 
     def add_effects(self):
         self.ui.EffectsTree.clear()
@@ -32,13 +42,20 @@ class EffectsUI(UI):
             item = QTreeWidgetItem([str(i), effect["nm"]])
             item.setData(0, Qt.ItemDataRole.UserRole, i)
             item.setData(1, Qt.ItemDataRole.UserRole, effect)
+            e = self.mod.manager.effects.find_effect(effect["nm"])
+            if e is not None:
+                icon = QPixmap(20, 20)
+                icon.fill(e.color)
+                item.setIcon(0, icon)
             self.ui.EffectsTree.addTopLevelItem(item)
         self.ui.EffectsTree.resizeColumnToContents(0)
 
     def effect_pressed(self, item: QTreeWidgetItem, column: int):
-        self.effect_select(item.data(0, Qt.ItemDataRole.UserRole))
+        self.editor.effectindex.update_value(item.data(0, Qt.ItemDataRole.UserRole))
 
     def effect_select(self, row):
-        self.editor.select_effect(row)
-        self.ui.EffectsTree.setCurrentItem(self.ui.EffectsTree.itemAt(0, row), 0, QItemSelectionModel.SelectionFlag.ClearAndSelect)
+        item = self.ui.EffectsTree.itemAt(QPoint(0, row * self.ui.EffectsTree.sizeHintForRow(0)))
+        # print(item, self.ui.EffectsTree.currentItem(), row)
+        if self.ui.EffectsTree.currentItem() != item:
+            self.ui.EffectsTree.setCurrentItem(item, 1, QItemSelectionModel.SelectionFlag.ClearAndSelect)
 

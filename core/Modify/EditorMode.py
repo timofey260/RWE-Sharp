@@ -79,6 +79,10 @@ class EditorMode(ABC):
     def mouse_pos(self) -> QPoint:
         return self.viewport.mouse_pos
 
+    @property
+    def level(self):
+        return self.manager.level
+
     def add_myself(self, ui):
         self.mod.add_editor(self, ui)
         return self

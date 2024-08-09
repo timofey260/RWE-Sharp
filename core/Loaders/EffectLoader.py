@@ -24,7 +24,7 @@ def load_effects(splash):
                             e.get("repeats", 60),
                             e.get("affectOpenAreas", 0.5),
                             QPixmap(os.path.join(PATH_EFFECT_PREVIEWS, e["preview"] + ".png")),
-                            currentcat)
+                            currentcat, e["nm"] in effects["maxstr"])
             currentcat.effects.append(effect)
         loaded_effects.append(currentcat)
     return Effects(loaded_effects)

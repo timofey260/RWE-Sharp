@@ -1,9 +1,11 @@
 from RWESharp.Modify import EditorMode
-from RWESharp.Configurable import ColorConfigurable, KeyConfigurable
+from RWESharp.Configurable import ColorConfigurable, KeyConfigurable, IntConfigurable
 from RWESharp.Renderable import RenderEllipse
+from RWESharp.Core import CELLSIZE
 from BaseMod.effects.effectRenderTexture import EffectRenderLevelImage
-from PySide6.QtGui import QColor
-from PySide6.QtCore import QRect
+from BaseMod.effects.effectHistory import EffectBrush
+from PySide6.QtGui import QColor, QMoveEvent, QGuiApplication
+from PySide6.QtCore import QRect, QPoint, QSize, Qt
 
 
 class EffectEditor(EditorMode):
@@ -12,6 +14,8 @@ class EffectEditor(EditorMode):
         self.coloroff = ColorConfigurable(mod, "EDIT_effect.color_off", QColor(210, 37, 219, 100), "No value color")
         self.coloron = ColorConfigurable(mod, "EDIT_effect.color_on", QColor(37, 204, 18, 130), "Full value color")
         self.layer = EffectRenderLevelImage(self, 100, 0).add_myself(self)
+        self.effectindex = IntConfigurable(None, "EDIT_effect.effectindex", 0, "Current effect")
+        self.brushsize = IntConfigurable(mod, "EDIT_effect.brushsize", 2, "Current effect")
 
         self.effectup = KeyConfigurable(mod, "EDIT_effect.effectup", "w", "Previous effect")
         self.effectdown = KeyConfigurable(mod, "EDIT_effect.effectdown", "s", "Next effect")
@@ -20,7 +24,35 @@ class EffectEditor(EditorMode):
         self.duplicate = KeyConfigurable(mod, "EDIT_effect.duplicate", "Ctrl+d", "Duplicate effect")
         self.delete = KeyConfigurable(mod, "EDIT_effect.delete", "Delete", "Delete effect")
 
-        self.brush = RenderEllipse(mod, 0, QRect(0, 0, 1, 1))
+        self.brush = RenderEllipse(mod, 0, QRect(0, 0, 1, 1)).add_myself(self)
+        self.effectindex.valueChanged.connect(self.select_effect)
+        self.lastpos = QPoint()
 
     def select_effect(self, index):
-        self.layer.change_index(index)
+        self.effectindex.update_value(index)
+        self.layer.change_index(self.effectindex.value)
+
+    def mouse_move_event(self, event: QMoveEvent):
+        super().mouse_move_event(event)
+        pos = self.viewport.viewport_to_editor(self.mouse_pos)
+        brushpos = (pos - QPoint(self.brushsize.value // 2, self.brushsize.value // 2)) * CELLSIZE
+        rect = QRect(brushpos, QSize(self.brushsize.value, self.brushsize.value) * CELLSIZE)
+        if self.brushsize.value % 2 == 0:
+            rect.moveTo(brushpos + QPoint(CELLSIZE // 2, CELLSIZE // 2))
+        self.brush.setRect(rect)
+        if self.mouse_left or self.mouse_right:
+            if self.lastpos != pos:
+                self.level.last_history_element.add_move(pos)
+        self.lastpos = pos
+
+    def mouse_left_press(self):
+        shift = bool(QGuiApplication.keyboardModifiers() & Qt.KeyboardModifier.ShiftModifier)
+        pos = self.viewport.viewport_to_editor(self.mouse_pos)
+        self.level.add_history(EffectBrush(self.level.history, self.effectindex.value, pos, self.brushsize.value, False, shift))
+
+    def mouse_right_press(self):
+        if self.mouse_left:
+            return
+        shift = bool(QGuiApplication.keyboardModifiers() & Qt.KeyboardModifier.ShiftModifier)
+        pos = self.viewport.viewport_to_editor(self.mouse_pos)
+        self.level.add_history(EffectBrush(self.level.history, self.effectindex.value, pos, self.brushsize.value, True, shift))

@@ -40,6 +40,7 @@ class Effect:
     affect_open_areas: float
     preview: QPixmap
     category: EffectCategory
+    ultrablack: bool  # goo
 
     def todict(self, size: QSize):
         newoptions = [i.tolist() for i in self.options]
