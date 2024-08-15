@@ -89,6 +89,10 @@ class RaspberryDark(Palette):
         self.palette.setBrush(QPalette.ColorGroup.Inactive, QPalette.ColorRole.Accent, QColor.fromString("#308cc6"))
         self.palette.setBrush(QPalette.ColorGroup.Disabled, QPalette.ColorRole.Accent, QColor.fromString("#919191"))
 
+        self.palette.setBrush(QPalette.ColorGroup.Active, QPalette.ColorRole.NColorRoles, QColor.fromString("#767676"))
+        self.palette.setBrush(QPalette.ColorGroup.Inactive, QPalette.ColorRole.NColorRoles, QColor.fromString("#282828"))
+        self.palette.setBrush(QPalette.ColorGroup.Disabled, QPalette.ColorRole.NColorRoles, QColor.fromString("#919191"))
 
-
-
+        self.palette.setBrush(QPalette.ColorGroup.Active, QPalette.ColorRole.NoRole, QColor.fromString("#767676"))
+        self.palette.setBrush(QPalette.ColorGroup.Inactive, QPalette.ColorRole.NoRole, QColor.fromString("#282828"))
+        self.palette.setBrush(QPalette.ColorGroup.Disabled, QPalette.ColorRole.NoRole, QColor.fromString("#919191"))
