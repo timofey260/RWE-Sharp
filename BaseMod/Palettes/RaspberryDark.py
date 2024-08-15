@@ -6,7 +6,7 @@ class RaspberryDark(Palette):
     def __init__(self, mod):
         super().__init__("Raspberry Dark", mod)
         self.palette.setBrush(QPalette.ColorGroup.Active, QPalette.ColorRole.WindowText, QColor.fromString("#DADADA"))
-        self.palette.setBrush(QPalette.ColorGroup.Inactive, QPalette.ColorRole.WindowText, QColor.fromString("#FFFFFF2A"))
+        self.palette.setBrush(QPalette.ColorGroup.Inactive, QPalette.ColorRole.WindowText, QColor.fromString("#FFFFFF"))
         self.palette.setBrush(QPalette.ColorGroup.Disabled, QPalette.ColorRole.WindowText, QColor.fromString("#6D6D6D"))
 
         self.palette.setBrush(QPalette.ColorGroup.Active, QPalette.ColorRole.Button, QColor.fromString("#3D3D3D"))
