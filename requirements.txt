@@ -4,3 +4,4 @@ appdirs~=1.4.4
 path_dict
 ujson~=5.10.0
 path-dict
+pillow~=10.4.0

@@ -2,6 +2,12 @@
   <qresource prefix="icons">
     <file>icon.svg</file>
   </qresource>
+  <qresource prefix="misc">
+    <file>misc/arrow_down.svg</file>
+    <file>misc/close.svg</file>
+    <file>misc/minus.svg</file>
+    <file>misc/undock.svg</file>
+  </qresource>
   <qresource prefix="special">
     <file>special/rotatel.svg</file>
     <file>special/rotater.svg</file>
