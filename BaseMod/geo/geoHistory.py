@@ -128,6 +128,7 @@ class GEPointChange(GEChange):
         super().__init__(history, replace, layers)
         self.positions: list[QPoint] = []
         self.start: QPoint = start
+        self.before = {}
         self.paintpoint(start)
         self.redraw()
 
@@ -135,8 +136,12 @@ class GEPointChange(GEChange):
         for i, l in enumerate(self.layers):
             if not l:
                 continue
+            if not self.history.level.inside(pos):
+                continue
+            if self.before.get(pos, None) is not None:
+                continue
             block, save = geo_save(self.replace, self.history.level.geo_data(pos, i))
-            self.before.append(save)
+            self.before[pos] = [i, save]
             self.history.level.data["GE"][pos.x()][pos.y()][i] = block
             t = self.module.get_layer(i)
             t.draw_geo(pos.x(), pos.y(), True)
@@ -155,52 +160,19 @@ class GEPointChange(GEChange):
         self.redraw()
 
     def undo_changes(self, level):  # removing placed cells with replaced ones
-        allpoints = []
-        activelayers = sum(1 if i else 0 for i in self.layers)
-        beforeitem = activelayers
-        start = self.start
-
-        for i, v in enumerate(self.positions):
-            points = []
-            draw_line(start, v, lambda p: points.append(p))
-            points.pop(0)
-            for point in points:
-                if point in allpoints:
-                    beforeitem += activelayers
-                    continue
-                allpoints.append(point)
-                for i2, l in enumerate(self.layers):
-                    if not l:
-                        continue
-                    block = geo_undo(self.replace, self.history.level.geo_data(point, i2), self.before[beforeitem])
-                    self.history.level.data["GE"][point.x()][point.y()][i2] = block
-                    self.module.get_layer(i2).draw_geo(point.x(), point.y(), True)
-                    beforeitem += 1
-            start = v
-        layer = 0
-        for i, l in enumerate(self.layers):
-            if not l:
-                continue
-            block = geo_undo(self.replace, self.history.level.geo_data(self.start, i),
-                             self.before[layer])
-            self.history.level.data["GE"][self.start.x()][self.start.y()][i] = block
-            layer += 1
-            self.module.get_layer(i).draw_geo(self.start.x(), self.start.y(), True)
-            self.module.get_layer(i).redraw()
+        for k, v in self.before.items():
+            block = geo_undo(self.replace, self.history.level.geo_data(k, v[0]), v[1])
+            self.history.level.data["GE"][k.x()][k.y()][v[0]] = block
+            t = self.module.get_layer(v[0])
+            t.draw_geo(k.x(), k.y(), True)
+        self.redraw()
 
     def redo_changes(self, level):  # re-adding replace cell
-        start = self.start
-        for i, v in enumerate(self.positions):
-            points = []
-            draw_line(start, v, lambda p: points.append(p))
-            for point in points:
-                for li, l in enumerate(self.layers):
-                    if not l:
-                        continue
-                    block, _ = geo_save(self.replace, self.history.level.geo_data(point, li))
-                    self.history.level.data["GE"][point.x()][point.y()][li] = block
-                    self.module.get_layer(li).draw_geo(point.x(), point.y(), True)
-            start = v
+        for k, v in self.before.items():
+            block, save = geo_save(self.replace, self.history.level.geo_data(k, v[0]))
+            self.history.level.data["GE"][k.x()][k.y()][v[0]] = block
+            t = self.module.get_layer(v[0])
+            t.draw_geo(k.x(), k.y(), True)
         self.redraw()
 
 

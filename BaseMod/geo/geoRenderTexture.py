@@ -20,6 +20,12 @@ class GeoRenderLevelImage(RenderLevelImage):
         super().__init__(module.mod, depth)
         self.module = module
         self.geolayer = geolayer
+        # transform = QTransform()
+        # transform.rotate(10)
+        # transform.shear(1, 0)
+        # transform.squareToQuad(QPolygonF([QPoint(0, 0), QPoint(100, 0), QPoint(50, 50), QPoint(0, 75)]))
+        # self.painter.setTransform(transform.quadToQuad(QPolygonF([QPointF(0, 0), QPointF(self.image.width(), 0), QPointF(self.image.width(), self.image.height()), QPointF(0, self.image.height())]),
+        #                                                QPolygonF([QPointF(20, 20), QPointF(100, 0), QPointF(1000, 1000), QPointF(0, 100)])))
 
         if os.path.exists(os.path.join(PATH_FILES_IMAGES, CONSTS.get("geo_image_config", {}).get("image"))):
             self.geo_texture = QPixmap(os.path.join(PATH_FILES_IMAGES, CONSTS.get("geo_image_config", {}).get("image")))

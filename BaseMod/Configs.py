@@ -37,7 +37,7 @@ class BaseModConfig:
         self.palette = StringConfigurable(mod, "basemod.palette", "", "palette colors")  # "timofey26.basemod.Raspberry Dark"
 
         self.geometry_editor = KeyConfigurable(mod, "basemod.geo", "1", "Open Geometry editor")
-        self.tile_editor = KeyConfigurable(mod, "basemod.geo", "2", "Open Tile editor")
+        self.tile_editor = KeyConfigurable(mod, "basemod.tiles", "2", "Open Tile editor")
         self.effect_editor = KeyConfigurable(mod, "basemod.effect", "3", "Open Effect editor")
 
         self.funny_vid = BoolConfigurable(mod, "basemod.funnyvid", True, "Funny video when you close rwe#")
