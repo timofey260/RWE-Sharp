@@ -2,9 +2,10 @@ import re
 from PIL import Image
 from PySide6.QtWidgets import QApplication
 from RWESharp.Modify import Palette
-from BaseMod.Palettes.Theme_palettes.atmoled import atmoled_qss
-from BaseMod.Palettes.Theme_palettes.Circular import circular_qss
-from BaseMod.Palettes.Theme_palettes.darkeum import darkeum_qss
+from BaseMod.Palettes.qssfiles.darkeum import darkeum_qss
+from BaseMod.Palettes.qssfiles.atmoled import atmoled_qss
+from BaseMod.Palettes.qssfiles.Sharp import sharp_qss
+from BaseMod.Palettes.qssfiles.Circular import circular_qss
 
 class ThemeManager(Palette):
     def __init__(self, mod, widget=None):
