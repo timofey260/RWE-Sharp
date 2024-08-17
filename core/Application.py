@@ -4,16 +4,16 @@ import sys
 from PySide6.QtWidgets import QApplication
 
 
-class Application:
+class Application(QApplication):
     """
     Holds loading and main menu window together
     """
     def __init__(self, args, argv):
-        self.app = QApplication(argv)
+        super().__init__(argv)
         self.splash = SplashDialog(self.post_init)
         self.args = args
         self.window: MainWindow | None = None
-        sys.exit(self.app.exec())
+        sys.exit(self.exec())
 
     def post_init(self):
         if self.args.filename is not None:

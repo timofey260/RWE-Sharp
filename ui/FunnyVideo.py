@@ -29,4 +29,4 @@ class FunnyVideo(QWidget):
         if status == status.NoMedia or status == status.EndOfMedia:
             self.deleteLater()
             if self.closeonfinish:
-                self.manager.application.app.exit()
+                self.manager.application.exit()
