@@ -96,7 +96,10 @@ class Manager:
             return
         for i in self.palettes:
             if self.basemod.bmconfig.palette.value == f"{i.mod.author_name}.{i.name}":
-                self.window.setPalette(i.palette)
+                if i.palette is not None:
+                    self.application.app.setPalette(i.palette)
+                if i.style is not None:
+                    self.application.app.setStyleSheet(i.style)
                 log(f"Using palette {i.name}")
                 return
 
