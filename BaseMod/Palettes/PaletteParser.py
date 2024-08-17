@@ -32,7 +32,7 @@ def CSSPaletizer(palette_name, input_string ):
     return re.sub(hex_color_pattern, replace_color, input_string)
 
 def palette_parser(palette_name):
-    image_path = r"C:\Users\ATOM\Documents\GitHub\RWE-Sharp\BaseMod\Palettes\Theme_palettes\palette3.png" # TODO: OS PATH
+    image_path = r"C:\Users\ATOM\Documents\GitHub\RWE-Sharp\BaseMod\Palettes\Theme_palettes\pallette5.png" # TODO: OS PATH
     img = Image.open(image_path)
     img = img.convert("RGB")
     # Get the pixels as a list

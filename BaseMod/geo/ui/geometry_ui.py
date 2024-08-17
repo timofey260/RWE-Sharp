@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'geometry.ui'
+## Form generated from reading UI file 'geometryVSciJI.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.7.2
+## Created by: Qt User Interface Compiler version 6.7.0
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -17,15 +17,16 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QCheckBox, QComboBox, QFrame,
     QGridLayout, QGroupBox, QHBoxLayout, QLabel,
-    QPushButton, QScrollArea, QSizePolicy, QSpacerItem,
-    QSpinBox, QToolButton, QVBoxLayout, QWidget)
-import ui.res_rc
+    QLayout, QPushButton, QScrollArea, QSizePolicy,
+    QSpacerItem, QSpinBox, QVBoxLayout, QWidget)
+
 
 class Ui_Geo(object):
     def setupUi(self, Geo):
         if not Geo.objectName():
             Geo.setObjectName(u"Geo")
-        Geo.resize(274, 804)
+        Geo.resize(477, 804)
+        Geo.setStyleSheet(u"")
         self.verticalLayout_2 = QVBoxLayout(Geo)
         self.verticalLayout_2.setSpacing(0)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
@@ -43,7 +44,7 @@ class Ui_Geo(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 260, 852))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 460, 862))
         self.verticalLayout_7 = QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_7.setObjectName(u"verticalLayout_7")
         self.verticalLayout_7.setContentsMargins(9, -1, -1, -1)
@@ -106,131 +107,6 @@ class Ui_Geo(object):
 
         self.verticalLayout_7.addWidget(self.label)
 
-        self.frame_2 = QFrame(self.scrollAreaWidgetContents)
-        self.frame_2.setObjectName(u"frame_2")
-        self.frame_2.setFrameShape(QFrame.Shape.StyledPanel)
-        self.frame_2.setFrameShadow(QFrame.Shadow.Raised)
-        self.verticalLayout_3 = QVBoxLayout(self.frame_2)
-        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
-        self.gridLayout_8 = QGridLayout()
-        self.gridLayout_8.setObjectName(u"gridLayout_8")
-        self.label_5 = QLabel(self.frame_2)
-        self.label_5.setObjectName(u"label_5")
-
-        self.gridLayout_8.addWidget(self.label_5, 3, 0, 1, 1)
-
-        self.ToolGeoM1Select = QComboBox(self.frame_2)
-        icon = QIcon()
-        icon.addFile(u":/geoIcons/geo/pen.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.ToolGeoM1Select.addItem(icon, "")
-        icon1 = QIcon()
-        icon1.addFile(u":/geoIcons/geo/brush.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.ToolGeoM1Select.addItem(icon1, "")
-        icon2 = QIcon()
-        icon2.addFile(u":/geoIcons/geo/bucket.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.ToolGeoM1Select.addItem(icon2, "")
-        icon3 = QIcon()
-        icon3.addFile(u":/geoIcons/geo/line.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.ToolGeoM1Select.addItem(icon3, "")
-        icon4 = QIcon()
-        icon4.addFile(u":/geoIcons/geo/rect.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.ToolGeoM1Select.addItem(icon4, "")
-        icon5 = QIcon()
-        icon5.addFile(u":/geoIcons/geo/rect_hollow.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.ToolGeoM1Select.addItem(icon5, "")
-        icon6 = QIcon()
-        icon6.addFile(u":/geoIcons/geo/circle.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.ToolGeoM1Select.addItem(icon6, "")
-        icon7 = QIcon()
-        icon7.addFile(u":/geoIcons/geo/circle_hollow.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.ToolGeoM1Select.addItem(icon7, "")
-        self.ToolGeoM1Select.setObjectName(u"ToolGeoM1Select")
-        sizePolicy2 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
-        sizePolicy2.setHorizontalStretch(0)
-        sizePolicy2.setVerticalStretch(0)
-        sizePolicy2.setHeightForWidth(self.ToolGeoM1Select.sizePolicy().hasHeightForWidth())
-        self.ToolGeoM1Select.setSizePolicy(sizePolicy2)
-
-        self.gridLayout_8.addWidget(self.ToolGeoM1Select, 1, 1, 1, 1)
-
-        self.label_2 = QLabel(self.frame_2)
-        self.label_2.setObjectName(u"label_2")
-        sizePolicy2.setHeightForWidth(self.label_2.sizePolicy().hasHeightForWidth())
-        self.label_2.setSizePolicy(sizePolicy2)
-
-        self.gridLayout_8.addWidget(self.label_2, 2, 0, 1, 1)
-
-        self.label_3 = QLabel(self.frame_2)
-        self.label_3.setObjectName(u"label_3")
-        sizePolicy2.setHeightForWidth(self.label_3.sizePolicy().hasHeightForWidth())
-        self.label_3.setSizePolicy(sizePolicy2)
-
-        self.gridLayout_8.addWidget(self.label_3, 1, 0, 1, 1)
-
-        self.ToolGeoM2Select = QComboBox(self.frame_2)
-        self.ToolGeoM2Select.addItem(icon, "")
-        self.ToolGeoM2Select.addItem(icon1, "")
-        self.ToolGeoM2Select.addItem(icon2, "")
-        self.ToolGeoM2Select.addItem(icon3, "")
-        self.ToolGeoM2Select.addItem(icon4, "")
-        self.ToolGeoM2Select.addItem(icon5, "")
-        self.ToolGeoM2Select.addItem(icon6, "")
-        self.ToolGeoM2Select.addItem(icon7, "")
-        self.ToolGeoM2Select.setObjectName(u"ToolGeoM2Select")
-        sizePolicy2.setHeightForWidth(self.ToolGeoM2Select.sizePolicy().hasHeightForWidth())
-        self.ToolGeoM2Select.setSizePolicy(sizePolicy2)
-
-        self.gridLayout_8.addWidget(self.ToolGeoM2Select, 2, 1, 1, 1)
-
-        self.Brushsize = QSpinBox(self.frame_2)
-        self.Brushsize.setObjectName(u"Brushsize")
-        self.Brushsize.setMinimum(1)
-
-        self.gridLayout_8.addWidget(self.Brushsize, 3, 1, 1, 1)
-
-
-        self.verticalLayout_3.addLayout(self.gridLayout_8)
-
-        self.horizontalLayout = QHBoxLayout()
-        self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.RotateLeft = QToolButton(self.frame_2)
-        self.RotateLeft.setObjectName(u"RotateLeft")
-        icon8 = QIcon()
-        icon8.addFile(u":/special/special/rotatel.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.RotateLeft.setIcon(icon8)
-
-        self.horizontalLayout.addWidget(self.RotateLeft)
-
-        self.RotateRight = QToolButton(self.frame_2)
-        self.RotateRight.setObjectName(u"RotateRight")
-        icon9 = QIcon()
-        icon9.addFile(u":/special/special/rotater.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.RotateRight.setIcon(icon9)
-
-        self.horizontalLayout.addWidget(self.RotateRight)
-
-        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
-
-        self.horizontalLayout.addItem(self.horizontalSpacer)
-
-        self.BrushSizeUp = QToolButton(self.frame_2)
-        self.BrushSizeUp.setObjectName(u"BrushSizeUp")
-        self.BrushSizeUp.setBaseSize(QSize(16, 16))
-
-        self.horizontalLayout.addWidget(self.BrushSizeUp)
-
-        self.BrushSizeDown = QToolButton(self.frame_2)
-        self.BrushSizeDown.setObjectName(u"BrushSizeDown")
-        self.BrushSizeDown.setBaseSize(QSize(16, 16))
-
-        self.horizontalLayout.addWidget(self.BrushSizeDown)
-
-
-        self.verticalLayout_3.addLayout(self.horizontalLayout)
-
-
-        self.verticalLayout_7.addWidget(self.frame_2)
-
         self.label_4 = QLabel(self.scrollAreaWidgetContents)
         self.label_4.setObjectName(u"label_4")
 
@@ -238,11 +114,11 @@ class Ui_Geo(object):
 
         self.ToolMassEditFrame = QGroupBox(self.scrollAreaWidgetContents)
         self.ToolMassEditFrame.setObjectName(u"ToolMassEditFrame")
-        sizePolicy3 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
-        sizePolicy3.setHorizontalStretch(1)
-        sizePolicy3.setVerticalStretch(1)
-        sizePolicy3.setHeightForWidth(self.ToolMassEditFrame.sizePolicy().hasHeightForWidth())
-        self.ToolMassEditFrame.setSizePolicy(sizePolicy3)
+        sizePolicy2 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
+        sizePolicy2.setHorizontalStretch(1)
+        sizePolicy2.setVerticalStretch(1)
+        sizePolicy2.setHeightForWidth(self.ToolMassEditFrame.sizePolicy().hasHeightForWidth())
+        self.ToolMassEditFrame.setSizePolicy(sizePolicy2)
         self.ToolMassEditFrame.setMaximumSize(QSize(16777215, 16777215))
         self.gridLayout_11 = QGridLayout(self.ToolMassEditFrame)
         self.gridLayout_11.setObjectName(u"gridLayout_11")
@@ -259,50 +135,53 @@ class Ui_Geo(object):
 
         self.ToolGeoShortcutEntrance = QPushButton(self.ToolMassEditFrame)
         self.ToolGeoShortcutEntrance.setObjectName(u"ToolGeoShortcutEntrance")
-        sizePolicy2.setHeightForWidth(self.ToolGeoShortcutEntrance.sizePolicy().hasHeightForWidth())
-        self.ToolGeoShortcutEntrance.setSizePolicy(sizePolicy2)
+        sizePolicy3 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
+        sizePolicy3.setHorizontalStretch(0)
+        sizePolicy3.setVerticalStretch(0)
+        sizePolicy3.setHeightForWidth(self.ToolGeoShortcutEntrance.sizePolicy().hasHeightForWidth())
+        self.ToolGeoShortcutEntrance.setSizePolicy(sizePolicy3)
 
         self.verticalLayout.addWidget(self.ToolGeoShortcutEntrance)
 
         self.ToolGeoShortcut = QPushButton(self.ToolMassEditFrame)
         self.ToolGeoShortcut.setObjectName(u"ToolGeoShortcut")
-        sizePolicy2.setHeightForWidth(self.ToolGeoShortcut.sizePolicy().hasHeightForWidth())
-        self.ToolGeoShortcut.setSizePolicy(sizePolicy2)
+        sizePolicy3.setHeightForWidth(self.ToolGeoShortcut.sizePolicy().hasHeightForWidth())
+        self.ToolGeoShortcut.setSizePolicy(sizePolicy3)
 
         self.verticalLayout.addWidget(self.ToolGeoShortcut)
 
         self.ToolGeoDen = QPushButton(self.ToolMassEditFrame)
         self.ToolGeoDen.setObjectName(u"ToolGeoDen")
-        sizePolicy2.setHeightForWidth(self.ToolGeoDen.sizePolicy().hasHeightForWidth())
-        self.ToolGeoDen.setSizePolicy(sizePolicy2)
+        sizePolicy3.setHeightForWidth(self.ToolGeoDen.sizePolicy().hasHeightForWidth())
+        self.ToolGeoDen.setSizePolicy(sizePolicy3)
 
         self.verticalLayout.addWidget(self.ToolGeoDen)
 
         self.ToolGeoEntrance = QPushButton(self.ToolMassEditFrame)
         self.ToolGeoEntrance.setObjectName(u"ToolGeoEntrance")
-        sizePolicy2.setHeightForWidth(self.ToolGeoEntrance.sizePolicy().hasHeightForWidth())
-        self.ToolGeoEntrance.setSizePolicy(sizePolicy2)
+        sizePolicy3.setHeightForWidth(self.ToolGeoEntrance.sizePolicy().hasHeightForWidth())
+        self.ToolGeoEntrance.setSizePolicy(sizePolicy3)
 
         self.verticalLayout.addWidget(self.ToolGeoEntrance)
 
         self.ToolGeoWraykAMoleHole = QPushButton(self.ToolMassEditFrame)
         self.ToolGeoWraykAMoleHole.setObjectName(u"ToolGeoWraykAMoleHole")
-        sizePolicy2.setHeightForWidth(self.ToolGeoWraykAMoleHole.sizePolicy().hasHeightForWidth())
-        self.ToolGeoWraykAMoleHole.setSizePolicy(sizePolicy2)
+        sizePolicy3.setHeightForWidth(self.ToolGeoWraykAMoleHole.sizePolicy().hasHeightForWidth())
+        self.ToolGeoWraykAMoleHole.setSizePolicy(sizePolicy3)
 
         self.verticalLayout.addWidget(self.ToolGeoWraykAMoleHole)
 
         self.ToolGeoGarbageWorm = QPushButton(self.ToolMassEditFrame)
         self.ToolGeoGarbageWorm.setObjectName(u"ToolGeoGarbageWorm")
-        sizePolicy2.setHeightForWidth(self.ToolGeoGarbageWorm.sizePolicy().hasHeightForWidth())
-        self.ToolGeoGarbageWorm.setSizePolicy(sizePolicy2)
+        sizePolicy3.setHeightForWidth(self.ToolGeoGarbageWorm.sizePolicy().hasHeightForWidth())
+        self.ToolGeoGarbageWorm.setSizePolicy(sizePolicy3)
 
         self.verticalLayout.addWidget(self.ToolGeoGarbageWorm)
 
         self.ToolGeoScavHole = QPushButton(self.ToolMassEditFrame)
         self.ToolGeoScavHole.setObjectName(u"ToolGeoScavHole")
-        sizePolicy2.setHeightForWidth(self.ToolGeoScavHole.sizePolicy().hasHeightForWidth())
-        self.ToolGeoScavHole.setSizePolicy(sizePolicy2)
+        sizePolicy3.setHeightForWidth(self.ToolGeoScavHole.sizePolicy().hasHeightForWidth())
+        self.ToolGeoScavHole.setSizePolicy(sizePolicy3)
 
         self.verticalLayout.addWidget(self.ToolGeoScavHole)
 
@@ -321,8 +200,8 @@ class Ui_Geo(object):
 
         self.ToolGeoWall = QPushButton(self.ToolMassEditFrame)
         self.ToolGeoWall.setObjectName(u"ToolGeoWall")
-        sizePolicy2.setHeightForWidth(self.ToolGeoWall.sizePolicy().hasHeightForWidth())
-        self.ToolGeoWall.setSizePolicy(sizePolicy2)
+        sizePolicy3.setHeightForWidth(self.ToolGeoWall.sizePolicy().hasHeightForWidth())
+        self.ToolGeoWall.setSizePolicy(sizePolicy3)
         self.ToolGeoWall.setLocale(QLocale(QLocale.English, QLocale.UnitedStates))
         self.ToolGeoWall.setIconSize(QSize(16, 16))
         self.ToolGeoWall.setCheckable(False)
@@ -331,8 +210,8 @@ class Ui_Geo(object):
 
         self.ToolGeoAir = QPushButton(self.ToolMassEditFrame)
         self.ToolGeoAir.setObjectName(u"ToolGeoAir")
-        sizePolicy2.setHeightForWidth(self.ToolGeoAir.sizePolicy().hasHeightForWidth())
-        self.ToolGeoAir.setSizePolicy(sizePolicy2)
+        sizePolicy3.setHeightForWidth(self.ToolGeoAir.sizePolicy().hasHeightForWidth())
+        self.ToolGeoAir.setSizePolicy(sizePolicy3)
         self.ToolGeoAir.setLocale(QLocale(QLocale.English, QLocale.UnitedStates))
         self.ToolGeoAir.setIconSize(QSize(32, 16))
 
@@ -340,24 +219,24 @@ class Ui_Geo(object):
 
         self.ToolGeoSlope = QPushButton(self.ToolMassEditFrame)
         self.ToolGeoSlope.setObjectName(u"ToolGeoSlope")
-        sizePolicy2.setHeightForWidth(self.ToolGeoSlope.sizePolicy().hasHeightForWidth())
-        self.ToolGeoSlope.setSizePolicy(sizePolicy2)
+        sizePolicy3.setHeightForWidth(self.ToolGeoSlope.sizePolicy().hasHeightForWidth())
+        self.ToolGeoSlope.setSizePolicy(sizePolicy3)
         self.ToolGeoSlope.setLocale(QLocale(QLocale.English, QLocale.UnitedStates))
 
         self.geolayout.addWidget(self.ToolGeoSlope)
 
         self.ToolGeoGlass = QPushButton(self.ToolMassEditFrame)
         self.ToolGeoGlass.setObjectName(u"ToolGeoGlass")
-        sizePolicy2.setHeightForWidth(self.ToolGeoGlass.sizePolicy().hasHeightForWidth())
-        self.ToolGeoGlass.setSizePolicy(sizePolicy2)
+        sizePolicy3.setHeightForWidth(self.ToolGeoGlass.sizePolicy().hasHeightForWidth())
+        self.ToolGeoGlass.setSizePolicy(sizePolicy3)
         self.ToolGeoGlass.setLocale(QLocale(QLocale.English, QLocale.UnitedStates))
 
         self.geolayout.addWidget(self.ToolGeoGlass)
 
         self.ToolGeoFloor = QPushButton(self.ToolMassEditFrame)
         self.ToolGeoFloor.setObjectName(u"ToolGeoFloor")
-        sizePolicy2.setHeightForWidth(self.ToolGeoFloor.sizePolicy().hasHeightForWidth())
-        self.ToolGeoFloor.setSizePolicy(sizePolicy2)
+        sizePolicy3.setHeightForWidth(self.ToolGeoFloor.sizePolicy().hasHeightForWidth())
+        self.ToolGeoFloor.setSizePolicy(sizePolicy3)
         self.ToolGeoFloor.setLocale(QLocale(QLocale.English, QLocale.UnitedStates))
         self.ToolGeoFloor.setAutoRepeat(False)
 
@@ -372,29 +251,29 @@ class Ui_Geo(object):
 
         self.ToolGeoClearAll = QPushButton(self.ToolMassEditFrame)
         self.ToolGeoClearAll.setObjectName(u"ToolGeoClearAll")
-        sizePolicy2.setHeightForWidth(self.ToolGeoClearAll.sizePolicy().hasHeightForWidth())
-        self.ToolGeoClearAll.setSizePolicy(sizePolicy2)
+        sizePolicy3.setHeightForWidth(self.ToolGeoClearAll.sizePolicy().hasHeightForWidth())
+        self.ToolGeoClearAll.setSizePolicy(sizePolicy3)
 
         self.geolayout.addWidget(self.ToolGeoClearAll)
 
         self.ToolGeoClearStackabls = QPushButton(self.ToolMassEditFrame)
         self.ToolGeoClearStackabls.setObjectName(u"ToolGeoClearStackabls")
-        sizePolicy2.setHeightForWidth(self.ToolGeoClearStackabls.sizePolicy().hasHeightForWidth())
-        self.ToolGeoClearStackabls.setSizePolicy(sizePolicy2)
+        sizePolicy3.setHeightForWidth(self.ToolGeoClearStackabls.sizePolicy().hasHeightForWidth())
+        self.ToolGeoClearStackabls.setSizePolicy(sizePolicy3)
 
         self.geolayout.addWidget(self.ToolGeoClearStackabls)
 
         self.ToolGeoClearBlocks = QPushButton(self.ToolMassEditFrame)
         self.ToolGeoClearBlocks.setObjectName(u"ToolGeoClearBlocks")
-        sizePolicy2.setHeightForWidth(self.ToolGeoClearBlocks.sizePolicy().hasHeightForWidth())
-        self.ToolGeoClearBlocks.setSizePolicy(sizePolicy2)
+        sizePolicy3.setHeightForWidth(self.ToolGeoClearBlocks.sizePolicy().hasHeightForWidth())
+        self.ToolGeoClearBlocks.setSizePolicy(sizePolicy3)
 
         self.geolayout.addWidget(self.ToolGeoClearBlocks)
 
         self.ToolGeoClearLayer = QPushButton(self.ToolMassEditFrame)
         self.ToolGeoClearLayer.setObjectName(u"ToolGeoClearLayer")
-        sizePolicy2.setHeightForWidth(self.ToolGeoClearLayer.sizePolicy().hasHeightForWidth())
-        self.ToolGeoClearLayer.setSizePolicy(sizePolicy2)
+        sizePolicy3.setHeightForWidth(self.ToolGeoClearLayer.sizePolicy().hasHeightForWidth())
+        self.ToolGeoClearLayer.setSizePolicy(sizePolicy3)
 
         self.geolayout.addWidget(self.ToolGeoClearLayer)
 
@@ -408,8 +287,8 @@ class Ui_Geo(object):
 
         self.ToolGeoPaste = QPushButton(self.ToolMassEditFrame)
         self.ToolGeoPaste.setObjectName(u"ToolGeoPaste")
-        sizePolicy2.setHeightForWidth(self.ToolGeoPaste.sizePolicy().hasHeightForWidth())
-        self.ToolGeoPaste.setSizePolicy(sizePolicy2)
+        sizePolicy3.setHeightForWidth(self.ToolGeoPaste.sizePolicy().hasHeightForWidth())
+        self.ToolGeoPaste.setSizePolicy(sizePolicy3)
         self.ToolGeoPaste.setLocale(QLocale(QLocale.English, QLocale.UnitedStates))
         self.ToolGeoPaste.setIconSize(QSize(16, 16))
         self.ToolGeoPaste.setCheckable(False)
@@ -418,8 +297,8 @@ class Ui_Geo(object):
 
         self.ToolGeoCopy = QPushButton(self.ToolMassEditFrame)
         self.ToolGeoCopy.setObjectName(u"ToolGeoCopy")
-        sizePolicy2.setHeightForWidth(self.ToolGeoCopy.sizePolicy().hasHeightForWidth())
-        self.ToolGeoCopy.setSizePolicy(sizePolicy2)
+        sizePolicy3.setHeightForWidth(self.ToolGeoCopy.sizePolicy().hasHeightForWidth())
+        self.ToolGeoCopy.setSizePolicy(sizePolicy3)
         self.ToolGeoCopy.setMinimumSize(QSize(0, 0))
         self.ToolGeoCopy.setLocale(QLocale(QLocale.English, QLocale.UnitedStates))
 
@@ -427,8 +306,8 @@ class Ui_Geo(object):
 
         self.ToolGeoMove = QPushButton(self.ToolMassEditFrame)
         self.ToolGeoMove.setObjectName(u"ToolGeoMove")
-        sizePolicy2.setHeightForWidth(self.ToolGeoMove.sizePolicy().hasHeightForWidth())
-        self.ToolGeoMove.setSizePolicy(sizePolicy2)
+        sizePolicy3.setHeightForWidth(self.ToolGeoMove.sizePolicy().hasHeightForWidth())
+        self.ToolGeoMove.setSizePolicy(sizePolicy3)
         self.ToolGeoMove.setLocale(QLocale(QLocale.English, QLocale.UnitedStates))
         self.ToolGeoMove.setAutoRepeat(False)
 
@@ -436,16 +315,16 @@ class Ui_Geo(object):
 
         self.ToolGeoMirror = QPushButton(self.ToolMassEditFrame)
         self.ToolGeoMirror.setObjectName(u"ToolGeoMirror")
-        sizePolicy2.setHeightForWidth(self.ToolGeoMirror.sizePolicy().hasHeightForWidth())
-        self.ToolGeoMirror.setSizePolicy(sizePolicy2)
+        sizePolicy3.setHeightForWidth(self.ToolGeoMirror.sizePolicy().hasHeightForWidth())
+        self.ToolGeoMirror.setSizePolicy(sizePolicy3)
         self.ToolGeoMirror.setLocale(QLocale(QLocale.English, QLocale.UnitedStates))
 
         self.geolayout.addWidget(self.ToolGeoMirror)
 
         self.ToolGeoInvert = QPushButton(self.ToolMassEditFrame)
         self.ToolGeoInvert.setObjectName(u"ToolGeoInvert")
-        sizePolicy2.setHeightForWidth(self.ToolGeoInvert.sizePolicy().hasHeightForWidth())
-        self.ToolGeoInvert.setSizePolicy(sizePolicy2)
+        sizePolicy3.setHeightForWidth(self.ToolGeoInvert.sizePolicy().hasHeightForWidth())
+        self.ToolGeoInvert.setSizePolicy(sizePolicy3)
         self.ToolGeoInvert.setLocale(QLocale(QLocale.English, QLocale.UnitedStates))
 
         self.geolayout.addWidget(self.ToolGeoInvert)
@@ -465,64 +344,64 @@ class Ui_Geo(object):
 
         self.ToolGeoCrack = QPushButton(self.ToolMassEditFrame)
         self.ToolGeoCrack.setObjectName(u"ToolGeoCrack")
-        sizePolicy2.setHeightForWidth(self.ToolGeoCrack.sizePolicy().hasHeightForWidth())
-        self.ToolGeoCrack.setSizePolicy(sizePolicy2)
+        sizePolicy3.setHeightForWidth(self.ToolGeoCrack.sizePolicy().hasHeightForWidth())
+        self.ToolGeoCrack.setSizePolicy(sizePolicy3)
         self.ToolGeoCrack.setLocale(QLocale(QLocale.English, QLocale.UnitedStates))
 
         self.deletelayout.addWidget(self.ToolGeoCrack)
 
         self.ToolGeoWormGrass = QPushButton(self.ToolMassEditFrame)
         self.ToolGeoWormGrass.setObjectName(u"ToolGeoWormGrass")
-        sizePolicy2.setHeightForWidth(self.ToolGeoWormGrass.sizePolicy().hasHeightForWidth())
-        self.ToolGeoWormGrass.setSizePolicy(sizePolicy2)
+        sizePolicy3.setHeightForWidth(self.ToolGeoWormGrass.sizePolicy().hasHeightForWidth())
+        self.ToolGeoWormGrass.setSizePolicy(sizePolicy3)
         self.ToolGeoWormGrass.setFlat(False)
 
         self.deletelayout.addWidget(self.ToolGeoWormGrass)
 
         self.ToolGeoForbidChains = QPushButton(self.ToolMassEditFrame)
         self.ToolGeoForbidChains.setObjectName(u"ToolGeoForbidChains")
-        sizePolicy2.setHeightForWidth(self.ToolGeoForbidChains.sizePolicy().hasHeightForWidth())
-        self.ToolGeoForbidChains.setSizePolicy(sizePolicy2)
+        sizePolicy3.setHeightForWidth(self.ToolGeoForbidChains.sizePolicy().hasHeightForWidth())
+        self.ToolGeoForbidChains.setSizePolicy(sizePolicy3)
         self.ToolGeoForbidChains.setLocale(QLocale(QLocale.English, QLocale.UnitedStates))
 
         self.deletelayout.addWidget(self.ToolGeoForbidChains)
 
         self.ToolGeoSpear = QPushButton(self.ToolMassEditFrame)
         self.ToolGeoSpear.setObjectName(u"ToolGeoSpear")
-        sizePolicy2.setHeightForWidth(self.ToolGeoSpear.sizePolicy().hasHeightForWidth())
-        self.ToolGeoSpear.setSizePolicy(sizePolicy2)
+        sizePolicy3.setHeightForWidth(self.ToolGeoSpear.sizePolicy().hasHeightForWidth())
+        self.ToolGeoSpear.setSizePolicy(sizePolicy3)
         self.ToolGeoSpear.setLocale(QLocale(QLocale.English, QLocale.UnitedStates))
 
         self.deletelayout.addWidget(self.ToolGeoSpear)
 
         self.ToolGeoRock = QPushButton(self.ToolMassEditFrame)
         self.ToolGeoRock.setObjectName(u"ToolGeoRock")
-        sizePolicy2.setHeightForWidth(self.ToolGeoRock.sizePolicy().hasHeightForWidth())
-        self.ToolGeoRock.setSizePolicy(sizePolicy2)
+        sizePolicy3.setHeightForWidth(self.ToolGeoRock.sizePolicy().hasHeightForWidth())
+        self.ToolGeoRock.setSizePolicy(sizePolicy3)
         self.ToolGeoRock.setLocale(QLocale(QLocale.English, QLocale.UnitedStates))
 
         self.deletelayout.addWidget(self.ToolGeoRock)
 
         self.ToolGeoHive = QPushButton(self.ToolMassEditFrame)
         self.ToolGeoHive.setObjectName(u"ToolGeoHive")
-        sizePolicy2.setHeightForWidth(self.ToolGeoHive.sizePolicy().hasHeightForWidth())
-        self.ToolGeoHive.setSizePolicy(sizePolicy2)
+        sizePolicy3.setHeightForWidth(self.ToolGeoHive.sizePolicy().hasHeightForWidth())
+        self.ToolGeoHive.setSizePolicy(sizePolicy3)
         self.ToolGeoHive.setLocale(QLocale(QLocale.English, QLocale.UnitedStates))
 
         self.deletelayout.addWidget(self.ToolGeoHive)
 
         self.ToolGeoBeam = QPushButton(self.ToolMassEditFrame)
         self.ToolGeoBeam.setObjectName(u"ToolGeoBeam")
-        sizePolicy2.setHeightForWidth(self.ToolGeoBeam.sizePolicy().hasHeightForWidth())
-        self.ToolGeoBeam.setSizePolicy(sizePolicy2)
+        sizePolicy3.setHeightForWidth(self.ToolGeoBeam.sizePolicy().hasHeightForWidth())
+        self.ToolGeoBeam.setSizePolicy(sizePolicy3)
         self.ToolGeoBeam.setLocale(QLocale(QLocale.English, QLocale.UnitedStates))
 
         self.deletelayout.addWidget(self.ToolGeoBeam)
 
         self.ToolGeoWaterfall = QPushButton(self.ToolMassEditFrame)
         self.ToolGeoWaterfall.setObjectName(u"ToolGeoWaterfall")
-        sizePolicy2.setHeightForWidth(self.ToolGeoWaterfall.sizePolicy().hasHeightForWidth())
-        self.ToolGeoWaterfall.setSizePolicy(sizePolicy2)
+        sizePolicy3.setHeightForWidth(self.ToolGeoWaterfall.sizePolicy().hasHeightForWidth())
+        self.ToolGeoWaterfall.setSizePolicy(sizePolicy3)
         self.ToolGeoWaterfall.setLocale(QLocale(QLocale.English, QLocale.UnitedStates))
 
         self.deletelayout.addWidget(self.ToolGeoWaterfall)
@@ -531,7 +410,149 @@ class Ui_Geo(object):
         self.gridLayout.addLayout(self.deletelayout, 1, 1, 1, 1)
 
 
-        self.gridLayout_11.addLayout(self.gridLayout, 0, 0, 1, 1)
+        self.gridLayout_11.addLayout(self.gridLayout, 4, 0, 1, 1)
+
+        self.frame_2 = QFrame(self.ToolMassEditFrame)
+        self.frame_2.setObjectName(u"frame_2")
+        self.frame_2.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_2.setFrameShadow(QFrame.Shadow.Raised)
+        self.verticalLayout_3 = QVBoxLayout(self.frame_2)
+        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
+        self.gridLayout_8 = QGridLayout()
+        self.gridLayout_8.setObjectName(u"gridLayout_8")
+        self.ToolGeoM1Select = QComboBox(self.frame_2)
+        icon = QIcon()
+        icon.addFile(u":/geoIcons/geo/pen.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.ToolGeoM1Select.addItem(icon, "")
+        icon1 = QIcon()
+        icon1.addFile(u":/geoIcons/geo/brush.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.ToolGeoM1Select.addItem(icon1, "")
+        icon2 = QIcon()
+        icon2.addFile(u":/geoIcons/geo/bucket.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.ToolGeoM1Select.addItem(icon2, "")
+        icon3 = QIcon()
+        icon3.addFile(u":/geoIcons/geo/line.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.ToolGeoM1Select.addItem(icon3, "")
+        icon4 = QIcon()
+        icon4.addFile(u":/geoIcons/geo/rect.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.ToolGeoM1Select.addItem(icon4, "")
+        icon5 = QIcon()
+        icon5.addFile(u":/geoIcons/geo/rect_hollow.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.ToolGeoM1Select.addItem(icon5, "")
+        icon6 = QIcon()
+        icon6.addFile(u":/geoIcons/geo/circle.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.ToolGeoM1Select.addItem(icon6, "")
+        icon7 = QIcon()
+        icon7.addFile(u":/geoIcons/geo/circle_hollow.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.ToolGeoM1Select.addItem(icon7, "")
+        self.ToolGeoM1Select.setObjectName(u"ToolGeoM1Select")
+        sizePolicy3.setHeightForWidth(self.ToolGeoM1Select.sizePolicy().hasHeightForWidth())
+        self.ToolGeoM1Select.setSizePolicy(sizePolicy3)
+
+        self.gridLayout_8.addWidget(self.ToolGeoM1Select, 1, 1, 1, 1)
+
+        self.ToolGeoM2Select = QComboBox(self.frame_2)
+        self.ToolGeoM2Select.addItem(icon, "")
+        self.ToolGeoM2Select.addItem(icon1, "")
+        self.ToolGeoM2Select.addItem(icon2, "")
+        self.ToolGeoM2Select.addItem(icon3, "")
+        self.ToolGeoM2Select.addItem(icon4, "")
+        self.ToolGeoM2Select.addItem(icon5, "")
+        self.ToolGeoM2Select.addItem(icon6, "")
+        self.ToolGeoM2Select.addItem(icon7, "")
+        self.ToolGeoM2Select.setObjectName(u"ToolGeoM2Select")
+        sizePolicy3.setHeightForWidth(self.ToolGeoM2Select.sizePolicy().hasHeightForWidth())
+        self.ToolGeoM2Select.setSizePolicy(sizePolicy3)
+
+        self.gridLayout_8.addWidget(self.ToolGeoM2Select, 2, 1, 1, 1)
+
+        self.label_3 = QLabel(self.frame_2)
+        self.label_3.setObjectName(u"label_3")
+        sizePolicy3.setHeightForWidth(self.label_3.sizePolicy().hasHeightForWidth())
+        self.label_3.setSizePolicy(sizePolicy3)
+
+        self.gridLayout_8.addWidget(self.label_3, 1, 0, 1, 1)
+
+        self.label_2 = QLabel(self.frame_2)
+        self.label_2.setObjectName(u"label_2")
+        sizePolicy3.setHeightForWidth(self.label_2.sizePolicy().hasHeightForWidth())
+        self.label_2.setSizePolicy(sizePolicy3)
+
+        self.gridLayout_8.addWidget(self.label_2, 2, 0, 1, 1)
+
+        self.Brushsize = QSpinBox(self.frame_2)
+        self.Brushsize.setObjectName(u"Brushsize")
+        self.Brushsize.setMinimum(1)
+
+        self.gridLayout_8.addWidget(self.Brushsize, 3, 1, 1, 1)
+
+        self.label_5 = QLabel(self.frame_2)
+        self.label_5.setObjectName(u"label_5")
+
+        self.gridLayout_8.addWidget(self.label_5, 3, 0, 1, 1)
+
+
+        self.verticalLayout_3.addLayout(self.gridLayout_8)
+
+
+        self.gridLayout_11.addWidget(self.frame_2, 0, 0, 1, 1)
+
+        self.gridLayout_2 = QGridLayout()
+        self.gridLayout_2.setObjectName(u"gridLayout_2")
+        self.gridLayout_2.setSizeConstraint(QLayout.SizeConstraint.SetNoConstraint)
+        self.RotateLeft = QPushButton(self.ToolMassEditFrame)
+        self.RotateLeft.setObjectName(u"RotateLeft")
+        sizePolicy4 = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum)
+        sizePolicy4.setHorizontalStretch(0)
+        sizePolicy4.setVerticalStretch(0)
+        sizePolicy4.setHeightForWidth(self.RotateLeft.sizePolicy().hasHeightForWidth())
+        self.RotateLeft.setSizePolicy(sizePolicy4)
+        icon8 = QIcon()
+        icon8.addFile(u":/special/special/rotatel.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.RotateLeft.setIcon(icon8)
+
+        self.gridLayout_2.addWidget(self.RotateLeft, 0, 3, 1, 1)
+
+        self.gridLayout_3 = QGridLayout()
+        self.gridLayout_3.setObjectName(u"gridLayout_3")
+        self.BrushSizeUp = QPushButton(self.ToolMassEditFrame)
+        self.BrushSizeUp.setObjectName(u"BrushSizeUp")
+        sizePolicy5 = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
+        sizePolicy5.setHorizontalStretch(0)
+        sizePolicy5.setVerticalStretch(0)
+        sizePolicy5.setHeightForWidth(self.BrushSizeUp.sizePolicy().hasHeightForWidth())
+        self.BrushSizeUp.setSizePolicy(sizePolicy5)
+        self.BrushSizeUp.setBaseSize(QSize(16, 16))
+
+        self.gridLayout_3.addWidget(self.BrushSizeUp, 0, 0, 1, 1)
+
+        self.BrushSizeDown = QPushButton(self.ToolMassEditFrame)
+        self.BrushSizeDown.setObjectName(u"BrushSizeDown")
+        sizePolicy5.setHeightForWidth(self.BrushSizeDown.sizePolicy().hasHeightForWidth())
+        self.BrushSizeDown.setSizePolicy(sizePolicy5)
+        self.BrushSizeDown.setBaseSize(QSize(16, 16))
+
+        self.gridLayout_3.addWidget(self.BrushSizeDown, 0, 1, 1, 1)
+
+
+        self.gridLayout_2.addLayout(self.gridLayout_3, 0, 2, 1, 1)
+
+        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.gridLayout_2.addItem(self.horizontalSpacer, 0, 5, 1, 1)
+
+        self.RotateRight = QPushButton(self.ToolMassEditFrame)
+        self.RotateRight.setObjectName(u"RotateRight")
+        sizePolicy5.setHeightForWidth(self.RotateRight.sizePolicy().hasHeightForWidth())
+        self.RotateRight.setSizePolicy(sizePolicy5)
+        icon9 = QIcon()
+        icon9.addFile(u":/special/special/rotater.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.RotateRight.setIcon(icon9)
+
+        self.gridLayout_2.addWidget(self.RotateRight, 0, 4, 1, 1)
+
+
+        self.gridLayout_11.addLayout(self.gridLayout_2, 1, 0, 1, 1)
 
 
         self.verticalLayout_7.addWidget(self.ToolMassEditFrame)
@@ -555,31 +576,6 @@ class Ui_Geo(object):
         self.NextLayer.setText(QCoreApplication.translate("Geo", u"Next", None))
         self.PreviousLayer.setText(QCoreApplication.translate("Geo", u"Previous", None))
         self.label.setText(QCoreApplication.translate("Geo", u"Place:", None))
-        self.label_5.setText(QCoreApplication.translate("Geo", u"Brush Size:", None))
-        self.ToolGeoM1Select.setItemText(0, QCoreApplication.translate("Geo", u"Pencil", None))
-        self.ToolGeoM1Select.setItemText(1, QCoreApplication.translate("Geo", u"Brush", None))
-        self.ToolGeoM1Select.setItemText(2, QCoreApplication.translate("Geo", u"Bucket", None))
-        self.ToolGeoM1Select.setItemText(3, QCoreApplication.translate("Geo", u"Line", None))
-        self.ToolGeoM1Select.setItemText(4, QCoreApplication.translate("Geo", u"Rectangle", None))
-        self.ToolGeoM1Select.setItemText(5, QCoreApplication.translate("Geo", u"Hollow Rectanlge", None))
-        self.ToolGeoM1Select.setItemText(6, QCoreApplication.translate("Geo", u"Circle", None))
-        self.ToolGeoM1Select.setItemText(7, QCoreApplication.translate("Geo", u"Hollow Circle", None))
-
-        self.label_2.setText(QCoreApplication.translate("Geo", u"Right Mouse:", None))
-        self.label_3.setText(QCoreApplication.translate("Geo", u"Left Mouse:", None))
-        self.ToolGeoM2Select.setItemText(0, QCoreApplication.translate("Geo", u"Pencil", None))
-        self.ToolGeoM2Select.setItemText(1, QCoreApplication.translate("Geo", u"Brush", None))
-        self.ToolGeoM2Select.setItemText(2, QCoreApplication.translate("Geo", u"Bucket", None))
-        self.ToolGeoM2Select.setItemText(3, QCoreApplication.translate("Geo", u"Line", None))
-        self.ToolGeoM2Select.setItemText(4, QCoreApplication.translate("Geo", u"Rectangle", None))
-        self.ToolGeoM2Select.setItemText(5, QCoreApplication.translate("Geo", u"Hollow Rectanlge", None))
-        self.ToolGeoM2Select.setItemText(6, QCoreApplication.translate("Geo", u"Circle", None))
-        self.ToolGeoM2Select.setItemText(7, QCoreApplication.translate("Geo", u"Hollow Circle", None))
-
-        self.RotateLeft.setText("")
-        self.RotateRight.setText("")
-        self.BrushSizeUp.setText(QCoreApplication.translate("Geo", u"+", None))
-        self.BrushSizeDown.setText(QCoreApplication.translate("Geo", u"-", None))
         self.label_4.setText(QCoreApplication.translate("Geo", u"Blocks:", None))
         self.ToolGeoLabelPipes.setText(QCoreApplication.translate("Geo", u"Pipes", None))
         self.ToolGeoShortcutEntrance.setText(QCoreApplication.translate("Geo", u"Sh. Entrance", None))
@@ -627,5 +623,30 @@ class Ui_Geo(object):
         self.ToolGeoHive.setText(QCoreApplication.translate("Geo", u"Fly hive", None))
         self.ToolGeoBeam.setText(QCoreApplication.translate("Geo", u"Beam", None))
         self.ToolGeoWaterfall.setText(QCoreApplication.translate("Geo", u"Waterfall", None))
+        self.ToolGeoM1Select.setItemText(0, QCoreApplication.translate("Geo", u"Pencil", None))
+        self.ToolGeoM1Select.setItemText(1, QCoreApplication.translate("Geo", u"Brush", None))
+        self.ToolGeoM1Select.setItemText(2, QCoreApplication.translate("Geo", u"Bucket", None))
+        self.ToolGeoM1Select.setItemText(3, QCoreApplication.translate("Geo", u"Line", None))
+        self.ToolGeoM1Select.setItemText(4, QCoreApplication.translate("Geo", u"Rectangle", None))
+        self.ToolGeoM1Select.setItemText(5, QCoreApplication.translate("Geo", u"Hollow Rectanlge", None))
+        self.ToolGeoM1Select.setItemText(6, QCoreApplication.translate("Geo", u"Circle", None))
+        self.ToolGeoM1Select.setItemText(7, QCoreApplication.translate("Geo", u"Hollow Circle", None))
+
+        self.ToolGeoM2Select.setItemText(0, QCoreApplication.translate("Geo", u"Pencil", None))
+        self.ToolGeoM2Select.setItemText(1, QCoreApplication.translate("Geo", u"Brush", None))
+        self.ToolGeoM2Select.setItemText(2, QCoreApplication.translate("Geo", u"Bucket", None))
+        self.ToolGeoM2Select.setItemText(3, QCoreApplication.translate("Geo", u"Line", None))
+        self.ToolGeoM2Select.setItemText(4, QCoreApplication.translate("Geo", u"Rectangle", None))
+        self.ToolGeoM2Select.setItemText(5, QCoreApplication.translate("Geo", u"Hollow Rectanlge", None))
+        self.ToolGeoM2Select.setItemText(6, QCoreApplication.translate("Geo", u"Circle", None))
+        self.ToolGeoM2Select.setItemText(7, QCoreApplication.translate("Geo", u"Hollow Circle", None))
+
+        self.label_3.setText(QCoreApplication.translate("Geo", u"Left Mouse:", None))
+        self.label_2.setText(QCoreApplication.translate("Geo", u"Right Mouse:", None))
+        self.label_5.setText(QCoreApplication.translate("Geo", u"Brush Size:", None))
+        self.RotateLeft.setText("")
+        self.BrushSizeUp.setText(QCoreApplication.translate("Geo", u"+", None))
+        self.BrushSizeDown.setText(QCoreApplication.translate("Geo", u"-", None))
+        self.RotateRight.setText("")
     # retranslateUi
 
