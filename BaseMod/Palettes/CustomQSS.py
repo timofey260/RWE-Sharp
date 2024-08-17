@@ -2,10 +2,9 @@ import re
 from PIL import Image
 from PySide6.QtWidgets import QApplication
 from RWESharp.Modify import Palette
-from BaseMod.Palettes.Theme_palettes.Circular import circular_css
-
-Style = 3
-
+from BaseMod.Palettes.Theme_palettes.atmoled import atmoled_qss
+from BaseMod.Palettes.Theme_palettes.Circular import circular_qss
+from BaseMod.Palettes.Theme_palettes.darkeum import darkeum_qss
 
 class ThemeManager(Palette):
     def __init__(self, mod, widget=None):
@@ -21,7 +20,10 @@ class ThemeManager(Palette):
                 print("Error: QApplication instance not found.")
 
     def get_stylesheet(self):
-        return CSSPaletizer("palette5.png", circular_css)
+        return darkeum_qss
+
+        #CSSPaletizer("palette5.png", ) TODO, not thigs
+
 
 
 def CSSPaletizer(palette_name, input_string):
@@ -126,7 +128,7 @@ def CSSPaletizer(palette_name, input_string):
 
 def palette_parser(palette_name):
     # Load the image from the path (Update with your correct path)
-    image_path = r"C:\Users\ATOM\Documents\GitHub\RWE-Sharp\BaseMod\Palettes\Theme_palettes\palette5.png"
+    image_path = r"/BaseMod/Palettes/Theme_palettes/palette5.png"
     img = Image.open(image_path)
     img = img.convert("RGB")
 
@@ -146,3 +148,5 @@ def palette_parser(palette_name):
 # Create the theme manager and get the styled CSS
 theme_manager = ThemeManager(mod=None)
 styled_css = theme_manager.get_stylesheet()
+
+
