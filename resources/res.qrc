@@ -3,7 +3,6 @@
     <file>icon.svg</file>
   </qresource>
   <qresource prefix="misc">
-    <file>misc/arrow_up.svg</file>
     <file>misc/arrow_down.svg</file>
     <file>misc/close.svg</file>
     <file>misc/minus.svg</file>

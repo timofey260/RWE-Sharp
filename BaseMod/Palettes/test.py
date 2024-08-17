@@ -2,7 +2,7 @@ import re
 from PIL import Image
 from PySide6.QtWidgets import QApplication
 from RWESharp.Modify import Palette
-from BaseMod.Palettes.Theme_palettes.Circular import circular_css
+from BaseMod.Palettes.Theme_palettes.CSSPresets import css_preset
 
 Style = 3
 
@@ -21,7 +21,7 @@ class ThemeManager(Palette):
                 print("Error: QApplication instance not found.")
 
     def get_stylesheet(self):
-        return CSSPaletizer("palette5.png", circular_css)
+        return CSSPaletizer("palette5.png", css_preset(Style))
 
 
 def CSSPaletizer(palette_name, input_string):

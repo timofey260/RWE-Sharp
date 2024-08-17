@@ -4,7 +4,7 @@ from BaseMod.tiles.tileModule import TileModule
 from BaseMod.grid.gridModule import GridModule
 from BaseMod.grid.gridUIConnector import GridView
 from BaseMod.Palettes.RaspberryDark import RaspberryDark
-from BaseMod.Palettes.CustomQSS import ThemeManager
+# from ui.palettes.MoonlightDark import MoonlightDark
 from BaseMod.Configs import BaseModConfig
 from BaseMod.tiles.tileEditor import TileEditor
 from BaseMod.tiles.tileExplorer import TileExplorer
@@ -61,9 +61,8 @@ class BaseMod(Mod):
         from BaseMod.geo.geoUIConnectors import GeoUI, GeoViewUI, GeoSettings
         from BaseMod.tiles.tileUIConnectors import TileViewUI, TileUI, TileSettings
         # MoonlightDark(self).add_myself()
-        ThemeManager(self).add_myself()
-        #RaspberryDark(self).add_myself()
-        #TODO not to do that ^
+        RaspberryDark(self).add_myself()
+
         self.bmconfig = BaseModConfig(self)
         self.bmconfig.palette.valueChanged.connect(self.manager.change_pallete)
 
