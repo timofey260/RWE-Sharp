@@ -1,4 +1,3 @@
-sharp_qss = """
 
            QToolTip {
                background-color: #2A2A2A;
@@ -462,4 +461,3 @@ sharp_qss = """
             QScrollArea > QWidget > QAbstractScrollArea > QViewport {
                 background-color: #222b2e;
             }
- """

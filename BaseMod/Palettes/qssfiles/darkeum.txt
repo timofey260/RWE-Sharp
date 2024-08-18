@@ -1,4 +1,4 @@
-darkeum_qss = """
+
 /*-----QWidget-----*/
 QWidget
 {
@@ -965,4 +965,4 @@ QProgressBar::chunk
 
 }
 
-"""
+
