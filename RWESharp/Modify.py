@@ -6,4 +6,4 @@ from core.Modify.baseModule import Module  # NOQA
 from core.Modify.ConfigModule import ConfigModule  # NOQA
 from core.Modify.EditorMode import EditorMode  # NOQA
 from core.HistorySystem import HistoryElement
-from core.Modify.Palette import Palette
+from core.Modify.Theme import Theme

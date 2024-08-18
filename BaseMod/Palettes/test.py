@@ -1,7 +1,7 @@
 import re
 from PIL import Image
 from PySide6.QtWidgets import QApplication
-from RWESharp.Modify import Palette
+from RWESharp.Modify import Theme
 from BaseMod.Palettes.qssfiles.darkeum import darkeum_qss
 from BaseMod.Palettes.qssfiles.atmoled import atmoled_qss
 from BaseMod.Palettes.qssfiles.Sharp import sharp_qss
@@ -9,7 +9,7 @@ from BaseMod.Palettes.qssfiles.Circular import circular_qss
 Style = 3
 
 
-class ThemeManager(Palette):
+class ThemeManager(Theme):
     def __init__(self, mod, widget=None):
         super().__init__("Moonlight Dark", mod)  # Example colors
         print(self.get_stylesheet())

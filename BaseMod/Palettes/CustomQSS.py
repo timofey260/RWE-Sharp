@@ -1,13 +1,14 @@
 import os
 
 from PySide6.QtWidgets import QApplication
-from RWESharp.Modify import Palette
+from RWESharp.Core import PATH_BASEMOD
+from RWESharp.Modify import Theme
 folder_path = os.path.abspath("baseMod\Palettes\qssfiles")
 
 
 
 
-class ThemeManager(Palette):
+class ThemeManager(Theme):
     def __init__(self, mod, widget=None):
         super().__init__("Moonlight Dark", mod)  # Example colors
         print(self.get_stylesheet())

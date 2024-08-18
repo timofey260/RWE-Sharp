@@ -2,7 +2,7 @@ from core.RWELevel import RWELevel
 from core.Modify.EditorMode import EditorMode
 from core.Modify.Mod import Mod
 from core.Modify.baseModule import Module
-from core.Modify.Palette import Palette
+from core.Modify.Theme import Theme
 from core.Config import Config
 from core.TreeElement import SettingElement, HotkeyElement
 from core.info import PATH_MODS
@@ -63,7 +63,7 @@ class Manager:
         """
         Configs are used to store editor-specific data
         """
-        self.palettes: list[Palette] = []
+        self.palettes: list[Theme] = []
         """
         neat color visuals
         """
@@ -84,20 +84,20 @@ class Manager:
         self.init_mods()
         self.init_modules()
         self.init_editors()
-        self.change_pallete()
+        self.change_theme()
 
     def change_level(self, path):
         self.level = None
         self.level = RWELevel(self, path)
         self.viewport.levelchanged()
 
-    def change_pallete(self):
-        if self.basemod.bmconfig.palette.value == "":
+    def change_theme(self):
+        if self.basemod.bmconfig.theme.value == "":
             return
         for i in self.palettes:
-            if self.basemod.bmconfig.palette.value == f"{i.mod.author_name}.{i.name}":
+            if self.basemod.bmconfig.theme.value == f"{i.mod.author_name}.{i.name}":
                 i.palette_enable()
-                log(f"Using palette {i.name}")
+                log(f"Using Theme {i.name}")
                 return
 
     def init_modules(self):

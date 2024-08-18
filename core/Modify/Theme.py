@@ -1,10 +1,11 @@
 from core.Application import Application
 
 
-class Palette:
+class Theme:
     def __init__(self, name, mod):
         self.name = name
         self.mod = mod
+        self.settings = None
 
     def add_myself(self):
         self.mod.add_palette(self)

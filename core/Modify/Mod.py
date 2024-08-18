@@ -8,7 +8,7 @@ if TYPE_CHECKING:
     from core.Modify.EditorMode import EditorMode
     from core.Modify.baseModule import Module
     from PySide6.QtWidgets import QWidget
-    from core.Modify.Palette import Palette
+    from core.Modify.Theme import Theme
     from core.Manager import Manager
     from core.TreeElement import SettingElement, HotkeyElement
 
@@ -63,7 +63,7 @@ class Mod(ABC):
     def add_config_module(self, config_module: ConfigModule):
         self.manager.config.add_module(config_module)
 
-    def add_palette(self, palette: Palette):
+    def add_palette(self, palette: Theme):
         self.manager.palettes.append(palette)
 
     def add_setting(self, setting: SettingElement):

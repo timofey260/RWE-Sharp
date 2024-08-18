@@ -34,7 +34,7 @@ class BaseModConfig:
         self.prefabs_key = KeyConfigurable(mod, "basemod.prefabs", "Ctrl+Shift+p", "Open prefabs tab")
         self.tileexplorer_key = KeyConfigurable(mod, "basemod.tileexplorer", "Ctrl+shift+r", "Open settings menu")
         self.effectexplorer_key = KeyConfigurable(mod, "basemod.effectexplorer", "Ctrl+shift+e", "Open settings menu")
-        self.palette = StringConfigurable(mod, "basemod.palette", "timofey26.basemod.Raspberry Dark", "palette colors")  # "timofey26.basemod.Raspberry Dark"
+        self.theme = StringConfigurable(mod, "basemod.palette", "timofey26.basemod.Raspberry Dark", "palette colors")  # "timofey26.basemod.Raspberry Dark"
 
         self.geometry_editor = KeyConfigurable(mod, "basemod.geo", "1", "Open Geometry editor")
         self.tile_editor = KeyConfigurable(mod, "basemod.tiles", "2", "Open Tile editor")
