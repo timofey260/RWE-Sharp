@@ -27,9 +27,7 @@ class RaspberryDark(Theme):
             ColorConfigurable(mod, "@base_dark", "#9F2E34", "Base dark color"),
             ColorConfigurable(mod, "@base_medium", "#242424", "Base medium color"),
             ColorConfigurable(mod, "@base_light", "#555555", "Base light color"),
-            # Placeholder value updated
             ColorConfigurable(mod, "@base_very_light", "#C2C7CB", "Base very light color"),
-            # Placeholder value updated
             # background colors
             ColorConfigurable(mod, "@background_very_dark", "#050a0e", "Background color"),
             ColorConfigurable(mod, "@background_dark", "#151a1e", "Background dark color"),
@@ -39,21 +37,14 @@ class RaspberryDark(Theme):
                               "Background very light color"),  # Placeholder value updated
             # border colors
             ColorConfigurable(mod, "@border_dark", "#424242", "Border dark color"),
-            # Placeholder value updated
             ColorConfigurable(mod, "@border_medium", "#AC2D3A", "Border medium color"),
-            # Placeholder value updated
             ColorConfigurable(mod, "@border_light", "#656565", "Border light color"),
-            # Placeholder value updated
             # text colors
             ColorConfigurable(mod, "@text_dark", "#757575", "Text dark color"),
             ColorConfigurable(mod, "@text_medium", "#9E9E9E", "Text medium color"),
-            # Placeholder value updated
             ColorConfigurable(mod, "@text_light", "#C4C4C4", "Text light color"),
-            # Placeholder value updated
             ColorConfigurable(mod, "@text_disabled", "#424242", "Text disabled color"),
-            # Placeholder value updated
             ColorConfigurable(mod, "@text_enabled", "#C4C4C4", "Text enabled color"),
-            # Placeholder value updated
             # accent colors
             ColorConfigurable(mod, "@accent_light", "#D81B43", "Accent light color"),
             ColorConfigurable(mod, "@accent_medium", "#C71F35", "Accent medium color"),
@@ -61,32 +52,23 @@ class RaspberryDark(Theme):
             # alternative colors
             ColorConfigurable(mod, "@alt_base_dark", "#0A0A0A", "Alternative base dark color"),
             ColorConfigurable(mod, "@alt_base_medium", QColor.fromString("#1e1e1e"), "Alternative base medium color"),
-            # Placeholder value updated
             ColorConfigurable(mod, "@alt_base_light", "#2e2e2e", "Alternative base light color"),
-            # Placeholder value updated
             ColorConfigurable(mod, "@alt_text_misc", "#333333",
                               "Alternative miscellaneous text color"),  # Placeholder value updated
             ColorConfigurable(mod, "@alt_border_dark", "#2e2e2e", "Alternative border dark color"),
-            # Placeholder value updated
             ColorConfigurable(mod, "@alt_border_medium", "#3e3e3e",
                               "Alternative border medium color"),  # Placeholder value updated
             ColorConfigurable(mod, "@alt_border_light", "#4e4e4e", "Alternative border light color"),
-            # Placeholder value updated
             ColorConfigurable(mod, "@alt_text_dark", "#000000", "Alternative text dark color"),
             ColorConfigurable(mod, "@alt_text_medium", "#333333", "Alternative text medium color"),
-            # Placeholder value updated
             ColorConfigurable(mod, "@alt_text_light", "#cccccc", "Alternative text light color"),
-            # Placeholder value updated
             ColorConfigurable(mod, "@alt_text_disabled", "#666666",
                               "Alternative text disabled color"),  # Placeholder value updated
             ColorConfigurable(mod, "@alt_text_enabled", "#ffffff", "Alternative text enabled color"),
-            # Placeholder value updated
             ColorConfigurable(mod, "@alt_accent_light", "#CF4465", "Alternative accent light color"),
-            # Placeholder value updated
             ColorConfigurable(mod, "@alt_accent_medium", "#F00FFF",
-                              "Alternative accent medium color"),  # Placeholder value updated
+                          "Alternative accent medium color"),  # Placeholder value updated
             ColorConfigurable(mod, "@alt_accent_dark", "#90293B", "Alternative accent dark color"),
-            # Placeholder value updated
             # misc colors
             ColorConfigurable(mod, "@misc_color_30", "#000000", "Miscellaneous color 30"),
             ColorConfigurable(mod, "@misc_color_31", "#000000", "Miscellaneous color 31"),

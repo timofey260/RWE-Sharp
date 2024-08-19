@@ -61,26 +61,33 @@ QCheckBox::indicator:checked {
    background-color: @accent_medium;
    border: 1px solid @accent_medium;
 }
-QScrollBar:vertical {
+QScrollBar:vertical,horizontal {
    background: @base_dark;
    width: 15px;
    margin: 0px 0px 0px 0px;
 }
 
-QScrollBar::handle:vertical {
-   background: @base_medium;
-   min-height: 20px;
-   border-radius: 0px;
+QScrollBar:vertical, QScrollBar:horizontal {
+    background: @base_dark;
+    width: 15px;
+    margin: 0px;
+
 }
 
-QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
-   background: @base_dark;
-   height: 0px;
+
+
+QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical,
+QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {
+    background: @base_dark;
+    height: 0px;
+    width: 0px;
 }
 
-QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
-   background: none;
+QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical,
+QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
+    background: none;
 }
+
 
 QPushButton {
    background-color: @base_medium;
@@ -354,7 +361,71 @@ QScrollArea, QWidget, QAbstractScrollArea, QViewport {
 QTreeView, QListView, QTableView, QTableWidget, QTreeWidget {
     border: 1px solid @border_medium;
     background-color: @base_medium;
-    color: #D6D6D6;
+    color: @text_light;
     selection-background-color: @accent_medium;
     alternate-background-color: @alt_base_medium;
+
+}
+QDockWidget::close-button, QDockWidget::float-button {
+    border: 1px solid transparent;
+    background: @accent_dark;
+    border-radius: 0px;
+}
+
+QDockWidget::close-button:hover, QDockWidget::float-button:hover {
+    background: @accent_medium;
+    border-radius: 0px;
+}
+
+QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
+    padding: 1px -1px -1px 1px;
+}
+
+QDockWidget::title {
+    text-align: left;
+    background: @base_dark;
+    padding-left: 1px;
+    color: @accent_medium;
+    border-radius: 0px;
+}
+QCheckBox::indicator:checked {
+    background-color: @accent_medium;
+    border: 1px solid @alt_base_dark;
+}
+
+QCheckBox::indicator:checked:hover {
+    background-color: @accent_light;
+    border: 1px solid @alt_base_dark;
+}
+
+QCheckBox::indicator:unchecked:hover {
+    background-color: @misc_color_31;
+    border: 1px solid @border_light;
+}
+
+QTreeView {
+    alternate-background-color: @base_dark;
+}
+
+QHeaderView::section {
+    background-color: @base_dark;
+    color: @text_light;
+    padding: 5px;
+    border-style: solid;
+    border-color: @base_dark;
+    border-width: 0px 0px 1px 1px;
+}
+QCheckBox::indicator:checked {
+    background-color: @accent_medium;
+    border: 1px solid @alt_base_dark;
+}
+
+QCheckBox::indicator:checked:hover {
+    background-color: @accent_light;
+    border: 1px solid @alt_base_dark;
+}
+
+QCheckBox::indicator:unchecked:hover {
+    background-color: @accent_dark;
+    border: 1px solid @border_light;
 }

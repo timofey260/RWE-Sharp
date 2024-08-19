@@ -7,35 +7,35 @@ QToolTip {
 }
 
 QMainWindow {
-    background-color: @background_dark;
+    background-color: @base_dark;
 }
 
 QMainWindow::separator {
-    background-color: @border_medium;
+    background-color: @base_dark;
     height: 2px;
 }
 
 QToolBar {
     background-color: @base_light;
-    border: 1px solid @border_medium;
+    border: 1px solid @base_dark;
     spacing: 4px;
 }
 
 QStatusBar {
-    background-color: @background_dark;
+    background-color: @base_dark;
     color: @text_light;
-    border-top: 1px solid @border_medium;
+    border-top: 1px solid @base_dark;
     padding: 4px;
 }
 
 QFrame {
-    background-color: @background_dark;
-    border: 0px solid @border_medium;
+    background-color: @base_dark;
+    border: 0px solid @base_dark;
 }
 
 QGroupBox {
-    background-color: @background_dark;
-    border: 1px solid @border_medium;
+    background-color: @base_dark;
+    border: 1px solid @base_dark;
     color: @text_light;
     border-radius: 6px;
     margin-top: 10px;
@@ -65,7 +65,7 @@ QPushButton:hover {
 QPushButton:pressed {
     background-color: @accent_medium;
     border-color: @accent_medium;
-    color: #FFFFFF;
+    color: @text_light;
 }
 
 QCheckBox {
@@ -87,31 +87,27 @@ QCheckBox::indicator:checked {
 }
 
 QCheckBox::indicator:checked:hover {
-    background-color: @accent_light;
+    background-color: @alt_accent_light;
     border: 1px solid @alt_base_dark;
 }
 
 QCheckBox::indicator:unchecked:hover {
-    background-color: @misc_color_31;
+    background-color: @accent_dark;
     border: 1px solid @border_light;
 }
 
 QScrollBar:vertical, QScrollBar:horizontal {
-    background: @misc_color_30;
+    background: @accent_dark;
     width: 15px;
     margin: 0px;
     border-radius: 7px;
 }
 
-QScrollBar::handle:vertical, QScrollBar::handle:horizontal {
-    background: @background_light;
-    min-height: 20px;
-    border-radius: 7px;
-}
+
 
 QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical,
 QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {
-    background: @misc_color_30;
+    background: @accent_dark;
     height: 0px;
     width: 0px;
 }
@@ -153,8 +149,8 @@ QProgressBar::chunk {
 }
 
 QMenuBar {
-    background-color: @background_dark;
-    border-bottom: 1px solid @border_medium;
+    background-color: @base_dark;
+    border-bottom: 1px solid @base_dark;
 }
 
 QMenuBar::item {
@@ -165,13 +161,13 @@ QMenuBar::item {
 
 QMenuBar::item:selected {
     background-color: @base_dark;
-    color: #FFFFFF;
+    color: @text_light;
     border-radius: 4px;
 }
 
 QMenu {
-    background-color: @background_dark;
-    border: 1px solid @border_medium;
+    background-color: @base_dark;
+    border: 1px solid @base_dark;
 }
 
 QMenu::item {
@@ -181,13 +177,13 @@ QMenu::item {
 
 QMenu::item:selected {
     background-color: @base_dark;
-    color: #FFFFFF;
+    color: @text_light;
 }
 
 QTabWidget {
     color: @text_light;
-    background-color: @background_dark;
-    border: 1px solid @border_medium;
+    background-color: @base_dark;
+    border: 1px solid @base_dark;
 }
 
 QTabWidget::pane {
@@ -201,14 +197,14 @@ QTabBar::tab {
     border-style: solid;
     border-width: 1px;
     border-radius: 4px;
-    border-color: @border_medium;
+    border-color: @base_dark;
     color: @text_light;
     padding: 6px;
     background-color: @base_dark;
 }
 
 QTabBar::tab:selected, QTabBar::tab:hover {
-    color: #FFFFFF;
+    color: @text_light;
     background-color: @base_dark;
     border-color: @accent_medium;
 }
@@ -219,28 +215,23 @@ QSlider::groove:horizontal, QSlider::groove:vertical {
     border-radius: 2px;
 }
 
-QSlider::handle:horizontal, QSlider::handle:vertical {
-    background: @accent_medium;
-    border: 1px solid @accent_medium;
-    border-radius: 4px;
-    width: 16px;
-    height: 16px;
-}
+
 
 QTreeView, QListView, QTableView, QTableWidget, QTreeWidget {
     border: 1px solid @accent_medium;
     background-color: @base_dark;
-    color: @text_light;
-    selection-background-color: @accent_medium;
-    alternate-background-color: @background_dark;
+    color: @base_dark;
+    selection-background-color: @accent_dark;
+    alternate-background-color: @base_very_dark;
+
 }
 
 QHeaderView::section {
-    background-color: @background_dark;
+    background-color: @base_dark;
     color: @text_light;
     padding: 5px;
     border-style: solid;
-    border-color: @background_dark;
+    border-color: @base_dark;
     border-width: 0px 0px 1px 1px;
 }
 
@@ -248,8 +239,18 @@ QHeaderView::section:selected, QHeaderView::section::checked {
     background-color: @base_dark;
 }
 
-QSplitter::handle {
-    background-color: @base_dark;
+
+QSlider::handle:horizontal, QSlider::handle:vertical {
+    background: @accent_medium;
+    border: 1px solid @accent_medium;
+    border-radius: 4px;
+    width: 16px;
+    height: 16px;
+}
+QScrollBar::handle:vertical, QScrollBar::handle:horizontal {
+    background: @base_very_dark;
+    min-height: 20px;
+    border-radius: 7px;
 }
 
 QDockWidget {
@@ -276,11 +277,11 @@ QScrollArea {
 
 QScrollArea, QWidget, QAbstractScrollArea, QWidget,
 QScrollArea, QWidget, QAbstractScrollArea, QViewport {
-    background-color: @base_very_dark;
+    background-color: @base_medium;
 }
 
 QScrollArea{
-   background-color: @base_medium;
+   background-color: @base_dark;
 }
 
 
@@ -315,8 +316,8 @@ QComboBox {
 }
 
 QComboBox:hover,QPushButton:hover,QAbstractSpinBox:hover,QLineEdit:hover,QTextEdit:hover,QPlainTextEdit:hover,QAbstractView:hover,QTreeView:hover {
-    border: 1px solid #6dfb72;
-    color: #eff0f1;
+    border: 1px solid @accent_light;
+    color: @text_light;
     border-radius: 2px;
 }
 
@@ -326,7 +327,7 @@ QComboBox::drop-down {
     width: 15px;
 
     border-left-width: 1px;
-    border-left-color: @border_medium;
+    border-left-color: @base_dark;
     border-left-style: solid; /* just a single line */
     border-top-right-radius: 3px; /* same radius as the QComboBox */
     border-bottom-right-radius: 3px;
@@ -335,3 +336,93 @@ QComboBox::drop-down {
 QComboBox::down-arrow {
     image: url(:/misc/misc/arrow_down.svg);
 }
+
+QTreeView,QTreeWidget {
+    alternate-background-color: @base_dark;
+}
+
+QSpinBox {
+    border: 1px solid @accent_medium;
+    border-radius: 5px;
+    padding: 1px 18px 1px 3px;
+    min-width: 6em;
+}
+
+QComboBox {
+    border: 1px solid @accent_medium;
+    border-radius: 5px;
+    padding: 1px 18px 1px 3px;
+    min-width: 6em;
+}
+
+
+QComboBox:hover,QPushButton:hover,QAbstractSpinBox:hover,QLineEdit:hover,QTextEdit:hover,QPlainTextEdit:hover,QAbstractView:hover,QTreeView:hover{
+    border: 1px solid @accent_light;
+    color: @text_light;
+    border-radius: 2px;
+}
+
+
+
+QComboBox::drop-down {
+    subcontrol-origin: padding;
+    subcontrol-position: top right;
+    width: 15px;
+
+    border-left-width: 1px;
+    border-left-color: @base_medium;
+    border-left-style: solid; /* just a single line */
+    border-top-right-radius: 3px; /* same radius as the QComboBox */
+    border-bottom-right-radius: 3px;
+}
+QComboBox::down-arrow {
+    image: img(:/misc/misc/arrow_down.svg);
+}
+
+QSpinBox {
+    border: 2px solid @accent_dark;
+    border-radius: 10px;
+    padding: 1px 18px 1px 3px;
+    min-width: 6em;
+}
+
+
+QSpinBox:hover,QPushButton:hover,QAbstractSpinBox:hover,QLineEdit:hover,QTextEdit:hover,QPlainTextEdit:hover,QAbstractView:hover,QTreeView:hover{
+    border: 1px solid @accent_light;
+    color: @text_light;
+    border-radius: 3px;
+}
+
+
+
+
+QSpinBox::down-button{
+    subcontrol-origin: padding;
+    subcontrol-position: top right;
+    width: 15px;
+    border-left-width: 1px;
+    border-left-color: @accent_medium;
+    border-left-style: solid; /* just a single line */
+    border-top-right-radius: 3px; /* same radius as the QSpinBox */
+    border-bottom-right-radius: 3px;
+}
+
+
+QSpinBox::up-button{
+    subcontrol-origin: padding;
+    subcontrol-position: bottom right;
+    width: 15px;
+    border-left-width: 1px;
+    border-left-color: @accent_medium;
+    border-left-style: solid; /* just a single line */
+    border-top-right-radius: 3px; /* same radius as the QSpinBox */
+    border-bottom-right-radius: 3px;
+}
+
+
+QSpinBox::down-arrow {
+    image: img(:/misc/misc/arrow_down.svg);
+}
+
+
+
