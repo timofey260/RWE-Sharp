@@ -84,7 +84,7 @@ class RaspberryDark(Theme):
             ColorConfigurable(mod, "@misc_color_58", QColor.fromString("#ccbbaa"), "Miscellaneous color 58"),
             ColorConfigurable(mod, "@misc_color_59", QColor.fromString("#ddccbb"), "Miscellaneous color 59"),
         ]
-
+#penis
     def palette_enable(self):
         with open(os.path.join(PATH_BASEMOD, "Palettes", "qssfiles", ["circular.txt", "sharp.txt", "atmoled.txt", "darkeum.txt"][self.styleindex.value])) as f:
             self.mod.manager.application.setStyleSheet(f.read())
