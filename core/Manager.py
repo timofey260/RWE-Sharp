@@ -75,6 +75,7 @@ class Manager:
         """
         Collection of ui's for settings window
         """
+        self.current_theme: Theme | None = None
         self.mod_types = []
         from BaseMod.baseMod import BaseMod
         self.basemod = BaseMod(self, "")
@@ -94,10 +95,16 @@ class Manager:
 
     def change_theme(self):
         if self.basemod.bmconfig.theme.value == "":
+            if self.current_theme is not None:
+                self.current_theme.theme_disable()
+                print("Theme is Disabled")
             return
         for i in self.themes:
             if self.basemod.bmconfig.theme.value == f"{i.mod.author_name}.{i.name}":
-                i.palette_enable()
+                if self.current_theme is not None:
+                    self.current_theme.theme_disable()
+                i.theme_enable()
+                self.current_theme = i
                 log(f"Using Theme {i.name}")
                 return
 

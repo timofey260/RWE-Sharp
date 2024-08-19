@@ -12,12 +12,16 @@ class Theme:
         self.mod.add_palette(self)
         return self
 
-    def palette_enable(self):
+    def theme_enable(self):
         pass
 
-    def palette_disable(self):
+    def theme_disable(self):
         pass
 
     @property
     def app(self) -> Application:
         return self.mod.manager.application
+
+    @property
+    def config_name(self):
+        return f"{self.mod.author_name}.{self.name}"
