@@ -15,10 +15,10 @@ from RWESharp.Utils import paint_svg_qicon
 class TileExplorer(ViewDockWidget):
     tileSelected = Signal(list)
 
-    def __init__(self, manager, parent: QMainWindow):
+    def __init__(self, manager, editor, parent: QMainWindow):
         super().__init__(parent)
         self.manager = manager
-        self.mod = manager.basemod
+        self.mod = editor.mod
         parent.addDockWidget(Qt.DockWidgetArea.BottomDockWidgetArea, self)
 
         self.category_colors = BoolConfigurable(self.mod, "TileExplorer.category_colors", False, "Color of categories")
@@ -64,7 +64,7 @@ class TileExplorer(ViewDockWidget):
         self.layer.link_combobox(self.ui.LayerBox)
         self.layer.valueChanged.connect(self.change_draw_option)
         self.mod.tilemodule.drawoption.valueChanged.connect(self.change_draw_option)
-        self.tileSelected.connect(self.mod.tileeditor.add_tile)
+        self.tileSelected.connect(editor.add_tile)
         self.palette_path.valueChanged.connect(self.update_palette)
         self.ui.Pin.clicked.connect(self.pin_tile)
         self.ui.splitter.splitterMoved.connect(self.splitter_moved)

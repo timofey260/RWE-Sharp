@@ -11,6 +11,7 @@ from RWESharp.Core import CELLSIZE, PATH_FILES_IMAGES_PALETTES
 from RWESharp.Modify import EditorMode
 from RWESharp.Loaders import palette_to_colortable, tile_offset, Tile
 from RWESharp.Renderable import RenderTile
+from BaseMod.tiles.tileExplorer import TileExplorer
 
 from BaseMod.tiles.tileHistory import TilePen
 
@@ -54,7 +55,7 @@ class TileEditor(EditorMode):
         self.force_geo = BoolConfigurable(mod, "EDIT_tiles.fg", False, "Force geometry")
 
         self.colortable = palette_to_colortable(QImage(self.palette_image.value))
-        self.explorer = mod.tile_explorer
+        self.explorer = TileExplorer(self.manager, self, self.manager.window)
         self.tile: Tile | None = mod.manager.tiles.find_tile("Four Holes")
         self.tile_item = RenderTile(mod, 0, self.layer).add_myself(self)
         # self.tile_cols_image = QPixmap(1, 1)

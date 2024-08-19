@@ -75,12 +75,13 @@ class Manager:
         """
         Collection of ui's for settings window
         """
+        self.mod_types = []
         from BaseMod.baseMod import BaseMod
         self.basemod = BaseMod(self, "")
 
         self.mods.append(self.basemod)
-        self.pre_init_mods()
         self.config.init_configs()  # mounting configs and applying them
+        self.pre_init_mods()
         self.init_mods()
         self.init_modules()
         self.init_editors()
@@ -113,8 +114,8 @@ class Manager:
         self.editors[0].init_scene_items()
 
     def init_mods(self):
-        for i in self.mods:
-            i.mod_init()
+        for i in self.mod_types:
+            self.mods.append(i[0](self, i[1]))
 
     def pre_init_mods(self):
         # mods adding
@@ -123,8 +124,7 @@ class Manager:
                 continue
             mod = load_mod(os.path.join(PATH_MODS, i), self, indx)
             if mod is not None:
-                log(f"Loaded {mod.modinfo.title} by {mod.modinfo.author} v{mod.modinfo.version}")
-                self.mods.append(mod)
+                self.mod_types.append(mod)
 
     def add_editor(self, editor, ui: QWidget):
         self.editors.append(editor)

@@ -3,13 +3,14 @@ from BaseMod.geo.geometryModule import GeoModule
 from BaseMod.tiles.tileModule import TileModule
 from BaseMod.grid.gridModule import GridModule
 from BaseMod.grid.gridUIConnector import GridView
-from BaseMod.Palettes.RaspberryDark import RaspberryDark
+from BaseMod.palettes.RaspberryDark import RaspberryDark
 from BaseMod.Configs import BaseModConfig
 from BaseMod.tiles.tileEditor import TileEditor
 from BaseMod.tiles.tileExplorer import TileExplorer
 from BaseMod.effects.effectEditor import EffectEditor
 from BaseMod.effects.effectsUIConnector import EffectsUI
 from BaseMod.effects.effectExplorer import EffectExplorer
+from BaseMod.palettes.preferencesuiconnector import PreferencesUI
 from RWESharp.Modify import Mod, ModInfo
 from RWESharp.Core import SettingElement, HotkeyElement, get_hotkeys_from_pattern, PATH_FILES_VIDEOS
 from RWESharp.Ui import FunnyVideo
@@ -26,37 +27,6 @@ class BaseMod(Mod):
             "1.0.0",
             "RWE# essentials\nincludes all editors, modules and other\ndisable it at your own risk :3"
         ), path)
-        from BaseMod.geo.geoUIConnectors import GeoUI, GeoViewUI, GeoSettings
-        from BaseMod.tiles.tileUIConnectors import TileViewUI, TileUI, TileSettings
-
-        self.geoeditor: GeometryEditor | None = None
-        self.geomodule: GeoModule | None = None
-        self.geoui: GeoUI | None = None
-        self.geoview: GeoViewUI | None = None
-        self.geosettings: GeoSettings | None = None
-
-        self.tilemodule: TileModule | None = None
-        self.tileview: TileViewUI | None = None
-        self.tileeditor: TileEditor | None = None
-        self.tileui: TileUI | None = None
-        self.tilesettings: TileSettings | None = None
-
-        self.effecteditor: EffectEditor | None = None
-        self.effectui: EffectsUI | None = None
-        self.effect_explorer: EffectExplorer | None = None
-        self.effect_explorer_action: QAction | None = None
-
-        self.gridmodule: GridModule | None = None
-        self.gridui: GridView | None = None
-
-        self.settingtree: SettingElement | None = None
-        self.editorsTree: HotkeyElement | None = None
-        self.bmconfig: BaseModConfig | None = None
-
-        self.tile_explorer: TileExplorer | None = None
-        self.tile_explorer_action: QAction | None = None
-
-    def mod_init(self):
         from BaseMod.geo.geoUIConnectors import GeoUI, GeoViewUI, GeoSettings
         from BaseMod.tiles.tileUIConnectors import TileViewUI, TileUI, TileSettings
         # ThemeManager(self).add_myself()
@@ -76,7 +46,6 @@ class BaseMod(Mod):
 
         self.tilemodule = TileModule(self).add_myself()
         self.tileeditor = TileEditor(self)
-        self.tile_explorer = TileExplorer(self.manager, self.manager.window)
         self.tileview = TileViewUI(self).add_myself()
         self.tileui = TileUI(self)
         self.tilesettings = TileSettings(self)
@@ -94,8 +63,8 @@ class BaseMod(Mod):
 
         self.tile_explorer_action = QAction("Tile Explorer")
         self.manager.window_menu.addAction(self.tile_explorer_action)
-        self.tile_explorer.link_action(self.tile_explorer_action)
-        self.tile_explorer.change_visibility(False)
+        self.tileeditor.explorer.link_action(self.tile_explorer_action)
+        self.tileeditor.explorer.change_visibility(False)
         self.bmconfig.tileexplorer_key.link_action(self.tile_explorer_action)
 
         self.effect_explorer_action = QAction("Effect Explorer")
@@ -109,6 +78,7 @@ class BaseMod(Mod):
         self.settingtree = SettingElement(self, self.modinfo.title, self.modinfo.name).add_myself()
         self.settingtree.add_child(SettingElement(self, "Geo", "geo", self.geosettings))
         self.settingtree.add_child(SettingElement(self, "Tiles", "tiles", self.tilesettings))
+        SettingElement(self, "Preferences", "pref", PreferencesUI(self), self.settingtree)
 
         self.editorsTree = HotkeyElement(self, "Editors", "editors").add_myself()
         geoelement = HotkeyElement(self, "Geometry Editor", "geoedit", parent=self.editorsTree)

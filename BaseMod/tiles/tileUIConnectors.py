@@ -95,7 +95,7 @@ class TileUI(UI):
         self.ui.setupUi(self)
         mod: BaseMod
 
-        self.explorer = mod.tile_explorer
+        self.explorer = mod.tileeditor.explorer
         self.editor = mod.tileeditor
         self.editor.previewoption.link_combobox(self.ui.RenderOption)
         self.editor.show_collisions.link_button(self.ui.ToggleCollisions)
