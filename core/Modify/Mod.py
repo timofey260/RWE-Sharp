@@ -42,12 +42,6 @@ class Mod(ABC):
     def author_name(self) -> str:
         return f"{self.modinfo.author}.{self.modinfo.name}"
 
-    def mod_init(self):
-        """
-        Called when mod is enabled
-        :return:
-        """
-
     def add_editor(self, editor: EditorMode, ui: UI):
         self.manager.add_editor(editor, ui)
 
