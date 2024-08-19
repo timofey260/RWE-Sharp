@@ -1,15 +1,12 @@
 import re
 from PIL import Image
 from PySide6.QtWidgets import QApplication
-from RWESharp.Modify import Theme
-from BaseMod.Palettes.qssfiles.darkeum import darkeum_qss
-from BaseMod.Palettes.qssfiles.atmoled import atmoled_qss
-from BaseMod.Palettes.qssfiles.Sharp import sharp_qss
-from BaseMod.Palettes.qssfiles.Circular import circular_qss
+from RWESharp.Modify import
+
 Style = 3
 
 
-class ThemeManager(Theme):
+class ThemeManager(Palette):
     def __init__(self, mod, widget=None):
         super().__init__("Moonlight Dark", mod)  # Example colors
         print(self.get_stylesheet())
@@ -23,91 +20,78 @@ class ThemeManager(Theme):
                 print("Error: QApplication instance not found.")
 
     def get_stylesheet(self):
-        return CSSPaletizer("palette5.png", circular_qss)
+        return CSSPaletizer("palette5.png", CSSPaletizer())
 
 
 def CSSPaletizer(palette_name, input_string):
     placeholder_mapping = {
-        "{{background_dark}}": 0,
-        "{{background_medium}}": 1,
-        "{{background_light}}": 2,
-        "{{text_light}}": 3,
+        #base colors
+        "{{base_dark}}": 0,
+        "{{base_medium}}": 1,
+        "{{base_light}}": 2,
+        "{{text_misc}}": 3,
+        #border
         "{{border_dark}}": 4,
         "{{border_medium}}": 5,
-        "{{border_accent}}": 6,
+        "{{border_light}}": 6,
+        #text
         "{{text_dark}}": 7,
-        "{{text_disabled}}": 8,
-        "{{highlight}}": 9,
-        "{{highlight_selected}}": 10,
-        "{{tab_background}}": 11,
-        "{{tab_selected}}": 12,
-        "{{progressbar_background}}": 13,
-        "{{progressbar_chunk}}": 14,
-        "{{slider_handle}}": 15,
-        "{{slider_groove}}": 16,
-        "{{slider_add_page}}": 17,
-        "{{slider_sub_page}}": 18,
-        "{{treeview_branch_selected}}": 19,
-        "{{treeview_branch_hover}}": 20,
-        "{{calendar_background}}": 21,
-        "{{text_disabled_light}}": 22,
-        "{{groupbox_title}}": 23,
-        "{{dockwidget_title}}": 24,
-        "{{lineedit_background}}": 25,
-        "{{lineedit_border}}": 26,
-        "{{spinbox_background}}": 27,
-        "{{spinbox_border}}": 28,
-        "{{radiobutton_checked}}": 29,
-        "{{radiobutton_unchecked}}": 30,
-        "{{combobox_background}}": 31,
-        "{{combobox_border}}": 32,
-        "{{scrollarea_background}}": 33,
-        "{{scrollbar_vertical_handle}}": 34,
-        "{{scrollbar_horizontal_handle}}": 35,
-        "{{scrollbar_vertical_background}}": 36,
-        "{{scrollbar_horizontal_background}}": 37,
-        "{{scrollbar_add_page}}": 38,
-        "{{scrollbar_sub_page}}": 39,
-        "{{menu_background}}": 40,
-        "{{menu_selected}}": 41,
-        "{{menu_text}}": 42,
-        "{{header_background}}": 43,
-        "{{header_text}}": 44,
-        "{{header_selected}}": 45,
-        "{{dockwidget_titlebar_close_icon}}": 46,
-        "{{dockwidget_titlebar_normal_icon}}": 47,
-        "{{misc_color_48}}": 48,
-        "{{misc_color_49}}": 49,
-        "{{misc_color_50}}": 50,
-        "{{misc_color_51}}": 51,
-        "{{misc_color_52}}": 52,
-        "{{misc_color_53}}": 53,
-        "{{misc_color_54}}": 54,
-        "{{misc_color_55}}": 55,
-        "{{misc_color_56}}": 56,
-        "{{misc_color_57}}": 57,
-        "{{misc_color_58}}": 58,
-        "{{misc_color_59}}": 59,
-        "{{misc_color_60}}": 60,
-        "{{misc_color_61}}": 61,
-        "{{misc_color_62}}": 62,
-        "{{misc_color_63}}": 63,
-        "{{misc_color_64}}": 64,
-        "{{misc_color_65}}": 65,
-        "{{misc_color_66}}": 66,
-        "{{misc_color_67}}": 67,
-        "{{misc_color_68}}": 68,
-        "{{misc_color_69}}": 69,
-        "{{misc_color_70}}": 70,
-        "{{misc_color_71}}": 71,
-        "{{misc_color_72}}": 72,
-        "{{misc_color_73}}": 73,
-        "{{misc_color_74}}": 74,
-        "{{misc_color_75}}": 75,
-        "{{misc_color_76}}": 76,
-        "{{misc_color_77}}": 77,
-        "{{misc_color_78}}": 78,
-        "{{misc_color_79}}": 79
+        "{{text_medium}}": 8,
+        "{{text_light}}": 9,
+        "{{text_disabled}}":10,
+        "{{text_enabled}}":11,
+        #accents
+        "{{accent_light}}": 12,
+        "{{accent_medium}}": 13,
+        "{{accent_dark}}": 14,
+        #color variations
+        "{{alt_base_dark}}": 15,
+        "{{alt_base_medium}}": 16,
+        "{{alt_base_light}}": 17,
+        "{{alt_text_misc}}": 18,
+        "{{alt_border_dark}}": 19,
+        "{{alt_border_medium}}": 20,
+        "{{alt_border_light}}": 21,
+        "{{alt_text_dark}}": 22,
+        "{{alt_text_medium}}": 23,
+        "{{alt_text_light}}": 24,
+        "{{alt_text_disabled}}": 25,
+        "{{alt_text_enabled}}": 26,
+        "{{alt_accent_light}}": 27,
+        "{{alt_accent_medium}}": 28,
+        "{{alt_accent_dark}}": 29,
+        # specific colors
+        "{{tab_background}}": 30,
+        "{{tab_selected}}": 31,
+        "{{progressbar_background}}": 32,
+        "{{progressbar_chunk}}": 33,
+        "{{slider_handle}}": 34,
+        "{{slider_groove}}": 35,
+        "{{slider_add_page}}": 36,
+        "{{slider_sub_page}}": 37,
+        "{{slider_page_indicator}}": 38,
+        "{{slider_page_indicator_active}}": 39,
+        "{{slider_page_indicator_disabled}}": 40,
+        "{{slider_page_indicator_selected}}": 41,
+        "{{treeview_branch_selected}}": 42,
+        "{{treeview_branch_hover}}": 43,
+        "{{calendar_background}}": 44,
+        "{{text_disabled_light}}": 45,
+        "{{groupbox_title}}": 46,
+        "{{dockwidget_title}}": 47,
+        "{{lineedit_background}}": 48,
+        "{{misc_color_79}}": 49,
+        "{{misc_color_80}}": 50,
+        "{{misc_color_81}}": 51,
+        "{{misc_color_82}}": 52,
+        "{{misc_color_83}}": 53,
+        "{{misc_color_84}}": 54,
+        "{{misc_color_85}}": 55,
+        "{{misc_color_86}}": 56,
+        "{{misc_color_87}}": 57,
+        "{{misc_color_88}}": 58,
+        "{{misc_color_89}}": 59
+
     }
     # Define a fixed mapping of CSS placeholders to palette colors
 
