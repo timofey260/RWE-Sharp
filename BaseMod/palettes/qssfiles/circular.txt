@@ -205,9 +205,7 @@ QSplitter::handle {
     background-color: #252525;
 }
 QDockWidget {
-    titlebar-close-icon: url(close.svg);
-    titlebar-normal-icon: url(undock.svg);
-    titlebar-height: 22px;
+  border: 1px solid #252525;
 }
 QDockWidget::title {
     text-align: left;
@@ -224,8 +222,32 @@ QWidget {
 QScrollArea {
     border: none;
 }
-QScrollArea > QWidget > QAbstractScrollArea > QWidget,
-QScrollArea > QWidget > QAbstractScrollArea > QViewport {
+QScrollArea, QWidget, QAbstractScrollArea, QWidget,
+QScrollArea, QWidget, QAbstractScrollArea, QViewport {
     background-color: #252525;
 }
 
+QDockWidget::close-button, QDockWidget::float-button {
+    border: 1px solid transparent;
+    background: #357c38;
+    border-radius: 5px;
+
+}
+
+QDockWidget::close-button:hover, QDockWidget::float-button:hover {
+    background: #4caf50;
+    border-radius: 10px;
+}
+
+QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
+    padding: 1px -1px -1px 1px;
+
+}
+
+QDockWidget::title {
+    text-align: left;
+    background: #252525;
+    padding-left: 1px;
+    color: #4CAF50;
+    border-radius: 8px;
+}

@@ -24,38 +24,38 @@ class RaspberryDark(Theme):
             # base colors
             ColorConfigurable(mod, "@base_very_dark", QColor.fromString("#050a0e"), "Base color"),
             ColorConfigurable(mod, "@base_dark", QColor.fromString("#151a1e"), "Base dark color"),
-            ColorConfigurable(mod, "@base_medium", QColor.fromString("#000000"), "Base medium color"),
-            ColorConfigurable(mod, "@base_light", QColor.fromString("#1e1e1e"), "Base light color"),
+            ColorConfigurable(mod, "@base_medium", QColor.fromString("#1e282c"), "Base medium color"),
+            ColorConfigurable(mod, "@base_light", QColor.fromString("#555555"), "Base light color"),
             # Placeholder value updated
-            ColorConfigurable(mod, "@base_very_light", QColor.fromString("#2e2e2e"), "Base very light color"),
+            ColorConfigurable(mod, "@base_very_light", QColor.fromString("#C2C7CB"), "Base very light color"),
             # Placeholder value updated
             # background colors
-            ColorConfigurable(mod, "@background_very_dark", QColor.fromString("#000000"), "Background color"),
+            ColorConfigurable(mod, "@background_very_dark", QColor.fromString("#050a0e"), "Background color"),
             ColorConfigurable(mod, "@background_dark", QColor.fromString("#151a1e"), "Background dark color"),
-            ColorConfigurable(mod, "@background_medium", QColor.fromString("#1e1e1e"), "Background medium color"),
-            ColorConfigurable(mod, "@background_light", QColor.fromString("#2e2e2e"), "Background light color"),
-            ColorConfigurable(mod, "@background_very_light", QColor.fromString("#3e3e3e"),
+            ColorConfigurable(mod, "@background_medium", QColor.fromString("#1e282c"), "Background medium color"),
+            ColorConfigurable(mod, "@background_light", QColor.fromString("#555555"), "Background light color"),
+            ColorConfigurable(mod, "@background_very_light", QColor.fromString("#C2C7CB"),
                               "Background very light color"),  # Placeholder value updated
             # border colors
-            ColorConfigurable(mod, "@border_dark", QColor.fromString("#2e2e2e"), "Border dark color"),
+            ColorConfigurable(mod, "@border_dark", QColor.fromString("#424242"), "Border dark color"),
             # Placeholder value updated
-            ColorConfigurable(mod, "@border_medium", QColor.fromString("#3e3e3e"), "Border medium color"),
+            ColorConfigurable(mod, "@border_medium", QColor.fromString("#545454"), "Border medium color"),
             # Placeholder value updated
-            ColorConfigurable(mod, "@border_light", QColor.fromString("#4e4e4e"), "Border light color"),
+            ColorConfigurable(mod, "@border_light", QColor.fromString("#656565"), "Border light color"),
             # Placeholder value updated
             # text colors
-            ColorConfigurable(mod, "@text_dark", QColor.fromString("#000000"), "Text dark color"),
-            ColorConfigurable(mod, "@text_medium", QColor.fromString("#333333"), "Text medium color"),
+            ColorConfigurable(mod, "@text_dark", QColor.fromString("#757575"), "Text dark color"),
+            ColorConfigurable(mod, "@text_medium", QColor.fromString("#9E9E9E"), "Text medium color"),
             # Placeholder value updated
-            ColorConfigurable(mod, "@text_light", QColor.fromString("#cccccc"), "Text light color"),
+            ColorConfigurable(mod, "@text_light", QColor.fromString("#C4C4C4"), "Text light color"),
             # Placeholder value updated
-            ColorConfigurable(mod, "@text_disabled", QColor.fromString("#666666"), "Text disabled color"),
+            ColorConfigurable(mod, "@text_disabled", QColor.fromString("#424242"), "Text disabled color"),
             # Placeholder value updated
-            ColorConfigurable(mod, "@text_enabled", QColor.fromString("#ffffff"), "Text enabled color"),
+            ColorConfigurable(mod, "@text_enabled", QColor.fromString("#C4C4C4"), "Text enabled color"),
             # Placeholder value updated
             # accent colors
             ColorConfigurable(mod, "@accent_light", QColor.fromString("#60A996"), "Accent light color"),
-            ColorConfigurable(mod, "@accent_medium", QColor.fromString("#F00FFF"), "Accent medium color"),
+            ColorConfigurable(mod, "@accent_medium", QColor.fromString("#4FA08B"), "Accent medium color"),
             ColorConfigurable(mod, "@accent_dark", QColor.fromString("#316558"), "Accent dark color"),
             # alternative colors
             ColorConfigurable(mod, "@alt_base_dark", QColor.fromString("#0A0A0A"), "Alternative base dark color"),
@@ -136,6 +136,7 @@ class RaspberryDark(Theme):
             for i in self.colors:
                 newtext = newtext.replace(i.name, i.value.name())
             self.mod.manager.application.setStyleSheet(newtext)
-
+            print ("Applied " + self.themefiles[self.styleindex.value])
+            print (newtext)
     def theme_disable(self):
         self.mod.manager.application.setStyleSheet("")
