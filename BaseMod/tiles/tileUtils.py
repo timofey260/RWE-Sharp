@@ -215,7 +215,7 @@ def remove_tile(level: RWELevel, pos: QPoint, layer: int) -> RemovedTile | None:
                     level.manager.basemod.tilemodule.get_layer(layer + 1).clean_pixel(bodypos)
                     changes.append([bodypos, layer + 1, copy_tile(level.tile_data(bodypos, layer + 1))])
                     level.data["TE"]["tlMatrix"][bodypos.x()][bodypos.y()][layer + 1] = {"tp": "default", "data": 0}
-            if (col == -1 or level.tile_data(bodypos, layer) != tiledata) and level.tile_data(bodypos, layer)["tp"] == "default":
+            if (col == -1 or level.tile_data(bodypos, layer) != tiledata) and level.tile_data(bodypos, layer)["tp"] != "default":
                 continue
             level.manager.basemod.tilemodule.get_layer(layer).clean_pixel(bodypos)
             changes.append([bodypos, layer, copy_tile(level.tile_data(bodypos, layer))])
