@@ -2,6 +2,8 @@ from PySide6.QtGui import QColor
 from RWESharp.Modify import Theme
 from RWESharp.Configurable import IntConfigurable
 from RWESharp.Core import PATH_BASEMOD
+from BaseMod.palettes.theme_palettes.MoonlightDark import moonlight_dark_palette
+from BaseMod.palettes.theme_palettes.MintDark import mint_dark_palette
 import os
 
 from core.configTypes.QtTypes import ColorConfigurable
@@ -20,84 +22,8 @@ class RaspberryDark(Theme):
         self.currentstyle = ""
         self.multiple = False
 
-        self.colors = [
-            # base colors
-            ColorConfigurable(mod, "@base_very_dark", QColor.fromString("#1E1E1E"), "Base color"),
-            ColorConfigurable(mod, "@base_dark", QColor.fromString("#252525"), "Base dark color"),
-            ColorConfigurable(mod, "@base_medium", QColor.fromString("#2B2B2B"), "Base medium color"),
-            ColorConfigurable(mod, "@base_light", QColor.fromString("#555555"), "Base light color"),
-            ColorConfigurable(mod, "@base_very_light", QColor.fromString("#C2C7CB"), "Base very light color"),
-            # background colors
-            ColorConfigurable(mod, "@background_very_dark", QColor.fromString("#1E1E1E"), "Background color"),
-            ColorConfigurable(mod, "@background_dark", QColor.fromString("#252525"), "Background dark color"),
-            ColorConfigurable(mod, "@background_medium", QColor.fromString("#2B2B2B"), "Background medium color"),
-            ColorConfigurable(mod, "@background_light", QColor.fromString("#555555"), "Background light color"),
-            ColorConfigurable(mod, "@background_very_light", QColor.fromString("#C2C7CB"),"Background very light color"),
-            # border colors
-            ColorConfigurable(mod, "@border_dark", QColor.fromString("#424242"), "Border dark color"),
-            ColorConfigurable(mod, "@border_medium", QColor.fromString("#545454"), "Border medium color"),
-            ColorConfigurable(mod, "@border_light", QColor.fromString("#656565"), "Border light color"),
+        self.colors = mint_dark_palette
 
-            # text colors
-            ColorConfigurable(mod, "@text_dark", QColor.fromString("#757575"), "Text dark color"),
-            ColorConfigurable(mod, "@text_medium", QColor.fromString("#9E9E9E"), "Text medium color"),
-            ColorConfigurable(mod, "@text_light", QColor.fromString("#C4C4C4"), "Text light color"),
-            ColorConfigurable(mod, "@text_disabled", QColor.fromString("#424242"), "Text disabled color"),
-            ColorConfigurable(mod, "@text_enabled", QColor.fromString("#C4C4C4"), "Text enabled color"),
-
-            # accent colors
-            ColorConfigurable(mod, "@accent_light", QColor.fromString("#6dfb72"), "Accent light color"),
-            ColorConfigurable(mod, "@accent_medium", QColor.fromString("#4caf50"), "Accent medium color"),
-            ColorConfigurable(mod, "@accent_dark", QColor.fromString("#388E3C"), "Accent dark color"),
-            # alternative colors
-            ColorConfigurable(mod, "@alt_base_dark", QColor.fromString("#0A0A0A"), "Alternative base dark color"),
-            ColorConfigurable(mod, "@alt_base_medium", QColor.fromString("#1e1e1e"), "Alternative base medium color"),
-            ColorConfigurable(mod, "@alt_base_light", QColor.fromString("#2e2e2e"), "Alternative base light color"),
-            ColorConfigurable(mod, "@alt_text_misc", QColor.fromString("#333333"), "Alternative miscellaneous text color"),
-            ColorConfigurable(mod, "@alt_border_dark", QColor.fromString("#2e2e2e"), "Alternative border dark color"),
-
-            ColorConfigurable(mod, "@alt_border_medium", QColor.fromString("#3e3e3e"), "Alternative border medium color"),
-            ColorConfigurable(mod, "@alt_border_light", QColor.fromString("#4e4e4e"), "Alternative border light color"),
-            ColorConfigurable(mod, "@alt_text_dark", QColor.fromString("#000000"), "Alternative text dark color"),
-            ColorConfigurable(mod, "@alt_text_medium", QColor.fromString("#333333"), "Alternative text medium color"),
-            ColorConfigurable(mod, "@alt_text_light", QColor.fromString("#cccccc"), "Alternative text light color"),
-            ColorConfigurable(mod, "@alt_text_disabled", QColor.fromString("#666666"), "Alternative text disabled color"),
-            ColorConfigurable(mod, "@alt_text_enabled", QColor.fromString("#ffffff"), "Alternative text enabled color"),
-            ColorConfigurable(mod, "@alt_accent_light", QColor.fromString("#388E3C"), "Alternative accent light color"),
-            ColorConfigurable(mod, "@alt_accent_medium", QColor.fromString("#357c38"),"Alternative accent medium color"),
-            ColorConfigurable(mod, "@alt_accent_dark", QColor.fromString("#6dfda2"), "Alternative accent dark color"),
-            # misc colors
-            ColorConfigurable(mod, "@misc_color_30", QColor.fromString("#3a3a3a"), "Miscellaneous color 30"),
-            ColorConfigurable(mod, "@misc_color_31", QColor.fromString("#235b26"), "Miscellaneous color 31"),
-            ColorConfigurable(mod, "@misc_color_32", QColor.fromString("#000000"), "Miscellaneous color 32"),
-            ColorConfigurable(mod, "@misc_color_33", QColor.fromString("#000000"), "Miscellaneous color 33"),
-            ColorConfigurable(mod, "@misc_color_34", QColor.fromString("#000000"), "Miscellaneous color 34"),
-            ColorConfigurable(mod, "@misc_color_35", QColor.fromString("#000000"), "Miscellaneous color 35"),
-            ColorConfigurable(mod, "@misc_color_36", QColor.fromString("#000000"), "Miscellaneous color 36"),
-            ColorConfigurable(mod, "@misc_color_37", QColor.fromString("#000000"), "Miscellaneous color 37"),
-            ColorConfigurable(mod, "@misc_color_38", QColor.fromString("#000000"), "Miscellaneous color 38"),
-            ColorConfigurable(mod, "@misc_color_39", QColor.fromString("#000000"), "Miscellaneous color 39"),
-            ColorConfigurable(mod, "@misc_color_40", QColor.fromString("#000000"), "Miscellaneous color 40"),
-            ColorConfigurable(mod, "@misc_color_41", QColor.fromString("#000000"), "Miscellaneous color 41"),
-            ColorConfigurable(mod, "@misc_color_42", QColor.fromString("#000000"), "Miscellaneous color 42"),
-            ColorConfigurable(mod, "@misc_color_43", QColor.fromString("#000000"), "Miscellaneous color 43"),
-            ColorConfigurable(mod, "@misc_color_44", QColor.fromString("#000000"), "Miscellaneous color 44"),
-            ColorConfigurable(mod, "@misc_color_45", QColor.fromString("#000000"), "Miscellaneous color 45"),
-            ColorConfigurable(mod, "@misc_color_46", QColor.fromString("#000000"), "Miscellaneous color 46"),
-            ColorConfigurable(mod, "@misc_color_47", QColor.fromString("#000000"), "Miscellaneous color 47"),
-            ColorConfigurable(mod, "@misc_color_48", QColor.fromString("#000000"), "Miscellaneous color 48"),
-            ColorConfigurable(mod, "@misc_color_49", QColor.fromString("#000000"), "Miscellaneous color 49"),
-            ColorConfigurable(mod, "@misc_color_50", QColor.fromString("#000000"), "Miscellaneous color 50"),
-            ColorConfigurable(mod, "@misc_color_51", QColor.fromString("#000000"), "Miscellaneous color 51"),
-            ColorConfigurable(mod, "@misc_color_52", QColor.fromString("#000000"), "Miscellaneous color 52"),
-            ColorConfigurable(mod, "@misc_color_53", QColor.fromString("#000000"), "Miscellaneous color 53"),
-            ColorConfigurable(mod, "@misc_color_54", QColor.fromString("#000000"), "Miscellaneous color 54"),
-            ColorConfigurable(mod, "@misc_color_55", QColor.fromString("#000000"), "Miscellaneous color 55"),
-            ColorConfigurable(mod, "@misc_color_56", QColor.fromString("#000000"), "Miscellaneous color 56"),
-            ColorConfigurable(mod, "@misc_color_57", QColor.fromString("#000000"), "Miscellaneous color 57"),
-            ColorConfigurable(mod, "@misc_color_58", QColor.fromString("#000000"), "Miscellaneous color 58"),
-            ColorConfigurable(mod, "@misc_color_59", QColor.fromString("#000000"), "Miscellaneous color 59"),
-        ]
         for i in self.colors:
             i.valueChanged.connect(self.theme_reenable)
 
