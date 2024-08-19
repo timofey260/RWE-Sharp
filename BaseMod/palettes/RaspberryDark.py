@@ -86,7 +86,10 @@ class RaspberryDark(Theme):
         ]
 #penis
     def palette_enable(self):
-        with open(os.path.join(PATH_BASEMOD, "Palettes", "qssfiles", ["circular.txt", "sharp.txt", "atmoled.txt", "darkeum.txt"][self.styleindex.value])) as f:
+        with open(os.path.join(PATH_BASEMOD, "palettes", "qssfiles", ["circular.txt", "sharp.txt", "atmoled.txt", "darkeum.txt"][self.styleindex.value])) as f:
+            newtext = f.read()
+            for i in self.colors:
+                newtext = newtext.replace(i.name, i.value.name())
             self.mod.manager.application.setStyleSheet(f.read())
 
     def palette_disable(self):

@@ -61,3 +61,7 @@ class Tiles:
         for i in t:
             newt = [*newt, *i]
         return newt
+
+    def __getitem__(self, item):
+        if isinstance(item, str):
+            return self.find_tile(item)

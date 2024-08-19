@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'geo.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.7.0
+## Created by: Qt User Interface Compiler version 6.7.2
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -50,19 +50,13 @@ class Ui_Geometry(object):
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
         self.L1show = QCheckBox(self.scrollAreaWidgetContents)
         self.L1show.setObjectName(u"L1show")
-        sizePolicy = QSizePolicy(QSizePolicy.Policy.Maximum, QSizePolicy.Policy.Fixed)
+        sizePolicy = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.L1show.sizePolicy().hasHeightForWidth())
         self.L1show.setSizePolicy(sizePolicy)
 
         self.horizontalLayout_2.addWidget(self.L1show)
-
-        self.label = QLabel(self.scrollAreaWidgetContents)
-        self.label.setObjectName(u"label")
-        self.label.setAlignment(Qt.AlignmentFlag.AlignLeading|Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignVCenter)
-
-        self.horizontalLayout_2.addWidget(self.label)
 
         self.L1op2 = QSpinBox(self.scrollAreaWidgetContents)
         self.L1op2.setObjectName(u"L1op2")
@@ -94,12 +88,6 @@ class Ui_Geometry(object):
 
         self.horizontalLayout_4.addWidget(self.L2show)
 
-        self.label_2 = QLabel(self.scrollAreaWidgetContents)
-        self.label_2.setObjectName(u"label_2")
-        self.label_2.setAlignment(Qt.AlignmentFlag.AlignLeading|Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignVCenter)
-
-        self.horizontalLayout_4.addWidget(self.label_2)
-
         self.L2op2 = QSpinBox(self.scrollAreaWidgetContents)
         self.L2op2.setObjectName(u"L2op2")
         sizePolicy1.setHeightForWidth(self.L2op2.sizePolicy().hasHeightForWidth())
@@ -126,12 +114,6 @@ class Ui_Geometry(object):
         self.L3show.setSizePolicy(sizePolicy)
 
         self.horizontalLayout_5.addWidget(self.L3show)
-
-        self.label_3 = QLabel(self.scrollAreaWidgetContents)
-        self.label_3.setObjectName(u"label_3")
-        self.label_3.setAlignment(Qt.AlignmentFlag.AlignLeading|Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignVCenter)
-
-        self.horizontalLayout_5.addWidget(self.label_3)
 
         self.L3op2 = QSpinBox(self.scrollAreaWidgetContents)
         self.L3op2.setObjectName(u"L3op2")
@@ -177,11 +159,8 @@ class Ui_Geometry(object):
 
         self.RGBop2 = QSpinBox(self.scrollAreaWidgetContents)
         self.RGBop2.setObjectName(u"RGBop2")
-        sizePolicy2 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
-        sizePolicy2.setHorizontalStretch(0)
-        sizePolicy2.setVerticalStretch(0)
-        sizePolicy2.setHeightForWidth(self.RGBop2.sizePolicy().hasHeightForWidth())
-        self.RGBop2.setSizePolicy(sizePolicy2)
+        sizePolicy.setHeightForWidth(self.RGBop2.sizePolicy().hasHeightForWidth())
+        self.RGBop2.setSizePolicy(sizePolicy)
         self.RGBop2.setMaximum(255)
 
         self.horizontalLayout_9.addWidget(self.RGBop2)
@@ -240,11 +219,6 @@ class Ui_Geometry(object):
 
         self.gridLayout.addWidget(self.scrollArea, 0, 0, 1, 1)
 
-#if QT_CONFIG(shortcut)
-        self.label.setBuddy(self.L1show)
-        self.label_2.setBuddy(self.L2show)
-        self.label_3.setBuddy(self.L3show)
-#endif // QT_CONFIG(shortcut)
         QWidget.setTabOrder(self.scrollArea, self.L1show)
         QWidget.setTabOrder(self.L1show, self.L2show)
         QWidget.setTabOrder(self.L2show, self.L3show)
@@ -259,12 +233,9 @@ class Ui_Geometry(object):
     def retranslateUi(self, Geometry):
         Geometry.setWindowTitle(QCoreApplication.translate("Geometry", u"Geometry", None))
         self.label_4.setText(QCoreApplication.translate("Geometry", u"RWE+ view layer opacity", None))
-        self.L1show.setText("")
-        self.label.setText(QCoreApplication.translate("Geometry", u"Layer 1", None))
-        self.L2show.setText("")
-        self.label_2.setText(QCoreApplication.translate("Geometry", u"Layer 2", None))
-        self.L3show.setText("")
-        self.label_3.setText(QCoreApplication.translate("Geometry", u"Layer 3", None))
+        self.L1show.setText(QCoreApplication.translate("Geometry", u"Layer 1", None))
+        self.L2show.setText(QCoreApplication.translate("Geometry", u"Layer 2", None))
+        self.L3show.setText(QCoreApplication.translate("Geometry", u"Layer 3", None))
         self.OPshift.setText(QCoreApplication.translate("Geometry", u"Opacity Shift", None))
         self.label_5.setText(QCoreApplication.translate("Geometry", u"Old(Leditor) view layers opacity", None))
         self.label_6.setText(QCoreApplication.translate("Geometry", u"Preview", None))

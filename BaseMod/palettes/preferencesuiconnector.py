@@ -14,5 +14,6 @@ class PreferencesUI(SettingUI):
         pass
 
     def init_ui(self, viewer: SettingsViewer):
-        pass
+        self.ui = Ui_Preferences()
+        self.ui.setupUi(viewer)
 
