@@ -142,7 +142,7 @@ class TileUI(UI):
         self.editor.tile_item.set_tile(self.editor.tile_item.tile, self.editor.colortable, 4)
 
     def open_explorer(self):
-        self.mod.tile_explorer.change_visibility(True)
+        self.mod.tileeditor.explorer.change_visibility(True)
 
 
 class TileSettings(SettingUI):

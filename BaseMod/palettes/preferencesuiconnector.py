@@ -26,7 +26,7 @@ class PreferencesUI(SettingUI):
             self.ui.Theme.addItem(v.name, v)
             if v == self.mod.manager.current_theme:
                 self.ui.Theme.setCurrentIndex(i + 1)
-        self.setup_ui(self.ui.Theme.itemData(0, Qt.ItemDataRole.UserRole))
+        self.setup_ui(self.ui.Theme.currentData(Qt.ItemDataRole.UserRole))
         self.ui.Theme.currentIndexChanged.connect(self.index_changed)
 
     def index_changed(self, index):

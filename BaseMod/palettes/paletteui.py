@@ -16,8 +16,8 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QComboBox, QHBoxLayout, QHeaderView,
-    QLabel, QLineEdit, QSizePolicy, QTreeWidget,
-    QTreeWidgetItem, QVBoxLayout, QWidget)
+    QLabel, QLineEdit, QPushButton, QSizePolicy,
+    QTreeWidget, QTreeWidgetItem, QVBoxLayout, QWidget)
 
 class Ui_Paletteui(object):
     def setupUi(self, Paletteui):
@@ -69,6 +69,21 @@ class Ui_Paletteui(object):
 
         self.verticalLayout.addWidget(self.treeWidget)
 
+        self.horizontalLayout_2 = QHBoxLayout()
+        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
+        self.Import = QPushButton(Paletteui)
+        self.Import.setObjectName(u"Import")
+
+        self.horizontalLayout_2.addWidget(self.Import)
+
+        self.Export = QPushButton(Paletteui)
+        self.Export.setObjectName(u"Export")
+
+        self.horizontalLayout_2.addWidget(self.Export)
+
+
+        self.verticalLayout.addLayout(self.horizontalLayout_2)
+
 
         self.retranslateUi(Paletteui)
 
@@ -76,7 +91,7 @@ class Ui_Paletteui(object):
     # setupUi
 
     def retranslateUi(self, Paletteui):
-        Paletteui.setWindowTitle(QCoreApplication.translate("Paletteui", u"Form", None))
+        Paletteui.setWindowTitle(QCoreApplication.translate("Paletteui", u"Palette", None))
         self.label.setText(QCoreApplication.translate("Paletteui", u"Style:", None))
         self.Style.setItemText(0, QCoreApplication.translate("Paletteui", u"Circular", None))
         self.Style.setItemText(1, QCoreApplication.translate("Paletteui", u"Sharp", None))
@@ -97,5 +112,7 @@ class Ui_Paletteui(object):
         ___qtreewidgetitem2.setText(0, QCoreApplication.translate("Paletteui", u"other bullshit", None));
         self.treeWidget.setSortingEnabled(__sortingEnabled)
 
+        self.Import.setText(QCoreApplication.translate("Paletteui", u"Import", None))
+        self.Export.setText(QCoreApplication.translate("Paletteui", u"Export", None))
     # retranslateUi
 

@@ -17,6 +17,8 @@ class RaspberryDark(Theme):
         self.stylepalette.valueChanged.connect(self.theme_enable)
         self.themefiles = ["circular", "sharp", "atmoled", "darkeum"]
         self.settings = RPDarkUI(self)
+        self.currentstyle = ""
+        self.multiple = False
 
         self.colors = [
             # base colors
@@ -117,11 +119,20 @@ class RaspberryDark(Theme):
             ColorConfigurable(mod, "@misc_color_59", QColor.fromString("#000000"), "Miscellaneous color 59"),
         ]
         for i in self.colors:
-            i.valueChanged.connect(self.theme_enable)
+            i.valueChanged.connect(self.theme_reenable)
+
+    def theme_reenable(self):
+        if self.multiple:
+            return
+        newtext = self.currentstyle
+        for i in self.colors:
+            newtext = newtext.replace(i.name, i.value.name())
+        self.mod.manager.application.setStyleSheet(newtext)
 
     def theme_enable(self):
         with open(os.path.join(PATH_BASEMOD, "palettes", "qssfiles", self.themefiles[self.styleindex.value]) + ".txt") as f:
             newtext = f.read()
+            self.currentstyle = newtext
             for i in self.colors:
                 newtext = newtext.replace(i.name, i.value.name())
             self.mod.manager.application.setStyleSheet(newtext)
