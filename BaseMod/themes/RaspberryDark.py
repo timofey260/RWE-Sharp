@@ -119,8 +119,8 @@ class RaspberryDark(Theme):
             for i in self.colors:
                 newtext = newtext.replace(i.name, i.value.name())
             self.mod.manager.application.setStyleSheet(newtext)
-            print("Applied " + self.themefiles[self.styleindex.value])
-            print(newtext)
+            #print("Applied " + self.themefiles[self.styleindex.value])
+            #print(newtext)
 
     def open_palette(self, file):
         self.multiple = True
