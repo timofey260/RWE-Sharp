@@ -4,10 +4,11 @@ get_stylesheet = ThemeManager.get_stylesheet
 def CSSPaletizer(palette_name, input_string):
     placeholder_mapping = {
         # base colors
+        "@base_very_dark": 3,
         "@base_dark": 0,
         "@base_medium": 1,
         "@base_light": 2,
-        "@text_misc": 3,
+        "@base_very_light": 3,
         # border
         "@border_dark": 4,
         "@border_medium": 5,

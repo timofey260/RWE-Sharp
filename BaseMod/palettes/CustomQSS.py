@@ -1,6 +1,6 @@
 import os
 import re
-from BaseMod.Palettes.RaspberryDark import RaspberryDark
+from BaseMod.palettes.RaspberryDark import RaspberryDark
 from PySide6.QtWidgets import QApplication
 from RWESharp.Core import PATH_BASEMOD
 from RWESharp.Modify import Theme
@@ -11,25 +11,7 @@ with open(r"C:\Users\ATOM\Documents\GitHub\RWE-Sharp\BaseMod\Palettes\qssfiles\s
 color_map = RaspberryDark
 
 
-class ThemeManager(Theme):
-    def __init__(self, mod, widget=None):
-        super().__init__("Moonlight Dark", mod)  # Example colors
-        print(self.get_stylesheet())
 
-        # Apply stylesheet to the QApplication instance if widget is None
-        if widget is None:
-            app = QApplication.instance()
-            if app is not None:
-                app.setStyleSheet(self.get_stylesheet())
-            else:
-                print("Error: QApplication instance not found.")
-
-    def get_stylesheet(self):
-        # with open(r"C:\Users\ATOM\Documents\GitHub\RWE-Sharp\BaseMod\Palettes\qssfiles\sharp.txt") as file:
-        # TODO, not thigs
-        print(CSSPaletizer(color_map, current_theme))
-        return CSSPaletizer(color_map, current_theme)
-placeholder_mapping = { }
 
 def CSSPaletizer(palette_name, input_string):
       placeholder_mapping = {
