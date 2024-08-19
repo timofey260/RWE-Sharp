@@ -251,3 +251,41 @@ QDockWidget::title {
     color: #4CAF50;
     border-radius: 8px;
 }
+QDockWidget::title {
+    text-align: left;
+    background: #252525;
+    padding-left: 1px;
+    color: #4CAF50;
+    border-radius: 8px;
+}
+
+QComboBox {
+    border: 1px solid #4caf50;
+    border-radius: 5px;
+    padding: 1px 18px 1px 3px;
+    min-width: 6em;
+}
+
+
+QComboBox:hover,QPushButton:hover,QAbstractSpinBox:hover,QLineEdit:hover,QTextEdit:hover,QPlainTextEdit:hover,QAbstractView:hover,QTreeView:hover{
+    border: 1px solid #6dfb72;
+    color: #eff0f1;
+    border-radius: 2px;
+}
+
+
+
+QComboBox::drop-down {
+    subcontrol-origin: padding;
+    subcontrol-position: top right;
+    width: 15px;
+
+    border-left-width: 1px;
+    border-left-color: #515151;
+    border-left-style: solid; /* just a single line */
+    border-top-right-radius: 3px; /* same radius as the QComboBox */
+    border-bottom-right-radius: 3px;
+}
+QComboBox::down-arrow {
+    image: img(:/misc/misc/arrow_down.svg);
+}
