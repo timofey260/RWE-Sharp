@@ -25,7 +25,7 @@ class TileModule(Module):
         self.drawoption = IntConfigurable(mod, "VIEW_tile.drawoption", 0, "Option how to draw tiles")
         self.palettepath = StringConfigurable(mod, "VIEW_tile.palettepath",
                                               os.path.join(PATH_FILES_IMAGES_PALETTES, "palette0.png"),
-                                              "Path to palettes")
+                                              "Path to themes")
 
         self.drawl1notrendered = FloatConfigurable(mod, "VIEW_tile.drawl1notrend", .9, "Layer 1 draw opacity(classic and henry)")
         self.drawl2notrendered = FloatConfigurable(mod, "VIEW_tile.drawl2notrend", .5, "Layer 2 draw opacity(classic and henry)")

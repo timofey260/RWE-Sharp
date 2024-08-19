@@ -1,4 +1,4 @@
-from BaseMod.palettes.preferencesui import Ui_Preferences
+from BaseMod.themes.preferencesui import Ui_Preferences
 from RWESharp.Ui import SettingUI
 from PySide6.QtCore import Qt
 from widgets.SettingsViewer import SettingsViewer

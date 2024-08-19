@@ -1,5 +1,5 @@
-from BaseMod.palettes.paletteui import Ui_Paletteui
-from BaseMod.palettes.RaspberryDark import RaspberryDark
+from BaseMod.themes.paletteui import Ui_Paletteui
+from BaseMod.themes.RaspberryDark import RaspberryDark
 from PySide6.QtWidgets import QTreeWidgetItem, QColorDialog, QFileDialog
 from PySide6.QtGui import QPixmap, QColor
 from PySide6.QtCore import Qt
@@ -13,11 +13,16 @@ class RPDarkUI(ThemeUI):
         self.ui = Ui_Paletteui()
         self.ui.setupUi(viewer)
         self.theme: RaspberryDark
-        self.theme.styleindex.link_combobox(self.ui.Style)
-        self.theme.stylepalette.link_combobox(self.ui.Palette)
         self.ui.treeWidget.itemDoubleClicked.connect(self.clicked)
         self.ui.Import.clicked.connect(self.import_action)
         self.ui.Export.clicked.connect(self.export_action)
+        self.ui.Palette.clear()
+        self.ui.Palette.addItems(["RaspberryDark", "MintDark", "MoonlightDark"])
+        self.ui.Style.clear()
+        self.ui.Style.addItems(["Sharp", "Circular"])
+        self.theme.styleindex.link_combobox(self.ui.Style)
+        self.theme.stylepalette.link_combobox(self.ui.Palette)
+        self.theme.stylepalette.valueChanged.connect(self.fill_tree)
         self.fill_tree()
 
     def fill_tree(self):
@@ -29,35 +34,30 @@ class RPDarkUI(ThemeUI):
             item.setIcon(0, icon)
             item.setData(0, Qt.ItemDataRole.UserRole, i)
             self.ui.treeWidget.addTopLevelItem(item)
-            i.valueChanged.connect(self.updateitem)
+            # i.valueChanged.connect(self.updateitem)
 
     def updateitem(self):
         if self.theme.multiple:
             return
         self.fill_tree()  # well it won't be that bad
-        return
 
     def clicked(self, item: QTreeWidgetItem, column):
         conf = item.data(0, Qt.ItemDataRole.UserRole)
         dialog = QColorDialog(conf.value, self.mod.manager.window)
         dialog.open()
         # dialog.show()
-        dialog.colorSelected.connect(lambda x: conf.update_value(x))
+        dialog.colorSelected.connect(lambda x: [conf.update_value(x), self.fill_tree()])
 
     def import_action(self):
         file, _ = QFileDialog.getOpenFileName(self.mod.manager.window, "Select a file", PATH)
         self.theme.multiple = True
-        with open(file) as f:
-            for i, v in enumerate(f.readlines()):
-                # index = v.find(":")
-                self.theme.colors[i].update_value(QColor.fromString(v.replace("\n", "")))
-                # self.updateitem(self.ui.treeWidget.itemAt(0, i), self.theme.colors[i].value)
+        self.theme.open_palette(file)
         self.theme.multiple = False
         self.fill_tree()
         self.theme.theme_reenable()
 
     def export_action(self):
-        file, _ = QFileDialog.getSaveFileName(self.mod.manager.window, "Saving theme palette", PATH)
+        file, _ = QFileDialog.getSaveFileName(self.mod.manager.window, "Saving themes palette", PATH)
         with open(file, "w") as f:
             for i in self.theme.colors:
                 f.write(f"{i.value.name()}\n")

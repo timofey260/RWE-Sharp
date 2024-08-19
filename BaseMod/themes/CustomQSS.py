@@ -1,6 +1,6 @@
 import os
 import re
-from BaseMod.palettes.RaspberryDark import RaspberryDark
+from BaseMod.themes.RaspberryDark import RaspberryDark
 from PySide6.QtWidgets import QApplication
 from RWESharp.Core import PATH_BASEMOD
 from RWESharp.Modify import Theme

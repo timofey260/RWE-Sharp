@@ -3,14 +3,14 @@ from BaseMod.geo.geometryModule import GeoModule
 from BaseMod.tiles.tileModule import TileModule
 from BaseMod.grid.gridModule import GridModule
 from BaseMod.grid.gridUIConnector import GridView
-from BaseMod.palettes.RaspberryDark import RaspberryDark
+from BaseMod.themes.RaspberryDark import RaspberryDark
 from BaseMod.Configs import BaseModConfig
 from BaseMod.tiles.tileEditor import TileEditor
 from BaseMod.tiles.tileExplorer import TileExplorer
 from BaseMod.effects.effectEditor import EffectEditor
 from BaseMod.effects.effectsUIConnector import EffectsUI
 from BaseMod.effects.effectExplorer import EffectExplorer
-from BaseMod.palettes.preferencesuiconnector import PreferencesUI
+from BaseMod.themes.preferencesuiconnector import PreferencesUI
 from RWESharp.Modify import Mod, ModInfo
 from RWESharp.Core import SettingElement, HotkeyElement, get_hotkeys_from_pattern, PATH_FILES_VIDEOS
 from RWESharp.Ui import FunnyVideo
