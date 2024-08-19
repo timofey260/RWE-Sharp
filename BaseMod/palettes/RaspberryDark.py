@@ -116,7 +116,9 @@ class RaspberryDark(Theme):
             ColorConfigurable(mod, "@misc_color_58", QColor.fromString("#000000"), "Miscellaneous color 58"),
             ColorConfigurable(mod, "@misc_color_59", QColor.fromString("#000000"), "Miscellaneous color 59"),
         ]
-#penis
+        for i in self.colors:
+            i.valueChanged.connect(self.palette_enable)
+
     def palette_enable(self):
         with open(os.path.join(PATH_BASEMOD, "palettes", "qssfiles", self.themefiles[self.styleindex.value]) + ".txt") as f:
             newtext = f.read()

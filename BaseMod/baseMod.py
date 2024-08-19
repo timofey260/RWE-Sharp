@@ -76,9 +76,9 @@ class BaseMod(Mod):
         self.gridui = GridView(self).add_myself()
 
         self.settingtree = SettingElement(self, self.modinfo.title, self.modinfo.name).add_myself()
+        SettingElement(self, "Theme", "pref", PreferencesUI(self), self.settingtree)
         self.settingtree.add_child(SettingElement(self, "Geo", "geo", self.geosettings))
         self.settingtree.add_child(SettingElement(self, "Tiles", "tiles", self.tilesettings))
-        SettingElement(self, "Preferences", "pref", PreferencesUI(self), self.settingtree)
 
         self.editorsTree = HotkeyElement(self, "Editors", "editors").add_myself()
         geoelement = HotkeyElement(self, "Geometry Editor", "geoedit", parent=self.editorsTree)
