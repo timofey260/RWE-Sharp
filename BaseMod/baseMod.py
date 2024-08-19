@@ -30,7 +30,7 @@ class BaseMod(Mod):
         from BaseMod.geo.geoUIConnectors import GeoUI, GeoViewUI, GeoSettings
         from BaseMod.tiles.tileUIConnectors import TileViewUI, TileUI, TileSettings
         # ThemeManager(self).add_myself()
-        RaspberryDark(self).add_myself()
+        self.rpdark = RaspberryDark(self).add_myself()
         #TODO not to do that ^
         self.bmconfig = BaseModConfig(self)
         self.bmconfig.theme.valueChanged.connect(self.manager.change_theme)

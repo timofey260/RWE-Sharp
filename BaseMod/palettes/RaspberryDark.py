@@ -11,8 +11,14 @@ from core.configTypes.QtTypes import ColorConfigurable
 
 class RaspberryDark(Theme):
     def __init__(self, mod):
+        from BaseMod.palettes.paletteuiconnector import RPDarkUI
         super().__init__("Raspberry Dark", mod)
-        self.styleindex = IntConfigurable(mod, "rpdar.styleoption", 0, description="Style file")
+        self.styleindex = IntConfigurable(mod, "rpdark.styleoption", 0, description="Style file")
+        self.styleindex.valueChanged.connect(self.palette_enable)
+        self.stylepalette = IntConfigurable(mod, "rpdark.stylepalette", 0, description="Style palette")
+        self.stylepalette.valueChanged.connect(self.palette_enable)
+        self.themefiles = ["circular", "sharp", "atmoled", "darkeum"]
+        self.settings = RPDarkUI(self)
 
         self.colors = [
             # base colors
@@ -84,13 +90,12 @@ class RaspberryDark(Theme):
             ColorConfigurable(mod, "@misc_color_58", QColor.fromString("#ccbbaa"), "Miscellaneous color 58"),
             ColorConfigurable(mod, "@misc_color_59", QColor.fromString("#ddccbb"), "Miscellaneous color 59"),
         ]
-#penis
     def palette_enable(self):
-        with open(os.path.join(PATH_BASEMOD, "palettes", "qssfiles", ["circular.txt", "sharp.txt", "atmoled.txt", "darkeum.txt"][self.styleindex.value])) as f:
+        with open(os.path.join(PATH_BASEMOD, "palettes", "qssfiles", self.themefiles[self.styleindex.value]) + ".txt") as f:
             newtext = f.read()
             for i in self.colors:
                 newtext = newtext.replace(i.name, i.value.name())
-            self.mod.manager.application.setStyleSheet(f.read())
+            self.mod.manager.application.setStyleSheet(newtext)
 
     def palette_disable(self):
         self.mod.manager.application.setStyleSheet()

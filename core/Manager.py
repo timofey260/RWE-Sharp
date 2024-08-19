@@ -63,7 +63,7 @@ class Manager:
         """
         Configs are used to store editor-specific data
         """
-        self.palettes: list[Theme] = []
+        self.themes: list[Theme] = []
         """
         neat color visuals
         """
@@ -95,7 +95,7 @@ class Manager:
     def change_theme(self):
         if self.basemod.bmconfig.theme.value == "":
             return
-        for i in self.palettes:
+        for i in self.themes:
             if self.basemod.bmconfig.theme.value == f"{i.mod.author_name}.{i.name}":
                 i.palette_enable()
                 log(f"Using Theme {i.name}")

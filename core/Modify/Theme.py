@@ -1,11 +1,12 @@
 from core.Application import Application
+from core.Modify.ui import ThemeUI
 
 
 class Theme:
     def __init__(self, name, mod):
         self.name = name
         self.mod = mod
-        self.settings = None
+        self.settings: ThemeUI | None = None
 
     def add_myself(self):
         self.mod.add_palette(self)

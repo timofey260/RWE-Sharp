@@ -1,7 +1,7 @@
 """
 All ui related stuff
 """
-from core.Modify.ui import SettingUI, ViewUI, UI
+from core.Modify.ui import SettingUI, ViewUI, UI, ThemeUI
 from ui.mainuiconnector import Ui_MainWindow, MainWindow
 from ui.FunnyVideo import FunnyVideo
 from ui.hotkeysuiconnector import Ui_Hotkeys, HotkeysUI

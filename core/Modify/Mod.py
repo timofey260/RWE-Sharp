@@ -58,7 +58,7 @@ class Mod(ABC):
         self.manager.config.add_module(config_module)
 
     def add_palette(self, palette: Theme):
-        self.manager.palettes.append(palette)
+        self.manager.themes.append(palette)
 
     def add_setting(self, setting: SettingElement):
         self.manager.add_setting(setting)

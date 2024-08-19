@@ -6,6 +6,7 @@ if TYPE_CHECKING:
     from core.Modify.Mod import Mod
     from widgets.SettingsViewer import SettingsViewer
     from core.configTypes.ConfigBase import Configurable
+    from core.Modify.Theme import Theme
 
 
 class UI(QWidget):
@@ -60,3 +61,14 @@ class SettingUI(ABC):
             if i.value != i.default:
                 return True
         return False
+
+
+class ThemeUI(UI):
+    def __init__(self, theme: Theme, parent=None):
+        super().__init__(theme.mod, parent)
+        self.theme = theme
+        self.mod = theme.mod
+
+    @abstractmethod
+    def setup_ui(self, viewer):
+        pass
