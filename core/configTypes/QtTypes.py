@@ -53,7 +53,9 @@ class KeyConfigurable(Configurable):
 class ColorConfigurable(Configurable):
     valueChanged = Signal(QColor)
 
-    def __init__(self, mod, name, default: QColor, description=""):
+    def __init__(self, mod, name, default: QColor | str, description=""):
+        if isinstance(default, str):
+            default = QColor.fromString(default)
         self.value = default
         super().__init__(mod, name, default, description)
 

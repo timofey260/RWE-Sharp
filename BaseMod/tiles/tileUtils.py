@@ -211,11 +211,11 @@ def remove_tile(level: RWELevel, pos: QPoint, layer: int) -> RemovedTile | None:
                     col2 = foundtile.cols[1][x * foundtile.size.height() + y]
                 except IndexError:
                     col2 = 1
-                if col2 != -1 and level.tile_data(bodypos, layer + 1) == tiledata:
+                if col2 != -1 and (level.tile_data(bodypos, layer + 1) == tiledata or level.tile_data(bodypos, layer + 1)["tp"] == "default"):
                     level.manager.basemod.tilemodule.get_layer(layer + 1).clean_pixel(bodypos)
                     changes.append([bodypos, layer + 1, copy_tile(level.tile_data(bodypos, layer + 1))])
                     level.data["TE"]["tlMatrix"][bodypos.x()][bodypos.y()][layer + 1] = {"tp": "default", "data": 0}
-            if col == -1 or level.tile_data(bodypos, layer) != tiledata:
+            if (col == -1 or level.tile_data(bodypos, layer) != tiledata) and level.tile_data(bodypos, layer)["tp"] == "default":
                 continue
             level.manager.basemod.tilemodule.get_layer(layer).clean_pixel(bodypos)
             changes.append([bodypos, layer, copy_tile(level.tile_data(bodypos, layer))])
