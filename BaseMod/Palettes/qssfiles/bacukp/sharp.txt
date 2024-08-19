@@ -46,8 +46,8 @@ QPushButton:hover {
 }
 
 QPushButton:pressed {
-   background-color: {{accent_medium}}
-   border-color: {{accent_medium}}
+   background-color: #4fa08b;
+   border-color: #4fa08b;
 }
 
 QCheckBox {
@@ -61,8 +61,8 @@ QCheckBox::indicator {
 }
 
 QCheckBox::indicator:checked {
-   background-color: {{accent_medium}}
-   border: 1px solid {{accent_medium}}
+   background-color: #4fa08b;
+   border: 1px solid #4fa08b;
 }
 QScrollBar:vertical {
    background: #2A2A2A;
@@ -97,8 +97,8 @@ QPushButton:hover {
 }
 
 QPushButton:pressed {
-   background-color: {{accent_medium}}
-   border-color: {{accent_medium}}
+   background-color: #4fa08b;
+   border-color: #4fa08b;
 }
 
 QMainWindow {
@@ -110,14 +110,14 @@ QCalendar {
 QTextEdit {
    border-width: 1px;
    border-style: solid;
-   border-color: {{accent_medium}}
+   border-color: #4fa08b;
    background-color: #222b2e;
    color: #d3dae3;
 }
 QPlainTextEdit {
    border-width: 1px;
    border-style: solid;
-   border-color: {{accent_medium}}
+   border-color: #4fa08b;
    background-color: #222b2e;
    color: #d3dae3;
 }
@@ -136,14 +136,14 @@ QToolButton:hover {
    background-color: #505050;
 }
 QToolButton:pressed {
-   border-color: {{accent_medium}}
+   border-color: #4fa08b;
    color: #d3dae3;
-   background-color: {{accent_medium}}
+   background-color: #4fa08b;
 }
 QLineEdit {
    border-width: 1px;
    border-style: solid;
-   border-color: {{accent_medium}}
+   border-color: #4fa08b;
    background-color: #222b2e;
    color: #d3dae3;
 }
@@ -237,7 +237,7 @@ QCheckBox::indicator:checked {
    width: 10px;
    border-style: solid;
    border-width: 1px;
-   border-color: {{accent_medium}}
+   border-color: #4fa08b;
    background-color: #1e282c;
 }
 QCheckBox::indicator:unchecked {
@@ -245,7 +245,7 @@ QCheckBox::indicator:unchecked {
    width: 10px;
    border-style: solid;
    border-width: 1px;
-   border-color: {{accent_medium}}
+   border-color: #4fa08b;
    background-color: transparent;
 }
 QRadioButton {
@@ -258,7 +258,7 @@ QRadioButton::indicator:checked {
    border-style: solid;
    border-radius: 5px;
    border-width: 1px;
-   border-color: {{accent_medium}}
+   border-color: #4fa08b;
    background-color: #1e282c;
 }
 QRadioButton::indicator:!checked {
@@ -267,7 +267,7 @@ QRadioButton::indicator:!checked {
    border-style: solid;
    border-radius: 5px;
    border-width: 1px;
-   border-color: {{accent_medium}}
+   border-color: #4fa08b;
    background-color: transparent;
 }
 QStatusBar {
@@ -278,7 +278,7 @@ QSpinBox, QDoubleSpinBox, QTimeEdit, QDateTimeEdit, QDateEdit{
    background-color: #222b2e;
    border-width: 1px;
    border-style: solid;
-   border-color: {{accent_medium}}
+   border-color: #4fa08b;
 }
 
 
@@ -302,14 +302,14 @@ QScrollArea {
    background-color: #222b2e;
 }
 QSlider::groove:horizontal {
-   border: 1px solid {{accent_medium}}
+   border: 1px solid #4fa08b;
    height: 5px;
    background: #3d4d53;
    margin: 2px 0;
 }
 QSlider::handle:horizontal {
-   background: {{accent_medium}}
-   border: 1px solid {{accent_medium}}
+   background: #4fa08b;
+   border: 1px solid #4fa08b;
    width: 10px;
    margin: -5px 0;
    border-radius: 2px;
@@ -325,14 +325,14 @@ QSlider::sub-page:qlineargradient {
    border-bottom: 1px solid #3d4d53;
 }
 QSlider::groove:vertical {
-   border: 1px solid {{accent_medium}}
+   border: 1px solid #4fa08b;
    width: 5px;
    background: #3d4d53;
    margin: 0 0;
 }
 QSlider::handle:vertical {
-   background: {{accent_medium}}
-   border: 1px solid {{accent_medium}}
+   background: #4fa08b;
+   border: 1px solid #4fa08b;
    height: 10px;
    margin: 0 -5px;
    border-radius: 2px;
@@ -367,7 +367,7 @@ QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
 QTreeView, QListView {
    border-width: 1px;
    border-style: solid;
-   border-color: {{accent_medium}}
+   border-color: #4fa08b;
    background-color: #222b2e;
    alternate-background-color: #151a1e;
    color: #d3dae3;
@@ -376,7 +376,7 @@ QTableView, QTableWidget, QTreeWidget {
    gridline-color: #151a1e;
    border-width: 1px;
    border-style: solid;
-   border-color: {{accent_medium}}
+   border-color: #4fa08b;
    background-color: #222b2e;
    color: #d3dae3;
 }
@@ -442,7 +442,7 @@ QTreeWidget::branch:open:has-children:!has-siblings {
 
 
 QGroupBox::title {
-   color: #4fa0F8b;
+   color: #4fa08b;
    subcontrol-origin: margin;
    subcontrol-position: top left;
    padding: 0 3px;
@@ -450,7 +450,7 @@ QGroupBox::title {
           QWidget {
     color: #a9b7c6;
     background-color: #222b2e;
-    selection-background-color: {{accent_medium}}
+    selection-background-color: #4fa08b;
 }
 QScrollArea {
     border: none;

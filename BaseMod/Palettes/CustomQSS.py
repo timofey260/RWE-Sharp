@@ -1,4 +1,5 @@
 import os
+import re
 
 from PySide6.QtWidgets import QApplication
 from RWESharp.Core import PATH_BASEMOD
@@ -21,120 +22,93 @@ class ThemeManager(Theme):
                 print("Error: QApplication instance not found.")
 
     def get_stylesheet(self):
-        with open(os.path.abspath("baseMod\Palettes\qssfiles") + "/atmoled" + ".txt", "r") as file:
-            return file.read()
-        # CSSPaletizer("palette5.png", ) TODO, not thigs
+        #with open(r"C:\Users\ATOM\Documents\GitHub\RWE-Sharp\BaseMod\Palettes\qssfiles\sharp.txt") as file:
+        # TODO, not thigs
+            return CSSPaletizer("palette5.png", )
 
-#
-# def CSSPaletizer(palette_name, input_string):
-#   placeholder_mapping = {
-#       "{{background_dark}}": 0,
-#       "{{background_medium}}": 1,
-#       "{{background_light}}": 2,
-#       "{{text_light}}": 3,
-#       "{{border_dark}}": 4,
-#       "{{border_medium}}": 5,
-#       "{{border_accent}}": 6,
-#       "{{text_dark}}": 7,
-#       "{{text_disabled}}": 8,
-#       "{{highlight}}": 9,
-#       "{{highlight_selected}}": 10,
-#       "{{tab_background}}": 11,
-#       "{{tab_selected}}": 12,
-#       "{{progressbar_background}}": 13,
-#       "{{progressbar_chunk}}": 14,
-#       "{{slider_handle}}": 15,
-#       "{{slider_groove}}": 16,
-#       "{{slider_add_page}}": 17,
-#       "{{slider_sub_page}}": 18,
-#       "{{treeview_branch_selected}}": 19,
-#       "{{treeview_branch_hover}}": 20,
-#       "{{calendar_background}}": 21,
-#       "{{text_disabled_light}}": 22,
-#       "{{groupbox_title}}": 23,
-#       "{{dockwidget_title}}": 24,
-#       "{{lineedit_background}}": 25,
-#       "{{lineedit_border}}": 26,
-#       "{{spinbox_background}}": 27,
-#       "{{spinbox_border}}": 28,
-#       "{{radiobutton_checked}}": 29,
-#       "{{radiobutton_unchecked}}": 30,
-#       "{{combobox_background}}": 31,
-#       "{{combobox_border}}": 32,
-#       "{{scrollarea_background}}": 33,
-#       "{{scrollbar_vertical_handle}}": 34,
-#       "{{scrollbar_horizontal_handle}}": 35,
-#       "{{scrollbar_vertical_background}}": 36,
-#       "{{scrollbar_horizontal_background}}": 37,
-#       "{{scrollbar_add_page}}": 38,
-#       "{{scrollbar_sub_page}}": 39,
-#       "{{menu_background}}": 40,
-#       "{{menu_selected}}": 41,
-#       "{{menu_text}}": 42,
-#       "{{header_background}}": 43,
-#       "{{header_text}}": 44,
-#       "{{header_selected}}": 45,
-#       "{{dockwidget_titlebar_close_icon}}": 46,
-#       "{{dockwidget_titlebar_normal_icon}}": 47,
-#       "{{misc_color_48}}": 48,
-#       "{{misc_color_49}}": 49,
-#       "{{misc_color_50}}": 50,
-#       "{{misc_color_51}}": 51,
-#       "{{misc_color_52}}": 52,
-#       "{{misc_color_53}}": 53,
-#       "{{misc_color_54}}": 54,
-#       "{{misc_color_55}}": 55,
-#       "{{misc_color_56}}": 56,
-#       "{{misc_color_57}}": 57,
-#       "{{misc_color_58}}": 58,
-#       "{{misc_color_59}}": 59,
-#       "{{misc_color_60}}": 60,
-#       "{{misc_color_61}}": 61,
-#       "{{misc_color_62}}": 62,
-#       "{{misc_color_63}}": 63,
-#       "{{misc_color_64}}": 64,
-#       "{{misc_color_65}}": 65,
-#       "{{misc_color_66}}": 66,
-#       "{{misc_color_67}}": 67,
-#       "{{misc_color_68}}": 68,
-#       "{{misc_color_69}}": 69,
-#       "{{misc_color_70}}": 70,
-#       "{{misc_color_71}}": 71,
-#       "{{misc_color_72}}": 72,
-#       "{{misc_color_73}}": 73,
-#       "{{misc_color_74}}": 74,
-#       "{{misc_color_75}}": 75,
-#       "{{misc_color_76}}": 76,
-#       "{{misc_color_77}}": 77,
-#       "{{misc_color_78}}": 78,
-#       "{{misc_color_79}}": 79
-#   }
-# Define a fixed mapping of CSS placeholders to palette colors
 
-#    # Parse the palette image and get the colors in the order of the mapping
-#    color_map = {idx: color for idx, color in enumerate(hex_list)}
-#    print(color_map)
-#    # Create a dictionary to map each placeholder to its corresponding color
-#    color_replacements = {key: color_map.get(idx) for key, idx in placeholder_mapping.items() if idx is not None}
-#
-#    # Replace placeholders in the input string with corresponding colors
-#    def replace_color(match):
-#        placeholder = match.group(0)
-#        return color_replacements.get(placeholder, placeholder)
-#
-#    placeholder_pattern = r'{{\w+}}'
-#    return re.sub(placeholder_pattern, replace_color, input_string)
-#
-#
-#
-#    return hex_colors
-#
-#
-## Example usage
-#
-#
-## Create the theme manager and get the styled CSS
-# theme_manager = ThemeManager(mod=None)
-# styled_css = theme_manager.get_stylesheet()
-#
-#
+def CSSPaletizer(palette_name, input_string):
+    placeholder_mapping = {
+        # base colors
+        "{{base_dark}}": 0,
+        "{{base_medium}}": 1,
+        "{{base_light}}": 2,
+        "{{text_misc}}": 3,
+        # border
+        "{{border_dark}}": 4,
+        "{{border_medium}}": 5,
+        "{{border_light}}": 6,
+        # text
+        "{{text_dark}}": 7,
+        "{{text_medium}}": 8,
+        "{{text_light}}": 9,
+        "{{text_disabled}}": 10,
+        "{{text_enabled}}": 11,
+        # accents
+        "{{accent_light}}": 12,
+        "{{accent_medium}}": 13,
+        "{{accent_dark}}": 14,
+        # color variations
+        "{{alt_base_dark}}": 15,
+        "{{alt_base_medium}}": 16,
+        "{{alt_base_light}}": 17,
+        "{{alt_text_misc}}": 18,
+        "{{alt_border_dark}}": 19,
+        "{{alt_border_medium}}": 20,
+        "{{alt_border_light}}": 21,
+        "{{alt_text_dark}}": 22,
+        "{{alt_text_medium}}": 23,
+        "{{alt_text_light}}": 24,
+        "{{alt_text_disabled}}": 25,
+        "{{alt_text_enabled}}": 26,
+        "{{alt_accent_light}}": 27,
+        "{{alt_accent_medium}}": 28,
+        "{{alt_accent_dark}}": 29,
+        # specific colors
+        "{{misc_color_30}}": 30,
+        "{{misc_color_31}}": 31,
+        "{{misc_color_32}}": 32,
+        "{{misc_color_33}}": 33,
+        "{{misc_color_34}}": 34,
+        "{{misc_color_35}}": 35,
+        "{{misc_color_36}}": 36,
+        "{{misc_color_37}}": 37,
+        "{{misc_color_38}}": 38,
+        "{{misc_color_39}}": 39,
+        "{{misc_color_40}}": 40,
+        "{{misc_color_41}}": 41,
+        "{{misc_color_42}}": 42,
+        "{{misc_color_43}}": 43,
+        "{{misc_color_44}}": 44,
+        "{{misc_color_45}}": 45,
+        "{{misc_color_46}}": 46,
+        "{{misc_color_47}}": 47,
+        "{{misc_color_48}}": 48,
+        "{{misc_color_49}}": 49,
+        "{{misc_color_50}}": 50,
+        "{{misc_color_51}}": 51,
+        "{{misc_color_52}}": 52,
+        "{{misc_color_53}}": 53,
+        "{{misc_color_54}}": 54,
+        "{{misc_color_55}}": 55,
+        "{{misc_color_56}}": 56,
+        "{{misc_color_57}}": 57,
+        "{{misc_color_58}}": 58,
+        "{{misc_color_59}}": 59
+
+    }
+    # Define a fixed mapping of CSS placeholders to palette colors
+
+    # Parse the palette image and get the colors in the order of the mapping
+    color_map = {"0": "#333333", "1": "#000000", "2": "#1f1f1f", "13": "#8B4FA0",}
+
+    # Create a dictionary to map each placeholder to its corresponding color
+    color_replacements = {key: color_map.get(str(idx)) for key, idx in placeholder_mapping.items() if idx is not None}
+
+    # Replace placeholders in the input string with corresponding colors
+    def replace_color(match):
+        placeholder = match.group(0)
+        return color_replacements.get(placeholder, placeholder)
+
+    placeholder_pattern = r'{{\w+}}'
+    return re.sub(placeholder_pattern, replace_color, input_string)
