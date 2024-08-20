@@ -78,15 +78,17 @@ class Manager:
         self.current_theme: Theme | None = None
         self.mod_types = []
         from BaseMod.baseMod import BaseMod
+
+        self.config.init_configs()  # mounting configs and applying them
         self.basemod = BaseMod(self, "")
 
         self.mods.append(self.basemod)
-        self.config.init_configs()  # mounting configs and applying them
         self.pre_init_mods()
         self.init_mods()
         self.init_modules()
         self.init_editors()
         self.change_theme()
+        log("Finished initiating")
 
     def change_level(self, path):
         self.level = None
@@ -94,6 +96,7 @@ class Manager:
         self.viewport.levelchanged()
 
     def change_theme(self):
+        print(self.basemod.bmconfig.theme.value)
         if self.basemod.bmconfig.theme.value == "":
             if self.current_theme is not None:
                 self.current_theme.theme_disable()

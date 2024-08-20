@@ -33,7 +33,6 @@ class BaseMod(Mod):
         self.rpdark = RaspberryDark(self).add_myself()
         #TODO not to do that ^
         self.bmconfig = BaseModConfig(self)
-        self.bmconfig.theme.valueChanged.connect(self.manager.change_theme)
 
         self.gridmodule = GridModule(self).add_myself()
 
