@@ -27,42 +27,34 @@ class Config:
         with open(path) as f:
             js = json.load(f)
             self.values = {k: v for k, v in js.items()}
-        return
         # old method
-        path = self.ensure_config()
-        with open(path) as f:
-            for l in f.readlines():
-                l = l.strip()
-                if len(l) == 0 or l[:1] == "//":
-                    continue
-                # if l.find("//") != -1:
-                #     l = l[:l.find("//")]
-
-                name = l[:l.find("=")]
-                value = l[l.find("=") + 1:]
-                # print(name, id, value)
-                self.values[name] = value
+        # path = self.ensure_config()
+        # with open(path) as f:
+        #     for l in f.readlines():
+        #         l = l.strip()
+        #         if len(l) == 0 or l[:1] == "//":
+        #             continue
+        #         name = l[:l.find("=")]
+        #         value = l[l.find("=") + 1:]
+        #         self.values[name] = value
 
     def save_configs(self):
         js = {}
         for i in self.manager.mods:
-            # f.write(f"// {i.subeditor.title()}\n")
             for v in i.configs:
                 js[f"{i.author_name}.{v.name}"] = v.save_str_value()
         path = self.ensure_config()
         with open(path, "w") as f:
             f.write(json.dumps(js))
-        return
         # old method
-        path = self.ensure_config()
-        with open(path, "w") as f:
-            for i in self.manager.mods:
-                # f.write(f"// {i.subeditor.title()}\n")
-                for v in i.configs:
-                    if v.description.strip() != "":
-                        f.write(f"// {v.description}\n")
-                    f.write(f"{i.author_name}.{v.name}={v.save_str_value()}\n")
-                f.write("\n\n")
+        # path = self.ensure_config()
+        # with open(path, "w") as f:
+        #     for i in self.manager.mods:
+        #         for v in i.configs:
+        #             if v.description.strip() != "":
+        #                 f.write(f"// {v.description}\n")
+        #             f.write(f"{i.author_name}.{v.name}={v.save_str_value()}\n")
+        #         f.write("\n\n")
 
     def ensure_config(self) -> str:
         """
