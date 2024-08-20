@@ -1,6 +1,7 @@
 import appdirs
 from core.info import NAME, PROGNAME, AUTHOR, PATH_FILES
 import os
+import json
 
 
 class Config:
@@ -24,6 +25,12 @@ class Config:
         # get config file
         path = self.ensure_config()
         with open(path) as f:
+            js = json.load(f)
+            self.values = {k: v for k, v in js.items()}
+        return
+        # old method
+        path = self.ensure_config()
+        with open(path) as f:
             for l in f.readlines():
                 l = l.strip()
                 if len(l) == 0 or l[:1] == "//":
@@ -37,6 +44,16 @@ class Config:
                 self.values[name] = value
 
     def save_configs(self):
+        js = {}
+        for i in self.manager.mods:
+            # f.write(f"// {i.subeditor.title()}\n")
+            for v in i.configs:
+                js[f"{i.author_name}.{v.name}"] = v.save_str_value()
+        path = self.ensure_config()
+        with open(path, "w") as f:
+            f.write(json.dumps(js))
+        return
+        # old method
         path = self.ensure_config()
         with open(path, "w") as f:
             for i in self.manager.mods:
@@ -55,16 +72,16 @@ class Config:
         path = appdirs.user_config_dir(NAME, AUTHOR)
         if not os.path.exists(path):
             os.makedirs(path, exist_ok=True)
-        if not os.path.exists(os.path.join(path, "config.txt")):
-            print(f'Trying to create {os.path.join(path, "config.txt")}')
-            with open(os.path.join(path, "config.txt"), "w") as _:
-                pass
-        if not os.path.exists(os.path.join(path, "config.txt")):
+        if not os.path.exists(os.path.join(path, "config.json")):
+            print(f'Trying to create {os.path.join(path, "config.json")}')
+            with open(os.path.join(path, "config.json"), "w") as f:
+                f.write("{}")
+        if not os.path.exists(os.path.join(path, "config.json")):
             path = PATH_FILES
-            print(f'Trying to create {os.path.join(path, "config.txt")}')
-            with open(os.path.join(path, "config.txt"), "w") as _:
-                pass
-        if not os.path.exists(os.path.join(path, "config.txt")):
+            print(f'Trying to create {os.path.join(path, "config.json")}')
+            with open(os.path.join(path, "config.json"), "w") as f:
+                f.write("{}")
+        if not os.path.exists(os.path.join(path, "config.json")):
             print("well shit")
 
-        return os.path.join(path, "config.txt")
+        return os.path.join(path, "config.json")

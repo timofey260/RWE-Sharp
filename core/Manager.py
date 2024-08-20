@@ -8,14 +8,14 @@ from core.TreeElement import SettingElement, HotkeyElement
 from core.info import PATH_MODS
 from core.ModLoader import load_mod
 from core.utils import log
-from widgets.Viewport import ViewPort
-from PySide6.QtWidgets import QWidget, QMenuBar, QMenu
-from PySide6.QtCore import Slot
-from ui.mainuiconnector import MainWindow
 from core.ItemData import ItemData
 from core.Loaders.Tile import Tiles
 from core.Loaders.Effect import Effects
 from core.Application import Application
+from ui.mainuiconnector import MainWindow
+from widgets.Viewport import ViewPort
+from PySide6.QtWidgets import QWidget, QMenuBar, QMenu
+from PySide6.QtCore import Slot
 import os
 
 
@@ -38,6 +38,7 @@ class Manager:
         self.effects: Effects = splash.loader.effects
         self.effect_colors = splash.loader.effect_colors
 
+        print(window.saveState())
         # self.splashwindow.close()
 
         # self.levelpath: str = "" if file is None else file
