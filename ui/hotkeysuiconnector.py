@@ -64,3 +64,4 @@ class HotkeysUI(QDialog):
             self.dialog = None
         self.dialog = KeyDialog(data[1], item, self)
         self.dialog.show()
+

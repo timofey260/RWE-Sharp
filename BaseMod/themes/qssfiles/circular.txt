@@ -226,6 +226,10 @@ QTreeView, QListView, QTableView, QTableWidget, QTreeWidget {
 
 }
 
+QTableView,QTreeWidget {
+    selection-background-color: @accent_dark
+}
+
 QHeaderView::section {
     background-color: @base_dark;
     color: @text_light;
