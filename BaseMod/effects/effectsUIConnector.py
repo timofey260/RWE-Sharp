@@ -1,6 +1,6 @@
 from RWESharp.Ui import UI
 from BaseMod.effects.ui.effects_ui import Ui_Effects
-from PySide6.QtWidgets import QTreeWidgetItem, QDialog, QInputDialog
+from PySide6.QtWidgets import QTreeWidgetItem, QDialog, QInputDialog, QMenu
 from PySide6.QtCore import Qt, QPoint, QItemSelectionModel
 from PySide6.QtGui import QPixmap
 from BaseMod.effects.ui.effectsdialog import Ui_EffectDialog
@@ -13,6 +13,12 @@ class EffectDialog(QDialog):
         self.ui.setupUi(self)
         self.options = options
         self.ui.EffectSettingValueComboBox.addItems(options)
+        self.ui.EffectSettingValueComboBox.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
+        menu = QMenu("you mama")
+        menu.addAction("text1")
+        menu.addAction("text2")
+        menu.addAction("text3")
+        self.ui.EffectSettingValueComboBox.customContextMenuRequested.connect(lambda pos: menu.popup(self.mapToGlobal(pos)))
 
 
 class EffectsUI(UI):
