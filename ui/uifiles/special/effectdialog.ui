@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>keyDialog</class>
- <widget class="QDialog" name="keyDialog">
+ <class>EffectDialog</class>
+ <widget class="QDialog" name="EffectDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
     <width>248</width>
-    <height>72</height>
+    <height>73</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -51,7 +51,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>keyDialog</receiver>
+   <receiver>EffectDialog</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -67,7 +67,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>keyDialog</receiver>
+   <receiver>EffectDialog</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">

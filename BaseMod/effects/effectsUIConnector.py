@@ -1,9 +1,18 @@
 from RWESharp.Ui import UI
 from BaseMod.effects.ui.effects_ui import Ui_Effects
-from PySide6.QtWidgets import QTreeWidgetItem, QDialog
+from PySide6.QtWidgets import QTreeWidgetItem, QDialog, QInputDialog
 from PySide6.QtCore import Qt, QPoint, QItemSelectionModel
 from PySide6.QtGui import QPixmap
 from BaseMod.effects.ui.effectsdialog import Ui_EffectDialog
+
+
+class EffectDialog(QDialog):
+    def __init__(self, options: list[str], parent=None):
+        super().__init__(parent)
+        self.ui = Ui_EffectDialog()
+        self.ui.setupUi(self)
+        self.options = options
+        self.ui.EffectSettingValueComboBox.addItems(options)
 
 
 class EffectsUI(UI):
@@ -63,50 +72,37 @@ class EffectsUI(UI):
             self.ui.EffectsTree.setCurrentItem(item, 1, QItemSelectionModel.SelectionFlag.ClearAndSelect)
         self.effect_settings()
 
-    # Assuming your effect_settings method generates or fetches the list of settings.
     def effect_settings(self):
         self.ui.OptionsTree.clear()
         self.ui.OptionsTree.setAlternatingRowColors(True)
         self.ui.OptionsTree.setColumnCount(2)
-        self.ui.OptionsTree.setColumnWidth(0, 180)
         self.ui.OptionsTree.setHeaderLabels(['Setting', 'Value'])
 
         effect = self.mod.manager.level.effects[self.editor.effectindex.value]
 
-        settings_list = []  # Initialize a list to store the settings
-
-        for i in effect["options"]:
+        for index, i in enumerate(effect["options"]):
+            if i[0].lower() == "delete/move":
+                continue
             item = QTreeWidgetItem([i[0], str(i[2])])
-            print(i)
+            item.setData(0, Qt.ItemDataRole.UserRole, index)
             self.ui.OptionsTree.addTopLevelItem(item)
-            settings_list.append(i[0])  # Add each setting to the list
         self.ui.OptionsTree.resizeColumnToContents(0)
 
-        return settings_list
+        return
 
-    def effect_settings_double_click(self):
-        current_item = self.ui.OptionsTree.currentItem()
-        if current_item and self.ui.OptionsTree.currentColumn() == 1:
-            print(current_item.text(0))
-            selected_item = self.ui.EffectsTree.currentItem()
-            if selected_item:
-                selected_item.setText(0, current_item.text(0))
+    def effect_settings_double_click(self, item: QTreeWidgetItem, column):
+        if column == 1:
+            #todo history thing
+            if item.text(0).lower() == "seed":
+                d = QInputDialog()
+                d.setInputMode(QInputDialog.InputMode.IntInput)
+                d.setIntRange(0, 1000)
+                d.setLabelText("Seed:")
+                value = d.exec()
+                print(d.intValue(), value)
+                return
+            index = item.data(0, Qt.ItemDataRole.UserRole)
+            d = EffectDialog(self.mod.manager.level.effects[self.editor.effectindex.value]["options"][index][1])
+            result = d.exec()
 
-            effect_dialog = Ui_EffectDialog()
-            dialog = QDialog()
-            effect_dialog.setupUi(dialog)
-
-            # Show the dialog and wait for the user's input
-            result = dialog.exec()
-            print(result)
-
-            # Check the result of the dialog
-            if result == QDialog.DialogCode.Accepted:
-                # The dialog was accepted
-                # Add your code here to handle the accepted dialog
-                pass
-            elif result == QDialog.DialogCode.Rejected:
-                # The dialog was rejected
-                # Add your code here to handle the rejected dialog
-                pass
-
+            print(d.ui.EffectSettingValueComboBox.currentText(), result)

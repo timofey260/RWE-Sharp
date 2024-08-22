@@ -47,7 +47,7 @@ class Ui_keyDialog(object):
         self.buttonBox = QDialogButtonBox(keyDialog)
         self.buttonBox.setObjectName(u"buttonBox")
         self.buttonBox.setOrientation(Qt.Orientation.Horizontal)
-        self.buttonBox.setStandardButtons(QDialogButtonBox.StandardButton.Cancel|QDialogButtonBox.StandardButton.Ok)
+        self.buttonBox.setStandardButtons(QDialogButtonBox.StandardButton.Apply|QDialogButtonBox.StandardButton.Cancel)
 
         self.verticalLayout.addWidget(self.buttonBox)
 

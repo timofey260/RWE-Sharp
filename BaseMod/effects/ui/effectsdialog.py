@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'effectdialogmygHvV.ui'
+## Form generated from reading UI file 'effectdialog.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.7.0
+## Created by: Qt User Interface Compiler version 6.7.2
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -15,15 +15,15 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QAbstractButton, QApplication, QDialog, QDialogButtonBox,
-    QFontComboBox, QHBoxLayout, QLabel, QSizePolicy,
+from PySide6.QtWidgets import (QAbstractButton, QApplication, QComboBox, QDialog,
+    QDialogButtonBox, QHBoxLayout, QLabel, QSizePolicy,
     QVBoxLayout, QWidget)
 
 class Ui_EffectDialog(object):
     def setupUi(self, EffectDialog):
         if not EffectDialog.objectName():
             EffectDialog.setObjectName(u"EffectDialog")
-        EffectDialog.resize(293, 72)
+        EffectDialog.resize(248, 73)
         EffectDialog.setSizeGripEnabled(False)
         EffectDialog.setModal(False)
         self.verticalLayout = QVBoxLayout(EffectDialog)
@@ -35,10 +35,10 @@ class Ui_EffectDialog(object):
 
         self.horizontalLayout.addWidget(self.label)
 
-        self.EffectSettingComboBox = QFontComboBox(EffectDialog)
-        self.EffectSettingComboBox.setObjectName(u"EffectSettingComboBox")
+        self.EffectSettingValueComboBox = QComboBox(EffectDialog)
+        self.EffectSettingValueComboBox.setObjectName(u"EffectSettingValueComboBox")
 
-        self.horizontalLayout.addWidget(self.EffectSettingComboBox)
+        self.horizontalLayout.addWidget(self.EffectSettingValueComboBox)
 
 
         self.verticalLayout.addLayout(self.horizontalLayout)
@@ -46,7 +46,7 @@ class Ui_EffectDialog(object):
         self.buttonBox = QDialogButtonBox(EffectDialog)
         self.buttonBox.setObjectName(u"buttonBox")
         self.buttonBox.setOrientation(Qt.Orientation.Horizontal)
-        self.buttonBox.setStandardButtons(QDialogButtonBox.StandardButton.Cancel|QDialogButtonBox.StandardButton.Ok)
+        self.buttonBox.setStandardButtons(QDialogButtonBox.StandardButton.Apply|QDialogButtonBox.StandardButton.Cancel)
 
         self.verticalLayout.addWidget(self.buttonBox)
 
