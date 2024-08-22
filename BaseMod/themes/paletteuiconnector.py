@@ -17,7 +17,7 @@ class RPDarkUI(ThemeUI):
         self.ui.Import.clicked.connect(self.import_action)
         self.ui.Export.clicked.connect(self.export_action)
         self.ui.Palette.clear()
-        self.ui.Palette.addItems(["RaspberryDark", "MintDark", "MoonlightDark"])
+        self.ui.Palette.addItems(["RaspberryDark", "MintDark", "MoonlightDark", "MintLight"])
         self.ui.Style.clear()
         self.ui.Style.addItems(["Sharp", "Circular"])
         self.theme.styleindex.link_combobox(self.ui.Style)
