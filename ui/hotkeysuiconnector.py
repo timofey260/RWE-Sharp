@@ -63,5 +63,5 @@ class HotkeysUI(QDialog):
             self.dialog.close()
             self.dialog = None
         self.dialog = KeyDialog(data[1], item, self)
-        self.dialog.show()
+        self.dialog.exec()
 

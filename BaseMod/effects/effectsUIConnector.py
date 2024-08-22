@@ -1,9 +1,10 @@
 from RWESharp.Ui import UI
 from BaseMod.effects.ui.effects_ui import Ui_Effects
-from PySide6.QtWidgets import QTreeWidgetItem, QTreeWidget, QDialog
-from PySide6.QtCore import Qt, QPoint, QItemSelectionModel, QRect
+from PySide6.QtWidgets import QTreeWidgetItem, QDialog
+from PySide6.QtCore import Qt, QPoint, QItemSelectionModel
 from PySide6.QtGui import QPixmap
 from BaseMod.effects.ui.effectsdialog import Ui_EffectDialog
+
 
 class EffectsUI(UI):
     def __init__(self, mod, parent=None):
@@ -75,14 +76,14 @@ class EffectsUI(UI):
         settings_list = []  # Initialize a list to store the settings
 
         for i in effect["options"]:
-            item = QTreeWidgetItem([i[0], str(i[1])])
+            item = QTreeWidgetItem([i[0], str(i[2])])
             print(i)
             self.ui.OptionsTree.addTopLevelItem(item)
             settings_list.append(i[0])  # Add each setting to the list
-
-        self.settings_list = settings_list  # Store the list in an instance variable
+        self.ui.OptionsTree.resizeColumnToContents(0)
 
         return settings_list
+
     def effect_settings_double_click(self):
         current_item = self.ui.OptionsTree.currentItem()
         if current_item and self.ui.OptionsTree.currentColumn() == 1:
@@ -96,7 +97,8 @@ class EffectsUI(UI):
             effect_dialog.setupUi(dialog)
 
             # Show the dialog and wait for the user's input
-            result = dialog.exec_()
+            result = dialog.exec()
+            print(result)
 
             # Check the result of the dialog
             if result == QDialog.DialogCode.Accepted:
