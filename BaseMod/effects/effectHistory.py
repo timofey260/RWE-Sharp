@@ -71,6 +71,7 @@ class EffectBrush(HistoryElement):
 
 class EffectAdd(HistoryElement):
     def __init__(self, history, effect: Effect):
+        # todo special second effect thing thing
         super().__init__(history)
         self.effect = effect
         self.add_effect()
@@ -86,3 +87,21 @@ class EffectAdd(HistoryElement):
 
     def redo_changes(self, level):
         self.add_effect()
+
+
+class EffectOptionChange(HistoryElement):
+    def __init__(self, history, index, option, value):
+        super().__init__(history)
+        self.prevvalue = history.level.effects[index]["options"][option][2]
+        self.index = index
+        self.option = option
+        self.value = value
+        self.redo_changes(history.level)
+
+    def undo_changes(self, level):
+        level.effects[self.index]["options"][self.option][2] = self.prevvalue
+        level.manager.basemod.effectui.effect_settings()
+
+    def redo_changes(self, level):
+        level.effects[self.index]["options"][self.option][2] = self.value
+        level.manager.basemod.effectui.effect_settings()

@@ -12,12 +12,12 @@ class KeyDialog(QDialog):
         self.ui = Ui_keyDialog()
         self.ui.setupUi(self)
         self.tempkey.link_keysequenceedit(self.ui.keySequenceEdit)
-        self.ui.buttonBox.button(QDialogButtonBox.StandardButton.Apply).clicked.connect(self.apply)
+        self.ui.buttonBox.button(QDialogButtonBox.StandardButton.Ok).clicked.connect(self.ok)
 
     def accept(self):
         super().accept()
 
-    def apply(self):
+    def ok(self):
         self.key.update_value(self.tempkey.value)
         if self.settingkey is not None:
             self.settingkey.setText(1, self.key.value.toString())

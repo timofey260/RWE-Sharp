@@ -46,7 +46,7 @@ class Ui_EffectDialog(object):
         self.buttonBox = QDialogButtonBox(EffectDialog)
         self.buttonBox.setObjectName(u"buttonBox")
         self.buttonBox.setOrientation(Qt.Orientation.Horizontal)
-        self.buttonBox.setStandardButtons(QDialogButtonBox.StandardButton.Apply|QDialogButtonBox.StandardButton.Cancel)
+        self.buttonBox.setStandardButtons(QDialogButtonBox.StandardButton.Cancel|QDialogButtonBox.StandardButton.Ok)
 
         self.verticalLayout.addWidget(self.buttonBox)
 
@@ -59,7 +59,7 @@ class Ui_EffectDialog(object):
     # setupUi
 
     def retranslateUi(self, EffectDialog):
-        EffectDialog.setWindowTitle(QCoreApplication.translate("EffectDialog", u"Pick a Key", None))
-        self.label.setText(QCoreApplication.translate("EffectDialog", u"Eddit value", None))
+        EffectDialog.setWindowTitle(QCoreApplication.translate("EffectDialog", u"Effects shit", None))
+        self.label.setText(QCoreApplication.translate("EffectDialog", u"Text", None))
     # retranslateUi
 

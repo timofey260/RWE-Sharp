@@ -1,19 +1,22 @@
 from RWESharp.Ui import UI
-from BaseMod.effects.ui.effects_ui import Ui_Effects
 from PySide6.QtWidgets import QTreeWidgetItem, QDialog, QInputDialog, QMenu
 from PySide6.QtCore import Qt, QPoint, QItemSelectionModel
 from PySide6.QtGui import QPixmap
+from BaseMod.effects.ui.effects_ui import Ui_Effects
 from BaseMod.effects.ui.effectsdialog import Ui_EffectDialog
+from BaseMod.effects.effectHistory import EffectOptionChange
 from random import randint
 
 
 class EffectDialog(QDialog):
-    def __init__(self, options: list[str], parent=None):
+    def __init__(self, options: list[str], name, parent=None):
         super().__init__(parent)
         self.ui = Ui_EffectDialog()
         self.ui.setupUi(self)
         self.options = options
         self.ui.EffectSettingValueComboBox.addItems(options)
+        self.ui.label.setText(name)
+        self.setWindowTitle(name)
 
 
 class EffectsUI(UI):
@@ -95,20 +98,24 @@ class EffectsUI(UI):
 
     def effect_settings_double_click(self, item: QTreeWidgetItem, column):
         if column == 1:
-            #todo history thing
+            index = item.data(0, Qt.ItemDataRole.UserRole)
+            options = self.mod.manager.level.effects[self.editor.effectindex.value]["options"][index]
             if item.text(0).lower() == "seed":
                 d = QInputDialog()
                 d.setInputMode(QInputDialog.InputMode.IntInput)
                 d.setIntRange(0, 1000)
                 d.setLabelText("Seed:")
+                d.setWindowTitle("Enter Seed")
+                d.setIntValue(int(options[2]))
                 value = d.exec()
-                print(d.intValue(), value)
+                if value == QDialog.DialogCode.Accepted:
+                    self.mod.manager.level.add_history(
+                        EffectOptionChange(self.mod.manager.level.history, self.editor.effectindex.value, index, str(d.intValue())))
                 return
-            index = item.data(0, Qt.ItemDataRole.UserRole)
-            d = EffectDialog(self.mod.manager.level.effects[self.editor.effectindex.value]["options"][index][1])
-            result = d.exec()
-
-            print(d.ui.EffectSettingValueComboBox.currentText(), result)
+            d = EffectDialog(options[1], options[0])
+            value = d.exec()
+            if value == QDialog.DialogCode.Accepted:
+                self.mod.manager.level.add_history(EffectOptionChange(self.mod.manager.level.history, self.editor.effectindex.value, index, d.ui.EffectSettingValueComboBox.currentText()))
 
     def settings_context_menu(self, pos: QPoint):
         if len(self.ui.OptionsTree.selectedItems()) == 0:
@@ -129,7 +136,5 @@ class EffectsUI(UI):
 
     def setoption(self, index, value):
         def callback():
-            self.mod.manager.level.effects[self.editor.effectindex.value]["options"][index][2] = value
-            self.effect_settings()
-
+            self.mod.manager.level.add_history(EffectOptionChange(self.mod.manager.level.history, self.editor.effectindex.value, index, value))
         return callback
