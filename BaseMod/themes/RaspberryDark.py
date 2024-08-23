@@ -24,7 +24,7 @@ class RaspberryDark(Theme):
         self.colors = [
             # base colors
             ColorConfigurable(mod, "@base_very_dark", "#050a0e", "Base color"),
-            ColorConfigurable(mod, "@base_dark", "#9F2E34", "Base dark color"),
+            ColorConfigurable(mod, "@base_dark", "#252525", "Base dark color"),
             ColorConfigurable(mod, "@base_medium", "#242424", "Base medium color"),
             ColorConfigurable(mod, "@base_light", "#555555", "Base light color"),
             ColorConfigurable(mod, "@base_very_light", "#C2C7CB", "Base very light color"),
@@ -46,9 +46,9 @@ class RaspberryDark(Theme):
             ColorConfigurable(mod, "@text_disabled", "#424242", "Text disabled color"),
             ColorConfigurable(mod, "@text_enabled", "#C4C4C4", "Text enabled color"),
             # accent colors
-            ColorConfigurable(mod, "@accent_light", "#D81B43", "Accent light color"),
-            ColorConfigurable(mod, "@accent_medium", "#C71F35", "Accent medium color"),
-            ColorConfigurable(mod, "@accent_dark", "#A51D2D", "Accent dark color"),
+            ColorConfigurable(mod, "@accent_light", "#ff0051", "Accent light color"),
+            ColorConfigurable(mod, "@accent_medium", "#ff0051", "Accent medium color"),
+            ColorConfigurable(mod, "@accent_dark", "#ff0051", "Accent dark color"),
             # alternative colors
             ColorConfigurable(mod, "@alt_base_dark", "#0A0A0A", "Alternative base dark color"),
             ColorConfigurable(mod, "@alt_base_medium", QColor.fromString("#1e1e1e"), "Alternative base medium color"),
