@@ -4,6 +4,7 @@ from PySide6.QtWidgets import QTreeWidgetItem, QDialog, QInputDialog, QMenu
 from PySide6.QtCore import Qt, QPoint, QItemSelectionModel
 from PySide6.QtGui import QPixmap
 from BaseMod.effects.ui.effectsdialog import Ui_EffectDialog
+from random import randint
 
 
 class EffectDialog(QDialog):
@@ -13,12 +14,6 @@ class EffectDialog(QDialog):
         self.ui.setupUi(self)
         self.options = options
         self.ui.EffectSettingValueComboBox.addItems(options)
-        self.ui.EffectSettingValueComboBox.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
-        menu = QMenu("you mama")
-        menu.addAction("text1")
-        menu.addAction("text2")
-        menu.addAction("text3")
-        self.ui.EffectSettingValueComboBox.customContextMenuRequested.connect(lambda pos: menu.popup(self.mapToGlobal(pos)))
 
 
 class EffectsUI(UI):
@@ -47,6 +42,8 @@ class EffectsUI(UI):
         self.add_effects()
         self.effect_settings()
         self.ui.OptionsTree.itemDoubleClicked.connect(self.effect_settings_double_click)
+        self.ui.OptionsTree.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
+        self.ui.OptionsTree.customContextMenuRequested.connect(self.settings_context_menu)
 
     def effect_up(self):
         self.editor.effectindex.update_value((self.editor.effectindex.value - 1) % self.mod.manager.level.effect_len)
@@ -112,3 +109,27 @@ class EffectsUI(UI):
             result = d.exec()
 
             print(d.ui.EffectSettingValueComboBox.currentText(), result)
+
+    def settings_context_menu(self, pos: QPoint):
+        if len(self.ui.OptionsTree.selectedItems()) == 0:
+            return
+        item = self.ui.OptionsTree.selectedItems()[0]
+        index = item.data(0, Qt.ItemDataRole.UserRole)
+        menu = QMenu("Options", self.ui.OptionsTree)
+        if item.text(0).lower() == "seed":
+            menu.addAction("Randomize", self.setoption(index, str(randint(0, 100))))
+            menu.popup(self.ui.OptionsTree.mapToGlobal(pos))
+            return
+        defaultaction = None
+        for i in self.mod.manager.level.effects[self.editor.effectindex.value]["options"][index][1]:
+            menu.addAction(i, self.setoption(index, i))
+            if i == self.mod.manager.level.effects[self.editor.effectindex.value]["options"][index][2]:
+                defaultaction = menu.actions()[-1]
+        menu.popup(self.ui.OptionsTree.mapToGlobal(pos), defaultaction)
+
+    def setoption(self, index, value):
+        def callback():
+            self.mod.manager.level.effects[self.editor.effectindex.value]["options"][index][2] = value
+            self.effect_settings()
+
+        return callback
