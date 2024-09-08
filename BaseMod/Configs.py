@@ -45,5 +45,10 @@ class BaseModConfig:
         self.funny_vid = BoolConfigurable(mod, "basemod.funnyvid", True, "Funny video when you close rwe#")
         self.funny = BoolConfigurable(mod, "basemod.funny", True, "Adds funny")
 
+        self.windowstate = StringConfigurable(mod, "basemod.windowstate", b"", "Main window state")
+        mod.manager.window.restoreState(self.windowstate.value)
+        self.windowgeo = StringConfigurable(mod, "basemod.windowgeo", b"", "Main window state")
+        mod.manager.window.restoreGeometry(self.windowgeo.value)
+
         edittab = HotkeyElement(mod, "Edit", "edit").add_myself()
         edittab.add_children_configurables(*get_hotkeys_from_pattern(mod, "basemod"))

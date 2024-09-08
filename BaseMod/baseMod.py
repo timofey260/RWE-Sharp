@@ -15,6 +15,7 @@ from RWESharp.Modify import Mod, ModInfo
 from RWESharp.Core import SettingElement, HotkeyElement, get_hotkeys_from_pattern, PATH_FILES_VIDEOS
 from RWESharp.Ui import FunnyVideo
 from PySide6.QtGui import QAction
+from RWESharp.Core import Manager
 import os
 
 
@@ -110,3 +111,7 @@ class BaseMod(Mod):
 
     def sexthing(self):
         self.vid = FunnyVideo(self.manager, False, os.path.join(PATH_FILES_VIDEOS, "sex.mp4").replace("\\", "/"), "SEX")
+
+    def on_save(self):
+        self.bmconfig.windowstate.update_value(self.manager.window.saveState())
+        self.bmconfig.windowgeo.update_value(self.manager.window.saveGeometry())

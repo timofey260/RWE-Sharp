@@ -65,3 +65,9 @@ class Mod(ABC):
 
     def add_hotkey(self, hotkey: HotkeyElement):
         self.manager.add_hotkeytree(hotkey)
+
+    def on_save(self):
+        """
+        Gets called before save
+        :return:
+        """

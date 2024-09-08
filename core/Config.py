@@ -2,6 +2,7 @@ import appdirs
 from core.info import NAME, PROGNAME, AUTHOR, PATH_FILES
 import os
 import json
+from PySide6.QtCore import QSettings
 
 
 class Config:
@@ -13,20 +14,22 @@ class Config:
     config stores mod settings by using config modules
     """
     def __init__(self, manager):
+        self.settings = QSettings(AUTHOR, NAME, )
         self.manager = manager
         # self.modules: list[ConfigModule] = []
-        self.values: dict[str, str] = {}
 
         # 1st step: apply all configs
         # 2nd step: apply all settings from configs to mods and ui
         # 3rd step: store settings when we save level
 
     def init_configs(self):
+        pass
+        # uuh done i think???
         # get config file
-        path = self.ensure_config()
-        with open(path) as f:
-            js = json.load(f)
-            self.values = {k: v for k, v in js.items()}
+        # path = self.ensure_config()
+        # with open(path) as f:
+        #     js = json.load(f)
+        #     self.values = {k: v for k, v in js.items()}
         # old method
         # path = self.ensure_config()
         # with open(path) as f:
@@ -39,6 +42,11 @@ class Config:
         #         self.values[name] = value
 
     def save_configs(self):
+        # uuh that it i think
+        for i in self.manager.mods:
+            for v in i.configs:
+                self.settings.setValue(f"{i.author_name}.{v.name}", v.save_str_value())
+        return
         js = {}
         for i in self.manager.mods:
             for v in i.configs:

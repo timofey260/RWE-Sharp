@@ -38,7 +38,6 @@ class Manager:
         self.effects: Effects = splash.loader.effects
         self.effect_colors = splash.loader.effect_colors
 
-        print(window.saveState())
         # self.splashwindow.close()
 
         # self.levelpath: str = "" if file is None else file
@@ -225,6 +224,8 @@ class Manager:
 
     @Slot()
     def save_level(self):
+        for i in self.mods:
+            i.on_save()
         self.level.save_file()
         # config saving
         self.config.save_configs()
