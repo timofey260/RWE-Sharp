@@ -19,9 +19,10 @@ def main(argv):
 
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("-v", "--version", help="show current RWE# version and exit", action="version")
-    # parser.add_argument("-a", "--authors", help="shows all rwee developers", action="authors")
+    # parser.add_argument("-a", "--authors", help="shows all rwe# developers", action="authors")
     parser.add_argument("filename", type=str, nargs="?", help="Level to load")
     parser.add_argument("-M", "--nomods", dest="nomods", help="Use mods or load without them", action="store_true")
+    parser.add_argument("-R", "--reset", dest="reset", help="Reset RWE# configuration", action="store_true")  # todo
     parser.version = VERSION
     parser.authors = AUTHORS
 

@@ -10,17 +10,14 @@ class Prop:
     type: str
     repeatl: list[int]
     description: str
-    bfTiles: int
     images: list[QPixmap]
-    image2: list[QImage] | None
     colorTreatment: str
     color: str
     size: QSize
     color: QColor
     cat: QPoint
     tags: list[str]
-    printcols: bool
-    preview: QImage | None
+    preview: QPixmap | None
     err: bool
     category: PropCategory
     notes: list[str]
@@ -32,10 +29,10 @@ class Prop:
 class PropCategory:
     name: str
     color: QColor
-    tiles: list[Prop]
+    props: list[Prop]
 
     def find_prop(self, name) -> Prop | None:
-        for i in self.tiles:
+        for i in self.props:
             if i.name == name:
                 return i
         return None
@@ -59,7 +56,7 @@ class Props:
         return None
 
     def all_props(self) -> list[Prop]:
-        t = [i.tiles for i in self.categories]
+        t = [i.props for i in self.categories]
         newt = []
         for i in t:
             newt = [*newt, *i]

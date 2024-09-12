@@ -23,6 +23,8 @@ PATH_MAT_PREVIEWS = os.path.join(PATH_FILES_IMAGES, "material_previews")
 PATH_COLLECTIONS_TILES = os.path.join(PATH_FILES, "collections/tiles")
 PATH_COLLECTIONS_PROPS = os.path.join(PATH_FILES, "collections/props")
 PATH_BASEMOD = os.path.join(PATH, "BaseMod")
+PATH_DRIZZLE_TILES = os.path.join(PATH_DRIZZLE, "Data/Graphics")
+PATH_DRIZZLE_PROPS = os.path.join(PATH_DRIZZLE, "Data/Props")
 
 assert os.path.exists(PATH_DRIZZLE), "No drizzle found"
 

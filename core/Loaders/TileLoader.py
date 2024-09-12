@@ -157,6 +157,10 @@ def loadTile(item, colr, category, catnum, indx) -> Tile | None:
         origimg = QImage(imagepath)
     except FileNotFoundError:
         return None
+    if not origimg.colorTable():
+        origimg = origimg.convertToFormat(QImage.Format.Format_Indexed8,
+                              [4294901760, 4278255360, 4278190335, 4278190080, 4294967295, 0],
+                              Qt.ImageConversionFlag.ThresholdDither)
     try:
         white = origimg.colorTable().index(4294967295)
         origimg.setColor(white, 0)
@@ -190,11 +194,6 @@ def loadTile(item, colr, category, catnum, indx) -> Tile | None:
             img = origimg.copy(rect)
     # image
     try:
-        if len(img.colorTable()) == 0:
-            # we try
-            img = img.convertToFormat(QImage.Format.Format_Indexed8,
-                                      [4294901760, 4278255360, 4278190335, 4278190080, 4294967295, 0],
-                                      Qt.ImageConversionFlag.ThresholdDither)
         black = img.colorTable().index(4278190080)
         img.setColor(black, colr.rgba())
     except ValueError:
@@ -313,8 +312,8 @@ def load_tiles(window: SplashDialog) -> Tiles:
 
     solved_copy = init_solve(os.path.join(PATH_DRIZZLE, "Data/Graphics/Init.txt"))
     length = sum(list(map(lambda x: len(x["items"]), solved_copy.data)))
-    log(f"loading {length} tiles")
-    tilenum = 1
+    log(f"Loading {length} tiles")
+
     threadsnum = min(1, multiprocessing.cpu_count() - 1)
     catsnum = len(solved_copy.data)
     data_per_thread = catsnum // threadsnum
