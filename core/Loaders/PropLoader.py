@@ -1,6 +1,6 @@
 from core.Loaders.Prop import Props, PropCategory, Prop
 from core.Loaders.Tile import Tile, TileCategory, Tiles
-from core.Loaders.TileLoader import init_solve
+from core.Loaders.TileLoader import init_solve, colortable
 from core.utils import log, color_lerp
 from core.info import PATH_DRIZZLE, PATH_FILES, SPRITESIZE, PATH_DRIZZLE_PROPS
 from core.lingoIO import fromarr
@@ -14,6 +14,7 @@ import multiprocessing
 
 def load_prop(item: dict, colr, category, catnum, indx, img: QImage):
     # img.set_colorkey(pg.color.Color(255, 255, 255))
+    renderstep = 15
     err = False
     if img is None:
         img = QImage(1, 1, QImage.Format.Format_Indexed8)
@@ -25,10 +26,10 @@ def load_prop(item: dict, colr, category, catnum, indx, img: QImage):
     except ValueError:
         log(f"Error loading {item['nm']}", True)
         err = True
-    painter = QPainter()
+    painter = QPainter(img)
     images = []
-    if item.get("vars") is not None:
-        item["vars"] = max(item["vars"], 1)
+
+    item["vars"] = max(item.get("vars", 1), 1)
 
     ws, hs = img.width(), img.height()
     sz = [ws, hs]
@@ -65,17 +66,19 @@ def load_prop(item: dict, colr, category, catnum, indx, img: QImage):
                         ss = img.copy(rect)
                     except ValueError:
                         continue
-                    painter.begin(img)
 
                     if item["colorTreatment"] == "bevel":
                         pass
+                        # todo
                         # pxl = pg.PixelArray(ss)
                         # pxl.replace(bl, curcol)
                         # ss = pxl.make_surface()
                     #ss.set_colorkey(wh)
                     painter.drawImage(0, h * (len(repeatl) - 1), ss)
+                    painter.setCompositionMode(painter.CompositionMode.CompositionMode_SourceAtop)
+                    painter.fillRect(0, h * (len(repeatl) - 1), ss.width(), ss.height(), QColor(0, 0, 0, renderstep))
+                    painter.setCompositionMode(painter.CompositionMode.CompositionMode_SourceOver)
                     # img.blit(ss, [0, h * (len(repeatl) - 1)])
-                    painter.end()
 
     if item.get("vars") is not None:
         for iindex in range(item["vars"]):
@@ -83,7 +86,7 @@ def load_prop(item: dict, colr, category, catnum, indx, img: QImage):
     else:
         images.append(img.copy(0, hs - h if item.get("colorTreatment", "") == "bevel" else 0, w, h))
     prop = Prop(item.get("nm", "NoName"), item.get("tp"), item.get("repeatL"), "todo",
-                [QPixmap.fromImage(i) for i in images], item.get("colorTreatment", "standard"),
+                images, item.get("colorTreatment", "standard"),
                 colr, QSize(*sz), QPoint(catnum, indx), item.get("tags", []), QPixmap.fromImage(images[0]), err,
                 category, item.get("notes", []), item.get("layerExceptions", []))
     return prop

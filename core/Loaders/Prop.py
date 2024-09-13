@@ -10,7 +10,7 @@ class Prop:
     type: str
     repeatl: list[int]
     description: str
-    images: list[QPixmap]
+    images: list[QImage]
     colorTreatment: str
     color: str
     size: QSize
@@ -23,6 +23,9 @@ class Prop:
     notes: list[str]
     layerExceptions: list = field(default=list)
 
+    @property
+    def colorable(self):
+        return len(self.repeatl) > 1
 
 
 @dataclass
