@@ -12,16 +12,16 @@ class Prop:
     description: str
     images: list[QImage]
     colorTreatment: str
+    vars: int
     color: str
-    size: QSize
     color: QColor
     cat: QPoint
     tags: list[str]
-    preview: QPixmap | None
     err: bool
     category: PropCategory
     notes: list[str]
     layerExceptions: list = field(default=list)
+    beveltable: None | list[int] = None
 
     @property
     def colorable(self):

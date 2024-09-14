@@ -2,7 +2,7 @@ from core.Loaders.Prop import Props, PropCategory, Prop
 from core.Loaders.Tile import Tile, TileCategory, Tiles
 from core.Loaders.TileLoader import init_solve, colortable
 from core.utils import log, color_lerp
-from core.info import PATH_DRIZZLE, PATH_FILES, SPRITESIZE, PATH_DRIZZLE_PROPS
+from core.info import PATH_DRIZZLE, PATH_FILES, SPRITESIZE, PATH_DRIZZLE_PROPS, PATH_FILES_CACHE, CELLSIZE
 from core.lingoIO import fromarr
 from ui.splashuiconnector import SplashDialog
 from PySide6.QtCore import QThread, Qt, QRect, QSize, QPoint
@@ -12,84 +12,120 @@ import os
 import multiprocessing
 
 
-def load_prop(item: dict, colr, category, catnum, indx, img: QImage):
+def load_prop(item: dict, colr, category, catnum, indx):
     # img.set_colorkey(pg.color.Color(255, 255, 255))
+
+    vars = max(item.get("vars", 1), 1)
+    repeatl = item.get("repeatL", [1])
+    path = item["nm"]
     renderstep = 15
     err = False
-    if img is None:
-        img = QImage(1, 1, QImage.Format.Format_Indexed8)
-    try:
-        if not img.colorTable():
-            img = img.convertToFormat(QImage.Format.Format_Indexed8, Qt.ImageConversionFlag.ThresholdDither)
-        white = img.colorTable().index(4294967295)
-        img.setColor(white, 0)
-    except ValueError:
-        log(f"Error loading {item['nm']}", True)
-        err = True
-    painter = QPainter(img)
-    images = []
 
-    item["vars"] = max(item.get("vars", 1), 1)
+    if all(os.path.exists(os.path.join(PATH_FILES_CACHE, f"{path}_{i}.png")) for i in range(vars)):
+        images = []
+        for i in range(vars):
+            images.append(QImage(os.path.join(PATH_DRIZZLE_PROPS, f"{path}_{i}.png")))
+        return Prop(item.get("nm", "NoName"), item.get("tp"), repeatl, "todo",
+                    images, item.get("colorTreatment", "standard"), vars,
+                    colr, QPoint(catnum, indx), item.get("tags", []), err,
+                    category, item.get("notes", []), item.get("layerExceptions", []))
+
+    img = QImage(os.path.join(PATH_DRIZZLE_PROPS, f"{path}.png"))
+    standard = item.get("tp", "standard") in ["standard", "variedStandard"]
+    soft = item.get("tp", "soft") in ["soft", "variedSoft"]
 
     ws, hs = img.width(), img.height()
     sz = [ws, hs]
+    w, h = ws, hs
     if item.get("pxlSize") is not None:
         w, h = fromarr(item["pxlSize"], "point")
+    elif item.get("sz") is not None:
+        w, h = fromarr(item["sz"], "point")
+        w *= CELLSIZE
+        h *= CELLSIZE
+
+    images = []
+
+    if img is None:
+        img = QImage(1, 1, QImage.Format.Format_Indexed8)
+    if standard:
+        try:
+            if not img.colorTable():
+                img = img.convertToFormat(QImage.Format.Format_Indexed8,
+                                          [4294901760, 4278255360, 4278190335, 4278190080, 4294967295, 0], Qt.ImageConversionFlag.ThresholdDither)
+            img.setColor(img.colorTable().index(4294967295), 0)
+            # img.setColor(img.colorTable().index(4278190080), 0)
+        except ValueError:
+            log(f"Error loading {item['nm']}", True)
+            err = True
+    if not standard or soft:
+        mask = img.createMaskFromColor(QColor(255, 255, 255, 255).rgba(), Qt.MaskMode.MaskOutColor)
+        mask.setColorTable([4294967295, 0])
+        # mask.save(os.path.join(PATH_FILES_CACHE, f"{path}_test_0.png"))
+        # img.save(os.path.join(PATH_FILES_CACHE, f"{path}_test_1.png"))
+        newimg = QPixmap(img.size())
+        newimg.fill(QColor(0, 0, 0, 0))
+        painter = QPainter(newimg)
+        painter.drawImage(0, 0, img)
+        painter.setCompositionMode(QPainter.CompositionMode.CompositionMode_DestinationOut)
+        painter.drawImage(0, 0, mask)
+        painter.end()
+        # if soft:
+        #     newimg = newimg.copy(0, 0, ws, h)
+        #newimg.save(os.path.join(PATH_FILES_CACHE, f"{path}_0.png"))
     else:
-        w, h = ws, hs
-        if item.get("vars") is not None:
-            w = round(ws / item["vars"])
-        if item.get("repeatL") is not None:
-            repeatl = item.get("repeatL")
-            h = math.floor((hs / len(repeatl)))
-            if item.get("sz") is not None:
-                sz = fromarr(item["sz"], "point")
-                w = min(sz[0] * SPRITESIZE, ws)
-                h = sz[1] * SPRITESIZE
+        newimg = QPixmap(ws, h)
+        newimg.fill(QColor(0, 0, 0, 0))
+        painter = QPainter(newimg)
 
-            cons = 0.4
-            wh = QColor("#ffffff")
-            gr = QColor("#dddddd")
-            bl = QColor("#000000")
+        wh = QColor("#ffffff")
+        gr = QColor("#dddddd")
+        bl = QColor("#000000")
+        cons = 0.4
+        curcol = gr
 
-            vars = item.get("vars", 1)
+        for i, v in zip(range(len(repeatl) - 1, -1, -1), reversed(repeatl)):
+            if item.get("colorTreatment", "normal") == "bevel":
+                newi = img.copy(0, h * i, ws, h).createMaskFromColor(QColor(0, 0, 0).rgba(), Qt.MaskMode.MaskInColor)
+                newi.setColorTable([0, QColor(0, 255, 0).rgba()])
+                painter.drawImage(0, 0, newi)
+            else:
+                painter.drawImage(0, 0, img.copy(0, h * i, ws, h))
+            painter.setCompositionMode(QPainter.CompositionMode.CompositionMode_SourceAtop)
+            painter.fillRect(0, 0, ws, h, QColor(0, 0, 0, renderstep))
+            painter.setCompositionMode(QPainter.CompositionMode.CompositionMode_SourceOver)
+        painter.end()
+        img3 = QImage(newimg.width(), newimg.height(), QImage.Format.Format_RGBA64)
+        imagepix = newimg.toImage()
+        # newimg.save(os.path.join(PATH_FILES_CACHE, f"test.png"))
+        # print(ws, hs, w, h)
 
-            for varindx in range(vars):
-                curcol = gr
+        for xp in range(img3.width()):
+            for yp in range(img3.height()):
+                pc = imagepix.pixelColor(xp, yp)
+                if pc.alpha() == 0 or pc.rgb() == QColor(0, 0, 0).rgb():
+                    img3.setPixelColor(xp, yp, QColor(0, 0, 0, 0))
+                    continue
+                if pc.red() > pc.green() == pc.blue():
+                    pc = QColor(91 + (255 - pc.red()) // renderstep, 0, 0, 255)
+                elif pc.green() > pc.red() == pc.blue():
+                    pc = QColor(121 + (255 - pc.green()) // renderstep, 0, 0, 255)
+                elif pc.blue() > pc.green() == pc.red():
+                    pc = QColor(151 + (255 - pc.blue()) // renderstep, 0, 0, 255)
+                img3.setPixelColor(xp, yp, pc)
+        #img3.save(os.path.join(PATH_FILES_CACHE, f"test2.png"))
+        newimg = img3.convertToFormat(QImage.Format.Format_Indexed8, colortable[0],
+                                    Qt.ImageConversionFlag.ThresholdDither)
 
-                for iindex, _ in enumerate(repeatl):
-                    # print(img, item["nm"], varindx * w, h * (len(repeatl) - 1), w, h)
-                    curcol = color_lerp(curcol, bl, cons)
-                    rect = QRect(varindx * w, (len(repeatl) - 1 - iindex) * h, w, h + 1)
-                    # rect = rect.clip(QRect(0, 0, ws, hs))
-                    try:
-                        ss = img.copy(rect)
-                    except ValueError:
-                        continue
+    for i in range(vars):
+        images.append(newimg.copy(w * i, 0, w, h))
+        images[-1].save(os.path.join(PATH_FILES_CACHE, f"{path}_{i}.png"))
 
-                    if item["colorTreatment"] == "bevel":
-                        pass
-                        # todo
-                        # pxl = pg.PixelArray(ss)
-                        # pxl.replace(bl, curcol)
-                        # ss = pxl.make_surface()
-                    #ss.set_colorkey(wh)
-                    painter.drawImage(0, h * (len(repeatl) - 1), ss)
-                    painter.setCompositionMode(painter.CompositionMode.CompositionMode_SourceAtop)
-                    painter.fillRect(0, h * (len(repeatl) - 1), ss.width(), ss.height(), QColor(0, 0, 0, renderstep))
-                    painter.setCompositionMode(painter.CompositionMode.CompositionMode_SourceOver)
-                    # img.blit(ss, [0, h * (len(repeatl) - 1)])
 
-    if item.get("vars") is not None:
-        for iindex in range(item["vars"]):
-            images.append(img.copy(iindex * w, 0, w, h))
-    else:
-        images.append(img.copy(0, hs - h if item.get("colorTreatment", "") == "bevel" else 0, w, h))
-    prop = Prop(item.get("nm", "NoName"), item.get("tp"), item.get("repeatL"), "todo",
-                images, item.get("colorTreatment", "standard"),
-                colr, QSize(*sz), QPoint(catnum, indx), item.get("tags", []), QPixmap.fromImage(images[0]), err,
+    return Prop(item.get("nm", "NoName"), item.get("tp"), repeatl, "todo",
+                images, item.get("colorTreatment", "standard"), vars,
+                colr, QPoint(catnum, indx), item.get("tags", []), err,
                 category, item.get("notes", []), item.get("layerExceptions", []))
-    return prop
 
 
 class PropPackLoader(QThread):
@@ -111,16 +147,11 @@ class PropPackLoader(QThread):
             colr: QColor = catitem["color"]
             # self.data[catnum]["items"] = []
             for indx, item in enumerate(items):
-                # printmessage(f"Loading tile {item['nm']}...", f"({tilenum}/{length})")
-                # window.ui.progressBar.setValue(int(tilenum / length * 100))
-                image = QImage(os.path.join(PATH_DRIZZLE_PROPS, f"{item['nm']}.png"))
-                tile = load_prop(item, colr, propcat, catnum, indx, image)
+                tile = load_prop(item, colr, propcat, catnum, indx)
                 self.progress += 1
                 if tile is None:
                     self.errors += 1
                     continue
-                # tilenum += 1
-                # self.data[catnum]["items"].append(tile)
                 proplist.append(tile)
                 if tile.err:
                     self.errors += 1

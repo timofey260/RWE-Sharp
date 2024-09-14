@@ -218,9 +218,9 @@ def loadTile(item, colr, category, catnum, indx) -> Tile | None:
             widthcap = min(img2.width(), origimg.width())
             p.drawImage(0, 0, origimg.copy(0, (repl - i - 1) * img2.height(), widthcap, img2.height()))
             # p.setOpacity(min(.2, i / repl + .5))
-            p.setCompositionMode(p.CompositionMode.CompositionMode_SourceAtop)
+            p.setCompositionMode(QPainter.CompositionMode.CompositionMode_SourceAtop)
             p.fillRect(0, 0, img2.width(), img2.height(), QColor(0, 0, 0, renderstep))
-            p.setCompositionMode(p.CompositionMode.CompositionMode_SourceOver)
+            p.setCompositionMode(QPainter.CompositionMode.CompositionMode_SourceOver)
     # img3 = img2.convertToFormat(QImage.Format.Format_Indexed8)
     # making image 3
     imagepix = img2.toImage()
