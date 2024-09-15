@@ -86,6 +86,7 @@ def load_prop(item: dict, colr, category, catnum, indx):
 
         for i, v in zip(range(len(repeatl) - 1, -1, -1), reversed(repeatl)):
             if item.get("colorTreatment", "normal") == "bevel":
+                curcol = color_lerp(curcol, bl, cons)  # todo
                 newi = img.copy(0, h * i, ws, h).createMaskFromColor(QColor(0, 0, 0).rgba(), Qt.MaskMode.MaskInColor)
                 newi.setColorTable([0, QColor(0, 255, 0).rgba()])
                 painter.drawImage(0, 0, newi)
@@ -121,11 +122,18 @@ def load_prop(item: dict, colr, category, catnum, indx):
         images.append(newimg.copy(w * i, 0, w, h))
         images[-1].save(os.path.join(PATH_FILES_CACHE, f"{path}_{i}.png"))
 
-
     return Prop(item.get("nm", "NoName"), item.get("tp"), repeatl, "todo",
                 images, item.get("colorTreatment", "standard"), vars,
                 colr, QPoint(catnum, indx), item.get("tags", []), err,
                 category, item.get("notes", []), item.get("layerExceptions", []))
+
+
+def tile2prop(tile: Tile, cat, category):
+    err = tile.err
+    if tile.type != "VoxelStruct" or "notProp" in tile.tags:
+        err = True
+    return Prop(tile.name, "standard", tile.repeatl, tile.description, [tile.image3], "standard", 1,
+                tile.color, cat, tile.tags, err, category, ["Tile as Prop"])
 
 
 class PropPackLoader(QThread):
@@ -159,6 +167,37 @@ class PropPackLoader(QThread):
         # self.finished.emit()
 
 
+class Tile2PropLoader(QThread):
+    def __init__(self, categories: list[TileCategory], parent=None):
+        super().__init__(parent)
+        self.categories = categories
+        self.cats = []
+        self.progress = 0
+        self.errors = 0
+        self.amount = sum(list(map(lambda x: len(x.tiles), self.categories)))
+        self.finished.connect(self.deleteLater)
+
+    def run(self):
+        for catnum, catitem in enumerate(self.categories):
+            proplist = []
+            propcat = PropCategory(catitem.name, catitem.color, proplist)
+
+            items = catitem.tiles
+            colr: QColor = catitem.color
+            # self.data[catnum]["items"] = []
+            for indx, item in enumerate(items):
+                prop = tile2prop(item, QPoint(catnum, indx), propcat)
+                self.progress += 1
+                if prop is None:
+                    self.errors += 1
+                    continue
+                proplist.append(prop)
+                if prop.err:
+                    self.errors += 1
+            self.cats.append(propcat)
+        # self.finished.emit()
+
+
 def load_props(tiles: Tiles, window: SplashDialog):
     log("Loading Props")
     solved_copy = init_solve(os.path.join(PATH_DRIZZLE_PROPS, "Init.txt"))
@@ -186,5 +225,30 @@ def load_props(tiles: Tiles, window: SplashDialog):
     # progress.start()
     for i in workers:
         i.wait()
-    log("finished")
+    categories = []
+    for i in workers:
+        categories = [*categories, *i.cats]
 
+    log(f"Loading Tiles as props")
+    # yeah me lazy go brrrr
+    catsnum = len(tiles.categories)
+    data_per_thread = catsnum // threadsnum
+    unused = catsnum - data_per_thread * threadsnum
+
+    workers: list[Tile2PropLoader] = []
+    for i in range(threadsnum):
+        workers.append(Tile2PropLoader(tiles.categories[i * data_per_thread:i * data_per_thread + data_per_thread]))
+    if unused > 0:
+        workers.append(Tile2PropLoader(tiles.categories[-unused:]))
+
+    for i in workers:
+        i.start()
+    # progress.start()
+    for i in workers:
+        i.wait()
+    categories = []
+    for i in workers:
+        categories = [*categories, *i.cats]
+
+    log("Finished Loading")
+    return Props(categories)

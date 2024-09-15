@@ -1,6 +1,7 @@
 from ui.uiscripts.splash import Ui_Splash
 from PySide6.QtWidgets import QSplashScreen, QVBoxLayout
 from core.Loaders.Loader import Loader
+from core.utils import log
 from PySide6.QtCore import Qt
 # from PySide6.QtCore import Slot
 # from PySide6.QtMultimediaWidgets import QVideoWidget
@@ -19,7 +20,7 @@ class SplashDialog(QSplashScreen):
         self.loader.finished.connect(self.loader.deleteLater)
         self.loader.finished.connect(self.close)
         self.loader.start()
-        print("Loading...")
+        log("Loading...")
         self.show()
         # self.setWindowFlag(Qt.WindowType.SplashScreen, True)
 

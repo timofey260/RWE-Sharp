@@ -71,7 +71,6 @@ class EffectBrush(HistoryElement):
 
 class EffectAdd(HistoryElement):
     def __init__(self, history, effect: Effect):
-        # todo special second effect thing thing
         super().__init__(history)
         self.effect = effect
         self.add_effect()
