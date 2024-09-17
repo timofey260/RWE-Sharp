@@ -8,8 +8,8 @@ from core.TreeElement import SettingElement, HotkeyElement
 from core.info import PATH_MODS
 from core.ModLoader import load_mod
 from core.utils import log
-from core.ItemData import ItemData
 from core.Loaders.Tile import Tiles
+from core.Loaders.Prop import Props
 from core.Loaders.Effect import Effects
 from core.Application import Application
 from ui.mainuiconnector import MainWindow
@@ -34,7 +34,7 @@ class Manager:
         self.application: Application = app
 
         self.tiles: Tiles = splash.loader.tiles
-        self.props: ItemData = splash.loader.props
+        self.props: Props = splash.loader.props
         self.effects: Effects = splash.loader.effects
         self.effect_colors = splash.loader.effect_colors
 
