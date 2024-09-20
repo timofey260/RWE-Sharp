@@ -72,7 +72,7 @@ def tolingo(string: dict):
     return t
 
 
-def fromarr(col: str, mark):
+def fromarr(col: str, mark: str):
     s = col.replace(mark + "(", "")
     s = s.replace(",", " ")
     s = s.replace(")", "")
@@ -85,6 +85,6 @@ def fromarr(col: str, mark):
     return a
 
 
-def makearr(col: list, mark):
+def makearr(col: list, mark: list):
     return f"{mark}({col[0]}, {col[1]})"
 

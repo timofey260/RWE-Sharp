@@ -124,6 +124,10 @@ class RWELevel:
     def extra_tiles(self) -> [int, int, int, int]:
         return self.data["EX2"]["extraTiles"]
 
+    @property
+    def props(self):
+        return self.data["PR"]["props"]
+
     def inside(self, point: QPoint) -> bool:
         return 0 <= point.x() < self.level_width and 0 <= point.y() < self.level_height
 

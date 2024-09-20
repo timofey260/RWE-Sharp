@@ -40,6 +40,9 @@ class PropCategory:
                 return i
         return None
 
+    def __repr__(self):
+        return f"<Prop category {self.name} with {len(self.props)} prop(s)>"
+
 
 @dataclass
 class Props:

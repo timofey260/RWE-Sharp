@@ -7,6 +7,7 @@ from BaseMod.themes.RaspberryDark import RaspberryDark
 from BaseMod.Configs import BaseModConfig
 from BaseMod.tiles.tileEditor import TileEditor
 from BaseMod.tiles.tileExplorer import TileExplorer
+from BaseMod.props.propModule import PropModule
 from BaseMod.effects.effectEditor import EffectEditor
 from BaseMod.effects.effectsUIConnector import EffectsUI
 from BaseMod.effects.effectExplorer import EffectExplorer
@@ -55,6 +56,8 @@ class BaseMod(Mod):
         self.effect_explorer = EffectExplorer(self, self.manager.window)
         self.effectui = EffectsUI(self)
         self.effecteditor.add_myself(self.effectui)
+
+        self.propmodule = PropModule(self).add_myself()
 
         if self.bmconfig.funny.value:
             self.sex = QAction("sex")

@@ -7,7 +7,6 @@ from core.lingoIO import fromarr
 from ui.splashuiconnector import SplashDialog
 from PySide6.QtCore import QThread, Qt, QRect, QSize, QPoint
 from PySide6.QtGui import QImage, QColor, QPainter, QPixmap
-import math
 import os
 import multiprocessing
 
@@ -246,7 +245,7 @@ def load_props(tiles: Tiles, window: SplashDialog):
     # progress.start()
     for i in workers:
         i.wait()
-    categories = []
+
     for i in workers:
         categories = [*categories, *i.cats]
 
