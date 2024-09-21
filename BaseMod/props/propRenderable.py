@@ -1,11 +1,12 @@
 from RWESharp.Renderable import Renderable
-from RWESharp.Core import lingoIO
+from RWESharp.Core import lingoIO, CELLSIZE, SPRITESIZE
 
 from PySide6.QtCore import QPoint, QPointF
 from PySide6.QtGui import QTransform, QPolygonF, QPainter, QPixmap, QImage
 from PySide6.QtWidgets import QGraphicsPixmapItem
 
 from widgets import Viewport
+import os
 
 
 class PropRenderable(Renderable):
@@ -25,9 +26,9 @@ class PropRenderable(Renderable):
     def init_graphics(self, viewport: Viewport):
         self.renderedtexture = viewport.workscene.addPixmap(QPixmap.fromImage(self.image))
         self.renderedtexture.setZValue(self.depth)
-        print("shit")
+        self.setPos(QPointF(0, 0))
         #self.draw_layer()
-        #self.retransform()
+        self.retransform()
 
     def remove_graphics(self):
         self.renderedtexture.removeFromIndex()
@@ -36,10 +37,11 @@ class PropRenderable(Renderable):
     def move_event(self, pos):
         super().move_event(pos)
         self.renderedtexture.setPos(self.actual_offset)
-        #self.retransform()
+        self.retransform()
 
     def zoom_event(self, zoom):
-        self.renderedtexture.setScale(zoom)
+        #self.renderedtexture.setScale(zoom)
+        self.retransform()
 
     def quadlist2points(self, qlist: list[str]):
         return [QPointF(*lingoIO.fromarr(i, "point")) for i in qlist]
@@ -51,6 +53,8 @@ class PropRenderable(Renderable):
     def retransform(self):
         transform = QTransform()
         w, h = self.image.width(), self.image.height()
-        transform.quadToQuad(QPolygonF([QPoint(0, 0), QPoint(w, 0), QPoint(w, h), QPoint(0, h)]),
-                             QPolygonF(self.transform))
+        transform = transform.quadToQuad(QPolygonF([QPoint(0, 0), QPoint(w, 0), QPoint(w, h), QPoint(0, h)]),
+                             QPolygonF([i * (self.zoom / SPRITESIZE * CELLSIZE) for i in self.transform]))
+        # transform.scale(self.zoom, self.zoom)
+        self.renderedtexture.setTransformOriginPoint(QPoint(0, 0))
         self.renderedtexture.setTransform(transform)

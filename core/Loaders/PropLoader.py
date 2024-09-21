@@ -23,7 +23,7 @@ def load_prop(item: dict, colr, category, catnum, indx):
     if all(os.path.exists(os.path.join(PATH_FILES_CACHE, f"{path}_{i}.png")) for i in range(vars)):
         images = []
         for i in range(vars):
-            images.append(QImage(os.path.join(PATH_DRIZZLE_PROPS, f"{path}_{i}.png")))
+            images.append(QImage(os.path.join(PATH_FILES_CACHE, f"{path}_{i}.png")))
         return Prop(item.get("nm", "NoName"), item.get("tp"), repeatl, "todo",
                     images, item.get("colorTreatment", "standard"), vars,
                     colr, QPoint(catnum, indx), item.get("tags", []), err,
