@@ -1,5 +1,5 @@
 from PySide6.QtWidgets import QMainWindow, QFileDialog, QSpacerItem, QSizePolicy
-from PySide6.QtCore import Slot
+from PySide6.QtCore import Slot, Qt
 
 from ui.FunnyVideo import FunnyVideo
 from ui.uiscripts.mainui import Ui_MainWindow
@@ -71,6 +71,9 @@ class MainWindow(QMainWindow):
 
         self.hotkeys = HotkeysUI(self.manager, self)
         self.settings = SettingsDialogUI(self.manager, self)
+
+        self.setWindowModality(Qt.WindowModality.NonModal)
+        self.setDockNestingEnabled(True)
 
         self.vid = None
 

@@ -1,4 +1,4 @@
-from PySide6.QtCore import Slot
+from PySide6.QtCore import Slot, Signal
 
 from BaseMod.geo.geoRenderTexture import GeoRenderLevelImage
 from RWESharp.Configurable import BoolConfigurable, FloatConfigurable, IntConfigurable
@@ -6,6 +6,8 @@ from RWESharp.Modify import Module
 
 
 class GeoModule(Module):
+    layerChanged = Signal(int)
+
     def __init__(self, mod):
         super().__init__(mod)
         from BaseMod.baseMod import BaseMod

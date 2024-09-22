@@ -1,5 +1,6 @@
 from RWESharp.Renderable import Renderable
 from RWESharp.Core import lingoIO, CELLSIZE, SPRITESIZE
+from RWESharp.Utils import remap
 
 from PySide6.QtCore import QPoint, QPointF
 from PySide6.QtGui import QTransform, QPolygonF, QPainter, QPixmap, QImage
@@ -11,7 +12,8 @@ import os
 
 class PropRenderable(Renderable):
     def __init__(self, mod, depth, prop):
-        super().__init__(mod, depth)
+        self.propdepth = prop[0]
+        super().__init__(mod, -self.propdepth // 10 * 100 + 50)
         found = self.mod.manager.props.find_prop(prop[1])
         self.renderedtexture: QGraphicsPixmapItem | None = None
         self.transform: list[QPointF] = self.quadlist2points(prop[3])
@@ -56,5 +58,9 @@ class PropRenderable(Renderable):
         transform = transform.quadToQuad(QPolygonF([QPoint(0, 0), QPoint(w, 0), QPoint(w, h), QPoint(0, h)]),
                              QPolygonF([i * (self.zoom / SPRITESIZE * CELLSIZE) for i in self.transform]))
         # transform.scale(self.zoom, self.zoom)
+
+        layer = self.propdepth // 10
+        alph = remap(abs(layer - self.propdepth / 10), 3, 0, 40, 190)
+        self.renderedtexture.setOpacity(alph / 255)
         self.renderedtexture.setTransformOriginPoint(QPoint(0, 0))
         self.renderedtexture.setTransform(transform)
