@@ -12,4 +12,4 @@ class PropModule(Module):
         self.opshift = BoolConfigurable(mod, "VIEW_props.opshift", True, "Opacity shift")
         self.props = []
         for i in self.manager.level.props:
-            self.props.append(PropRenderable(self.mod, 5, i).add_myself(self))
+            self.props.append(PropRenderable(self.mod, i).add_myself(self))

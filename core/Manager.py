@@ -97,11 +97,11 @@ class Manager:
         self.viewport.levelchanged()
 
     def change_theme(self):
-        print(self.basemod.bmconfig.theme.value)
         if self.basemod.bmconfig.theme.value == "":
             if self.current_theme is not None:
                 self.current_theme.theme_disable()
-                print("Theme is Disabled")
+                log("Theme is Disabled")
+                self.current_theme = None
             return
         for i in self.themes:
             if self.basemod.bmconfig.theme.value == f"{i.mod.author_name}.{i.name}":

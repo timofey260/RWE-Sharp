@@ -11,9 +11,9 @@ import os
 
 
 class PropRenderable(Renderable):
-    def __init__(self, mod, depth, prop):
+    def __init__(self, mod, prop):
         self.propdepth = prop[0]
-        super().__init__(mod, -self.propdepth // 10 * 100 + 50)
+        super().__init__(mod, -self.propdepth // 10 * 100 + 100)
         found = self.mod.manager.props.find_prop(prop[1])
         self.renderedtexture: QGraphicsPixmapItem | None = None
         self.transform: list[QPointF] = self.quadlist2points(prop[3])

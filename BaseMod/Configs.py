@@ -34,8 +34,8 @@ class BaseModConfig:
         self.prefabs_key = KeyConfigurable(mod, "basemod.prefabs", "Ctrl+Shift+p", "Open prefabs tab")
         self.tileexplorer_key = KeyConfigurable(mod, "basemod.tileexplorer", "Ctrl+shift+r", "Open settings menu")
         self.effectexplorer_key = KeyConfigurable(mod, "basemod.effectexplorer", "Ctrl+shift+e", "Open settings menu")
-        self.theme = StringConfigurable(mod, "basemod.theme", "timofey26.basemod.Raspberry Dark" if ISWIN else "", "palette colors")  # "timofey26.basemod.Raspberry Dark"
-        print(self.theme.value)
+        self.theme = StringConfigurable(mod, "basemod.theme", "", "palette colors")  # "timofey26.basemod.Raspberry Dark"
+
         self.theme.valueChanged.connect(mod.manager.change_theme)
 
         self.geometry_editor = KeyConfigurable(mod, "basemod.geo", "1", "Open Geometry editor")
