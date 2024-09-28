@@ -23,6 +23,9 @@ class EffectExplorer(ViewDockWidget):
         # self.ui.splitter.widget(0)
         self.ui.splitter.setSizes([2, 5])
         # self.ui.splitter.splitterMoved.connect(self.moved)
+        self.effect = None
+        self.image = self.ui.Effectpreview.workscene.addPixmap(QPixmap(1, 1))
+        self.ui.Effectpreview.items.append(self.image)
 
     def add_effect(self):
         self.mod.manager.level.add_history(EffectAdd(self.mod.manager.level.history, self.ui.Effectpreview.effect))
@@ -52,6 +55,7 @@ class EffectExplorer(ViewDockWidget):
 
     def set_preview(self, item: QTreeWidgetItem):
         if isinstance(item.data(0, Qt.ItemDataRole.UserRole), Effect):
-            self.ui.Effectpreview.load_effect(item.data(0, Qt.ItemDataRole.UserRole))
+            self.effect = item.data(0, Qt.ItemDataRole.UserRole)
+            self.image.setPixmap(self.effect.preview)
         elif isinstance(item.data(0, Qt.ItemDataRole.UserRole), EffectCategory):
             self.ui.Effects.expand(self.ui.Effects.indexFromItem(item, 0))

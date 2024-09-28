@@ -246,7 +246,7 @@ def loadTile(item, colr, category, catnum, indx) -> Tile | None:
                                     Qt.ImageConversionFlag.ThresholdDither)
         img3.save(itempath)
 
-    return Tile(item["nm"], tp, item.get("repeatL", [1]), "Size" + str(sz), item.get("bfTiles", 0), QPixmap(img), img2, img3,
+    return Tile(item["nm"], tp, item.get("repeatL", [1]), f"Tile", item.get("bfTiles", 0), QPixmap(img), img2, img3,
                 sz, colr, (item.get("specs", [1]), item.get("specs2", 0)),
                 QPoint(catnum + 1, indx + 1),
                 item.get("tags"), True, None, err, category)

@@ -154,6 +154,10 @@ class RWELevel:
     def level_size_qsize(self) -> QSize:
         return QSize(self.level_width, self.level_height)
 
+    @property
+    def changed(self):
+        return len(self.history.undoactions) > 0
+
     def turntolingo(self, file):
         with file as fl:
             fl.write(str(self["GE"]) + "\r")

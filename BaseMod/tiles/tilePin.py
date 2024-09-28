@@ -1,7 +1,9 @@
 from BaseMod.tiles.ui.tilepin import Ui_TilePin
-from widgets.ViewDockWidget import ViewDockWidget
 from RWESharp.Configurable import IntConfigurable
-from PySide6.QtCore import Qt
+from RWESharp.Core import ViewDockWidget, CELLSIZE, SPRITESIZE
+from RWESharp.Loaders import return_tile_pixmap, collisions_image
+from PySide6.QtCore import Qt, QPoint
+from PySide6.QtGui import QPixmap
 
 
 class TilePin(ViewDockWidget):
@@ -22,9 +24,14 @@ class TilePin(ViewDockWidget):
         self.ui.Collisions.setChecked(explorer.tile_cols.value)
         self.ui.Collisions.toggled.connect(self.change_preview)
         self.ui.Select.clicked.connect(self.select_tile)
-        self.change_preview()
+        self.preview = self.ui.Preview
 
         self.setFloating(True)
+        self.tileimage = self.preview.workscene.addPixmap(QPixmap(1, 1))
+        self.tilecolsimage = self.preview.workscene.addPixmap(QPixmap(1, 1))
+        self.preview.items.append(self.tileimage)
+        self.preview.items.append(self.tilecolsimage)
+        self.change_preview()
 
     def closeEvent(self, event):
         super().closeEvent(event)
@@ -34,5 +41,15 @@ class TilePin(ViewDockWidget):
         self.explorer.mod.tileeditor.add_tile([self.tile])
 
     def change_preview(self):
-        self.ui.Preview.preview_tile(self.tile, self.drawoption.value, self.layer.value - 1, self.explorer.colortable)
-        self.ui.Preview.tilecolsimage.setOpacity(self.ui.Collisions.isChecked())
+        #self.ui.Preview.preview_tile(self.tile, self.drawoption.value, self.layer.value - 1, self.explorer.colortable)
+        #self.ui.Preview.tilecolsimage.setOpacity(self.ui.Collisions.isChecked())
+
+        self.tileimage.setOpacity(1)
+        self.tilecolsimage.setOpacity(self.ui.Collisions.isChecked())
+        self.tileimage.setPixmap(return_tile_pixmap(self.tile, self.drawoption.value, self.layer.value - 1, self.explorer.colortable))
+        self.tilecolsimage.setPixmap(collisions_image(self.tile))
+        self.tileimage.setData(2, (CELLSIZE / SPRITESIZE) if self.drawoption.value == 0 else 1)
+
+        self.tileimage.setData(1, QPoint(0, 0) if self.drawoption.value == 0 else (-QPoint(self.tile.bfTiles, self.tile.bfTiles) * CELLSIZE))
+        self.preview.set_zoom()
+        self.preview.set_pos()

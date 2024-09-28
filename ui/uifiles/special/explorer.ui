@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>TileExplorer</class>
- <widget class="QDockWidget" name="TileExplorer">
+ <class>Explorer</class>
+ <widget class="QDockWidget" name="Explorer">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -17,7 +17,7 @@
    <set>QDockWidget::DockWidgetFeature::DockWidgetClosable|QDockWidget::DockWidgetFeature::DockWidgetFloatable|QDockWidget::DockWidgetFeature::DockWidgetMovable</set>
   </property>
   <property name="windowTitle">
-   <string>Tile Explorer</string>
+   <string>Explorer</string>
   </property>
   <widget class="QWidget" name="dockWidgetContents">
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -51,7 +51,7 @@
          <number>0</number>
         </property>
         <item>
-         <widget class="QLabel" name="label">
+         <widget class="QLabel" name="LCategories">
           <property name="text">
            <string>Categories</string>
           </property>
@@ -143,7 +143,7 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="TilesTab" native="true">
+      <widget class="QWidget" name="ItemsTab" native="true">
        <layout class="QVBoxLayout" name="verticalLayout_3">
         <property name="leftMargin">
          <number>0</number>
@@ -152,14 +152,14 @@
          <number>0</number>
         </property>
         <item>
-         <widget class="QLabel" name="label_2">
+         <widget class="QLabel" name="LItems">
           <property name="text">
-           <string>Tiles</string>
+           <string>Items</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QListWidget" name="Tiles">
+         <widget class="QListWidget" name="Items">
           <property name="mouseTracking">
            <bool>true</bool>
           </property>
@@ -275,7 +275,7 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="TileTab" native="true">
+      <widget class="QWidget" name="ItemTab" native="true">
        <layout class="QVBoxLayout" name="verticalLayout_4">
         <property name="leftMargin">
          <number>0</number>
@@ -284,14 +284,14 @@
          <number>0</number>
         </property>
         <item>
-         <widget class="QLabel" name="label_3">
+         <widget class="QLabel" name="LItem">
           <property name="text">
-           <string>Tile</string>
+           <string>Item</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="TilePreview" name="Preview">
+         <widget class="SimpleViewport" name="Preview">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
             <horstretch>0</horstretch>
@@ -410,21 +410,6 @@
           <attribute name="verticalHeaderHighlightSections">
            <bool>true</bool>
           </attribute>
-          <row>
-           <property name="text">
-            <string>Name</string>
-           </property>
-          </row>
-          <row>
-           <property name="text">
-            <string>Size</string>
-           </property>
-          </row>
-          <row>
-           <property name="text">
-            <string>Category</string>
-           </property>
-          </row>
           <column>
            <property name="text">
             <string>Value</string>
@@ -551,9 +536,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>TilePreview</class>
+   <class>SimpleViewport</class>
    <extends>QGraphicsView</extends>
-   <header>BaseModWidgets.h</header>
+   <header>RWESharpWidgets.h</header>
   </customwidget>
  </customwidgets>
  <resources>

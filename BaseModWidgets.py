@@ -1,4 +1,2 @@
 from widgets.SimpleGeoView import SimpleGeoViewport
-from widgets.TilePreview import TilePreview
 from widgets.TileSettingsViewport import TileSettingsViewport
-from widgets.SimpleEffectPreview import SimpleEffectPreview

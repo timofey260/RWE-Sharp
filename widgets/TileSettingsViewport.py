@@ -58,6 +58,7 @@ class TileSettingsViewport(SimpleViewport):
         self.tilel1.setScale(self.zoom * ((CELLSIZE / SPRITESIZE) if self.drawoption == 0 else 1))
         self.tilel2.setScale(self.zoom * ((CELLSIZE / SPRITESIZE) if self.drawoption == 0 else 1))
         self.tilel3.setScale(self.zoom * ((CELLSIZE / SPRITESIZE) if self.drawoption == 0 else 1))
+        self.tilel2.setData(0, 100)
 
     def update_option(self, option):
         self.drawoption = option

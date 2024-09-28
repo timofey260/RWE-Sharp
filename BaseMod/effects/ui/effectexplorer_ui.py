@@ -20,7 +20,7 @@ from PySide6.QtWidgets import (QApplication, QDockWidget, QHBoxLayout, QHeaderVi
     QSpacerItem, QSplitter, QToolButton, QTreeWidget,
     QTreeWidgetItem, QVBoxLayout, QWidget)
 
-from BaseModWidgets import SimpleEffectPreview
+from RWESharpWidgets import SimpleViewport
 
 class Ui_EffectExplorer(object):
     def setupUi(self, EffectExplorer):
@@ -90,7 +90,7 @@ class Ui_EffectExplorer(object):
 
         self.verticalLayout_2.addWidget(self.label_2)
 
-        self.Effectpreview = SimpleEffectPreview(self.layoutWidget1)
+        self.Effectpreview = SimpleViewport(self.layoutWidget1)
         self.Effectpreview.setObjectName(u"Effectpreview")
 
         self.verticalLayout_2.addWidget(self.Effectpreview)

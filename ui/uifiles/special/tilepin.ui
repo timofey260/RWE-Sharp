@@ -27,7 +27,7 @@
      </widget>
     </item>
     <item>
-     <widget class="TilePreview" name="Preview"/>
+     <widget class="SimpleViewport" name="Preview"/>
     </item>
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout">
@@ -104,9 +104,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>TilePreview</class>
+   <class>SimpleViewport</class>
    <extends>QGraphicsView</extends>
-   <header>BaseModWidgets.h</header>
+   <header>RWESharpWidgets.h</header>
   </customwidget>
  </customwidgets>
  <resources>

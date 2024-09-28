@@ -19,7 +19,7 @@ from PySide6.QtWidgets import (QApplication, QCheckBox, QComboBox, QDockWidget,
     QHBoxLayout, QLabel, QPushButton, QSizePolicy,
     QSpinBox, QVBoxLayout, QWidget)
 
-from BaseModWidgets import TilePreview
+from RWESharpWidgets import SimpleViewport
 import ui.res_rc
 
 class Ui_TilePin(object):
@@ -39,7 +39,7 @@ class Ui_TilePin(object):
 
         self.verticalLayout.addWidget(self.tileLabel)
 
-        self.Preview = TilePreview(self.dockWidgetContents)
+        self.Preview = SimpleViewport(self.dockWidgetContents)
         self.Preview.setObjectName(u"Preview")
 
         self.verticalLayout.addWidget(self.Preview)

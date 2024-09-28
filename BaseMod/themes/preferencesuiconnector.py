@@ -17,7 +17,6 @@ class PreferencesUI(SettingUI):
     def reset_values_default(self):
         self.mod.manager.basemod.bmconfig.theme.update_value(self.mod.manager.basemod.bmconfig.theme.default)
         self.lasttheme.update_value(self.mod.manager.basemod.bmconfig.theme.value)
-        print(self.lasttheme.value, self.mod.manager.basemod.bmconfig.theme.value, self.mod.manager.basemod.bmconfig.theme.default)
         self.pick_active()
 
     def apply_values(self):

@@ -97,7 +97,7 @@
          </widget>
         </item>
         <item>
-         <widget class="SimpleEffectPreview" name="Effectpreview"/>
+         <widget class="SimpleViewport" name="Effectpreview"/>
         </item>
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -129,9 +129,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>SimpleEffectPreview</class>
+   <class>SimpleViewport</class>
    <extends>QGraphicsView</extends>
-   <header>BaseModWidgets.h</header>
+   <header>RWESharpWidgets.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
