@@ -1,18 +1,20 @@
 import os
 
-from PySide6.QtCore import Slot, Signal, Qt, QSize, QPoint
-from PySide6.QtGui import QAction, QPixmap, QColor, QImage
+from PySide6.QtCore import Signal, Qt, QPoint
+from PySide6.QtGui import QPixmap, QColor, QImage
 from PySide6.QtWidgets import QMainWindow, QTreeWidgetItem, QListWidgetItem, QFileDialog, QTableWidgetItem
 
 from BaseMod.Explorer import Explorer
 from BaseMod.tiles.tilePin import TilePin
 from RWESharp.Configurable import BoolConfigurable, IntConfigurable, StringConfigurable
-from RWESharp.Core import PATH_FILES_IMAGES_PALETTES, ViewDockWidget, CELLSIZE, SPRITESIZE
-from RWESharp.Loaders import Tile, palette_to_colortable, return_tile_pixmap, Tiles, collisions_image, tile_offset
-from RWESharp.Utils import paint_svg_qicon
+from RWESharp.Core import PATH_FILES_IMAGES_PALETTES, CELLSIZE, SPRITESIZE
+from RWESharp.Loaders import Tile, palette_to_colortable, return_tile_pixmap, collisions_image
 
 
 class TileExplorer(Explorer):
+    def category_items(self, cat) -> list:
+        return cat.tiles
+
     def preview_item(self, item):
         if item is None:
             self.tileimage.setOpacity(0)
@@ -33,7 +35,7 @@ class TileExplorer(Explorer):
         self.ui.Properties.setItem(4, 0, QTableWidgetItem(", ".join(item.tags)))
         self.ui.Properties.adjustSize()
         self.ui.Properties.resizeColumnsToContents()
-        #self.ui.Properties.setAutoScroll(True)
+        # self.ui.Properties.setAutoScroll(True)
 
     def itemtype(self) -> type:
         return Tile
@@ -44,7 +46,7 @@ class TileExplorer(Explorer):
     def get_all_items(self) -> list:
         return self.tiles.all_tiles()
 
-    def item_from_data(self, data) -> QListWidgetItem:
+    def item_from_data(self, data) -> QListWidgetItem | None:
         filter = self.ui.SearchBar.text()
         if filter != "" and filter.lower() not in data.name.lower() and not self.simplemode:
             return None
@@ -53,7 +55,7 @@ class TileExplorer(Explorer):
         item.setIcon(self.get_icon(data))
         return item
 
-    def treeitem_from_data(self, data) -> QTreeWidgetItem:
+    def treeitem_from_data(self, data) -> QTreeWidgetItem | None:
         filter = self.ui.SearchBar.text()
         if filter != "" and filter.lower() not in data.name.lower():
             return None
@@ -62,17 +64,17 @@ class TileExplorer(Explorer):
         tileitem.setIcon(0, self.get_icon(data))
         return tileitem
 
-    def cat_from_data(self, data) -> QTreeWidgetItem:
+    def cat_from_data(self, cat) -> QTreeWidgetItem | None:
         filter = self.ui.SearchBar.text()
-        if filter != "" and filter.lower() not in data.name.lower() and not self.simplemode:
+        if filter != "" and filter.lower() not in cat.name.lower() and not self.simplemode:
             return None
-        color = data.color
+        color = cat.color
         color: QColor
         image = QPixmap(20, 20)
         image.fill(color)
-        item = QTreeWidgetItem([data.name])
+        item = QTreeWidgetItem([cat.name])
         item.setIcon(0, image)
-        item.setData(0, Qt.ItemDataRole.UserRole, data)
+        item.setData(0, Qt.ItemDataRole.UserRole, cat)
         if self.category_colors.value:
             biggestratio = 0
             biggestcolor = Qt.GlobalColor.white
@@ -88,9 +90,9 @@ class TileExplorer(Explorer):
 
     tileSelected = Signal(list)
 
-    def __init__(self, manager, editor, parent: QMainWindow):
-        self.tiles = manager.tiles
-        super().__init__(manager, editor.mod, parent)
+    def __init__(self, editor, parent: QMainWindow):
+        self.tiles = editor.manager.tiles
+        super().__init__(editor.mod, parent)
 
         self.tile_cols = BoolConfigurable(self.mod, "TileExplorer.tile_collisions", True, "show tile collisions")
         self.tile_preview = BoolConfigurable(self.mod, "TileExplorer.tile_preview", True, "show tile preview")
@@ -100,8 +102,6 @@ class TileExplorer(Explorer):
         if not os.path.exists(self.palette_path.value):
             self.palette_path.reset_value()
         self.colortable = palette_to_colortable(QImage(self.palette_path.value))
-        self.state = False
-        self.ui.SearchBar.textChanged.connect(self.search)
         self.tile_cols.link_button(self.ui.ToggleCollisions)
         self.tile_cols.valueChanged.connect(self.hide_cols)
         self.tile_preview.link_button(self.ui.TogglePreview)
@@ -111,9 +111,10 @@ class TileExplorer(Explorer):
         self.layer.link_combobox(self.ui.LayerBox)
         self.layer.valueChanged.connect(self.change_draw_option)
         self.mod.tilemodule.drawoption.valueChanged.connect(self.change_draw_option)
-        self.tileSelected.connect(editor.add_tile)
         self.palette_path.valueChanged.connect(self.update_palette)
+        self.ui.SearchBar.textChanged.connect(self.search)
         self.ui.Pin.clicked.connect(self.pin_tile)
+        self.tileSelected.connect(editor.add_tile)
 
         self.pins = []
 
@@ -123,6 +124,8 @@ class TileExplorer(Explorer):
         self.preview.items.append(self.tilecolsimage)
         self.ui.LItem.setText("Tile")
         self.ui.LItems.setText("Tiles")
+        self.setWindowTitle("Tile Explorer")
+        self.hide()
 
     def pin_tile(self):
         for i in self.selected:

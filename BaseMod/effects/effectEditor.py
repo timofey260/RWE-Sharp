@@ -1,14 +1,15 @@
-from RWESharp.Modify import EditorMode
+from RWESharp.Modify import Editor
 from RWESharp.Configurable import ColorConfigurable, KeyConfigurable, IntConfigurable
 from RWESharp.Renderable import RenderEllipse
 from RWESharp.Core import CELLSIZE
 from BaseMod.effects.effectRenderTexture import EffectRenderLevelImage
 from BaseMod.effects.effectHistory import EffectBrush
-from PySide6.QtGui import QColor, QMoveEvent, QGuiApplication
+from BaseMod.effects.effectExplorer import EffectExplorer
+from PySide6.QtGui import QColor, QMoveEvent, QGuiApplication, QAction
 from PySide6.QtCore import QRect, QPoint, QSize, Qt
 
 
-class EffectEditor(EditorMode):
+class EffectEditor(Editor):
     def __init__(self, mod):
         super().__init__(mod)
         self.coloroff = ColorConfigurable(mod, "EDIT_effect.color_off", QColor(210, 37, 219, 100), "No value color")
@@ -27,6 +28,14 @@ class EffectEditor(EditorMode):
         self.brush = RenderEllipse(mod, 0, QRect(0, 0, 1, 1)).add_myself(self)
         self.effectindex.valueChanged.connect(self.select_effect)
         self.lastpos = QPoint()
+
+        self.effect_explorer = EffectExplorer(self, self.manager.window)
+
+        self.effect_explorer_action = QAction("Effect Explorer")
+        self.manager.window_menu.addAction(self.effect_explorer_action)
+        self.effect_explorer.link_action(self.effect_explorer_action)
+        self.effect_explorer.change_visibility(False)
+        self.mod.bmconfig.effectexplorer_key.link_action(self.effect_explorer_action)
 
     def select_effect(self, index):
         self.effectindex.update_value(index)

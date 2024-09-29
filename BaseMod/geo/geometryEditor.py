@@ -8,7 +8,7 @@ from BaseMod.geo.geoControls import GeoControls
 from BaseMod.geo.geoHistory import GEPointChange, GERectChange, GEBrushChange, GEEllipseChange, GEFillChange
 from RWESharp.Configurable import BoolConfigurable, IntConfigurable, EnumConfigurable, ColorConfigurable
 from RWESharp.Core import CELLSIZE, PATH_FILES_IMAGES, CONSTS
-from RWESharp.Modify import EditorMode
+from RWESharp.Modify import Editor
 from RWESharp.Renderable import RenderImage, RenderRect, RenderEllipse, RenderLine
 
 
@@ -92,7 +92,7 @@ class GeoTools(Enum):
     CircleHollow = auto()
 
 
-class GeometryEditor(EditorMode):
+class GeometryEditor(Editor):
     def __init__(self, mod):
         super().__init__(mod)
         from BaseMod.baseMod import BaseMod

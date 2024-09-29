@@ -4,15 +4,14 @@ import os
 from enum import Enum, auto
 from typing import TYPE_CHECKING
 
-from PySide6.QtGui import QMoveEvent, QImage, QMouseEvent
+from PySide6.QtGui import QMoveEvent, QImage, QMouseEvent, QAction
 
 from RWESharp.Configurable import IntConfigurable, BoolConfigurable, StringConfigurable, EnumConfigurable
 from RWESharp.Core import CELLSIZE, PATH_FILES_IMAGES_PALETTES
-from RWESharp.Modify import EditorMode
+from RWESharp.Modify import Editor
 from RWESharp.Loaders import palette_to_colortable, tile_offset, Tile
 from RWESharp.Renderable import RenderTile
 from BaseMod.tiles.tileExplorer import TileExplorer
-
 from BaseMod.tiles.tileHistory import TilePen
 
 if TYPE_CHECKING:
@@ -33,7 +32,7 @@ class TileTools(Enum):
     CircleHollow = auto()
 
 
-class TileEditor(EditorMode):
+class TileEditor(Editor):
 
     def __init__(self, mod):
         super().__init__(mod)
@@ -55,7 +54,7 @@ class TileEditor(EditorMode):
         self.force_geo = BoolConfigurable(mod, "EDIT_tiles.fg", False, "Force geometry")
 
         self.colortable = palette_to_colortable(QImage(self.palette_image.value))
-        self.explorer = TileExplorer(self.manager, self, self.manager.window)
+        self.explorer = TileExplorer(self, self.manager.window)
         self.tile: Tile | None = mod.manager.tiles.find_tile("Four Holes")
         self.tile_item = RenderTile(mod, 0, self.layer).add_myself(self)
         # self.tile_cols_image = QPixmap(1, 1)
@@ -68,6 +67,12 @@ class TileEditor(EditorMode):
         self.vis_layer.valueChanged.connect(self.redraw_tile)
         self.module.drawoption.valueChanged.connect(self.redraw_tile)
         self.palette_image.valueChanged.connect(self.change_palette)
+
+        self.tile_explorer_action = QAction("Tile Explorer")
+        self.manager.window_menu.addAction(self.tile_explorer_action)
+        self.explorer.link_action(self.tile_explorer_action)
+        self.explorer.change_visibility(False)
+        self.mod.bmconfig.tileexplorer_key.link_action(self.tile_explorer_action)
 
     @property
     def layer(self):

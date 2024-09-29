@@ -1,6 +1,6 @@
 from PySide6.QtCore import QPointF
 from core.Modify.baseModule import Module
-from core.Modify.EditorMode import EditorMode
+from core.Modify.Editor import Editor
 from abc import abstractmethod, ABC
 
 
@@ -16,10 +16,10 @@ class Renderable(ABC):
         self.pos: QPointF = QPointF()
         self.offset: QPointF = QPointF()
 
-    def add_myself(self, where: Module | EditorMode):
+    def add_myself(self, where: Module | Editor):
         if isinstance(where, Module):
             where.add_renderable(self)
-        elif isinstance(where, EditorMode):
+        elif isinstance(where, Editor):
             where.add_renderable(self)
         return self
 

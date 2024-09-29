@@ -1,5 +1,5 @@
 from core.RWELevel import RWELevel
-from core.Modify.EditorMode import EditorMode
+from core.Modify.Editor import Editor
 from core.Modify.Mod import Mod
 from core.Modify.baseModule import Module
 from core.Modify.Theme import Theme
@@ -47,7 +47,7 @@ class Manager:
         self.viewport: ViewPort = self.window.ui.viewPort
 
         self.current_editor = 0
-        self.editors: list[EditorMode] = []
+        self.editors: list[Editor] = []
         """
         Editors made to edit specific stuff in level depending on editor
         """
@@ -193,7 +193,7 @@ class Manager:
         self.window.statusBar().showMessage(message)
 
     @property
-    def editor(self) -> EditorMode:
+    def editor(self) -> Editor:
         return self.editors[self.current_editor]
 
     def change_editor_name(self, name: str):

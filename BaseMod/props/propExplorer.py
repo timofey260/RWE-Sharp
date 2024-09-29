@@ -1,6 +1,71 @@
-from BaseMod.tiles.tileExplorer import TileExplorer
+from PySide6.QtWidgets import QTreeWidgetItem, QListWidgetItem
+from PySide6.QtGui import QPixmap
+from PySide6.QtCore import Qt
+from BaseMod.Explorer import Explorer
+from RWESharp.Loaders import Prop
 
 
+class PropExplorer(Explorer):
+    def category_items(self, cat) -> list:
+        return cat.props
 
-class PropExplorer(TileExplorer):
-    pass
+    def get_categories(self) -> list:
+        return self.props.categories
+
+    def get_all_items(self) -> list:
+        return self.props.all_props()
+
+    def item_from_data(self, data) -> QListWidgetItem | None:
+        filter = self.ui.SearchBar.text()
+        if filter != "" and filter.lower() not in data.name.lower() and not self.simplemode:
+            return None
+        item = QListWidgetItem(data.name)
+        item.setData(Qt.ItemDataRole.UserRole, data)
+        item.setIcon(self.getimage(data.images[0]))
+        return item
+
+    def treeitem_from_data(self, data) -> QTreeWidgetItem | None:
+        filter = self.ui.SearchBar.text()
+        if filter != "" and filter.lower() not in data.name.lower():
+            return None
+        tileitem = QTreeWidgetItem([data.name])
+        tileitem.setData(0, Qt.ItemDataRole.UserRole, data)
+        tileitem.setIcon(0, self.getimage(data.images[0]))
+        return tileitem
+
+    def cat_from_data(self, cat) -> QTreeWidgetItem | None:
+        filter = self.ui.SearchBar.text()
+        if filter != "" and filter.lower() not in cat.name.lower() and not self.simplemode:
+            return None
+        color = cat.color
+        image = QPixmap(20, 20)
+        image.fill(color)
+        item = QTreeWidgetItem([cat.name])
+        item.setIcon(0, image)
+        item.setData(0, Qt.ItemDataRole.UserRole, cat)
+        return item
+
+    def itemtype(self) -> type:
+        return Prop
+
+    def preview_item(self, item):
+        if item is None:
+            self.previeweffect.setOpacity(0)
+            return
+        self.previeweffect.setOpacity(1)
+        self.previeweffect.setPixmap(self.getimage(item.images[0]))
+
+    def __init__(self, editor, parent=None):
+        self.props = editor.manager.props
+        super().__init__(editor.mod, parent)
+        #self.hide()
+        self.previeweffect = self.preview.workscene.addPixmap(QPixmap(1, 1))
+        self.preview.items.append(self.previeweffect)
+        self.ui.LItem.setText("Prop")
+        self.ui.LItems.setText("Props")
+        self.setWindowTitle("Prop Explorer")
+
+    def getimage(self, image):
+        if isinstance(image, QPixmap):
+            return image
+        return QPixmap.fromImage(image)

@@ -24,29 +24,15 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>398</width>
-        <height>638</height>
+        <width>386</width>
+        <height>924</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
-        <widget class="QPushButton" name="ToolPropsSelectTool">
+        <widget class="QLabel" name="label">
          <property name="text">
-          <string>Select tool</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="ToolPropsDelite">
-         <property name="text">
-          <string>Delite selected</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="ToolPropsMoveSelected">
-         <property name="text">
-          <string>Move selected</string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;YOU, ME, Gas station&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;what are we getting for dinner?&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;Sushi of corse&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;Uh oh. there was a roofie inside of our gas station sushi&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;We black out and wake up in sewers&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;we're surrounded by fish.&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;horny fish&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;you know what that means: FISH orgy&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;the stench drives the bear in&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;what are we gonna do?&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;we're gonna fight it&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;bear fight, bare-handed, bare-NAKED?&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;OH YES PLEASE&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;we befriend the bear after we beat him in the brawl&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;then we ride into the chuckie cheese&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;DANCE DANCE REVOLUTION&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;REVOLUTION? overthrow the government?&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;UH I THINK SO&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;next thing you know, i'm reincarnated as jesus christ&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;then i turn into a jet, fly into the sun&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;black out again&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;wake up then&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;i do the bob&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;white out, which i didn't know you could do&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;then i smoked a joint&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;greened out&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;then i turned into the sun&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;UH OH LOOKS LIKE THE METH IS KICKING IN&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;KIJFWOUHAGOWHIGAOIJGAOKMWDWANMFOGJAW&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
         </widget>
        </item>
@@ -56,189 +42,6 @@
           <string>Prop properties</string>
          </property>
         </widget>
-       </item>
-       <item>
-        <layout class="QGridLayout" name="gridLayout_12">
-         <item row="0" column="0">
-          <widget class="QSpinBox" name="ToolsPropsSizeY">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-             <horstretch>1</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="QLabel" name="ToolPropsLabel_10">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-             <horstretch>4</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="text">
-            <string>Size Y</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="0">
-          <widget class="QSpinBox" name="ToolPropsSizeX">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="1">
-          <widget class="QLabel" name="ToolPropsLabel_9">
-           <property name="text">
-            <string>Size X</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="0">
-          <widget class="QSpinBox" name="ToolPropsRotation">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="1">
-          <widget class="QLabel" name="ToolPropsLabel_8">
-           <property name="text">
-            <string>Rotation</string>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="0">
-          <widget class="QSpinBox" name="ToolPropsRenderOrder">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="1">
-          <widget class="QLabel" name="ToolPropsLabel">
-           <property name="text">
-            <string>Render order</string>
-           </property>
-          </widget>
-         </item>
-         <item row="4" column="0">
-          <widget class="QSpinBox" name="ToolPropsRenderTime">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-          </widget>
-         </item>
-         <item row="4" column="1">
-          <widget class="QLabel" name="ToolPropsLabel_2">
-           <property name="text">
-            <string>Render time </string>
-           </property>
-          </widget>
-         </item>
-         <item row="5" column="0">
-          <widget class="QSpinBox" name="ToolPropsSeed">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-          </widget>
-         </item>
-         <item row="5" column="1">
-          <widget class="QLabel" name="ToolPropsLabel_3">
-           <property name="text">
-            <string>Seed</string>
-           </property>
-          </widget>
-         </item>
-         <item row="6" column="0">
-          <widget class="QComboBox" name="ToolPropsRelease">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-          </widget>
-         </item>
-         <item row="6" column="1">
-          <widget class="QLabel" name="ToolPropsLabel_4">
-           <property name="text">
-            <string>Release</string>
-           </property>
-          </widget>
-         </item>
-         <item row="7" column="0">
-          <widget class="QSpinBox" name="ToolPropsVariation">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-          </widget>
-         </item>
-         <item row="7" column="1">
-          <widget class="QLabel" name="ToolPropsLabel_6">
-           <property name="text">
-            <string>Variation</string>
-           </property>
-          </widget>
-         </item>
-         <item row="8" column="0">
-          <widget class="QSpinBox" name="ToolPropsCustomDepth">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-          </widget>
-         </item>
-         <item row="8" column="1">
-          <widget class="QLabel" name="ToolPropsLabel_5">
-           <property name="text">
-            <string>Custom depth</string>
-           </property>
-          </widget>
-         </item>
-         <item row="9" column="0">
-          <widget class="QCheckBox" name="ToolPropsApplyColor">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="text">
-            <string/>
-           </property>
-          </widget>
-         </item>
-         <item row="9" column="1">
-          <widget class="QLabel" name="ToolPropsLabel_7">
-           <property name="text">
-            <string>Apply colour</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
        </item>
        <item>
         <widget class="QLabel" name="label_16">

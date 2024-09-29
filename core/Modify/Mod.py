@@ -5,7 +5,7 @@ from abc import ABC
 if TYPE_CHECKING:
     from core.Modify.ConfigModule import ConfigModule
     from core.Modify.ui import UI, ViewUI
-    from core.Modify.EditorMode import EditorMode
+    from core.Modify.Editor import Editor
     from core.Modify.baseModule import Module
     from PySide6.QtWidgets import QWidget
     from core.Modify.Theme import Theme
@@ -42,7 +42,7 @@ class Mod(ABC):
     def author_name(self) -> str:
         return f"{self.modinfo.author}.{self.modinfo.name}"
 
-    def add_editor(self, editor: EditorMode, ui: UI):
+    def add_editor(self, editor: Editor, ui: UI):
         self.manager.add_editor(editor, ui)
 
     def add_module(self, module: Module):

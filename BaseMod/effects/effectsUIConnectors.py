@@ -27,7 +27,7 @@ class EffectsUI(UI):
         self.ui.setupUi(self)
         mod: BaseMod
         self.editor = mod.effecteditor
-        self.explorer = mod.effect_explorer
+        self.explorer = self.editor.effect_explorer
         self.ui.EffectsTree.setAlternatingRowColors(True)
 
         self.editor.effectup.link_button(self.ui.Up)

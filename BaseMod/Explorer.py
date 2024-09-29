@@ -15,16 +15,16 @@ from RWESharp.Utils import paint_svg_qicon
 class Explorer(ViewDockWidget):
     itemselected = Signal(list)
 
-    def __init__(self, manager, mod, parent=None):
+    def __init__(self, mod, parent=None):
         super().__init__(parent)
         parent.addDockWidget(Qt.DockWidgetArea.BottomDockWidgetArea, self)
-        self.manager = manager
+        self.manager = mod.manager
         self.mod = mod
         self.category_colors = BoolConfigurable(self.mod, "TileExplorer.category_colors", False, "Color of categories")
         self.ui = Ui_Explorer()
         self.ui.setupUi(self)
         self.preview = self.ui.Preview
-        self.preview.add_manager(manager)
+        self.preview.add_manager(self.manager)
         self.view_categories = self.ui.Categories
         self.view_items = self.ui.Items
 
@@ -164,7 +164,7 @@ class Explorer(ViewDockWidget):
             if not self.simplemode:
                 self.view_categories.addTopLevelItem(item)
                 continue
-            for i in category.tiles:
+            for i in self.category_items(category):
                 tileitem = self.treeitem_from_data(i)
                 if item is None:
                     continue
@@ -193,7 +193,7 @@ class Explorer(ViewDockWidget):
         for i in self.view_categories.selectedItems():
             categories.append(i.data(0, Qt.ItemDataRole.UserRole))
         for category in categories:
-            for i in category.tiles:
+            for i in self.category_items(category):
                 item = self.item_from_data(i)
                 self.view_items.addItem(item)
 
@@ -248,15 +248,15 @@ class Explorer(ViewDockWidget):
         pass
 
     @abstractmethod
-    def item_from_data(self, data) -> QListWidgetItem:
+    def item_from_data(self, data) -> QListWidgetItem | None:
         pass
 
     @abstractmethod
-    def treeitem_from_data(self, data) -> QTreeWidgetItem:
+    def treeitem_from_data(self, data) -> QTreeWidgetItem | None:
         pass
 
     @abstractmethod
-    def cat_from_data(self, data) -> QTreeWidgetItem:
+    def cat_from_data(self, cat) -> QTreeWidgetItem | None:
         pass
 
     @abstractmethod
@@ -265,4 +265,8 @@ class Explorer(ViewDockWidget):
 
     @abstractmethod
     def preview_item(self, item):
+        pass
+
+    @abstractmethod
+    def category_items(self, cat) -> list:
         pass

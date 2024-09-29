@@ -8,9 +8,9 @@ from BaseMod.effects.effectHistory import EffectAdd
 
 
 class EffectExplorer(ViewDockWidget):
-    def __init__(self, mod, parent=None):
+    def __init__(self, editor, parent=None):
         super().__init__(parent)
-        self.mod = mod
+        self.mod = editor.mod
         parent.addDockWidget(Qt.DockWidgetArea.RightDockWidgetArea, self)
         self.setFloating(True)
         self.ui = Ui_EffectExplorer()
@@ -18,19 +18,25 @@ class EffectExplorer(ViewDockWidget):
         self.load_effects()
         self.ui.Effects.itemClicked.connect(self.effect_pressed)
         self.ui.Effects.itemSelectionChanged.connect(self.selection_changed)
-        self.ui.AddEffect.clicked.connect(self.add_effect)
         self.ui.Effects.itemDoubleClicked.connect(self.add_effect)
+        self.ui.AddEffect.clicked.connect(self.add_effect)
         # self.ui.splitter.widget(0)
         self.ui.splitter.setSizes([2, 5])
+        self.ui.Search.textChanged.connect(self.search)
         # self.ui.splitter.splitterMoved.connect(self.moved)
         self.effect = None
         self.image = self.ui.Effectpreview.workscene.addPixmap(QPixmap(1, 1))
         self.ui.Effectpreview.items.append(self.image)
 
+    def search(self):
+        self.load_effects()
+
     def add_effect(self):
-        self.mod.manager.level.add_history(EffectAdd(self.mod.manager.level.history, self.ui.Effectpreview.effect))
+        self.mod.manager.level.add_history(EffectAdd(self.mod.manager.level.history, self.effect))
 
     def load_effects(self):
+        filter = self.ui.Search.text()
+        self.ui.Effects.clear()
         for i in self.mod.manager.effects.categories:
             item = QTreeWidgetItem([i.name])
             item.setData(0, Qt.ItemDataRole.UserRole, i)
@@ -38,11 +44,17 @@ class EffectExplorer(ViewDockWidget):
             icon.fill(i.color)
             item.setIcon(0, icon)
             for e in i.effects:
+                if filter != "" and filter.lower() not in e.name.lower():
+                    continue
                 effect = QTreeWidgetItem([e.name])
                 effect.setData(0, Qt.ItemDataRole.UserRole, e)
                 effect.setIcon(0, icon)
                 item.addChild(effect)
+            if filter != "" and item.childCount() == 0:
+                continue
             self.ui.Effects.addTopLevelItem(item)
+        if filter != "":
+            self.ui.Effects.expandAll()
 
     def selection_changed(self):
         items = self.ui.Effects.selectedItems()

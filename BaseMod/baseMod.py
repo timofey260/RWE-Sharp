@@ -6,11 +6,11 @@ from BaseMod.grid.gridUIConnector import GridView
 from BaseMod.themes.RaspberryDark import RaspberryDark
 from BaseMod.Configs import BaseModConfig
 from BaseMod.tiles.tileEditor import TileEditor
-from BaseMod.tiles.tileExplorer import TileExplorer
 from BaseMod.props.propModule import PropModule
+from BaseMod.props.propEditor import PropEditor
+from BaseMod.props.propUIConnectors import PropsUI
 from BaseMod.effects.effectEditor import EffectEditor
-from BaseMod.effects.effectsUIConnector import EffectsUI
-from BaseMod.effects.effectExplorer import EffectExplorer
+from BaseMod.effects.effectsUIConnectors import EffectsUI
 from BaseMod.themes.preferencesuiconnector import PreferencesUI
 from RWESharp.Modify import Mod, ModInfo
 from RWESharp.Core import SettingElement, HotkeyElement, get_hotkeys_from_pattern, PATH_FILES_VIDEOS
@@ -53,28 +53,18 @@ class BaseMod(Mod):
         self.tileeditor.add_myself(self.tileui)
 
         self.effecteditor = EffectEditor(self)
-        self.effect_explorer = EffectExplorer(self, self.manager.window)
         self.effectui = EffectsUI(self)
         self.effecteditor.add_myself(self.effectui)
 
         self.propmodule = PropModule(self).add_myself()
+        self.propeditor = PropEditor(self)
+        self.propui = PropsUI(self)
+        self.propeditor.add_myself(self.propui)
 
         if self.bmconfig.funny.value:
             self.sex = QAction("sex")
             self.manager.tool_menu.addAction(self.sex)
             self.sex.triggered.connect(self.sexthing)
-
-        self.tile_explorer_action = QAction("Tile Explorer")
-        self.manager.window_menu.addAction(self.tile_explorer_action)
-        self.tileeditor.explorer.link_action(self.tile_explorer_action)
-        self.tileeditor.explorer.change_visibility(False)
-        self.bmconfig.tileexplorer_key.link_action(self.tile_explorer_action)
-
-        self.effect_explorer_action = QAction("Effect Explorer")
-        self.manager.window_menu.addAction(self.effect_explorer_action)
-        self.effect_explorer.link_action(self.effect_explorer_action)
-        self.effect_explorer.change_visibility(False)
-        self.bmconfig.effectexplorer_key.link_action(self.effect_explorer_action)
 
         self.gridui = GridView(self).add_myself()
 

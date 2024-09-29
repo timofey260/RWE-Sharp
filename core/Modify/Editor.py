@@ -8,7 +8,7 @@ if TYPE_CHECKING:
     from core.Renderable.Renderable import Renderable
 
 
-class EditorMode(ABC):
+class Editor(ABC):
     """
     Base for creating custom viewport editors
     """
