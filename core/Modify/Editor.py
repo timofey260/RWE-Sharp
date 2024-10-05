@@ -111,3 +111,7 @@ class Editor(ABC):
         """
         for i in self.renderables:
             i.level_resized()
+
+    @property
+    def zoom(self):
+        return self.viewport.zoom

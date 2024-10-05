@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>418</width>
-    <height>658</height>
+    <width>398</width>
+    <height>550</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -24,34 +24,39 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>386</width>
-        <height>924</height>
+        <width>378</width>
+        <height>530</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
         <widget class="QLabel" name="label">
          <property name="text">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;YOU, ME, Gas station&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;what are we getting for dinner?&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;Sushi of corse&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;Uh oh. there was a roofie inside of our gas station sushi&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;We black out and wake up in sewers&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;we're surrounded by fish.&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;horny fish&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;you know what that means: FISH orgy&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;the stench drives the bear in&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;what are we gonna do?&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;we're gonna fight it&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;bear fight, bare-handed, bare-NAKED?&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;OH YES PLEASE&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;we befriend the bear after we beat him in the brawl&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;then we ride into the chuckie cheese&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;DANCE DANCE REVOLUTION&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;REVOLUTION? overthrow the government?&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;UH I THINK SO&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;next thing you know, i'm reincarnated as jesus christ&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;then i turn into a jet, fly into the sun&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;black out again&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;wake up then&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;i do the bob&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;white out, which i didn't know you could do&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;then i smoked a joint&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;greened out&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;then i turned into the sun&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;UH OH LOOKS LIKE THE METH IS KICKING IN&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;KIJFWOUHAGOWHIGAOIJGAOKMWDWANMFOGJAW&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          <string>Options:</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="ToolPropsLabel_11">
-         <property name="text">
-          <string>Prop properties</string>
-         </property>
+        <widget class="QTreeWidget" name="PropOptions">
+         <column>
+          <property name="text">
+           <string notr="true">1</string>
+          </property>
+         </column>
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="label_16">
-         <property name="text">
-          <string>Props:</string>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Orientation::Vertical</enum>
          </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QTableView" name="tableView"/>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
        </item>
       </layout>
      </widget>

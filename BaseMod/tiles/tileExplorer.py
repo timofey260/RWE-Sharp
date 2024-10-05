@@ -88,8 +88,6 @@ class TileExplorer(Explorer):
             item.setForeground(0, biggestcolor)
         return item
 
-    tileSelected = Signal(list)
-
     def __init__(self, editor, parent: QMainWindow):
         self.tiles = editor.manager.tiles
         super().__init__(editor.mod, parent)
@@ -114,7 +112,7 @@ class TileExplorer(Explorer):
         self.palette_path.valueChanged.connect(self.update_palette)
         self.ui.SearchBar.textChanged.connect(self.search)
         self.ui.Pin.clicked.connect(self.pin_tile)
-        self.tileSelected.connect(editor.add_tile)
+        self.itemselected.connect(editor.add_tile)
 
         self.pins = []
 

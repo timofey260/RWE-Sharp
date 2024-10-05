@@ -321,7 +321,7 @@ def load_tiles(window: SplashDialog) -> Tiles:
     # 1. split data to threads
     # 2. make threads and adress them the data
     # 3. activate all threads and wait for the result
-    # 4. combine results of all the threads into an itemdata
+    # 4. combine results of all the threads into a specified class
     workers: list[TilePackLoader] = []
     for i in range(threadsnum):
         workers.append(TilePackLoader(solved_copy.data[i * data_per_thread:i * data_per_thread + data_per_thread]))
@@ -350,7 +350,7 @@ def load_tiles(window: SplashDialog) -> Tiles:
     for k, v in CONSTS.get("materials", {}).items():
         col = QColor(*v)
         img = QPixmap(20, 20)
-        img.fill(QColor(0, 0, 0, 0))
+        img.fill(col)
         ms = CELLSIZE
         # pg.draw.rect(img, v, pg.Rect(ms[0], ms[0], ms[1], ms[1]))
         try:

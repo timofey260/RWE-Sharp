@@ -58,12 +58,12 @@ class PropExplorer(Explorer):
     def __init__(self, editor, parent=None):
         self.props = editor.manager.props
         super().__init__(editor.mod, parent)
-        #self.hide()
         self.previeweffect = self.preview.workscene.addPixmap(QPixmap(1, 1))
         self.preview.items.append(self.previeweffect)
         self.ui.LItem.setText("Prop")
         self.ui.LItems.setText("Props")
         self.setWindowTitle("Prop Explorer")
+        self.hide()
 
     def getimage(self, image):
         if isinstance(image, QPixmap):
