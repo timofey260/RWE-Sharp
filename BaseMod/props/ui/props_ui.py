@@ -15,9 +15,9 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QHeaderView, QLabel, QScrollArea,
-    QSizePolicy, QSpacerItem, QTreeWidget, QTreeWidgetItem,
-    QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QApplication, QFrame, QGridLayout, QHeaderView,
+    QLabel, QScrollArea, QSizePolicy, QSpacerItem,
+    QTreeWidget, QTreeWidgetItem, QVBoxLayout, QWidget)
 
 class Ui_Props(object):
     def setupUi(self, Props):
@@ -34,6 +34,26 @@ class Ui_Props(object):
         self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 378, 530))
         self.verticalLayout_2 = QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
+        self.label_2 = QLabel(self.scrollAreaWidgetContents)
+        self.label_2.setObjectName(u"label_2")
+
+        self.verticalLayout_2.addWidget(self.label_2)
+
+        self.frame = QFrame(self.scrollAreaWidgetContents)
+        self.frame.setObjectName(u"frame")
+        self.frame.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame.setFrameShadow(QFrame.Shadow.Raised)
+        self.gridLayout = QGridLayout(self.frame)
+        self.gridLayout.setObjectName(u"gridLayout")
+        self.Notes = QLabel(self.frame)
+        self.Notes.setObjectName(u"Notes")
+        self.Notes.setWordWrap(True)
+
+        self.gridLayout.addWidget(self.Notes, 0, 0, 1, 1)
+
+
+        self.verticalLayout_2.addWidget(self.frame)
+
         self.label = QLabel(self.scrollAreaWidgetContents)
         self.label.setObjectName(u"label")
 
@@ -63,6 +83,8 @@ class Ui_Props(object):
 
     def retranslateUi(self, Props):
         Props.setWindowTitle(QCoreApplication.translate("Props", u"Props", None))
+        self.label_2.setText(QCoreApplication.translate("Props", u"Notes:", None))
+        self.Notes.setText(QCoreApplication.translate("Props", u"TextLabel", None))
         self.label.setText(QCoreApplication.translate("Props", u"Options:", None))
     # retranslateUi
 

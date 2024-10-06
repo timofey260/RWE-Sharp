@@ -20,6 +20,7 @@ class Prop:
     err: bool
     category: PropCategory
     notes: list[str]
+    size: QSize
     layerExceptions: list = field(default=list)
     beveltable: None | list[int] = None
 

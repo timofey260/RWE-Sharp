@@ -27,7 +27,7 @@ def load_prop(item: dict, colr, category, catnum, indx):
         return Prop(item.get("nm", "NoName"), item.get("tp"), repeatl, "todo",
                     images, item.get("colorTreatment", "standard"), vars,
                     colr, QPoint(catnum, indx), item.get("tags", []), err,
-                    category, item.get("notes", []), item.get("layerExceptions", []))
+                    category, item.get("notes", []), images[0].size(), item.get("layerExceptions", []))
 
     img = QImage(os.path.join(PATH_DRIZZLE_PROPS, f"{path}.png"))
     standard = item.get("tp", "standard") in ["standard", "variedStandard"]
@@ -124,7 +124,7 @@ def load_prop(item: dict, colr, category, catnum, indx):
     return Prop(item.get("nm", "NoName"), item.get("tp"), repeatl, "todo",
                 images, item.get("colorTreatment", "standard"), vars,
                 colr, QPoint(catnum, indx), item.get("tags", []), err,
-                category, item.get("notes", []), item.get("layerExceptions", []))
+                category, item.get("notes", []), QSize(w, h), item.get("layerExceptions", []))
 
 
 def tile2prop(tile: Tile, cat, category):
@@ -132,7 +132,7 @@ def tile2prop(tile: Tile, cat, category):
     if tile.type != "VoxelStruct" or "notProp" in tile.tags:
         err = True
     return Prop(tile.name, "standard", tile.repeatl, tile.description, [tile.image3], "standard", 1,
-                tile.color, cat, tile.tags, err, category, ["Tile as Prop"])
+                tile.color, cat, tile.tags, err, category, ["Tile as Prop"], tile.size * CELLSIZE)
 
 
 class PropPackLoader(QThread):
