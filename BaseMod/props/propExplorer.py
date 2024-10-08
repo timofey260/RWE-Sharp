@@ -1,6 +1,7 @@
 from PySide6.QtWidgets import QTreeWidgetItem, QListWidgetItem
-from PySide6.QtGui import QPixmap
+from PySide6.QtGui import QPixmap, QAction
 from PySide6.QtCore import Qt
+
 from BaseMod.Explorer import Explorer
 from RWESharp.Loaders import Prop
 
@@ -64,6 +65,11 @@ class PropExplorer(Explorer):
         self.ui.LItems.setText("Props")
         self.setWindowTitle("Prop Explorer")
         self.hide()
+
+        self.prop_explorer_action = QAction("Prop Explorer")
+        self.manager.window_menu.addAction(self.prop_explorer_action)
+        self.link_action(self.prop_explorer_action)
+        self.mod.bmconfig.propexplorer_key.link_action(self.prop_explorer_action)
 
     def getimage(self, image):
         if isinstance(image, QPixmap):

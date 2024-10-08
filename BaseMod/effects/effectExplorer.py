@@ -1,6 +1,7 @@
 from RWESharp.Core import ViewDockWidget
 from PySide6.QtWidgets import QTreeWidgetItem
-from PySide6.QtGui import QPixmap
+from PySide6.QtGui import QPixmap, QAction
+
 from PySide6.QtCore import Qt
 from BaseMod.effects.ui.effectexplorer_ui import Ui_EffectExplorer
 from RWESharp.Loaders import Effect, EffectCategory
@@ -27,6 +28,12 @@ class EffectExplorer(ViewDockWidget):
         self.effect = None
         self.image = self.ui.Effectpreview.workscene.addPixmap(QPixmap(1, 1))
         self.ui.Effectpreview.items.append(self.image)
+
+        self.effect_explorer_action = QAction("Effect Explorer")
+        self.mod.manager.window_menu.addAction(self.effect_explorer_action)
+        self.link_action(self.effect_explorer_action)
+        self.change_visibility(False)
+        self.mod.bmconfig.effectexplorer_key.link_action(self.effect_explorer_action)
 
     def search(self):
         self.load_effects()

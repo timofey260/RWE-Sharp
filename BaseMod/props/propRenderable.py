@@ -34,6 +34,14 @@ class PropRenderable(Renderable):
         w, h = prop.images[0].width(), prop.images[0].height()
         self.transform: list[QPointF] = [QPointF(0, 0), QPointF(w, 0), QPointF(w, h), QPointF(0, h)]
 
+    def setprop(self, prop: Prop):
+        self.prop = prop
+        self.image = prop.images[0]
+        w, h = prop.images[0].width(), prop.images[0].height()
+        self.transform: list[QPointF] = [QPointF(0, 0), QPointF(w, 0), QPointF(w, h), QPointF(0, h)]
+        if self.renderedtexture is not None:
+            self.renderedtexture.setPixmap(QPixmap.fromImage(self.image))
+
     def init_graphics(self, viewport: Viewport):
         self.renderedtexture = viewport.workscene.addPixmap(QPixmap.fromImage(self.image))
         self.renderedtexture.setZValue(self.depth)

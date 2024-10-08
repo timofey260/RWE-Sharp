@@ -31,12 +31,6 @@ class EffectEditor(Editor):
 
         self.effect_explorer = EffectExplorer(self, self.manager.window)
 
-        self.effect_explorer_action = QAction("Effect Explorer")
-        self.manager.window_menu.addAction(self.effect_explorer_action)
-        self.effect_explorer.link_action(self.effect_explorer_action)
-        self.effect_explorer.change_visibility(False)
-        self.mod.bmconfig.effectexplorer_key.link_action(self.effect_explorer_action)
-
     def select_effect(self, index):
         self.effectindex.update_value(index)
         self.layer.change_index(self.effectindex.value)

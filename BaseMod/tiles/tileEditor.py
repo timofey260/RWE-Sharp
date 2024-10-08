@@ -4,7 +4,7 @@ import os
 from enum import Enum, auto
 from typing import TYPE_CHECKING
 
-from PySide6.QtGui import QMoveEvent, QImage, QMouseEvent, QAction
+from PySide6.QtGui import QMoveEvent, QImage, QMouseEvent
 
 from RWESharp.Configurable import IntConfigurable, BoolConfigurable, StringConfigurable, EnumConfigurable
 from RWESharp.Core import CELLSIZE, PATH_FILES_IMAGES_PALETTES
@@ -67,12 +67,6 @@ class TileEditor(Editor):
         self.vis_layer.valueChanged.connect(self.redraw_tile)
         self.module.drawoption.valueChanged.connect(self.redraw_tile)
         self.palette_image.valueChanged.connect(self.change_palette)
-
-        self.tile_explorer_action = QAction("Tile Explorer")
-        self.manager.window_menu.addAction(self.tile_explorer_action)
-        self.explorer.link_action(self.tile_explorer_action)
-        self.explorer.change_visibility(False)
-        self.mod.bmconfig.tileexplorer_key.link_action(self.tile_explorer_action)
 
     @property
     def layer(self):

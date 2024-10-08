@@ -31,9 +31,10 @@ class BaseModConfig:
         self.hotkey_key = KeyConfigurable(mod, "basemod.hotkeys", "Ctrl+Shift+`", "Open hotkey menu")
         self.view_key = KeyConfigurable(mod, "basemod.view", "Ctrl+Shift+v", "Open view tab")
         self.edit_key = KeyConfigurable(mod, "basemod.edit", "Ctrl+Shift+t", "Open edit tab")
-        self.prefabs_key = KeyConfigurable(mod, "basemod.prefabs", "Ctrl+Shift+p", "Open prefabs tab")
-        self.tileexplorer_key = KeyConfigurable(mod, "basemod.tileexplorer", "Ctrl+shift+r", "Open settings menu")
-        self.effectexplorer_key = KeyConfigurable(mod, "basemod.effectexplorer", "Ctrl+shift+e", "Open settings menu")
+        self.prefabs_key = KeyConfigurable(mod, "basemod.prefabs", "Ctrl+Shift+f", "Open prefabs tab")
+        self.tileexplorer_key = KeyConfigurable(mod, "basemod.tileexplorer", "Ctrl+shift+r", "Open tile explorer")
+        self.propexplorer_key = KeyConfigurable(mod, "basemod.propexplorer", "Ctrl+shift+p", "Open prop explorer")
+        self.effectexplorer_key = KeyConfigurable(mod, "basemod.effectexplorer", "Ctrl+shift+e", "Open effect explorer")
         self.theme = StringConfigurable(mod, "basemod.theme", "", "palette colors")  # "timofey26.basemod.Raspberry Dark"
 
         self.theme.valueChanged.connect(mod.manager.change_theme)

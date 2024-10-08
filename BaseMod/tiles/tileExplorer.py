@@ -1,7 +1,7 @@
 import os
 
 from PySide6.QtCore import Signal, Qt, QPoint
-from PySide6.QtGui import QPixmap, QColor, QImage
+from PySide6.QtGui import QPixmap, QColor, QImage, QAction
 from PySide6.QtWidgets import QMainWindow, QTreeWidgetItem, QListWidgetItem, QFileDialog, QTableWidgetItem
 
 from BaseMod.Explorer import Explorer
@@ -124,6 +124,11 @@ class TileExplorer(Explorer):
         self.ui.LItems.setText("Tiles")
         self.setWindowTitle("Tile Explorer")
         self.hide()
+
+        self.tile_explorer_action = QAction("Tile Explorer")
+        self.manager.window_menu.addAction(self.tile_explorer_action)
+        self.link_action(self.tile_explorer_action)
+        self.mod.bmconfig.tileexplorer_key.link_action(self.tile_explorer_action)
 
     def pin_tile(self):
         for i in self.selected:
