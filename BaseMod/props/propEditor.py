@@ -2,6 +2,7 @@ from RWESharp.Modify import Editor
 from RWESharp.Core import CELLSIZE
 from BaseMod.props.propExplorer import PropExplorer
 from BaseMod.props.propRenderable import PropRenderable
+from RWESharp.Configurable import KeyConfigurable
 
 from PySide6.QtGui import QGuiApplication
 from PySide6.QtCore import QPointF

@@ -42,7 +42,6 @@ class Manager:
 
         # self.levelpath: str = "" if file is None else file
         self.level = RWELevel(self, file)
-        print(self.level["PR"])
 
         self.viewport: ViewPort = self.window.ui.viewPort
 
