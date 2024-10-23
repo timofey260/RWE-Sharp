@@ -15,7 +15,7 @@ class GEChange(HistoryElement):
         self.replace = replace
         self.layers = layers
         self.before = []
-        self.module = history.level.manager.basemod.geomodule
+        self.module = self.manager.basemod.geomodule
 
     def redraw(self):
         for i, l in enumerate(self.layers):
@@ -53,7 +53,7 @@ class GERectChange(GEChange):
             return False
         return self.hollow
 
-    def undo_changes(self, level):
+    def undo_changes(self):
         c = 0
         for x in range(self.rect.x(), self.rect.x() + self.rect.width()):
             for y in range(self.rect.y(), self.rect.y() + self.rect.height()):
@@ -68,7 +68,7 @@ class GERectChange(GEChange):
                     c += 1  # c++ almost
         self.redraw()
 
-    def redo_changes(self, level):
+    def redo_changes(self):
         for x in range(self.rect.x(), self.rect.x() + self.rect.width()):
             for y in range(self.rect.y(), self.rect.y() + self.rect.height()):
                 for i, l in enumerate(self.layers):
@@ -110,7 +110,7 @@ class GEEllipseChange(GEChange):
     def drawpointredo(self, pos):
         self.drawpoint(pos, False)
 
-    def undo_changes(self, level):
+    def undo_changes(self):
         for i in self.before:
             point, layer, save = i
             block = geo_undo(self.replace, self.history.level.geo_data(point, layer), save)
@@ -118,7 +118,7 @@ class GEEllipseChange(GEChange):
             self.module.get_layer(layer).draw_geo(point.x(), point.y(), True)
         self.redraw()
 
-    def redo_changes(self, level):
+    def redo_changes(self):
         draw_ellipse(self.rect, self.hollow, self.drawpointredo)
         self.redraw()
 
@@ -159,7 +159,7 @@ class GEPointChange(GEChange):
             self.paintpoint(point)
         self.redraw()
 
-    def undo_changes(self, level):  # removing placed cells with replaced ones
+    def undo_changes(self):  # removing placed cells with replaced ones
         for k, v in self.before.items():
             block = geo_undo(self.replace, self.history.level.geo_data(k, v[0]), v[1])
             self.history.level.data["GE"][k.x()][k.y()][v[0]] = block
@@ -167,7 +167,7 @@ class GEPointChange(GEChange):
             t.draw_geo(k.x(), k.y(), True)
         self.redraw()
 
-    def redo_changes(self, level):  # re-adding replace cell
+    def redo_changes(self):  # re-adding replace cell
         for k, v in self.before.items():
             block, save = geo_save(self.replace, self.history.level.geo_data(k, v[0]))
             self.history.level.data["GE"][k.x()][k.y()][v[0]] = block
@@ -188,7 +188,7 @@ class GEBrushChange(GEChange):
         self.redraw()
 
     def paintpoint(self, pos: QPoint):
-        if not self.module.manager.level.inside(pos) or not self.area[pos.x()][pos.y()]:
+        if not self.manager.level.inside(pos) or not self.area[pos.x()][pos.y()]:
             return
         for i, l in enumerate(self.layers):
             if not l:
@@ -214,7 +214,7 @@ class GEBrushChange(GEChange):
         self.lastpos = position
         self.redraw()
 
-    def undo_changes(self, level):
+    def undo_changes(self):
         for i in self.before:
             point, layer, save = i
             block = geo_undo(self.replace, self.history.level.geo_data(point, layer), save)
@@ -222,7 +222,7 @@ class GEBrushChange(GEChange):
             self.module.get_layer(layer).draw_geo(point.x(), point.y(), True)
         self.redraw()
 
-    def redo_changes(self, level):
+    def redo_changes(self):
         for i in self.before:
             pos, layer, _ = i
             block, save = geo_save(self.replace, self.history.level.geo_data(pos, layer))
@@ -281,7 +281,7 @@ class GEFillChange(GEChange):
         self.history.level.data["GE"][pos.x()][pos.y()][layer] = block
         self.module.get_layer(layer).draw_geo(pos.x(), pos.y(), True)
 
-    def undo_changes(self, level):
+    def undo_changes(self):
         for i, l in enumerate(self.before):
             for item in l:
                 point, save, _ = item
@@ -290,7 +290,7 @@ class GEFillChange(GEChange):
                 self.module.get_layer(i).draw_geo(point.x(), point.y(), True)
         self.redraw()
 
-    def redo_changes(self, level):
+    def redo_changes(self):
         for i, l in enumerate(self.before):
             for item in l:
                 point, save, _ = item

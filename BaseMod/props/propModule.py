@@ -10,6 +10,12 @@ class PropModule(Module):
     def __init__(self, mod):
         super().__init__(mod)
         self.opshift = BoolConfigurable(mod, "VIEW_props.opshift", True, "Opacity shift")
+        self.props: list[PropRenderable] = []
+        self.render_props()
+
+    def render_props(self):
+        for i in self.props:
+            i.remove_graphics()
         self.props = []
         for i in self.manager.level.props:
             self.props.append(PropRenderable(self.mod, i).add_myself(self))

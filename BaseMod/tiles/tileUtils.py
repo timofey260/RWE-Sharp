@@ -297,12 +297,12 @@ class TileHistory(HistoryElement):
                 self.history.level.manager.basemod.geomodule.get_layer(self.layer + 1).redraw()
             self.history.level.manager.basemod.tilemodule.get_layer(self.layer + 1).redraw()
 
-    def undo_changes(self, level):
+    def undo_changes(self):
         for i in self.savedtiles:
             i.undo(self)
         self.redraw()
 
-    def redo_changes(self, level):
+    def redo_changes(self):
         for i in self.savedtiles:
             i.redo(self)
         self.redraw()

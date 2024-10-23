@@ -85,6 +85,6 @@ def fromarr(col: str, mark: str):
     return a
 
 
-def makearr(col: list, mark: list):
+def makearr(col: list, mark: str):
     return f"{mark}({col[0]}, {col[1]})"
 

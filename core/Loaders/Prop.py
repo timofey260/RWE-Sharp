@@ -6,6 +6,7 @@ from dataclasses import dataclass, field
 
 @dataclass(frozen=True)
 class Prop:
+    item: dict
     name: str
     type: str
     repeatl: list[int]
@@ -27,6 +28,12 @@ class Prop:
     @property
     def colorable(self):
         return len(self.repeatl) > 1
+
+    def get(self, key, default=None):
+        return self.item.get(key, default)
+
+    def __getitem__(self, item):
+        return self.item.get(item)
 
 
 @dataclass

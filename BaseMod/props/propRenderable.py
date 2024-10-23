@@ -45,7 +45,8 @@ class PropRenderable(Renderable):
     def init_graphics(self, viewport: Viewport):
         self.renderedtexture = viewport.workscene.addPixmap(QPixmap.fromImage(self.image))
         self.renderedtexture.setZValue(self.depth)
-        self.setPos(QPointF(0, 0))
+        #self.setPos(QPointF(0, 0))
+        self.move_event(viewport.topleft.pos())
         #self.draw_layer()
         #self.retransform()
 

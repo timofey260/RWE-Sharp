@@ -15,12 +15,24 @@ class HistoryElement(ABC):
         self.history: History = history
 
     @abstractmethod
-    def undo_changes(self, level):
+    def undo_changes(self):
         pass
 
     @abstractmethod
-    def redo_changes(self, level):
+    def redo_changes(self):
         pass
+
+    @property
+    def manager(self):
+        return self.history.level.manager
+
+    @property
+    def basemod(self):
+        return self.manager.basemod
+
+    @property
+    def level(self):
+        return self.history.level
 
 
 class History:
@@ -34,14 +46,14 @@ class History:
         if len(self.undoactions) == 0:
             return
         action = self.undoactions.pop()
-        action.undo_changes(self.level)
+        action.undo_changes()
         self.redoactions.append(action)
 
     def redo(self):
         if len(self.redoactions) == 0:
             return
         action = self.redoactions.pop()
-        action.redo_changes(self.level)
+        action.redo_changes()
         self.undoactions.append(action)
 
     @property
@@ -63,8 +75,8 @@ class SimpleChange(HistoryElement):
         self.value = value
         self.prev_value = prev_value
 
-    def undo_changes(self, level):
-        level[self.path] = deepcopy(self.prev_value)
+    def undo_changes(self):
+        self.level[self.path] = deepcopy(self.prev_value)
 
-    def redo_changes(self, level):
-        level[self.path] = deepcopy(self.value)
+    def redo_changes(self):
+        self.level[self.path] = deepcopy(self.value)

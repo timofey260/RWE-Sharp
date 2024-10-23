@@ -54,14 +54,14 @@ class EffectBrush(HistoryElement):
                     self.history.level["FE"]["effects"][self.index]['mtrx'][xp][yp] = val
                     self.history.level.manager.basemod.effecteditor.layer.draw_pixel(newpoint, True)
 
-    def undo_changes(self, level):
+    def undo_changes(self):
         for point, v in self.changes.items():
             before, _ = v
             self.history.level["FE"]["effects"][self.index]['mtrx'][point.x()][point.y()] = before
             self.history.level.manager.basemod.effecteditor.layer.draw_pixel(point, True)
         self.redraw()
 
-    def redo_changes(self, level):
+    def redo_changes(self):
         for point, v in self.changes.items():
             _, after = v
             self.history.level["FE"]["effects"][self.index]['mtrx'][point.x()][point.y()] = after
@@ -80,11 +80,11 @@ class EffectAdd(HistoryElement):
         self.history.level.manager.basemod.effectui.add_effects()
         self.history.level.manager.basemod.effecteditor.effectindex.update_value(self.history.level.effect_len - 1)
 
-    def undo_changes(self, level):
+    def undo_changes(self):
         self.history.level["FE"]["effects"].pop()
         self.history.level.manager.basemod.effectui.add_effects()
 
-    def redo_changes(self, level):
+    def redo_changes(self):
         self.add_effect()
 
 
@@ -95,12 +95,12 @@ class EffectOptionChange(HistoryElement):
         self.index = index
         self.option = option
         self.value = value
-        self.redo_changes(history.level)
+        self.redo_changes()
 
-    def undo_changes(self, level):
-        level.effects[self.index]["options"][self.option][2] = self.prevvalue
-        level.manager.basemod.effectui.effect_settings()
+    def undo_changes(self):
+        self.level.effects[self.index]["options"][self.option][2] = self.prevvalue
+        self.level.manager.basemod.effectui.effect_settings()
 
-    def redo_changes(self, level):
-        level.effects[self.index]["options"][self.option][2] = self.value
-        level.manager.basemod.effectui.effect_settings()
+    def redo_changes(self):
+        self.level.effects[self.index]["options"][self.option][2] = self.value
+        self.level.manager.basemod.effectui.effect_settings()

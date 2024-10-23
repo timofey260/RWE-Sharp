@@ -24,7 +24,7 @@ def load_prop(item: dict, colr, category, catnum, indx):
         images = []
         for i in range(vars):
             images.append(QImage(os.path.join(PATH_FILES_CACHE, f"{path}_{i}.png")))
-        return Prop(item.get("nm", "NoName"), item.get("tp"), repeatl, "todo",
+        return Prop(item, item.get("nm", "NoName"), item.get("tp"), repeatl, "todo",
                     images, item.get("colorTreatment", "standard"), vars,
                     colr, QPoint(catnum, indx), item.get("tags", []), err,
                     category, item.get("notes", []), images[0].size(), item.get("layerExceptions", []))
@@ -121,7 +121,7 @@ def load_prop(item: dict, colr, category, catnum, indx):
         images.append(newimg.copy(w * i, 0, w, h))
         images[-1].save(os.path.join(PATH_FILES_CACHE, f"{path}_{i}.png"))
 
-    return Prop(item.get("nm", "NoName"), item.get("tp"), repeatl, "todo",
+    return Prop(item, item.get("nm", "NoName"), item.get("tp"), repeatl, "todo",
                 images, item.get("colorTreatment", "standard"), vars,
                 colr, QPoint(catnum, indx), item.get("tags", []), err,
                 category, item.get("notes", []), QSize(w, h), item.get("layerExceptions", []))
@@ -131,8 +131,10 @@ def tile2prop(tile: Tile, cat, category):
     err = tile.err
     if tile.type != "VoxelStruct" or "notProp" in tile.tags:
         err = True
-    return Prop(tile.name, "standard", tile.repeatl, tile.description, [tile.image3], "standard", 1,
-                tile.color, cat, tile.tags, err, category, ["Tile as Prop"], tile.size * CELLSIZE)
+    return Prop({"depth": 10 * (int(tile.cols[1] != []) + 1)}, tile.name, "standard", tile.repeatl, tile.description,
+                [tile.image3], "standard", 1,
+                tile.color, cat, [*tile.tags, "tile"], err, category, ["Tile as Prop"],
+                tile.size * tile.bfTiles * 2 * CELLSIZE)
 
 
 class PropPackLoader(QThread):
