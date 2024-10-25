@@ -159,9 +159,11 @@ class Manager:
 
     def undo(self):
         self.level.undo()
+        self.viewport.workscene.update(0, 0, 10000, 10000)
 
     def redo(self):
         self.level.redo()
+        self.viewport.workscene.update(0, 0, 10000, 10000)
 
     @property
     def view_menu(self) -> QMenu:
