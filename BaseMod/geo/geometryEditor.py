@@ -389,12 +389,12 @@ class GeometryEditor(Editor):
         self.brushellipse.setRect(rect)
 
     def next_layer(self):
-        currentlayer = 0 if self.drawl1.value else 1 if self.drawl2.value else 2
+        currentlayer = 0 if self.module.drawl1.value else 1 if self.module.drawl2.value else 2
         currentlayer = (currentlayer + 1) % 3
         self.showlayer(currentlayer)
 
     def prev_layer(self):
-        currentlayer = 0 if self.drawl1.value else 1 if self.drawl2.value else 2
+        currentlayer = 0 if self.module.drawl1.value else 1 if self.module.drawl2.value else 2
         currentlayer = (currentlayer - 1) % 3
         self.showlayer(currentlayer)
 
@@ -402,7 +402,10 @@ class GeometryEditor(Editor):
         self.drawl1.update_value(False)
         self.drawl2.update_value(False)
         self.drawl3.update_value(False)
-        [self.drawl1, self.drawl2, self.drawl3][currentlayer].update_value(True)
+        if self.block.value in stackables and self.block.value not in stackables_all_layers:
+            self.drawl1.update_value(True)
+        else:
+            [self.drawl1, self.drawl2, self.drawl3][currentlayer].update_value(True)
         self.module.showlayer(currentlayer)
         self.manager.basemod.tilemodule.showlayer(currentlayer)
 

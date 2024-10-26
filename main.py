@@ -5,7 +5,7 @@ from core.Application import Application
 
 
 def main(argv):
-    print("""
+    print(r"""
        ___ _      ______  ____ 
       / _ \ | /| / / __/_/ / /_
      / , _/ |/ |/ / _//_  . __/
@@ -23,6 +23,7 @@ def main(argv):
     parser.add_argument("filename", type=str, nargs="?", help="Level to load")
     parser.add_argument("-M", "--nomods", dest="nomods", help="Use mods or load without them", action="store_true")
     parser.add_argument("-R", "--reset", dest="reset", help="Reset RWE# configuration", action="store_true")  # todo
+    parser.add_argument("-d", "--debug", dest="debug", help="debug mode", action="store_true")
     parser.version = VERSION
     parser.authors = AUTHORS
 

@@ -25,6 +25,10 @@ class Application(QApplication):
         self.window.show()
         # sys.exit(self.app.exec())
 
+    @property
+    def debug(self):
+        return self.args.debug
+
     def restart(self):
         self.window.deleteLater()
         self.window.manager = None

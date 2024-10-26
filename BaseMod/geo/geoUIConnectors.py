@@ -133,6 +133,7 @@ class GeoUI(UI):
         self.ui.PreviousLayer.clicked.connect(self.editor.prev_layer)
         self.controls.nextlayer.link_button(self.ui.NextLayer)
         self.controls.prevlayer.link_button(self.ui.PreviousLayer)
+        self.begin_recording()
 
     def change_color(self, color: QColor):
         items = [IMG_PEN, IMG_BRUSH, IMG_BUCKET, IMG_LINE, IMG_RECT, IMG_RECT_HOLLOW, IMG_CIRCLE, IMG_CIRCLE_HOLLOW]

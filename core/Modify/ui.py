@@ -1,18 +1,34 @@
 from __future__ import annotations
-from PySide6.QtWidgets import QWidget
+from PySide6.QtWidgets import QWidget, QPushButton
 from typing import TYPE_CHECKING
 from abc import ABC, abstractmethod
+from core.info import PATH_FILES_CACHE
+import os
 if TYPE_CHECKING:
     from core.Modify.Mod import Mod
     from widgets.SettingsViewer import SettingsViewer
     from core.configTypes.ConfigBase import Configurable
     from core.Modify.Theme import Theme
 
+logfile = open(os.path.join(PATH_FILES_CACHE, "log.txt"), "a+")
+
 
 class UI(QWidget):
     def __init__(self, mod: Mod, parent=None):
         super().__init__(parent)
         self.mod = mod
+
+    def begin_recording(self):
+        if not self.mod.manager.application.debug:
+            return
+        ch: list[QWidget] = self.findChildren(QWidget)
+        for i in ch:
+            print(i)
+            if isinstance(i, QPushButton):
+                i.clicked.connect(self._answer(i, f"buton {i.objectName()} pressed"))  # todo
+
+    def _answer(self, obj, text):
+        return lambda x: print(text, obj, file=logfile, flush=True)
 
 
 class ViewUI(UI):
