@@ -19,16 +19,15 @@ class PropEditor(Editor):
         super().__init__(mod)
         self.props = self.manager.props
         self.explorer = PropExplorer(self, self.manager.window)
-        self.explorer.itemselected.connect(self.setprop)
         self.prop: Prop = self.props.find_prop("loopantennafront")
         self.placingprop = PropRenderable(mod, self.prop).add_myself(self)
         self.depth = 0
         self.notes = []
         self.applysettings()
 
-    def setprop(self):
-        if len(self.explorer.selected) > 0:
-            self.prop = self.explorer.selected[0]
+    def setprop(self, props: list[Prop]):
+        if len(props) > 0:
+            self.prop = props[0]
         self.placingprop.setprop(self.prop)
 
     def move_event(self, pos):

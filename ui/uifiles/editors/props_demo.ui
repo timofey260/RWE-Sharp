@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>291</width>
+    <width>339</width>
     <height>550</height>
    </rect>
   </property>
@@ -24,8 +24,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>259</width>
-        <height>714</height>
+        <width>307</width>
+        <height>746</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -37,69 +37,18 @@
         </widget>
        </item>
        <item>
-        <layout class="QGridLayout" name="gridLayout_5">
-         <item row="1" column="2">
-          <widget class="QPushButton" name="changeTR_3">
+        <layout class="QGridLayout" name="gridLayout_3">
+         <item row="1" column="0">
+          <widget class="QPushButton" name="changeBL">
            <property name="text">
-            <string>R</string>
-           </property>
-           <property name="shortcut">
-            <string>A</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="0">
-          <widget class="QPushButton" name="changeTL">
-           <property name="text">
-            <string>TL</string>
-           </property>
-           <property name="flat">
-            <bool>false</bool>
+            <string>BottomLeft</string>
            </property>
           </widget>
          </item>
          <item row="0" column="1">
-          <widget class="QPushButton" name="changeTL_3">
-           <property name="text">
-            <string>T</string>
-           </property>
-           <property name="flat">
-            <bool>false</bool>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="1">
-          <widget class="QPushButton" name="changeBR_3">
-           <property name="text">
-            <string>B</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="0">
-          <widget class="QPushButton" name="changeBL_3">
-           <property name="text">
-            <string>L</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="0">
-          <widget class="QPushButton" name="changeBL">
-           <property name="text">
-            <string>BL</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="2">
-          <widget class="QPushButton" name="changeBR">
-           <property name="text">
-            <string>BR</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="2">
           <widget class="QPushButton" name="changeTR">
            <property name="text">
-            <string>TR</string>
+            <string>TopRight</string>
            </property>
            <property name="shortcut">
             <string>A</string>
@@ -107,9 +56,57 @@
           </widget>
          </item>
          <item row="1" column="1">
-          <widget class="QPushButton" name="pushButton_10">
+          <widget class="QPushButton" name="changeBR">
            <property name="text">
-            <string>Offset</string>
+            <string>BottomRight</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <widget class="QPushButton" name="changeTL">
+           <property name="text">
+            <string>TopLeft</string>
+           </property>
+           <property name="flat">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QGridLayout" name="gridLayout_5">
+         <item row="1" column="0">
+          <widget class="QPushButton" name="changeBL_3">
+           <property name="text">
+            <string>Left</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QPushButton" name="changeTR_3">
+           <property name="text">
+            <string>Right</string>
+           </property>
+           <property name="shortcut">
+            <string>A</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QPushButton" name="changeBR_3">
+           <property name="text">
+            <string>Bottom</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <widget class="QPushButton" name="changeTL_3">
+           <property name="text">
+            <string>Top</string>
+           </property>
+           <property name="flat">
+            <bool>false</bool>
            </property>
           </widget>
          </item>
@@ -150,58 +147,65 @@
        <item>
         <widget class="QLabel" name="label_5">
          <property name="text">
-          <string>Stretch:</string>
+          <string>Stretch</string>
          </property>
         </widget>
        </item>
        <item>
         <layout class="QGridLayout" name="gridLayout_2">
-         <item row="0" column="1">
-          <widget class="QPushButton" name="pushButton_8">
-           <property name="text">
-            <string>TB</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="2">
-          <widget class="QPushButton" name="pushButton_5">
-           <property name="text">
-            <string>B</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="2">
+         <item row="1" column="1">
           <widget class="QPushButton" name="pushButton_7">
            <property name="text">
-            <string>R</string>
+            <string>Right</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QPushButton" name="pushButton_5">
+           <property name="text">
+            <string>Bottom</string>
            </property>
           </widget>
          </item>
          <item row="1" column="0">
           <widget class="QPushButton" name="pushButton_3">
            <property name="text">
-            <string>L</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="1">
-          <widget class="QPushButton" name="pushButton_6">
-           <property name="text">
-            <string>LR</string>
+            <string>Left</string>
            </property>
           </widget>
          </item>
          <item row="0" column="0">
           <widget class="QPushButton" name="pushButton_4">
            <property name="text">
-            <string>T</string>
+            <string>Top</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="2">
+          <widget class="QPushButton" name="pushButton_8">
+           <property name="text">
+            <string>TopBottom</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="2">
+          <widget class="QPushButton" name="pushButton_6">
+           <property name="text">
+            <string>LeftRight</string>
            </property>
           </widget>
          </item>
          <item row="2" column="0">
           <widget class="QPushButton" name="pushButton_9">
            <property name="text">
-            <string>All</string>
+            <string>Scale</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QPushButton" name="pushButton_10">
+           <property name="text">
+            <string>Offset</string>
            </property>
           </widget>
          </item>

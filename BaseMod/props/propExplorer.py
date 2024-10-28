@@ -70,6 +70,7 @@ class PropExplorer(Explorer):
         self.manager.window_menu.addAction(self.prop_explorer_action)
         self.link_action(self.prop_explorer_action)
         self.mod.bmconfig.propexplorer_key.link_action(self.prop_explorer_action)
+        self.itemselected.connect(editor.setprop)
 
     def getimage(self, image):
         if isinstance(image, QPixmap):

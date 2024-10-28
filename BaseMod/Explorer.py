@@ -111,16 +111,24 @@ class Explorer(ViewDockWidget):
 
     def tile_next(self):
         if self.simplemode:
+            if self.view_categories.topLevelItem(self.category).childCount() == 0:
+                return
             self.item = (self.tileindex + 1) % self.view_categories.topLevelItem(self.category).childCount()
             self.view_categories.setCurrentItem(self.view_categories.topLevelItem(self.category).child(self.item))
+            return
+        if self.view_items.count() == 0:
             return
         self.item = (self.tileindex + 1) % self.view_items.count()
         self.view_items.setCurrentRow(self.item)
 
     def tile_prev(self):
         if self.simplemode:
+            if self.view_categories.topLevelItem(self.category).childCount() == 0:
+                return
             self.item = (self.tileindex - 1) % self.view_categories.topLevelItem(self.category).childCount()
             self.view_categories.setCurrentItem(self.view_categories.topLevelItem(self.category).child(self.item))
+            return
+        if self.view_items.count() == 0:
             return
         self.item = (self.tileindex - 1) % self.view_items.count()
         self.view_items.setCurrentRow(self.item)
