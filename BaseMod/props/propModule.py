@@ -23,7 +23,7 @@ class PropModule(Module):
     def render_prop(self, index: int):
         p = PropRenderable(self.mod, self.manager.level.props[index]).add_myself(self)
         self.props.append(p)
-        p.init_graphics(self.viewport)
+        p.init_graphics()
 
     def remove_render_prop(self, index: int):
         p = self.props.pop(index)

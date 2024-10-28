@@ -13,8 +13,8 @@ class RenderRect(Renderable):
         self.pen = QPen(pen)
         self.brush = QBrush(brush)
 
-    def init_graphics(self, viewport: Viewport):
-        self.drawrect = viewport.workscene.addRect(self.rect)
+    def init_graphics(self):
+        self.drawrect = self.viewport.workscene.addRect(self.rect)
         self.drawrect.setZValue(self.depth)
         self.drawrect.setPen(self.pen)
         self.drawrect.setBrush(self.brush)

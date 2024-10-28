@@ -47,3 +47,7 @@ class Module(ABC):
     def move_event(self, pos):
         for i in self.renderables:
             i.move_event(pos)
+
+    @property
+    def basemod(self):
+        return self.manager.basemod

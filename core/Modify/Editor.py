@@ -30,7 +30,7 @@ class Editor(ABC):
         :return:
         """
         for i in self.renderables:
-            i.init_graphics(self.viewport)
+            i.init_graphics()
 
     def mouse_move_event(self, event: QMoveEvent):
         pass
@@ -85,6 +85,7 @@ class Editor(ABC):
 
     def add_myself(self, ui):
         self.mod.add_editor(self, ui)
+        ui.begin_recording()
         return self
 
     def mouse_left_release(self):
@@ -115,3 +116,7 @@ class Editor(ABC):
     @property
     def zoom(self):
         return self.viewport.zoom
+
+    @property
+    def basemod(self):
+        return self.manager.basemod

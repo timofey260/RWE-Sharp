@@ -28,8 +28,8 @@ class RenderImage(Renderable):
         :return: None
         """
 
-    def init_graphics(self, viewport):
-        self.renderedtexture = viewport.workscene.addPixmap(self.image)
+    def init_graphics(self):
+        self.renderedtexture = self.viewport.workscene.addPixmap(self.image)
         self.renderedtexture.setZValue(self.depth)
         self.draw_layer()
 

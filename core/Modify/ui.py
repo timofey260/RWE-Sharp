@@ -34,6 +34,7 @@ class UI(QWidget):
 class ViewUI(UI):
     def add_myself(self):
         self.mod.add_vis_ui(self)
+        self.begin_recording()
         return self
 
 

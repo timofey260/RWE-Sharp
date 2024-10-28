@@ -37,7 +37,7 @@ class ViewPort(QGraphicsView):
 
     def add_module(self, module: Module):
         for i in module.renderables:
-            i.init_graphics(self)
+            i.init_graphics()
 
     def add_managed_fields(self, manager):
         self.manager = manager

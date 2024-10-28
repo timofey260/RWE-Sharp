@@ -24,7 +24,7 @@ class Ui_Props(object):
     def setupUi(self, Props):
         if not Props.objectName():
             Props.setObjectName(u"Props")
-        Props.resize(398, 550)
+        Props.resize(339, 550)
         self.verticalLayout = QVBoxLayout(Props)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.scrollArea = QScrollArea(Props)
@@ -32,7 +32,7 @@ class Ui_Props(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 366, 624))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 307, 654))
         self.verticalLayout_2 = QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.label_3 = QLabel(self.scrollAreaWidgetContents)
@@ -40,31 +40,31 @@ class Ui_Props(object):
 
         self.verticalLayout_2.addWidget(self.label_3)
 
-        self.horizontalLayout = QHBoxLayout()
-        self.horizontalLayout.setObjectName(u"horizontalLayout")
+        self.gridLayout_3 = QGridLayout()
+        self.gridLayout_3.setObjectName(u"gridLayout_3")
+        self.changeTR = QPushButton(self.scrollAreaWidgetContents)
+        self.changeTR.setObjectName(u"changeTR")
+
+        self.gridLayout_3.addWidget(self.changeTR, 0, 1, 1, 1)
+
         self.changeTL = QPushButton(self.scrollAreaWidgetContents)
         self.changeTL.setObjectName(u"changeTL")
         self.changeTL.setFlat(False)
 
-        self.horizontalLayout.addWidget(self.changeTL)
-
-        self.changeTR = QPushButton(self.scrollAreaWidgetContents)
-        self.changeTR.setObjectName(u"changeTR")
-
-        self.horizontalLayout.addWidget(self.changeTR)
+        self.gridLayout_3.addWidget(self.changeTL, 0, 0, 1, 1)
 
         self.changeBR = QPushButton(self.scrollAreaWidgetContents)
         self.changeBR.setObjectName(u"changeBR")
 
-        self.horizontalLayout.addWidget(self.changeBR)
+        self.gridLayout_3.addWidget(self.changeBR, 1, 1, 1, 1)
 
         self.changeBL = QPushButton(self.scrollAreaWidgetContents)
         self.changeBL.setObjectName(u"changeBL")
 
-        self.horizontalLayout.addWidget(self.changeBL)
+        self.gridLayout_3.addWidget(self.changeBL, 1, 0, 1, 1)
 
 
-        self.verticalLayout_2.addLayout(self.horizontalLayout)
+        self.verticalLayout_2.addLayout(self.gridLayout_3)
 
         self.label_4 = QLabel(self.scrollAreaWidgetContents)
         self.label_4.setObjectName(u"label_4")
@@ -197,11 +197,11 @@ class Ui_Props(object):
     def retranslateUi(self, Props):
         Props.setWindowTitle(QCoreApplication.translate("Props", u"Props", None))
         self.label_3.setText(QCoreApplication.translate("Props", u"Change Points:", None))
-        self.changeTL.setText(QCoreApplication.translate("Props", u"TL", None))
         self.changeTR.setText(QCoreApplication.translate("Props", u"TR", None))
 #if QT_CONFIG(shortcut)
         self.changeTR.setShortcut(QCoreApplication.translate("Props", u"A", None))
 #endif // QT_CONFIG(shortcut)
+        self.changeTL.setText(QCoreApplication.translate("Props", u"TL", None))
         self.changeBR.setText(QCoreApplication.translate("Props", u"BR", None))
         self.changeBL.setText(QCoreApplication.translate("Props", u"BL", None))
         self.label_4.setText(QCoreApplication.translate("Props", u"Rotate:", None))

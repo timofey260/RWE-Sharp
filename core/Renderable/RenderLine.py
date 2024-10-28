@@ -13,8 +13,8 @@ class RenderLine(Renderable):
         self.pen = QPen(pen)
         self.brush = QBrush(brush)
 
-    def init_graphics(self, viewport: Viewport):
-        self.drawline = viewport.workscene.addLine(self.line)
+    def init_graphics(self):
+        self.drawline = self.viewport.workscene.addLine(self.line)
         self.drawline.setZValue(self.depth)
         self.drawline.setPen(self.pen)
         # self.drawline.setBrush(self.brush)

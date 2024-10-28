@@ -9,10 +9,8 @@ class Renderable(ABC):
 
     def __init__(self, mod, depth: int):
         from core.Modify.Mod import Mod
-        from core.Manager import Manager
         self.mod: Mod = mod
         self.depth: int = -depth
-        self.manager: Manager = mod.manager
         self.pos: QPointF = QPointF()
         self.offset: QPointF = QPointF()
 
@@ -24,7 +22,7 @@ class Renderable(ABC):
         return self
 
     @abstractmethod
-    def init_graphics(self, viewport: Viewport):
+    def init_graphics(self):
         pass
 
     @abstractmethod
@@ -51,3 +49,11 @@ class Renderable(ABC):
 
     def level_resized(self):
         pass
+
+    @property
+    def manager(self):
+        return self.mod.manager
+
+    @property
+    def viewport(self):
+        return self.manager.viewport

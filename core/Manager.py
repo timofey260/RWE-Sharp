@@ -38,8 +38,6 @@ class Manager:
         self.effects: Effects = splash.loader.effects
         self.effect_colors = splash.loader.effect_colors
 
-        # self.splashwindow.close()
-
         # self.levelpath: str = "" if file is None else file
         self.level = RWELevel(self, file)
 
@@ -73,7 +71,7 @@ class Manager:
         """
         self.hotkey_trees: list[HotkeyElement] = []
         """
-        Collection of ui's for settings window
+        Collection of ui's for hotkey window
         """
         self.current_theme: Theme | None = None
         self.mod_types = []

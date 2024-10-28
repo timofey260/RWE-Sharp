@@ -50,7 +50,7 @@ class TreeElement:
 class SettingElement(TreeElement):
     def __init__(self, mod: Mod, text: str, name: str, ui: SettingUI = None, parent=None, children: list[SettingElement] = None):
         super().__init__(mod, text, name, parent, children)
-        self.ui: SettingUI = ui
+        self.ui: SettingUI | None = ui
 
     def add_myself(self):
         self.mod.add_setting(self)
