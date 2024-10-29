@@ -42,7 +42,7 @@ class ViewUI(UI):
 class SettingUI(ABC):
     def __init__(self, mod: Mod):
         self.mod = mod
-        self.settings: list[Configurable] = []
+        self.settings: list[SettingUI.ManageableSetting] = []
 
     @abstractmethod
     def init_ui(self, viewer: SettingsViewer):
@@ -52,33 +52,75 @@ class SettingUI(ABC):
         :return: None
         """
 
-    @abstractmethod
     def reset_values(self):
         """
         Called when values need to be reset to the saved ones
         :return: None
         """
+        for i in self.settings:
+            i.source2setting()
 
-    @abstractmethod
     def reset_values_default(self):
         """
         Called when values need to be reset to the default
         :return: None
         """
+        for i in self.settings:
+            i.reset_values_default()
 
-    @abstractmethod
     def apply_values(self):
         """
         Called when values need to be applied
         :return: None
         """
+        for i in self.settings:
+            i.setting2source()
 
     @property
     def is_changed(self):
         for i in self.settings:
-            if i.value != i.default:
+            if i.setting.value != i.setting.default:
                 return True
         return False
+
+    class ManageableSetting:
+        def __init__(self, setting: Configurable | None = None, source: Configurable | None = None, source2setting=lambda x: x, setting2source=lambda x: x):
+            self.setting = setting
+            self.source = source
+            self.source2settingfunc = source2setting
+            self.setting2sourcefunc = setting2source
+
+        def source2setting(self):
+            if self.setting is None:
+                return
+            if self.source is None:
+                self.setting.update_value_default(self.source2settingfunc(None))
+                return
+            self.setting.update_value_default(self.source2settingfunc(self.source.value))
+
+        def setting2source(self):
+            if self.source is None:
+                return
+            if self.setting is None:
+                self.source.update_value(self.setting2sourcefunc(None))
+                return
+            self.source.update_value(self.setting2sourcefunc(self.setting.value))
+
+        def reset_values_default(self):
+            if self.setting is None:
+                return
+            if self.source is None:
+                self.setting.update_value_default(self.source2settingfunc(None))
+                return
+            self.setting.update_value(self.source2settingfunc(self.source.default))
+
+        def add_myself(self, settingui: SettingUI):
+            settingui.settings.append(self)
+            return self
+
+        @property
+        def value(self):
+            return self.setting.value
 
 
 class ThemeUI(UI):

@@ -159,16 +159,19 @@ class TileSettings(SettingUI):
     def __init__(self, mod):
         super().__init__(mod)
         self.module: TileModule = self.mod.tilemodule
-        self.rl1 = IntConfigurable(self, "rl1", 0, "Opacity of rendered layer 1")
-        self.nl1 = IntConfigurable(self, "nl1", 0, "Opacity of not rendered layer 1")
-        self.rl2 = IntConfigurable(self, "rl2", 0, "Opacity of rendered layer 2")
-        self.nl2 = IntConfigurable(self, "nl2", 0, "Opacity of not rendered layer 2")
-        self.rl3 = IntConfigurable(self, "rl3", 0, "Opacity of rendered layer 3")
-        self.nl3 = IntConfigurable(self, "nl3", 0, "Opacity of not rendered layer 3")
-        self.opshift = BoolConfigurable(self, "opshift", False,
+        l1 = lambda x: int(x * 255)
+        l2 = lambda x: x / 255
+        self.rl1 = SettingUI.ManageableSetting(IntConfigurable(None, "rl1", 0, "Opacity of rendered layer 1"), self.module.drawl1rendered, l1, l2).add_myself(self)
+        self.nl1 = SettingUI.ManageableSetting(IntConfigurable(None, "nl1", 0, "Opacity of not rendered layer 1"), self.module.drawl1notrendered, l1, l2).add_myself(self)
+        self.rl2 = SettingUI.ManageableSetting(IntConfigurable(None, "rl2", 0, "Opacity of rendered layer 2"), self.module.drawl2rendered, l1, l2).add_myself(self)
+        self.nl2 = SettingUI.ManageableSetting(IntConfigurable(None, "nl2", 0, "Opacity of not rendered layer 2"), self.module.drawl2notrendered, l1, l2).add_myself(self)
+        self.rl3 = SettingUI.ManageableSetting(IntConfigurable(None, "rl2", 0, "Opacity of rendered layer 3"), self.module.drawl3rendered, l1, l2).add_myself(self)
+        self.nl3 = SettingUI.ManageableSetting(IntConfigurable(None, "nl2", 0, "Opacity of not rendered layer 3"), self.module.drawl3notrendered, l1, l2).add_myself(self)
+
+        self.opshift = SettingUI.ManageableSetting(BoolConfigurable(None, "opshift", False,
                                         "Opacity shift\nOnly change opacity of shown layers\n"
                                         "For example, if layer 1 is hidden, layer 2 will have opacity of layer 1 and "
-                                        "layer 3 will have opacity of layer 2")
+                                        "layer 3 will have opacity of layer 2"), self.module.opacityshift).add_myself(self)
 
         self.drawoption = IntConfigurable(None, "drawoption", 0, "Draw option")
 
@@ -182,13 +185,13 @@ class TileSettings(SettingUI):
         self.ui.setupUi(viewer)
         self.ui.TilePreview.add_manager(self.mod.manager, self)
 
-        self.rl1.link_slider_spinbox(self.ui.L1opr, self.ui.L1opr_2)
-        self.rl2.link_slider_spinbox(self.ui.L2opr, self.ui.L2opr_2)
-        self.rl3.link_slider_spinbox(self.ui.L3opr, self.ui.L3opr_2)
+        self.rl1.setting.link_slider_spinbox(self.ui.L1opr, self.ui.L1opr_2)
+        self.rl2.setting.link_slider_spinbox(self.ui.L2opr, self.ui.L2opr_2)
+        self.rl3.setting.link_slider_spinbox(self.ui.L3opr, self.ui.L3opr_2)
 
-        self.nl1.link_slider_spinbox(self.ui.L1opn, self.ui.L1opn_2)
-        self.nl2.link_slider_spinbox(self.ui.L2opn, self.ui.L2opn_2)
-        self.nl3.link_slider_spinbox(self.ui.L3opn, self.ui.L3opn_2)
+        self.nl1.setting.link_slider_spinbox(self.ui.L1opn, self.ui.L1opn_2)
+        self.nl2.setting.link_slider_spinbox(self.ui.L2opn, self.ui.L2opn_2)
+        self.nl3.setting.link_slider_spinbox(self.ui.L3opn, self.ui.L3opn_2)
 
         self.showl1.link_button(self.ui.L1show)
         self.showl2.link_button(self.ui.L2show)
@@ -197,35 +200,9 @@ class TileSettings(SettingUI):
         self.drawoption.link_combobox(self.ui.RenderOption)
         self.drawoption.valueChanged.connect(self.ui.TilePreview.update_option)
 
-        self.opshift.link_button(self.ui.Opacityshift)
+        self.opshift.setting.link_button(self.ui.Opacityshift)
 
-        for i in [self.rl1, self.rl2, self.rl3, self.nl1, self.nl2, self.nl3, self.opshift, self.showl1, self.showl2, self.showl3]:
+        for i in [self.rl1, self.rl2, self.rl3, self.nl1, self.nl2, self.nl3, self.opshift]:
+            i.setting.valueChanged.connect(self.ui.TilePreview.update_preview)
+        for i in [self.showl1, self.showl2, self.showl3]:
             i.valueChanged.connect(self.ui.TilePreview.update_preview)
-
-    def reset_values(self):
-        self.rl1.update_value_default(int(self.module.drawl1rendered.value * 255))
-        self.nl1.update_value_default(int(self.module.drawl1notrendered.value * 255))
-        self.rl2.update_value_default(int(self.module.drawl2rendered.value * 255))
-        self.nl2.update_value_default(int(self.module.drawl2notrendered.value * 255))
-        self.rl3.update_value_default(int(self.module.drawl3rendered.value * 255))
-        self.nl3.update_value_default(int(self.module.drawl3notrendered.value * 255))
-        self.opshift.update_value_default(self.module.opacityshift.value)
-
-    def apply_values(self):
-        self.module.drawl1rendered.update_value(self.rl1.value / 255)
-        self.module.drawl2rendered.update_value(self.rl2.value / 255)
-        self.module.drawl3rendered.update_value(self.rl3.value / 255)
-        self.module.drawl1notrendered.update_value(self.nl1.value / 255)
-        self.module.drawl2notrendered.update_value(self.nl2.value / 255)
-        self.module.drawl3notrendered.update_value(self.nl3.value / 255)
-        self.module.opacityshift.update_value(self.opshift.value)
-        self.reset_values()
-
-    def reset_values_default(self):
-        self.rl1.update_value_default(int(self.module.drawl1rendered.default * 255))
-        self.nl1.update_value_default(int(self.module.drawl1notrendered.default * 255))
-        self.rl2.update_value_default(int(self.module.drawl2rendered.default * 255))
-        self.nl2.update_value_default(int(self.module.drawl2notrendered.default * 255))
-        self.rl3.update_value_default(int(self.module.drawl3rendered.default * 255))
-        self.nl3.update_value_default(int(self.module.drawl3notrendered.default * 255))
-        self.opshift.update_value_default(self.module.opacityshift.default)

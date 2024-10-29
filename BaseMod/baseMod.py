@@ -49,7 +49,7 @@ class BaseMod(Mod):
         self.tileeditor = TileEditor(self)
         self.tileview = TileViewUI(self).add_myself()
         self.tileui = TileUI(self)
-        self.tilesettings = TileSettings(self)
+        self.tilesettings = TileSettings(self) # todo
         self.tileeditor.add_myself(self.tileui)
 
         self.effecteditor = EffectEditor(self)

@@ -170,8 +170,6 @@ class GeoViewUI(ViewUI):
         self.drawlpipes_key = KeyConfigurable(mod, "VIEW_geo.drawlpipes_key", "Alt+v", "Show connection pipes")
         self.drawlmisc_key = KeyConfigurable(mod, "VIEW_geo.drawlmisc_key", "Alt+c", "Show other/misc")
 
-
-
         # adding menu and stuff
         self.menu = QMenu("Geometry")
         self.menu_drawlall = QAction("Geo")
@@ -231,52 +229,41 @@ class GeoSettings(SettingUI):
         super().__init__(mod)
         self.mod: BaseMod
         self.module = self.mod.geomodule
-        self.l1op = IntConfigurable(self, "l1op", 0, "Opacity of layer 1")
-        self.l2op = IntConfigurable(self, "l2op", 0, "Opacity of layer 2")
-        self.l3op = IntConfigurable(self, "l3op", 0, "Opacity of layer 3")
-        self.rgbop = IntConfigurable(self, "rgbop", 0,
-                                     "Opacity of all layers on Leditor render option")
-        self.opshift = BoolConfigurable(self, "opshift", False,
-                                        "Opacity shift\nOnly change opacity of shown layers\n"
-                                        "For example, if layer 1 is hidden, layer 2 will have opacity of layer 1 and "
-                                        "layer 3 will have opacity of layer 2")
+        l1 = lambda x: int(x * 255)
+        l2 = lambda x: x / 255
+        self.l1op = SettingUI.ManageableSetting(
+            IntConfigurable(None, "l1op", 0, "Opacity of layer 1"),
+            self.module.opacityl1, l1, l2).add_myself(self)
+        self.l2op = SettingUI.ManageableSetting(
+            IntConfigurable(None, "l2op", 0, "Opacity of layer 2"),
+            self.module.opacityl2, l1, l2).add_myself(self)
+        self.l3op = SettingUI.ManageableSetting(
+            IntConfigurable(None, "l3op", 0, "Opacity of layer 3"),
+            self.module.opacityl3, l1, l2).add_myself(self)
+        self.rgbop = SettingUI.ManageableSetting(
+            IntConfigurable(None, "rgbop", 0, "Opacity of all layers on Leditor render option"),
+            self.module.opacityrgb, l1, l2).add_myself(self)
+        self.opshift = SettingUI.ManageableSetting(
+            BoolConfigurable(None, "opshift", False,
+                             "Opacity shift\nOnly change opacity of shown layers\n"
+                             "For example, if layer 1 is hidden, layer 2 will have opacity of layer 1 and "
+                             "layer 3 will have opacity of layer 2"),
+            self.module.opacityshift).add_myself(self)
         self.reset_values()
 
     def init_ui(self, viewer: SettingsViewer):
         self.ui = Ui_Geometry()
         self.ui.setupUi(viewer)
 
-        self.l1op.link_slider_spinbox(self.ui.L1op, self.ui.L1op2)
-        self.l2op.link_slider_spinbox(self.ui.L2op, self.ui.L2op2)
-        self.l3op.link_slider_spinbox(self.ui.L3op, self.ui.L3op2)
-        self.rgbop.link_slider_spinbox(self.ui.RGBop, self.ui.RGBop2)
+        self.l1op.setting.link_slider_spinbox(self.ui.L1op, self.ui.L1op2)
+        self.l2op.setting.link_slider_spinbox(self.ui.L2op, self.ui.L2op2)
+        self.l3op.setting.link_slider_spinbox(self.ui.L3op, self.ui.L3op2)
+        self.rgbop.setting.link_slider_spinbox(self.ui.RGBop, self.ui.RGBop2)
 
-        self.opshift.link_button(self.ui.OPshift)
+        self.opshift.setting.link_button(self.ui.OPshift)
 
         self.ui.graphicsView.add_manager(self.mod.manager, self)
         self.ui.L1show.setChecked(True)
         self.ui.L2show.setChecked(True)
         self.ui.L3show.setChecked(True)
         self.ui.RWEpreview.setChecked(True)
-
-    def apply_values(self):
-        self.module.opacityl1.update_value(self.l1op.value / 255)
-        self.module.opacityl2.update_value(self.l2op.value / 255)
-        self.module.opacityl3.update_value(self.l3op.value / 255)
-        self.module.opacityrgb.update_value(self.rgbop.value / 255)
-        self.module.opacityshift.update_value(self.opshift.value)
-        self.reset_values()
-
-    def reset_values(self):
-        self.l1op.update_value_default(int(self.module.opacityl1.value * 255))
-        self.l2op.update_value_default(int(self.module.opacityl2.value * 255))
-        self.l3op.update_value_default(int(self.module.opacityl3.value * 255))
-        self.rgbop.update_value_default(int(self.module.opacityrgb.value * 255))
-        self.opshift.update_value_default(self.module.opacityshift.value)
-
-    def reset_values_default(self):
-        self.l1op.update_value(int(self.module.opacityl1.default * 255))
-        self.l2op.update_value(int(self.module.opacityl2.default * 255))
-        self.l3op.update_value(int(self.module.opacityl3.default * 255))
-        self.rgbop.update_value(int(self.module.opacityrgb.default * 255))
-        self.opshift.update_value(self.module.opacityshift.default)

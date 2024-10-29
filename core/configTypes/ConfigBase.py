@@ -14,10 +14,10 @@ class Configurable(QObject):
     Activated when value is changed
     """
 
-    def __init__(self, mod: Mod | SettingUI | None, name: str, default: ..., description: str = ""):
+    def __init__(self, mod: Mod | None, name: str, default: ..., description: str = ""):
         """
         Abstract object for creating custom config parameters and storing them
-        :param config: config to link, can be None
+        :param mod: mod to link configurable
         :param name: name of object. should not contain spaces or any special characters
         :param default: default value of variable
         :param description: description in config menu
@@ -30,8 +30,6 @@ class Configurable(QObject):
         self.mod = mod
         if isinstance(mod, Mod):
             self.link_mod(mod)
-        elif isinstance(mod, SettingUI):
-            self.link_setting(mod)
 
     def link_mod(self, mod):
         self.mod = mod
@@ -62,10 +60,6 @@ class Configurable(QObject):
 
     def __call__(self, *args, **kwargs):
         return self.value
-
-    def link_setting(self, setting: SettingUI):
-        setting.settings.append(self)
-        return self
 
     def __repr__(self):
         return f"{self.name}={self.value}"

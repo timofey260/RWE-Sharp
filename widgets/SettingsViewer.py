@@ -73,6 +73,7 @@ class SettingsViewer(QWidget):
             self.settingui.apply_values()
             self.ui.close()
         elif button == self.message.button(QMessageBox.StandardButton.No):
+            self.settingui.reset_values_default()
             self.ui.close()
 
     def answer_settings(self, button: QAbstractButton):
@@ -101,4 +102,6 @@ class SettingsViewer(QWidget):
     def clear_settings(self):
         for i in self.children():
             i.deleteLater()
+        if self.settingui is not None:
+            self.settingui.reset_values_default()
         self.settingui = None
