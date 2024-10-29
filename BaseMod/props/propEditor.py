@@ -23,12 +23,13 @@ class PropEditor(Editor):
         self.placingprop = PropRenderable(mod, self.prop).add_myself(self)
         self.depth = 0
         self.notes = []
-        self.applysettings()
+        self.setprop([self.props.find_prop("CogA1")])
 
     def setprop(self, props: list[Prop]):
         if len(props) > 0:
             self.prop = props[0]
         self.placingprop.setprop(self.prop)
+        self.applysettings()
 
     def move_event(self, pos):
         super().move_event(pos)

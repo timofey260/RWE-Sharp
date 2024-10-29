@@ -1,6 +1,7 @@
 from RWESharp.Modify import Module
 from RWESharp.Configurable import BoolConfigurable
 from BaseMod.props.propRenderable import PropRenderable
+from BaseMod.props.Handle import Handle
 
 
 class PropModule(Module):
@@ -11,6 +12,7 @@ class PropModule(Module):
         super().__init__(mod)
         self.opshift = BoolConfigurable(mod, "VIEW_props.opshift", True, "Opacity shift")
         self.props: list[PropRenderable] = []
+        Handle(mod).add_myself(self)
         self.render_props()
 
     def render_props(self):

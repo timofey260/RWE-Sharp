@@ -1,5 +1,5 @@
 from __future__ import annotations
-from PySide6.QtWidgets import QWidget, QPushButton
+from PySide6.QtWidgets import QWidget, QAbstractButton, QAbstractSlider
 from typing import TYPE_CHECKING
 from abc import ABC, abstractmethod
 from core.info import PATH_FILES_CACHE
@@ -23,12 +23,13 @@ class UI(QWidget):
             return
         ch: list[QWidget] = self.findChildren(QWidget)
         for i in ch:
-            print(i)
-            if isinstance(i, QPushButton):
-                i.clicked.connect(self._answer(i, f"buton {i.objectName()} pressed"))  # todo
+            if isinstance(i, QAbstractButton):
+                i.clicked.connect(self._answer(i, f"b {i.objectName()} pressed"))  # todo
+            elif isinstance(i, QAbstractSlider):
+                i.valueChanged.connect(self._answer(i, f"s {i.objectName()} changed {i.value()}"))  # todo
 
     def _answer(self, obj, text):
-        return lambda x: print(text, obj, file=logfile, flush=True)
+        return lambda x: print(text, file=logfile, flush=True)
 
 
 class ViewUI(UI):

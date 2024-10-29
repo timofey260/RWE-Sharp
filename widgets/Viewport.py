@@ -96,6 +96,9 @@ class ViewPort(QGraphicsView):
             i.level_resized()
 
     def wheelEvent(self, event):
+        if self.scene().mouseGrabberItem() is not None:
+            super().wheelEvent(event)
+            return
         mods = QApplication.keyboardModifiers()
         #print(self.map.scale() + (event.angleDelta().y() / 80))
         if mods == mods.ShiftModifier:
@@ -121,6 +124,9 @@ class ViewPort(QGraphicsView):
         #self.horizontalScrollBar().adjustSize()
 
     def mouseMoveEvent(self, event):
+        if self.scene().mouseGrabberItem() is not None:
+            super().mouseMoveEvent(event)
+            return
         offset = event.pos() - self.mouse_pos
         if self.mouse_middle:
             # self.origin.setX(self.origin.x() + offset.x())
@@ -131,6 +137,7 @@ class ViewPort(QGraphicsView):
         self.mouse_pos = event.pos()
         self.editor.mouse_move_event(event)
         self.editor.move_event(self.topleft.pos())
+        super().mouseMoveEvent(event)
 
     def viewport_to_editor(self, point: QPoint) -> QPoint:
         npoint = point.toPointF() + QPointF(self.horizontalScrollBar().value(), self.verticalScrollBar().value()) - self.topleft.pos()
