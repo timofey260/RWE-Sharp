@@ -49,6 +49,10 @@ class PropRenderable(Renderable):
         self.move_event(self.viewport.topleft.pos())
         #self.draw_layer()
         #self.retransform()
+        #self.free_transform()
+
+    def post_init_graphics(self):
+        self.free_transform()
 
     def remove_graphics(self):
         self.renderedtexture.removeFromIndex()
@@ -85,3 +89,18 @@ class PropRenderable(Renderable):
         self.renderedtexture.setTransformOriginPoint(self.actual_offset)
         self.renderedtexture.setTransform(transform)
         #self.renderedtexture.setScale(self.zoom)
+
+    def free_transform(self):
+        from BaseMod.props.Handle import Handle
+        self.points = []
+        for i in range(4):
+            self.points.append(Handle(self.mod).add_myself(self.added))
+            self.points[i].init_graphics()
+            self.points[i].setPos(self.transform[i])
+            self.points[i].posChanged.connect(self.pointchange(i))
+
+    def pointchange(self, i):
+        def p(v):
+            self.transform[i] = v
+            self.retransform()
+        return p

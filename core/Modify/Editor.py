@@ -31,6 +31,8 @@ class Editor(ABC):
         """
         for i in self.renderables:
             i.init_graphics()
+        for i in self.renderables:
+            i.post_init_graphics()
 
     def mouse_move_event(self, event: QMoveEvent):
         pass

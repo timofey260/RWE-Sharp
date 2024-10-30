@@ -2,12 +2,15 @@ from RWESharp.Renderable import Renderable
 
 from PySide6.QtWidgets import QGraphicsRectItem, QGraphicsSceneMouseEvent
 from PySide6.QtGui import QPen, QBrush, QColor
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt, Signal, QPointF, QObject
 
 
-class HandleItem(QGraphicsRectItem):
+class HandleItem(QGraphicsRectItem, QObject):
+    posChanged = Signal(QPointF)
+
     def __init__(self, handle):
-        super().__init__(-5, -5, 10, 10)
+        QGraphicsRectItem.__init__(self, -5, -5, 10, 10)
+        QObject.__init__(self)
         self.handle = handle
         self.setPen(QPen(QColor(0, 0, 0), 2))
         self.setBrush(QBrush(QColor(255, 255, 255)))
@@ -18,6 +21,7 @@ class HandleItem(QGraphicsRectItem):
     def mouseMoveEvent(self, event):
         #super().mouseMoveEvent(event)
         self.handle.setPos(self.handle.offset + (event.pos() - event.lastPos()) * (1 / self.handle.zoom))
+        self.posChanged.emit(self.handle.offset)
 
     def mousePressEvent(self, event):
         event.accept()
@@ -56,3 +60,7 @@ class Handle(Renderable):
         super().setPos(pos)
         if self.handle is not None:
             self.handle.setPos(self.actual_offset)
+
+    @property
+    def posChanged(self):
+        return self.handle.posChanged

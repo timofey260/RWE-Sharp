@@ -5,24 +5,27 @@ from abc import abstractmethod, ABC
 
 
 class Renderable(ABC):
-    from widgets import Viewport
-
     def __init__(self, mod, depth: int):
         from core.Modify.Mod import Mod
         self.mod: Mod = mod
         self.depth: int = -depth
         self.pos: QPointF = QPointF()
         self.offset: QPointF = QPointF()
+        self.added: Module | Editor | None = None
 
     def add_myself(self, where: Module | Editor):
         if isinstance(where, Module):
             where.add_renderable(self)
         elif isinstance(where, Editor):
             where.add_renderable(self)
+        self.added = where
         return self
 
     @abstractmethod
     def init_graphics(self):
+        pass
+
+    def post_init_graphics(self):
         pass
 
     @abstractmethod
