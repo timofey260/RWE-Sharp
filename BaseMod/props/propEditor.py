@@ -8,7 +8,6 @@ from BaseMod.props.propExplorer import PropExplorer
 from BaseMod.props.propRenderable import PropRenderable
 from BaseMod.props.propHistory import PropPlace
 
-from PySide6.QtGui import QGuiApplication
 from PySide6.QtCore import QPointF
 
 import random as rnd
@@ -24,22 +23,38 @@ class PropEditor(Editor):
         self.depth = 0
         self.notes = []
         self.setprop([self.props.find_prop("CogA1")])
+        self.prop_settings = {"renderorder": 0, "seed": rnd.randint(0, 1000), "renderTime": 0}
+        self.editingprop = False
 
     def setprop(self, props: list[Prop]):
         if len(props) > 0:
             self.prop = props[0]
         self.placingprop.setprop(self.prop)
         self.applysettings()
+        self.reset_transform()
 
     def move_event(self, pos):
         super().move_event(pos)
-        w, h, = self.prop.size.width() / 2, self.prop.size.height() / 2
-        self.transform = [QPointF(-w, -h), QPointF(w, -h), QPointF(w, h), QPointF(-w, h)]
-        self.placingprop.setPos(self.viewport.viewport_to_editor_float(self.mouse_pos.toPointF()) * CELLSIZE)
+        if not self.editingprop:
+            self.placingprop.setPos(self.viewport.viewport_to_editor_float(self.mouse_pos.toPointF()) * CELLSIZE)
 
     def mouse_left_press(self):
         super().mouse_left_press()
         self.place()
+
+    def free_transform(self):
+        if self.editingprop:
+            self.editingprop = False
+            self.placingprop.delete_handlers()
+            self.viewport.clean()
+            return
+        self.editingprop = True
+        self.placingprop.free_transform()
+        self.viewport.clean()
+
+    def reset_transform(self):
+        w, h, = self.prop.size.width() / 2, self.prop.size.height() / 2
+        self.transform = [QPointF(-w, -h), QPointF(w, -h), QPointF(w, h), QPointF(-w, h)]
 
     @property
     def transform(self) -> [QPointF, QPointF, QPointF, QPointF]:

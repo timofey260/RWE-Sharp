@@ -26,12 +26,9 @@ class HandleItem(QGraphicsRectItem, QObject):
     def mousePressEvent(self, event):
         event.accept()
         print(self.scene().mouseGrabberItem())
-        #super().mousePressEvent(event)
-        print("mpress")
 
     def mouseReleaseEvent(self, event):
-        #super().mouseReleaseEvent(event)
-        print("mrel")
+        print()
 
 
 class Handle(Renderable):

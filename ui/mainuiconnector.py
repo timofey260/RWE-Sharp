@@ -17,7 +17,6 @@ class MainWindow(QMainWindow):
     '''
     def __init__(self, app, filename=None):
         """
-
         :param filename:  file to load by default
         """
         from core.Manager import Manager

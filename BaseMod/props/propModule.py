@@ -30,7 +30,7 @@ class PropModule(Module):
     def remove_render_prop(self, index: int):
         p = self.props.pop(index)
         p.remove_graphics()
-        self.renderables.remove(p)
+        p.remove_myself()
 
     def remove_prop(self, index: int):
         self.remove_render_prop(index)

@@ -1,5 +1,5 @@
 from __future__ import annotations
-from PySide6.QtGui import QMoveEvent, QMouseEvent, QWheelEvent
+from PySide6.QtGui import QMoveEvent, QMouseEvent, QWheelEvent, QGuiApplication
 from PySide6.QtCore import QPoint
 from PySide6.QtWidgets import QGraphicsScene
 from typing import TYPE_CHECKING
@@ -122,3 +122,7 @@ class Editor(ABC):
     @property
     def basemod(self):
         return self.manager.basemod
+
+    @property
+    def modifiers(self):
+        return QGuiApplication.keyboardModifiers()

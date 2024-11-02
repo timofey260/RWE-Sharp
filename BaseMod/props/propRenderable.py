@@ -7,8 +7,7 @@ from PySide6.QtCore import QPoint, QPointF
 from PySide6.QtGui import QTransform, QPolygonF, QPainter, QPixmap, QImage
 from PySide6.QtWidgets import QGraphicsPixmapItem
 
-from widgets import Viewport
-import os
+from BaseMod.props.Handle import Handle
 
 
 class PropRenderable(Renderable):
@@ -33,6 +32,7 @@ class PropRenderable(Renderable):
         self.propdepth = 0
         w, h = prop.images[0].width(), prop.images[0].height()
         self.transform: list[QPointF] = [QPointF(0, 0), QPointF(w, 0), QPointF(w, h), QPointF(0, h)]
+        self.handlers: list[Handle] = []
 
     def setprop(self, prop: Prop):
         self.prop = prop
@@ -41,6 +41,11 @@ class PropRenderable(Renderable):
         self.transform: list[QPointF] = [QPointF(0, 0), QPointF(w, 0), QPointF(w, h), QPointF(0, h)]
         if self.renderedtexture is not None:
             self.renderedtexture.setPixmap(QPixmap.fromImage(self.image))
+        if len(self.handlers) > 0:
+            self.delete_handlers()
+            self.free_transform()
+            self.retransform()
+            self.viewport.clean()
 
     def init_graphics(self):
         self.renderedtexture = self.viewport.workscene.addPixmap(QPixmap.fromImage(self.image))
@@ -50,9 +55,6 @@ class PropRenderable(Renderable):
         #self.draw_layer()
         #self.retransform()
         #self.free_transform()
-
-    def post_init_graphics(self):
-        self.free_transform()
 
     def remove_graphics(self):
         self.renderedtexture.removeFromIndex()
@@ -86,21 +88,26 @@ class PropRenderable(Renderable):
         layer = self.propdepth // 10
         alph = remap(abs(layer - self.propdepth / 10), 3, 0, 40, 190)
         self.renderedtexture.setOpacity(alph / 255)
-        self.renderedtexture.setTransformOriginPoint(self.actual_offset)
+        #self.renderedtexture.setTransformOriginPoint(self.actual_offset)
         self.renderedtexture.setTransform(transform)
         #self.renderedtexture.setScale(self.zoom)
 
+    def delete_handlers(self):
+        for i in self.handlers:
+            i.remove_graphics()
+            i.remove_myself()
+        self.handlers.clear()
+
     def free_transform(self):
-        from BaseMod.props.Handle import Handle
-        self.points = []
+        self.handlers = []
         for i in range(4):
-            self.points.append(Handle(self.mod).add_myself(self.added))
-            self.points[i].init_graphics()
-            self.points[i].setPos(self.transform[i])
-            self.points[i].posChanged.connect(self.pointchange(i))
+            self.handlers.append(Handle(self.mod).add_myself(self.added))
+            self.handlers[i].init_graphics()
+            self.handlers[i].setPos(self.transform[i] + self.offset)
+            self.handlers[i].posChanged.connect(self.pointchange(i))
 
     def pointchange(self, i):
         def p(v):
-            self.transform[i] = v
+            self.transform[i] = v - self.offset
             self.retransform()
         return p

@@ -47,6 +47,8 @@ class ViewPort(QGraphicsView):
 
     def mousePressEvent(self, event):
         super().mousePressEvent(event)
+        if self.scene().mouseGrabberItem() is not None:
+            return
         if event.buttons() & self.manager.basemod.bmconfig.main_button.value:
             self._lmb = True
             self.editor.mouse_left_press()
@@ -61,6 +63,8 @@ class ViewPort(QGraphicsView):
 
     def mouseReleaseEvent(self, event):
         super().mouseReleaseEvent(event)
+        if self.scene().mouseGrabberItem() is not None:
+            return
         if event.button() & self.manager.basemod.bmconfig.main_button.value:
             self._lmb = False
             self.editor.mouse_left_release()
@@ -88,6 +92,9 @@ class ViewPort(QGraphicsView):
     @property
     def editor(self):
         return self.manager.editor
+
+    def clean(self):
+        self.workscene.update(0, 0, 10000, 10000)
 
     def levelchanged(self):
         # for i in self.editor.renderables:

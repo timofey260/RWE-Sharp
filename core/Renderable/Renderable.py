@@ -21,6 +21,11 @@ class Renderable(ABC):
         self.added = where
         return self
 
+    def remove_myself(self):
+        if self.added is None:
+            return
+        self.added.renderables.remove(self)
+
     @abstractmethod
     def init_graphics(self):
         pass
@@ -37,9 +42,13 @@ class Renderable(ABC):
         pass
 
     def move_event(self, pos):
+        if pos is None:
+            return
         self.pos = pos
 
     def setPos(self, pos):
+        if pos is None:
+            return
         self.offset = pos
 
     @property
