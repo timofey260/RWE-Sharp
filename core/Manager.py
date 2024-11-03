@@ -5,7 +5,7 @@ from core.Modify.baseModule import Module
 from core.Modify.Theme import Theme
 from core.Config import Config
 from core.TreeElement import SettingElement, HotkeyElement
-from core.info import PATH_MODS
+from core.info import PATH_MODS, PATH_LEVELS
 from core.ModLoader import load_mod
 from core.utils import log
 from core.Loaders.Tile import Tiles
@@ -14,7 +14,7 @@ from core.Loaders.Effect import Effects
 from core.Application import Application
 from ui.mainuiconnector import MainWindow
 from widgets.Viewport import ViewPort
-from PySide6.QtWidgets import QWidget, QMenuBar, QMenu
+from PySide6.QtWidgets import QWidget, QMenuBar, QMenu, QFileDialog
 from PySide6.QtCore import Slot
 import os
 
@@ -226,6 +226,20 @@ class Manager:
     def save_level(self):
         for i in self.mods:
             i.on_save()
+        if self.level.file is None:
+            dialog = QFileDialog.getSaveFileName(self.window, "Save a level...", PATH_LEVELS, "Level files (*.txt *.wep *.rwl)", selectedFilter=".wep")
+            if dialog[0] == "":
+                return
+            self.level.file = dialog[0]
         self.level.save_file()
         # config saving
+        self.config.save_configs()
+
+    @Slot()
+    def save_level_as(self):
+        dialog = QFileDialog.getSaveFileName(self.window, "Save a level...", PATH_LEVELS, "Level files (*.txt *.wep *.rwl)", selectedFilter=".wep")
+        if dialog[0] == "":
+            return
+        self.level.file = dialog[0]
+        self.level.save_file()
         self.config.save_configs()

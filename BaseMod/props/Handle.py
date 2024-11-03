@@ -40,7 +40,7 @@ class Handle(Renderable):
         self.handle = HandleItem(self)
         self.viewport.workscene.addItem(self.handle)
         self.handle.setZValue(self.depth)
-        self.handle.setPos(self.actual_offset)
+        self.handle.setPos(self.offset)
 
     def remove_graphics(self):
         self.handle.removeFromIndex()

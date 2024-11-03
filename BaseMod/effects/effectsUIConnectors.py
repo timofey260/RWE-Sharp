@@ -83,7 +83,8 @@ class EffectsUI(UI):
         self.ui.OptionsTree.setAlternatingRowColors(True)
         self.ui.OptionsTree.setColumnCount(2)
         self.ui.OptionsTree.setHeaderLabels(['Setting', 'Value'])
-
+        if len(self.mod.manager.level.effects) == 0:
+            return
         effect = self.mod.manager.level.effects[self.editor.effectindex.value]
 
         for index, i in enumerate(effect["options"]):

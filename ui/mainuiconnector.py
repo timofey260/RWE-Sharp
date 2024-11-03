@@ -58,6 +58,8 @@ class MainWindow(QMainWindow):
 
         self.manager.basemod.bmconfig.save_key.link_action(self.ui.actionSave)
         self.ui.actionSave.triggered.connect(self.manager.save_level)
+        self.manager.basemod.bmconfig.save_as_key.link_action(self.ui.actionSave_As)
+        self.ui.actionSave_As.triggered.connect(self.manager.save_level_as)
 
         self.manager.basemod.bmconfig.undo_key.link_action(self.ui.actionUndo)
         self.ui.actionUndo.triggered.connect(self.manager.undo)

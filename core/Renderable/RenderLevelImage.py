@@ -13,4 +13,6 @@ class RenderLevelImage(RenderImage):
         self.image = QPixmap(QSize(self.mod.manager.level_width * CELLSIZE, self.mod.manager.level_height * CELLSIZE))
         self.image.fill(QColor(0, 0, 0, 0))
         self.painter.begin(self.image)
+        if self.renderedtexture is None:
+            return
         self.renderedtexture.setPixmap(self.image)

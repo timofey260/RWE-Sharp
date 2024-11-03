@@ -208,9 +208,13 @@ class RWELevel:
         _, ex = os.path.splitext(self.file)
         if ex == ".txt":
             self.turntolingo(open(self.file, "w"))
+            return True
         elif ex == ".wep":
             with open(self.file, "w") as f:
                 f.write(ujson.dumps(self.data.data))
+            return True
         elif ex == ".rwl":
             with open(self.file, "wb") as f:
                 f.write(RWLParser.save_rwl(self.data.data))
+            return True
+        return False
