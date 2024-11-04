@@ -14,9 +14,9 @@ from core.configTypes.BaseTypes import IntConfigurable
 
 colortable = [[], [], []]
 for l in range(3):
-    for i in range(3):
-        for i2 in range(10):
-            colortable[l].append(QColor(91 + 30 * i + i2 - 10 * l, 0, 0, 255).rgba())
+    for i in range(90):
+        colortable[l].append(QColor(max(0, 90 + i - l * 30), 0, 0, 255).rgba())
+            # colortable[l].append(QColor(91 + 30 * i + i2 - 10 * l, 0, 0, 255).rgba())
 colortable[0].append(QColor(0, 0, 0, 0).rgba())
 colortable[1].append(QColor(0, 0, 0, 0).rgba())
 colortable[2].append(QColor(0, 0, 0, 0).rgba())
@@ -85,10 +85,13 @@ def tile_offset(tile: Tile) -> QPoint:
 
 def color_colortable(color: QColor) -> list[int]:
     table = []
-    for i in range(3):
-        for i2 in range(10):
-            newcol = QColor.fromHsv(color.hue(), color.saturation(), color.value() - 90 + (30 * i + i2))
-            table.append(newcol.rgba())
+    # for i in range(3):
+    #     for i2 in range(10):
+    #         newcol = QColor.fromHsv(color.hue(), color.saturation(), color.value() - 90 + (30 * i + i2))
+    #         table.append(newcol.rgba())
+    for l in range(3):
+        for i in range(30):
+            table.append(QColor.fromHsv(color.hue(), color.saturation(), min(255, (145 + 45 * l) - (29 - i) * 15)).rgba())
     table.append(QColor(0, 0, 0, 0).rgba())
     return table
 
@@ -216,34 +219,46 @@ def loadTile(item, colr, category, catnum, indx) -> Tile | None:
         for i in range(repl):
             # for _ in range(repeats):
             widthcap = min(img2.width(), origimg.width())
-            p.drawImage(0, 0, origimg.copy(0, (repl - i - 1) * img2.height(), widthcap, img2.height()))
             # p.setOpacity(min(.2, i / repl + .5))
             p.setCompositionMode(QPainter.CompositionMode.CompositionMode_SourceAtop)
             p.fillRect(0, 0, img2.width(), img2.height(), QColor(0, 0, 0, renderstep))
             p.setCompositionMode(QPainter.CompositionMode.CompositionMode_SourceOver)
+            p.drawImage(0, 0, origimg.copy(0, (repl - i - 1) * img2.height(), widthcap, img2.height()))
     # img3 = img2.convertToFormat(QImage.Format.Format_Indexed8)
     # making image 3
     imagepix = img2.toImage()
     itempath = os.path.join(PATH_FILES_CACHE, item["nm"] + ".png")
+    # imagepix.save(os.path.join(PATH_FILES_CACHE, item["nm"] + "_true.png"))
     if os.path.exists(itempath):
         img3 = QImage(itempath)
     else:
-        img3 = QImage(img2.width(), img2.height(), QImage.Format.Format_RGBA64)
+        # img3 = QImage(img2.width(), img2.height(), QImage.Format.Format_RGBA64)
+        img3 = QImage(img2.width(), img2.height(), QImage.Format.Format_Indexed8)
+        img3.setColorTable(colortable[0])
         for xp in range(img3.width()):
             for yp in range(img3.height()):
                 pc = imagepix.pixelColor(xp, yp)
                 if pc.alpha() == 0 or pc.rgb() == QColor(0, 0, 0).rgb():
-                    img3.setPixelColor(xp, yp, QColor(0, 0, 0, 0))
+                    # img3.setPixelColor(xp, yp, QColor(0, 0, 0, 0))
+                    img3.setPixel(xp, yp, 90)
                     continue
-                if pc.red() > pc.green() == pc.blue():
-                    pc = QColor(91 + (255 - pc.red()) // renderstep, 0, 0, 255)
-                elif pc.green() > pc.red() == pc.blue():
-                    pc = QColor(121 + (255 - pc.green()) // renderstep, 0, 0, 255)
-                elif pc.blue() > pc.green() == pc.red():
-                    pc = QColor(151 + (255 - pc.blue()) // renderstep, 0, 0, 255)
-                img3.setPixelColor(xp, yp, pc)
-        img3 = img3.convertToFormat(QImage.Format.Format_Indexed8, colortable[0],
-                                    Qt.ImageConversionFlag.ThresholdDither)
+                npc = 0
+                # if pc.red() > pc.green() and pc.red() > pc.blue():
+                #     pc = QColor(91 + (255 - pc.red()) // renderstep, 0, 0, 255)
+                # elif pc.green() > pc.red() and pc.green() > pc.blue():
+                #     pc = QColor(121 + (255 - pc.green()) // renderstep, 0, 0, 255)
+                # elif pc.blue() > pc.green() and pc.blue() > pc.red():
+                #     pc = QColor(151 + (255 - pc.blue()) // renderstep, 0, 0, 255)
+                if pc.red() > pc.green() and pc.red() > pc.blue():
+                    npc = 0 + 29 - round((255 - pc.red()) / renderstep)
+                elif pc.green() > pc.red() and pc.green() > pc.blue():
+                    npc = 30 + 29 - round((255 - pc.green()) / renderstep)
+                elif pc.blue() > pc.green() and pc.blue() > pc.red():
+                    npc = 60 + 29 - round((255 - pc.blue()) / renderstep)
+                img3.setPixel(xp, yp, npc)
+                # img3.setPixelColor(xp, yp, pc)
+        # img3 = img3.convertToFormat(QImage.Format.Format_Indexed8, colortable[0],
+        #                             Qt.ImageConversionFlag.ThresholdDither)
         img3.save(itempath)
 
     return Tile(item["nm"], tp, item.get("repeatL", [1]), f"Tile", item.get("bfTiles", 0), QPixmap(img), img2, img3,

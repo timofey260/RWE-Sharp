@@ -116,6 +116,7 @@ def load_prop(item: dict, colr, category, catnum, indx):
         #img3.save(os.path.join(PATH_FILES_CACHE, f"test2.png"))
         newimg = img3.convertToFormat(QImage.Format.Format_Indexed8, colortable[0],
                                     Qt.ImageConversionFlag.ThresholdDither)
+        newimg = QPixmap.fromImage(newimg)
 
     for i in range(vars):
         images.append(newimg.copy(w * i, 0, w, h))
