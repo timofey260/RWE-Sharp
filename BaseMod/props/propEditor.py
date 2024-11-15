@@ -1,3 +1,4 @@
+
 from RWESharp.Modify import Editor
 from RWESharp.Core import CELLSIZE, SPRITESIZE
 from RWESharp.Configurable import KeyConfigurable

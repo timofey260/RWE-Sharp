@@ -13,5 +13,5 @@ class PropsUI(UI):
 
         self.free_transform = KeyConfigurable(mod, "EDIT_props.free_transform", "f", "Free transform")
 
-        self.free_transform.link_button(self.ui.changeBL)
-        self.ui.changeBL.clicked.connect(self.editor.free_transform)
+        self.free_transform.link_button(self.ui.FreeTransform)
+        self.ui.FreeTransform.clicked.connect(self.editor.free_transform)

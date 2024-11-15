@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'props.ui'
+## Form generated from reading UI file 'backup0SZPkye.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.7.2
+## Created by: Qt User Interface Compiler version 6.7.3
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -15,7 +15,7 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QFrame, QGridLayout, QHBoxLayout,
+from PySide6.QtWidgets import (QApplication, QDoubleSpinBox, QFrame, QGridLayout,
     QHeaderView, QLabel, QPushButton, QScrollArea,
     QSizePolicy, QSpacerItem, QTreeWidget, QTreeWidgetItem,
     QVBoxLayout, QWidget)
@@ -24,152 +24,92 @@ class Ui_Props(object):
     def setupUi(self, Props):
         if not Props.objectName():
             Props.setObjectName(u"Props")
-        Props.resize(339, 550)
-        self.verticalLayout = QVBoxLayout(Props)
-        self.verticalLayout.setObjectName(u"verticalLayout")
+        Props.resize(649, 882)
+        self.gridLayout_2 = QGridLayout(Props)
+        self.gridLayout_2.setObjectName(u"gridLayout_2")
         self.scrollArea = QScrollArea(Props)
         self.scrollArea.setObjectName(u"scrollArea")
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 307, 654))
-        self.verticalLayout_2 = QVBoxLayout(self.scrollAreaWidgetContents)
-        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
-        self.label_3 = QLabel(self.scrollAreaWidgetContents)
-        self.label_3.setObjectName(u"label_3")
-
-        self.verticalLayout_2.addWidget(self.label_3)
-
-        self.gridLayout_3 = QGridLayout()
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 629, 427))
+        self.gridLayout_3 = QGridLayout(self.scrollAreaWidgetContents)
         self.gridLayout_3.setObjectName(u"gridLayout_3")
-        self.changeTR = QPushButton(self.scrollAreaWidgetContents)
-        self.changeTR.setObjectName(u"changeTR")
+        self.NotesLabel = QLabel(self.scrollAreaWidgetContents)
+        self.NotesLabel.setObjectName(u"NotesLabel")
 
-        self.gridLayout_3.addWidget(self.changeTR, 0, 1, 1, 1)
+        self.gridLayout_3.addWidget(self.NotesLabel, 10, 0, 1, 1)
 
-        self.changeTL = QPushButton(self.scrollAreaWidgetContents)
-        self.changeTL.setObjectName(u"changeTL")
-        self.changeTL.setFlat(False)
+        self.frame_2 = QFrame(self.scrollAreaWidgetContents)
+        self.frame_2.setObjectName(u"frame_2")
+        self.frame_2.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_2.setFrameShadow(QFrame.Shadow.Raised)
+        self.verticalLayout = QVBoxLayout(self.frame_2)
+        self.verticalLayout.setObjectName(u"verticalLayout")
+        self.Notes = QLabel(self.frame_2)
+        self.Notes.setObjectName(u"Notes")
 
-        self.gridLayout_3.addWidget(self.changeTL, 0, 0, 1, 1)
-
-        self.changeBR = QPushButton(self.scrollAreaWidgetContents)
-        self.changeBR.setObjectName(u"changeBR")
-
-        self.gridLayout_3.addWidget(self.changeBR, 1, 1, 1, 1)
-
-        self.changeBL = QPushButton(self.scrollAreaWidgetContents)
-        self.changeBL.setObjectName(u"changeBL")
-
-        self.gridLayout_3.addWidget(self.changeBL, 1, 0, 1, 1)
+        self.verticalLayout.addWidget(self.Notes)
 
 
-        self.verticalLayout_2.addLayout(self.gridLayout_3)
+        self.gridLayout_3.addWidget(self.frame_2, 11, 0, 1, 1)
 
-        self.label_4 = QLabel(self.scrollAreaWidgetContents)
-        self.label_4.setObjectName(u"label_4")
+        self.ResetTransform = QPushButton(self.scrollAreaWidgetContents)
+        self.ResetTransform.setObjectName(u"ResetTransform")
 
-        self.verticalLayout_2.addWidget(self.label_4)
+        self.gridLayout_3.addWidget(self.ResetTransform, 5, 0, 1, 1)
 
-        self.horizontalLayout_2 = QHBoxLayout()
-        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
-        self.pushButton = QPushButton(self.scrollAreaWidgetContents)
-        self.pushButton.setObjectName(u"pushButton")
+        self.RootateLabel = QLabel(self.scrollAreaWidgetContents)
+        self.RootateLabel.setObjectName(u"RootateLabel")
 
-        self.horizontalLayout_2.addWidget(self.pushButton)
+        self.gridLayout_3.addWidget(self.RootateLabel, 0, 0, 1, 1)
 
-        self.pushButton_2 = QPushButton(self.scrollAreaWidgetContents)
-        self.pushButton_2.setObjectName(u"pushButton_2")
+        self.FreeTransform = QPushButton(self.scrollAreaWidgetContents)
+        self.FreeTransform.setObjectName(u"FreeTransform")
 
-        self.horizontalLayout_2.addWidget(self.pushButton_2)
+        self.gridLayout_3.addWidget(self.FreeTransform, 7, 0, 1, 1)
 
+        self.Fuckyou = QLabel(self.scrollAreaWidgetContents)
+        self.Fuckyou.setObjectName(u"Fuckyou")
 
-        self.verticalLayout_2.addLayout(self.horizontalLayout_2)
+        self.gridLayout_3.addWidget(self.Fuckyou, 8, 0, 1, 1)
 
-        self.label_5 = QLabel(self.scrollAreaWidgetContents)
-        self.label_5.setObjectName(u"label_5")
+        self.gridLayout_4 = QGridLayout()
+        self.gridLayout_4.setObjectName(u"gridLayout_4")
+        self.RotateMinus15 = QPushButton(self.scrollAreaWidgetContents)
+        self.RotateMinus15.setObjectName(u"RotateMinus15")
 
-        self.verticalLayout_2.addWidget(self.label_5)
+        self.gridLayout_4.addWidget(self.RotateMinus15, 0, 3, 1, 1)
 
-        self.gridLayout_2 = QGridLayout()
-        self.gridLayout_2.setObjectName(u"gridLayout_2")
-        self.pushButton_7 = QPushButton(self.scrollAreaWidgetContents)
-        self.pushButton_7.setObjectName(u"pushButton_7")
+        self.Rotateplus15 = QPushButton(self.scrollAreaWidgetContents)
+        self.Rotateplus15.setObjectName(u"Rotateplus15")
 
-        self.gridLayout_2.addWidget(self.pushButton_7, 1, 1, 1, 1)
+        self.gridLayout_4.addWidget(self.Rotateplus15, 0, 1, 1, 1)
 
-        self.pushButton_5 = QPushButton(self.scrollAreaWidgetContents)
-        self.pushButton_5.setObjectName(u"pushButton_5")
+        self.CustomRotateBox = QDoubleSpinBox(self.scrollAreaWidgetContents)
+        self.CustomRotateBox.setObjectName(u"CustomRotateBox")
+        self.CustomRotateBox.setDecimals(4)
+        self.CustomRotateBox.setMinimum(-360.000000000000000)
+        self.CustomRotateBox.setMaximum(360.000000000000000)
+        self.CustomRotateBox.setSingleStep(0.500000000000000)
 
-        self.gridLayout_2.addWidget(self.pushButton_5, 0, 1, 1, 1)
+        self.gridLayout_4.addWidget(self.CustomRotateBox, 1, 3, 1, 1)
 
-        self.pushButton_3 = QPushButton(self.scrollAreaWidgetContents)
-        self.pushButton_3.setObjectName(u"pushButton_3")
+        self.CustomRotate = QPushButton(self.scrollAreaWidgetContents)
+        self.CustomRotate.setObjectName(u"CustomRotate")
 
-        self.gridLayout_2.addWidget(self.pushButton_3, 1, 0, 1, 1)
-
-        self.pushButton_4 = QPushButton(self.scrollAreaWidgetContents)
-        self.pushButton_4.setObjectName(u"pushButton_4")
-
-        self.gridLayout_2.addWidget(self.pushButton_4, 0, 0, 1, 1)
-
-        self.pushButton_8 = QPushButton(self.scrollAreaWidgetContents)
-        self.pushButton_8.setObjectName(u"pushButton_8")
-
-        self.gridLayout_2.addWidget(self.pushButton_8, 0, 2, 1, 1)
-
-        self.pushButton_6 = QPushButton(self.scrollAreaWidgetContents)
-        self.pushButton_6.setObjectName(u"pushButton_6")
-
-        self.gridLayout_2.addWidget(self.pushButton_6, 1, 2, 1, 1)
-
-        self.pushButton_9 = QPushButton(self.scrollAreaWidgetContents)
-        self.pushButton_9.setObjectName(u"pushButton_9")
-
-        self.gridLayout_2.addWidget(self.pushButton_9, 2, 0, 1, 1)
-
-        self.pushButton_10 = QPushButton(self.scrollAreaWidgetContents)
-        self.pushButton_10.setObjectName(u"pushButton_10")
-
-        self.gridLayout_2.addWidget(self.pushButton_10, 2, 1, 1, 1)
+        self.gridLayout_4.addWidget(self.CustomRotate, 1, 1, 1, 1)
 
 
-        self.verticalLayout_2.addLayout(self.gridLayout_2)
-
-        self.pushButton_12 = QPushButton(self.scrollAreaWidgetContents)
-        self.pushButton_12.setObjectName(u"pushButton_12")
-
-        self.verticalLayout_2.addWidget(self.pushButton_12)
-
-        self.pushButton_11 = QPushButton(self.scrollAreaWidgetContents)
-        self.pushButton_11.setObjectName(u"pushButton_11")
-
-        self.verticalLayout_2.addWidget(self.pushButton_11)
-
-        self.label_2 = QLabel(self.scrollAreaWidgetContents)
-        self.label_2.setObjectName(u"label_2")
-
-        self.verticalLayout_2.addWidget(self.label_2)
+        self.gridLayout_3.addLayout(self.gridLayout_4, 1, 0, 1, 1)
 
         self.frame = QFrame(self.scrollAreaWidgetContents)
         self.frame.setObjectName(u"frame")
-        self.frame.setFrameShape(QFrame.Shape.StyledPanel)
-        self.frame.setFrameShadow(QFrame.Shadow.Raised)
+        self.frame.setFrameShape(QFrame.Shape.NoFrame)
         self.gridLayout = QGridLayout(self.frame)
         self.gridLayout.setObjectName(u"gridLayout")
-        self.Notes = QLabel(self.frame)
-        self.Notes.setObjectName(u"Notes")
-        self.Notes.setWordWrap(True)
 
-        self.gridLayout.addWidget(self.Notes, 1, 0, 1, 1)
-
-
-        self.verticalLayout_2.addWidget(self.frame)
-
-        self.label = QLabel(self.scrollAreaWidgetContents)
-        self.label.setObjectName(u"label")
-
-        self.verticalLayout_2.addWidget(self.label)
+        self.gridLayout_3.addWidget(self.frame, 9, 1, 1, 1)
 
         self.PropOptions = QTreeWidget(self.scrollAreaWidgetContents)
         __qtreewidgetitem = QTreeWidgetItem()
@@ -178,15 +118,25 @@ class Ui_Props(object):
         self.PropOptions.setObjectName(u"PropOptions")
         self.PropOptions.header().setVisible(False)
 
-        self.verticalLayout_2.addWidget(self.PropOptions)
+        self.gridLayout_3.addWidget(self.PropOptions, 9, 0, 1, 1)
 
-        self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+        self.FreeRotate = QPushButton(self.scrollAreaWidgetContents)
+        self.FreeRotate.setObjectName(u"FreeRotate")
 
-        self.verticalLayout_2.addItem(self.verticalSpacer)
+        self.gridLayout_3.addWidget(self.FreeRotate, 3, 0, 1, 1)
+
+        self.Transgender = QLabel(self.scrollAreaWidgetContents)
+        self.Transgender.setObjectName(u"Transgender")
+
+        self.gridLayout_3.addWidget(self.Transgender, 2, 0, 1, 1)
 
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
 
-        self.verticalLayout.addWidget(self.scrollArea)
+        self.gridLayout_2.addWidget(self.scrollArea, 0, 0, 1, 1)
+
+        self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+
+        self.gridLayout_2.addItem(self.verticalSpacer, 1, 0, 1, 1)
 
 
         self.retranslateUi(Props)
@@ -196,30 +146,16 @@ class Ui_Props(object):
 
     def retranslateUi(self, Props):
         Props.setWindowTitle(QCoreApplication.translate("Props", u"Props", None))
-        self.label_3.setText(QCoreApplication.translate("Props", u"Change Points:", None))
-        self.changeTR.setText(QCoreApplication.translate("Props", u"TR", None))
-#if QT_CONFIG(shortcut)
-        self.changeTR.setShortcut(QCoreApplication.translate("Props", u"A", None))
-#endif // QT_CONFIG(shortcut)
-        self.changeTL.setText(QCoreApplication.translate("Props", u"TL", None))
-        self.changeBR.setText(QCoreApplication.translate("Props", u"BR", None))
-        self.changeBL.setText(QCoreApplication.translate("Props", u"BL", None))
-        self.label_4.setText(QCoreApplication.translate("Props", u"Rotate:", None))
-        self.pushButton.setText(QCoreApplication.translate("Props", u"-15\u00ba", None))
-        self.pushButton_2.setText(QCoreApplication.translate("Props", u"+15\u00ba", None))
-        self.label_5.setText(QCoreApplication.translate("Props", u"Stretch", None))
-        self.pushButton_7.setText(QCoreApplication.translate("Props", u"Right", None))
-        self.pushButton_5.setText(QCoreApplication.translate("Props", u"Bottom", None))
-        self.pushButton_3.setText(QCoreApplication.translate("Props", u"Left", None))
-        self.pushButton_4.setText(QCoreApplication.translate("Props", u"Top", None))
-        self.pushButton_8.setText(QCoreApplication.translate("Props", u"TopBottom", None))
-        self.pushButton_6.setText(QCoreApplication.translate("Props", u"LeftRight", None))
-        self.pushButton_9.setText(QCoreApplication.translate("Props", u"Scale", None))
-        self.pushButton_10.setText(QCoreApplication.translate("Props", u"Offset", None))
-        self.pushButton_12.setText(QCoreApplication.translate("Props", u"Free Transform", None))
-        self.pushButton_11.setText(QCoreApplication.translate("Props", u"Reset Transform", None))
-        self.label_2.setText(QCoreApplication.translate("Props", u"Notes:", None))
+        self.NotesLabel.setText(QCoreApplication.translate("Props", u"Notes:", None))
         self.Notes.setText(QCoreApplication.translate("Props", u"TextLabel", None))
-        self.label.setText(QCoreApplication.translate("Props", u"Options:", None))
+        self.ResetTransform.setText(QCoreApplication.translate("Props", u"Reset Transform", None))
+        self.RootateLabel.setText(QCoreApplication.translate("Props", u"Rotate:", None))
+        self.FreeTransform.setText(QCoreApplication.translate("Props", u"Free Transform", None))
+        self.Fuckyou.setText(QCoreApplication.translate("Props", u"Options:", None))
+        self.RotateMinus15.setText(QCoreApplication.translate("Props", u"-15\u00ba", None))
+        self.Rotateplus15.setText(QCoreApplication.translate("Props", u"+15\u00ba", None))
+        self.CustomRotate.setText(QCoreApplication.translate("Props", u"rotate by:", None))
+        self.FreeRotate.setText(QCoreApplication.translate("Props", u"Free Rotate", None))
+        self.Transgender.setText(QCoreApplication.translate("Props", u"Transform", None))
     # retranslateUi
 
