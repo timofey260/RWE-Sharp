@@ -49,3 +49,6 @@ class PropModule(Module):
     def move_prop(self, index: int, newindex: int):
         self.props.insert(newindex, self.props.pop(index))
         self.manager.level.props.insert(newindex, self.manager.level.props.pop(index))
+
+    def level_resized(self):
+        self.render_props()

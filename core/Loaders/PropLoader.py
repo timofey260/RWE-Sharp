@@ -60,6 +60,10 @@ def load_prop(item: dict, colr, category, catnum, indx):
     if not standard or soft:
         mask = img.createMaskFromColor(QColor(255, 255, 255, 255).rgba(), Qt.MaskMode.MaskOutColor)
         mask.setColorTable([4294967295, 0])
+        mask2 = img.createMaskFromColor(QColor(0, 0, 0, 0).rgba(), Qt.MaskMode.MaskOutColor)
+        mask2.setColorTable([4294967295, 0])
+        mask3 = img.createMaskFromColor(QColor(0, 0, 0, 255).rgba(), Qt.MaskMode.MaskOutColor)
+        mask3.setColorTable([4294967295, 0])
         # mask.save(os.path.join(PATH_FILES_CACHE, f"{path}_test_0.png"))
         # img.save(os.path.join(PATH_FILES_CACHE, f"{path}_test_1.png"))
         newimg = QPixmap(img.size())
@@ -68,6 +72,8 @@ def load_prop(item: dict, colr, category, catnum, indx):
         painter.drawImage(0, 0, img)
         painter.setCompositionMode(QPainter.CompositionMode.CompositionMode_DestinationOut)
         painter.drawImage(0, 0, mask)
+        painter.drawImage(0, 0, mask2)
+        painter.drawImage(0, 0, mask3)
         painter.end()
         # if soft:
         #     newimg = newimg.copy(0, 0, ws, h)
