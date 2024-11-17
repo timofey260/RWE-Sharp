@@ -139,14 +139,33 @@ def init_solve(file: str):
 
 def palette_to_colortable(palette: QImage) -> list[list[list[int], list[int], list[int]], list[list[int], list[int], list[int]], list[list[int], list[int], list[int]], QColor, QColor]:
     table = [[[], [], []], [[], [], []], [[], [], []], palette.pixelColor(0, 0), palette.pixelColor(0, 8)] # 3x3x3 array
+    # table[0][1] = [QColor(0, 0, 0).rgb()] * 30
+    # table[0][2] = [QColor(0, 0, 0).rgb()] * 60
+    # table[1][1] = [QColor(0, 0, 0).rgb()] * 30
+    # table[1][2] = [QColor(0, 0, 0).rgb()] * 60
+    # table[2][1] = [QColor(0, 0, 0).rgb()] * 30
+    # table[2][2] = [QColor(0, 0, 0).rgb()] * 60
     for k in range(3):
-        for l in range(3):
-            for i in range(30):
-                pc = palette.pixelColor(i, [2, 5, 13][k] + l)
-                table[k][i // 10].append(pc.rgb())
-        table[k][0].append(QColor(0, 0, 0, 0).rgba())
-        table[k][1].append(QColor(0, 0, 0, 0).rgba())
-        table[k][2].append(QColor(0, 0, 0, 0).rgba())
+        for l in range(90):
+            x = 29 - l % 30
+            y = l // 30
+            table[k][0].append(palette.pixelColor(x, [2, 5, 13][k] + y).rgb())
+            # y = (y - 1) % 3
+            table[k][1].append(palette.pixelColor(x, [2, 5, 13][k] + y).rgb() if y < 2 else QColor(0, 0, 0).rgb())
+            table[k][2].append(palette.pixelColor(x, [2, 5, 13][k] + y).rgb() if y < 1 else QColor(0, 0, 0).rgb())
+        # for l in range(3):
+        #     for i in range(30):
+        #         # pc = palette.pixelColor(i, [2, 5, 13][k] + l)
+        #         # table[k][i // 10].append(pc.rgb())
+        #         pc1 = palette.pixelColor(29 - i, [2, 5, 13][k] + l)
+        #         pc2 = palette.pixelColor(29 - i, [2, 5, 13][k] + l + 1) if l < 1 else QColor(0, 0, 0)
+        #         pc3 = palette.pixelColor(29 - i, [2, 5, 13][k] + l + 2) if l < 2 else QColor(0, 0, 0)
+        #         table[k][0].append(pc1.rgb())
+        #         table[k][1].append(pc2.rgb())
+        #         table[k][2].append(pc3.rgb())
+        table[k][0].insert(90, QColor(0, 0, 0, 0).rgba())
+        table[k][1].insert(90, QColor(0, 0, 0, 0).rgba())
+        table[k][2].insert(90, QColor(0, 0, 0, 0).rgba())
     return table
 
 
