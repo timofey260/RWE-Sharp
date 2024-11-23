@@ -149,10 +149,12 @@ def palette_to_colortable(palette: QImage) -> list[list[list[int], list[int], li
         for l in range(90):
             x = 29 - l % 30
             y = l // 30
-            table[k][0].append(palette.pixelColor(x, [2, 5, 13][k] + y).rgb())
+            table[k][0].append(palette.pixelColor(x, [4, 7, 15][k] - y).rgb())
             # y = (y - 1) % 3
-            table[k][1].append(palette.pixelColor(x, [2, 5, 13][k] + y).rgb() if y < 2 else QColor(0, 0, 0).rgb())
-            table[k][2].append(palette.pixelColor(x, [2, 5, 13][k] + y).rgb() if y < 1 else QColor(0, 0, 0).rgb())
+            x = (x + 10) % 30
+            table[k][1].append(palette.pixelColor(x, [4, 7, 15][k] - y).rgb())
+            x = (x + 10) % 30
+            table[k][2].append(palette.pixelColor(x, [4, 7, 15][k] - y).rgb())
         # for l in range(3):
         #     for i in range(30):
         #         # pc = palette.pixelColor(i, [2, 5, 13][k] + l)
