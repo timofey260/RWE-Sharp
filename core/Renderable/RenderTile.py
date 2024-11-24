@@ -27,12 +27,12 @@ class RenderTile(RenderImage):
         super().redraw()
         self.colsimage_rendered.setPixmap(self.colsimage)
 
-    def init_graphics(self):
-        super().init_graphics()
+    def init_graphics(self, viewport):
+        super().init_graphics(viewport)
         self.colsimage_rendered = self.viewport.workscene.addPixmap(self.colsimage)
 
-    def remove_graphics(self):
-        super().remove_graphics()
+    def remove_graphics(self, viewport):
+        super().remove_graphics(viewport)
         self.colsimage_rendered.removeFromIndex()
         self.colsimage_rendered = None
 

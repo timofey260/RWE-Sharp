@@ -97,7 +97,6 @@ class GeometryEditor(Editor):
         super().__init__(mod)
         from BaseMod.baseMod import BaseMod
         self.mod: BaseMod
-        self.module = self.mod.geomodule
 
         self.cursor = RenderRect(self.mod, 0, QRect(0, 0, CELLSIZE, CELLSIZE)).add_myself(self)
         self.rect = RenderRect(self.mod, 0, QRect(0, 0, CELLSIZE, CELLSIZE)).add_myself(self)
@@ -133,6 +132,10 @@ class GeometryEditor(Editor):
         self.brushsize.valueChanged.connect(self.repos_brush)
         self.toolcolor = ColorConfigurable(mod, "EDIT_geo.toolcolor", QColor(255, 0, 0, 255), "Tool color")
         self.toolcolor.valueChanged.connect(self.change_color)
+
+    @property
+    def module(self):
+        return self.viewport.modulenames["geo"]
 
     def change_color(self):
         self.rect.drawrect.setPen(self.toolcolor.value)
@@ -248,8 +251,8 @@ class GeometryEditor(Editor):
                 return -6, True
         return 0, False
 
-    def init_scene_items(self):
-        super().init_scene_items()
+    def init_scene_items(self, viewport):
+        super().init_scene_items(viewport)
         self.pixmap.renderedtexture.setOpacity(.3)
         self.rect.drawrect.setOpacity(0)
         self.ellipse.drawellipse.setOpacity(0)
@@ -260,9 +263,6 @@ class GeometryEditor(Editor):
         self.pixmap.painter.setCompositionMode(QPainter.CompositionMode.CompositionMode_Source)
         self.block_changed()
         self.change_color()
-        
-    def remove_items_from_scene(self):
-        super().remove_items_from_scene()
 
     def mouse_press_event(self, event: QMouseEvent):
         self.lastclick = self.mouse_pos

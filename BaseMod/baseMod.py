@@ -19,6 +19,8 @@ from PySide6.QtGui import QAction
 from RWESharp.Core import Manager
 import os
 
+from widgets.Viewport import ViewPort
+
 
 class BaseMod(Mod):
     def __init__(self, manager, path):
@@ -36,37 +38,32 @@ class BaseMod(Mod):
         #TODO not to do that ^
         self.bmconfig = BaseModConfig(self)
 
-        self.gridmodule = GridModule(self).add_myself()
+        # self.geoeditor = GeometryEditor(self)
+        # self.geoui = GeoUI(self)
+        # #self.geoview = GeoViewUI(self).add_myself()
+        # self.geoeditor.add_myself(self.geoui)
+        # #self.geosettings = GeoSettings(self)
 
-        self.geomodule = GeoModule(self).add_myself()
-        self.geoeditor = GeometryEditor(self)
-        self.geoui = GeoUI(self)
-        self.geoview = GeoViewUI(self).add_myself()
-        self.geoeditor.add_myself(self.geoui)
-        self.geosettings = GeoSettings(self)
-
-        self.tilemodule = TileModule(self).add_myself()
-        self.tileeditor = TileEditor(self)
-        self.tileview = TileViewUI(self).add_myself()
-        self.tileui = TileUI(self)
-        self.tilesettings = TileSettings(self) # todo
-        self.tileeditor.add_myself(self.tileui)
-
-        self.effecteditor = EffectEditor(self)
-        self.effectui = EffectsUI(self)
-        self.effecteditor.add_myself(self.effectui)
-
-        self.propmodule = PropModule(self).add_myself()
-        self.propeditor = PropEditor(self)
-        self.propui = PropsUI(self)
-        self.propeditor.add_myself(self.propui)
+        # self.tileeditor = TileEditor(self)
+        # self.tileview = TileViewUI(self).add_myself()
+        # self.tileui = TileUI(self)
+        # self.tilesettings = TileSettings(self) # todo
+        # self.tileeditor.add_myself(self.tileui)
+        #
+        # self.effecteditor = EffectEditor(self)
+        # self.effectui = EffectsUI(self)
+        # self.effecteditor.add_myself(self.effectui)
+        #
+        # self.propeditor = PropEditor(self)
+        # self.propui = PropsUI(self)
+        # self.propeditor.add_myself(self.propui)
 
         if self.bmconfig.funny.value:
             self.sex = QAction("sex")
             self.manager.tool_menu.addAction(self.sex)
             self.sex.triggered.connect(self.sexthing)
-
-        self.gridui = GridView(self).add_myself()
+        return
+        # self.gridui = GridView(self).add_myself()
 
         self.settingtree = SettingElement(self, self.modinfo.title, self.modinfo.name).add_myself()
         SettingElement(self, "Theme", "pref", PreferencesUI(self), self.settingtree)
@@ -108,3 +105,10 @@ class BaseMod(Mod):
     def on_save(self):
         self.bmconfig.windowstate.update_value(self.manager.window.saveState())
         self.bmconfig.windowgeo.update_value(self.manager.window.saveGeometry())
+
+    def level_opened(self, viewport: ViewPort):
+        # GeoModule(self).add_myself(viewport)
+        # TileModule(self).add_myself(viewport)
+        GridModule(self).add_myself(viewport)
+        # # effects
+        # PropModule(self).add_myself(viewport)

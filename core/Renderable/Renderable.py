@@ -1,7 +1,11 @@
+from __future__ import annotations
 from PySide6.QtCore import QPointF
 from core.Modify.baseModule import Module
 from core.Modify.Editor import Editor
 from abc import abstractmethod, ABC
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from widgets.Viewport import ViewPort
 
 
 class Renderable(ABC):
@@ -12,6 +16,7 @@ class Renderable(ABC):
         self.pos: QPointF = QPointF()
         self.offset: QPointF = QPointF()
         self.added: Module | Editor | None = None
+        self.viewport: None | ViewPort = None
 
     def add_myself(self, where: Module | Editor):
         if isinstance(where, Module):
@@ -27,15 +32,15 @@ class Renderable(ABC):
         self.added.renderables.remove(self)
 
     @abstractmethod
-    def init_graphics(self):
-        pass
+    def init_graphics(self, viewport):
+        self.viewport = viewport
 
-    def post_init_graphics(self):
+    def post_init_graphics(self, viewport):
         pass
 
     @abstractmethod
-    def remove_graphics(self):
-        pass
+    def remove_graphics(self, viewport):
+        self.viewport = None
 
     @abstractmethod
     def zoom_event(self, zoom):
@@ -65,7 +70,3 @@ class Renderable(ABC):
     @property
     def manager(self):
         return self.mod.manager
-
-    @property
-    def viewport(self):
-        return self.manager.viewport

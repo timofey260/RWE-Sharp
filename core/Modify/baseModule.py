@@ -36,8 +36,10 @@ class Module(ABC):
     def add_renderable(self, renderable: Renderable):
         self.renderables.append(renderable)
 
-    def add_myself(self):
-        self.mod.add_module(self)
+    def add_myself(self, viewport, name=None):
+        viewport.add_module(self)
+        if name is not None:
+            viewport.modulenames[name] = self
         return self
 
     def zoom_event(self, zoom):

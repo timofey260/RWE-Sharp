@@ -11,6 +11,7 @@ if TYPE_CHECKING:
     from core.Modify.Theme import Theme
     from core.Manager import Manager
     from core.TreeElement import SettingElement, HotkeyElement
+    from widgets.Viewport import ViewPort
 
 
 @dataclass(frozen=True, init=True)
@@ -69,5 +70,12 @@ class Mod(ABC):
     def on_save(self):
         """
         Gets called before save
+        :return:
+        """
+
+    def level_opened(self, viewport: ViewPort):
+        """
+        Gets called whenever user opens level
+        :param viewport: viewport the level was opened in
         :return:
         """

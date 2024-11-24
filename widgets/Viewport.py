@@ -17,7 +17,7 @@ class ViewPort(QGraphicsView):
     def __init__(self, parent):
         from core.Manager import Manager
         super().__init__(parent)
-        self.manager: Manager = None
+        self.manager: Manager | None = None
         self.workscene: QGraphicsScene = QGraphicsScene(self)
         self.setScene(self.workscene)
         self.zoom = 1
@@ -30,6 +30,8 @@ class ViewPort(QGraphicsView):
         self._rmb = False
         self._mmb = False
         self.mouse_pos = QPoint()
+        self.modules: list[Module] = []
+        self.modulenames: dict[str, Module] = {}
 
     @Slot()
     def redraw(self):
@@ -37,9 +39,9 @@ class ViewPort(QGraphicsView):
 
     def add_module(self, module: Module):
         for i in module.renderables:
-            i.init_graphics()
+            i.init_graphics(self)
         for i in module.renderables:
-            i.post_init_graphics()
+            i.post_init_graphics(self)
 
     def add_managed_fields(self, manager):
         self.manager = manager
@@ -99,7 +101,7 @@ class ViewPort(QGraphicsView):
     def levelchanged(self):
         # for i in self.editor.renderables:
         #     i.level_resized()
-        for i in self.manager.modules:
+        for i in self.modules:
             i.level_resized()
         for i in self.manager.editors:
             i.level_resized()
@@ -122,7 +124,7 @@ class ViewPort(QGraphicsView):
         self.zoom = max(0.01, self.zoom + (event.angleDelta().y() * (-1 if event.inverted() else 1) / 800))
         offset = (self.viewport_to_editor_float(self.mouse_pos.toPointF()) - pointbefore) * CELLSIZE * self.zoom
         self.topleft.setPos(self.topleft.pos() + offset)
-        for i in self.manager.modules:
+        for i in self.modules:
             i.zoom_event(self.zoom)
             i.move_event(self.topleft.pos())
         self.editor.mouse_wheel_event(event)
@@ -141,7 +143,7 @@ class ViewPort(QGraphicsView):
             # self.origin.setX(self.origin.x() + offset.x())
             # self.origin.setY(self.origin.y() + offset.y())
             self.topleft.setPos(self.topleft.pos() + offset)
-            for i in self.manager.modules:
+            for i in self.modules:
                 i.move_event(self.topleft.pos())
         self.mouse_pos = event.pos()
         self.editor.mouse_move_event(event)

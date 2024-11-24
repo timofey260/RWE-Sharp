@@ -49,10 +49,10 @@ class Manager:
         Editors made to edit specific stuff in level depending on editor
         """
 
-        self.modules: list[Module] = []
-        """
-        Modules are made for viewport modifying
-        """
+        # self.modules: list[Module] = []
+        # """
+        # Modules are made for viewport modifying
+        # """
         self.mods: list[Mod] = []
         """
         Mods are what powers RWE#
@@ -77,7 +77,7 @@ class Manager:
         self.mod_types = []
         from BaseMod.baseMod import BaseMod
 
-        self.config.init_configs()  # mounting configs and applying them
+        self.config.init_configs(self.application.args.reset)  # mounting configs and applying them
         self.basemod = BaseMod(self, "")
 
         self.mods.append(self.basemod)
@@ -110,16 +110,18 @@ class Manager:
                 return
 
     def init_modules(self):
-        for i in self.modules:
-            self.viewport.add_module(i)
-        for i in self.modules:
-            i.render_module()
+        for i in self.mods:
+            i.level_opened(self.viewport)
+        # for i in self.modules:
+        #     self.viewport.add_module(i)
+        # for i in self.modules:
+        #     i.render_module()
 
     def init_editors(self):
         if len(self.editors) <= 0:
             log("No editors found!!!", True)  # fucking explode idk
             return
-        self.editors[0].init_scene_items()
+        self.editors[0].init_scene_items(self.viewport)
 
     def init_mods(self):
         for i in self.mod_types:
@@ -139,9 +141,6 @@ class Manager:
         self.window.ui.ToolsTabs.addTab(ui, ui.objectName())
         #self.window.ui.menuEditors.addAction()
         # ui.setParent(self.window.ui.ToolsTabs)
-
-    def add_module(self, module):
-        self.modules.append(module)
 
     def add_view(self, ui: QWidget) -> None:
         self.window.ui.ViewTab.addTab(ui, ui.objectName())
@@ -204,13 +203,13 @@ class Manager:
         log(f"Couldn't find editor {name}", True)
 
     def change_editor(self, value: int):
-        self.editor.remove_items_from_scene()
+        self.editor.remove_items_from_scene(self.viewport)
         self.current_editor = value
-        self.editor.init_scene_items()
+        self.editor.init_scene_items(self.viewport)
         self.viewport.repaint()
         self.editor.zoom_event(self.viewport.zoom)
         self.editor.move_event(self.viewport.topleft.pos())
-        for i in self.modules:
+        for i in self.viewport.modules:
             i.zoom_event(self.viewport.zoom)
             i.move_event(self.viewport.topleft.pos())
 

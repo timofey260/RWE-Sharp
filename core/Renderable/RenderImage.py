@@ -9,6 +9,10 @@ class RenderImage(Renderable):
     def __init__(self, mod, depth, imagesize: QSize):
         super().__init__(mod, depth)
         self.image = QPixmap(imagesize)
+        p0 = QPixmap(5, 5)
+        p0.fill(QColor(0, 0, 0, 0))
+        p1 = QPainter()
+        p1.begin(p0)
         self.image.fill(QColor(0, 0, 0, 0))
         self.painter = QPainter(self.image)
         self.renderedtexture: QGraphicsPixmapItem | None = None
@@ -28,12 +32,14 @@ class RenderImage(Renderable):
         :return: None
         """
 
-    def init_graphics(self):
-        self.renderedtexture = self.viewport.workscene.addPixmap(self.image)
+    def init_graphics(self, viewport):
+        super().init_graphics(viewport)
+        self.renderedtexture = viewport.workscene.addPixmap(self.image)
         self.renderedtexture.setZValue(self.depth)
         self.draw_layer()
 
-    def remove_graphics(self):
+    def remove_graphics(self, viewport):
+        super().remove_graphics(viewport)
         self.renderedtexture.removeFromIndex()
         self.renderedtexture = None
 

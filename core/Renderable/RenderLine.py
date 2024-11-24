@@ -13,14 +13,15 @@ class RenderLine(Renderable):
         self.pen = QPen(pen)
         self.brush = QBrush(brush)
 
-    def init_graphics(self):
+    def init_graphics(self, viewport):
+        super().init_graphics(viewport)
         self.drawline = self.viewport.workscene.addLine(self.line)
         self.drawline.setZValue(self.depth)
         self.drawline.setPen(self.pen)
         # self.drawline.setBrush(self.brush)
 
-    def remove_graphics(self):
-        super().remove_graphics()
+    def remove_graphics(self, viewport):
+        super().remove_graphics(viewport)
         self.drawline.removeFromIndex()
         self.drawline = None
 

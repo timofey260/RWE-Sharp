@@ -22,17 +22,17 @@ class Editor(ABC):
         self.mod: mod = mod
         self.manager: Manager = mod.manager
         self.renderables: list[Renderable] = []
-        self.viewport: ViewPort = mod.manager.viewport
+        self.viewport: None | ViewPort = None
 
-    def init_scene_items(self):
+    def init_scene_items(self, viewport):
         """
         Called when editor is changed, should add drawables to scene
         :return:
         """
         for i in self.renderables:
-            i.init_graphics()
+            i.init_graphics(viewport)
         for i in self.renderables:
-            i.post_init_graphics()
+            i.post_init_graphics(viewport)
 
     def mouse_move_event(self, event: QMoveEvent):
         pass
@@ -54,13 +54,13 @@ class Editor(ABC):
         for i in self.renderables:
             i.move_event(pos)
 
-    def remove_items_from_scene(self):
+    def remove_items_from_scene(self, viewport):
         """
         Called when editor is changed, should remove anything it doesn't need
         :return: None
         """
         for i in self.renderables:
-            i.remove_graphics()
+            i.remove_graphics(viewport)
 
     def add_renderable(self, renderable: Renderable):
         self.renderables.append(renderable)
