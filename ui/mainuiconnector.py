@@ -45,7 +45,8 @@ class MainWindow(QMainWindow):
 
         self.manager.basemod.bmconfig.about_key.link_action(self.ui.actionAbout)
 
-        self.ui.viewPort.add_managed_fields(self.manager)
+        # self.ui.viewPort.add_managed_fields(self.manager)
+        self.ui.tabWidget.clear()
 
         # self.ui.menuRecent.addAction(QAction("lol", self.ui.menuRecent))
         self.ui.ToolsTabs.currentChanged.connect(self.change_editor)
