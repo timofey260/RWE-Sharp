@@ -41,7 +41,7 @@ class Manager:
         # self.levelpath: str = "" if file is None else file
         self.level = RWELevel(self, file)
 
-        self.viewport: ViewPort = self.window.ui.viewPort
+        self.viewports: list[ViewPort] = []
 
         self.current_editor = 0
         self.editors: list[Editor] = []
@@ -83,10 +83,12 @@ class Manager:
         self.mods.append(self.basemod)
         self.pre_init_mods()
         self.init_mods()
-        self.init_modules()
         self.init_editors()
         self.change_theme()
         log("Finished initiating")
+
+    def open_level(self):
+        pass # todo
 
     def change_level(self, path):
         self.level = None
@@ -109,19 +111,11 @@ class Manager:
                 log(f"Using Theme {i.name}")
                 return
 
-    def init_modules(self):
-        for i in self.mods:
-            i.level_opened(self.viewport)
-        # for i in self.modules:
-        #     self.viewport.add_module(i)
-        # for i in self.modules:
-        #     i.render_module()
-
     def init_editors(self):
         if len(self.editors) <= 0:
             log("No editors found!!!", True)  # fucking explode idk
             return
-        self.editors[0].init_scene_items(self.viewport)
+        self.editors[0].init_scene_items(self.selected_viewport)
 
     def init_mods(self):
         for i in self.mod_types:
@@ -156,11 +150,11 @@ class Manager:
 
     def undo(self):
         self.level.undo()
-        self.viewport.clean()
+        self.selected_viewport.clean()
 
     def redo(self):
         self.level.redo()
-        self.viewport.clean()
+        self.selected_viewport.clean()
 
     @property
     def view_menu(self) -> QMenu:
@@ -242,3 +236,7 @@ class Manager:
         self.level.file = dialog[0]
         self.level.save_file()
         self.config.save_configs()
+
+    @property
+    def selected_viewport(self):
+        return self.viewports[self.window.ui.ToolsTabs.currentIndex()]

@@ -9,10 +9,6 @@ class RenderImage(Renderable):
     def __init__(self, mod, depth, imagesize: QSize):
         super().__init__(mod, depth)
         self.image = QPixmap(imagesize)
-        p0 = QPixmap(5, 5)
-        p0.fill(QColor(0, 0, 0, 0))
-        p1 = QPainter()
-        p1.begin(p0)
         self.image.fill(QColor(0, 0, 0, 0))
         self.painter = QPainter(self.image)
         self.renderedtexture: QGraphicsPixmapItem | None = None

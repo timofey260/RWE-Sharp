@@ -3,6 +3,7 @@ from typing import TYPE_CHECKING
 from abc import ABC, abstractmethod
 if TYPE_CHECKING:
     from core.Renderable.Renderable import Renderable
+    from widgets.Viewport import ViewPort
 
 
 class Module(ABC):
@@ -10,8 +11,6 @@ class Module(ABC):
     Module for passive editor and viewport work
     """
     def __init__(self, mod):
-        from widgets.Viewport import ViewPort
-
         self.mod = mod
         self.manager = mod.manager
         self.renderables: list[Renderable] = []
@@ -36,7 +35,7 @@ class Module(ABC):
     def add_renderable(self, renderable: Renderable):
         self.renderables.append(renderable)
 
-    def add_myself(self, viewport, name=None):
+    def add_myself(self, viewport: ViewPort, name=None):
         viewport.add_module(self)
         if name is not None:
             viewport.modulenames[name] = self
@@ -53,3 +52,7 @@ class Module(ABC):
     @property
     def basemod(self):
         return self.manager.basemod
+
+    @property
+    def level(self):
+        return self.viewport.level

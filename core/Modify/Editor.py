@@ -29,6 +29,7 @@ class Editor(ABC):
         Called when editor is changed, should add drawables to scene
         :return:
         """
+        self.viewport = viewport
         for i in self.renderables:
             i.init_graphics(viewport)
         for i in self.renderables:
@@ -61,6 +62,7 @@ class Editor(ABC):
         """
         for i in self.renderables:
             i.remove_graphics(viewport)
+        self.viewport = None
 
     def add_renderable(self, renderable: Renderable):
         self.renderables.append(renderable)

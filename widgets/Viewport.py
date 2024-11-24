@@ -14,7 +14,7 @@ class ViewPort(QGraphicsView):
 
     :param parent: widget parent
     '''
-    def __init__(self, parent):
+    def __init__(self, level, parent):
         from core.Manager import Manager
         super().__init__(parent)
         self.manager: Manager | None = None
@@ -32,12 +32,14 @@ class ViewPort(QGraphicsView):
         self.mouse_pos = QPoint()
         self.modules: list[Module] = []
         self.modulenames: dict[str, Module] = {}
+        self.level = level
 
     @Slot()
     def redraw(self):
         self.repaint()
 
     def add_module(self, module: Module):
+        self.modules.append(module)
         for i in module.renderables:
             i.init_graphics(self)
         for i in module.renderables:
@@ -46,6 +48,8 @@ class ViewPort(QGraphicsView):
     def add_managed_fields(self, manager):
         self.manager = manager
         # self.setBackgroundBrush(QBrush(QColor(30, 30, 30), Qt.BrushStyle.SolidPattern))
+        for i in self.manager.mods:
+            i.level_opened(self)
 
     def mousePressEvent(self, event):
         super().mousePressEvent(event)

@@ -38,10 +38,10 @@ class BaseMod(Mod):
         #TODO not to do that ^
         self.bmconfig = BaseModConfig(self)
 
-        # self.geoeditor = GeometryEditor(self)
-        # self.geoui = GeoUI(self)
+        self.geoeditor = GeometryEditor(self)
+        self.geoui = GeoUI(self)
         # #self.geoview = GeoViewUI(self).add_myself()
-        # self.geoeditor.add_myself(self.geoui)
+        self.geoeditor.add_myself(self.geoui)
         # #self.geosettings = GeoSettings(self)
 
         # self.tileeditor = TileEditor(self)
@@ -107,8 +107,8 @@ class BaseMod(Mod):
         self.bmconfig.windowgeo.update_value(self.manager.window.saveGeometry())
 
     def level_opened(self, viewport: ViewPort):
-        # GeoModule(self).add_myself(viewport)
+        GeoModule(self).add_myself(viewport, "geo")
         # TileModule(self).add_myself(viewport)
-        GridModule(self).add_myself(viewport)
+        GridModule(self).add_myself(viewport, "grid")
         # # effects
         # PropModule(self).add_myself(viewport)

@@ -64,24 +64,7 @@
        <attribute name="title">
         <string>Level</string>
        </attribute>
-       <layout class="QGridLayout" name="gridLayout_3">
-        <item row="0" column="0">
-         <widget class="ViewPort" name="viewPort">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-            <horstretch>2</horstretch>
-            <verstretch>2</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="mouseTracking">
-           <bool>true</bool>
-          </property>
-          <property name="locale">
-           <locale language="English" country="UnitedStates"/>
-          </property>
-         </widget>
-        </item>
-       </layout>
+       <layout class="QGridLayout" name="gridLayout_3"/>
       </widget>
       <widget class="QWidget" name="new">
        <attribute name="title">
@@ -579,14 +562,6 @@
   </action>
  </widget>
  <customwidgets>
-  <customwidget>
-   <class>ViewPort</class>
-   <extends>QGraphicsView</extends>
-   <header>RWESharpWidgets.h</header>
-   <slots>
-    <signal>onScroll(int)</signal>
-   </slots>
-  </customwidget>
   <customwidget>
    <class>ViewDockWidget</class>
    <extends>QDockWidget</extends>
