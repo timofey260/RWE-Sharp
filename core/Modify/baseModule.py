@@ -14,16 +14,7 @@ class Module(ABC):
         self.mod = mod
         self.manager = mod.manager
         self.renderables: list[Renderable] = []
-        self.viewport: ViewPort = mod.manager.viewport
-
-    @abstractmethod
-    def render_module(self):
-        """
-        Called when user asks for viewport cleanup
-        Also called when booting up rwe#
-        :return: None
-        """
-        pass
+        self.viewport: ViewPort | None = None
 
     def level_resized(self):
         """
@@ -36,9 +27,8 @@ class Module(ABC):
         self.renderables.append(renderable)
 
     def add_myself(self, viewport: ViewPort, name=None):
-        viewport.add_module(self)
-        if name is not None:
-            viewport.modulenames[name] = self
+        self.viewport = viewport
+        viewport.add_module(self, name)
         return self
 
     def zoom_event(self, zoom):
@@ -49,6 +39,26 @@ class Module(ABC):
         for i in self.renderables:
             i.move_event(pos)
 
+    def init_scene_items(self, viewport):
+        """
+        Called when editor is changed, should add drawables to scene
+        :return:
+        """
+        self.viewport = viewport
+        for i in self.renderables:
+            i.init_graphics(viewport)
+        for i in self.renderables:
+            i.post_init_graphics(viewport)
+
+    def remove_items_from_scene(self, viewport):
+        """
+        Called when editor is changed, should remove anything it doesn't need
+        :return: None
+        """
+        for i in self.renderables:
+            i.remove_graphics(viewport)
+        self.viewport = None
+
     @property
     def basemod(self):
         return self.manager.basemod
@@ -56,3 +66,7 @@ class Module(ABC):
     @property
     def level(self):
         return self.viewport.level
+
+    @property
+    def zoom(self):
+        return self.viewport.zoom

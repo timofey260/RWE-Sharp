@@ -102,13 +102,13 @@ class BaseMod(Mod):
     def sexthing(self):
         self.vid = FunnyVideo(self.manager, False, os.path.join(PATH_FILES_VIDEOS, "sex.mp4").replace("\\", "/"), "SEX")
 
-    def on_save(self):
+    def on_save(self, viewport):
         self.bmconfig.windowstate.update_value(self.manager.window.saveState())
         self.bmconfig.windowgeo.update_value(self.manager.window.saveGeometry())
 
     def level_opened(self, viewport: ViewPort):
         GeoModule(self).add_myself(viewport, "geo")
-        # TileModule(self).add_myself(viewport)
+        TileModule(self).add_myself(viewport, "tiles")
         GridModule(self).add_myself(viewport, "grid")
         # # effects
         # PropModule(self).add_myself(viewport)

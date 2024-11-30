@@ -116,12 +116,12 @@ class TileEditor(Editor):
             self.manager.set_status(f"x: {cellpos.x()}, y: {cellpos.y()}, {self.manager.level['TE']['tlMatrix'][cellpos.x()][cellpos.y()]}")
         # self.tile_item.setPos(pos)
 
-    def init_scene_items(self):
-        super().init_scene_items()
+    def init_scene_items(self, viewport):
+        super().init_scene_items(viewport)
         self.redraw_tile()
 
-    def remove_items_from_scene(self):
-        super().remove_items_from_scene()
+    def remove_items_from_scene(self, viewport):
+        super().remove_items_from_scene(viewport)
 
     def mouse_press_event(self, event: QMouseEvent):
         if self.mouse_left:

@@ -7,7 +7,7 @@ from PySide6.QtCore import QPoint, QRect, QSize
 
 class EffectRenderLevelImage(RenderLevelImage):
     def __init__(self, editor, depth, effect_index):
-        super().__init__(editor.mod, depth)
+        super().__init__(editor, depth)
         self.index = effect_index
         self.editor = editor
         self.painter.setPen(QColor(0, 0, 0, 0))

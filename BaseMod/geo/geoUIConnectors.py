@@ -49,8 +49,8 @@ class GeoUI(UI):
         self.mod: BaseMod
         self.ui = Ui_Geo()
         self.ui.setupUi(self)
-        self.editor = self.mod.geoeditor
-        self.controls = self.editor.controls
+        self.controls = None
+        self.editor = None
 
         self.drawl1_key = KeyConfigurable(mod, "EDIT_geo.drawl1_key", "Ctrl+1", "Edit only on layer 1")
         self.drawl2_key = KeyConfigurable(mod, "EDIT_geo.drawl2_key", "Ctrl+2", "Edit only on layer 2")
@@ -81,15 +81,21 @@ class GeoUI(UI):
         self.ui.ToolGeoWraykAMoleHole.clicked.connect(self.set_tool)
         self.ui.ToolGeoInvert.clicked.connect(self.set_tool)
 
-        self.editor.drawl1.link_button(self.ui.ToolGeoApplyToL1, self.drawl1_key)
-        self.editor.drawl2.link_button(self.ui.ToolGeoApplyToL2, self.drawl2_key)
-        self.editor.drawl3.link_button(self.ui.ToolGeoApplyToL3, self.drawl3_key)
-
-        self.editor.toolleft.link_combobox(self.ui.ToolGeoM1Select)
-        self.editor.toolright.link_combobox(self.ui.ToolGeoM2Select)
-
         self.mod.bmconfig.icon_color.valueChanged.connect(self.change_color)
         self.change_color(self.mod.bmconfig.icon_color.value)
+
+        self.ui.BrushSizeUp.clicked.connect(self.ui.Brushsize.stepUp)
+        self.ui.BrushSizeDown.clicked.connect(self.ui.Brushsize.stepDown)
+
+    def editor_linked(self, editor):
+        self.editor = editor
+        self.controls = self.editor.controls
+
+        self.controls.rotate.link_button(self.ui.RotateRight)
+        self.controls.rotate_back.link_button(self.ui.RotateLeft)
+
+        self.controls.nextlayer.link_button(self.ui.NextLayer)
+        self.controls.prevlayer.link_button(self.ui.PreviousLayer)
 
         self.controls.wall.link_button(self.ui.ToolGeoWall)
         self.controls.air.link_button(self.ui.ToolGeoAir)
@@ -118,21 +124,23 @@ class GeoUI(UI):
         self.controls.clear_layer.link_button(self.ui.ToolGeoClearLayer)
         self.controls.inverse.link_button(self.ui.ToolGeoInvert)
         self.controls.mirror.link_button(self.ui.ToolGeoMirror)
-        self.editor.brushsize.link_spinbox(self.ui.Brushsize)
-        self.editor.controls.brushsizeup.link_button(self.ui.BrushSizeUp)
-        self.editor.controls.brushsizedown.link_button(self.ui.BrushSizeDown)
-        self.ui.BrushSizeUp.clicked.connect(self.ui.Brushsize.stepUp)
-        self.ui.BrushSizeDown.clicked.connect(self.ui.Brushsize.stepDown)
 
-        self.controls.rotate.link_button(self.ui.RotateRight)
-        self.controls.rotate_back.link_button(self.ui.RotateLeft)
         self.ui.RotateRight.clicked.connect(self.editor.rotate)
         self.ui.RotateLeft.clicked.connect(self.editor.rotate_back)
 
         self.ui.NextLayer.clicked.connect(self.editor.next_layer)
         self.ui.PreviousLayer.clicked.connect(self.editor.prev_layer)
-        self.controls.nextlayer.link_button(self.ui.NextLayer)
-        self.controls.prevlayer.link_button(self.ui.PreviousLayer)
+
+        self.editor.brushsize.link_spinbox(self.ui.Brushsize)
+        self.editor.controls.brushsizeup.link_button(self.ui.BrushSizeUp)
+        self.editor.controls.brushsizedown.link_button(self.ui.BrushSizeDown)
+
+        self.editor.drawl1.link_button(self.ui.ToolGeoApplyToL1, self.drawl1_key)
+        self.editor.drawl2.link_button(self.ui.ToolGeoApplyToL2, self.drawl2_key)
+        self.editor.drawl3.link_button(self.ui.ToolGeoApplyToL3, self.drawl3_key)
+
+        self.editor.toolleft.link_combobox(self.ui.ToolGeoM1Select)
+        self.editor.toolright.link_combobox(self.ui.ToolGeoM2Select)
 
     def change_color(self, color: QColor):
         items = [IMG_PEN, IMG_BRUSH, IMG_BUCKET, IMG_LINE, IMG_RECT, IMG_RECT_HOLLOW, IMG_CIRCLE, IMG_CIRCLE_HOLLOW]

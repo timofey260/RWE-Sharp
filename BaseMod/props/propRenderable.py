@@ -101,7 +101,7 @@ class PropRenderable(Renderable):
     def free_transform(self):
         self.handlers = []
         for i in range(4):
-            self.handlers.append(Handle(self.mod).add_myself(self.added))
+            self.handlers.append(Handle(self.mod).add_myself(self.module))
             self.handlers[i].init_graphics()
             self.handlers[i].setPos(self.transform[i] + self.offset)
             self.handlers[i].posChanged.connect(self.pointchange(i))

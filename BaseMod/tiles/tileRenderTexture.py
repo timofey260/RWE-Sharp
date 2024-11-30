@@ -8,7 +8,7 @@ from RWESharp.Renderable import RenderLevelImage
 
 class TileRenderLevelImage(RenderLevelImage):
     def __init__(self, module, depth, tilelayer):
-        super().__init__(module.mod, depth)
+        super().__init__(module, depth)
         self.module = module
         self.tilelayer = tilelayer
 
@@ -20,7 +20,7 @@ class TileRenderLevelImage(RenderLevelImage):
             #     for yp, y in enumerate(x):
             #         self.painter.fillRect(QRect(xp * CELLSIZE, yp * CELLSIZE, CELLSIZE, CELLSIZE), QColor(0, 0, 0, 0))
             # self.painter.setCompositionMode(QPainter.CompositionMode.CompositionMode_SourceOver)
-        for xp, x in enumerate(self.manager.level["TE"]["tlMatrix"]):
+        for xp, x in enumerate(self.viewport.level["TE"]["tlMatrix"]):
             for yp, y in enumerate(x):
                 self.draw_tile(QPoint(xp, yp))
         self.redraw()
@@ -30,7 +30,7 @@ class TileRenderLevelImage(RenderLevelImage):
     def redraw_mats(self, state: bool | Qt.CheckState):
         if isinstance(state, bool):
             pass #todo
-        for xp, x in enumerate(self.manager.level["TE"]["tlMatrix"]):
+        for xp, x in enumerate(self.viewport.level["TE"]["tlMatrix"]):
             for yp, y in enumerate(x):
                 if y[self.tilelayer]["tp"] == "material":
                     self.draw_tile(QPoint(xp, yp))
@@ -47,7 +47,7 @@ class TileRenderLevelImage(RenderLevelImage):
 
     def draw_tile(self, pos: QPoint):
         # drawrect = QRect(x * CELLSIZE, y * CELLSIZE, CELLSIZE, CELLSIZE)
-        tile = self.manager.level.tile_data(pos, self.tilelayer)
+        tile = self.viewport.level.tile_data(pos, self.tilelayer)
         x = pos.x()
         y = pos.y()
         match tile["tp"]:

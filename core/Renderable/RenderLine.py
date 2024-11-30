@@ -6,8 +6,8 @@ from widgets import Viewport
 
 
 class RenderLine(Renderable):
-    def __init__(self, mod, depth, line: QLine, pen=QPen(Qt.GlobalColor.red), brush=QBrush(Qt.GlobalColor.transparent)):
-        super().__init__(mod, depth)
+    def __init__(self, module, depth, line: QLine, pen=QPen(Qt.GlobalColor.red), brush=QBrush(Qt.GlobalColor.transparent)):
+        super().__init__(module, depth)
         self.line = line
         self.drawline: None | QGraphicsLineItem = None
         self.pen = QPen(pen)

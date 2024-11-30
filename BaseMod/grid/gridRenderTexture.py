@@ -6,7 +6,7 @@ from PySide6.QtGui import QColor
 
 class GridRenderLevelImage(RenderLevelImage):
     def __init__(self, module, depth):
-        super().__init__(module.mod, depth)
+        super().__init__(module, depth)
         self.painter.setPen(QColor(0, 0, 0, 255))
 
     def draw_layer(self) -> None:

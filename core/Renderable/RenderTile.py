@@ -7,8 +7,8 @@ from PySide6.QtGui import QPixmap
 
 
 class RenderTile(RenderImage):
-    def __init__(self, mod, depth, layer: int):
-        super().__init__(mod, depth, QSize(1, 1))
+    def __init__(self, module, depth, layer: int):
+        super().__init__(module, depth, QSize(1, 1))
         self.colsimage = QPixmap(1, 1)
         self.colsimage_rendered = None
         self.layer = layer

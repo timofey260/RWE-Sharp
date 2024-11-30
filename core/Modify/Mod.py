@@ -45,9 +45,7 @@ class Mod(ABC):
 
     def add_editor(self, editor: Editor, ui: UI):
         self.manager.add_editor(editor, ui)
-
-    def add_module(self, module: Module):
-        self.manager.add_module(module)
+        ui.editor_linked(editor)
 
     def add_vis_ui(self, ui: ViewUI):
         self.manager.add_view(ui)
@@ -67,7 +65,7 @@ class Mod(ABC):
     def add_hotkey(self, hotkey: HotkeyElement):
         self.manager.add_hotkeytree(hotkey)
 
-    def on_save(self):
+    def on_save(self, viewport):
         """
         Gets called before save
         :return:

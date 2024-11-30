@@ -22,8 +22,8 @@ class RWELevel:
             self.openfile(file)
         else:
             self.data = RWELevel.turntoproject(defaultlevel)
-
         self.history = History(self)
+        self.viewport = None
 
     @Slot()
     def undo(self):
@@ -39,6 +39,12 @@ class RWELevel:
     @property
     def last_history_element(self):
         return self.history.last_element
+
+    @property
+    def shortname(self):
+        if self.file is None:
+            return None
+        return os.path.split(self.file)[1]
 
     def __getitem__(self, item):
         return self.data[item]
@@ -134,7 +140,7 @@ class RWELevel:
     def inside_border(self, point: QPoint) -> bool:
         borders = self.extra_tiles
         topleft = QPoint(borders[0], borders[1])
-        bottomright = self.manager.level.level_size - QPoint(borders[2], borders[3])
+        bottomright = self.level_size - QPoint(borders[2], borders[3])
         rect = QRect(topleft, bottomright)
         return rect.contains(point)
 

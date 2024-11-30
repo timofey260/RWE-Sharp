@@ -39,9 +39,8 @@ class Manager:
         self.effect_colors = splash.loader.effect_colors
 
         # self.levelpath: str = "" if file is None else file
-        self.level = RWELevel(self, file)
 
-        self.viewports: list[ViewPort] = []
+        # self.viewports: list[ViewPort] = []
 
         self.current_editor = 0
         self.editors: list[Editor] = []
@@ -83,17 +82,20 @@ class Manager:
         self.mods.append(self.basemod)
         self.pre_init_mods()
         self.init_mods()
-        self.init_editors()
+
+        v = self.open_level(RWELevel(self, file))
+
+        self.init_editors(v)
         self.change_theme()
         log("Finished initiating")
 
-    def open_level(self):
-        pass # todo
+    def open_level(self, level):
+        v = ViewPort(level, self)
+        self.window.add_viewport(v)
+        return v
 
-    def change_level(self, path):
-        self.level = None
-        self.level = RWELevel(self, path)
-        self.viewport.levelchanged()
+    def change_level(self, path):  # obsolete?
+        self.open_level(RWELevel(self, path))
 
     def change_theme(self):
         if self.basemod.bmconfig.theme.value == "":
@@ -111,7 +113,7 @@ class Manager:
                 log(f"Using Theme {i.name}")
                 return
 
-    def init_editors(self):
+    def init_editors(self, v):
         if len(self.editors) <= 0:
             log("No editors found!!!", True)  # fucking explode idk
             return
@@ -149,11 +151,11 @@ class Manager:
         self.hotkey_trees.append(hotkey)
 
     def undo(self):
-        self.level.undo()
+        self.selected_viewport.level.undo()
         self.selected_viewport.clean()
 
     def redo(self):
-        self.level.redo()
+        self.selected_viewport.level.redo()
         self.selected_viewport.clean()
 
     @property
@@ -197,46 +199,41 @@ class Manager:
         log(f"Couldn't find editor {name}", True)
 
     def change_editor(self, value: int):
-        self.editor.remove_items_from_scene(self.viewport)
+        last_vp = self.editor.viewport
+        self.editor.remove_items_from_scene(last_vp)
+
         self.current_editor = value
-        self.editor.init_scene_items(self.viewport)
-        self.viewport.repaint()
-        self.editor.zoom_event(self.viewport.zoom)
-        self.editor.move_event(self.viewport.topleft.pos())
-        for i in self.viewport.modules:
-            i.zoom_event(self.viewport.zoom)
-            i.move_event(self.viewport.topleft.pos())
+        self.mount_editor()
+
+    def mount_editor(self):
+        last_vp = self.editor.viewport
+        self.editor.remove_items_from_scene(last_vp)
+        self.editor.init_scene_items(self.selected_viewport)
+        self.editor.zoom_event(self.selected_viewport.zoom)
+        self.editor.move_event(self.selected_viewport.topleft.pos())
+        self.selected_viewport.repaint()
+        for i in self.selected_viewport.modules:
+            i.zoom_event(self.selected_viewport.zoom)
+            i.move_event(self.selected_viewport.topleft.pos())
 
     @property
     def level_width(self):
-        return self.level.level_width
+        return self.selected_viewport.level.level_width
 
     @property
     def level_height(self):
-        return self.level.level_height
+        return self.selected_viewport.level.level_height
 
     @Slot()
     def save_level(self):
-        for i in self.mods:
-            i.on_save()
-        if self.level.file is None:
-            dialog = QFileDialog.getSaveFileName(self.window, "Save a level...", PATH_LEVELS, "Level files (*.txt *.wep *.rwl)", selectedFilter=".wep")
-            if dialog[0] == "":
-                return
-            self.level.file = dialog[0]
-        self.level.save_file()
-        # config saving
+        self.selected_viewport.save_level()
         self.config.save_configs()
 
     @Slot()
     def save_level_as(self):
-        dialog = QFileDialog.getSaveFileName(self.window, "Save a level...", PATH_LEVELS, "Level files (*.txt *.wep *.rwl)", selectedFilter=".wep")
-        if dialog[0] == "":
-            return
-        self.level.file = dialog[0]
-        self.level.save_file()
+        self.selected_viewport.save_level_as()
         self.config.save_configs()
 
     @property
-    def selected_viewport(self):
-        return self.viewports[self.window.ui.ToolsTabs.currentIndex()]
+    def selected_viewport(self) -> ViewPort:
+        return self.window.ui.tabWidget.currentWidget()

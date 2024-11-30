@@ -6,8 +6,8 @@ from widgets import Viewport
 
 
 class RenderRect(Renderable):
-    def __init__(self, mod, depth, rect: QRect, pen=QPen(Qt.GlobalColor.red), brush=QBrush(Qt.GlobalColor.transparent)):
-        super().__init__(mod, depth)
+    def __init__(self, module, depth, rect: QRect, pen=QPen(Qt.GlobalColor.red), brush=QBrush(Qt.GlobalColor.transparent)):
+        super().__init__(module, depth)
         self.rect = rect
         self.drawrect: None | QGraphicsRectItem = None
         self.pen = QPen(pen)

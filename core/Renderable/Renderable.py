@@ -9,27 +9,23 @@ if TYPE_CHECKING:
 
 
 class Renderable(ABC):
-    def __init__(self, mod, depth: int):
-        from core.Modify.Mod import Mod
-        self.mod: Mod = mod
+    def __init__(self, module: Module, depth: int):
         self.depth: int = -depth
         self.pos: QPointF = QPointF()
         self.offset: QPointF = QPointF()
-        self.added: Module | Editor | None = None
+        self.module: Module = module
         self.viewport: None | ViewPort = None
 
-    def add_myself(self, where: Module | Editor):
+    def add_myself(self, where: Module):
         if isinstance(where, Module):
             where.add_renderable(self)
-        elif isinstance(where, Editor):
-            where.add_renderable(self)
-        self.added = where
+        self.module = where
         return self
 
     def remove_myself(self):
-        if self.added is None:
+        if self.module is None:
             return
-        self.added.renderables.remove(self)
+        self.module.renderables.remove(self)
 
     @abstractmethod
     def init_graphics(self, viewport):
@@ -62,11 +58,11 @@ class Renderable(ABC):
 
     @property
     def zoom(self):
-        return self.manager.viewport.zoom
+        return self.viewport.zoom
 
     def level_resized(self):
         pass
 
     @property
     def manager(self):
-        return self.mod.manager
+        return self.module.manager

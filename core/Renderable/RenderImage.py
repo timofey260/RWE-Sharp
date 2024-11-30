@@ -6,8 +6,8 @@ from PySide6.QtWidgets import QGraphicsPixmapItem
 
 
 class RenderImage(Renderable):
-    def __init__(self, mod, depth, imagesize: QSize):
-        super().__init__(mod, depth)
+    def __init__(self, module, depth, imagesize: QSize):
+        super().__init__(module, depth)
         self.image = QPixmap(imagesize)
         self.image.fill(QColor(0, 0, 0, 0))
         self.painter = QPainter(self.image)
