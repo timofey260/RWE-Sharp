@@ -14,7 +14,6 @@ class Renderable(ABC):
         self.pos: QPointF = QPointF()
         self.offset: QPointF = QPointF()
         self.module: Module = module
-        self.viewport: None | ViewPort = None
 
     def add_myself(self, where: Module):
         if isinstance(where, Module):
@@ -29,14 +28,14 @@ class Renderable(ABC):
 
     @abstractmethod
     def init_graphics(self, viewport):
-        self.viewport = viewport
+        pass
 
     def post_init_graphics(self, viewport):
         pass
 
     @abstractmethod
     def remove_graphics(self, viewport):
-        self.viewport = None
+        pass
 
     @abstractmethod
     def zoom_event(self, zoom):
@@ -66,3 +65,7 @@ class Renderable(ABC):
     @property
     def manager(self):
         return self.module.manager
+
+    @property
+    def viewport(self):
+        return self.module.viewport

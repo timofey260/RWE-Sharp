@@ -108,7 +108,7 @@ class TileExplorer(Explorer):
         self.drawoption.valueChanged.connect(self.change_draw_option)
         self.layer.link_combobox(self.ui.LayerBox)
         self.layer.valueChanged.connect(self.change_draw_option)
-        self.mod.tilemodule.drawoption.valueChanged.connect(self.change_draw_option)
+        self.mod.tilemodule.drawoption.valueChanged.connect(self.change_draw_option)  # todo link it to ui
         self.palette_path.valueChanged.connect(self.update_palette)
         self.ui.SearchBar.textChanged.connect(self.search)
         self.ui.Pin.clicked.connect(self.pin_tile)

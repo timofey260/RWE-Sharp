@@ -49,7 +49,27 @@ class ViewPort(QGraphicsView):
         self.modules.append(module)
         if name is not None:
             self.modulenames[name] = module
+        module.viewport = self
         module.init_scene_items(self)
+        for i in module.renderables:
+            i.init_graphics(self)
+        for i in module.renderables:
+            i.post_init_graphics(self)
+
+        self.repaint()
+        module.zoom_event(self.zoom)
+        module.move_event(self.topleft.pos())
+
+    def remove_module(self, module: Module):
+        if module in self.modules:
+            self.modules.remove(module)
+        if module in self.modulenames.values():
+            del self.modulenames[list(self.modulenames.keys())[list(self.modulenames.values()).index(module)]]
+        module.remove_items_from_scene(self)
+        module.viewport = None
+        for i in module.renderables:
+            i.remove_graphics(self)
+        self.repaint()
 
     def mousePressEvent(self, event):
         super().mousePressEvent(event)

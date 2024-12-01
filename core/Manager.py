@@ -117,7 +117,8 @@ class Manager:
         if len(self.editors) <= 0:
             log("No editors found!!!", True)  # fucking explode idk
             return
-        self.editors[0].init_scene_items(self.selected_viewport)
+        self.mount_editor()
+        #self.editors[0].init_scene_items(self.selected_viewport)
 
     def init_mods(self):
         for i in self.mod_types:
@@ -199,20 +200,13 @@ class Manager:
         log(f"Couldn't find editor {name}", True)
 
     def change_editor(self, value: int):
+        self.selected_viewport.remove_module(self.editor)
         self.current_editor = value
         self.mount_editor()
 
     def mount_editor(self):
-        last_vp = self.editor.viewport
-        self.editor.remove_items_from_scene(last_vp)
-
-        self.editor.init_scene_items(self.selected_viewport)
-        self.editor.zoom_event(self.selected_viewport.zoom)
-        self.editor.move_event(self.selected_viewport.topleft.pos())
-        self.selected_viewport.repaint()
-        for i in self.selected_viewport.modules:
-            i.zoom_event(self.selected_viewport.zoom)
-            i.move_event(self.selected_viewport.topleft.pos())
+        self.selected_viewport.remove_module(self.editor)
+        self.selected_viewport.add_module(self.editor)
 
     @property
     def level_width(self):

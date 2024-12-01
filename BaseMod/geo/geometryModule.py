@@ -147,7 +147,6 @@ class GeoModule(Module):
     def init_scene_items(self, viewport):
         super().init_scene_items(viewport)
         self.render_module()
-        self.l2.renderedtexture.setOpacity(0.2)
 
     def get_layer(self, layer: int) -> GeoRenderLevelImage:
         return [self.l1, self.l2, self.l3][layer]

@@ -11,24 +11,29 @@ from BaseMod.props.Handle import Handle
 
 
 class PropRenderable(Renderable):
-    def __init__(self, mod, prop: list | Prop):
-        self.renderedtexture: QGraphicsPixmapItem | None = None
+    def __init__(self, module, prop: list | Prop):
         if not isinstance(prop, Prop):
             self.propdepth = prop[0]
-            super().__init__(mod, -self.propdepth // 10 * 100 + 100)
-            found = self.mod.manager.props.find_prop(prop[1])
+            super().__init__(module, -self.propdepth // 10 * 100 + 100)
+            found = self.manager.props.find_prop(prop[1])
             self.transform: list[QPointF] = self.quadlist2points(prop[3])
             if found is None:
                 self.prop = None
                 self.image = QImage(20, 20, QImage.Format.Format_Mono)
+                self.renderedtexture = QGraphicsPixmapItem(QPixmap.fromImage(self.image))
+                self.renderedtexture.setZValue(self.depth)
                 return
             self.prop = found
             variation = prop[4]["settings"].get("variation", 1) - 1
             self.image = found.images[variation]
+            self.renderedtexture = QGraphicsPixmapItem(QPixmap.fromImage(self.image))
+            self.renderedtexture.setZValue(self.depth)
             return
-        super().__init__(mod, 100)
         self.prop = prop
         self.image = prop.images[0]
+        super().__init__(module, 100)
+        self.renderedtexture = QGraphicsPixmapItem(QPixmap.fromImage(self.image))
+        self.renderedtexture.setZValue(self.depth)
         self.propdepth = 0
         w, h = prop.images[0].width(), prop.images[0].height()
         self.transform: list[QPointF] = [QPointF(0, 0), QPointF(w, 0), QPointF(w, h), QPointF(0, h)]
@@ -47,18 +52,16 @@ class PropRenderable(Renderable):
             self.retransform()
             self.viewport.clean()
 
-    def init_graphics(self):
-        self.renderedtexture = self.viewport.workscene.addPixmap(QPixmap.fromImage(self.image))
-        self.renderedtexture.setZValue(self.depth)
-        #self.setPos(QPointF(0, 0))
-        self.move_event(self.viewport.topleft.pos())
+    def init_graphics(self, viewport):
+        super().init_graphics(viewport)
+        viewport.workscene.addItem(self.renderedtexture)
         #self.draw_layer()
         #self.retransform()
         #self.free_transform()
 
-    def remove_graphics(self):
+    def remove_graphics(self, viewport):
+        super().remove_graphics(viewport)
         self.renderedtexture.removeFromIndex()
-        self.renderedtexture = None
 
     def move_event(self, pos):
         super().move_event(pos)
@@ -94,15 +97,15 @@ class PropRenderable(Renderable):
 
     def delete_handlers(self):
         for i in self.handlers:
-            i.remove_graphics()
+            i.remove_graphics(self.viewport)
             i.remove_myself()
         self.handlers.clear()
 
     def free_transform(self):
         self.handlers = []
         for i in range(4):
-            self.handlers.append(Handle(self.mod).add_myself(self.module))
-            self.handlers[i].init_graphics()
+            self.handlers.append(Handle(self.module).add_myself(self.module))
+            self.handlers[i].init_graphics(self.viewport)
             self.handlers[i].setPos(self.transform[i] + self.offset)
             self.handlers[i].posChanged.connect(self.pointchange(i))
 

@@ -44,20 +44,12 @@ class Module(ABC):
         Called when editor is changed, should add drawables to scene
         :return:
         """
-        self.viewport = viewport
-        for i in self.renderables:
-            i.init_graphics(viewport)
-        for i in self.renderables:
-            i.post_init_graphics(viewport)
 
     def remove_items_from_scene(self, viewport):
         """
         Called when editor is changed, should remove anything it doesn't need
         :return: None
         """
-        for i in self.renderables:
-            i.remove_graphics(viewport)
-        self.viewport = None
 
     @property
     def basemod(self):

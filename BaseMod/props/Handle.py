@@ -32,19 +32,19 @@ class HandleItem(QGraphicsRectItem, QObject):
 
 
 class Handle(Renderable):
-    def __init__(self, mod):
-        super().__init__(mod, -100)
-        self.handle: QGraphicsRectItem | None = None
-
-    def init_graphics(self):
+    def __init__(self, module):
+        super().__init__(module, -100)
         self.handle = HandleItem(self)
-        self.viewport.workscene.addItem(self.handle)
         self.handle.setZValue(self.depth)
         self.handle.setPos(self.offset)
 
-    def remove_graphics(self):
+    def init_graphics(self, viewport):
+        super().init_graphics(viewport)
+        self.viewport.workscene.addItem(self.handle)
+
+    def remove_graphics(self, viewport):
+        super().remove_graphics(viewport)
         self.handle.removeFromIndex()
-        self.handle = None
 
     def zoom_event(self, zoom):
         self.handle.setPos(self.actual_offset)

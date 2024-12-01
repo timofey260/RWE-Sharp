@@ -40,15 +40,15 @@ class BaseMod(Mod):
 
         self.geoeditor = GeometryEditor(self)
         self.geoui = GeoUI(self)
-        # #self.geoview = GeoViewUI(self).add_myself()
         self.geoeditor.add_myself(self.geoui)
+        self.geoview = GeoViewUI(self).add_myself()
         # #self.geosettings = GeoSettings(self)
 
-        # self.tileeditor = TileEditor(self)
+        #self.tileeditor = TileEditor(self)
         # self.tileview = TileViewUI(self).add_myself()
-        # self.tileui = TileUI(self)
+        #self.tileui = TileUI(self)
         # self.tilesettings = TileSettings(self) # todo
-        # self.tileeditor.add_myself(self.tileui)
+        #self.tileeditor.add_myself(self.tileui)
         #
         # self.effecteditor = EffectEditor(self)
         # self.effectui = EffectsUI(self)
@@ -111,4 +111,4 @@ class BaseMod(Mod):
         TileModule(self).add_myself(viewport, "tiles")
         GridModule(self).add_myself(viewport, "grid")
         # # effects
-        # PropModule(self).add_myself(viewport)
+        PropModule(self).add_myself(viewport)

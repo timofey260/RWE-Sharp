@@ -11,15 +11,15 @@ class RenderImage(Renderable):
         self.image = QPixmap(imagesize)
         self.image.fill(QColor(0, 0, 0, 0))
         self.painter = QPainter(self.image)
-        self.renderedtexture: QGraphicsPixmapItem | None = None
+        self.renderedtexture = QGraphicsPixmapItem(self.image)
+        self.renderedtexture.setZValue(self.depth)
 
     def redraw(self) -> None:
         """
         Redraws pixmap on screen
         :return: None
         """
-        if self.renderedtexture is not None:
-            self.renderedtexture.setPixmap(self.image)
+        self.renderedtexture.setPixmap(self.image)
 
     def draw_layer(self) -> None:
         """
@@ -30,14 +30,12 @@ class RenderImage(Renderable):
 
     def init_graphics(self, viewport):
         super().init_graphics(viewport)
-        self.renderedtexture = viewport.workscene.addPixmap(self.image)
-        self.renderedtexture.setZValue(self.depth)
+        viewport.workscene.addItem(self.renderedtexture)
         self.draw_layer()
 
     def remove_graphics(self, viewport):
         super().remove_graphics(viewport)
         self.renderedtexture.removeFromIndex()
-        self.renderedtexture = None
 
     def move_event(self, pos):
         super().move_event(pos)

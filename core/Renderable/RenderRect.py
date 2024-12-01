@@ -9,21 +9,20 @@ class RenderRect(Renderable):
     def __init__(self, module, depth, rect: QRect, pen=QPen(Qt.GlobalColor.red), brush=QBrush(Qt.GlobalColor.transparent)):
         super().__init__(module, depth)
         self.rect = rect
-        self.drawrect: None | QGraphicsRectItem = None
+        self.drawrect = QGraphicsRectItem(self.rect)
         self.pen = QPen(pen)
         self.brush = QBrush(brush)
+        self.drawrect.setPen(self.pen)
+        self.drawrect.setBrush(self.brush)
+        self.drawrect.setZValue(self.depth)
 
     def init_graphics(self, viewport):
         super().init_graphics(viewport)
-        self.drawrect = viewport.workscene.addRect(self.rect)
-        self.drawrect.setZValue(self.depth)
-        self.drawrect.setPen(self.pen)
-        self.drawrect.setBrush(self.brush)
+        viewport.workscene.addItem(self.drawrect)
 
     def remove_graphics(self, viewport):
         super().remove_graphics(viewport)
         self.drawrect.removeFromIndex()
-        self.drawrect = None
 
     def move_event(self, pos):
         super().move_event(pos)
