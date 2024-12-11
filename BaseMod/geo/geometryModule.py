@@ -144,5 +144,9 @@ class GeoModule(Module):
         self.l3.draw_layer()
         self.init_module_textures()
 
+    def init_scene_items(self, viewport):
+        super().init_scene_items(viewport)
+        self.render_module()
+
     def get_layer(self, layer: int) -> GeoRenderLevelImage:
         return [self.l1, self.l2, self.l3][layer]

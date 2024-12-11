@@ -6,23 +6,22 @@ from widgets import Viewport
 
 
 class RenderLine(Renderable):
-    def __init__(self, mod, depth, line: QLine, pen=QPen(Qt.GlobalColor.red), brush=QBrush(Qt.GlobalColor.transparent)):
-        super().__init__(mod, depth)
+    def __init__(self, module, depth, line: QLine, pen=QPen(Qt.GlobalColor.red)):
+        super().__init__(module, depth)
         self.line = line
-        self.drawline: None | QGraphicsLineItem = None
+        self.drawline = QGraphicsLineItem(line)
         self.pen = QPen(pen)
-        self.brush = QBrush(brush)
-
-    def init_graphics(self):
-        self.drawline = self.viewport.workscene.addLine(self.line)
         self.drawline.setZValue(self.depth)
         self.drawline.setPen(self.pen)
+
+    def init_graphics(self, viewport):
+        super().init_graphics(viewport)
+        self.viewport.workscene.addItem(self.drawline)
         # self.drawline.setBrush(self.brush)
 
-    def remove_graphics(self):
-        super().remove_graphics()
+    def remove_graphics(self, viewport):
+        super().remove_graphics(viewport)
         self.drawline.removeFromIndex()
-        self.drawline = None
 
     def move_event(self, pos):
         super().move_event(pos)

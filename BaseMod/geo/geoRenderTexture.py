@@ -17,7 +17,7 @@ checkpoints2 = [QPoint(0, -1),
 
 class GeoRenderLevelImage(RenderLevelImage):
     def __init__(self, module, depth, geolayer):
-        super().__init__(module.mod, depth)
+        super().__init__(module, depth)
         self.module = module
         self.geolayer = geolayer
         # transform = QTransform()
@@ -44,7 +44,7 @@ class GeoRenderLevelImage(RenderLevelImage):
 
     def draw_layer(self):
         self.image.fill(QColor(0, 0, 0, 0))
-        for xp, x in enumerate(self.manager.level["GE"]):
+        for xp, x in enumerate(self.viewport.level["GE"]):
             for yp, y in enumerate(x):
                 self.draw_geo(xp, yp, updatearound=False)
         self.redraw()
@@ -55,20 +55,20 @@ class GeoRenderLevelImage(RenderLevelImage):
         self.draw_layer()
 
     def redraw_beams(self):
-        for xp, x in enumerate(self.manager.level["GE"]):
+        for xp, x in enumerate(self.viewport.level["GE"]):
             for yp, y in enumerate(x):
                 if 1 in y[self.geolayer][1] or 2 in y[self.geolayer][1]:
                     self.draw_geo(xp, yp, True, False)
         self.redraw()
 
     def redraw_misc(self):
-        for xp, x in enumerate(self.manager.level["GE"]):
+        for xp, x in enumerate(self.viewport.level["GE"]):
             for yp, y in enumerate(x):
                 self.draw_geo(xp, yp, True, False)
         self.redraw()
 
     def redraw_pipes(self):
-        for xp, x in enumerate(self.manager.level["GE"]):
+        for xp, x in enumerate(self.viewport.level["GE"]):
             for yp, y in enumerate(x):
                 if 5 in y[self.geolayer][1] or 6 in y[self.geolayer][1] or 7 in y[self.geolayer][1] or 19 in \
                         y[self.geolayer][1]:
@@ -76,8 +76,8 @@ class GeoRenderLevelImage(RenderLevelImage):
         self.redraw()
 
     def draw_geo(self, x: int, y: int, clear: bool = False, updatearound=True):
-        cell: int = self.manager.level["GE"][x][y][self.geolayer][0]
-        stackables: list[int] = self.manager.level["GE"][x][y][self.geolayer][1]
+        cell: int = self.viewport.level["GE"][x][y][self.geolayer][0]
+        stackables: list[int] = self.viewport.level["GE"][x][y][self.geolayer][1]
         pos = self.binfo.get(str(cell), [0, 0])
         cellpos = QRect(pos[0] * self._sz, pos[1] * self._sz, self._sz, self._sz)
         placepos = QRect(x * CELLSIZE, y * CELLSIZE, 20, 20)
@@ -90,9 +90,9 @@ class GeoRenderLevelImage(RenderLevelImage):
         if updatearound:
             for i in checkpoints:
                 p = point + i
-                if (self.manager.level.inside(p) and
-                        (4 in self.manager.level.geo_data(p, self.geolayer)[1] or
-                         11 in self.manager.level.geo_data(p, self.geolayer)[1])):
+                if (self.viewport.level.inside(p) and
+                        (4 in self.viewport.level.geo_data(p, self.geolayer)[1] or
+                         11 in self.viewport.level.geo_data(p, self.geolayer)[1])):
                     self.draw_geo(p.x(), p.y(), True, False)
         if cell != 7:
             self.painter.drawPixmap(placepos, drawmap, cellpos)
@@ -105,14 +105,14 @@ class GeoRenderLevelImage(RenderLevelImage):
                 continue
             if s == 4:
                 # checking structures
-                if not self.manager.level.inside_border(point):
+                if not self.viewport.level.inside_border(point):
                     self.painter.drawPixmap(placepos, drawmap, self.stackpos(self.getinfo2(s, 0)))
                     continue
                 counter = 0
                 for i in checkpoints:
-                    if not self.manager.level.inside(point + i):
+                    if not self.viewport.level.inside(point + i):
                         counter += 1
-                    elif self.manager.level.geo_data(point + i, self.geolayer)[0] == 1:
+                    elif self.viewport.level.geo_data(point + i, self.geolayer)[0] == 1:
                         counter += 1
                 if counter != 7:
                     self.painter.drawPixmap(placepos, drawmap, self.stackpos(self.getinfo2(s, 0)))
@@ -133,9 +133,9 @@ class GeoRenderLevelImage(RenderLevelImage):
             elif s == 11:
                 counter = 0
                 for i in checkpoints2:
-                    if not self.manager.level.inside(point + i):
+                    if not self.viewport.level.inside(point + i):
                         counter += 1
-                    elif 11 in self.manager.level.geo_data(point + i, self.geolayer)[1]:
+                    elif 11 in self.viewport.level.geo_data(point + i, self.geolayer)[1]:
                         counter += 1
                 if counter >= 3 or counter == 0:
                     spos = self.getinfo2(s, 0)
@@ -167,15 +167,15 @@ class GeoRenderLevelImage(RenderLevelImage):
         return QRect(spos[0] * self._sz, spos[1] * self._sz, self._sz, self._sz)
 
     def insidedouble(self, point: QPoint, offset: QPoint) -> bool:
-        return self.manager.level.inside(point + offset) and self.manager.level.inside(point - offset)
+        return self.viewport.level.inside(point + offset) and self.viewport.level.inside(point - offset)
 
     def checkrot(self, point: QPoint, offset: QPoint) -> bool:
-        return self.is_path(self.manager.level.geo_data(point + offset, self.geolayer)[1]) and \
-                            self.manager.level.geo_data(point - offset, self.geolayer)[0] != 1
+        return self.is_path(self.viewport.level.geo_data(point + offset, self.geolayer)[1]) and \
+                            self.viewport.level.geo_data(point - offset, self.geolayer)[0] != 1
 
     def checkcrack(self, point: QPoint, offset: QPoint) -> bool:
-        return self.manager.level.inside(point + offset) and 11 in \
-                self.manager.level.geo_data(point + offset, self.geolayer)[1]
+        return self.viewport.level.inside(point + offset) and 11 in \
+                self.viewport.level.geo_data(point + offset, self.geolayer)[1]
 
     def is_path(self, array) -> bool:
         for i in [5, 6, 7, 21]:

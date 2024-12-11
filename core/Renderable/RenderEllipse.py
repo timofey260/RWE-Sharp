@@ -6,23 +6,23 @@ from widgets import Viewport
 
 
 class RenderEllipse(Renderable):
-    def __init__(self, mod, depth, rect: QRect, pen=QPen(Qt.GlobalColor.red), brush=QBrush(Qt.GlobalColor.transparent)):
-        super().__init__(mod, depth)
+    def __init__(self, module, depth, rect: QRect, pen=QPen(Qt.GlobalColor.red), brush=QBrush(Qt.GlobalColor.transparent)):
+        super().__init__(module, depth)
         self.rect = rect
-        self.drawellipse: None | QGraphicsEllipseItem = None
+        self.drawellipse = QGraphicsEllipseItem(self.rect)
         self.pen = QPen(pen)
         self.brush = QBrush(brush)
-
-    def init_graphics(self):
-        self.drawellipse = self.viewport.workscene.addEllipse(self.rect)
         self.drawellipse.setZValue(self.depth)
         self.drawellipse.setPen(self.pen)
         self.drawellipse.setBrush(self.brush)
 
-    def remove_graphics(self):
-        super().remove_graphics()
+    def init_graphics(self, viewport):
+        super().init_graphics(viewport)
+        viewport.workscene.addItem(self.drawellipse)
+
+    def remove_graphics(self, viewport):
+        super().remove_graphics(viewport)
         self.drawellipse.removeFromIndex()
-        self.drawellipse = None
 
     def move_event(self, pos):
         super().move_event(pos)

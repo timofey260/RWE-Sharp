@@ -4,35 +4,17 @@ from PySide6.QtCore import QPoint
 from PySide6.QtWidgets import QGraphicsScene
 from typing import TYPE_CHECKING
 from abc import ABC
+from core.Modify.baseModule import Module
 if TYPE_CHECKING:
     from core.Renderable.Renderable import Renderable
 
 
-class Editor(ABC):
+class Editor(Module):
     """
     Base for creating custom viewport editors
     """
     def __init__(self, mod):
-        """
-        :param mod: Mod
-        """
-        from core.Manager import Manager
-        from core.Modify.Mod import Mod
-        from widgets.Viewport import ViewPort
-        self.mod: mod = mod
-        self.manager: Manager = mod.manager
-        self.renderables: list[Renderable] = []
-        self.viewport: ViewPort = mod.manager.viewport
-
-    def init_scene_items(self):
-        """
-        Called when editor is changed, should add drawables to scene
-        :return:
-        """
-        for i in self.renderables:
-            i.init_graphics()
-        for i in self.renderables:
-            i.post_init_graphics()
+        super().__init__(mod)
 
     def mouse_move_event(self, event: QMoveEvent):
         pass
@@ -46,24 +28,6 @@ class Editor(ABC):
     def mouse_wheel_event(self, event: QWheelEvent):
         pass
 
-    def zoom_event(self, zoom):
-        for i in self.renderables:
-            i.zoom_event(zoom)
-
-    def move_event(self, pos):
-        for i in self.renderables:
-            i.move_event(pos)
-
-    def remove_items_from_scene(self):
-        """
-        Called when editor is changed, should remove anything it doesn't need
-        :return: None
-        """
-        for i in self.renderables:
-            i.remove_graphics()
-
-    def add_renderable(self, renderable: Renderable):
-        self.renderables.append(renderable)
 
     @property
     def workscene(self) -> QGraphicsScene:
@@ -83,9 +47,9 @@ class Editor(ABC):
 
     @property
     def level(self):
-        return self.manager.level
+        return self.viewport.level
 
-    def add_myself(self, ui):
+    def add_myself(self, ui, viewport=None, name=None):
         self.mod.add_editor(self, ui)
         ui.begin_recording()
         return self
@@ -107,21 +71,6 @@ class Editor(ABC):
 
     def mouse_middle_press(self):
         pass
-
-    def level_resized(self):
-        """
-        Called once level is resized
-        """
-        for i in self.renderables:
-            i.level_resized()
-
-    @property
-    def zoom(self):
-        return self.viewport.zoom
-
-    @property
-    def basemod(self):
-        return self.manager.basemod
 
     @property
     def modifiers(self):

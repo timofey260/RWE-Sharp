@@ -1,23 +1,27 @@
 from __future__ import annotations
 from PySide6.QtGui import QColor
 from PySide6.QtCore import Qt, QPoint, Slot, QPointF
-from PySide6.QtWidgets import QGraphicsView, QGraphicsScene, QApplication
+from PySide6.QtWidgets import QGraphicsView, QGraphicsScene, QApplication, QFileDialog
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from core.Modify.baseModule import Module
-from core.info import CELLSIZE
+from core.info import CELLSIZE, PATH_LEVELS
 
 
 class ViewPort(QGraphicsView):
-    '''
+    """
     Viewport for visualizing level and editors
 
+    :param level: level to load
+    :param manager: rwe# manager
     :param parent: widget parent
-    '''
-    def __init__(self, parent):
+    """
+    def __init__(self, level, manager, parent=None):
         from core.Manager import Manager
         super().__init__(parent)
-        self.manager: Manager = None
+        self.level = level
+        self.level.viewport = self
+        self.manager = manager
         self.workscene: QGraphicsScene = QGraphicsScene(self)
         self.setScene(self.workscene)
         self.zoom = 1
@@ -26,24 +30,46 @@ class ViewPort(QGraphicsView):
         self.uselessthing = self.workscene.addRect(0, 0, 9999, 9999, QColor(0, 0, 0, 0))  # just a big rect to keep shit working
         self.verticalScrollBar().sliderReleased.connect(self.redraw)
         self.horizontalScrollBar().sliderReleased.connect(self.redraw)
+        self.setMouseTracking(True)
         self._lmb = False
         self._rmb = False
         self._mmb = False
         self.mouse_pos = QPoint()
+        self.modules: list[Module] = []
+        self.modulenames: dict[str, Module] = {}
+        # self.setBackgroundBrush(QBrush(QColor(30, 30, 30), Qt.BrushStyle.SolidPattern))
+        for i in self.manager.mods:
+            i.level_opened(self)
 
     @Slot()
     def redraw(self):
         self.repaint()
 
-    def add_module(self, module: Module):
+    def add_module(self, module: Module, name=None):
+        self.modules.append(module)
+        if name is not None:
+            self.modulenames[name] = module
+        module.viewport = self
+        module.init_scene_items(self)
         for i in module.renderables:
-            i.init_graphics()
+            i.init_graphics(self)
         for i in module.renderables:
-            i.post_init_graphics()
+            i.post_init_graphics(self)
 
-    def add_managed_fields(self, manager):
-        self.manager = manager
-        # self.setBackgroundBrush(QBrush(QColor(30, 30, 30), Qt.BrushStyle.SolidPattern))
+        self.repaint()
+        module.zoom_event(self.zoom)
+        module.move_event(self.topleft.pos())
+
+    def remove_module(self, module: Module):
+        if module in self.modules:
+            self.modules.remove(module)
+        if module in self.modulenames.values():
+            del self.modulenames[list(self.modulenames.keys())[list(self.modulenames.values()).index(module)]]
+        module.remove_items_from_scene(self)
+        module.viewport = None
+        for i in module.renderables:
+            i.remove_graphics(self)
+        self.repaint()
 
     def mousePressEvent(self, event):
         super().mousePressEvent(event)
@@ -94,12 +120,12 @@ class ViewPort(QGraphicsView):
         return self.manager.editor
 
     def clean(self):
-        self.workscene.update(0, 0, 10000, 10000)
+        self.workscene.update(0, 0, 10000, 10000)  # that'l do
 
     def levelchanged(self):
         # for i in self.editor.renderables:
         #     i.level_resized()
-        for i in self.manager.modules:
+        for i in self.modules:
             i.level_resized()
         for i in self.manager.editors:
             i.level_resized()
@@ -122,7 +148,7 @@ class ViewPort(QGraphicsView):
         self.zoom = max(0.01, self.zoom + (event.angleDelta().y() * (-1 if event.inverted() else 1) / 800))
         offset = (self.viewport_to_editor_float(self.mouse_pos.toPointF()) - pointbefore) * CELLSIZE * self.zoom
         self.topleft.setPos(self.topleft.pos() + offset)
-        for i in self.manager.modules:
+        for i in self.modules:
             i.zoom_event(self.zoom)
             i.move_event(self.topleft.pos())
         self.editor.mouse_wheel_event(event)
@@ -141,12 +167,12 @@ class ViewPort(QGraphicsView):
             # self.origin.setX(self.origin.x() + offset.x())
             # self.origin.setY(self.origin.y() + offset.y())
             self.topleft.setPos(self.topleft.pos() + offset)
-            for i in self.manager.modules:
+            for i in self.modules:
                 i.move_event(self.topleft.pos())
         self.mouse_pos = event.pos()
         self.editor.mouse_move_event(event)
         self.editor.move_event(self.topleft.pos())
-        super().mouseMoveEvent(event)
+        #super().mouseMoveEvent(event)
 
     def viewport_to_editor(self, point: QPoint) -> QPoint:
         npoint = point.toPointF() + QPointF(self.horizontalScrollBar().value(), self.verticalScrollBar().value()) - self.topleft.pos()
@@ -167,3 +193,19 @@ class ViewPort(QGraphicsView):
     def editor_to_viewport_float(self, point: QPointF) -> QPointF:
         return (point * CELLSIZE * self.zoom) + self.topleft.pos()
 
+    def save_level(self):
+        for i in self.manager.mods:
+            i.on_save(self)
+        if self.level.file is None:
+            dialog = QFileDialog.getSaveFileName(self.manager.window, "Save a level...", PATH_LEVELS, "Level files (*.txt *.wep *.rwl)", selectedFilter=".wep")
+            if dialog[0] == "":
+                return
+            self.level.file = dialog[0]
+        self.level.save_file()
+
+    def save_level_as(self):
+        dialog = QFileDialog.getSaveFileName(self.manager.window, "Save a level...", PATH_LEVELS, "Level files (*.txt *.wep *.rwl)", selectedFilter=".wep")
+        if dialog[0] == "":
+            return
+        self.level.file = dialog[0]
+        self.level.save_file()

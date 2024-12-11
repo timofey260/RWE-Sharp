@@ -6,20 +6,20 @@ from PySide6.QtWidgets import QGraphicsPixmapItem
 
 
 class RenderImage(Renderable):
-    def __init__(self, mod, depth, imagesize: QSize):
-        super().__init__(mod, depth)
+    def __init__(self, module, depth, imagesize: QSize):
+        super().__init__(module, depth)
         self.image = QPixmap(imagesize)
         self.image.fill(QColor(0, 0, 0, 0))
         self.painter = QPainter(self.image)
-        self.renderedtexture: QGraphicsPixmapItem | None = None
+        self.renderedtexture = QGraphicsPixmapItem(self.image)
+        self.renderedtexture.setZValue(self.depth)
 
     def redraw(self) -> None:
         """
         Redraws pixmap on screen
         :return: None
         """
-        if self.renderedtexture is not None:
-            self.renderedtexture.setPixmap(self.image)
+        self.renderedtexture.setPixmap(self.image)
 
     def draw_layer(self) -> None:
         """
@@ -28,14 +28,14 @@ class RenderImage(Renderable):
         :return: None
         """
 
-    def init_graphics(self):
-        self.renderedtexture = self.viewport.workscene.addPixmap(self.image)
-        self.renderedtexture.setZValue(self.depth)
+    def init_graphics(self, viewport):
+        super().init_graphics(viewport)
+        viewport.workscene.addItem(self.renderedtexture)
         self.draw_layer()
 
-    def remove_graphics(self):
+    def remove_graphics(self, viewport):
+        super().remove_graphics(viewport)
         self.renderedtexture.removeFromIndex()
-        self.renderedtexture = None
 
     def move_event(self, pos):
         super().move_event(pos)

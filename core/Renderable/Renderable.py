@@ -1,40 +1,40 @@
+from __future__ import annotations
 from PySide6.QtCore import QPointF
 from core.Modify.baseModule import Module
 from core.Modify.Editor import Editor
 from abc import abstractmethod, ABC
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from widgets.Viewport import ViewPort
 
 
 class Renderable(ABC):
-    def __init__(self, mod, depth: int):
-        from core.Modify.Mod import Mod
-        self.mod: Mod = mod
+    def __init__(self, module: Module, depth: int):
         self.depth: int = -depth
         self.pos: QPointF = QPointF()
         self.offset: QPointF = QPointF()
-        self.added: Module | Editor | None = None
+        self.module: Module = module
 
-    def add_myself(self, where: Module | Editor):
+    def add_myself(self, where: Module):
         if isinstance(where, Module):
             where.add_renderable(self)
-        elif isinstance(where, Editor):
-            where.add_renderable(self)
-        self.added = where
+        self.module = where
         return self
 
     def remove_myself(self):
-        if self.added is None:
+        if self.module is None:
             return
-        self.added.renderables.remove(self)
+        self.module.renderables.remove(self)
 
     @abstractmethod
-    def init_graphics(self):
+    def init_graphics(self, viewport):
         pass
 
-    def post_init_graphics(self):
+    def post_init_graphics(self, viewport):
         pass
 
     @abstractmethod
-    def remove_graphics(self):
+    def remove_graphics(self, viewport):
         pass
 
     @abstractmethod
@@ -57,15 +57,15 @@ class Renderable(ABC):
 
     @property
     def zoom(self):
-        return self.manager.viewport.zoom
+        return self.viewport.zoom
 
     def level_resized(self):
         pass
 
     @property
     def manager(self):
-        return self.mod.manager
+        return self.module.manager
 
     @property
     def viewport(self):
-        return self.manager.viewport
+        return self.module.viewport

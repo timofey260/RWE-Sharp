@@ -31,6 +31,9 @@ class UI(QWidget):
     def _answer(self, obj, text):
         return lambda x: print(text, file=logfile, flush=True)
 
+    def editor_linked(self, editor):
+        pass
+
 
 class ViewUI(UI):
     def add_myself(self):

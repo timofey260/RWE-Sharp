@@ -19,16 +19,18 @@ class ViewDockWidget(QDockWidget):
 
 
     @Slot(bool)
-    def change_visibility(self, value: bool):
+    def change_visibility(self, value: bool, hide=True):
         if self.state == value:
             return
         self.state = value
         if value:
             self.stateChanged.emit(value)
-            self.show()
+            if hide:
+                self.show()
             return
         self.stateChanged.emit(value)
-        self.hide()
+        if hide:
+            self.hide()
 
     def showEvent(self, event):
         self.change_visibility(True)
@@ -37,3 +39,11 @@ class ViewDockWidget(QDockWidget):
     def closeEvent(self, event):
         self.change_visibility(False)
         super().closeEvent(event)
+
+    def hide(self):
+        self.change_visibility(False, False)
+        super().hide()
+
+    def show(self):
+        self.change_visibility(True, False)
+        super().show()

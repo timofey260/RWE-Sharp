@@ -97,14 +97,13 @@ class GeometryEditor(Editor):
         super().__init__(mod)
         from BaseMod.baseMod import BaseMod
         self.mod: BaseMod
-        self.module = self.mod.geomodule
 
-        self.cursor = RenderRect(self.mod, 0, QRect(0, 0, CELLSIZE, CELLSIZE)).add_myself(self)
-        self.rect = RenderRect(self.mod, 0, QRect(0, 0, CELLSIZE, CELLSIZE)).add_myself(self)
-        self.ellipse = RenderEllipse(self.mod, 0, QRect(0, 0, CELLSIZE, CELLSIZE)).add_myself(self)
-        self.brushellipse = RenderEllipse(self.mod, 0, QRect(0, 0, CELLSIZE, CELLSIZE)).add_myself(self)
-        self.lineline = RenderLine(self.mod, 0, QLine(0, 0, 0, 0)).add_myself(self)
-        self.pixmap = RenderImage(self.mod, 1, QSize(CELLSIZE, CELLSIZE)).add_myself(self)
+        self.cursor = RenderRect(self, 0, QRect(0, 0, CELLSIZE, CELLSIZE)).add_myself(self)
+        self.rect = RenderRect(self, 0, QRect(0, 0, CELLSIZE, CELLSIZE)).add_myself(self)
+        self.ellipse = RenderEllipse(self, 0, QRect(0, 0, CELLSIZE, CELLSIZE)).add_myself(self)
+        self.brushellipse = RenderEllipse(self, 0, QRect(0, 0, CELLSIZE, CELLSIZE)).add_myself(self)
+        self.lineline = RenderLine(self, 0, QLine(0, 0, 0, 0)).add_myself(self)
+        self.pixmap = RenderImage(self, 1, QSize(CELLSIZE, CELLSIZE)).add_myself(self)
         self.lastpos = QPoint()
         self.block = EnumConfigurable(mod, "EDIT_geo.block", GeoBlocks.Wall, GeoBlocks, "Current geo block")
         self.toolleft = EnumConfigurable(mod, "EDIT_geo.lmb", GeoTools.Pen, GeoTools, "Current geo tool for LMB")
@@ -133,6 +132,10 @@ class GeometryEditor(Editor):
         self.brushsize.valueChanged.connect(self.repos_brush)
         self.toolcolor = ColorConfigurable(mod, "EDIT_geo.toolcolor", QColor(255, 0, 0, 255), "Tool color")
         self.toolcolor.valueChanged.connect(self.change_color)
+
+    @property
+    def module(self):
+        return self.viewport.modulenames["geo"]
 
     def change_color(self):
         self.rect.drawrect.setPen(self.toolcolor.value)
@@ -248,8 +251,8 @@ class GeometryEditor(Editor):
                 return -6, True
         return 0, False
 
-    def init_scene_items(self):
-        super().init_scene_items()
+    def init_scene_items(self, viewport):
+        super().init_scene_items(viewport)
         self.pixmap.renderedtexture.setOpacity(.3)
         self.rect.drawrect.setOpacity(0)
         self.ellipse.drawellipse.setOpacity(0)
@@ -260,9 +263,6 @@ class GeometryEditor(Editor):
         self.pixmap.painter.setCompositionMode(QPainter.CompositionMode.CompositionMode_Source)
         self.block_changed()
         self.change_color()
-        
-    def remove_items_from_scene(self):
-        super().remove_items_from_scene()
 
     def mouse_press_event(self, event: QMouseEvent):
         self.lastclick = self.mouse_pos
@@ -288,28 +288,28 @@ class GeometryEditor(Editor):
         if tool == GeoTools.Rect or tool == GeoTools.RectHollow:
             blk, stak = self.block2info()
             rect = self.fit_rect(lpos, fpos, shift, alt)
-            self.manager.level.add_history(GERectChange(self.manager.level.history, rect, [blk, stak], self.layers, tool == GeoTools.RectHollow))
+            self.level.add_history(GERectChange(self.level.history, rect, [blk, stak], self.layers, tool == GeoTools.RectHollow))
             self.rect.drawrect.setOpacity(0)
         elif tool == GeoTools.Circle or tool == GeoTools.CircleHollow:
             blk, stak = self.block2info()
             rect = self.fit_rect(lpos, fpos, shift, alt)
-            self.manager.level.add_history(GEEllipseChange(self.manager.level.history, rect, [blk, stak], self.layers, tool == GeoTools.CircleHollow))
+            self.level.add_history(GEEllipseChange(self.level.history, rect, [blk, stak], self.layers, tool == GeoTools.CircleHollow))
             self.ellipse.drawellipse.setOpacity(0)
         elif tool == GeoTools.Line:
             self.lineline.drawline.setOpacity(0)
             blk, stak = self.block2info()
-            self.manager.level.add_history(GEBrushChange(self.manager.level.history, lpos, [blk, stak], self.layers, self.brushsize.value))
+            self.level.add_history(GEBrushChange(self.level.history, lpos, [blk, stak], self.layers, self.brushsize.value))
             line = self.fit_line(lpos, fpos, shift)
-            self.manager.level.last_history_element.add_move(line.p2())
+            self.level.last_history_element.add_move(line.p2())
 
     def tool_specific_press(self, tool: Enum):
         fpos = self.viewport.viewport_to_editor(self.mouse_pos)
         if tool == GeoTools.Pen:
             blk, stak = self.block2info()
-            self.manager.level.add_history(GEPointChange(self.manager.level.history, fpos, [blk, stak], self.layers))
+            self.level.add_history(GEPointChange(self.level.history, fpos, [blk, stak], self.layers))
         elif tool == GeoTools.Brush:
             blk, stak = self.block2info()
-            self.manager.level.add_history(GEBrushChange(self.manager.level.history, fpos, [blk, stak], self.layers, self.brushsize.value))
+            self.level.add_history(GEBrushChange(self.level.history, fpos, [blk, stak], self.layers, self.brushsize.value))
         elif tool == GeoTools.Rect or tool == GeoTools.RectHollow:
             lpos = self.viewport.viewport_to_editor(self.lastclick)
             self.rect.setRect(QRect.span(lpos * CELLSIZE, fpos * CELLSIZE))
@@ -320,7 +320,7 @@ class GeometryEditor(Editor):
             self.ellipse.drawellipse.setOpacity(1)
         elif tool == GeoTools.Bucket:
             blk, stak = self.block2info()
-            self.manager.level.add_history(GEFillChange(self.manager.level.history, fpos, [blk, stak], self.layers))
+            self.level.add_history(GEFillChange(self.level.history, fpos, [blk, stak], self.layers))
         elif tool == GeoTools.Line:
             self.lineline.drawline.setOpacity(1)
 
@@ -329,7 +329,7 @@ class GeometryEditor(Editor):
         alt = mods & Qt.KeyboardModifier.AltModifier
         shift = mods & Qt.KeyboardModifier.ShiftModifier
         if tool == GeoTools.Pen or tool == GeoTools.Brush:
-            self.manager.level.last_history_element.add_move(pos)
+            self.level.last_history_element.add_move(pos)
         elif tool in [GeoTools.Rect, GeoTools.RectHollow, GeoTools.Circle, GeoTools.CircleHollow]:
             lpos = self.viewport.viewport_to_editor(self.lastclick)
             rect = self.fit_rect(lpos, pos, shift, alt)
@@ -407,7 +407,7 @@ class GeometryEditor(Editor):
         else:
             [self.drawl1, self.drawl2, self.drawl3][currentlayer].update_value(True)
         self.module.showlayer(currentlayer)
-        self.manager.basemod.tilemodule.showlayer(currentlayer)
+        self.basemod.tilemodule.showlayer(currentlayer)
 
     def mouse_move_event(self, event: QMoveEvent):
         super().mouse_move_event(event)
@@ -418,8 +418,8 @@ class GeometryEditor(Editor):
             self.pixmap.setPos(fpos.toPointF() * CELLSIZE)
             self.repos_brush()
             # self.cursor_item.setPos(self.viewport.editor_to_viewport(fpos))
-        if self.manager.level.inside(fpos):
-            self.manager.set_status(f"x: {fpos.x()}, y: {fpos.y()}, {self.manager.level['GE'][fpos.x()][fpos.y()]}"
+        if self.level.inside(fpos):
+            self.manager.set_status(f"x: {fpos.x()}, y: {fpos.y()}, {self.level['GE'][fpos.x()][fpos.y()]}"
                                     f" Placing {self.block.value.name}")
         if not (self.lastpos - fpos).isNull():
             if self.mouse_left:
@@ -427,8 +427,8 @@ class GeometryEditor(Editor):
             elif self.mouse_right:
                 self.tool_specific_update(self.toolright.value, fpos)
 
-            # self.manager.set_status(str(self.manager.level.TE_data(fpos.x(), fpos.y(), 0)))
-            # self.manager.level["GE"][fpos.x()][fpos.y()][0][0] = 1
+            # self.manager.set_status(str(self.level.TE_data(fpos.x(), fpos.y(), 0)))
+            # self.level["GE"][fpos.x()][fpos.y()][0][0] = 1
             # self.module.l1.draw_geo(fpos.x(), fpos.y(), True)
             # self.module.l1.redraw()
         self.lastpos = fpos

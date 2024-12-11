@@ -37,7 +37,7 @@ class TileEditor(Editor):
     def __init__(self, mod):
         super().__init__(mod)
         mod: BaseMod
-        self.module = mod.tilemodule
+        self.module = None
         self.previewoption = IntConfigurable(mod, "EDIT_tiles.previewMode", 7, "tile preview mode")
         self.show_collisions = BoolConfigurable(mod, "EDIT_tiles.show_collisions", True, "Show collisions")
         self.vis_layer = IntConfigurable(mod, "EDIT_tiles.layer", 1, "Layer to place tiles on")
@@ -56,7 +56,7 @@ class TileEditor(Editor):
         self.colortable = palette_to_colortable(QImage(self.palette_image.value))
         self.explorer = TileExplorer(self, self.manager.window)
         self.tile: Tile | None = mod.manager.tiles.find_tile("Four Holes")
-        self.tile_item = RenderTile(mod, 0, self.layer).add_myself(self)
+        self.tile_item = RenderTile(self, 0, self.layer).add_myself(self)
         # self.tile_cols_image = QPixmap(1, 1)
         # self.tile_cols_painter = QPainter(self.tile_cols_image)
         # self.tile_item: QGraphicsPixmapItem | None = None
@@ -65,7 +65,6 @@ class TileEditor(Editor):
         self.show_collisions.valueChanged.connect(self.hide_collisions)
         self.previewoption.valueChanged.connect(self.redraw_tile)
         self.vis_layer.valueChanged.connect(self.redraw_tile)
-        self.module.drawoption.valueChanged.connect(self.redraw_tile)
         self.palette_image.valueChanged.connect(self.change_palette)
 
     @property
@@ -116,12 +115,14 @@ class TileEditor(Editor):
             self.manager.set_status(f"x: {cellpos.x()}, y: {cellpos.y()}, {self.manager.level['TE']['tlMatrix'][cellpos.x()][cellpos.y()]}")
         # self.tile_item.setPos(pos)
 
-    def init_scene_items(self):
-        super().init_scene_items()
+    def init_scene_items(self, viewport):
+        super().init_scene_items(viewport)
+        self.module = viewport.modulenames["tiles"]
+        self.module.drawoption.valueChanged.connect(self.redraw_tile)
         self.redraw_tile()
 
-    def remove_items_from_scene(self):
-        super().remove_items_from_scene()
+    def remove_items_from_scene(self, viewport):
+        super().remove_items_from_scene(viewport)
 
     def mouse_press_event(self, event: QMouseEvent):
         if self.mouse_left:

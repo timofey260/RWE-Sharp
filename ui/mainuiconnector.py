@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import QMainWindow, QFileDialog, QSpacerItem, QSizePolicy
+from PySide6.QtWidgets import QMainWindow, QFileDialog, QSpacerItem, QSizePolicy, QWidget, QGridLayout
 from PySide6.QtCore import Slot, Qt
 
 from ui.FunnyVideo import FunnyVideo
@@ -24,6 +24,9 @@ class MainWindow(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
+        self.ui.tabWidget.clear()
+        self.ui.tabWidget.setTabsClosable(True)
+
         self.ui.actionOpen.triggered.connect(self.open_file)
         self.ui.actionClose.triggered.connect(self.close)
         self.ui.actionAbout.triggered.connect(self.open_about)
@@ -45,10 +48,11 @@ class MainWindow(QMainWindow):
 
         self.manager.basemod.bmconfig.about_key.link_action(self.ui.actionAbout)
 
-        self.ui.viewPort.add_managed_fields(self.manager)
+        # self.ui.viewPort.add_managed_fields(self.manager)
 
         # self.ui.menuRecent.addAction(QAction("lol", self.ui.menuRecent))
         self.ui.ToolsTabs.currentChanged.connect(self.change_editor)
+        self.ui.tabWidget.currentChanged.connect(self.manager.mount_editor)
         self.about = None
         self.settings: SettingsDialogUI | None = None
         self.hotkeys: HotkeysUI | None = None
@@ -77,6 +81,9 @@ class MainWindow(QMainWindow):
         self.setDockNestingEnabled(True)
 
         self.vid = None
+
+    def add_viewport(self, viewport):
+        self.ui.tabWidget.addTab(viewport, viewport.level.shortname)
 
     @Slot(int)
     def change_editor(self, val) -> None:

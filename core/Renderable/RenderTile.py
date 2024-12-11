@@ -4,13 +4,14 @@ from core.info import CELLSIZE
 from core.Loaders.TileLoader import palette_to_colortable, return_tile_pixmap, collisions_image, tile_offset
 from PySide6.QtCore import QSize, QPoint
 from PySide6.QtGui import QPixmap
+from PySide6.QtWidgets import QGraphicsPixmapItem
 
 
 class RenderTile(RenderImage):
-    def __init__(self, mod, depth, layer: int):
-        super().__init__(mod, depth, QSize(1, 1))
+    def __init__(self, module, depth, layer: int):
+        super().__init__(module, depth, QSize(1, 1))
         self.colsimage = QPixmap(1, 1)
-        self.colsimage_rendered = None
+        self.colsimage_rendered = QGraphicsPixmapItem(self.colsimage)
         self.layer = layer
         self.tile = None
         self.drawoption = 0
@@ -27,14 +28,13 @@ class RenderTile(RenderImage):
         super().redraw()
         self.colsimage_rendered.setPixmap(self.colsimage)
 
-    def init_graphics(self):
-        super().init_graphics()
-        self.colsimage_rendered = self.viewport.workscene.addPixmap(self.colsimage)
+    def init_graphics(self, viewport):
+        super().init_graphics(viewport)
+        self.viewport.workscene.addItem(self.colsimage_rendered)
 
-    def remove_graphics(self):
-        super().remove_graphics()
+    def remove_graphics(self, viewport):
+        super().remove_graphics(viewport)
         self.colsimage_rendered.removeFromIndex()
-        self.colsimage_rendered = None
 
     def move_event(self, pos):
         if self.tile is None:

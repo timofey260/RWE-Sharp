@@ -6,23 +6,23 @@ from widgets import Viewport
 
 
 class RenderRect(Renderable):
-    def __init__(self, mod, depth, rect: QRect, pen=QPen(Qt.GlobalColor.red), brush=QBrush(Qt.GlobalColor.transparent)):
-        super().__init__(mod, depth)
+    def __init__(self, module, depth, rect: QRect, pen=QPen(Qt.GlobalColor.red), brush=QBrush(Qt.GlobalColor.transparent)):
+        super().__init__(module, depth)
         self.rect = rect
-        self.drawrect: None | QGraphicsRectItem = None
+        self.drawrect = QGraphicsRectItem(self.rect)
         self.pen = QPen(pen)
         self.brush = QBrush(brush)
-
-    def init_graphics(self):
-        self.drawrect = self.viewport.workscene.addRect(self.rect)
-        self.drawrect.setZValue(self.depth)
         self.drawrect.setPen(self.pen)
         self.drawrect.setBrush(self.brush)
+        self.drawrect.setZValue(self.depth)
 
-    def remove_graphics(self):
-        super().remove_graphics()
+    def init_graphics(self, viewport):
+        super().init_graphics(viewport)
+        viewport.workscene.addItem(self.drawrect)
+
+    def remove_graphics(self, viewport):
+        super().remove_graphics(viewport)
         self.drawrect.removeFromIndex()
-        self.drawrect = None
 
     def move_event(self, pos):
         super().move_event(pos)

@@ -14,7 +14,7 @@ class Config:
     config stores mod settings by using config modules
     """
     def __init__(self, manager):
-        self.settings = QSettings(AUTHOR, NAME, )
+        self.settings = QSettings(AUTHOR, NAME, manager.application)
         self.manager = manager
         # self.modules: list[ConfigModule] = []
 
@@ -22,8 +22,9 @@ class Config:
         # 2nd step: apply all settings from configs to mods and ui
         # 3rd step: store settings when we save level
 
-    def init_configs(self):
-        pass
+    def init_configs(self, clear):
+        if clear:
+            self.settings.clear()
         # uuh done i think???
         # get config file
         # path = self.ensure_config()

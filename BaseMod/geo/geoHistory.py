@@ -15,7 +15,7 @@ class GEChange(HistoryElement):
         self.replace = replace
         self.layers = layers
         self.before = []
-        self.module = self.manager.basemod.geomodule
+        self.module = history.level.viewport.modulenames["geo"]
 
     def redraw(self):
         for i, l in enumerate(self.layers):
