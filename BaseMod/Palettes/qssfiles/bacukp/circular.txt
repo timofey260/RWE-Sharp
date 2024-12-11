@@ -14,7 +14,7 @@ QMainWindow::separator {
     height: 2px;
 }
 QToolBar {
-    background-color: #2B2B2B;
+    background-color: #2B2B2A;
     border: 1px solid #505050;
     spacing: 4px;
 }
