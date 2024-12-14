@@ -13,6 +13,7 @@ from RWESharp.Configurable import IntConfigurable, BoolConfigurable, KeyConfigur
 from RWESharp.Core import SettingsViewer
 from RWESharp.Ui import ViewUI, SettingUI, UI
 from RWESharp.Utils import paint_svg_qicon
+from RWESharp.Configurable import BoolConfigurable, FloatConfigurable, IntConfigurable
 
 button_to_geo = {
     "ToolGeoWall": GeoBlocks.Wall,
@@ -169,6 +170,25 @@ class GeoViewUI(ViewUI):
         self.ui = Ui_GeoView()
         self.ui.setupUi(self)
         self.module = self.mod.geomodule
+
+        self.drawgeo = BoolConfigurable(mod, "VIEW_geo.drawgeo", True, "Draw geometry")
+        self.drawAll = BoolConfigurable(mod, "VIEW_geo.drawall", False, "Draw all layers")
+        self.drawl1 = BoolConfigurable(mod, "VIEW_geo.drawl1", True, "Draw layer 1")
+        self.drawl2 = BoolConfigurable(mod, "VIEW_geo.drawl2", True, "Draw layer 2")
+        self.drawl3 = BoolConfigurable(mod, "VIEW_geo.drawl3", True, "Draw layer 3")
+        self.opacityl1 = FloatConfigurable(mod, "VIEW_geo.opacityl1", .9, "Opacity of the first layer")
+        self.opacityl2 = FloatConfigurable(mod, "VIEW_geo.opacityl2", .5, "Opacity of the second layer")
+        self.opacityl3 = FloatConfigurable(mod, "VIEW_geo.opacityl3", .2, "Opacity of the third layer")
+        self.opacityrgb = FloatConfigurable(mod, "VIEW_geo.opacityrgb", .5,
+                                            "Opacity of all layers on old rendering option")
+
+        self.drawlbeams = BoolConfigurable(mod, "VIEW_geo.drawlbeams", True, "Draw Beams")
+        self.drawlpipes = BoolConfigurable(mod, "VIEW_geo.drawlpipes", True, "Draw pipes")
+        self.drawlmisc = BoolConfigurable(mod, "VIEW_geo.drawlmisc", True, "Draw rocks, spears etc")
+
+        self.drawoption = IntConfigurable(mod, "VIEW_geo.drawOption", 0, "method of drawing")
+        self.opacityshift = BoolConfigurable(mod, "VIEW_geo.opacityShift", True,
+                                             "Does not change opacity of hidden layers")
 
         self.drawlgeo_key = KeyConfigurable(mod, "VIEW_geo.drawlall_key", "Alt+G", "Show geometry")
         self.drawl1_key = KeyConfigurable(mod, "VIEW_geo.drawl1_key", "Alt+1", "Show 1st layer geometry")

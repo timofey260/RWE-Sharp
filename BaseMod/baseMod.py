@@ -108,7 +108,7 @@ class BaseMod(Mod):
 
     def level_opened(self, viewport: ViewPort):
         GeoModule(self).add_myself(viewport, "geo")
-        TileModule(self).add_myself(viewport, "tiles")
+        # TileModule(self).add_myself(viewport, "tiles")
         GridModule(self).add_myself(viewport, "grid")
         # # effects
-        PropModule(self).add_myself(viewport)
+        # PropModule(self).add_myself(viewport)
