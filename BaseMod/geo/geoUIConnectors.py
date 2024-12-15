@@ -1,4 +1,4 @@
-from PySide6.QtCore import Slot, Qt, QCoreApplication
+from PySide6.QtCore import Slot, Qt, QCoreApplication, Signal
 from PySide6.QtGui import QAction, QColor
 from PySide6.QtWidgets import QMenu, QCheckBox
 
@@ -164,12 +164,13 @@ class GeoUI(UI):
 
 
 class GeoViewUI(ViewUI):
+    render = Signal()
+
     def __init__(self, mod, parent=None):
         super().__init__(mod, parent)
         self.mod: BaseMod
         self.ui = Ui_GeoView()
         self.ui.setupUi(self)
-        self.module = self.mod.geomodule
 
         self.drawgeo = BoolConfigurable(mod, "VIEW_geo.drawgeo", True, "Draw geometry")
         self.drawAll = BoolConfigurable(mod, "VIEW_geo.drawall", False, "Draw all layers")
@@ -198,6 +199,8 @@ class GeoViewUI(ViewUI):
         self.drawlpipes_key = KeyConfigurable(mod, "VIEW_geo.drawlpipes_key", "Alt+v", "Show connection pipes")
         self.drawlmisc_key = KeyConfigurable(mod, "VIEW_geo.drawlmisc_key", "Alt+c", "Show other/misc")
 
+        self.draw = True
+
         # adding menu and stuff
         self.menu = QMenu("Geometry")
         self.menu_drawlall = QAction("Geo")
@@ -205,28 +208,28 @@ class GeoViewUI(ViewUI):
         self.menu.addAction(self.menu_drawlall)
         self.menu.addSeparator()
         self.menu_drawl1 = QAction("Layer 1")
-        self.module.drawl1.link_button_action(self.ui.VGeoLayer1, self.menu_drawl1, self.drawl1_key)
+        self.drawl1.link_button_action(self.ui.VGeoLayer1, self.menu_drawl1, self.drawl1_key)
         self.menu.addAction(self.menu_drawl1)
         self.menu_drawl2 = QAction("Layer 2")
-        self.module.drawl2.link_button_action(self.ui.VGeoLayer2, self.menu_drawl2, self.drawl2_key)
+        self.drawl2.link_button_action(self.ui.VGeoLayer2, self.menu_drawl2, self.drawl2_key)
         self.menu.addAction(self.menu_drawl2)
         self.menu_drawl3 = QAction("Layer 3")
-        self.module.drawl3.link_button_action(self.ui.VGeoLayer3, self.menu_drawl3, self.drawl3_key)
+        self.drawl3.link_button_action(self.ui.VGeoLayer3, self.menu_drawl3, self.drawl3_key)
         self.menu.addAction(self.menu_drawl3)
         self.menu.addSeparator()
         self.menu_drawlbeams = QAction("Beams")
-        self.module.drawlbeams.link_button_action(self.ui.VGeoBeams, self.menu_drawlbeams, self.drawlbeams_key)
+        self.drawlbeams.link_button_action(self.ui.VGeoBeams, self.menu_drawlbeams, self.drawlbeams_key)
         self.menu.addAction(self.menu_drawlbeams)
         self.menu_drawlpipes = QAction("Paths")
-        self.module.drawlpipes.link_button_action(self.ui.VGeoPipes, self.menu_drawlpipes, self.drawlpipes_key)
+        self.drawlpipes.link_button_action(self.ui.VGeoPipes, self.menu_drawlpipes, self.drawlpipes_key)
         self.menu.addAction(self.menu_drawlpipes)
         self.menu_drawlmisc = QAction("Misc")
-        self.module.drawlmisc.link_button_action(self.ui.VGeoMisc, self.menu_drawlmisc, self.drawlmisc_key)
+        self.drawlmisc.link_button_action(self.ui.VGeoMisc, self.menu_drawlmisc, self.drawlmisc_key)
         self.menu.addAction(self.menu_drawlmisc)
 
         self.mod.manager.view_menu.addMenu(self.menu)
         self.ui.VGeoAll.checkStateChanged.connect(self.all_layers)
-        self.module.drawoption.link_radio([self.ui.VGeoRWEstyle, self.ui.VGeoOldStyle])
+        self.drawoption.link_radio([self.ui.VGeoRWEstyle, self.ui.VGeoOldStyle])
 
         self.VQuickGeo = QCheckBox()
         self.VQuickGeo.setObjectName(u"VQuickGeo")
@@ -235,21 +238,37 @@ class GeoViewUI(ViewUI):
         # self.VQuickGeo.checkStateChanged.connect(self.toggle_geo)
         self.mod.add_quickview_option(self.VQuickGeo)
 
-        self.module.drawgeo.link_button_action(self.VQuickGeo, self.menu_drawlall, self.drawlgeo_key)
-        self.module.drawAll.link_button(self.ui.VGeoAll)
+        self.drawgeo.link_button_action(self.VQuickGeo, self.menu_drawlall, self.drawlgeo_key)
+        self.drawAll.link_button(self.ui.VGeoAll)
+
+        self.drawgeo.valueChanged.connect(self.hide_geo)
+
+    @Slot()
+    def hide_geo(self):
+        self.draw = False
+        self.drawl1.update_value(self.drawgeo.value)
+        self.drawl2.update_value(self.drawgeo.value)
+        self.drawl3.update_value(self.drawgeo.value)
+        self.draw = True
+        self.render.emit()
 
     @Slot(Qt.CheckState)
     def all_layers(self, state: Qt.CheckState):
         if state == Qt.CheckState.Checked:
-            self.module.draw = False
+            self.draw = False
             self.ui.VGeoLayer1.setChecked(True)
             self.ui.VGeoLayer2.setChecked(True)
             self.ui.VGeoLayer3.setChecked(True)
             self.ui.VGeoBeams.setChecked(True)
             self.ui.VGeoPipes.setChecked(True)
             self.ui.VGeoMisc.setChecked(True)
-            self.module.draw = True
-            self.module.render_module()
+            self.draw = True
+            self.render.emit()
+
+    def showlayer(self, currentlayer):
+        self.drawl1.update_value(currentlayer == 0)
+        self.drawl2.update_value(currentlayer <= 1)
+        self.drawl3.update_value(True)
 
 
 class GeoSettings(SettingUI):

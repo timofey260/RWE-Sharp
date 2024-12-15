@@ -81,7 +81,7 @@ class GeoRenderLevelImage(RenderLevelImage):
         pos = self.binfo.get(str(cell), [0, 0])
         cellpos = QRect(pos[0] * self._sz, pos[1] * self._sz, self._sz, self._sz)
         placepos = QRect(x * CELLSIZE, y * CELLSIZE, 20, 20)
-        drawmap = self.geo_texture if self.module.drawoption.value == 0 else self.geo_texture_colored
+        drawmap = self.geo_texture if self.module.ui.drawoption.value == 0 else self.geo_texture_colored
         point = QPoint(x, y)
         if clear:
             self.painter.setCompositionMode(QPainter.CompositionMode.CompositionMode_Clear)
@@ -97,11 +97,11 @@ class GeoRenderLevelImage(RenderLevelImage):
         if cell != 7:
             self.painter.drawPixmap(placepos, drawmap, cellpos)
         for s in stackables:
-            if (s == 1 or s == 2) and not self.module.drawlbeams.value:
+            if (s == 1 or s == 2) and not self.module.ui.drawlbeams.value:
                 continue
-            elif s in [5, 6, 7, 19] and not self.module.drawlpipes.value:
+            elif s in [5, 6, 7, 19] and not self.module.ui.drawlpipes.value:
                 continue
-            elif s not in [1, 2, 5, 6, 7, 19] and not self.module.drawlmisc.value:
+            elif s not in [1, 2, 5, 6, 7, 19] and not self.module.ui.drawlmisc.value:
                 continue
             if s == 4:
                 # checking structures
