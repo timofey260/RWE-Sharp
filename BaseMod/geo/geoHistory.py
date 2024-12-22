@@ -47,6 +47,8 @@ class GERectChange(GEChange):
                     t.draw_geo(x, y, True, self.inborder(x, y))
         self.redraw()
 
+    #change to make new branch
+
     def inborder(self, x, y):
         return (x == self.rect.x() or y == self.rect.y() or
                 x == self.rect.x() + self.rect.width() - 1 or
