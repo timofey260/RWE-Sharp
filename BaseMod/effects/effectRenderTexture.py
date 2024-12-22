@@ -19,9 +19,9 @@ class EffectRenderLevelImage(RenderLevelImage):
 
     def draw_layer(self) -> None:
         self.image.fill(QColor(0, 0, 0, 0))
-        if self.manager.level.effect_len == 0:
+        if self.manager.selected_viewport is None or self.manager.selected_viewport.level.effect_len == 0:
             return
-        for xi, x in enumerate(self.manager.level.effect_data(self.index)["mtrx"]):
+        for xi, x in enumerate(self.manager.selected_viewport.level.effect_data(self.index)["mtrx"]):
             for yi, y in enumerate(x):
                 self.draw_pixel(QPoint(xi, yi))
         self.redraw()
@@ -32,7 +32,7 @@ class EffectRenderLevelImage(RenderLevelImage):
 
     def draw_pixel(self, point: QPoint, clear=False):
         drawpoint = point * CELLSIZE
-        val = self.manager.level.effect_data_pixel(self.index, point)
+        val = self.manager.selected_viewport.level.effect_data_pixel(self.index, point)
         color = color_lerp(self.editor.coloroff.value, self.editor.coloron.value, val / 100)
         self.painter.setBrush(color)
         self.painter.setPen(QColor(0, 0, 0, 0))

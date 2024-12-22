@@ -38,6 +38,18 @@ class UI(QWidget):
     def basemod(self):
         return self.mod.manager.basemod
 
+    @property
+    def selected_viewport(self):
+        return self.mod.manager.selected_viewport
+
+    @property
+    def level(self):
+        return self.mod.manager.selected_viewport.level
+
+    @property
+    def level_loaded(self):
+        return self.mod.manager.selected_viewport is not None
+
 
 class ViewUI(UI):
     def add_myself(self):

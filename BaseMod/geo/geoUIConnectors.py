@@ -250,7 +250,6 @@ class GeoViewUI(ViewUI):
         self.drawl2.update_value(self.drawgeo.value)
         self.drawl3.update_value(self.drawgeo.value)
         self.draw = True
-        self.render.emit()
 
     @Slot(Qt.CheckState)
     def all_layers(self, state: Qt.CheckState):

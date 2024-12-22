@@ -21,7 +21,7 @@ class RenderLine(Renderable):
 
     def remove_graphics(self, viewport):
         super().remove_graphics(viewport)
-        self.drawline.removeFromIndex()
+        viewport.workscene.removeItem(self.drawline)
 
     def move_event(self, pos):
         super().move_event(pos)

@@ -208,7 +208,8 @@ class Manager:
         if self.window.ui.tabWidget.count() == 0:
             return
         self.selected_viewport.remove_module(self.editor)
-        self.selected_viewport.add_module(self.editor)
+        self.selected_viewport.add_module(self.editor, editor=True)
+        self.selected_viewport.clean()
 
     @property
     def level_width(self):

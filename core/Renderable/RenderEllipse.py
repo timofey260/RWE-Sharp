@@ -22,7 +22,7 @@ class RenderEllipse(Renderable):
 
     def remove_graphics(self, viewport):
         super().remove_graphics(viewport)
-        self.drawellipse.removeFromIndex()
+        viewport.workscene.removeItem(self.drawellipse)
 
     def move_event(self, pos):
         super().move_event(pos)

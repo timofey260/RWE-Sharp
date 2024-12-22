@@ -56,12 +56,13 @@ class PropRenderable(Renderable):
         super().init_graphics(viewport)
         viewport.workscene.addItem(self.renderedtexture)
         #self.draw_layer()
-        #self.retransform()
+        self.move_event(self.viewport.topleft.pos())
+        self.retransform()
         #self.free_transform()
 
     def remove_graphics(self, viewport):
         super().remove_graphics(viewport)
-        self.renderedtexture.removeFromIndex()
+        viewport.workscene.removeItem(self.renderedtexture)
 
     def move_event(self, pos):
         super().move_event(pos)

@@ -188,7 +188,7 @@ class GEBrushChange(GEChange):
         self.redraw()
 
     def paintpoint(self, pos: QPoint):
-        if not self.manager.level.inside(pos) or not self.area[pos.x()][pos.y()]:
+        if not self.history.level.inside(pos) or not self.area[pos.x()][pos.y()]:
             return
         for i, l in enumerate(self.layers):
             if not l:

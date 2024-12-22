@@ -95,11 +95,11 @@ def check4tile_col(level: RWELevel,
         return None, None
     elif not fp and level.tile_data(pos, layer).get("tp") != "default":
         return None, None
-    level.manager.basemod.tilemodule.get_layer(layer).clean_pixel(pos)
+    level.viewport.modulenames["tiles"].get_layer(layer).clean_pixel(pos)
     if fg and col != level.geo_data(pos, layer)[0]:
         geochange = [pos, layer, col, level.geo_data(pos, layer)[0]]
         level.data["GE"][pos.x()][pos.y()][layer][0] = col
-        level.manager.basemod.geomodule.get_layer(layer).draw_geo(pos.x(), pos.y(), True)
+        level.viewport.modulenames["geo"].get_layer(layer).draw_geo(pos.x(), pos.y(), True)
     if not secondlayer and pos == head:
         change = [pos, layer,
                   {"tp": "tileHead", "data": [lingoIO.makearr([tile.cat.x(), tile.cat.y()], "point"), tile.name]},
@@ -128,8 +128,8 @@ def place_tile(level: RWELevel,
             geochange = [[pos, layer, 1, level.geo_data(pos, layer)[0]]]
             level.data["GE"][pos.x()][pos.y()][layer][0] = 1
         level.data["TE"]["tlMatrix"][pos.x()][pos.y()][layer] = {"tp": "material", "data": tile.name}
-        level.manager.basemod.tilemodule.get_layer(layer).draw_tile(pos)
-        level.manager.basemod.geomodule.get_layer(layer).draw_geo(pos.x(), pos.y(), True)
+        level.viewport.modulenames["tiles"].get_layer(layer).draw_tile(pos)
+        level.viewport.modulenames["geo"].get_layer(layer).draw_geo(pos.x(), pos.y(), True)
         return PlacedTile([change], geochange)
     headpos = tile_offset(tile) + pos
     if not level.inside(headpos):
@@ -166,7 +166,7 @@ def place_tile(level: RWELevel,
                 changes.append(ch)
             if gch is not None:
                 geochanges.append(gch)
-    level.manager.basemod.tilemodule.get_layer(layer).draw_tile(headpos)
+    level.viewport.modulenames["tiles"].get_layer(layer).draw_tile(headpos)
     return PlacedTile(changes, geochanges)
 
 
@@ -181,7 +181,7 @@ def remove_tile(level: RWELevel, pos: QPoint, layer: int) -> RemovedTile | None:
     elif tp == "material":
         change = [pos, layer, {"tp": "material", "data": data.get("data")}]
         level.data["TE"]["tlMatrix"][pos.x()][pos.y()][layer] = {"tp": "default", "data": 0}
-        level.manager.basemod.tilemodule.get_layer(layer).clean_pixel(pos)
+        level.viewport.modulenames["tiles"].get_layer(layer).clean_pixel(pos)
         return RemovedTile([change])
     elif tp == "tileBody":
         head = data.get("data")
@@ -212,16 +212,16 @@ def remove_tile(level: RWELevel, pos: QPoint, layer: int) -> RemovedTile | None:
                 except IndexError:
                     col2 = 1
                 if col2 != -1 and (level.tile_data(bodypos, layer + 1) == tiledata or level.tile_data(bodypos, layer + 1)["tp"] == "default"):
-                    level.manager.basemod.tilemodule.get_layer(layer + 1).clean_pixel(bodypos)
+                    level.viewport.modulenames["tiles"].get_layer(layer + 1).clean_pixel(bodypos)
                     changes.append([bodypos, layer + 1, copy_tile(level.tile_data(bodypos, layer + 1))])
                     level.data["TE"]["tlMatrix"][bodypos.x()][bodypos.y()][layer + 1] = {"tp": "default", "data": 0}
             if (col == -1 or level.tile_data(bodypos, layer) != tiledata) and level.tile_data(bodypos, layer)["tp"] != "default":
                 continue
-            level.manager.basemod.tilemodule.get_layer(layer).clean_pixel(bodypos)
+            level.viewport.modulenames["tiles"].get_layer(layer).clean_pixel(bodypos)
             changes.append([bodypos, layer, copy_tile(level.tile_data(bodypos, layer))])
             level.data["TE"]["tlMatrix"][bodypos.x()][bodypos.y()][layer] = {"tp": "default", "data": 0}
     changes.append([headpos, layer, copy_tile(level.tile_data(headpos, layer))])
-    level.manager.basemod.tilemodule.get_layer(layer).clean_pixel(headpos)
+    level.viewport.modulenames["tiles"].get_layer(layer).clean_pixel(headpos)
     level.data["TE"]["tlMatrix"][headpos.x()][headpos.y()][layer] = {"tp": "default", "data": 0}
     return RemovedTile(changes)
 
@@ -246,22 +246,22 @@ class PlacedTile(BaseTileChangelist):
 
     def undo(self, element: TileHistory):
         for i in self.changes:
-            element.history.level.manager.basemod.tilemodule.get_layer(i[1]).clean_pixel(i[0])
+            element.history.level.viewport.modulenames["tiles"].get_layer(i[1]).clean_pixel(i[0])
             element.history.level.data["TE"]["tlMatrix"][i[0].x()][i[0].y()][i[1]] = copy_tile(i[3])
             if i[2]["tp"] in ["tileHead", "material"]:
-                element.history.level.manager.basemod.tilemodule.get_layer(i[1]).draw_tile(i[0])
+                element.history.level.viewport.modulenames["tiles"].get_layer(i[1]).draw_tile(i[0])
         for i in self.geochanges:
             element.history.level.data["GE"][i[0].x()][i[0].y()][i[1]][0] = i[3]
-            element.history.level.manager.basemod.geomodule.get_layer(i[1]).draw_geo(i[0].x(), i[0].y(), True)
+            element.history.level.viewport.modulenames["geo"].get_layer(i[1]).draw_geo(i[0].x(), i[0].y(), True)
 
     def redo(self, element: TileHistory):
         for i in self.changes:
             element.history.level.data["TE"]["tlMatrix"][i[0].x()][i[0].y()][i[1]] = copy_tile(i[2])
             if i[2]["tp"] in ["tileHead", "material"]:
-                element.history.level.manager.basemod.tilemodule.get_layer(i[1]).draw_tile(i[0])
+                element.history.level.viewport.modulenames["tiles"].get_layer(i[1]).draw_tile(i[0])
         for i in self.geochanges:
             element.history.level.data["GE"][i[0].x()][i[0].y()][i[1]][0] = i[2]
-            element.history.level.manager.basemod.geomodule.get_layer(i[1]).draw_geo(i[0].x(), i[0].y(), True)
+            element.history.level.viewport.modulenames["geo"].get_layer(i[1]).draw_geo(i[0].x(), i[0].y(), True)
 
 
 class RemovedTile(BaseTileChangelist):
@@ -269,11 +269,11 @@ class RemovedTile(BaseTileChangelist):
         for i in self.changes:
             element.history.level.data["TE"]["tlMatrix"][i[0].x()][i[0].y()][i[1]] = i[2]
             if i[2]["tp"] in ["tileHead", "material"]:
-                element.history.level.manager.basemod.tilemodule.get_layer(i[1]).draw_tile(i[0])
+                element.history.level.viewport.modulenames["tiles"].get_layer(i[1]).draw_tile(i[0])
 
     def redo(self, element: TileHistory):
         for i in self.changes:
-            element.history.level.manager.basemod.tilemodule.get_layer(i[1]).clean_pixel(i[0])
+            element.history.level.viewport.modulenames["tiles"].get_layer(i[1]).clean_pixel(i[0])
             element.history.level.data["TE"]["tlMatrix"][i[0].x()][i[0].y()][i[1]] = {"tp": "default", "data": 0}
 
 
@@ -289,13 +289,13 @@ class TileHistory(HistoryElement):
         self.fg = force_geometry
 
     def redraw(self):
-        self.history.level.manager.basemod.tilemodule.get_layer(self.layer).redraw()
+        self.history.level.viewport.modulenames["tiles"].get_layer(self.layer).redraw()
         if self.fg:
-            self.history.level.manager.basemod.geomodule.get_layer(self.layer).redraw()
+            self.history.level.viewport.modulenames["geo"].get_layer(self.layer).redraw()
         if self.layer + 1 < 3:
             if self.fg:
-                self.history.level.manager.basemod.geomodule.get_layer(self.layer + 1).redraw()
-            self.history.level.manager.basemod.tilemodule.get_layer(self.layer + 1).redraw()
+                self.history.level.viewport.modulenames["geo"].get_layer(self.layer + 1).redraw()
+            self.history.level.viewport.modulenames["tiles"].get_layer(self.layer + 1).redraw()
 
     def undo_changes(self):
         for i in self.savedtiles:

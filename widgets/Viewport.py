@@ -45,10 +45,11 @@ class ViewPort(QGraphicsView):
     def redraw(self):
         self.repaint()
 
-    def add_module(self, module: Module, name=None):
-        self.modules.append(module)
-        if name is not None:
-            self.modulenames[name] = module
+    def add_module(self, module: Module, name=None, editor=False):
+        if not editor:
+            self.modules.append(module)
+            if name is not None:
+                self.modulenames[name] = module
         module.viewport = self
         module.init_scene_items(self)
         for i in module.renderables:

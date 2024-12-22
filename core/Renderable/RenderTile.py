@@ -34,7 +34,7 @@ class RenderTile(RenderImage):
 
     def remove_graphics(self, viewport):
         super().remove_graphics(viewport)
-        self.colsimage_rendered.removeFromIndex()
+        viewport.workscene.removeItem(self.colsimage_rendered)
 
     def move_event(self, pos):
         if self.tile is None:

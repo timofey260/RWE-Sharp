@@ -108,7 +108,7 @@ class TileExplorer(Explorer):
         self.drawoption.valueChanged.connect(self.change_draw_option)
         self.layer.link_combobox(self.ui.LayerBox)
         self.layer.valueChanged.connect(self.change_draw_option)
-        self.mod.tileview.drawoption.valueChanged.connect(self.change_draw_option)  # todo link it to ui
+        self.mod.tileview.drawoption.valueChanged.connect(self.change_draw_option)
         self.palette_path.valueChanged.connect(self.update_palette)
         self.ui.SearchBar.textChanged.connect(self.search)
         self.ui.Pin.clicked.connect(self.pin_tile)
@@ -181,7 +181,7 @@ class TileExplorer(Explorer):
 
     @property
     def synced_draw_option(self):
-        return self.drawoption.value if self.drawoption.value != 7 else self.mod.tilemodule.drawoption.value
+        return self.drawoption.value if self.drawoption.value != 7 else self.mod.tileview.drawoption.value
 
     def hide_cols(self, value):
         self.tilecolsimage.setOpacity(1 if value else 0)

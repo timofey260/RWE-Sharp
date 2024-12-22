@@ -35,7 +35,7 @@ class RenderImage(Renderable):
 
     def remove_graphics(self, viewport):
         super().remove_graphics(viewport)
-        self.renderedtexture.removeFromIndex()
+        viewport.workscene.removeItem(self.renderedtexture)
 
     def move_event(self, pos):
         super().move_event(pos)

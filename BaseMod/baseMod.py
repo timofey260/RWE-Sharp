@@ -49,14 +49,14 @@ class BaseMod(Mod):
         self.tileui = TileUI(self)
         self.tilesettings = TileSettings(self) # todo
         self.tileeditor.add_myself(self.tileui)
-        #
-        # self.effecteditor = EffectEditor(self)
-        # self.effectui = EffectsUI(self)
-        # self.effecteditor.add_myself(self.effectui)
-        #
-        # self.propeditor = PropEditor(self)
-        # self.propui = PropsUI(self)
-        # self.propeditor.add_myself(self.propui)
+
+        self.effecteditor = EffectEditor(self)
+        self.effectui = EffectsUI(self)
+        self.effecteditor.add_myself(self.effectui)
+
+        self.propeditor = PropEditor(self)
+        self.propui = PropsUI(self)
+        self.propeditor.add_myself(self.propui)
 
         if self.bmconfig.funny.value:
             self.sex = QAction("sex")
@@ -110,4 +110,4 @@ class BaseMod(Mod):
         TileModule(self).add_myself(viewport, "tiles")
         GridModule(self).add_myself(viewport, "grid")
         # # effects
-        # PropModule(self).add_myself(viewport)
+        PropModule(self).add_myself(viewport, "props")

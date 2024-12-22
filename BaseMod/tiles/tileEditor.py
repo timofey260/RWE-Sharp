@@ -96,7 +96,7 @@ class TileEditor(Editor):
     def tile_preview_option(self):
         value = self.previewoption.value
         if self.previewoption.value == 7:
-            value = self.mod.tilemodule.drawoption.value
+            value = self.basemod.tileview.drawoption.value
         return value
 
     def mouse_move_event(self, event: QMoveEvent):
@@ -108,21 +108,22 @@ class TileEditor(Editor):
         self.tile_item.setPos(cellpos * CELLSIZE)
         if self.mouse_left:
             if self.deleteleft.value:
-                self.manager.level.history.last_element.add_move(curpos)
+                self.manager.selected_viewport.level.history.last_element.add_move(curpos)
             else:
-                self.manager.level.history.last_element.add_move(cellpos)
-        if self.manager.level.inside(cellpos):
-            self.manager.set_status(f"x: {cellpos.x()}, y: {cellpos.y()}, {self.manager.level['TE']['tlMatrix'][cellpos.x()][cellpos.y()]}")
+                self.manager.selected_viewport.level.history.last_element.add_move(cellpos)
+        if self.manager.selected_viewport.level.inside(cellpos):
+            self.manager.set_status(f"x: {cellpos.x()}, y: {cellpos.y()}, {self.manager.selected_viewport.level['TE']['tlMatrix'][cellpos.x()][cellpos.y()]}")
         # self.tile_item.setPos(pos)
 
     def init_scene_items(self, viewport):
         super().init_scene_items(viewport)
         self.module = viewport.modulenames["tiles"]
-        self.module.drawoption.valueChanged.connect(self.redraw_tile)
+        self.basemod.tileview.drawoption.valueChanged.connect(self.redraw_tile)
         self.redraw_tile()
 
     def remove_items_from_scene(self, viewport):
         super().remove_items_from_scene(viewport)
+        self.module = None
 
     def mouse_press_event(self, event: QMouseEvent):
         if self.mouse_left:
@@ -134,4 +135,4 @@ class TileEditor(Editor):
         offset = tile_offset(self.tile)
         fpos = self.viewport.viewport_to_editor(self.mouse_pos) - offset
         if tool == TileTools.Pen:
-            self.manager.level.add_history(TilePen(self.manager.level.history, fpos, self.tile, self.layer, delete, self.force_place.value, self.force_geo.value))
+            self.manager.selected_viewport.level.add_history(TilePen(self.manager.selected_viewport.level.history, fpos, self.tile, self.layer, delete, self.force_place.value, self.force_geo.value))

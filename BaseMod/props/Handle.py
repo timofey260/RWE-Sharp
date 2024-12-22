@@ -44,7 +44,7 @@ class Handle(Renderable):
 
     def remove_graphics(self, viewport):
         super().remove_graphics(viewport)
-        self.handle.removeFromIndex()
+        viewport.workscene.removeItem(self.handle)
 
     def zoom_event(self, zoom):
         self.handle.setPos(self.actual_offset)

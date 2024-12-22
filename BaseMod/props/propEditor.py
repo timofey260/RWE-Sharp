@@ -124,4 +124,4 @@ class PropEditor(Editor):
         quads = [lingoIO.makearr([round(i.x(), 4), round(i.y(), 4)], "point") for i in quads1]
         prop = [-self.depth, self.prop.name, lingoIO.makearr([self.prop.cat.x(), self.prop.cat.y()], "point"),
                 quads, {"settings": self.prop_settings.copy()}]
-        self.level.add_history(PropPlace(self.level.history, prop))
+        self.level.add_history(PropPlace(self.level.history, self.viewport.modulenames["props"], prop))
