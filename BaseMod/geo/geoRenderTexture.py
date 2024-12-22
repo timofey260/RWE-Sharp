@@ -72,7 +72,7 @@ class GeoRenderLevelImage(RenderLevelImage):
             for yp, y in enumerate(x):
                 if 5 in y[self.geolayer][1] or 6 in y[self.geolayer][1] or 7 in y[self.geolayer][1] or 19 in \
                         y[self.geolayer][1]:
-                    self.draw_geo(xp, yp, True)
+                    self.draw_geo(xp, yp, True, False)
         self.redraw()
 
     def draw_geo(self, x: int, y: int, clear: bool = False, updatearound=True):

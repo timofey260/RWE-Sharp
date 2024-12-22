@@ -27,6 +27,7 @@ class EffectsUI(UI):
         self.ui.setupUi(self)
         mod: BaseMod
         self.editor = mod.effecteditor
+        self.editor.effectui = self
         self.explorer = self.editor.effect_explorer
         self.ui.EffectsTree.setAlternatingRowColors(True)
 
@@ -42,8 +43,6 @@ class EffectsUI(UI):
         self.editor.effectindex.valueChanged.connect(self.effect_select)
         self.ui.Up.clicked.connect(self.effect_up)
         self.ui.Down.clicked.connect(self.effect_down)
-        self.add_effects()
-        self.effect_settings()
         self.ui.OptionsTree.itemDoubleClicked.connect(self.effect_settings_double_click)
         self.ui.OptionsTree.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
         self.ui.OptionsTree.customContextMenuRequested.connect(self.settings_context_menu)

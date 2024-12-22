@@ -47,7 +47,7 @@ class BaseMod(Mod):
         self.tileview = TileViewUI(self).add_myself()
         self.tileeditor = TileEditor(self)
         self.tileui = TileUI(self)
-        self.tilesettings = TileSettings(self) # todo
+        self.tilesettings = TileSettings(self)
         self.tileeditor.add_myself(self.tileui)
 
         self.effecteditor = EffectEditor(self)
@@ -97,6 +97,11 @@ class BaseMod(Mod):
         self.bmconfig.effect_editor.link_action(self.action_effecteditor)
         self.action_effecteditor.triggered.connect(lambda: self.manager.change_editor_name("effects"))
         self.manager.editors_menu.addAction(self.action_effecteditor)
+
+        self.action_propeditor = QAction("Prop Editor")
+        self.bmconfig.prop_editor.link_action(self.action_propeditor)
+        self.action_propeditor.triggered.connect(lambda: self.manager.change_editor_name("props"))
+        self.manager.editors_menu.addAction(self.action_propeditor)
 
     def sexthing(self):
         self.vid = FunnyVideo(self.manager, False, os.path.join(PATH_FILES_VIDEOS, "sex.mp4").replace("\\", "/"), "SEX")

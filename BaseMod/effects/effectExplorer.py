@@ -39,7 +39,7 @@ class EffectExplorer(ViewDockWidget):
         self.load_effects()
 
     def add_effect(self):
-        self.mod.manager.level.add_history(EffectAdd(self.mod.manager.level.history, self.effect))
+        self.mod.manager.selected_viewport.level.add_history(EffectAdd(self.mod.manager.selected_viewport.level.history, self.effect))
 
     def load_effects(self):
         filter = self.ui.Search.text()

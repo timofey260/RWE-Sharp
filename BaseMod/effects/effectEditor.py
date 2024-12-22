@@ -12,6 +12,7 @@ from PySide6.QtCore import QRect, QPoint, QSize, Qt
 class EffectEditor(Editor):
     def __init__(self, mod):
         super().__init__(mod)
+        self.effectui = None
         self.coloroff = ColorConfigurable(mod, "EDIT_effect.color_off", QColor(210, 37, 219, 100), "No value color")
         self.coloron = ColorConfigurable(mod, "EDIT_effect.color_on", QColor(37, 204, 18, 130), "Full value color")
         self.layer = EffectRenderLevelImage(self, 100, 0).add_myself(self)
@@ -59,3 +60,8 @@ class EffectEditor(Editor):
         shift = bool(QGuiApplication.keyboardModifiers() & Qt.KeyboardModifier.ShiftModifier)
         pos = self.viewport.viewport_to_editor(self.mouse_pos)
         self.level.add_history(EffectBrush(self.level.history, self.effectindex.value, pos, self.brushsize.value, True, shift))
+
+    def init_scene_items(self, viewport):
+        super().init_scene_items(viewport)
+        self.effectui.add_effects()
+        self.effectui.effect_settings()

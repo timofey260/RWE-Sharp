@@ -42,6 +42,7 @@ class BaseModConfig:
         self.geometry_editor = KeyConfigurable(mod, "basemod.geo", "1", "Open Geometry editor")
         self.tile_editor = KeyConfigurable(mod, "basemod.tiles", "2", "Open Tile editor")
         self.effect_editor = KeyConfigurable(mod, "basemod.effect", "3", "Open Effect editor")
+        self.prop_editor = KeyConfigurable(mod, "basemod.props", "4", "Open Prop editor")
 
         self.funny_vid = BoolConfigurable(mod, "basemod.funnyvid", True, "Funny video when you close rwe#")
         self.funny = BoolConfigurable(mod, "basemod.funny", True, "Adds funny")
