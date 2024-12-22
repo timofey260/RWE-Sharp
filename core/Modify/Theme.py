@@ -9,7 +9,11 @@ class Theme:
         self.settings: ThemeUI | None = None
 
     def add_myself(self):
-        self.mod.add_palette(self)
+        from BaseMod.baseMod import BaseMod
+        if isinstance(self.mod, BaseMod):
+            self.mod.preferences.add_theme(self)
+            return self
+        self.mod.manager.basemod.preferences.add_theme(self)
         return self
 
     def theme_enable(self):

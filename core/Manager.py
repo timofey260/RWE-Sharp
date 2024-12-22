@@ -60,10 +60,6 @@ class Manager:
         """
         Configs are used to store editor-specific data
         """
-        self.themes: list[Theme] = []
-        """
-        neat color visuals
-        """
         self.setting_trees: list[SettingElement] = []
         """
         Collection of ui's for settings window
@@ -72,7 +68,6 @@ class Manager:
         """
         Collection of ui's for hotkey window
         """
-        self.current_theme: Theme | None = None
         self.mod_types = []
         from BaseMod.baseMod import BaseMod
 
@@ -86,7 +81,6 @@ class Manager:
         v = self.open_level(RWELevel(self, file))
 
         self.init_editors(v)
-        self.change_theme()
         log("Finished initiating")
 
     def open_level(self, level):
@@ -96,22 +90,6 @@ class Manager:
 
     def change_level(self, path):  # obsolete?
         self.open_level(RWELevel(self, path))
-
-    def change_theme(self):
-        if self.basemod.bmconfig.theme.value == "":
-            if self.current_theme is not None:
-                self.current_theme.theme_disable()
-                log("Theme is Disabled")
-                self.current_theme = None
-            return
-        for i in self.themes:
-            if self.basemod.bmconfig.theme.value == f"{i.mod.author_name}.{i.name}":
-                if self.current_theme is not None:
-                    self.current_theme.theme_disable()
-                i.theme_enable()
-                self.current_theme = i
-                log(f"Using Theme {i.name}")
-                return
 
     def init_editors(self, v):
         if len(self.editors) <= 0:

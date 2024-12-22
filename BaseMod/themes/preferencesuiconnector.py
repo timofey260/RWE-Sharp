@@ -1,43 +1,69 @@
 from BaseMod.themes.preferencesui import Ui_Preferences
 from RWESharp.Ui import SettingUI
+from RWESharp.Configurable import StringConfigurable
+from RWESharp.Utils import log
 from PySide6.QtCore import Qt
 from widgets.SettingsViewer import SettingsViewer
-from RWESharp.Configurable import StringConfigurable
 
 
 class PreferencesUI(SettingUI):
     def __init__(self, mod):
         super().__init__(mod)
-        self.lasttheme = StringConfigurable(None, "lasththeme", "", "Theme")
+        self.theme = StringConfigurable(mod, "basemod.theme", "",
+                                        "palette colors")  # "timofey26.basemod.Raspberry Dark"
+        self.lasttheme = StringConfigurable(None, "lasttheme", "",
+                                        "palette colors")  # "timofey26.basemod.Raspberry Dark"
+        self.current_theme = None
+        self.themes = []
+
+    def change_theme(self):
+        if self.theme.value == "":
+            if self.current_theme is not None:
+                self.current_theme.theme_disable()
+                log("Theme is Disabled")
+                self.current_theme = None
+            return
+        for i in self.themes:
+            if self.theme.value == i.config_name:
+                if self.current_theme is not None:
+                    self.current_theme.theme_disable()
+                i.theme_enable()
+                self.current_theme = i
+                log(f"Using Theme {i.name}")
+                return
+
+    def add_theme(self, theme):
+        self.themes.append(theme)
+        self.change_theme()
+
+    def apply_values(self):
+        self.theme.update_value(self.lasttheme.value)
+        self.change_theme()
+        super().apply_values()
 
     def reset_values(self):
-        self.mod.manager.basemod.bmconfig.theme.update_value(self.lasttheme.value)
+        super().reset_values()
         self.pick_active()
 
     def reset_values_default(self):
-        self.mod.manager.basemod.bmconfig.theme.update_value(self.mod.manager.basemod.bmconfig.theme.default)
-        self.lasttheme.update_value(self.mod.manager.basemod.bmconfig.theme.value)
+        super().reset_values_default()
         self.pick_active()
-
-    def apply_values(self):
-        self.index_changed(self.ui.Theme.currentIndex())
-        self.lasttheme.update_value(self.mod.manager.basemod.bmconfig.theme.value)
 
     def init_ui(self, viewer: SettingsViewer):
         self.ui = Ui_Preferences()
         self.ui.setupUi(viewer)
         self.ui.Theme.clear()
         self.ui.Theme.addItem("Disabled")
-        self.lasttheme.update_value(self.mod.manager.basemod.bmconfig.theme.value)
-        for i, v in enumerate(self.mod.manager.themes):
+        for i, v in enumerate(self.themes):
             self.ui.Theme.addItem(v.name, v)
         self.pick_active()
         self.setup_ui(self.ui.Theme.currentData(Qt.ItemDataRole.UserRole))
         self.ui.Theme.currentIndexChanged.connect(self.index_changed)
 
     def pick_active(self):
-        for i, v in enumerate(self.mod.manager.themes):
-            if v == self.mod.manager.current_theme:
+        for i, v in enumerate(self.themes):
+            print(v, self.current_theme)
+            if v == self.current_theme:
                 self.ui.Theme.setCurrentIndex(i + 1)
                 break
         else:
@@ -45,14 +71,16 @@ class PreferencesUI(SettingUI):
         #self.setup_ui(self.ui.Theme.currentData(Qt.ItemDataRole.UserRole))
 
     def index_changed(self, index):
+        print("was", index)
         if index == 0:
-            self.mod.manager.basemod.bmconfig.theme.update_value("")
+            self.lasttheme.update_value("")
         else:
-            self.mod.manager.basemod.bmconfig.theme.update_value(self.ui.Theme.currentData(Qt.ItemDataRole.UserRole).config_name)
+            self.lasttheme.update_value(self.ui.Theme.currentData(Qt.ItemDataRole.UserRole).config_name)
         self.setup_ui(self.ui.Theme.currentData(Qt.ItemDataRole.UserRole))
 
     def setup_ui(self, theme, skip=False):
-        if len(self.ui.ThemeUI.children()) > 0 and not skip:
+
+        if not skip and len(self.ui.ThemeUI.children()) > 0:
             self.ui.ThemeUI.children()[0].destroyed.connect(lambda x: self.setup_ui(theme, True))
             for i in self.ui.ThemeUI.children():
                 i.deleteLater()

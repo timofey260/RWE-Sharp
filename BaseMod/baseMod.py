@@ -33,11 +33,11 @@ class BaseMod(Mod):
         ), path)
         from BaseMod.geo.geoUIConnectors import GeoUI, GeoViewUI, GeoSettings
         from BaseMod.tiles.tileUIConnectors import TileViewUI, TileUI, TileSettings
-        # ThemeManager(self).add_myself()
-        self.rpdark = RaspberryDark(self).add_myself()
-        #TODO not to do that ^
         self.bmconfig = BaseModConfig(self)
 
+        self.preferences = PreferencesUI(self)
+        self.rpdark = RaspberryDark(self).add_myself()
+        # TODO not to do that ^
         self.geoeditor = GeometryEditor(self)
         self.geoui = GeoUI(self)
         self.geoeditor.add_myself(self.geoui)
@@ -65,7 +65,7 @@ class BaseMod(Mod):
         self.gridui = GridView(self).add_myself()
 
         self.settingtree = SettingElement(self, self.modinfo.title, self.modinfo.name).add_myself()
-        SettingElement(self, "Theme", "pref", PreferencesUI(self), self.settingtree)
+        SettingElement(self, "Theme", "pref", self.preferences, self.settingtree)
         self.settingtree.add_child(SettingElement(self, "Geo", "geo", self.geosettings))
         self.settingtree.add_child(SettingElement(self, "Tiles", "tiles", self.tilesettings))
 

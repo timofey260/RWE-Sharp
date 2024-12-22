@@ -35,9 +35,6 @@ class BaseModConfig:
         self.tileexplorer_key = KeyConfigurable(mod, "basemod.tileexplorer", "Ctrl+shift+r", "Open tile explorer")
         self.propexplorer_key = KeyConfigurable(mod, "basemod.propexplorer", "Ctrl+shift+p", "Open prop explorer")
         self.effectexplorer_key = KeyConfigurable(mod, "basemod.effectexplorer", "Ctrl+shift+e", "Open effect explorer")
-        self.theme = StringConfigurable(mod, "basemod.theme", "", "palette colors")  # "timofey26.basemod.Raspberry Dark"
-
-        self.theme.valueChanged.connect(mod.manager.change_theme)
 
         self.geometry_editor = KeyConfigurable(mod, "basemod.geo", "1", "Open Geometry editor")
         self.tile_editor = KeyConfigurable(mod, "basemod.tiles", "2", "Open Tile editor")
