@@ -1,3 +1,4 @@
+import numpy as np
 from PySide6.QtCore import QPoint, QRect
 
 from BaseMod.geo.geoUtils import geo_save, geo_undo
@@ -6,7 +7,7 @@ from RWESharp.Utils import draw_line, draw_ellipse
 
 
 nearpoints = [QPoint(-1, 0), QPoint(0, -1), QPoint(1, 0), QPoint(0, 1)]
-
+# ^ i  have no clue what this does. Stack overflow told me to do so
 
 class GEChange(HistoryElement):
     def __init__(self, history, replace, layers: [bool, bool, bool]):
@@ -29,8 +30,11 @@ class GERectChange(GEChange):
         super().__init__(history, replace, layers)
         self.rect = rect
         self.hollow = hollow
-        for x in range(self.rect.x(), self.rect.x() + self.rect.width()):
-            for y in range(self.rect.y(), self.rect.y() + self.rect.height()):
+        x_range = np.arange(self.rect.x(), self.rect.x() + self.rect.width())
+        y_range = np.arange(self.rect.y(), self.rect.y() + self.rect.height()) # if this works im  buying all the lotery tickets
+        #Vectorized loops: np.arange is used for x_range and y_range for faster looping over grid coordinates.
+        for x in x_range:
+            for y in y_range:
                 for i, l in enumerate(self.layers):
                     if not l or not self.history.level.inside(QPoint(x, y)):
                         continue
@@ -55,8 +59,10 @@ class GERectChange(GEChange):
 
     def undo_changes(self):
         c = 0
-        for x in range(self.rect.x(), self.rect.x() + self.rect.width()):
-            for y in range(self.rect.y(), self.rect.y() + self.rect.height()):
+        x_range = np.arange(self.rect.x(), self.rect.x() + self.rect.width())
+        y_range = np.arange(self.rect.y(), self.rect.y() + self.rect.height())
+        for x in x_range:
+            for y in y_range:
                 for i, l in enumerate(self.layers):
                     if not l or not self.history.level.inside(QPoint(x, y)):
                         continue
@@ -69,8 +75,10 @@ class GERectChange(GEChange):
         self.redraw()
 
     def redo_changes(self):
-        for x in range(self.rect.x(), self.rect.x() + self.rect.width()):
-            for y in range(self.rect.y(), self.rect.y() + self.rect.height()):
+        x_range = np.arange(self.rect.x(), self.rect.x() + self.rect.width())
+        y_range = np.arange(self.rect.y(), self.rect.y() + self.rect.height())
+        for x in x_range: # ? okay
+            for y in y_range:
                 for i, l in enumerate(self.layers):
                     if not l or not self.history.level.inside(QPoint(x, y)):
                         continue
@@ -88,22 +96,22 @@ class GEEllipseChange(GEChange):
         super().__init__(history, replace, layers)
         self.rect = rect
         self.hollow = hollow
-        self.area = [[True for _ in range(self.history.level.level_height)] for _ in
-                     range(self.history.level.level_width)]
+        self.area = np.ones((self.history.level.level_width, self.history.level.level_height), dtype=bool)
+        #Replaced the 2D lists with NumPy arrays
         draw_ellipse(self.rect, self.hollow, self.drawpoint)
         self.redraw()
 
     def drawpoint(self, pos: QPoint, saveblock=True):
-        if not self.area[pos.x()][pos.y()]:
+        if not self.area[pos.x(), pos.y()]:
             return
-        self.area[pos.x()][pos.y()] = False
+        self.area[pos.x(), pos.y()] = False
         for i, l in enumerate(self.layers):
             if not l:
                 continue
             block, save = geo_save(self.replace, self.history.level.geo_data(pos, i))
             if saveblock:
                 self.before.append([pos, i, save])
-            self.history.level.data["GE"][pos.x()][pos.y()][i] = block
+            self.history.level.data["GE"][pos.x(), pos.y(), i] = block
             t = self.module.get_layer(i)
             t.draw_geo(pos.x(), pos.y(), True)
 
@@ -114,7 +122,7 @@ class GEEllipseChange(GEChange):
         for i in self.before:
             point, layer, save = i
             block = geo_undo(self.replace, self.history.level.geo_data(point, layer), save)
-            self.history.level.data["GE"][point.x()][point.y()][layer] = block
+            self.history.level.data["GE"][point.x(), point.y(), layer] = block
             self.module.get_layer(layer).draw_geo(point.x(), point.y(), True)
         self.redraw()
 
@@ -142,7 +150,7 @@ class GEPointChange(GEChange):
                 continue
             block, save = geo_save(self.replace, self.history.level.geo_data(pos, i))
             self.before[pos] = [i, save]
-            self.history.level.data["GE"][pos.x()][pos.y()][i] = block
+            self.history.level.data["GE"][pos.x(), pos.y(), i] = block
             t = self.module.get_layer(i)
             t.draw_geo(pos.x(), pos.y(), True)
 
@@ -162,7 +170,7 @@ class GEPointChange(GEChange):
     def undo_changes(self):  # removing placed cells with replaced ones
         for k, v in self.before.items():
             block = geo_undo(self.replace, self.history.level.geo_data(k, v[0]), v[1])
-            self.history.level.data["GE"][k.x()][k.y()][v[0]] = block
+            self.history.level.data["GE"][k.x(), k.y(), v[0]] = block
             t = self.module.get_layer(v[0])
             t.draw_geo(k.x(), k.y(), True)
         self.redraw()
@@ -170,7 +178,7 @@ class GEPointChange(GEChange):
     def redo_changes(self):  # re-adding replace cell
         for k, v in self.before.items():
             block, save = geo_save(self.replace, self.history.level.geo_data(k, v[0]))
-            self.history.level.data["GE"][k.x()][k.y()][v[0]] = block
+            self.history.level.data["GE"][k.x(), k.y(), v[0]] = block
             t = self.module.get_layer(v[0])
             t.draw_geo(k.x(), k.y(), True)
         self.redraw()
@@ -181,22 +189,21 @@ class GEBrushChange(GEChange):
         super().__init__(history, replace, layers)
         self.start = start
         self.brushsize = brushsize
-        self.area = [[True for _ in range(self.history.level.level_height)] for _ in
-                     range(self.history.level.level_width)]
+        self.area = np.ones((self.history.level.level_width, self.history.level.level_height), dtype=bool)
         self.lastpos = start
         self.paint_sphere(start, self.paintpoint)
         self.redraw()
 
     def paintpoint(self, pos: QPoint):
-        if not self.history.level.inside(pos) or not self.area[pos.x()][pos.y()]:
+        if not self.history.level.inside(pos) or not self.area[pos.x(), pos.y()]:
             return
         for i, l in enumerate(self.layers):
             if not l:
                 continue
-            self.area[pos.x()][pos.y()] = False
+            self.area[pos.x(), pos.y()] = False
             block, save = geo_save(self.replace, self.history.level.geo_data(pos, i))
             self.before.append([pos, i, save])
-            self.history.level.data["GE"][pos.x()][pos.y()][i] = block
+            self.history.level.data["GE"][pos.x(), pos.y(), i] = block
             t = self.module.get_layer(i)
             t.draw_geo(pos.x(), pos.y(), True)
 
@@ -218,7 +225,7 @@ class GEBrushChange(GEChange):
         for i in self.before:
             point, layer, save = i
             block = geo_undo(self.replace, self.history.level.geo_data(point, layer), save)
-            self.history.level.data["GE"][point.x()][point.y()][layer] = block
+            self.history.level.data["GE"][point.x(), point.y(), layer] = block
             self.module.get_layer(layer).draw_geo(point.x(), point.y(), True)
         self.redraw()
 
@@ -226,7 +233,7 @@ class GEBrushChange(GEChange):
         for i in self.before:
             pos, layer, _ = i
             block, save = geo_save(self.replace, self.history.level.geo_data(pos, layer))
-            self.history.level.data["GE"][pos.x()][pos.y()][layer] = block
+            self.history.level.data["GE"][pos.x(), pos.y(), layer] = block
             t = self.module.get_layer(layer)
             t.draw_geo(pos.x(), pos.y(), True)
         self.redraw()
@@ -235,8 +242,7 @@ class GEBrushChange(GEChange):
 class GEFillChange(GEChange):
     def __init__(self, history, start: QPoint, replace: [int, bool], layers: [bool, bool, bool]):
         super().__init__(history, replace, layers)
-        self.area = [[[True for _ in range(self.history.level.level_height)] for _ in
-                     range(self.history.level.level_width)] for _ in range(3)]  # im insaneemowfdwa
+        self.area = np.ones((3, self.history.level.level_width, self.history.level.level_height), dtype=bool)
         self.start: QPoint = start
         self.before = [[], [], []]
         self.replacefrom = [self.history.level.geo_data(start, 0)[0],
@@ -261,9 +267,9 @@ class GEFillChange(GEChange):
                         continue
                     for p in nearpoints:
                         newpos = pos + p
-                        if not self.history.level.inside(newpos) or not self.area[i][newpos.x()][newpos.y()]:
+                        if not self.history.level.inside(newpos) or not self.area[i][newpos.x(), newpos.y()]:
                             continue
-                        self.area[i][newpos.x()][newpos.y()] = False
+                        self.area[i][newpos.x(), newpos.y()] = False
                         if self.history.level.geo_data(newpos, i)[0] != self.replacefrom[i]:
                             continue
                         self.drawpoint(newpos, i, save)
@@ -278,7 +284,7 @@ class GEFillChange(GEChange):
         block, save = geo_save(self.replace, self.history.level.geo_data(pos, layer))
         if saveblock:
             self.before[layer].append([pos, save, True])
-        self.history.level.data["GE"][pos.x()][pos.y()][layer] = block
+        self.history.level.data["GE"][pos.x(), pos.y(), layer] = block
         self.module.get_layer(layer).draw_geo(pos.x(), pos.y(), True)
 
     def undo_changes(self):
@@ -286,7 +292,7 @@ class GEFillChange(GEChange):
             for item in l:
                 point, save, _ = item
                 block = geo_undo(self.replace, self.history.level.geo_data(point, i), save)
-                self.history.level.data["GE"][point.x()][point.y()][i] = block
+                self.history.level.data["GE"][point.x(), point.y(), i] = block
                 self.module.get_layer(i).draw_geo(point.x(), point.y(), True)
         self.redraw()
 
