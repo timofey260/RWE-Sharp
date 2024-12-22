@@ -24,7 +24,7 @@ class TileSettingsViewport(SimpleViewport):
         self.redraw()
 
     def redraw(self):
-        self.colortable = self.manager.basemod.tilemodule.colortable
+        self.colortable = self.manager.basemod.tileeditor.colortable
         tile = self.manager.tiles["Four Holes"]
         self.tilel1.setPixmap(return_tile_pixmap(tile, self.drawoption, 0, self.colortable))
         self.tilel2.setPixmap(return_tile_pixmap(tile, self.drawoption, 1, self.colortable))

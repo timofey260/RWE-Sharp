@@ -60,7 +60,7 @@ class SimpleGeoViewport(QGraphicsView):
         self.l3g.setScale(.5)
         self.l2g.setPos(QPoint(self._sz // 2, 0))
         self.l3g.setPos(QPoint(self._sz, 0))
-        self.setBackgroundBrush(QBrush(self.manager.basemod.gridmodule.backgroundcolor.value))
+        self.setBackgroundBrush(QBrush(self.manager.basemod.gridui.backgroundcolor.value))
 
         self.settings.ui.L1show.toggled.connect(self.change_shit)
         self.settings.ui.L2show.toggled.connect(self.change_shit)

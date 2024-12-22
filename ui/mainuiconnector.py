@@ -26,6 +26,7 @@ class MainWindow(QMainWindow):
 
         self.ui.tabWidget.clear()
         self.ui.tabWidget.setTabsClosable(True)
+        self.ui.tabWidget.tabCloseRequested.connect(self.close_tab)
 
         self.ui.actionOpen.triggered.connect(self.open_file)
         self.ui.actionClose.triggered.connect(self.close)
@@ -118,3 +119,8 @@ class MainWindow(QMainWindow):
         if name == "":
             return
         self.manager.change_level(name)
+
+    @Slot()
+    def close_tab(self, index):
+        self.ui.tabWidget.removeTab(index)
+        # todo confirmation

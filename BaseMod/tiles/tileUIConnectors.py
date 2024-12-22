@@ -1,28 +1,64 @@
-from PySide6.QtCore import Slot, Qt, QCoreApplication
-from PySide6.QtGui import QAction, QColor
+from PySide6.QtCore import Slot, Qt, QCoreApplication, Signal
+from PySide6.QtGui import QAction, QColor, QImage
 from PySide6.QtWidgets import QFileDialog, QMenu, QCheckBox
 
 from BaseMod.baseMod import BaseMod
-from BaseMod.tiles.tileModule import TileModule
 from BaseMod.tiles.ui.tiles_ui import Ui_Tiles
 from BaseMod.tiles.ui.tiles_vis_ui import Ui_TilesView
 from BaseMod.tiles.ui.tilesettings_ui import Ui_TileSettings
 from BaseMod.geo.GeoConsts import *
 
-from RWESharp.Configurable import KeyConfigurable, IntConfigurable, BoolConfigurable
+from RWESharp.Configurable import BoolConfigurable, IntConfigurable, StringConfigurable, FloatConfigurable, KeyConfigurable
 from RWESharp.Core import PATH_FILES_IMAGES_PALETTES
 from RWESharp.Ui import ViewUI, UI, SettingUI
 from RWESharp.Utils import paint_svg_qicon
+from RWESharp.Loaders import palette_to_colortable
 from widgets.SettingsViewer import SettingsViewer
+import os
 
 
 class TileViewUI(ViewUI):
+    render = Signal()
+
     def __init__(self, mod, parent=None):
         super().__init__(mod, parent)
         self.mod: BaseMod
         self.ui = Ui_TilesView()
         self.ui.setupUi(self)
-        self.module = self.mod.tilemodule
+
+        self.drawtiles = BoolConfigurable(mod, "VIEW_tile.drawtiles", True, "Draw tiles")
+        self.drawl1 = BoolConfigurable(mod, "VIEW_tile.drawl1", True, "Draw layer 1")
+        self.drawl2 = BoolConfigurable(mod, "VIEW_tile.drawl2", True, "Draw layer 2")
+        self.drawl3 = BoolConfigurable(mod, "VIEW_tile.drawl3", True, "Draw layer 3")
+        self.drawlheads = BoolConfigurable(mod, "VIEW_tile.drawlheads", True, "Draw tile heads")
+        self.drawlmats = BoolConfigurable(mod, "VIEW_tile.drawlmats", True, "Draw materials")
+
+        self.drawoption = IntConfigurable(mod, "VIEW_tile.drawoption", 0, "Option how to draw tiles")
+        self.palettepath = StringConfigurable(mod, "VIEW_tile.palettepath",
+                                              os.path.join(PATH_FILES_IMAGES_PALETTES, "palette0.png"),
+                                              "Path to themes")
+
+        self.drawl1notrendered = FloatConfigurable(mod, "VIEW_tile.drawl1notrend", .9,
+                                                   "Layer 1 draw opacity(classic and henry)")
+        self.drawl2notrendered = FloatConfigurable(mod, "VIEW_tile.drawl2notrend", .5,
+                                                   "Layer 2 draw opacity(classic and henry)")
+        self.drawl3notrendered = FloatConfigurable(mod, "VIEW_tile.drawl3notrend", .2,
+                                                   "Layer 3 draw opacity(classic and henry)")
+
+        self.drawl1rendered = FloatConfigurable(mod, "VIEW_tile.drawl1rend", 1, "Layer 1 draw opacity(rendered)")
+        self.drawl2rendered = FloatConfigurable(mod, "VIEW_tile.drawl2rend", 1, "Layer 2 draw opacity(rendered)")
+        self.drawl3rendered = FloatConfigurable(mod, "VIEW_tile.drawl3rend", 1, "Layer 3 draw opacity(rendered)")
+
+        self.opacityshift = BoolConfigurable(mod, "VIEW_tile.opacityShift", True,
+                                             "Does not change opacity of hidden layers")
+
+        if not os.path.exists(self.palettepath.value):
+            self.palettepath.reset_value()
+
+        self.palettepath.valueChanged.connect(self.change_colortable)
+        self.colortable = None
+
+        self.drawtiles.valueChanged.connect(self.hide_tiles)
 
         self.drawltiles_key = KeyConfigurable(mod, "VIEW_tile.drawltiles_key", "Alt+t", "Hide all tiles")
         self.drawl1_key = KeyConfigurable(mod, "VIEW_tile.drawl1_key", "Alt+Shift+1", "Show layer 1 tiles")
@@ -34,27 +70,27 @@ class TileViewUI(ViewUI):
         self.menu.addSeparator()
 
         self.menu_drawl1 = QAction("Layer 1")
-        self.module.drawl1.link_button_action(self.ui.VTilesLayer1, self.menu_drawl1, self.drawl1_key)
+        self.drawl1.link_button_action(self.ui.VTilesLayer1, self.menu_drawl1, self.drawl1_key)
         self.menu.addAction(self.menu_drawl1)
         self.menu_drawl2 = QAction("Layer 2")
-        self.module.drawl2.link_button_action(self.ui.VTilesLayer2, self.menu_drawl2, self.drawl2_key)
+        self.drawl2.link_button_action(self.ui.VTilesLayer2, self.menu_drawl2, self.drawl2_key)
         self.menu.addAction(self.menu_drawl2)
         self.menu_drawl3 = QAction("Layer 3")
-        self.module.drawl3.link_button_action(self.ui.VTilesLayer3, self.menu_drawl3, self.drawl3_key)
+        self.drawl3.link_button_action(self.ui.VTilesLayer3, self.menu_drawl3, self.drawl3_key)
         self.menu.addAction(self.menu_drawl3)
 
         self.menu_drawl1 = QAction("Materials")
-        self.module.drawl1.link_button_action(self.ui.VTilesLayer1, self.menu_drawl1, self.drawl1_key)
+        self.drawl1.link_button_action(self.ui.VTilesLayer1, self.menu_drawl1, self.drawl1_key)
         self.menu.addAction(self.menu_drawl1)
         self.menu_drawl2 = QAction("Layer 2")
-        self.module.drawl2.link_button_action(self.ui.VTilesLayer2, self.menu_drawl2, self.drawl2_key)
+        self.drawl2.link_button_action(self.ui.VTilesLayer2, self.menu_drawl2, self.drawl2_key)
         self.menu.addAction(self.menu_drawl2)
         self.menu_drawl3 = QAction("Layer 3")
-        self.module.drawl3.link_button_action(self.ui.VTilesLayer3, self.menu_drawl3, self.drawl3_key)
+        self.drawl3.link_button_action(self.ui.VTilesLayer3, self.menu_drawl3, self.drawl3_key)
         self.menu.addAction(self.menu_drawl3)
         self.ui.VTilesAllTiles.checkStateChanged.connect(self.all_layers)
         self.mod.manager.view_menu.addMenu(self.menu)
-        self.module.drawoption.link_radio(
+        self.drawoption.link_radio(
             [
                 self.ui.VTilesClassic,
                 self.ui.VTilesImage,
@@ -72,14 +108,15 @@ class TileViewUI(ViewUI):
         self.VQuickTiles.setChecked(True)
         # self.VQuickTiles.checkStateChanged.connect(self.toggle_tiles)
         self.mod.add_quickview_option(self.VQuickTiles)
-        self.module.drawtiles.link_button_action(self.VQuickTiles, self.menu_drawtiles, self.drawltiles_key)
+        self.drawtiles.link_button_action(self.VQuickTiles, self.menu_drawtiles, self.drawltiles_key)
+        self.change_colortable()
 
     @Slot()
     def change_palette(self):
         file, _ = QFileDialog.getOpenFileName(self, "Select a Palette", PATH_FILES_IMAGES_PALETTES)
-        self.module.palettepath.update_value(file)
-        self.module.drawoption.update_value(4)
-        self.module.render_module()
+        self.palettepath.update_value(file)
+        self.drawoption.update_value(4)
+        self.render.emit()
 
     @Slot(Qt.CheckState)
     def all_layers(self, state: Qt.CheckState):
@@ -93,9 +130,22 @@ class TileViewUI(ViewUI):
     @Slot(Qt.CheckState)
     def toggle_tiles(self, state: Qt.CheckState):
         v = state == Qt.CheckState.Checked
-        self.module.drawl1.update_value(v)
-        self.module.drawl2.update_value(v)
-        self.module.drawl3.update_value(v)
+        self.drawl1.update_value(v)
+        self.drawl2.update_value(v)
+        self.drawl3.update_value(v)
+
+    def hide_tiles(self):
+        self.drawl1.update_value(self.drawtiles.value)
+        self.drawl2.update_value(self.drawtiles.value)
+        self.drawl3.update_value(self.drawtiles.value)
+
+    def showlayer(self, currentlayer):
+        self.drawl1.update_value(currentlayer == 0)
+        self.drawl2.update_value(currentlayer <= 1)
+        self.drawl3.update_value(True)
+
+    def change_colortable(self):
+        self.colortable = palette_to_colortable(QImage(self.palettepath.value))
 
 
 class TileUI(UI):
@@ -152,26 +202,26 @@ class TileUI(UI):
         self.editor.tile_item.set_tile(self.editor.tile_item.tile, self.editor.colortable, 4)
 
     def open_explorer(self):
-        self.mod.tileeditor.explorer.change_visibility(True)
+        self.basemod.tileeditor.explorer.change_visibility(True)
 
 
 class TileSettings(SettingUI):
     def __init__(self, mod):
         super().__init__(mod)
-        self.module: TileModule = self.mod.tilemodule
+        self.tileviewui = self.mod.tileview
         l1 = lambda x: int(x * 255)
         l2 = lambda x: x / 255
-        self.rl1 = SettingUI.ManageableSetting(IntConfigurable(None, "rl1", 0, "Opacity of rendered layer 1"), self.module.drawl1rendered, l1, l2).add_myself(self)
-        self.nl1 = SettingUI.ManageableSetting(IntConfigurable(None, "nl1", 0, "Opacity of not rendered layer 1"), self.module.drawl1notrendered, l1, l2).add_myself(self)
-        self.rl2 = SettingUI.ManageableSetting(IntConfigurable(None, "rl2", 0, "Opacity of rendered layer 2"), self.module.drawl2rendered, l1, l2).add_myself(self)
-        self.nl2 = SettingUI.ManageableSetting(IntConfigurable(None, "nl2", 0, "Opacity of not rendered layer 2"), self.module.drawl2notrendered, l1, l2).add_myself(self)
-        self.rl3 = SettingUI.ManageableSetting(IntConfigurable(None, "rl2", 0, "Opacity of rendered layer 3"), self.module.drawl3rendered, l1, l2).add_myself(self)
-        self.nl3 = SettingUI.ManageableSetting(IntConfigurable(None, "nl2", 0, "Opacity of not rendered layer 3"), self.module.drawl3notrendered, l1, l2).add_myself(self)
+        self.rl1 = SettingUI.ManageableSetting(IntConfigurable(None, "rl1", 0, "Opacity of rendered layer 1"), self.tileviewui.drawl1rendered, l1, l2).add_myself(self)
+        self.nl1 = SettingUI.ManageableSetting(IntConfigurable(None, "nl1", 0, "Opacity of not rendered layer 1"), self.tileviewui.drawl1notrendered, l1, l2).add_myself(self)
+        self.rl2 = SettingUI.ManageableSetting(IntConfigurable(None, "rl2", 0, "Opacity of rendered layer 2"), self.tileviewui.drawl2rendered, l1, l2).add_myself(self)
+        self.nl2 = SettingUI.ManageableSetting(IntConfigurable(None, "nl2", 0, "Opacity of not rendered layer 2"), self.tileviewui.drawl2notrendered, l1, l2).add_myself(self)
+        self.rl3 = SettingUI.ManageableSetting(IntConfigurable(None, "rl2", 0, "Opacity of rendered layer 3"), self.tileviewui.drawl3rendered, l1, l2).add_myself(self)
+        self.nl3 = SettingUI.ManageableSetting(IntConfigurable(None, "nl2", 0, "Opacity of not rendered layer 3"), self.tileviewui.drawl3notrendered, l1, l2).add_myself(self)
 
         self.opshift = SettingUI.ManageableSetting(BoolConfigurable(None, "opshift", False,
                                         "Opacity shift\nOnly change opacity of shown layers\n"
                                         "For example, if layer 1 is hidden, layer 2 will have opacity of layer 1 and "
-                                        "layer 3 will have opacity of layer 2"), self.module.opacityshift).add_myself(self)
+                                        "layer 3 will have opacity of layer 2"), self.tileviewui.opacityshift).add_myself(self)
 
         self.drawoption = IntConfigurable(None, "drawoption", 0, "Draw option")
 

@@ -275,27 +275,27 @@ class GeoSettings(SettingUI):
     def __init__(self, mod):
         super().__init__(mod)
         self.mod: BaseMod
-        self.module = self.mod.geomodule
+        self.geoviewui = self.mod.geoview
         l1 = lambda x: int(x * 255)
         l2 = lambda x: x / 255
         self.l1op = SettingUI.ManageableSetting(
             IntConfigurable(None, "l1op", 0, "Opacity of layer 1"),
-            self.module.opacityl1, l1, l2).add_myself(self)
+            self.geoviewui.opacityl1, l1, l2).add_myself(self)
         self.l2op = SettingUI.ManageableSetting(
             IntConfigurable(None, "l2op", 0, "Opacity of layer 2"),
-            self.module.opacityl2, l1, l2).add_myself(self)
+            self.geoviewui.opacityl2, l1, l2).add_myself(self)
         self.l3op = SettingUI.ManageableSetting(
             IntConfigurable(None, "l3op", 0, "Opacity of layer 3"),
-            self.module.opacityl3, l1, l2).add_myself(self)
+            self.geoviewui.opacityl3, l1, l2).add_myself(self)
         self.rgbop = SettingUI.ManageableSetting(
             IntConfigurable(None, "rgbop", 0, "Opacity of all layers on Leditor render option"),
-            self.module.opacityrgb, l1, l2).add_myself(self)
+            self.geoviewui.opacityrgb, l1, l2).add_myself(self)
         self.opshift = SettingUI.ManageableSetting(
             BoolConfigurable(None, "opshift", False,
                              "Opacity shift\nOnly change opacity of shown layers\n"
                              "For example, if layer 1 is hidden, layer 2 will have opacity of layer 1 and "
                              "layer 3 will have opacity of layer 2"),
-            self.module.opacityshift).add_myself(self)
+            self.geoviewui.opacityshift).add_myself(self)
         self.reset_values()
 
     def init_ui(self, viewer: SettingsViewer):

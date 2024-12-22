@@ -10,6 +10,7 @@ class TileRenderLevelImage(RenderLevelImage):
     def __init__(self, module, depth, tilelayer):
         super().__init__(module, depth)
         self.module = module
+        self.ui = self.module.ui
         self.tilelayer = tilelayer
 
     def draw_layer(self, clear=False):
@@ -54,12 +55,12 @@ class TileRenderLevelImage(RenderLevelImage):
             case "default":
                 return
             case "material":
-                if self.module.drawoption.value == 0:
+                if self.ui.drawoption.value == 0:
                     sz = CONSTS.get("materialsize", [6, 8])
                     self.painter.setBrush(QBrush(QColor(*CONSTS.get("materials", {}).get(tile["data"], [255, 0, 0, 255]))))
                     self.painter.setPen(Qt.PenStyle.NoPen)
                     self.painter.drawRoundedRect(x * CELLSIZE + sz[0], y * CELLSIZE + sz[0], sz[1], sz[1], 2, 2)
-                elif self.module.drawoption.value == 3:
+                elif self.ui.drawoption.value == 3:
                     self.painter.fillRect(x * CELLSIZE, y * CELLSIZE, CELLSIZE, CELLSIZE, QColor(122, 0, 0, 255))
             # old version
             # case "tileBody":
@@ -105,11 +106,11 @@ class TileRenderLevelImage(RenderLevelImage):
                     return
                 cposxo = int((foundtile.size.width() * .5) + .5) - 1
                 cposyo = int((foundtile.size.height() * .5) + .5) - 1
-                if self.module.drawoption.value == 0:
+                if self.ui.drawoption.value == 0:
                     sourcerect = QRect(0, 0, SPRITESIZE * foundtile.size.width(), SPRITESIZE * foundtile.size.height())
                     drawrect = QRect((x - cposxo) * CELLSIZE, (y - cposyo) * CELLSIZE, CELLSIZE * foundtile.size.width(), CELLSIZE * foundtile.size.height())  # it works trust
                     self.painter.drawPixmap(drawrect, foundtile.image, sourcerect)
-                elif self.module.drawoption.value == 1:
+                elif self.ui.drawoption.value == 1:
                     drawrect = QRect((x - cposxo - foundtile.bfTiles) * CELLSIZE,
                                      (y - cposyo - foundtile.bfTiles) * CELLSIZE,
                                      CELLSIZE * (foundtile.size.width() + foundtile.bfTiles * 2),
@@ -122,13 +123,13 @@ class TileRenderLevelImage(RenderLevelImage):
                                      (y - cposyo - foundtile.bfTiles) * CELLSIZE,
                                      CELLSIZE * (foundtile.size.width() + foundtile.bfTiles * 2),
                                      CELLSIZE * (foundtile.size.height() + foundtile.bfTiles * 2))  # it works trust
-                    if self.module.drawoption.value == 3:
+                    if self.ui.drawoption.value == 3:
                         foundtile.image3.setColorTable(colortable[self.tilelayer])
-                    elif self.module.drawoption.value == 2:
+                    elif self.ui.drawoption.value == 2:
                         foundtile.image3.setColorTable(color_colortable(foundtile.color))
                     else:
-                        col = self.module.drawoption.value - 4
-                        foundtile.image3.setColorTable(self.module.colortable[col][self.tilelayer])
+                        col = self.ui.drawoption.value - 4
+                        foundtile.image3.setColorTable(self.ui.colortable[col][self.tilelayer])
                     self.painter.drawImage(drawrect, foundtile.image3)
 
     def draw_material(self):

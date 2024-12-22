@@ -34,6 +34,10 @@ class UI(QWidget):
     def editor_linked(self, editor):
         pass
 
+    @property
+    def basemod(self):
+        return self.mod.manager.basemod
+
 
 class ViewUI(UI):
     def add_myself(self):
@@ -85,6 +89,10 @@ class SettingUI(ABC):
             if i.setting.value != i.setting.default:
                 return True
         return False
+
+    @property
+    def basemod(self):
+        return self.mod.manager.basemod
 
     class ManageableSetting:
         def __init__(self, setting: Configurable | None = None, source: Configurable | None = None, source2setting=lambda x: x, setting2source=lambda x: x):

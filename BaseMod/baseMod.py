@@ -42,13 +42,13 @@ class BaseMod(Mod):
         self.geoui = GeoUI(self)
         self.geoeditor.add_myself(self.geoui)
         self.geoview = GeoViewUI(self).add_myself()
-        # #self.geosettings = GeoSettings(self)
+        self.geosettings = GeoSettings(self)
 
-        #self.tileeditor = TileEditor(self)
-        # self.tileview = TileViewUI(self).add_myself()
-        #self.tileui = TileUI(self)
-        # self.tilesettings = TileSettings(self) # todo
-        #self.tileeditor.add_myself(self.tileui)
+        self.tileview = TileViewUI(self).add_myself()
+        self.tileeditor = TileEditor(self)
+        self.tileui = TileUI(self)
+        self.tilesettings = TileSettings(self) # todo
+        self.tileeditor.add_myself(self.tileui)
         #
         # self.effecteditor = EffectEditor(self)
         # self.effectui = EffectsUI(self)
@@ -62,8 +62,7 @@ class BaseMod(Mod):
             self.sex = QAction("sex")
             self.manager.tool_menu.addAction(self.sex)
             self.sex.triggered.connect(self.sexthing)
-        return
-        # self.gridui = GridView(self).add_myself()
+        self.gridui = GridView(self).add_myself()
 
         self.settingtree = SettingElement(self, self.modinfo.title, self.modinfo.name).add_myself()
         SettingElement(self, "Theme", "pref", PreferencesUI(self), self.settingtree)
@@ -108,7 +107,7 @@ class BaseMod(Mod):
 
     def level_opened(self, viewport: ViewPort):
         GeoModule(self).add_myself(viewport, "geo")
-        # TileModule(self).add_myself(viewport, "tiles")
+        TileModule(self).add_myself(viewport, "tiles")
         GridModule(self).add_myself(viewport, "grid")
         # # effects
         # PropModule(self).add_myself(viewport)

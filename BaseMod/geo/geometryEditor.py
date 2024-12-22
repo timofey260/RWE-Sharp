@@ -407,7 +407,7 @@ class GeometryEditor(Editor):
         else:
             [self.drawl1, self.drawl2, self.drawl3][currentlayer].update_value(True)
         self.mod.geoview.showlayer(currentlayer)
-        self.basemod.tilemodule.showlayer(currentlayer)
+        self.mod.tileview.showlayer(currentlayer)
 
     def mouse_move_event(self, event: QMoveEvent):
         super().mouse_move_event(event)
