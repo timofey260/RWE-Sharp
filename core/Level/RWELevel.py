@@ -6,7 +6,7 @@ import ujson  # just for json to be more compact and fast
 from core import info
 from core.Exceptions import *
 from core.HistorySystem import History
-from core.RWLParser import RWLParser
+from core.Level.RWLParser import RWLParser
 from PySide6.QtCore import QPoint, Slot, QRect, QSize
 from core.HistorySystem import HistoryElement
 

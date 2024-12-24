@@ -578,10 +578,10 @@ class RWLParser:
 
 if __name__ == '__main__':
     # benchmark
-    lvl = json.load(open("F:\Desktop\RWE#\levelEditorProjects\SU_A25.wep"))
+    lvl = json.load(open("/levelEditorProjects/SU_A25.wep"))
     encoded = RWLParser.save_rwl(lvl)
     #print(encoded)
-    open("F:\Desktop\RWE#\levelEditorProjects\SU_A25.rwl", "wb").write(encoded)
+    open("/levelEditorProjects/SU_A25.rwl", "wb").write(encoded)
     decoded = RWLParser.parse_rwl(encoded)
     f = 0
     for xp, x in enumerate(decoded["TE"]["tlMatrix"]):

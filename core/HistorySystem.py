@@ -37,7 +37,7 @@ class HistoryElement(ABC):
 
 class History:
     def __init__(self, level):
-        from core.RWELevel import RWELevel
+        from core.Level.RWELevel import RWELevel
         self.undoactions: list[HistoryElement] = []
         self.redoactions: list[HistoryElement] = []
         self.level: RWELevel = level
