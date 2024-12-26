@@ -1,9 +1,13 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
 from abc import ABC
+if TYPE_CHECKING:
+    from core.Level.RWELevel import RWELevel
 
 
 class LevelPart(ABC):
-    from core.Level.RWELevel import RWELevel
 
-    def __init__(self, level: RWELevel):
+    def __init__(self, name: str, level: RWELevel):
         self.level = level
-        pass
+        if name not in level.levelparts.keys():
+            level.levelparts[name] = self

@@ -7,6 +7,7 @@ from core import info
 from core.Exceptions import *
 from core.HistorySystem import History
 from core.Level.RWLParser import RWLParser
+from core.Level.LevelPart import LevelPart
 from PySide6.QtCore import QPoint, Slot, QRect, QSize
 from core.HistorySystem import HistoryElement
 
@@ -24,6 +25,18 @@ class RWELevel:
             self.data = RWELevel.turntoproject(defaultlevel)
         self.history = History(self)
         self.viewport = None
+        self.levelparts: dict[str, LevelPart] = {}
+        self.mount_levelparts()
+
+        # quick access stuff
+        self.l_geo = self.levelparts["geo"]
+        # self.l_tiles = self.levelparts["tiles"]
+        # self.l_effects = self.levelparts["effects"]
+        # self.l_props = self.levelparts["props"]
+
+    def mount_levelparts(self):
+        for i in self.manager.mods:
+            i.mount_levelparts(self)
 
     @Slot()
     def undo(self):

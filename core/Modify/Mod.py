@@ -74,3 +74,6 @@ class Mod(ABC):
         :param viewport: viewport the level was opened in
         :return:
         """
+
+    def mount_levelparts(self, level):
+        pass
