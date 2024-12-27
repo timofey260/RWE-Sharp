@@ -2,7 +2,8 @@ from RWESharp.Modify import LevelPart
 import numpy as np
 
 
-blocks = [1, 2, 11, 3, 4, 5, 6, 7, 9, 10, 12, 13, 19, 21, 20, 18]
+stack_pos = [1, 2, 11, 3, 4, 5, 6, 7, 9, 10, 12, 13, 19, 21, 20, 18]
+
 
 class GeoLevelPart(LevelPart):
     def __init__(self, level):
@@ -25,16 +26,17 @@ class GeoLevelPart(LevelPart):
         #print("new")
         #print(np.asarray(dat, np.int8))
 
-    def stack2byte(self, stack) -> np.int16:
+    @staticmethod
+    def stack2byte(stack) -> np.int16:
         b = np.uint16()
         for i in stack:
-            print(bin(1 << blocks.index(i)), blocks.index(i))
-            b |= 1 << blocks.index(i)
+            b |= 1 << stack_pos.index(i)
         return b
 
-    def byte2stack(self, b) -> list:
+    @staticmethod
+    def byte2stack(b) -> list:
         stack = []
         for i in range(16):
             if b & 1 << i > 0:
-                stack.append(blocks[i])
+                stack.append(stack_pos[i])
         return stack

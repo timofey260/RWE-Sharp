@@ -1,11 +1,13 @@
 import os
 from enum import Enum, auto
+import numpy as np
 
 from PySide6.QtCore import QRect, QPoint, QSize, QLine, Qt, QLineF
 from PySide6.QtGui import QColor, QMoveEvent, QMouseEvent, QPixmap, QPainter, QGuiApplication
 
 from BaseMod.geo.geoControls import GeoControls
 from BaseMod.geo.geoHistory import GEPointChange, GERectChange, GEBrushChange, GEEllipseChange, GEFillChange
+from BaseMod.LevelParts import stack_pos, GeoLevelPart
 from RWESharp.Configurable import BoolConfigurable, IntConfigurable, EnumConfigurable, ColorConfigurable
 from RWESharp.Core import CELLSIZE, PATH_FILES_IMAGES, CONSTS
 from RWESharp.Modify import Editor
@@ -132,6 +134,25 @@ class GeometryEditor(Editor):
         self.brushsize.valueChanged.connect(self.repos_brush)
         self.toolcolor = ColorConfigurable(mod, "EDIT_geo.toolcolor", QColor(255, 0, 0, 255), "Tool color")
         self.toolcolor.valueChanged.connect(self.change_color)
+
+        self.geo_preload = QPixmap(256 * self._sz, self._sz * 2)  # this would be something
+        self.geo_preload.fill(QColor(0, 0, 0, 0))
+        self.preload_geo_textures()
+
+    def preload_geo_textures(self):  # optimizations my man
+        p = QPainter(self.geo_preload)
+        for i in range(256):
+            for j in GeoLevelPart.byte2stack(i):
+                pos = self.sinfo.get(str(j), [0, 0])
+                if j == 4:
+                    pos = pos[1]
+                if j == 11:
+                    pos = pos[0]
+                p.drawPixmap(QPoint(i * self._sz, 0), self.geo_texture, QRect(pos[0] * self._sz, pos[1] * self._sz, self._sz, self._sz))
+            for j in GeoLevelPart.byte2stack(i << 8):
+                pos = self.sinfo.get(str(j), [0, 0])
+                p.drawPixmap(QPoint(i * self._sz, self._sz), self.geo_texture, QRect(pos[0] * self._sz, pos[1] * self._sz, self._sz, self._sz))
+        p.end()
 
     @property
     def module(self):

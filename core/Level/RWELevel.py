@@ -34,6 +34,14 @@ class RWELevel:
         # self.l_effects = self.levelparts["effects"]
         # self.l_props = self.levelparts["props"]
 
+        self._custom_data: dict = {}  # todo
+
+    def change_custom_data(self, name: str, value):
+        self._custom_data[name] = value
+
+    def get_custom_data(self, name: str):
+        return self._custom_data.get(name)
+
     def mount_levelparts(self):
         for i in self.manager.mods:
             i.mount_levelparts(self)

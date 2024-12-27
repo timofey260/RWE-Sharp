@@ -5,6 +5,7 @@ from PySide6.QtGui import QPixmap, QColor, QPainter
 
 from RWESharp.Core import PATH_FILES_IMAGES, CONSTS, CELLSIZE
 from RWESharp.Renderable import RenderLevelImage
+import numpy as np
 
 checkpoints = [QPoint(-1, -1), QPoint(0, -1), QPoint(1, -1),
                QPoint(-1, 0), QPoint(1, 0),
@@ -76,8 +77,10 @@ class GeoRenderLevelImage(RenderLevelImage):
         self.redraw()
 
     def draw_geo(self, x: int, y: int, clear: bool = False, updatearound=True):
-        cell: int = self.viewport.level["GE"][x][y][self.geolayer][0]
+        # cell: int = self.viewport.level["GE"][x][y][self.geolayer][0]
+        cell: np.uint8 = self.viewport.level.l_geo.blocks[x, y, self.geolayer]
         stackables: list[int] = self.viewport.level["GE"][x][y][self.geolayer][1]
+        # stackables: np.uint16 = self.viewport.level.l_geo.stack[x, y, self.geolayer]
         pos = self.binfo.get(str(cell), [0, 0])
         cellpos = QRect(pos[0] * self._sz, pos[1] * self._sz, self._sz, self._sz)
         placepos = QRect(x * CELLSIZE, y * CELLSIZE, 20, 20)
