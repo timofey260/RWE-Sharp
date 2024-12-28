@@ -230,6 +230,8 @@ class RWELevel:
             raise FileNotCompatible(f"{file} is not compatible with {info.NAME}!")
 
     def save_file(self) -> bool:
+        for i, v in self.levelparts.items():
+            v.save_level()
         if self.file is None:
             return False
         _, ex = os.path.splitext(self.file)

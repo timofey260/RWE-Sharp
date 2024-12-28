@@ -76,15 +76,26 @@ class GeoRenderLevelImage(RenderLevelImage):
                     self.draw_geo(xp, yp, True, False)
         self.redraw()
 
+    @property
+    def drawmap(self):
+        return self.geo_texture if self.module.ui.drawoption.value == 0 else self.geo_texture_colored
+
     def draw_geo(self, x: int, y: int, clear: bool = False, updatearound=True):
         # cell: int = self.viewport.level["GE"][x][y][self.geolayer][0]
         cell: np.uint8 = self.viewport.level.l_geo.blocks[x, y, self.geolayer]
-        stackables: list[int] = self.viewport.level["GE"][x][y][self.geolayer][1]
-        # stackables: np.uint16 = self.viewport.level.l_geo.stack[x, y, self.geolayer]
+        # stackables: list[int] = self.viewport.level["GE"][x][y][self.geolayer][1]
+        stackables: np.uint16 = self.viewport.level.l_geo.stack[x, y, self.geolayer]
+        # hiding stuff we don't need
+        if not self.module.ui.drawlbeams.value:
+            stackables &= 0b1111111111111100  # removes beams
+        if not self.module.ui.drawlpipes.value:
+            stackables &= 0b1110111100011111  # removes pipes
+        if not self.module.ui.drawlmisc.value:
+            stackables &= 0b1110111100011100  # removes misc
         pos = self.binfo.get(str(cell), [0, 0])
         cellpos = QRect(pos[0] * self._sz, pos[1] * self._sz, self._sz, self._sz)
         placepos = QRect(x * CELLSIZE, y * CELLSIZE, 20, 20)
-        drawmap = self.geo_texture if self.module.ui.drawoption.value == 0 else self.geo_texture_colored
+        drawmap2 = self.module.mod.geoeditor.geo_preload
         point = QPoint(x, y)
         if clear:
             self.painter.setCompositionMode(QPainter.CompositionMode.CompositionMode_Clear)
@@ -98,67 +109,70 @@ class GeoRenderLevelImage(RenderLevelImage):
                          11 in self.viewport.level.geo_data(p, self.geolayer)[1])):
                     self.draw_geo(p.x(), p.y(), True, False)
         if cell != 7:
-            self.painter.drawPixmap(placepos, drawmap, cellpos)
-        for s in stackables:
-            if (s == 1 or s == 2) and not self.module.ui.drawlbeams.value:
-                continue
-            elif s in [5, 6, 7, 19] and not self.module.ui.drawlpipes.value:
-                continue
-            elif s not in [1, 2, 5, 6, 7, 19] and not self.module.ui.drawlmisc.value:
-                continue
-            if s == 4:
-                # checking structures
-                if not self.viewport.level.inside_border(point):
-                    self.painter.drawPixmap(placepos, drawmap, self.stackpos(self.getinfo2(s, 0)))
-                    continue
-                counter = 0
-                for i in checkpoints:
-                    if not self.viewport.level.inside(point + i):
-                        counter += 1
-                    elif self.viewport.level.geo_data(point + i, self.geolayer)[0] == 1:
-                        counter += 1
-                if counter != 7:
-                    self.painter.drawPixmap(placepos, drawmap, self.stackpos(self.getinfo2(s, 0)))
-                    continue
-                spos = self.getinfo2(s, 0)
-                if self.insidedouble(point, QPoint(0, 1)):
-                    if self.checkrot(point, QPoint(0, -1)):
-                        spos = self.getinfo2(s, 1)
-                    elif self.checkrot(point, QPoint(0, 1)):
-                        spos = self.getinfo2(s, 4)
-                if self.insidedouble(point, QPoint(1, 0)):
-                    if self.checkrot(point, QPoint(-1, 0)):
-                        spos = self.getinfo2(s, 2)
-                    elif self.checkrot(point, QPoint(1, 0)):
-                        spos = self.getinfo2(s, 3)
-                self.painter.drawPixmap(placepos, drawmap, self.stackpos(spos))
-                continue
-            elif s == 11:
-                counter = 0
-                for i in checkpoints2:
-                    if not self.viewport.level.inside(point + i):
-                        counter += 1
-                    elif 11 in self.viewport.level.geo_data(point + i, self.geolayer)[1]:
-                        counter += 1
-                if counter >= 3 or counter == 0:
-                    spos = self.getinfo2(s, 0)
-                    self.painter.drawPixmap(placepos, drawmap, self.stackpos(spos))
-                    continue
-                h = False
-                v = False
-                if self.checkcrack(point, QPoint(-1, 0)) or self.checkcrack(point, QPoint(1, 0)):
-                    h = True
-                if self.checkcrack(point, QPoint(0, -1)) or self.checkcrack(point, QPoint(0, 1)):
-                    v = True
-                spos = self.getinfo2(s, 0)
-                if h and not v:
-                    spos = self.getinfo2(s, 1)
-                elif v and not h:
-                    spos = self.getinfo2(s, 2)
-                self.painter.drawPixmap(placepos, drawmap, self.stackpos(spos))
-                continue
-            spos = self.getinfo(s)
-            self.painter.drawPixmap(placepos, drawmap, self.stackpos(spos))
+            self.painter.drawPixmap(placepos, self.drawmap, cellpos)
+
+        if stackables & 0b10000 > 0:
+            self.draw_pipe(point)  # yeah this one is a mess
+        elif stackables & 0b100 > 0:
+            self.draw_crack(point)
+        # spos = self.getinfo(s)
+        # self.painter.drawPixmap(placepos, self.drawmap, self.stackpos(spos))
+        if stackables & 0b11111111 > 0:
+            self.painter.drawPixmap(placepos, drawmap2, QRect((stackables & 0b11111111) * self._sz, 0, self._sz, self._sz))
+        if (stackables >> 8) & 0b11111111 > 0:
+            self.painter.drawPixmap(placepos, drawmap2, QRect(((stackables >> 8) & 0b11111111) * self._sz, self._sz, self._sz, self._sz))
+
+    def draw_pipe(self, point):
+        placepos = QRect(point.x() * CELLSIZE, point.y() * CELLSIZE, 20, 20)
+        if not self.viewport.level.inside_border(point):
+            self.painter.drawPixmap(placepos, self.drawmap, self.stackpos(self.getinfo2(4, 0)))
+            return
+        counter = 0
+        for i in checkpoints:
+            if not self.viewport.level.inside(point + i):
+                counter += 1
+            elif self.viewport.level.geo_data(point + i, self.geolayer)[0] == 1:
+                counter += 1
+        if counter != 7:
+            self.painter.drawPixmap(placepos, self.drawmap, self.stackpos(self.getinfo2(4, 0)))
+            return
+        spos = self.getinfo2(4, 0)
+        if self.insidedouble(point, QPoint(0, 1)):
+            if self.checkrot(point, QPoint(0, -1)):
+                spos = self.getinfo2(4, 1)
+            elif self.checkrot(point, QPoint(0, 1)):
+                spos = self.getinfo2(4, 4)
+        if self.insidedouble(point, QPoint(1, 0)):
+            if self.checkrot(point, QPoint(-1, 0)):
+                spos = self.getinfo2(4, 2)
+            elif self.checkrot(point, QPoint(1, 0)):
+                spos = self.getinfo2(4, 3)
+        self.painter.drawPixmap(placepos, self.drawmap, self.stackpos(spos))
+
+    def draw_crack(self, point):
+        placepos = QRect(point.x() * CELLSIZE, point.y() * CELLSIZE, 20, 20)
+        counter = 0
+        for i in checkpoints2:
+            if not self.viewport.level.inside(point + i):
+                counter += 1
+            elif 11 in self.viewport.level.geo_data(point + i, self.geolayer)[1]:
+                counter += 1
+        if counter >= 3 or counter == 0:
+            spos = self.getinfo2(11, 0)
+            self.painter.drawPixmap(placepos, self.drawmap, self.stackpos(spos))
+            return
+        h = False
+        v = False
+        if self.checkcrack(point, QPoint(-1, 0)) or self.checkcrack(point, QPoint(1, 0)):
+            h = True
+        if self.checkcrack(point, QPoint(0, -1)) or self.checkcrack(point, QPoint(0, 1)):
+            v = True
+        spos = self.getinfo2(11, 0)
+        if h and not v:
+            spos = self.getinfo2(11, 1)
+        elif v and not h:
+            spos = self.getinfo2(11, 2)
+        self.painter.drawPixmap(placepos, self.drawmap, self.stackpos(spos))
 
     def getinfo(self, s):
         return self.sinfo.get(str(s), [0, 0])

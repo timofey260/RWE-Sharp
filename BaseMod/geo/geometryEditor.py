@@ -145,9 +145,11 @@ class GeometryEditor(Editor):
             for j in GeoLevelPart.byte2stack(i):
                 pos = self.sinfo.get(str(j), [0, 0])
                 if j == 4:
-                    pos = pos[1]
+                    continue
+                    # pos = pos[1]
                 if j == 11:
-                    pos = pos[0]
+                    continue
+                    # pos = pos[0]
                 p.drawPixmap(QPoint(i * self._sz, 0), self.geo_texture, QRect(pos[0] * self._sz, pos[1] * self._sz, self._sz, self._sz))
             for j in GeoLevelPart.byte2stack(i << 8):
                 pos = self.sinfo.get(str(j), [0, 0])
@@ -214,51 +216,51 @@ class GeometryEditor(Editor):
     def layers(self) -> list[bool]:
         return [self.drawl1.value, self.drawl2.value, self.drawl3.value]
 
-    def block2info(self) -> [int, bool]:  # tile, stackable
+    def block2info(self) -> [np.uint16 | np.uint8 | int, bool]:  # tile, stackable
         match self.block.value:
             case GeoBlocks.Wall:
-                return 1, False
+                return np.uint8(1), False
             case GeoBlocks.Air:
-                return 0, False
+                return np.uint8(0), False
             case GeoBlocks.Floor:
-                return 6, False
+                return np.uint8(6), False
             case GeoBlocks.Slope:
-                return 2 + self.rotation.value, False
+                return np.uint8(2 + self.rotation.value), False
             # case GeoBlocks.ShortcutEntrance:  # obsolete
             #     return 7, False
             case GeoBlocks.Glass:
-                return 9, False
+                return np.uint8(9), False
 
             case GeoBlocks.Beam:
-                return 1 + self.rotation.value % 2, True
+                return np.uint16(1 << stack_pos.index(1 + self.rotation.value % 2)), True
             case GeoBlocks.Hive:
-                return 3, True
+                return np.uint16(0b1000), True
             case GeoBlocks.ShortcutEntrance:
-                return 4, True
+                return np.uint16(0b10000), True
             case GeoBlocks.Shortcut:
-                return 5, True
+                return np.uint16(0b100000), True
             case GeoBlocks.Entrance:
-                return 6, True
+                return np.uint16(0b1000000), True
             case GeoBlocks.DragonDen:
-                return 7, True
+                return np.uint16(0b10000000), True
             case GeoBlocks.Rock:
-                return 9, True
+                return np.uint16(0b100000000), True
             case GeoBlocks.Spear:
-                return 10, True
+                return np.uint16(0b1000000000), True
             case GeoBlocks.Crack:
-                return 11, True
+                return np.uint16(0b100), True
             case GeoBlocks.ForbidFlyChains:
-                return 12, True
+                return np.uint16(0b10000000000), True
             case GeoBlocks.GarbageWormHole:
-                return 13, True
+                return np.uint16(0b100000000000), True
             case GeoBlocks.Waterfall:
-                return 18, True
+                return np.uint16(0b1000000000000), True
             case GeoBlocks.WhackAMoleHole:
-                return 19, True
+                return np.uint16(0b1000000000000000), True
             case GeoBlocks.WormGrass:
-                return 20, True
+                return np.uint16(0b100000000000000), True
             case GeoBlocks.ScavengerDen:
-                return 21, True
+                return np.uint16(0b10000000000000), True
 
             case GeoBlocks.CleanUpper:
                 return -2, True
@@ -440,7 +442,8 @@ class GeometryEditor(Editor):
             self.repos_brush()
             # self.cursor_item.setPos(self.viewport.editor_to_viewport(fpos))
         if self.level.inside(fpos):
-            self.manager.set_status(f"x: {fpos.x()}, y: {fpos.y()}, {self.level['GE'][fpos.x()][fpos.y()]}"
+            geo = [[int(i[0]), GeoLevelPart.byte2stack(i[1])] for i in self.level.l_geo.getlevelgeo_all(fpos.x(), fpos.y())]
+            self.manager.set_status(f"x: {fpos.x()}, y: {fpos.y()}, {geo}"
                                     f" Placing {self.block.value.name}")
         if not (self.lastpos - fpos).isNull():
             if self.mouse_left:
