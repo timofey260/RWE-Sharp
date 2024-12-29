@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import numpy as np
+
 from PySide6.QtCore import QPoint
 
 from RWESharp.Core import lingoIO, RWELevel
@@ -23,7 +25,7 @@ def point_collision(level: RWELevel, pos: QPoint, layer: int, tilepos: QPoint, t
         return True
     elif tp != "default":
         return False
-    geodata = level.geo_data(pos, layer)[0]
+    geodata = level.l_geo.blocks[pos.x(), pos.y(), layer]
     try:
         collision = tile.cols[0][tilepos.x() * tile.size.height() + tilepos.y()]
     except IndexError:
@@ -33,7 +35,7 @@ def point_collision(level: RWELevel, pos: QPoint, layer: int, tilepos: QPoint, t
     # next layer
     if not isinstance(tile.cols[1], list) or layer + 1 > 2:
         return True
-    geodata = level.geo_data(pos, layer + 1)[0]
+    geodata = level.l_geo.blocks[pos.x(), pos.y(), layer + 1]
     try:
         collision = tile.cols[1][tilepos.x() * tile.size.height() + tilepos.y()]
     except IndexError:
@@ -96,9 +98,10 @@ def check4tile_col(level: RWELevel,
     elif not fp and level.tile_data(pos, layer).get("tp") != "default":
         return None, None
     level.viewport.modulenames["tiles"].get_layer(layer).clean_pixel(pos)
-    if fg and col != level.geo_data(pos, layer)[0]:
-        geochange = [pos, layer, col, level.geo_data(pos, layer)[0]]
-        level.data["GE"][pos.x()][pos.y()][layer][0] = col
+    if fg and col != level.l_geo.blocks[pos.x(), pos.y(), layer]:
+        geochange = [pos, layer, col, level.l_geo.blocks[pos.x(), pos.y(), layer]]
+        level.l_geo.blocks[pos.x(), pos.y(), layer] = np.uint8(col)
+        # level.data["GE"][pos.x()][pos.y()][layer][0] = col
         level.viewport.modulenames["geo"].get_layer(layer).draw_geo(pos.x(), pos.y(), True)
     if not secondlayer and pos == head:
         change = [pos, layer,
@@ -124,9 +127,10 @@ def place_tile(level: RWELevel,
     if tile.type == "material":
         change = [pos, layer, {"tp": "material", "data": tile.name}, copy_tile(level.tile_data(pos, layer))]
         geochange = []
-        if force_geometry and level.geo_data(pos, layer)[0] != 0:
-            geochange = [[pos, layer, 1, level.geo_data(pos, layer)[0]]]
-            level.data["GE"][pos.x()][pos.y()][layer][0] = 1
+        if force_geometry and level.l_geo.blocks[pos.x(), pos.y(), layer] != 0:
+            geochange = [[pos, layer, 1, level.l_geo.blocks[pos.x(), pos.y(), layer]]]
+            # level.data["GE"][pos.x()][pos.y()][layer][0] = 1
+            level.l_geo.blocks[pos.x(), pos.y(), layer] = np.uint8(1)
         level.data["TE"]["tlMatrix"][pos.x()][pos.y()][layer] = {"tp": "material", "data": tile.name}
         level.viewport.modulenames["tiles"].get_layer(layer).draw_tile(pos)
         level.viewport.modulenames["geo"].get_layer(layer).draw_geo(pos.x(), pos.y(), True)
@@ -251,7 +255,8 @@ class PlacedTile(BaseTileChangelist):
             if i[2]["tp"] in ["tileHead", "material"]:
                 element.history.level.viewport.modulenames["tiles"].get_layer(i[1]).draw_tile(i[0])
         for i in self.geochanges:
-            element.history.level.data["GE"][i[0].x()][i[0].y()][i[1]][0] = i[3]
+            element.history.level.l_geo.blocks[i[0].x(), i[0].y(), i[1]] = np.uint8(i[3])
+            # element.history.level.data["GE"][i[0].x()][i[0].y()][i[1]][0] = i[3]
             element.history.level.viewport.modulenames["geo"].get_layer(i[1]).draw_geo(i[0].x(), i[0].y(), True)
 
     def redo(self, element: TileHistory):
@@ -260,7 +265,8 @@ class PlacedTile(BaseTileChangelist):
             if i[2]["tp"] in ["tileHead", "material"]:
                 element.history.level.viewport.modulenames["tiles"].get_layer(i[1]).draw_tile(i[0])
         for i in self.geochanges:
-            element.history.level.data["GE"][i[0].x()][i[0].y()][i[1]][0] = i[2]
+            element.history.level.l_geo.blocks[i[0].x(), i[0].y(), i[1]] = np.uint8(i[2])
+            # element.history.level.data["GE"][i[0].x()][i[0].y()][i[1]][0] = i[2]
             element.history.level.viewport.modulenames["geo"].get_layer(i[1]).draw_geo(i[0].x(), i[0].y(), True)
 
 

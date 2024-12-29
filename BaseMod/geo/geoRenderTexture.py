@@ -105,8 +105,8 @@ class GeoRenderLevelImage(RenderLevelImage):
             for i in checkpoints:
                 p = point + i
                 if (self.viewport.level.inside(p) and
-                        (4 in self.viewport.level.geo_data(p, self.geolayer)[1] or
-                         11 in self.viewport.level.geo_data(p, self.geolayer)[1])):
+                        (self.viewport.level.l_geo.stack[p.x(), p.y(), self.geolayer] & 16 > 0 or
+                         self.viewport.level.l_geo.stack[p.x(), p.y(), self.geolayer] & 4 > 0)):
                     self.draw_geo(p.x(), p.y(), True, False)
         if cell != 7:
             self.painter.drawPixmap(placepos, self.drawmap, cellpos)
@@ -131,7 +131,7 @@ class GeoRenderLevelImage(RenderLevelImage):
         for i in checkpoints:
             if not self.viewport.level.inside(point + i):
                 counter += 1
-            elif self.viewport.level.geo_data(point + i, self.geolayer)[0] == 1:
+            elif self.viewport.level.l_geo.blocks[point.x() + i.x(), point.y() + i.y(), self.geolayer] == 1:
                 counter += 1
         if counter != 7:
             self.painter.drawPixmap(placepos, self.drawmap, self.stackpos(self.getinfo2(4, 0)))
@@ -155,7 +155,7 @@ class GeoRenderLevelImage(RenderLevelImage):
         for i in checkpoints2:
             if not self.viewport.level.inside(point + i):
                 counter += 1
-            elif 11 in self.viewport.level.geo_data(point + i, self.geolayer)[1]:
+            elif self.viewport.level.l_geo.stack[point.x() + i.x(), point.y() + i.y(), self.geolayer] & 4 > 0:
                 counter += 1
         if counter >= 3 or counter == 0:
             spos = self.getinfo2(11, 0)
@@ -187,15 +187,15 @@ class GeoRenderLevelImage(RenderLevelImage):
         return self.viewport.level.inside(point + offset) and self.viewport.level.inside(point - offset)
 
     def checkrot(self, point: QPoint, offset: QPoint) -> bool:
-        return self.is_path(self.viewport.level.geo_data(point + offset, self.geolayer)[1]) and \
-                            self.viewport.level.geo_data(point - offset, self.geolayer)[0] != 1
+        p1 = point + offset
+        p2 = point - offset
+        return self.is_path(self.viewport.level.l_geo.stack[p1.x(), p1.y(), self.geolayer]) and \
+                            self.viewport.level.l_geo.blocks[p2.x(), p2.y(), self.geolayer] != 1
 
     def checkcrack(self, point: QPoint, offset: QPoint) -> bool:
-        return self.viewport.level.inside(point + offset) and 11 in \
-                self.viewport.level.geo_data(point + offset, self.geolayer)[1]
+        p1 = point + offset
+        return self.viewport.level.inside(p1) and \
+               self.viewport.level.l_geo.stack[p1.x(), p1.y(), self.geolayer] & 4 > 0
 
     def is_path(self, array) -> bool:
-        for i in [5, 6, 7, 21]:
-            if i in array:
-                return True
-        return False
+        return array & 8416 > 0

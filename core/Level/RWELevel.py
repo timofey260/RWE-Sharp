@@ -77,25 +77,6 @@ class RWELevel:
     def level_rect(self) -> QRect:
         return QRect(0, 0, self.level_width, self.level_height)
 
-    def geo_data_xy(self, x: int, y: int, layer: int) -> [int, list[int]]:
-        """
-        returns cell on specific layer
-        :param x: x position of cell
-        :param y: y position of cell
-        :param layer: layer of cell
-        :return:
-        """
-        return self.data["GE"][x][y][layer]
-
-    def geo_data(self, pos: QPoint, layer: int) -> [int, list[int]]:
-        """
-        returns cell on specific layer
-        :param pos: position of cell
-        :param layer: layer of cell
-        :return:
-        """
-        return self.data["GE"][pos.x()][pos.y()][layer]
-
     def tile_data_xy(self, x: int, y: int, layer: int) -> dict[str, ...]:
         """
         returns tile on specific layer
