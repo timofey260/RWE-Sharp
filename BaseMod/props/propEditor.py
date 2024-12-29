@@ -20,7 +20,7 @@ class PropEditor(Editor):
         self.props = self.manager.props
         self.explorer = PropExplorer(self, self.manager.window)
         self.prop: Prop = self.props.find_prop("loopantennafront")
-        self.placingprop = PropRenderable(mod, self.prop).add_myself(self)
+        self.placingprop = PropRenderable(self, self.prop)
         self.depth = 0
         self.notes = []
         self.setprop([self.props.find_prop("CogA1")])

@@ -13,9 +13,9 @@ class TileModule(Module):
         from BaseMod.baseMod import BaseMod
         self.mod: BaseMod
         self.ui = self.mod.tileview
-        self.l1 = TileRenderLevelImage(self, 100, 0).add_myself(self)
-        self.l2 = TileRenderLevelImage(self, 200, 1).add_myself(self)
-        self.l3 = TileRenderLevelImage(self, 300, 2).add_myself(self)
+        self.l1 = TileRenderLevelImage(self, 100, 0)
+        self.l2 = TileRenderLevelImage(self, 200, 1)
+        self.l3 = TileRenderLevelImage(self, 300, 2)
 
         self.ui.drawl1.valueChanged.connect(self.check_l1_change)
         self.ui.drawl1rendered.valueChanged.connect(self.check_l1_change)

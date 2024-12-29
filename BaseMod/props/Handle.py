@@ -48,6 +48,7 @@ class Handle(Renderable):
 
     def zoom_event(self, zoom):
         self.handle.setPos(self.actual_offset)
+        self.handle.setScale(self.scale)
 
     def move_event(self, pos):
         super().move_event(pos)

@@ -86,7 +86,7 @@ class PropRenderable(Renderable):
         w, h = self.image.width(), self.image.height()
         #transform.translate(self.actual_offset.x(), self.actual_offset.y())
         transform = transform.quadToQuad(QPolygonF([QPoint(0, 0), QPoint(w, 0), QPoint(w, h), QPoint(0, h)]),
-                                         QPolygonF([i * self.zoom for i in self.transform]))
+                                         QPolygonF([i * self.zoom * self.scale for i in self.transform]))
         #transform = transform.scale(self.zoom, self.zoom)
 
         layer = self.propdepth // 10
@@ -105,7 +105,7 @@ class PropRenderable(Renderable):
     def free_transform(self):
         self.handlers = []
         for i in range(4):
-            self.handlers.append(Handle(self.module).add_myself(self.module))
+            self.handlers.append(Handle(self.module))
             self.handlers[i].init_graphics(self.viewport)
             self.handlers[i].setPos(self.transform[i] + self.offset)
             self.handlers[i].posChanged.connect(self.pointchange(i))

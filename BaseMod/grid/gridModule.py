@@ -12,12 +12,12 @@ class GridModule(Module):
         super().__init__(mod)
         self.ui = mod.gridui
 
-        self.gridtexture = GridRenderLevelImage(self, 0).add_myself(self)
+        self.gridtexture = GridRenderLevelImage(self, 0)
         self.rect = RenderRect(self, 1000, QRect(QPoint(0, 0), QPoint(1, 1)),
-                               Qt.GlobalColor.transparent, QBrush(self.ui.backgroundcolor.value)).add_myself(self)
+                               Qt.GlobalColor.transparent, QBrush(self.ui.backgroundcolor.value))
         self.border = RenderRect(self, 0,
                                  QRect(QPoint(0, 0), QPoint(1, 1)),
-                                 QPen(self.ui.bordercolor.value, 5, Qt.PenStyle.DashLine)).add_myself(self)
+                                 QPen(self.ui.bordercolor.value, 5, Qt.PenStyle.DashLine))
 
         self.ui.enablegrid.valueChanged.connect(self.check_change)
         self.ui.gridopacity.valueChanged.connect(self.check_change)

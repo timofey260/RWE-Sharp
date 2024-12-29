@@ -42,7 +42,7 @@ class RenderImage(Renderable):
         self.renderedtexture.setPos(self.actual_offset)
 
     def zoom_event(self, zoom):
-        self.renderedtexture.setScale(zoom)
+        self.renderedtexture.setScale(zoom * self.scale)
 
     def setPos(self, pos: QPointF):
         super().setPos(pos)

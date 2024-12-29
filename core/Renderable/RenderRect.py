@@ -29,7 +29,7 @@ class RenderRect(Renderable):
         self.drawrect.setPos(self.actual_offset)
 
     def zoom_event(self, zoom):
-        self.drawrect.setScale(zoom)
+        self.drawrect.setScale(zoom * self.scale)
 
     def setRect(self, rect: QRect):
         self.rect = rect

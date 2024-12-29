@@ -28,7 +28,7 @@ class RenderLine(Renderable):
         self.drawline.setPos(self.actual_offset)
 
     def zoom_event(self, zoom):
-        self.drawline.setScale(zoom)
+        self.drawline.setScale(zoom * self.scale)
 
     def setLine(self, line: QLine):
         self.drawline.setLine(line)

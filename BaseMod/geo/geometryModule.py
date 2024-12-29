@@ -14,9 +14,9 @@ class GeoModule(Module):
         self.ui = self.mod.geoview
 
         self.draw = True
-        self.l1 = GeoRenderLevelImage(self, 150, 0).add_myself(self)
-        self.l2 = GeoRenderLevelImage(self, 250, 1).add_myself(self)
-        self.l3 = GeoRenderLevelImage(self, 350, 2).add_myself(self)
+        self.l1 = GeoRenderLevelImage(self, 150, 0)
+        self.l2 = GeoRenderLevelImage(self, 250, 1)
+        self.l3 = GeoRenderLevelImage(self, 350, 2)
 
         self.ui.drawl1.valueChanged.connect(self.check_l1_change)
         self.ui.drawl2.valueChanged.connect(self.check_l2_change)

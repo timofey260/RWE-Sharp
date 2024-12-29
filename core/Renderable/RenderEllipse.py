@@ -29,7 +29,7 @@ class RenderEllipse(Renderable):
         self.drawellipse.setPos(self.actual_offset)
 
     def zoom_event(self, zoom):
-        self.drawellipse.setScale(zoom)
+        self.drawellipse.setScale(zoom * self.scale)
 
     def setRect(self, rect: QRect):
         self.rect = rect

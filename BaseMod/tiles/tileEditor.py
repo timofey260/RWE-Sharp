@@ -4,15 +4,17 @@ import os
 from enum import Enum, auto
 from typing import TYPE_CHECKING
 
-from PySide6.QtGui import QMoveEvent, QImage, QMouseEvent
+from PySide6.QtGui import QMoveEvent, QImage, QMouseEvent, QColor
+from PySide6.QtCore import QRect, QPoint
 
 from RWESharp.Configurable import IntConfigurable, BoolConfigurable, StringConfigurable, EnumConfigurable
 from RWESharp.Core import CELLSIZE, PATH_FILES_IMAGES_PALETTES
 from RWESharp.Modify import Editor
 from RWESharp.Loaders import palette_to_colortable, tile_offset, Tile
-from RWESharp.Renderable import RenderTile
+from RWESharp.Renderable import RenderTile, RenderRect
 from BaseMod.tiles.tileExplorer import TileExplorer
 from BaseMod.tiles.tileHistory import TilePen
+from BaseMod.tiles.tileUtils import can_place
 
 if TYPE_CHECKING:
     from BaseMod.baseMod import BaseMod
@@ -56,7 +58,8 @@ class TileEditor(Editor):
         self.colortable = palette_to_colortable(QImage(self.palette_image.value))
         self.explorer = TileExplorer(self, self.manager.window)
         self.tile: Tile | None = mod.manager.tiles.find_tile("Four Holes")
-        self.tile_item = RenderTile(self, 0, self.layer).add_myself(self)
+        self.tile_item = RenderTile(self, 0, self.layer)
+        self.tile_rect = RenderRect(self, -10, QRect(0, 0, 1, 1))
         # self.tile_cols_image = QPixmap(1, 1)
         # self.tile_cols_painter = QPainter(self.tile_cols_image)
         # self.tile_item: QGraphicsPixmapItem | None = None
@@ -114,6 +117,16 @@ class TileEditor(Editor):
         if self.manager.selected_viewport.level.inside(cellpos):
             self.manager.set_status(f"x: {cellpos.x()}, y: {cellpos.y()}, {self.manager.selected_viewport.level['TE']['tlMatrix'][cellpos.x()][cellpos.y()]}")
         # self.tile_item.setPos(pos)
+        self.tile_rect.setPos(self.tile_item.offset)
+        rect = self.tile_item.image.rect()
+        rect.setTopLeft(rect.topLeft() - QPoint(3, 3))
+        rect.setBottomRight(rect.bottomRight() + QPoint(3, 3))
+        self.tile_rect.setRect(rect)
+        self.tile_rect.setScale(self.tile_item.scale)
+        offset = tile_offset(self.tile)
+        fpos = self.viewport.viewport_to_editor(self.mouse_pos) - offset
+        self.tile_rect.drawrect.setPen(QColor(0, 255, 0) if can_place(self.level, fpos, self.layer, self.tile, self.force_place.value, self.force_geo.value) else QColor(255, 0, 0))
+
 
     def init_scene_items(self, viewport):
         super().init_scene_items(viewport)

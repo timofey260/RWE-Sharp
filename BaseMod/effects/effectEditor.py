@@ -15,7 +15,7 @@ class EffectEditor(Editor):
         self.effectui = None
         self.coloroff = ColorConfigurable(mod, "EDIT_effect.color_off", QColor(210, 37, 219, 100), "No value color")
         self.coloron = ColorConfigurable(mod, "EDIT_effect.color_on", QColor(37, 204, 18, 130), "Full value color")
-        self.layer = EffectRenderLevelImage(self, 100, 0).add_myself(self)
+        self.layer = EffectRenderLevelImage(self, 100, 0)
         self.effectindex = IntConfigurable(None, "EDIT_effect.effectindex", 0, "Current effect")
         self.brushsize = IntConfigurable(mod, "EDIT_effect.brushsize", 4, "Current effect")
 
@@ -26,7 +26,7 @@ class EffectEditor(Editor):
         self.duplicate = KeyConfigurable(mod, "EDIT_effect.duplicate", "Ctrl+d", "Duplicate effect")
         self.delete = KeyConfigurable(mod, "EDIT_effect.delete", "Delete", "Delete effect")
 
-        self.brush = RenderEllipse(mod, 0, QRect(0, 0, 1, 1)).add_myself(self)
+        self.brush = RenderEllipse(self, 0, QRect(0, 0, 1, 1))
         self.effectindex.valueChanged.connect(self.select_effect)
         self.lastpos = QPoint()
 

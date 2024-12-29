@@ -58,14 +58,8 @@ def check_collisions(level: RWELevel, pos: QPoint, layer: int, tile: Tile, force
     return True
 
 
-def can_place(level: RWELevel,
-              pos: QPoint,
-              layer: int,
-              tile: Tile,
-              area: list[list[bool]],
-              area2: list[list[bool]],
-              force_place: bool,
-              force_geometry: bool) -> bool:
+def can_place(level: RWELevel, pos: QPoint, layer: int, tile: Tile, force_place: bool, force_geometry: bool,
+              area: list[list[bool]] = None, area2: list[list[bool]] = None) -> bool:
     headpos = tile_offset(tile) + pos
     if not level.inside(headpos):
         return False
@@ -74,9 +68,9 @@ def can_place(level: RWELevel,
         for y in range(pos.y(), pos.y() + tile.size.height()):
             if not level.inside(QPoint(x, y)):
                 continue
-            if not area[x][y]:
+            if area is not None and not area[x][y]:
                 return False
-            if isinstance(tile.cols[1], list) and not area2[x][y]:
+            if area2 is not None and isinstance(tile.cols[1], list) and not area2[x][y]:
                 return False
     return check_collisions(level, pos, layer, tile, force_place, force_geometry)
 

@@ -100,12 +100,12 @@ class GeometryEditor(Editor):
         from BaseMod.baseMod import BaseMod
         self.mod: BaseMod
 
-        self.cursor = RenderRect(self, 0, QRect(0, 0, CELLSIZE, CELLSIZE)).add_myself(self)
-        self.rect = RenderRect(self, 0, QRect(0, 0, CELLSIZE, CELLSIZE)).add_myself(self)
-        self.ellipse = RenderEllipse(self, 0, QRect(0, 0, CELLSIZE, CELLSIZE)).add_myself(self)
-        self.brushellipse = RenderEllipse(self, 0, QRect(0, 0, CELLSIZE, CELLSIZE)).add_myself(self)
-        self.lineline = RenderLine(self, 0, QLine(0, 0, 0, 0)).add_myself(self)
-        self.pixmap = RenderImage(self, 1, QSize(CELLSIZE, CELLSIZE)).add_myself(self)
+        self.cursor = RenderRect(self, 0, QRect(0, 0, CELLSIZE, CELLSIZE))
+        self.rect = RenderRect(self, 0, QRect(0, 0, CELLSIZE, CELLSIZE))
+        self.ellipse = RenderEllipse(self, 0, QRect(0, 0, CELLSIZE, CELLSIZE))
+        self.brushellipse = RenderEllipse(self, 0, QRect(0, 0, CELLSIZE, CELLSIZE))
+        self.lineline = RenderLine(self, 0, QLine(0, 0, 0, 0))
+        self.pixmap = RenderImage(self, 1, QSize(CELLSIZE, CELLSIZE))
         self.lastpos = QPoint()
         self.block = EnumConfigurable(mod, "EDIT_geo.block", GeoBlocks.Wall, GeoBlocks, "Current geo block")
         self.toolleft = EnumConfigurable(mod, "EDIT_geo.lmb", GeoTools.Pen, GeoTools, "Current geo tool for LMB")

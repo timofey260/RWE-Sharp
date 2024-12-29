@@ -9,7 +9,7 @@ class PropModule(Module):
         super().__init__(mod)
         self.opshift = BoolConfigurable(mod, "VIEW_props.opshift", True, "Opacity shift")
         self.props: list[PropRenderable] = []
-        Handle(mod).add_myself(self)
+        Handle(self)
 
     def init_scene_items(self, viewport):
         self.render_props()
@@ -20,10 +20,10 @@ class PropModule(Module):
             i.remove_graphics(self.viewport)
         self.props = []
         for i in self.level.props:
-            self.props.append(PropRenderable(self.mod, i).add_myself(self))
+            self.props.append(PropRenderable(self, i))
 
     def render_prop(self, index: int):
-        p = PropRenderable(self.mod, self.level.props[index]).add_myself(self)
+        p = PropRenderable(self, self.level.props[index])
         self.props.append(p)
         p.init_graphics(self.viewport)
 

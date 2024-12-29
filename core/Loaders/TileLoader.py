@@ -39,7 +39,7 @@ def return_tile_pixmap(tile: Tile, option: int, layer: int, layercolortable) -> 
         return QPixmap.fromImage(tile.image3)
 
 
-def collisions_image(tile: Tile) -> QPixmap:
+def collisions_image(tile: Tile, l1color: QColor = QColor(255, 0, 0, 255), l2color: QColor = QColor(0, 0, 255, 255)) -> QPixmap:
     tile_image = QPixmap((tile.size + QSize(tile.bfTiles * 2, tile.bfTiles * 2)) * CELLSIZE)
     tile_image.fill(QColor(0, 0, 0, 0))
     painter = QPainter(tile_image)
@@ -72,9 +72,9 @@ def collisions_image(tile: Tile) -> QPixmap:
 
     painter.setBrush(QColor(0, 0, 0, 0))
     if isinstance(tile.cols[1], list):
-        painter.setPen(QPen(QColor(0, 0, 255, 255), 2, Qt.PenStyle.DotLine))
+        painter.setPen(QPen(l2color, 2, Qt.PenStyle.DotLine))
         drawlayer(tile.cols[1])
-    painter.setPen(QPen(QColor(255, 0, 0, 255), 1, Qt.PenStyle.DashLine))
+    painter.setPen(QPen(l1color, 1, Qt.PenStyle.DashLine))
     drawlayer(tile.cols[0])
     return tile_image
 

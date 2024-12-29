@@ -18,7 +18,7 @@ class TilePen(TileHistory):
             tile = remove_tile(history.level, start, layer)
             if tile is not None:
                 self.savedtiles.append(tile)
-        elif can_place(self.history.level, start, layer, tile, self.area, self.area2, self.fp, self.fg):
+        elif can_place(self.history.level, start, layer, tile, self.fp, self.fg, self.area, self.area2):
             tile = place_tile(self.history.level, start, layer, tile, self.area, self.area2, self.fp, self.fg)
             if tile is not None:
                 self.savedtiles.append(tile)
@@ -38,7 +38,7 @@ class TilePen(TileHistory):
                 tile = remove_tile(self.history.level, point, self.layer)
                 if tile is not None:
                     self.savedtiles.append(tile)
-            elif can_place(self.history.level, point, self.layer, self.tile, self.area, self.area2, self.fp, self.fg):
+            elif can_place(self.history.level, point, self.layer, self.tile, self.fp, self.fg, self.area, self.area2):
                 tile = place_tile(self.history.level, point, self.layer, self.tile, self.area, self.area2, self.fp, self.fg)
                 if tile is not None:
                     self.savedtiles.append(tile)

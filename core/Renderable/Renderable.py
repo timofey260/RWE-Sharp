@@ -13,18 +13,15 @@ class Renderable(ABC):
         self.depth: int = -depth
         self.pos: QPointF = QPointF()
         self.offset: QPointF = QPointF()
+        self.scale = 1
         self.module: Module = module
-
-    def add_myself(self, where: Module):
-        if isinstance(where, Module):
-            where.add_renderable(self)
-        self.module = where
-        return self
+        self.module.add_renderable(self)
 
     def remove_myself(self):
         if self.module is None:
             return
         self.module.renderables.remove(self)
+        self.module = None
 
     @abstractmethod
     def init_graphics(self, viewport):
@@ -50,6 +47,10 @@ class Renderable(ABC):
         if pos is None:
             return
         self.offset = pos
+
+    def setScale(self, scale):
+        self.scale = scale
+        self.zoom_event(self.zoom)
 
     @property
     def actual_offset(self):

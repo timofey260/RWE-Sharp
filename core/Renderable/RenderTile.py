@@ -48,6 +48,5 @@ class RenderTile(RenderImage):
 
     def zoom_event(self, zoom):
         self.colsimage_rendered.setScale(zoom)
-        if self.drawoption == 0:
-            zoom = zoom / 16 * 20
+        self.scale = (20 / 16) if self.drawoption == 0 else 1
         super().zoom_event(zoom)
