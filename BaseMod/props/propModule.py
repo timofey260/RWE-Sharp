@@ -19,11 +19,11 @@ class PropModule(Module):
         for i in self.props:
             i.remove_graphics(self.viewport)
         self.props = []
-        for i in self.level.props:
+        for i in self.level.l_props:
             self.props.append(PropRenderable(self, i))
 
     def render_prop(self, index: int):
-        p = PropRenderable(self, self.level.props[index])
+        p = PropRenderable(self, self.level.l_props[index])
         self.props.append(p)
         p.init_graphics(self.viewport)
 
@@ -34,13 +34,13 @@ class PropModule(Module):
 
     def remove_prop(self, index: int):
         self.remove_render_prop(index)
-        self.level.props.pop(index)
+        self.level.l_props.pop(index)
 
     def pop_prop(self):
         self.remove_prop(len(self.props) - 1)
 
     def add_prop(self, index: int, prop: list):
-        self.level.props.insert(index, prop)
+        self.level.l_props.insert(index, prop)
         self.render_prop(index)
 
     def append_prop(self, prop: list):
@@ -48,7 +48,7 @@ class PropModule(Module):
 
     def move_prop(self, index: int, newindex: int):
         self.props.insert(newindex, self.props.pop(index))
-        self.level.props.insert(newindex, self.level.props.pop(index))
+        self.level.l_props.insert(newindex, self.level.l_props.pop(index))
 
     def level_resized(self):
         self.render_props()

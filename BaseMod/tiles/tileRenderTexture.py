@@ -48,7 +48,7 @@ class TileRenderLevelImage(RenderLevelImage):
 
     def draw_tile(self, pos: QPoint):
         # drawrect = QRect(x * CELLSIZE, y * CELLSIZE, CELLSIZE, CELLSIZE)
-        tile = self.viewport.level.tile_data(pos, self.tilelayer)
+        tile = self.viewport.level.l_tiles(pos, self.tilelayer)
         x = pos.x()
         y = pos.y()
         match tile["tp"]:

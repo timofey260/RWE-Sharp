@@ -56,24 +56,35 @@ class GeoRenderLevelImage(RenderLevelImage):
         self.draw_layer()
 
     def redraw_beams(self):
-        for xp, x in enumerate(self.viewport.level["GE"]):
-            for yp, y in enumerate(x):
-                if 1 in y[self.geolayer][1] or 2 in y[self.geolayer][1]:
-                    self.draw_geo(xp, yp, True, False)
+        with np.nditer(self.module.level.l_geo.stack, flags=['multi_index'], op_flags=['readonly']) as it:
+            for x in it:
+                if x[...] & 3:
+                    self.draw_geo(it.multi_index[0], it.multi_index[1], True, False)
+        # for xp, x in enumerate(self.viewport.level["GE"]):
+        #     for yp, y in enumerate(x):
+        #         if 1 in y[self.geolayer][1] or 2 in y[self.geolayer][1]:
+        #             self.draw_geo(xp, yp, True, False)
         self.redraw()
 
     def redraw_misc(self):
-        for xp, x in enumerate(self.viewport.level["GE"]):
-            for yp, y in enumerate(x):
-                self.draw_geo(xp, yp, True, False)
+        with np.nditer(self.module.level.l_geo.stack, flags=['multi_index'], op_flags=['readonly']) as it:
+            for _ in it:
+                self.draw_geo(it.multi_index[0], it.multi_index[1], True, False)
+        # for xp, x in enumerate(self.viewport.level["GE"]):
+        #     for yp, y in enumerate(x):
+        #         self.draw_geo(xp, yp, True, False)
         self.redraw()
 
     def redraw_pipes(self):
-        for xp, x in enumerate(self.viewport.level["GE"]):
-            for yp, y in enumerate(x):
-                if 5 in y[self.geolayer][1] or 6 in y[self.geolayer][1] or 7 in y[self.geolayer][1] or 19 in \
-                        y[self.geolayer][1]:
-                    self.draw_geo(xp, yp, True, False)
+        with np.nditer(self.module.level.l_geo.stack, flags=['multi_index'], op_flags=['readonly']) as it:
+            for x in it:
+                if x[...] & 4320:
+                    self.draw_geo(it.multi_index[0], it.multi_index[1], True, False)
+        # for xp, x in enumerate(self.viewport.level["GE"]):
+        #     for yp, y in enumerate(x):
+        #         if 5 in y[self.geolayer][1] or 6 in y[self.geolayer][1] or 7 in y[self.geolayer][1] or 19 in \
+        #                 y[self.geolayer][1]:
+        #             self.draw_geo(xp, yp, True, False)
         self.redraw()
 
     @property

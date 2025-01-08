@@ -8,6 +8,7 @@ from core.Exceptions import *
 from core.HistorySystem import History
 from core.Level.RWLParser import RWLParser
 from core.Level.LevelPart import LevelPart
+from core.Level.CustomLevelData import CustomLevelData
 from PySide6.QtCore import QPoint, Slot, QRect, QSize
 from core.HistorySystem import HistoryElement
 
@@ -30,17 +31,13 @@ class RWELevel:
 
         # quick access stuff
         self.l_geo = self.levelparts["geo"]
-        # self.l_tiles = self.levelparts["tiles"]
-        # self.l_effects = self.levelparts["effects"]
-        # self.l_props = self.levelparts["props"]
+        self.l_tiles = self.levelparts["tiles"]
+        self.l_effects = self.levelparts["effects"]
+        self.l_props = self.levelparts["props"]
 
-        self._custom_data: dict = {}  # todo
+        self.custom_level_data = CustomLevelData(self)
 
-    def change_custom_data(self, name: str, value):
-        self._custom_data[name] = value
-
-    def get_custom_data(self, name: str):
-        return self._custom_data.get(name)
+        self.was_resized = False
 
     def mount_levelparts(self):
         for i in self.manager.mods:
@@ -77,64 +74,9 @@ class RWELevel:
     def level_rect(self) -> QRect:
         return QRect(0, 0, self.level_width, self.level_height)
 
-    def tile_data_xy(self, x: int, y: int, layer: int) -> dict[str, ...]:
-        """
-        returns tile on specific layer
-        :param x: x position of tile
-        :param y: y position of tile
-        :param layer: layer of tile(0-2)
-        :return:
-        """
-        return self.data["TE"]["tlMatrix"][x][y][layer]
-
-    def tile_data(self, pos: QPoint, layer: int) -> dict[str, ...]:
-        """
-        returns tile on specific layer
-        :param pos: position of tile
-        :param layer: layer of tile(0-2)
-        :return:
-        """
-        return self.data["TE"]["tlMatrix"][pos.x()][pos.y()][layer]
-
-    def effect_data(self, index: int) -> list[list[float]]:
-        """
-        returns matrix for specific effect
-        :param index: effect index
-        """
-        return self.data["FE"]["effects"][index]
-
-    def effect_data_pixel(self, index: int, pos: QPoint) -> float:
-        """
-        returns specific value of effect
-        :param index: effect index
-        :param pos: value position
-        """
-        return self.data["FE"]["effects"][index]["mtrx"][pos.x()][pos.y()]
-
-    def effect_data_xy(self, index: int, x: int, y:int) -> float:
-        """
-        returns specific value of effect
-        :param index: effect index
-        :param x: x pos of value
-        :param y: y pos of value
-        """
-        return self.data["FE"]["effects"][index]["mtrx"][x][y]
-
-    @property
-    def effects(self):
-        return self.data["FE"]["effects"]
-
-    @property
-    def effect_len(self) -> int:
-        return len(self.data["FE"]["effects"])
-
     @property
     def extra_tiles(self) -> [int, int, int, int]:
         return self.data["EX2"]["extraTiles"]
-
-    @property
-    def props(self):
-        return self.data["PR"]["props"]
 
     def inside(self, point: QPoint) -> bool:
         return 0 <= point.x() < self.level_width and 0 <= point.y() < self.level_height
@@ -177,6 +119,8 @@ class RWELevel:
             fl.write(lingoIO.tolingo(self["CM"]) + "\r")
             fl.write(lingoIO.tolingo(self["WL"]) + "\r")
             fl.write(lingoIO.tolingo(self["PR"]) + "\r")
+            if self.data.get("CLD") is not None:
+                fl.write(lingoIO.tolingo(self["CLD"]) + "\r")
 
     @staticmethod
     def turntoproject(string: str) -> PathDict:
@@ -191,6 +135,8 @@ class RWELevel:
         proj["CM"] = lingoIO.tojson(lines[6], defaultlevellines[6])  # camera settings
         proj["WL"] = lingoIO.tojson(lines[7], defaultlevellines[7])  # water level
         proj["PR"] = lingoIO.tojson(lines[8], defaultlevellines[8])  # props and settings why the hell i typed both settings wrong???
+        if len(lines) > 9:
+            proj["CLD"] = lingoIO.tojson(lines[9])  # props and settings why the hell i typed both settings wrong???
         return PathDict(proj)
 
     def openfile(self, file: str):
@@ -215,6 +161,7 @@ class RWELevel:
             v.save_level()
         if self.file is None:
             return False
+        self.was_resized = False
         _, ex = os.path.splitext(self.file)
         if ex == ".txt":
             self.turntolingo(open(self.file, "w"))

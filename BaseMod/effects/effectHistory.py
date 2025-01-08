@@ -12,7 +12,7 @@ class EffectBrush(HistoryElement):
         self.size = size
         self.remove = remove
         self.ultra = ultra  # kill
-        self.effect = history.level.manager.effects.find_effect(self.history.level.effects[index]["nm"])
+        self.effect = history.level.manager.effects.find_effect(self.history.level.l_effects[index]["nm"])
         self.index = index
         self.lastpos = start
         self.paintapoint(start)
@@ -40,7 +40,7 @@ class EffectBrush(HistoryElement):
                 newpoint = QPoint(xp, yp)
                 if not self.history.level.inside(newpoint):
                     continue
-                cellval = self.history.level["FE"]["effects"][self.index]['mtrx'][xp][yp]
+                cellval = int(self.history.level.l_effects[self.index, xp, yp])
                 val = cellval
                 dist = self.size - QLineF(newpoint, point).length()
                 if dist > 0:
@@ -51,20 +51,20 @@ class EffectBrush(HistoryElement):
                         self.changes[newpoint] = [self.changes[newpoint][0], val]
                     else:
                         self.changes[newpoint] = [cellval, val]
-                    self.history.level["FE"]["effects"][self.index]['mtrx'][xp][yp] = val
+                    self.history.level.l_effects[self.index, xp, yp] = val
                     self.history.level.manager.basemod.effecteditor.layer.draw_pixel(newpoint, True)
 
     def undo_changes(self):
         for point, v in self.changes.items():
             before, _ = v
-            self.history.level["FE"]["effects"][self.index]['mtrx'][point.x()][point.y()] = before
+            self.history.level.l_effects[self.index, point.x(), point.y()] = before
             self.history.level.manager.basemod.effecteditor.layer.draw_pixel(point, True)
         self.redraw()
 
     def redo_changes(self):
         for point, v in self.changes.items():
             _, after = v
-            self.history.level["FE"]["effects"][self.index]['mtrx'][point.x()][point.y()] = after
+            self.history.level.l_effects[self.index, point.x(), point.y()] = after
             self.history.level.manager.basemod.effecteditor.layer.draw_pixel(point, True)
         self.redraw()
 
@@ -76,12 +76,12 @@ class EffectAdd(HistoryElement):
         self.add_effect()
 
     def add_effect(self):
-        self.history.level["FE"]["effects"].append(self.effect.todict(self.history.level.level_size_qsize))
+        self.history.level.l_effects.append(self.effect.todict(self.history.level.level_size_qsize))
         self.history.level.manager.basemod.effectui.add_effects()
-        self.history.level.manager.basemod.effecteditor.effectindex.update_value(self.history.level.effect_len - 1)
+        self.history.level.manager.basemod.effecteditor.effectindex.update_value(len(self.history.level.l_effects) - 1)
 
     def undo_changes(self):
-        self.history.level["FE"]["effects"].pop()
+        self.history.level.l_effects.pop()
         self.history.level.manager.basemod.effectui.add_effects()
 
     def redo_changes(self):
@@ -91,16 +91,16 @@ class EffectAdd(HistoryElement):
 class EffectOptionChange(HistoryElement):
     def __init__(self, history, index, option, value):
         super().__init__(history)
-        self.prevvalue = history.level.effects[index]["options"][option][2]
+        self.prevvalue = history.level.l_effects[index]["options"][option][2]
         self.index = index
         self.option = option
         self.value = value
         self.redo_changes()
 
     def undo_changes(self):
-        self.level.effects[self.index]["options"][self.option][2] = self.prevvalue
+        self.level.l_effects[self.index]["options"][self.option][2] = self.prevvalue
         self.level.manager.basemod.effectui.effect_settings()
 
     def redo_changes(self):
-        self.level.effects[self.index]["options"][self.option][2] = self.value
+        self.level.l_effects[self.index]["options"][self.option][2] = self.value
         self.level.manager.basemod.effectui.effect_settings()

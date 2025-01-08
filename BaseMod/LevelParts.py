@@ -1,5 +1,7 @@
 from RWESharp.Modify import LevelPart
+from PySide6.QtCore import QPoint
 import numpy as np
+from copy import deepcopy
 
 
 stack_pos = [1, 2, 11, 3, 4, 5, 6, 7, 9, 10, 12, 13, 19, 21, 20, 18]
@@ -27,6 +29,8 @@ class GeoLevelPart(LevelPart):
         #print(np.asarray(dat, np.int8))
 
     def save_level(self):
+        if self.level.was_resized:
+            self.level.data["GE"] = [[[[0, []], [0, []], [0, []]] for _ in range(self.level.level_width)] for _ in range(self.level.level_height)]
         with np.nditer(self.blocks, flags=['multi_index'], op_flags=['readonly']) as it:
             for x in it:
                 self.level.data["GE"][it.multi_index[0]][it.multi_index[1]][it.multi_index[2]][0] = int(x[...])
@@ -57,3 +61,107 @@ class GeoLevelPart(LevelPart):
 
     def setlevelgeo(self, x, y, l, v: [np.uint8, np.uint16]):
         self.blocks[x, y, l], self.stack[x, y, l] = v
+
+
+class TileLevelPart(LevelPart):
+    def __init__(self, level):
+        super().__init__("tiles", level)
+        self.tiles = self.level.data["TE"]["tlMatrix"]
+
+    def save_level(self):
+        self.level.data["TE"]["tlMatrix"] = self.tiles
+
+    def tile_data_xy(self, x: int, y: int, layer: int) -> dict[str, ...]:
+        """
+        returns tile on specific layer
+        :param x: x position of tile
+        :param y: y position of tile
+        :param layer: layer of tile(0-2)
+        :return:
+        """
+        return self.tiles[x][y][layer]
+
+    def tile_data(self, pos: QPoint, layer: int) -> dict[str, ...]:
+        """
+        returns tile on specific layer
+        :param pos: position of tile
+        :param layer: layer of tile(0-2)
+        :return:
+        """
+        return self.tiles[pos.x()][pos.y()][layer]
+
+    def __call__(self, *args, **kwargs):
+        return self.tile_data(*args, **kwargs)
+
+
+class PropLevelPart(LevelPart):
+    def __init__(self, level):
+        super().__init__("props", level)
+        self.props: list = self.level["PR"]["props"]
+
+    def save_level(self):
+        self.level["PR"]["props"] = self.props
+
+    def __len__(self):
+        return len(self.props)
+
+    def __iter__(self):
+        return self.props.__iter__()
+
+    def __getitem__(self, item):
+        return self.props[item]
+
+    def __setitem__(self, key, value):
+        self.props[key] = value
+
+    def pop(self, index):
+        self.props.pop(index)
+
+    def insert(self, index, prop):
+        self.props.insert(index, prop)
+
+
+class EffectLevelPart(LevelPart):
+    def __init__(self, level):
+        super().__init__("effects", level)
+        self.effects = []
+        self.load_level()
+
+    def load_level(self):
+        dat = self.level.data["FE"]["effects"]
+        for i in dat:
+            self.effects.append(deepcopy({k: v for k, v in i.items() if k != "mtrx"}))
+            self.effects[-1]["mtrx"] = np.zeros(self.level.level_size.toTuple(), np.float16)
+            with np.nditer(self.effects[-1]["mtrx"], flags=['multi_index'], op_flags=['writeonly']) as it:
+                for x in it:
+                    x[...] = i["mtrx"][it.multi_index[0]][it.multi_index[1]]
+
+    def save_level(self):
+        self.level.data["FE"]["effects"] = []
+        for i in self.effects:
+            newi = {k: v for k, v in i.items() if k != "mtrx"}
+            newi["mtrx"] = [[i["mtrx"][x, y] for y in range(self.level.level_height)] for x in range(self.level.level_width)]
+            self.level.data["FE"]["effects"].append(newi)
+
+    def effect_data_xy(self, index: int, x: int, y:int) -> float:
+        """
+        returns specific value of effect
+        :param index: effect index
+        :param x: x pos of value
+        :param y: y pos of value
+        """
+        return self.effects[index]["mtrx"][x, y]
+
+    def __len__(self):
+        return len(self.effects)
+
+    def __getitem__(self, item):
+        if isinstance(item, int):
+            return self.effects[item]
+        return self.effects[item[0]]["mtrx"][item[1], item[2]]
+
+    def __setitem__(self, key, value):
+        self.effects[key[0]]["mtrx"][key[1], key[2]] = value
+
+    def __iter__(self):
+        return self.effects.__iter__()

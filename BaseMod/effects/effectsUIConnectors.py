@@ -48,16 +48,16 @@ class EffectsUI(UI):
         self.ui.OptionsTree.customContextMenuRequested.connect(self.settings_context_menu)
 
     def effect_up(self):
-        self.editor.effectindex.update_value((self.editor.effectindex.value - 1) % self.level.effect_len)
+        self.editor.effectindex.update_value((self.editor.effectindex.value - 1) % len(self.level.l_effects))
 
     def effect_down(self):
-        self.editor.effectindex.update_value((self.editor.effectindex.value + 1) % self.level.effect_len)
+        self.editor.effectindex.update_value((self.editor.effectindex.value + 1) % len(self.level.l_effects))
 
     def add_effects(self):
         self.ui.EffectsTree.clear()
         if not self.level_loaded:
             return
-        for i, effect in enumerate(self.mod.manager.selected_viewport.level.effects):
+        for i, effect in enumerate(self.mod.manager.selected_viewport.level.l_effects):
             item = QTreeWidgetItem([str(i), effect["nm"]])
             item.setData(0, Qt.ItemDataRole.UserRole, i)
             item.setData(1, Qt.ItemDataRole.UserRole, effect)
@@ -84,9 +84,9 @@ class EffectsUI(UI):
         self.ui.OptionsTree.setAlternatingRowColors(True)
         self.ui.OptionsTree.setColumnCount(2)
         self.ui.OptionsTree.setHeaderLabels(['Setting', 'Value'])
-        if not self.level_loaded or len(self.level.effects) == 0:
+        if not self.level_loaded or len(self.level.l_effects) == 0:
             return
-        effect = self.level.effects[self.editor.effectindex.value]
+        effect = self.level.l_effects[self.editor.effectindex.value]
 
         for index, i in enumerate(effect["options"]):
             if i[0].lower() == "delete/move":
@@ -101,7 +101,7 @@ class EffectsUI(UI):
     def effect_settings_double_click(self, item: QTreeWidgetItem, column):
         if column == 1:
             index = item.data(0, Qt.ItemDataRole.UserRole)
-            options = self.level.effects[self.editor.effectindex.value]["options"][index]
+            options = self.level.l_effects[self.editor.effectindex.value]["options"][index]
             if item.text(0).lower() == "seed":
                 d = QInputDialog()
                 d.setInputMode(QInputDialog.InputMode.IntInput)
@@ -130,9 +130,9 @@ class EffectsUI(UI):
             menu.popup(self.ui.OptionsTree.mapToGlobal(pos))
             return
         defaultaction = None
-        for i in self.level.effects[self.editor.effectindex.value]["options"][index][1]:
+        for i in self.level.l_effects[self.editor.effectindex.value]["options"][index][1]:
             menu.addAction(i, self.setoption(index, i))
-            if i == self.level.effects[self.editor.effectindex.value]["options"][index][2]:
+            if i == self.level.l_effects[self.editor.effectindex.value]["options"][index][2]:
                 defaultaction = menu.actions()[-1]
         menu.popup(self.ui.OptionsTree.mapToGlobal(pos), defaultaction)
 

@@ -12,7 +12,7 @@ from BaseMod.props.propUIConnectors import PropsUI
 from BaseMod.effects.effectEditor import EffectEditor
 from BaseMod.effects.effectsUIConnectors import EffectsUI
 from BaseMod.themes.preferencesuiconnector import PreferencesUI
-from BaseMod.LevelParts import GeoLevelPart
+from BaseMod.LevelParts import GeoLevelPart, TileLevelPart, PropLevelPart, EffectLevelPart
 from RWESharp.Modify import Mod, ModInfo
 from RWESharp.Core import SettingElement, HotkeyElement, get_hotkeys_from_pattern, PATH_FILES_VIDEOS
 from RWESharp.Ui import FunnyVideo
@@ -120,3 +120,6 @@ class BaseMod(Mod):
 
     def mount_levelparts(self, level):
         GeoLevelPart(level)
+        TileLevelPart(level)
+        PropLevelPart(level)
+        EffectLevelPart(level)

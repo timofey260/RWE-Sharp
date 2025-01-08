@@ -16,7 +16,7 @@ def copy_tile(tile: dict) -> dict:
 
 
 def point_collision(level: RWELevel, pos: QPoint, layer: int, tilepos: QPoint, tile: Tile, force_place: bool = False, force_geometry: bool = False) -> bool:
-    tiledata = level.tile_data(pos, layer)
+    tiledata = level.l_tiles(pos, layer)
     tp = tiledata.get("tp", "default")
     # data = tiledata.get("data", 0)
     if force_place and tp == "tileHead":
@@ -87,9 +87,9 @@ def check4tile_col(level: RWELevel,
     if col == -1:
         return None, None
     geochange = None
-    if fp and level.tile_data(pos, layer).get("tp") == "tileHead":
+    if fp and level.l_tiles(pos, layer).get("tp") == "tileHead":
         return None, None
-    elif not fp and level.tile_data(pos, layer).get("tp") != "default":
+    elif not fp and level.l_tiles(pos, layer).get("tp") != "default":
         return None, None
     level.viewport.modulenames["tiles"].get_layer(layer).clean_pixel(pos)
     if fg and col != level.l_geo.blocks[pos.x(), pos.y(), layer]:
@@ -100,12 +100,12 @@ def check4tile_col(level: RWELevel,
     if not secondlayer and pos == head:
         change = [pos, layer,
                   {"tp": "tileHead", "data": [lingoIO.makearr([tile.cat.x(), tile.cat.y()], "point"), tile.name]},
-                  copy_tile(level.tile_data(pos, layer))]
+                  copy_tile(level.l_tiles(pos, layer))]
         level.data["TE"]["tlMatrix"][pos.x()][pos.y()][layer] = copy_tile(change[2])
         return change, geochange
     change = [pos, layer,
               {"tp": "tileBody", "data": [lingoIO.makearr([head.x() + 1, head.y() + 1], "point"), layer + 1]},
-              copy_tile(level.tile_data(pos, layer))]
+              copy_tile(level.l_tiles(pos, layer))]
     level.data["TE"]["tlMatrix"][pos.x()][pos.y()][layer] = copy_tile(change[2])
     return change, geochange
 
@@ -119,7 +119,7 @@ def place_tile(level: RWELevel,
                force_place: bool = False,
                force_geometry: bool = False) -> PlacedTile | None:
     if tile.type == "material":
-        change = [pos, layer, {"tp": "material", "data": tile.name}, copy_tile(level.tile_data(pos, layer))]
+        change = [pos, layer, {"tp": "material", "data": tile.name}, copy_tile(level.l_tiles(pos, layer))]
         geochange = []
         if force_geometry and level.l_geo.blocks[pos.x(), pos.y(), layer] != 0:
             geochange = [[pos, layer, 1, level.l_geo.blocks[pos.x(), pos.y(), layer]]]
@@ -171,7 +171,7 @@ def place_tile(level: RWELevel,
 def remove_tile(level: RWELevel, pos: QPoint, layer: int) -> RemovedTile | None:
     if not level.inside(pos):
         return
-    data = level.tile_data(pos, layer)
+    data = level.l_tiles(pos, layer)
     tp = data.get("tp", "default")
     head = [lingoIO.makearr([pos.x() + 1, pos.y() + 1], "point"), layer]
     if tp == "default":
@@ -186,7 +186,7 @@ def remove_tile(level: RWELevel, pos: QPoint, layer: int) -> RemovedTile | None:
         layer = head[1] - 1
     headpos = QPoint(*lingoIO.fromarr(head[0], "point"))
     headpos -= QPoint(1, 1)
-    headdata = level.tile_data(headpos, layer)
+    headdata = level.l_tiles(headpos, layer)
     if headdata.get("tp") != "tileHead":
         return
     foundtile = level.manager.tiles[headdata.get("data")[1]]
@@ -209,16 +209,16 @@ def remove_tile(level: RWELevel, pos: QPoint, layer: int) -> RemovedTile | None:
                     col2 = foundtile.cols[1][x * foundtile.size.height() + y]
                 except IndexError:
                     col2 = 1
-                if col2 != -1 and (level.tile_data(bodypos, layer + 1) == tiledata or level.tile_data(bodypos, layer + 1)["tp"] == "default"):
+                if col2 != -1 and (level.l_tiles(bodypos, layer + 1) == tiledata or level.l_tiles(bodypos, layer + 1)["tp"] == "default"):
                     level.viewport.modulenames["tiles"].get_layer(layer + 1).clean_pixel(bodypos)
-                    changes.append([bodypos, layer + 1, copy_tile(level.tile_data(bodypos, layer + 1))])
+                    changes.append([bodypos, layer + 1, copy_tile(level.l_tiles(bodypos, layer + 1))])
                     level.data["TE"]["tlMatrix"][bodypos.x()][bodypos.y()][layer + 1] = {"tp": "default", "data": 0}
-            if (col == -1 or level.tile_data(bodypos, layer) != tiledata) and level.tile_data(bodypos, layer)["tp"] != "default":
+            if (col == -1 or level.l_tiles(bodypos, layer) != tiledata) and level.l_tiles(bodypos, layer)["tp"] != "default":
                 continue
             level.viewport.modulenames["tiles"].get_layer(layer).clean_pixel(bodypos)
-            changes.append([bodypos, layer, copy_tile(level.tile_data(bodypos, layer))])
+            changes.append([bodypos, layer, copy_tile(level.l_tiles(bodypos, layer))])
             level.data["TE"]["tlMatrix"][bodypos.x()][bodypos.y()][layer] = {"tp": "default", "data": 0}
-    changes.append([headpos, layer, copy_tile(level.tile_data(headpos, layer))])
+    changes.append([headpos, layer, copy_tile(level.l_tiles(headpos, layer))])
     level.viewport.modulenames["tiles"].get_layer(layer).clean_pixel(headpos)
     level.data["TE"]["tlMatrix"][headpos.x()][headpos.y()][layer] = {"tp": "default", "data": 0}
     return RemovedTile(changes)
