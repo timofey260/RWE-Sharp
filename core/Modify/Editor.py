@@ -5,6 +5,7 @@ from PySide6.QtWidgets import QGraphicsScene
 from typing import TYPE_CHECKING
 from abc import ABC
 from core.Modify.baseModule import Module
+from core.info import ISMAC
 if TYPE_CHECKING:
     from core.Renderable.Renderable import Renderable
 
@@ -54,11 +55,20 @@ class Editor(Module, ABC):
 
     @property
     def control(self):
+        if ISMAC:
+            return bool(QGuiApplication.keyboardModifiers() & Qt.KeyboardModifier.MetaModifier)
         return bool(QGuiApplication.keyboardModifiers() & Qt.KeyboardModifier.ControlModifier)
 
     @property
     def alt(self):
         return bool(QGuiApplication.keyboardModifiers() & Qt.KeyboardModifier.AltModifier)
+
+    @property
+    def meta(self):
+        if ISMAC:
+            return bool(QGuiApplication.keyboardModifiers() & Qt.KeyboardModifier.ControlModifier)
+        return bool(QGuiApplication.keyboardModifiers() & Qt.KeyboardModifier.MetaModifier)
+
 
     @property
     def level(self):
