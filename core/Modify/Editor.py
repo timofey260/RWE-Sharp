@@ -1,6 +1,6 @@
 from __future__ import annotations
 from PySide6.QtGui import QMoveEvent, QMouseEvent, QWheelEvent, QGuiApplication
-from PySide6.QtCore import QPoint
+from PySide6.QtCore import QPoint, Qt
 from PySide6.QtWidgets import QGraphicsScene
 from typing import TYPE_CHECKING
 from abc import ABC
@@ -9,7 +9,7 @@ if TYPE_CHECKING:
     from core.Renderable.Renderable import Renderable
 
 
-class Editor(Module):
+class Editor(Module, ABC):
     """
     Base for creating custom viewport editors
     """
@@ -28,7 +28,6 @@ class Editor(Module):
     def mouse_wheel_event(self, event: QWheelEvent):
         pass
 
-
     @property
     def workscene(self) -> QGraphicsScene:
         return self.viewport.workscene
@@ -43,7 +42,23 @@ class Editor(Module):
 
     @property
     def mouse_pos(self) -> QPoint:
+        """
+        last mouse location on viewport coordinates
+        :return:
+        """
         return self.viewport.mouse_pos
+
+    @property
+    def shift(self):
+        return bool(QGuiApplication.keyboardModifiers() & Qt.KeyboardModifier.ShiftModifier)
+
+    @property
+    def control(self):
+        return bool(QGuiApplication.keyboardModifiers() & Qt.KeyboardModifier.ControlModifier)
+
+    @property
+    def alt(self):
+        return bool(QGuiApplication.keyboardModifiers() & Qt.KeyboardModifier.AltModifier)
 
     @property
     def level(self):

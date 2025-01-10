@@ -1,5 +1,6 @@
 from RWESharp.Modify import LevelPart
-from PySide6.QtCore import QPoint
+from RWESharp.Core import lingoIO
+from PySide6.QtCore import QPoint, QPointF
 import numpy as np
 from copy import deepcopy
 
@@ -10,8 +11,9 @@ stack_pos = [1, 2, 11, 3, 4, 5, 6, 7, 9, 10, 12, 13, 19, 21, 20, 18]
 class GeoLevelPart(LevelPart):
     def __init__(self, level):
         super().__init__("geo", level)
-        self.blocks = np.zeros((*level.level_size.toTuple(), 3), np.uint8)
-        self.stack = np.zeros((*level.level_size.toTuple(), 3), np.uint16)
+        level_size = (len(level.data["GE"]), len(level.data["GE"][0]))
+        self.blocks = np.zeros((*level_size, 3), np.uint8)
+        self.stack = np.zeros((*level_size, 3), np.uint16)
 
         # loading level
         self.load_level()
@@ -30,7 +32,7 @@ class GeoLevelPart(LevelPart):
 
     def save_level(self):
         if self.level.was_resized:
-            self.level.data["GE"] = [[[[0, []], [0, []], [0, []]] for _ in range(self.level.level_width)] for _ in range(self.level.level_height)]
+            self.level.data["GE"] = [[[[0, []], [0, []], [0, []]] for _ in range(self.width)] for _ in range(self.height)]
         with np.nditer(self.blocks, flags=['multi_index'], op_flags=['readonly']) as it:
             for x in it:
                 self.level.data["GE"][it.multi_index[0]][it.multi_index[1]][it.multi_index[2]][0] = int(x[...])
@@ -61,6 +63,14 @@ class GeoLevelPart(LevelPart):
 
     def setlevelgeo(self, x, y, l, v: [np.uint8, np.uint16]):
         self.blocks[x, y, l], self.stack[x, y, l] = v
+
+    @property
+    def width(self):
+        return self.blocks.shape[0]
+
+    @property
+    def height(self):
+        return self.blocks.shape[1]
 
 
 class TileLevelPart(LevelPart):
@@ -97,10 +107,18 @@ class TileLevelPart(LevelPart):
 class PropLevelPart(LevelPart):
     def __init__(self, level):
         super().__init__("props", level)
-        self.props: list = self.level["PR"]["props"]
+        self.props = []
+        for i in self.level["PR"]["props"]:
+            newp = self.copyprop(i)
+            newp[3] = [QPointF(*lingoIO.fromarr(p, "point")) for p in newp[3]]
+            self.props.append(newp)
 
     def save_level(self):
-        self.level["PR"]["props"] = self.props
+        self.level["PR"]["props"] = []
+        for i in self.props:
+            newp = self.copyprop(i)
+            newp[3] = [lingoIO.makearr(p.toTuple(), "point") for p in newp[3]]
+            self.level["PR"]["props"].append(newp)
 
     def __len__(self):
         return len(self.props)
@@ -115,10 +133,13 @@ class PropLevelPart(LevelPart):
         self.props[key] = value
 
     def pop(self, index):
-        self.props.pop(index)
+        return self.props.pop(index)
 
     def insert(self, index, prop):
         self.props.insert(index, prop)
+
+    def copyprop(self, prop):
+        return [prop[0], prop[1], prop[2], prop[3].copy(), prop[4].copy()]
 
 
 class EffectLevelPart(LevelPart):
@@ -139,8 +160,8 @@ class EffectLevelPart(LevelPart):
     def save_level(self):
         self.level.data["FE"]["effects"] = []
         for i in self.effects:
-            newi = {k: v for k, v in i.items() if k != "mtrx"}
-            newi["mtrx"] = [[i["mtrx"][x, y] for y in range(self.level.level_height)] for x in range(self.level.level_width)]
+            newi = deepcopy({k: v for k, v in i.items() if k != "mtrx"})
+            newi["mtrx"] = [[float(i["mtrx"][x, y]) for y in range(self.level.level_height)] for x in range(self.level.level_width)]
             self.level.data["FE"]["effects"].append(newi)
 
     def effect_data_xy(self, index: int, x: int, y:int) -> float:

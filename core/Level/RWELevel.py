@@ -90,10 +90,14 @@ class RWELevel:
 
     @property
     def level_width(self) -> int:
+        if hasattr(self, "l_geo"):
+            return self.l_geo.width
         return len(self.data["GE"])
 
     @property
     def level_height(self) -> int:
+        if hasattr(self, "l_geo"):
+            return self.l_geo.height
         return len(self.data["GE"][0])
 
     @property

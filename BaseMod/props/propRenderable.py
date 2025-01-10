@@ -74,7 +74,7 @@ class PropRenderable(Renderable):
         self.retransform()
 
     def quadlist2points(self, qlist: list[str]):
-        return [QPointF(*lingoIO.fromarr(i, "point")) * (CELLSIZE / SPRITESIZE) for i in qlist]
+        return [i * (CELLSIZE / SPRITESIZE) for i in qlist]
 
     def setPos(self, pos: QPointF):
         super().setPos(pos)

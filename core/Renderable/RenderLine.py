@@ -1,12 +1,12 @@
 from core.Renderable.Renderable import Renderable
-from PySide6.QtCore import QRect, Qt, QPointF, QLine
+from PySide6.QtCore import QRect, Qt, QPointF, QLine, QLineF
 from PySide6.QtWidgets import QGraphicsLineItem
 from PySide6.QtGui import QColor, QPen, QBrush
 from widgets import Viewport
 
 
 class RenderLine(Renderable):
-    def __init__(self, module, depth, line: QLine, pen=QPen(Qt.GlobalColor.red)):
+    def __init__(self, module, depth, line: QLine | QLineF, pen=QPen(Qt.GlobalColor.red)):
         super().__init__(module, depth)
         self.line = line
         self.drawline = QGraphicsLineItem(line)
@@ -30,7 +30,7 @@ class RenderLine(Renderable):
     def zoom_event(self, zoom):
         self.drawline.setScale(zoom * self.scale)
 
-    def setLine(self, line: QLine):
+    def setLine(self, line: QLineF | QLine):
         self.drawline.setLine(line)
 
     def setPos(self, pos: QPointF):

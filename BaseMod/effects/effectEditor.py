@@ -50,16 +50,14 @@ class EffectEditor(Editor):
         self.lastpos = pos
 
     def mouse_left_press(self):
-        shift = bool(QGuiApplication.keyboardModifiers() & Qt.KeyboardModifier.ShiftModifier)
         pos = self.viewport.viewport_to_editor(self.mouse_pos)
-        self.level.add_history(EffectBrush(self.level.history, self.effectindex.value, pos, self.brushsize.value, False, shift))
+        self.level.add_history(EffectBrush(self.level.history, self.effectindex.value, pos, self.brushsize.value, False, self.shift))
 
     def mouse_right_press(self):
         if self.mouse_left:
             return
-        shift = bool(QGuiApplication.keyboardModifiers() & Qt.KeyboardModifier.ShiftModifier)
         pos = self.viewport.viewport_to_editor(self.mouse_pos)
-        self.level.add_history(EffectBrush(self.level.history, self.effectindex.value, pos, self.brushsize.value, True, shift))
+        self.level.add_history(EffectBrush(self.level.history, self.effectindex.value, pos, self.brushsize.value, True, self.shift))
 
     def init_scene_items(self, viewport):
         super().init_scene_items(viewport)

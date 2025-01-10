@@ -1,15 +1,16 @@
-
 from RWESharp.Modify import Editor
 from RWESharp.Core import CELLSIZE, SPRITESIZE
 from RWESharp.Configurable import KeyConfigurable
 from RWESharp.Loaders import Prop
 from RWESharp.Core import lingoIO
+from RWESharp.Renderable import RenderLine
 
 from BaseMod.props.propExplorer import PropExplorer
 from BaseMod.props.propRenderable import PropRenderable
-from BaseMod.props.propHistory import PropPlace
+from BaseMod.props.propHistory import PropPlace, PropRemove
+from BaseMod.props.propUtils import find_mid
 
-from PySide6.QtCore import QPointF
+from PySide6.QtCore import QPointF, QLineF
 
 import random as rnd
 
@@ -26,6 +27,7 @@ class PropEditor(Editor):
         self.setprop([self.props.find_prop("CogA1")])
         self.prop_settings = {"renderorder": 0, "seed": rnd.randint(0, 1000), "renderTime": 0}
         self.editingprop = False
+        self.debugline = RenderLine(self, 0, QLineF())
 
     def setprop(self, props: list[Prop]):
         if len(props) > 0:
@@ -38,10 +40,18 @@ class PropEditor(Editor):
         super().move_event(pos)
         if not self.editingprop:
             self.placingprop.setPos(self.viewport.viewport_to_editor_float(self.mouse_pos.toPointF()) * CELLSIZE)
+        self.debugline.drawline.setOpacity(0)
+        if self.shift:
+            self.debugline.drawline.setOpacity(1)
+            closest = self.find_nearest(self.mouse_pos)
+            self.debugline.setLine(QLineF(self.viewport.viewport_to_editor_float(self.mouse_pos.toPointF()) * CELLSIZE, find_mid(self.level.l_props[closest])))
 
     def mouse_left_press(self):
-        super().mouse_left_press()
-        self.place()
+        if not self.shift:
+            self.place()
+            return
+        closest = self.find_nearest(self.mouse_pos)
+        self.level.add_history(PropRemove(self.level.history, closest))
 
     def free_transform(self):
         if self.editingprop:
@@ -52,6 +62,16 @@ class PropEditor(Editor):
         self.editingprop = True
         self.placingprop.free_transform()
         self.viewport.clean()
+
+    def find_nearest(self, pos):
+        closesti = -1
+        closest = 99999
+        for i, v in enumerate(self.level.l_props):
+            p = (find_mid(v) - self.viewport.viewport_to_editor_float(self.mouse_pos.toPointF()) * CELLSIZE).manhattanLength()
+            if p < closest:
+                closest = p
+                closesti = i
+        return closesti
 
     def reset_transform(self):
         w, h, = self.prop.size.width() / 2, self.prop.size.height() / 2
@@ -120,8 +140,7 @@ class PropEditor(Editor):
         self.notes = notes
 
     def place(self):
-        quads1 = [(i + self.placingprop.offset) * (SPRITESIZE / CELLSIZE) for i in self.transform]
-        quads = [lingoIO.makearr([round(i.x(), 4), round(i.y(), 4)], "point") for i in quads1]
+        quads = [(i + self.placingprop.offset) * (SPRITESIZE / CELLSIZE) for i in self.transform]
         prop = [-self.depth, self.prop.name, lingoIO.makearr([self.prop.cat.x(), self.prop.cat.y()], "point"),
                 quads, {"settings": self.prop_settings.copy()}]
-        self.level.add_history(PropPlace(self.level.history, self.viewport.modulenames["props"], prop))
+        self.level.add_history(PropPlace(self.level.history, prop))

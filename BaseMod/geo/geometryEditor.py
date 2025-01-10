@@ -303,9 +303,8 @@ class GeometryEditor(Editor):
         self.tool_specific_release(self.toolright.value)
 
     def tool_specific_release(self, tool: Enum):
-        mods = QGuiApplication.keyboardModifiers()
-        alt = mods & Qt.KeyboardModifier.AltModifier
-        shift = mods & Qt.KeyboardModifier.ShiftModifier
+        alt = self.alt
+        shift = self.shift
         fpos = self.viewport.viewport_to_editor(self.mouse_pos)
         lpos = self.viewport.viewport_to_editor(self.lastclick)
         if tool == GeoTools.Rect or tool == GeoTools.RectHollow:
@@ -348,9 +347,8 @@ class GeometryEditor(Editor):
             self.lineline.drawline.setOpacity(1)
 
     def tool_specific_update(self, tool: Enum, pos: QPoint):
-        mods = QGuiApplication.keyboardModifiers()
-        alt = mods & Qt.KeyboardModifier.AltModifier
-        shift = mods & Qt.KeyboardModifier.ShiftModifier
+        alt = self.alt
+        shift = self.shift
         if tool == GeoTools.Pen or tool == GeoTools.Brush:
             self.level.last_history_element.add_move(pos)
         elif tool in [GeoTools.Rect, GeoTools.RectHollow, GeoTools.Circle, GeoTools.CircleHollow]:
