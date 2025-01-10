@@ -16,7 +16,7 @@ class PropRenderable(Renderable):
             self.propdepth = prop[0]
             super().__init__(module, -self.propdepth // 10 * 100 + 100)
             found = self.manager.props.find_prop(prop[1])
-            self.transform: list[QPointF] = self.quadlist2points(prop[3])
+            self.transform: list[QPointF] = prop[3]
             if found is None:
                 self.prop = None
                 self.image = QImage(20, 20, QImage.Format.Format_Mono)
@@ -72,9 +72,6 @@ class PropRenderable(Renderable):
     def zoom_event(self, zoom):
         #self.renderedtexture.setScale(zoom)
         self.retransform()
-
-    def quadlist2points(self, qlist: list[str]):
-        return [i * (CELLSIZE / SPRITESIZE) for i in qlist]
 
     def setPos(self, pos: QPointF):
         super().setPos(pos)

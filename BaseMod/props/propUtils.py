@@ -12,4 +12,4 @@ def find_mid(prop):
     :param prop: prop
     :return: pos in editors coordinates
     """
-    return sum(prop[3], QPointF()) / 4 * (CELLSIZE / SPRITESIZE)
+    return sum(prop[3], QPointF()) / 4

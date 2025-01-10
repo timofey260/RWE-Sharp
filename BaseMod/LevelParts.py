@@ -1,5 +1,5 @@
 from RWESharp.Modify import LevelPart
-from RWESharp.Core import lingoIO
+from RWESharp.Core import lingoIO, SPRITESIZE, CELLSIZE
 from PySide6.QtCore import QPoint, QPointF
 import numpy as np
 from copy import deepcopy
@@ -110,14 +110,14 @@ class PropLevelPart(LevelPart):
         self.props = []
         for i in self.level["PR"]["props"]:
             newp = self.copyprop(i)
-            newp[3] = [QPointF(*lingoIO.fromarr(p, "point")) for p in newp[3]]
+            newp[3] = [QPointF(*lingoIO.fromarr(p, "point")) * (CELLSIZE / SPRITESIZE) for p in newp[3]]
             self.props.append(newp)
 
     def save_level(self):
         self.level["PR"]["props"] = []
         for i in self.props:
             newp = self.copyprop(i)
-            newp[3] = [lingoIO.makearr(p.toTuple(), "point") for p in newp[3]]
+            newp[3] = [lingoIO.point((p * (SPRITESIZE / CELLSIZE)).toTuple()) for p in newp[3]]
             self.level["PR"]["props"].append(newp)
 
     def __len__(self):

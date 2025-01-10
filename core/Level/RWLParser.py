@@ -167,7 +167,7 @@ first 2 bits of each tile is tile mode
 """
 import copy
 import json
-from core.lingoIO import fromarr, makearr
+from core.lingoIO import fromarr, point
 import re
 
 
@@ -197,7 +197,7 @@ class RWLParser:
         border = list(map(lambda x: int(x), regmatch.group(3).split()))
         light = int(regmatch.group(4))
         seed = int(regmatch.group(5))
-        level["EX2"]["size"] = makearr(size, "point")
+        level["EX2"]["size"] = point(size)
         level["EX2"]["extraTiles"] = border
         level["EX2"]["light"] = light
         level["EX2"]["tileSeed"] = seed
@@ -297,9 +297,9 @@ class RWLParser:
                 ch1 = string[tilepart + i + cursor] + (string[tilepart + i + cursor + 1] << 8) - 256
                 ch2 = string[tilepart + i + cursor + 2] + (string[tilepart + i + cursor + 3] << 8) - 256
                 cursor += 4
-                tiles.append([makearr([pos1, pos2], "point"), tile, makearr([ch1, ch2], "point")])
+                tiles.append([point([pos1, pos2]), tile, point([ch1, ch2])])
             else:
-                tiles.append([makearr([pos1, pos2], "point"), tile])
+                tiles.append([point([pos1, pos2]), tile])
             tile = ""
             i += 1
         del tile
@@ -354,7 +354,8 @@ class RWLParser:
                         cursor += 1
                     case "10": # tilebody
                         curbin += RWLParser.goodbin(string[tilepart + cursor + 1], 8)
-                        data = [makearr([poscursor[0] + 1 + int(curbin[4:10], 2) - 32, poscursor[1] + 1 + int(curbin[10:], 2) - 32], "point"), int(curbin[2:4], 2)]
+                        data = [point([poscursor[0] + 1 + int(curbin[4:10], 2) - 32,
+                                       poscursor[1] + 1 + int(curbin[10:], 2) - 32]), int(curbin[2:4], 2)]
                         level["TE"]["tlMatrix"][poscursor[0]][poscursor[1]][l] = {"tp": "tileBody", "data": data}
                         cursor += 1
                         # decodecodes[i].append(curbin)

@@ -3,7 +3,7 @@ from RWESharp.Core import CELLSIZE, SPRITESIZE
 from RWESharp.Configurable import KeyConfigurable
 from RWESharp.Loaders import Prop
 from RWESharp.Core import lingoIO
-from RWESharp.Renderable import RenderLine
+from RWESharp.Renderable import RenderLine, RenderPoly
 
 from BaseMod.props.propExplorer import PropExplorer
 from BaseMod.props.propRenderable import PropRenderable
@@ -11,6 +11,7 @@ from BaseMod.props.propHistory import PropPlace, PropRemove
 from BaseMod.props.propUtils import find_mid
 
 from PySide6.QtCore import QPointF, QLineF
+from PySide6.QtGui import QPolygonF
 
 import random as rnd
 
@@ -28,6 +29,7 @@ class PropEditor(Editor):
         self.prop_settings = {"renderorder": 0, "seed": rnd.randint(0, 1000), "renderTime": 0}
         self.editingprop = False
         self.debugline = RenderLine(self, 0, QLineF())
+        self.debugpoly = RenderPoly(self, 0, QPolygonF())
 
     def setprop(self, props: list[Prop]):
         if len(props) > 0:
@@ -41,10 +43,13 @@ class PropEditor(Editor):
         if not self.editingprop:
             self.placingprop.setPos(self.viewport.viewport_to_editor_float(self.mouse_pos.toPointF()) * CELLSIZE)
         self.debugline.drawline.setOpacity(0)
+        self.debugpoly.drawpoly.setOpacity(0)
         if self.shift:
             self.debugline.drawline.setOpacity(1)
-            closest = self.find_nearest(self.mouse_pos)
-            self.debugline.setLine(QLineF(self.viewport.viewport_to_editor_float(self.mouse_pos.toPointF()) * CELLSIZE, find_mid(self.level.l_props[closest])))
+            self.debugpoly.drawpoly.setOpacity(1)
+            closest = self.level.l_props[self.find_nearest(self.mouse_pos)]
+            self.debugline.setLine(QLineF(self.viewport.viewport_to_editor_float(self.mouse_pos.toPointF()) * CELLSIZE, find_mid(closest)))
+            self.debugpoly.setPoly(QPolygonF(closest[3]))
 
     def mouse_left_press(self):
         if not self.shift:
@@ -140,7 +145,7 @@ class PropEditor(Editor):
         self.notes = notes
 
     def place(self):
-        quads = [(i + self.placingprop.offset) * (SPRITESIZE / CELLSIZE) for i in self.transform]
-        prop = [-self.depth, self.prop.name, lingoIO.makearr([self.prop.cat.x(), self.prop.cat.y()], "point"),
+        quads = [i + self.placingprop.offset for i in self.transform]
+        prop = [-self.depth, self.prop.name, lingoIO.point([self.prop.cat.x(), self.prop.cat.y()]),
                 quads, {"settings": self.prop_settings.copy()}]
         self.level.add_history(PropPlace(self.level.history, prop))

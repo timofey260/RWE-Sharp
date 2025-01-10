@@ -99,12 +99,12 @@ def check4tile_col(level: RWELevel,
         level.viewport.modulenames["geo"].get_layer(layer).draw_geo(pos.x(), pos.y(), True)
     if not secondlayer and pos == head:
         change = [pos, layer,
-                  {"tp": "tileHead", "data": [lingoIO.makearr([tile.cat.x(), tile.cat.y()], "point"), tile.name]},
+                  {"tp": "tileHead", "data": [lingoIO.point([tile.cat.x(), tile.cat.y()]), tile.name]},
                   copy_tile(level.l_tiles(pos, layer))]
         level.data["TE"]["tlMatrix"][pos.x()][pos.y()][layer] = copy_tile(change[2])
         return change, geochange
     change = [pos, layer,
-              {"tp": "tileBody", "data": [lingoIO.makearr([head.x() + 1, head.y() + 1], "point"), layer + 1]},
+              {"tp": "tileBody", "data": [lingoIO.point([head.x() + 1, head.y() + 1]), layer + 1]},
               copy_tile(level.l_tiles(pos, layer))]
     level.data["TE"]["tlMatrix"][pos.x()][pos.y()][layer] = copy_tile(change[2])
     return change, geochange
@@ -173,7 +173,7 @@ def remove_tile(level: RWELevel, pos: QPoint, layer: int) -> RemovedTile | None:
         return
     data = level.l_tiles(pos, layer)
     tp = data.get("tp", "default")
-    head = [lingoIO.makearr([pos.x() + 1, pos.y() + 1], "point"), layer]
+    head = [lingoIO.point([pos.x() + 1, pos.y() + 1]), layer]
     if tp == "default":
         return
     elif tp == "material":
@@ -192,7 +192,7 @@ def remove_tile(level: RWELevel, pos: QPoint, layer: int) -> RemovedTile | None:
     foundtile = level.manager.tiles[headdata.get("data")[1]]
     if foundtile is None:
         return
-    tiledata = {"tp": "tileBody", "data": [lingoIO.makearr([headpos.x() + 1, headpos.y() + 1], "point"), layer + 1]}
+    tiledata = {"tp": "tileBody", "data": [lingoIO.point([headpos.x() + 1, headpos.y() + 1]), layer + 1]}
     changes = []
     offset = tile_offset(foundtile)
     for x in range(foundtile.size.width()):
