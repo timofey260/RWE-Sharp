@@ -37,12 +37,12 @@ class RenderImage(Renderable):
         super().remove_graphics(viewport)
         viewport.workscene.removeItem(self.renderedtexture)
 
-    def move_event(self, pos):
-        super().move_event(pos)
+    def move_event(self):
+        super().move_event()
         self.renderedtexture.setPos(self.actual_offset)
 
-    def zoom_event(self, zoom):
-        self.renderedtexture.setScale(zoom * self.scale)
+    def zoom_event(self):
+        self.renderedtexture.setScale(self.zoom * self.scale)
 
     def setPos(self, pos: QPointF):
         super().setPos(pos)

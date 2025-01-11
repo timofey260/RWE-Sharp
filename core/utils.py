@@ -2,7 +2,7 @@ import datetime
 import os
 from core.info import PATH_FILES_CACHE, LOG
 from PySide6.QtGui import QColor, QIcon
-from PySide6.QtCore import QPoint, QFile, QByteArray, QRect
+from PySide6.QtCore import QPoint, QFile, QByteArray, QRect, QLineF
 from collections.abc import Callable
 
 
@@ -171,3 +171,22 @@ def color_lerp(c1: QColor, c2: QColor, t: float) -> QColor:
                            lerp(c1.greenF(), c2.greenF(), t),
                            lerp(c1.blueF(), c2.blueF(), t),
                            lerp(c1.alphaF(), c2.alphaF(), t))
+
+
+def closest_line(pos, lastpos) -> QLineF:
+    magnitude = QLineF(lastpos, pos).length()
+    points = [QLineF.fromPolar(magnitude, 0).p2().toPoint(),
+              QLineF.fromPolar(magnitude, 45).p2().toPoint(),
+              QLineF.fromPolar(magnitude, 90).p2().toPoint(),
+              QLineF.fromPolar(magnitude, 135).p2().toPoint(),
+              QLineF.fromPolar(magnitude, 180).p2().toPoint(),
+              QLineF.fromPolar(magnitude, 225).p2().toPoint(),
+              QLineF.fromPolar(magnitude, 270).p2().toPoint(),
+              QLineF.fromPolar(magnitude, 315).p2().toPoint()]
+    smallest = points[0]
+    smallestdis = 9999
+    for i in points:
+        if QLineF(i, pos - lastpos).length() < smallestdis:
+            smallest = i
+            smallestdis = QLineF(i, pos - lastpos).length()
+    return QLineF(lastpos, lastpos + smallest)

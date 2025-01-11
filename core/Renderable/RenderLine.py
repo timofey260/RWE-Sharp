@@ -17,18 +17,19 @@ class RenderLine(Renderable):
     def init_graphics(self, viewport):
         super().init_graphics(viewport)
         self.viewport.workscene.addItem(self.drawline)
+        self.setLine(self.line)
         # self.drawline.setBrush(self.brush)
 
     def remove_graphics(self, viewport):
         super().remove_graphics(viewport)
         viewport.workscene.removeItem(self.drawline)
 
-    def move_event(self, pos):
-        super().move_event(pos)
+    def move_event(self):
+        super().move_event()
         self.drawline.setPos(self.actual_offset)
 
-    def zoom_event(self, zoom):
-        self.drawline.setScale(zoom * self.scale)
+    def zoom_event(self):
+        self.drawline.setScale(self.zoom * self.scale)
 
     def setLine(self, line: QLineF | QLine):
         self.drawline.setLine(line)

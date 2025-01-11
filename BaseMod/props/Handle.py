@@ -1,7 +1,7 @@
 from RWESharp.Renderable import Renderable
-
+from RWESharp.Utils import closest_line
 from PySide6.QtWidgets import QGraphicsRectItem, QGraphicsSceneMouseEvent
-from PySide6.QtGui import QPen, QBrush, QColor
+from PySide6.QtGui import QPen, QBrush, QColor, QGuiApplication
 from PySide6.QtCore import Qt, Signal, QPointF, QObject
 
 
@@ -17,18 +17,26 @@ class HandleItem(QGraphicsRectItem, QObject):
         self.setAcceptTouchEvents(True)
         self.setAcceptHoverEvents(True)
         self.setAcceptedMouseButtons(Qt.MouseButton.LeftButton)
+        self.reserved_pos = QPointF()
 
     def mouseMoveEvent(self, event):
         #super().mouseMoveEvent(event)
-        self.handle.setPos(self.handle.offset + (event.pos() - event.lastPos()) * (1 / self.handle.zoom))
+        p = event.pos() * (1 / self.handle.zoom)
+        sh = QGuiApplication.keyboardModifiers() & Qt.KeyboardModifier.ShiftModifier
+        if sh:
+            p = closest_line(self.handle.offset + p, self.reserved_pos).p2()
+            self.handle.setPos(p)
+            self.posChanged.emit(self.handle.offset)
+            return
+        self.handle.setPos(self.handle.offset + p)
         self.posChanged.emit(self.handle.offset)
 
     def mousePressEvent(self, event):
         event.accept()
-        print(self.scene().mouseGrabberItem())
+        self.reserved_pos = self.handle.offset
 
     def mouseReleaseEvent(self, event):
-        print()
+        pass
 
 
 class Handle(Renderable):
@@ -46,12 +54,12 @@ class Handle(Renderable):
         super().remove_graphics(viewport)
         viewport.workscene.removeItem(self.handle)
 
-    def zoom_event(self, zoom):
+    def zoom_event(self):
         self.handle.setPos(self.actual_offset)
         self.handle.setScale(self.scale)
 
-    def move_event(self, pos):
-        super().move_event(pos)
+    def move_event(self):
+        super().move_event()
         self.handle.setPos(self.actual_offset)
 
     def setPos(self, pos):

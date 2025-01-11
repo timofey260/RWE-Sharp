@@ -55,8 +55,6 @@ class PropRenderable(Renderable):
     def init_graphics(self, viewport):
         super().init_graphics(viewport)
         viewport.workscene.addItem(self.renderedtexture)
-        #self.draw_layer()
-        self.move_event(self.viewport.topleft.pos())
         self.retransform()
         #self.free_transform()
 
@@ -64,12 +62,12 @@ class PropRenderable(Renderable):
         super().remove_graphics(viewport)
         viewport.workscene.removeItem(self.renderedtexture)
 
-    def move_event(self, pos):
-        super().move_event(pos)
+    def move_event(self):
+        super().move_event()
         self.renderedtexture.setPos(self.actual_offset)
         self.retransform()
 
-    def zoom_event(self, zoom):
+    def zoom_event(self):
         #self.renderedtexture.setScale(zoom)
         self.retransform()
 

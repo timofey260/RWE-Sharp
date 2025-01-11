@@ -19,17 +19,18 @@ class RenderPoly(Renderable):
     def init_graphics(self, viewport):
         super().init_graphics(viewport)
         viewport.workscene.addItem(self.drawpoly)
+        self.setPoly(self.poly)
 
     def remove_graphics(self, viewport):
         super().remove_graphics(viewport)
         viewport.workscene.removeItem(self.drawpoly)
 
-    def move_event(self, pos):
-        super().move_event(pos)
+    def move_event(self):
+        super().move_event()
         self.drawpoly.setPos(self.actual_offset)
 
-    def zoom_event(self, zoom):
-        self.drawpoly.setScale(zoom * self.scale)
+    def zoom_event(self):
+        self.drawpoly.setScale(self.zoom * self.scale)
 
     def setPoly(self, poly: QPolygonF):
         self.poly = poly

@@ -19,7 +19,6 @@ def load_prop(item: dict, colr, category, catnum, indx):
     path = item["nm"]
     renderstep = 15
     err = False
-
     if all(os.path.exists(os.path.join(PATH_FILES_CACHE, f"{path}_{i}.png")) for i in range(vars)):
         images = []
         for i in range(vars):
@@ -28,13 +27,11 @@ def load_prop(item: dict, colr, category, catnum, indx):
                     images, item.get("colorTreatment", "standard"), vars,
                     colr, QPoint(catnum, indx), item.get("tags", []), err,
                     category, item.get("notes", []), images[0].size(), item.get("layerExceptions", []))
-
     img = QImage(os.path.join(PATH_DRIZZLE_PROPS, f"{path}.png"))
     standard = item.get("tp", "standard") in ["standard", "variedStandard"]
     soft = item.get("tp", "soft") in ["soft", "variedSoft"]
 
     ws, hs = img.width(), img.height()
-    sz = [ws, hs]
     w, h = ws, hs
     if item.get("pxlSize") is not None:
         w, h = fromarr(item["pxlSize"], "point")

@@ -5,7 +5,7 @@ from PySide6.QtWidgets import QGraphicsScene
 from typing import TYPE_CHECKING
 from abc import ABC
 from core.Modify.baseModule import Module
-from core.info import ISMAC
+from core.info import ISMAC, CELLSIZE
 if TYPE_CHECKING:
     from core.Renderable.Renderable import Renderable
 
@@ -48,6 +48,10 @@ class Editor(Module, ABC):
         :return:
         """
         return self.viewport.mouse_pos
+
+    @property
+    def editor_pos(self):
+        return (self.viewport.viewport_to_editor_float(self.mouse_pos.toPointF()) * CELLSIZE).toPoint()
 
     @property
     def shift(self):

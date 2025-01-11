@@ -31,13 +31,13 @@ class Module(ABC):
         viewport.add_module(self, name)
         return self
 
-    def zoom_event(self, zoom):
+    def zoom_event(self):
         for i in self.renderables:
-            i.zoom_event(zoom)
+            i.zoom_event()
 
-    def move_event(self, pos):
+    def move_event(self):
         for i in self.renderables:
-            i.move_event(pos)
+            i.move_event()
 
     def init_scene_items(self, viewport):
         """

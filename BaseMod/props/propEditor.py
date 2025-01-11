@@ -1,17 +1,17 @@
 from RWESharp.Modify import Editor
 from RWESharp.Core import CELLSIZE, SPRITESIZE
-from RWESharp.Configurable import KeyConfigurable
+from RWESharp.Configurable import ColorConfigurable
 from RWESharp.Loaders import Prop
 from RWESharp.Core import lingoIO
-from RWESharp.Renderable import RenderLine, RenderPoly
+from RWESharp.Renderable import RenderLine, RenderPoly, RenderRect
 
 from BaseMod.props.propExplorer import PropExplorer
 from BaseMod.props.propRenderable import PropRenderable
 from BaseMod.props.propHistory import PropPlace, PropRemove
 from BaseMod.props.propUtils import find_mid
 
-from PySide6.QtCore import QPointF, QLineF
-from PySide6.QtGui import QPolygonF
+from PySide6.QtCore import QPointF, QLineF, Qt, QRect, QPoint
+from PySide6.QtGui import QPolygonF, QColor, QPen
 
 import random as rnd
 
@@ -20,6 +20,7 @@ class PropEditor(Editor):
     def __init__(self, mod):
         super().__init__(mod)
         self.props = self.manager.props
+        self.propsui = None
         self.explorer = PropExplorer(self, self.manager.window)
         self.prop: Prop = self.props.find_prop("loopantennafront")
         self.placingprop = PropRenderable(self, self.prop)
@@ -28,35 +29,74 @@ class PropEditor(Editor):
         self.setprop([self.props.find_prop("CogA1")])
         self.prop_settings = {"renderorder": 0, "seed": rnd.randint(0, 1000), "renderTime": 0}
         self.editingprop = False
+        self.cursor_color = ColorConfigurable(mod, "EDIT_prop.cursor_color", QColor(Qt.GlobalColor.red))
+        self.select_color = ColorConfigurable(mod, "EDIT_prop.select_color", QColor(Qt.GlobalColor.green))
         self.debugline = RenderLine(self, 0, QLineF())
+        self.selectrect = RenderRect(self, 0, QRect(), QPen(Qt.GlobalColor.white, 3, Qt.PenStyle.DashLine))
         self.debugpoly = RenderPoly(self, 0, QPolygonF())
+        self.cursor_color.valueChanged.connect(self.debugline.drawline.setPen)
+        self.cursor_color.valueChanged.connect(self.debugpoly.drawpoly.setPen)
+        self.selected = []
+        self.selected_poly: list[RenderPoly] = []
+        self.selectpoint = QPoint()
 
     def setprop(self, props: list[Prop]):
         if len(props) > 0:
             self.prop = props[0]
         self.placingprop.setprop(self.prop)
-        self.applysettings()
+        self.apply_settings()
+        if self.propsui is not None:
+            self.propsui.display_settings()
         self.reset_transform()
 
-    def move_event(self, pos):
-        super().move_event(pos)
+    def move_event(self):
+        super().move_event()
         if not self.editingprop:
             self.placingprop.setPos(self.viewport.viewport_to_editor_float(self.mouse_pos.toPointF()) * CELLSIZE)
         self.debugline.drawline.setOpacity(0)
         self.debugpoly.drawpoly.setOpacity(0)
+        if self.control and self.selectpoint != QPoint(0, 0):
+            rect = QRect.span(self.selectpoint, self.editor_pos)
+            self.selectrect.setRect(rect)
+            self.selectrect.drawrect.setOpacity(1)
+            self.reset_selection()
+            for i, prop in enumerate(self.level.l_props):
+                for p in prop[3]:
+                    if rect.contains(p.toPoint()):
+                        self.selected.append(i)
+                        poly = RenderPoly(self, 0, QPolygonF(prop[3]), self.select_color.value)
+                        self.selected_poly.append(poly)
+                        poly.init_graphics(self.viewport)
+                        break
+            return
         if self.shift:
             self.debugline.drawline.setOpacity(1)
             self.debugpoly.drawpoly.setOpacity(1)
-            closest = self.level.l_props[self.find_nearest(self.mouse_pos)]
-            self.debugline.setLine(QLineF(self.viewport.viewport_to_editor_float(self.mouse_pos.toPointF()) * CELLSIZE, find_mid(closest)))
+            closest = self.level.l_props[self.find_nearest(self.editor_pos)]
+            self.debugline.setLine(QLineF(self.editor_pos, find_mid(closest)))
             self.debugpoly.setPoly(QPolygonF(closest[3]))
 
     def mouse_left_press(self):
+        if self.control:
+            self.selectpoint = self.editor_pos
+            self.reset_selection()
+            return
         if not self.shift:
             self.place()
             return
-        closest = self.find_nearest(self.mouse_pos)
+        closest = self.find_nearest(self.editor_pos)
         self.level.add_history(PropRemove(self.level.history, closest))
+
+    def reset_selection(self):
+        for i in self.selected_poly:
+            i.remove_graphics(self.viewport)
+            i.remove_myself()
+        self.selected_poly = []
+        self.selected = []
+
+    def mouse_left_release(self):
+        self.selectpoint = QPoint(0, 0)
+        self.selectrect.drawrect.setOpacity(0)
 
     def free_transform(self):
         if self.editingprop:
@@ -68,11 +108,11 @@ class PropEditor(Editor):
         self.placingprop.free_transform()
         self.viewport.clean()
 
-    def find_nearest(self, pos):
+    def find_nearest(self, pos: QPointF):
         closesti = -1
         closest = 99999
         for i, v in enumerate(self.level.l_props):
-            p = (find_mid(v) - self.viewport.viewport_to_editor_float(self.mouse_pos.toPointF()) * CELLSIZE).manhattanLength()
+            p = (find_mid(v) - pos).manhattanLength()
             if p < closest:
                 closest = p
                 closesti = i
@@ -90,7 +130,7 @@ class PropEditor(Editor):
     def transform(self, value: [QPointF, QPointF, QPointF, QPointF]):
         self.placingprop.transform = value
 
-    def applysettings(self):
+    def apply_settings(self):
         self.prop_settings = {"renderorder": 0, "seed": rnd.randint(0, 1000), "renderTime": 0}
         random = self.prop["random"] if self.prop.get("random") is not None else 1
         notes = self.prop.notes.copy()

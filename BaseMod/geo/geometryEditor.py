@@ -12,6 +12,7 @@ from RWESharp.Configurable import BoolConfigurable, IntConfigurable, EnumConfigu
 from RWESharp.Core import CELLSIZE, PATH_FILES_IMAGES, CONSTS
 from RWESharp.Modify import Editor
 from RWESharp.Renderable import RenderImage, RenderRect, RenderEllipse, RenderLine
+from RWESharp.Utils import closest_line
 
 
 class GeoBlocks(Enum):
@@ -383,22 +384,7 @@ class GeometryEditor(Editor):
 
     def fit_line(self, lastpos: QPoint, pos: QPoint, shift):
         if shift:
-            magnitude = QLineF(lastpos, pos).length()
-            points = [QLineF.fromPolar(magnitude, 0).p2().toPoint(),
-                      QLineF.fromPolar(magnitude, 45).p2().toPoint(),
-                      QLineF.fromPolar(magnitude, 90).p2().toPoint(),
-                      QLineF.fromPolar(magnitude, 135).p2().toPoint(),
-                      QLineF.fromPolar(magnitude, 180).p2().toPoint(),
-                      QLineF.fromPolar(magnitude, 225).p2().toPoint(),
-                      QLineF.fromPolar(magnitude, 270).p2().toPoint(),
-                      QLineF.fromPolar(magnitude, 315).p2().toPoint()]
-            smallest = points[0]
-            smallestdis = 9999
-            for i in points:
-                if QLineF(i, pos - lastpos).length() < smallestdis:
-                    smallest = i
-                    smallestdis = QLineF(i, pos - lastpos).length()
-            return QLine(lastpos, lastpos + smallest)
+            return closest_line(pos, lastpos).toLine()
         return QLine(lastpos, pos)
 
     def repos_brush(self):

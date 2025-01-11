@@ -19,17 +19,18 @@ class RenderRect(Renderable):
     def init_graphics(self, viewport):
         super().init_graphics(viewport)
         viewport.workscene.addItem(self.drawrect)
+        self.setRect(self.rect)
 
     def remove_graphics(self, viewport):
         super().remove_graphics(viewport)
         viewport.workscene.removeItem(self.drawrect)
 
-    def move_event(self, pos):
-        super().move_event(pos)
+    def move_event(self):
+        super().move_event()
         self.drawrect.setPos(self.actual_offset)
 
-    def zoom_event(self, zoom):
-        self.drawrect.setScale(zoom * self.scale)
+    def zoom_event(self):
+        self.drawrect.setScale(self.zoom * self.scale)
 
     def setRect(self, rect: QRect):
         self.rect = rect

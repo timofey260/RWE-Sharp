@@ -36,17 +36,17 @@ class RenderTile(RenderImage):
         super().remove_graphics(viewport)
         viewport.workscene.removeItem(self.colsimage_rendered)
 
-    def move_event(self, pos):
+    def move_event(self):
         if self.tile is None:
             return
-        super().move_event(pos)
+        super().move_event()
         self.colsimage_rendered.setPos(self.actual_offset)
         if self.drawoption == 0:
             self.renderedtexture.setPos(self.actual_offset)
             return
         self.renderedtexture.setPos(self.actual_offset - (QPoint(1, 1) * self.tile.bfTiles * CELLSIZE * self.zoom))
 
-    def zoom_event(self, zoom):
-        self.colsimage_rendered.setScale(zoom)
+    def zoom_event(self):
+        self.colsimage_rendered.setScale(self.zoom)
         self.scale = (20 / 16) if self.drawoption == 0 else 1
-        super().zoom_event(zoom)
+        super().zoom_event(self.zoom)

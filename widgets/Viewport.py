@@ -58,8 +58,8 @@ class ViewPort(QGraphicsView):
             i.post_init_graphics(self)
 
         self.repaint()
-        module.zoom_event(self.zoom)
-        module.move_event(self.topleft.pos())
+        module.zoom_event()
+        module.move_event()
 
     def remove_module(self, module: Module):
         if module in self.modules:
@@ -150,12 +150,12 @@ class ViewPort(QGraphicsView):
         offset = (self.viewport_to_editor_float(self.mouse_pos.toPointF()) - pointbefore) * CELLSIZE * self.zoom
         self.topleft.setPos(self.topleft.pos() + offset)
         for i in self.modules:
-            i.zoom_event(self.zoom)
-            i.move_event(self.topleft.pos())
+            i.zoom_event()
+            i.move_event()
         self.editor.mouse_wheel_event(event)
         self.editor.mouse_move_event(event)
-        self.editor.zoom_event(self.zoom)
-        self.editor.move_event(self.topleft.pos())
+        self.editor.zoom_event()
+        self.editor.move_event()
         #self.verticalScrollBar().size
         #self.horizontalScrollBar().adjustSize()
 
@@ -169,10 +169,10 @@ class ViewPort(QGraphicsView):
             # self.origin.setY(self.origin.y() + offset.y())
             self.topleft.setPos(self.topleft.pos() + offset)
             for i in self.modules:
-                i.move_event(self.topleft.pos())
+                i.move_event()
         self.mouse_pos = event.pos()
         self.editor.mouse_move_event(event)
-        self.editor.move_event(self.topleft.pos())
+        self.editor.move_event()
         #super().mouseMoveEvent(event)
 
     def viewport_to_editor(self, point: QPoint) -> QPoint:

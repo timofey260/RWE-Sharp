@@ -11,7 +11,7 @@ if TYPE_CHECKING:
 class Renderable(ABC):
     def __init__(self, module: Module, depth: int):
         self.depth: int = -depth
-        self.pos: QPointF = QPointF()
+        # self.pos: QPointF = QPointF()
         self.offset: QPointF = QPointF()
         self.scale = 1
         self.module: Module = module
@@ -25,7 +25,7 @@ class Renderable(ABC):
 
     @abstractmethod
     def init_graphics(self, viewport):
-        pass
+        self.move_event()
 
     def post_init_graphics(self, viewport):
         pass
@@ -35,13 +35,11 @@ class Renderable(ABC):
         pass
 
     @abstractmethod
-    def zoom_event(self, zoom):
+    def zoom_event(self):
         pass
 
-    def move_event(self, pos):
-        if pos is None:
-            return
-        self.pos = pos
+    def move_event(self):
+        pass
 
     def setPos(self, pos):
         if pos is None:
@@ -59,6 +57,10 @@ class Renderable(ABC):
     @property
     def zoom(self):
         return self.viewport.zoom
+
+    @property
+    def pos(self):
+        return self.viewport.topleft.pos()
 
     def level_resized(self):
         pass
