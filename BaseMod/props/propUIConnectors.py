@@ -2,7 +2,9 @@ from RWESharp.Ui import UI
 from RWESharp.Configurable import KeyConfigurable
 from BaseMod.props.ui.props_ui import Ui_Props
 
-from PySide6.QtWidgets import QTreeWidgetItem
+from PySide6.QtWidgets import QTreeWidgetItem, QInputDialog, QMenu
+from PySide6.QtGui import QAction
+from PySide6.QtCore import Qt, QPoint
 
 
 class PropsUI(UI):
@@ -26,14 +28,86 @@ class PropsUI(UI):
         self.ui.ResetTransform.clicked.connect(self.editor.reset_transform)
         self.ui.Explorer.clicked.connect(self.open_explorer)
         self.ui.PropOptions.setColumnCount(2)
+        self.ui.PropOptions.itemClicked.connect(self.prop_options_click)
+        self.ui.PropOptions.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
+        self.ui.PropOptions.customContextMenuRequested.connect(self.settings_context_menu)
         self.display_settings()
 
     def display_settings(self):
         self.ui.PropOptions.clear()
         for k, v in self.editor.prop_settings.items():
-            self.ui.PropOptions.addTopLevelItem(QTreeWidgetItem([k, str(v)]))
+            item = QTreeWidgetItem([k, str(v)])
+            item.setData(0, Qt.ItemDataRole.UserRole, k)
+            self.ui.PropOptions.addTopLevelItem(item)
 
         self.ui.Notes.setText("\n".join(self.editor.prop.notes))
 
     def open_explorer(self):
         self.editor.explorer.change_visibility(True)
+
+    def prop_options_click(self, item: QTreeWidgetItem, column):
+        name = item.data(0, Qt.ItemDataRole.UserRole)
+        match name:
+            case "release":
+                val = (self.editor.prop_settings[name] + 2) % 3 - 1
+            case "renderTime":
+                val = (self.editor.prop_settings[name] + 1) % 2
+            case "customDepth":
+                val = self.editor.prop_settings[name] % 30 + 1
+            case "variation":
+                val = (self.editor.prop_settings[name] + 1) % len(self.editor.selectedprop["images"])
+                self.editor.variationadd()
+            case "thickness":
+                val = self.editor.prop_settings[name] % 5 + 1
+            case "applyColor":
+                val = (self.editor.prop_settings[name] + 1) % 2
+            case "color":
+                val = (self.editor.prop_settings[name] + 1) % len(self.mod.manager.prop_colors)
+            case _:
+                nval, ok = QInputDialog.getInt(self, f"Enter {name}", f"{name}:", self.editor.prop_settings[name])
+                if not ok:
+                    return
+                val = nval
+        self.editor.prop_settings[name] = val
+        self.display_settings()
+
+    def settings_context_menu(self, pos: QPoint):
+        if len(self.ui.PropOptions.selectedItems()) == 0:
+            return
+        item = self.ui.PropOptions.selectedItems()[0]
+        key = item.data(0, Qt.ItemDataRole.UserRole)
+        menu = QMenu("Options", self.ui.PropOptions)
+        vals = []
+        match key:
+            case "release":
+                vals = [-1, 0, 1]
+            case "renderTime":
+                vals = [0, 1]
+            case "customDepth":
+                vals = list(range(1, 31))
+                # val = self.editor.prop_settings[name] % 30 + 1
+            case "variation":
+                vals = list(range(0, len(self.editor.prop.vars)+1))
+            case "thickness":
+                vals = [1, 2, 3, 4, 5]
+            case "applyColor":
+                vals = [0, 1]
+            case "color":
+                vals = list(range(len(self.mod.manager.prop_colors)))
+            case _:
+                self.prop_options_click(item, 0)
+                return
+        if len(vals) == 0:
+            return
+        default = None
+        for i in vals:
+            menu.addAction(str(i), self.setoption(key, i))
+            if i == self.editor.prop_settings[key]:
+                default = menu.actions()[-1]
+        menu.popup(self.ui.PropOptions.mapToGlobal(pos), default)
+
+    def setoption(self, key, value):
+        def callback():
+            self.editor.prop_settings[key] = value
+            self.display_settings()
+        return callback

@@ -118,16 +118,11 @@ class EffectsUI(UI):
             index = item.data(0, Qt.ItemDataRole.UserRole)
             options = self.level.l_effects[self.editor.effectindex.value]["options"][index]
             if item.text(0).lower() == "seed":
-                d = QInputDialog()
-                d.setInputMode(QInputDialog.InputMode.IntInput)
-                d.setIntRange(0, 1000)
-                d.setLabelText("Seed:")
-                d.setWindowTitle("Enter Seed")
-                d.setIntValue(int(options[2]))
-                value = d.exec()
-                if value == QDialog.DialogCode.Accepted:
+                value, ok = QInputDialog.getInt(self, f"Enter Seed", f"Seed:", int(options[2]))
+
+                if ok:
                     self.level.add_history(
-                        EffectOptionChange(self.level.history, self.editor.effectindex.value, index, str(d.intValue())))
+                        EffectOptionChange(self.level.history, self.editor.effectindex.value, index, str(value)))
                 return
             d = EffectDialog(options[1], options[0])
             value = d.exec()

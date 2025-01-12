@@ -34,7 +34,7 @@ class Manager:
         self.tiles: Tiles = splash.loader.tiles
         self.props: Props = splash.loader.props
         self.effects: Effects = splash.loader.effects
-        self.effect_colors = splash.loader.effect_colors
+        self.prop_colors = splash.loader.prop_colors
 
         # self.levelpath: str = "" if file is None else file
 

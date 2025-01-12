@@ -124,6 +124,9 @@ class PropEditor(Editor):
         self.level.add_history(PropRemove(self.level.history, closest))
 
     def mouse_right_press(self):
+        self.variationadd()
+
+    def variationadd(self):
         if self.prop_settings.get("variation") is not None:
             self.prop_settings["variation"] = (self.prop_settings["variation"] + 1) % (self.prop.vars + 1)
             self.placingprop.set_variation(self.prop_settings["variation"])

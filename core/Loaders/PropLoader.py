@@ -4,7 +4,7 @@ from core.Loaders.TileLoader import init_solve, colortable
 from core.configTypes.BaseTypes import IntConfigurable
 from core.utils import log, color_lerp
 from core.info import PATH_DRIZZLE, PATH_FILES, SPRITESIZE, PATH_DRIZZLE_PROPS, PATH_FILES_CACHE, CELLSIZE
-from core.lingoIO import fromarr
+from core.lingoIO import fromarr, tojson
 from ui.splashuiconnector import SplashDialog
 from PySide6.QtCore import QThread, Qt, QRect, QSize, QPoint
 from PySide6.QtGui import QImage, QColor, QPainter, QPixmap
@@ -279,3 +279,15 @@ def load_props(tiles: Tiles, window: SplashDialog):
     window.printmessage("All Props loaded!")
     log("Finished Loading")
     return Props(categories)
+
+
+def getcolors():
+    solved = open(os.path.join(PATH_DRIZZLE_PROPS, "propColors.txt")).readlines()
+    cols = []
+    for line in solved:
+        if line[0] != '[':
+            continue
+        l = tojson(line)
+        l[1] = fromarr(l[1], "color")
+        cols.append(l)
+    return cols
