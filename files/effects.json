@@ -40,7 +40,7 @@
 				["3D", ["Off", "On"], "Off"],
 				["Affect Gradients and Decals", ["Yes", "No"], "Yes"]
 			], "preview":"slimex3", "description": "More slimy than slime. Even more gross"},
-			{"nm": "Super Melt", "tp": "standardErosion", "repeats": 50, "affectOpenAreas": 0.5, "options": 
+			{"nm": "Super Melt", "tp": "standardErosion", "repeats": 50, "affectOpenAreas": 0.5, "options":
 			[
 				["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"],
 				["3D", ["Off", "On"], "Off"],
@@ -66,14 +66,14 @@
 		{"nm": "Plants", "color": [77, 227, 120], "efs": [
 			{"nm": "Root Grass", "options": [["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"], ["Color", ["Color1", "Color2", "Dead"], "Color2"]], "preview":"rootgrass", "description": "Small colored grass"},
 			{"nm": "Seed Pods", "options": [["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"], ["Color", ["Color1", "Color2", "Dead"], "Color2"]], "preview":"seedpods", "description": "Tall colored grass"},
-			{"nm": "Growers", "options": [["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"], ["Color", ["Color1", "Color2", "Dead"], "Color2"]], "preview":"growers", "description": "Something colored\nGoes from bottom of level if not blocked by thick floor"},
+			{"nm": "Growers", "crossScreen": 1, "options": [["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"], ["Color", ["Color1", "Color2", "Dead"], "Color2"]], "preview":"growers", "description": "Something colored\nGoes from bottom of level if not blocked by thick floor"},
 			{"nm": "Cacti", "options": [["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"], ["Color", ["Color1", "Color2", "Dead"], "Color2"]], "preview":"cacti", "description": "Small colored bubbles"},
 			{"nm": "Rain Moss", "options": [["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"], ["Color", ["Color1", "Color2", "Dead"], "Color2"]], "preview":"rainmoss", "description": "Colored moss"},
 			{"nm": "Hang Roots", "crossScreen": 1, "options": [["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"]], "preview":"hangroots", "description": "Hangs from top of the level if not blocked by thick celing"},
 			{"nm": "Grass", "options": [["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"], ["Color", ["Color1", "Color2", "Dead"], "Color2"]], "preview":"grass", "description": "No thanks"}
 		]},
 		{"nm": "Plants2", "color": [30, 227, 86], "efs": [
-			{"nm": "Arm Growers", "options": [["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"], ["Color", ["Color1", "Color2", "Dead"], "Color2"]], "preview":"armgrowers", "description": "Goes from bottom of level if not blocked by thick floor, colored"},
+			{"nm": "Arm Growers", "crossScreen":  1, "options": [["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"], ["Color", ["Color1", "Color2", "Dead"], "Color2"]], "preview":"armgrowers", "description": "Goes from bottom of level if not blocked by thick floor, colored"},
 			{"nm": "Horse Tails", "options": [["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"], ["Color", ["Color1", "Color2", "Dead"], "Color2"]], "preview":"horsetails", "description": "Colored plants"},
 			{"nm": "Circuit Plants", "options": [["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"], ["Color", ["Color1", "Color2", "Dead"], "Color2"]], "preview":"circuitplants", "description": "Looks smart\nColored plants"},
 			{"nm": "Feather Plants", "options": [["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"], ["Color", ["Color1", "Color2", "Dead"], "Color2"]], "preview":"featherplants", "description": "Colored plants"},
@@ -101,14 +101,14 @@
 		{"nm": "Restoration", "color": [186, 54, 91], "efs": [
 			{"nm": "Restore As Scaffolding", "options": [["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"]], "preview": "restoreasscaffolding", "description": "Reinforced scaffolding"},
 			{"nm": "Ceramic Chaos", "options": [
-				["Colored", ["None", "White"], "White"],
+				["Ceramic Color", ["None", "Colored"], "Colored"],
 				["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"]
 			], "preview":"ceramicchaos", "description": "Mixes ceramic material"}
 		]},
 
 
 
-		{"nm": "Drought Plants", "color": [53, 219, 97], "efs": [
+		{"nm": "LB Plants", "color": [53, 219, 97], "efs": [
 			{"nm": "Colored Hang Roots", "crossScreen": 1, "options": [
 				["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"],
 				["Color", ["Color1", "Color2", "Dead"], "Color2"]
@@ -129,12 +129,12 @@
 				["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "1"],
 				["Color", ["Color1", "Color2", "Dead"], "Color2"]
 			], "preview": "c_fungiflowers", "description": "Fungi flowers, but colored\nIntensity doesn't matter"},
-			{"nm": "Root Plants", "options": [
+			{"nm": "Root Plants", "crossScreen":  1, "options": [
 				["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"],
 				["Color", ["Color1", "Color2", "Dead"], "Color2"]
 			], "preview": "rootplants", "description": "Colored curvy spikes\nGoes from bottom of level if not blocked by thick floor"}
 		]},
-		{"nm": "Drought Plants 2", "color": [45, 179, 80], "efs": [
+		{"nm": "LB Plants 2", "color": [45, 179, 80], "efs": [
 			{"nm": "Foliage", "options": [
 				["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"],
 				["Color", ["Color1", "Color2", "Dead"], "Color2"]
@@ -163,17 +163,17 @@
 				["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"]
 			], "preview": "wastewatermold", "description": "Colored mold, that grows on walls"}
 		]},
-		{"nm": "Drought Plants 3", "color": [34, 133, 60], "efs": [
+		{"nm": "LB Plants 3", "color": [34, 133, 60], "efs": [
 			{"nm": "Spinets", "crossScreen": 1, "options": [
 				["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"],
 				["Color", ["Color1", "Color2", "Dead"], "Color2"]
 			], "preview": "spinets", "description": "Bigger growers with moss around them\nGoes from bottom of level if not blocked by thick floor"},
-			{"nm": "Small Springs", "options": [], "preview": "smallsprings"},
+			{"nm": "Small Springs", "crossScreen": 1, "options": [["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"], ["Color", ["Color1", "Color2", "Dead"], "Color2"]], "preview": "smallsprings"},
 			{"nm": "Mini Growers", "options": [
 				["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"],
 				["Color", ["Color1", "Color2", "Dead"], "Color2"]
 			], "preview": "minigrowers", "description": "Small growers\nGoes from bottom of level if not blocked by thick floor"},
-			{"nm": "Clovers", "repeats": 20, "affectOpenAreas": 0.2, "options": 
+			{"nm": "Clovers", "tp": "standardErosion", "repeats": 20, "affectOpenAreas": 0.2, "options":
 			[
 				["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"],
       			["3D", ["Off", "On"], "Off"],
@@ -192,25 +192,20 @@
 				["Color", ["Color1", "Color2", "Dead"], "Color2"]
 			], "preview": "densemold", "description": "Mold, that grows around walls"}
 		]},
-		{"nm": "Drought Erosion", "color": [64, 11, 32], "efs": [
-    		{"nm":"Corruption No Eye", "options": [
-    			["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"]
-    		], "preview": "corruptionnoeye", "description": "DLL corruption, but without eyes\nBalls"},
+		{"nm": "LB Erosion", "color": [64, 11, 32], "efs": [
     		{"nm":"Ultra Super Erode", "tp": "standardErosion", "repeats": 60, "affectOpenAreas": 0.5, "options": [["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"]], "preview": "ultrasupererode", "description": "..."},
     		{"nm":"Impacts", "tp": "standardErosion", "repeats": 75, "affectOpenAreas": 0.05, "options": [["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"]], "preview": "impacts", "description": "Cracks on walls"}
     	]},
-    	{"nm": "Drought Paint Effects", "color": [222, 222, 222], "efs": [
+    	{"nm": "LB Paint Effects", "color": [222, 222, 222], "efs": [
     		{"nm": "Super BlackGoo", "options": [], "preview": "superblackgoo", "description": "More effective than blackgoo ig"},
-    		{"nm": "Scales", "tp": "standardErosion", "repeats": 200, "affectOpenAreas": 0.5, "options": 
-    		[["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"]], "preview": "scales", "description": "Does not work with current drizzle version"},
     		{"nm": "Stained Glass Properties", "options": [
     			["Variation", ["1", "2", "3"], "1"],
     			["Color 1", ["EffectColor1", "EffectColor2", "None"], "EffectColor1"],
     			["Color 2", ["EffectColor1", "EffectColor2", "None"], "EffectColor2"]
     		], "preview": "stainedglassproperties", "description": "Makes stained glass take only first EffectColor instead of both"}
     	]},
-    	{"nm": "Drought Natural", "color": [153, 212, 53], "efs": [
-    		{"nm": "Colored Barnacles", "repeats": 60, "affectOpenAreas": 0.3, "options": 
+    	{"nm": "LB Natural", "color": [153, 212, 53], "efs": [
+    		{"nm": "Colored Barnacles", "tp": "standardErosion", "repeats": 60, "affectOpenAreas": 0.3, "options":
     		[
     			["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"],
     			["3D", ["Off", "On"], "Off"],
@@ -232,17 +227,17 @@
     			["Affect Gradients and Decals", ["Yes", "No"], "Yes"]
     		], "preview": "fatslime", "description": "Bigger slime"}
     	]},
-    	{"nm": "Drought Artificial", "color": [48, 174, 194], "efs": [
+    	{"nm": "LB Artificial", "color": [48, 174, 194], "efs": [
     		{"nm": "Assorted Trash", "options": [
     			["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"],
     			["Effect Color", ["EffectColor1", "EffectColor2", "None"], "None"]
     		], "preview": "assortedtrash", "description": "Trash\nIntensity doesn't matter"},
-    		{"nm": "Colored Wires", "options": [
+    		{"nm": "Colored Wires", "crossScreen":  1, "options": [
     			["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"],
     			["Fatness", ["1px", "2px", "3px", "random"], "2px"],
     			["Effect Color", ["EffectColor1", "EffectColor2", "None"], "EffectColor2"]
     		], "preview": "c_wires", "description": "Hanging wires, but colored"},
-    		{"nm": "Colored Chains", "options": [
+    		{"nm": "Colored Chains", "crossScreen":  1, "options": [
     			["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"],
     			["Size", ["Small", "FAT"], "Small"],
     			["Effect Color", ["EffectColor1", "EffectColor2", "None"], "EffectColor2"]
@@ -253,19 +248,19 @@
     		], "preview": "ringchains", "description": "Bigger chains"}
     	]},
     	{"nm": "Dakras Plants", "color": [77, 45, 49], "efs": [
-    		{"nm": "Left Facing Kelp", "options": [
+    		{"nm": "Left Facing Kelp", "crossScreen":  1, "options": [
     			["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"],
 				["Color", ["Color1", "Color2", "Dead"], "Color2"]
     		], "preview": "leftfacingkelp", "description": "Colored Kelp"},
-    		{"nm": "Right Facing Kelp", "options": [
+    		{"nm": "Right Facing Kelp", "crossScreen":  1, "options": [
     			["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"],
 				["Color", ["Color1", "Color2", "Dead"], "Color2"]
     		], "preview": "rightfacingkelp", "description": "Also colored Kelp"},
-    		{"nm": "Mixed Facing Kelp", "options": [
+    		{"nm": "Mixed Facing Kelp", "crossScreen":  1, "options": [
     			["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"],
 				["Color", ["Color1", "Color2", "Dead"], "Color2"]
     		], "preview": "mixedfacingkelp", "description": "God of Kelps"},
-    		{"nm": "Bubble Grower", "options": [
+    		{"nm": "Bubble Grower", "crossScreen":  1, "options": [
     			["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"],
 				["Color", ["Color1", "Color2", "Dead"], "Color2"]
     		], "preview": "bubblegrower", "description": "Colored popcorn"},
@@ -276,7 +271,12 @@
     		{"nm": "Club Moss", "options": [
     			["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"],
 				["Color", ["Color1", "Color2", "Dead"], "Color2"]
-    		], "preview": "clubmoss", "description": "Colored moss, grows on walls"}
+    		], "preview": "clubmoss", "description": "Colored moss, grows on walls"},
+			{"nm": "Dandelions", "options": [
+    			["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"],
+				["Color", ["Color1", "Color2", "Dead"], "Color2"]
+    		], "preview": "no", "description": "Coloured Dandelions, grow on floor"}
+
     	]},
     	{"nm": "Leo Plants", "color": [255, 1, 96], "efs": [
     		{"nm": "Ivy", "crossScreen": 1, "options": 
@@ -289,9 +289,73 @@
     		], "preview": "ivy", "description": "Nice Leo\nHangs from top of the level if not blocked by thick celing"}
     	]},
     	{"nm": "Nautillo Plants", "color": [167, 120, 90], "efs": [
-    		{"nm": "Fuzzy Growers", "options": [], "preview": "fuzzygrowers", "description": "Goes from bottom of level if not blocked by thick floor\nFuzzy indeed"}
+    		{"nm": "Fuzzy Growers", "crossScreen":  1, "options": [["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"], ["Color", ["Color1", "Color2", "Dead"], "Color2"]], "preview": "fuzzygrowers", "description": "Goes from bottom of level if not blocked by thick floor\nFuzzy indeed"},
+    		{"nm": "Leaf Growers", "crossScreen":  1, "options": [["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"], ["Color", ["Color1", "Color2", "Dead"], "Color2"]], "preview": "no", "description": "Goes from bottom of level if not blocked by thick floor\nFuzzy indeed"},
+    		{"nm": "Meat Growers", "crossScreen":  1, "options": [["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"], ["Color", ["Color1", "Color2", "Dead"], "Color2"]], "preview": "no", "description": "Goes from bottom of level if not blocked by thick floor\nFuzzy indeed"},
+    		{"nm": "Hyacinths", "options": [["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"], ["Color", ["Color1", "Color2", "Dead"], "Color2"]], "preview": "no", "description": "Goes from bottom of level if not blocked by thick floor\nFuzzy indeed"},
+    		{"nm": "Seed Grass", "options": [["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"], ["Color", ["Color1", "Color2", "Dead"], "Color2"]], "preview": "no", "description": "Goes from bottom of level if not blocked by thick floor\nFuzzy indeed"},
+    		{"nm": "Orb Plants", "options": [["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"], ["Color", ["Color1", "Color2", "Dead"], "Color2"]], "preview": "no", "description": "Goes from bottom of level if not blocked by thick floor\nFuzzy indeed"},
+    		{"nm": "Storm Plants", "options": [["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"], ["Color", ["Color1", "Color2", "Dead"], "Color2"]], "preview": "no", "description": "Goes from bottom of level if not blocked by thick floor\nFuzzy indeed"}
+
+    	]},
+		{"nm": "Nautillo Plants 2", "color": [167, 120, 90], "efs": [
+    		{"nm": "Coral Growers", "crossScreen":  1, "options": [["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"], ["Color", ["Color1", "Color2", "Dead"], "Color2"]], "preview": "no", "description": "Goes from bottom of level if not blocked by thick floor\nFuzzy indeed"},
+    		{"nm": "Horror Growers", "options": [["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"], ["Color", ["Color1", "Color2", "Dead"], "Color2"]], "preview": "no", "description": "Goes from bottom of level if not blocked by thick floor\nFuzzy indeed"}
+
+    	]},
+		{"nm": "Tronsx Plants", "color": [167, 120, 90], "efs": [
+    		{"nm": "Thunder Growers", "crossScreen":  1, "options": [["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"], ["Color", ["Color1", "Color2", "Dead"], "Color2"]], "preview": "no", "description": "Goes from bottom of level if not blocked by thick floor\nFuzzy indeed"}
+
+    	]},
+		{"nm": "Intrepid Plants", "color": [167, 120, 90], "efs": [
+    		{"nm": "Ice Growers", "crossScreen":  1, "options": [["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"], ["Color", ["Color1", "Color2", "Dead"], "Color2"]], "preview": "no", "description": "Goes from bottom of level if not blocked by thick floor\nFuzzy indeed"},
+    		{"nm": "Grass Growers", "crossScreen":  1, "options": [["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"], ["Color", ["Color1", "Color2", "Dead"], "Color2"]], "preview": "no", "description": "Goes from bottom of level if not blocked by thick floor\nFuzzy indeed"},
+    		{"nm": "Fancy Growers", "crossScreen":  1, "options": [["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"], ["Color", ["Color1", "Color2", "Dead"], "Color2"]], "preview": "no", "description": "Goes from bottom of level if not blocked by thick floor\nFuzzy indeed"}
+
+    	]},
+		{"nm": "LudoCrypt Plants", "color": [167, 120, 90], "efs": [
+    		{"nm": "Mushroom Stubs", "options": [
+				["Color", ["Color1", "Color2", "Dead"], "Color2"],
+				["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"],
+				["Mushroom Size", ["Small", "Medium", "Random"], "Medium"],
+				["Mushroom Width", ["Small", "Medium", "Wide", "Random"], "Medium"]
+			], "preview": "no", "description": "Goes from bottom of level if not blocked by thick floor\nFuzzy indeed"}
+
+    	]},
+		{"nm": "Alduris Effects", "color": [167, 120, 90], "efs": [
+    		{"nm": "Mosaic Plants", "crossScreen":  1, "options": [
+				["Layers", ["1", "2", "1:st and 2:nd"], "1"],
+				["Color", ["Color1", "Color2", "Dead"], "Color2"],
+				["Color Intensity", ["High", "Medium", "Low", "None", "Random"], "Medium"],
+				["Flowers", ["Off", "On"], "Off"],
+				["Detail Color", ["Color1", "Color2", "Dead"], "Color1"]
+			], "preview": "no", "description": "Goes from bottom of level if not blocked by thick floor\nFuzzy indeed"},
+    		{"nm": "Lollipop Mold", "options": [["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"], ["Color", ["Color1", "Color2", "Dead"], "Color2"]], "preview": "no", "description": "Goes from bottom of level if not blocked by thick floor\nFuzzy indeed"},
+    		{"nm": "Cobwebs", "crossScreen":  1, "options": [
+				["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "1"],
+				["Effect Color", ["EffectColor1", "EffectColor2", "None"], "None"],
+				["Color Intensity", ["High", "Medium", "Low", "None"], "Medium"]
+			], "preview": "no", "description": "Goes from bottom of level if not blocked by thick floor\nFuzzy indeed"},
+    		{"nm": "Fingers", "options": [
+				["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"],
+				["Color", ["Color1", "Color2", "Dead"], "Dead"],
+				["Finger Thickness", ["Small", "Medium", "FAT", "Random"], "Medium"],
+				["Finger Length", ["Short", "Medium", "Tall", "Random"], "Medium"]
+			], "preview": "no", "description": "Goes from bottom of level if not blocked by thick floor\nFuzzy indeed"}
+
+    	]},
+		{"nm": "April Plants", "color": [167, 120, 90], "efs": [
+    		{"nm": "Grape Roots", "crossScreen":  1, "options": [
+				["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"],
+				["Color", ["Color1", "Color2", "Dead"], "Color2"]
+			], "preview": "no", "description": "Goes from bottom of level if not blocked by thick floor\nFuzzy indeed"},
+    		{"nm": "Og Grass", "options": [["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"], ["Color", ["Color1", "Color2", "Dead"], "Color2"]], "preview": "no", "description": "Goes from bottom of level if not blocked by thick floor\nFuzzy indeed"},
+    		{"nm": "Hand Growers", "crossScreen":  1, "options": [
+				["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"],
+				["Color", ["Color1", "Color2", "Dead"], "Color2"]
+			], "preview": "no", "description": "Goes from bottom of level if not blocked by thick floor\nFuzzy indeed"}
     	]}
 	],
-	"maxstr": ["BlackGoo", "Fungi Flowers", "Lighthouse Flowers", "Colored Fungi Flowers", "Colored Lighthouse Flowers", "High Fern", "High Grass", "Fern", "Giant Mushroom", "Sprawlbush", "featherFern", "Fungus Tree", "Restore As Scaffolding", "Restore As Pipes", "Small Springs", "Super BlackGoo", "Stained Glass Properties"]
+	"maxstr": ["BlackGoo", "Fungi Flowers", "Lighthouse Flowers", "Colored Fungi Flowers", "Colored Lighthouse Flowers", "High Fern", "High Grass", "Fern", "Giant Mushroom", "Sprawlbush", "featherFern", "Fungus Tree", "Restore As Scaffolding", "Restore As Pipes", "Small Springs", "Super BlackGoo", "Stained Glass Properties", "Cobwebs", "Hand Growers"]
 
 }

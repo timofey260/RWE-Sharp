@@ -61,6 +61,9 @@ class EffectCategory:
                 return i
         return None
 
+    def __getitem__(self, item):
+        return self.effects[item]
+
 
 @dataclass
 class Effects:
@@ -78,3 +81,6 @@ class Effects:
             if i.name == name:
                 return i
         return None
+
+    def __getitem__(self, item):
+        return self.categories[item]
