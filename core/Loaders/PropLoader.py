@@ -191,6 +191,9 @@ class Tile2PropLoader(QThread):
             items = catitem.tiles
             colr: QColor = catitem.color
             # self.data[catnum]["items"] = []
+            if catitem.name == "materials":
+                self.progress += len(items)
+                continue
             for indx, item in enumerate(items):
                 prop = tile2prop(item, QPoint(catnum, indx), propcat)
                 self.progress += 1

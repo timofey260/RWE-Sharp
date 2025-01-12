@@ -1,6 +1,6 @@
 import os
 
-from PySide6.QtCore import Slot, Signal, Qt, QSize, QPoint
+from PySide6.QtCore import Slot, Signal, Qt, QSize, QPoint, QTimer
 from PySide6.QtGui import QAction, QPixmap, QColor, QImage
 from PySide6.QtWidgets import QTreeWidgetItem, QListWidgetItem, QListWidget
 
@@ -30,23 +30,23 @@ class Explorer(ViewDockWidget):
 
         self.view_categories.setAlternatingRowColors(True)
         self.view_categories.setEditTriggers(QListWidget.EditTrigger.DoubleClicked)
-        self.view_categories.itemSelectionChanged.connect(self.change_tiles)
+        self.view_categories.itemSelectionChanged.connect(self.change_items)
         self.view_categories.setDragDropMode(QListWidget.DragDropMode.NoDragDrop)
-        self.view_items.itemSelectionChanged.connect(self.change_tile)
+        self.view_items.itemSelectionChanged.connect(self.change_item)
         self.view_items.setDragDropMode(QListWidget.DragDropMode.NoDragDrop)  # todo change in future
         self.view_items.setSelectionMode(QListWidget.SelectionMode.ExtendedSelection)
         self.view_items.setIconSize(QSize(20, 20))
 
         self.simplemode = False
         self.load_categories()
-        self.tiles_grid()
-        self.change_tiles()
+        self.items_grid()
+        self.change_items()
         self.selected = []
 
-        self.ui.TilesListView.clicked.connect(self.tiles_list)
-        self.ui.TilesGridViewBig.clicked.connect(self.tiles_grid)
-        self.ui.TilesGridViewSmall.clicked.connect(self.tiles_grid_small)
-        self.ui.TilesIconView.clicked.connect(self.tiles_grid_ununiform)
+        self.ui.TilesListView.clicked.connect(self.items_list)
+        self.ui.TilesGridViewBig.clicked.connect(self.items_grid)
+        self.ui.TilesGridViewSmall.clicked.connect(self.items_grid_small)
+        self.ui.TilesIconView.clicked.connect(self.items_grid_ununiform)
         self.view_items.setResizeMode(QListWidget.ResizeMode.Adjust)
 
         self.category = 0
@@ -54,8 +54,8 @@ class Explorer(ViewDockWidget):
 
         self.ui.CatNext.clicked.connect(self.cat_next)
         self.ui.CatPrev.clicked.connect(self.cat_prev)
-        self.ui.TileNext.clicked.connect(self.tile_next)
-        self.ui.TilePrev.clicked.connect(self.tile_prev)
+        self.ui.TileNext.clicked.connect(self.item_next)
+        self.ui.TilePrev.clicked.connect(self.item_prev)
         self.setFloating(True)
 
         self.mod.bmconfig.icon_color.valueChanged.connect(self.changecolor)
@@ -71,7 +71,7 @@ class Explorer(ViewDockWidget):
         elif self.ui.splitter.sizes()[1] != 0 and self.simplemode:
             self.simplemode = False
             self.load_categories()
-            self.change_tiles()
+            self.change_items()
 
     def changecolor(self, color: QColor):
         self.ui.TilesListView.setIcon(paint_svg_qicon(u":/grids/grid/list.svg", color))
@@ -88,11 +88,11 @@ class Explorer(ViewDockWidget):
         self.view_categories.setCurrentItem(self.view_categories.topLevelItem(self.category))
         if self.simplemode:
             cat = self.view_categories.topLevelItem(self.category)
-            self.item = self.tileindex % cat.childCount()
+            self.item = self.itemindex % cat.childCount()
             self.view_categories.setCurrentItem(cat.child(self.item))
             cat.setExpanded(True)
             return
-        self.item = self.tileindex % self.view_items.count()
+        self.item = self.itemindex % self.view_items.count()
         self.view_items.setCurrentRow(self.item)
 
     def cat_prev(self):
@@ -102,59 +102,59 @@ class Explorer(ViewDockWidget):
         self.view_categories.setCurrentItem(self.view_categories.topLevelItem(self.category))
         if self.simplemode:
             cat = self.view_categories.topLevelItem(self.category)
-            self.item = self.tileindex % cat.childCount()
+            self.item = self.itemindex % cat.childCount()
             self.view_categories.setCurrentItem(cat.child(self.item))
             cat.setExpanded(True)
             return
-        self.item = self.tileindex % self.view_items.count()
+        self.item = self.itemindex % self.view_items.count()
         self.view_items.setCurrentRow(self.item)
 
-    def tile_next(self):
+    def item_next(self):
         if self.simplemode:
             if self.view_categories.topLevelItem(self.category).childCount() == 0:
                 return
-            self.item = (self.tileindex + 1) % self.view_categories.topLevelItem(self.category).childCount()
+            self.item = (self.itemindex + 1) % self.view_categories.topLevelItem(self.category).childCount()
             self.view_categories.setCurrentItem(self.view_categories.topLevelItem(self.category).child(self.item))
             return
         if self.view_items.count() == 0:
             return
-        self.item = (self.tileindex + 1) % self.view_items.count()
+        self.item = (self.itemindex + 1) % self.view_items.count()
         self.view_items.setCurrentRow(self.item)
 
-    def tile_prev(self):
+    def item_prev(self):
         if self.simplemode:
             if self.view_categories.topLevelItem(self.category).childCount() == 0:
                 return
-            self.item = (self.tileindex - 1) % self.view_categories.topLevelItem(self.category).childCount()
+            self.item = (self.itemindex - 1) % self.view_categories.topLevelItem(self.category).childCount()
             self.view_categories.setCurrentItem(self.view_categories.topLevelItem(self.category).child(self.item))
             return
         if self.view_items.count() == 0:
             return
-        self.item = (self.tileindex - 1) % self.view_items.count()
+        self.item = (self.itemindex - 1) % self.view_items.count()
         self.view_items.setCurrentRow(self.item)
 
-    def tiles_grid(self):
+    def items_grid(self):
         self.view_items.setViewMode(QListWidget.ViewMode.IconMode)
         self.view_items.setIconSize(QSize(40, 40))
         self.view_items.setSpacing(20)
         self.view_items.setUniformItemSizes(True)
         self.view_items.setAlternatingRowColors(False)
 
-    def tiles_grid_ununiform(self):
+    def items_grid_ununiform(self):
         self.view_items.setViewMode(QListWidget.ViewMode.IconMode)
         self.view_items.setIconSize(QSize(40, 40))
         self.view_items.setSpacing(10)
         self.view_items.setUniformItemSizes(False)
         self.view_items.setAlternatingRowColors(False)
 
-    def tiles_grid_small(self):
+    def items_grid_small(self):
         self.view_items.setViewMode(QListWidget.ViewMode.IconMode)
         self.view_items.setIconSize(QSize(20, 20))
         self.view_items.setSpacing(5)
         self.view_items.setUniformItemSizes(True)
         self.view_items.setAlternatingRowColors(False)
 
-    def tiles_list(self):
+    def items_list(self):
         self.view_items.setViewMode(QListWidget.ViewMode.ListMode)
         self.view_items.setIconSize(QSize(20, 20))
         self.view_items.setSpacing(0)
@@ -182,9 +182,9 @@ class Explorer(ViewDockWidget):
         if filter != "":
             self.view_categories.expandAll()
 
-    def change_tiles(self):
+    def change_items(self):
         if self.simplemode:
-            self.change_tile()
+            self.change_item()
             return
         filter = self.ui.SearchBar.text()
         if len(self.view_categories.selectedItems()) == 0 and filter == "":
@@ -205,7 +205,7 @@ class Explorer(ViewDockWidget):
                 item = self.item_from_data(i)
                 self.view_items.addItem(item)
 
-    def change_tile(self):
+    def change_item(self):
         if self.simplemode:
             selection = list(filter(lambda x: isinstance(x, self.itemtype()), list(
                 map(lambda x: x.data(0, Qt.ItemDataRole.UserRole), self.view_categories.selectedItems()))))
@@ -226,7 +226,12 @@ class Explorer(ViewDockWidget):
 
     def search(self, text: str):
         self.load_categories()
-        self.change_tiles()
+        self.change_items()
+
+    def focussearch(self):
+        self.raise_()
+        self.activateWindow()
+        QTimer.singleShot(0, self.ui.SearchBar.setFocus)
 
     @property
     def categoryindex(self):
@@ -238,7 +243,7 @@ class Explorer(ViewDockWidget):
         return self.view_categories.indexFromItem(item).row()
 
     @property
-    def tileindex(self):
+    def itemindex(self):
         if len(self.view_categories.selectedItems()) == 0 or len(self.view_items.selectedItems()) == 0:
             return self.item
         if self.simplemode:

@@ -173,8 +173,9 @@ class TileUI(UI):
         self.cat_next_key = KeyConfigurable(mod, "EDIT_tile.cat_next", "d", "Next Category")
         self.force_geo_key = KeyConfigurable(mod, "EDIT_tiles.fgkey", "g", "Force geometry")
         self.force_place_key = KeyConfigurable(mod, "EDIT_tiles.fpkey", "f", "Force place")
+        self.find_key = KeyConfigurable(mod, "EDIT_tile.find_key", "Ctrl+e", "Find tile")
 
-        self.explorer_key = KeyConfigurable(mod, "EDIT_tile.explorer_key", "Ctrl+e", "Show Tile Explorer")
+        self.explorer_key = KeyConfigurable(mod, "EDIT_tile.explorer_key", "Ctrl+f", "Show Tile Explorer")
 
         self.explorer_key.link_button(self.ui.OpenExplorer)
 
@@ -182,14 +183,16 @@ class TileUI(UI):
         self.tile_prev_key.link_button(self.ui.TilePrev)
         self.cat_next_key.link_button(self.ui.CatNext)
         self.cat_prev_key.link_button(self.ui.CatPrev)
+        self.find_key.link_button(self.ui.FindTE)
         self.force_geo_key.link_button(self.ui.ForceGeo)
         self.force_place_key.link_button(self.ui.ForcePlace)
 
         self.ui.CatNext.clicked.connect(self.explorer.cat_next)
         self.ui.CatPrev.clicked.connect(self.explorer.cat_prev)
-        self.ui.TileNext.clicked.connect(self.explorer.tile_next)
-        self.ui.TilePrev.clicked.connect(self.explorer.tile_prev)
+        self.ui.TileNext.clicked.connect(self.explorer.item_next)
+        self.ui.TilePrev.clicked.connect(self.explorer.item_prev)
         self.ui.PalleteSelect.clicked.connect(self.change_palette)
+        self.ui.FindTE.clicked.connect(self.explorer.focussearch)
         mod.bmconfig.icon_color.valueChanged.connect(self.change_color)
         self.change_color(mod.bmconfig.icon_color.value)
         self.ui.OpenExplorer.clicked.connect(self.open_explorer)

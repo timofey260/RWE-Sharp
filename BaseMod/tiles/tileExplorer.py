@@ -173,7 +173,7 @@ class TileExplorer(Explorer):
         self.colortable = palette_to_colortable(QImage(self.palette_path.value))
 
     def change_draw_option(self):
-        self.change_tiles()
+        self.change_items()
         if len(self.selected) > 0:
             self.preview_tile(self.selected[0])
         if self.simplemode:

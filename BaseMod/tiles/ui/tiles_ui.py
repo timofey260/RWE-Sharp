@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'tilesJcaxUx.ui'
+## Form generated from reading UI file 'tiles.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.7.0
+## Created by: Qt User Interface Compiler version 6.7.2
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -19,27 +19,22 @@ from PySide6.QtWidgets import (QAbstractSpinBox, QApplication, QCheckBox, QCombo
     QGridLayout, QHeaderView, QLabel, QPushButton,
     QScrollArea, QSizePolicy, QSpacerItem, QSpinBox,
     QTreeWidget, QTreeWidgetItem, QVBoxLayout, QWidget)
-
+import ui.res_rc
 
 class Ui_Tiles(object):
     def setupUi(self, Tiles):
         if not Tiles.objectName():
             Tiles.setObjectName(u"Tiles")
-        Tiles.resize(292, 785)
-        Tiles.setStyleSheet(u"\n"
-"           QComboBox::down-arrow {\n"
-"               image: url(:/misc/misc/arrow_down.svg);\n"
-"           }")
+        Tiles.resize(319, 785)
         self.gridLayout_2 = QGridLayout(Tiles)
         self.gridLayout_2.setObjectName(u"gridLayout_2")
         self.gridLayout_2.setContentsMargins(0, 0, 0, 0)
         self.scrollArea = QScrollArea(Tiles)
         self.scrollArea.setObjectName(u"scrollArea")
-        self.scrollArea.setStyleSheet(u"")
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 293, 766))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 317, 783))
         self.verticalLayout_2 = QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.label_3 = QLabel(self.scrollAreaWidgetContents)
@@ -61,28 +56,28 @@ class Ui_Tiles(object):
 
         self.ToolTilesM1Select = QComboBox(self.scrollAreaWidgetContents)
         icon = QIcon()
-        icon.addFile(u":/geoIcons/geo/pen.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon.addFile(u":/geoIcons/geo/pen.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.ToolTilesM1Select.addItem(icon, "")
         icon1 = QIcon()
-        icon1.addFile(u":/geoIcons/geo/brush.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon1.addFile(u":/geoIcons/geo/brush.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.ToolTilesM1Select.addItem(icon1, "")
         icon2 = QIcon()
-        icon2.addFile(u":/geoIcons/geo/bucket.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon2.addFile(u":/geoIcons/geo/bucket.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.ToolTilesM1Select.addItem(icon2, "")
         icon3 = QIcon()
-        icon3.addFile(u":/geoIcons/geo/line.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon3.addFile(u":/geoIcons/geo/line.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.ToolTilesM1Select.addItem(icon3, "")
         icon4 = QIcon()
-        icon4.addFile(u":/geoIcons/geo/rect.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon4.addFile(u":/geoIcons/geo/rect.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.ToolTilesM1Select.addItem(icon4, "")
         icon5 = QIcon()
-        icon5.addFile(u":/geoIcons/geo/rect_hollow.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon5.addFile(u":/geoIcons/geo/rect_hollow.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.ToolTilesM1Select.addItem(icon5, "")
         icon6 = QIcon()
-        icon6.addFile(u":/geoIcons/geo/circle.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon6.addFile(u":/geoIcons/geo/circle.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.ToolTilesM1Select.addItem(icon6, "")
         icon7 = QIcon()
-        icon7.addFile(u":/geoIcons/geo/circle_hollow.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon7.addFile(u":/geoIcons/geo/circle_hollow.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.ToolTilesM1Select.addItem(icon7, "")
         self.ToolTilesM1Select.setObjectName(u"ToolTilesM1Select")
         sizePolicy = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
@@ -100,7 +95,6 @@ class Ui_Tiles(object):
 
         self.BrushSize = QSpinBox(self.scrollAreaWidgetContents)
         self.BrushSize.setObjectName(u"BrushSize")
-        self.BrushSize.setStyleSheet(u"")
         self.BrushSize.setMinimum(1)
 
         self.gridLayout.addWidget(self.BrushSize, 3, 1, 1, 1)
@@ -169,6 +163,11 @@ class Ui_Tiles(object):
 
         self.gridLayout_4.addWidget(self.CatPrev, 1, 0, 1, 1)
 
+        self.TileNext = QPushButton(self.scrollAreaWidgetContents)
+        self.TileNext.setObjectName(u"TileNext")
+
+        self.gridLayout_4.addWidget(self.TileNext, 2, 1, 1, 1)
+
         self.TilePrev = QPushButton(self.scrollAreaWidgetContents)
         self.TilePrev.setObjectName(u"TilePrev")
 
@@ -179,25 +178,15 @@ class Ui_Tiles(object):
 
         self.gridLayout_4.addWidget(self.CatNext, 1, 2, 1, 1)
 
-        self.ShowTE = QPushButton(self.scrollAreaWidgetContents)
-        self.ShowTE.setObjectName(u"ShowTE")
-
-        self.gridLayout_4.addWidget(self.ShowTE, 0, 0, 1, 1)
-
         self.FindTE = QPushButton(self.scrollAreaWidgetContents)
         self.FindTE.setObjectName(u"FindTE")
 
         self.gridLayout_4.addWidget(self.FindTE, 0, 2, 1, 1)
 
-        self.TileNext = QPushButton(self.scrollAreaWidgetContents)
-        self.TileNext.setObjectName(u"TileNext")
-
-        self.gridLayout_4.addWidget(self.TileNext, 1, 1, 1, 1)
-
         self.OpenExplorer = QPushButton(self.scrollAreaWidgetContents)
         self.OpenExplorer.setObjectName(u"OpenExplorer")
 
-        self.gridLayout_4.addWidget(self.OpenExplorer, 2, 1, 1, 1)
+        self.gridLayout_4.addWidget(self.OpenExplorer, 0, 0, 1, 1)
 
 
         self.verticalLayout_2.addLayout(self.gridLayout_4)
@@ -290,11 +279,10 @@ class Ui_Tiles(object):
         self.ForcePlace.setText(QCoreApplication.translate("Tiles", u"Force Place", None))
         self.label_8.setText(QCoreApplication.translate("Tiles", u"Tile Explorer:", None))
         self.CatPrev.setText(QCoreApplication.translate("Tiles", u"Category-", None))
+        self.TileNext.setText(QCoreApplication.translate("Tiles", u"Tile+", None))
         self.TilePrev.setText(QCoreApplication.translate("Tiles", u"Tile-", None))
         self.CatNext.setText(QCoreApplication.translate("Tiles", u"Category+", None))
-        self.ShowTE.setText(QCoreApplication.translate("Tiles", u"Show", None))
         self.FindTE.setText(QCoreApplication.translate("Tiles", u"Find", None))
-        self.TileNext.setText(QCoreApplication.translate("Tiles", u"Tile+", None))
         self.OpenExplorer.setText(QCoreApplication.translate("Tiles", u"Open Explorer", None))
         self.label_6.setText(QCoreApplication.translate("Tiles", u"Tile Preview:", None))
         self.ToggleCollisions.setText(QCoreApplication.translate("Tiles", u"Collisions", None))

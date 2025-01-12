@@ -20,11 +20,28 @@ class PropsUI(UI):
         self.reset_transform = KeyConfigurable(mod, "EDIT_props.reset_transform", "r", "Reset transform")
         self.explorer_key = KeyConfigurable(mod, "EDIT_props.explorer", "Ctrl+e", "Open Prop Explorer")
 
+        self.prop_prev_key = KeyConfigurable(mod, "EDIT_props.prop_prev", "w", "Previous Prop")
+        self.cat_prev_key = KeyConfigurable(mod, "EDIT_props.cat_prev", "a", "Previous Category")
+        self.prop_next_key = KeyConfigurable(mod, "EDIT_props.prop_next", "s", "Next Prop")
+        self.cat_next_key = KeyConfigurable(mod, "EDIT_props.cat_next", "d", "Next Category")
+        self.find_key = KeyConfigurable(mod, "EDIT_props.find_key", "Ctrl+f", "Find tile")
+
         self.explorer_key.link_button(self.ui.Explorer)
+        self.prop_next_key.link_button(self.ui.PropNext)
+        self.prop_prev_key.link_button(self.ui.PropPrev)
+        self.cat_next_key.link_button(self.ui.CatNext)
+        self.cat_prev_key.link_button(self.ui.CatPrev)
+        self.find_key.link_button(self.ui.FindPE)
+
+        self.ui.PropNext.clicked.connect(self.editor.explorer.item_next)
+        self.ui.PropPrev.clicked.connect(self.editor.explorer.item_prev)
+        self.ui.CatNext.clicked.connect(self.editor.explorer.cat_next)
+        self.ui.CatPrev.clicked.connect(self.editor.explorer.cat_prev)
+        self.ui.FindPE.clicked.connect(self.editor.explorer.focussearch)
 
         self.free_transform.link_button(self.ui.FreeTransform)
         self.ui.FreeTransform.clicked.connect(self.editor.free_transform)
-        self.free_transform.link_button(self.ui.ResetTransform)
+        self.reset_transform.link_button(self.ui.ResetTransform)
         self.ui.ResetTransform.clicked.connect(self.editor.reset_transform)
         self.ui.Explorer.clicked.connect(self.open_explorer)
         self.ui.PropOptions.setColumnCount(2)
@@ -87,7 +104,7 @@ class PropsUI(UI):
                 vals = list(range(1, 31))
                 # val = self.editor.prop_settings[name] % 30 + 1
             case "variation":
-                vals = list(range(0, len(self.editor.prop.vars)+1))
+                vals = list(range(0, self.editor.prop.vars+1))
             case "thickness":
                 vals = [1, 2, 3, 4, 5]
             case "applyColor":

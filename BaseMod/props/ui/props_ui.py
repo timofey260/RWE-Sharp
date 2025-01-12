@@ -38,7 +38,7 @@ class Ui_Props(object):
         self.label = QLabel(self.scrollAreaWidgetContents)
         self.label.setObjectName(u"label")
 
-        self.gridLayout_3.addWidget(self.label, 8, 0, 1, 1)
+        self.gridLayout_3.addWidget(self.label, 9, 0, 1, 1)
 
         self.FreeTransform = QPushButton(self.scrollAreaWidgetContents)
         self.FreeTransform.setObjectName(u"FreeTransform")
@@ -58,7 +58,12 @@ class Ui_Props(object):
         self.label_2 = QLabel(self.scrollAreaWidgetContents)
         self.label_2.setObjectName(u"label_2")
 
-        self.gridLayout_3.addWidget(self.label_2, 10, 0, 1, 1)
+        self.gridLayout_3.addWidget(self.label_2, 11, 0, 1, 1)
+
+        self.Explorer = QPushButton(self.scrollAreaWidgetContents)
+        self.Explorer.setObjectName(u"Explorer")
+
+        self.gridLayout_3.addWidget(self.Explorer, 7, 0, 1, 1)
 
         self.frame = QFrame(self.scrollAreaWidgetContents)
         self.frame.setObjectName(u"frame")
@@ -66,7 +71,7 @@ class Ui_Props(object):
         self.gridLayout = QGridLayout(self.frame)
         self.gridLayout.setObjectName(u"gridLayout")
 
-        self.gridLayout_3.addWidget(self.frame, 9, 1, 1, 1)
+        self.gridLayout_3.addWidget(self.frame, 10, 1, 1, 1)
 
         self.frame_2 = QFrame(self.scrollAreaWidgetContents)
         self.frame_2.setObjectName(u"frame_2")
@@ -80,7 +85,7 @@ class Ui_Props(object):
         self.verticalLayout.addWidget(self.Notes)
 
 
-        self.gridLayout_3.addWidget(self.frame_2, 11, 0, 1, 1)
+        self.gridLayout_3.addWidget(self.frame_2, 12, 0, 1, 1)
 
         self.FreeRotate = QPushButton(self.scrollAreaWidgetContents)
         self.FreeRotate.setObjectName(u"FreeRotate")
@@ -94,7 +99,7 @@ class Ui_Props(object):
         self.PropOptions.setObjectName(u"PropOptions")
         self.PropOptions.header().setVisible(False)
 
-        self.gridLayout_3.addWidget(self.PropOptions, 9, 0, 1, 1)
+        self.gridLayout_3.addWidget(self.PropOptions, 10, 0, 1, 1)
 
         self.gridLayout_4 = QGridLayout()
         self.gridLayout_4.setObjectName(u"gridLayout_4")
@@ -125,10 +130,35 @@ class Ui_Props(object):
 
         self.gridLayout_3.addLayout(self.gridLayout_4, 1, 0, 1, 1)
 
-        self.Explorer = QPushButton(self.scrollAreaWidgetContents)
-        self.Explorer.setObjectName(u"Explorer")
+        self.gridLayout_5 = QGridLayout()
+        self.gridLayout_5.setObjectName(u"gridLayout_5")
+        self.CatPrev = QPushButton(self.scrollAreaWidgetContents)
+        self.CatPrev.setObjectName(u"CatPrev")
 
-        self.gridLayout_3.addWidget(self.Explorer, 7, 0, 1, 1)
+        self.gridLayout_5.addWidget(self.CatPrev, 1, 0, 1, 1)
+
+        self.FindPE = QPushButton(self.scrollAreaWidgetContents)
+        self.FindPE.setObjectName(u"FindPE")
+
+        self.gridLayout_5.addWidget(self.FindPE, 2, 0, 1, 1)
+
+        self.PropNext = QPushButton(self.scrollAreaWidgetContents)
+        self.PropNext.setObjectName(u"PropNext")
+
+        self.gridLayout_5.addWidget(self.PropNext, 0, 2, 1, 1)
+
+        self.CatNext = QPushButton(self.scrollAreaWidgetContents)
+        self.CatNext.setObjectName(u"CatNext")
+
+        self.gridLayout_5.addWidget(self.CatNext, 0, 0, 1, 1)
+
+        self.PropPrev = QPushButton(self.scrollAreaWidgetContents)
+        self.PropPrev.setObjectName(u"PropPrev")
+
+        self.gridLayout_5.addWidget(self.PropPrev, 1, 2, 1, 1)
+
+
+        self.gridLayout_3.addLayout(self.gridLayout_5, 8, 0, 1, 1)
 
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
 
@@ -147,12 +177,17 @@ class Ui_Props(object):
         self.label_4.setText(QCoreApplication.translate("Props", u"Rotate:", None))
         self.ResetTransform.setText(QCoreApplication.translate("Props", u"Reset Transform", None))
         self.label_2.setText(QCoreApplication.translate("Props", u"Notes:", None))
+        self.Explorer.setText(QCoreApplication.translate("Props", u"Open Explorer", None))
         self.Notes.setText(QCoreApplication.translate("Props", u"TextLabel", None))
         self.FreeRotate.setText(QCoreApplication.translate("Props", u"Free Rotate", None))
         self.rotateby.setText(QCoreApplication.translate("Props", u"rotate by:", None))
         self.degreeamount.setSuffix(QCoreApplication.translate("Props", u"\u00ba", None))
         self.sub15.setText(QCoreApplication.translate("Props", u"-15\u00ba", None))
         self.add15.setText(QCoreApplication.translate("Props", u"+15\u00ba", None))
-        self.Explorer.setText(QCoreApplication.translate("Props", u"Open Explorer", None))
+        self.CatPrev.setText(QCoreApplication.translate("Props", u"Category-", None))
+        self.FindPE.setText(QCoreApplication.translate("Props", u"Find", None))
+        self.PropNext.setText(QCoreApplication.translate("Props", u"Prop+", None))
+        self.CatNext.setText(QCoreApplication.translate("Props", u"Category+", None))
+        self.PropPrev.setText(QCoreApplication.translate("Props", u"Prop-", None))
     # retranslateUi
 
