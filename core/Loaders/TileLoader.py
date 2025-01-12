@@ -324,8 +324,9 @@ class TilePackLoader(QThread):
         # self.finished.emit()
 
 
-class Tileprogress(QThread):
+class TileProgress(QThread):
     def __init__(self, window, workers):
+        window.printmessage("Loading Tiles...")
         super().__init__()
         self.workers = workers
         self.window = window
@@ -344,8 +345,6 @@ class Tileprogress(QThread):
 
 
 def load_tiles(window: SplashDialog) -> Tiles:
-    log("Loading Tiles...")
-
     solved_copy = init_solve(os.path.join(PATH_DRIZZLE, "Data/Graphics/Init.txt"))
     length = sum(list(map(lambda x: len(x["items"]), solved_copy.data)))
     log(f"Loading {length} tiles")
@@ -363,7 +362,7 @@ def load_tiles(window: SplashDialog) -> Tiles:
         workers.append(TilePackLoader(solved_copy.data[i * data_per_thread:i * data_per_thread + data_per_thread]))
     if unused > 0:
         workers.append(TilePackLoader(solved_copy.data[-unused:]))
-    progress = Tileprogress(window, workers)
+    progress = TileProgress(window, workers)
     for i in workers:
         i.start()
     progress.start()
@@ -394,7 +393,7 @@ def load_tiles(window: SplashDialog) -> Tiles:
         except FileNotFoundError or TypeError:
             preview = QImage(1, 1, QImage.Format.Format_RGBA64)
         # preview.set_colorkey(pg.Color(255, 255, 255))
-        window.printmessage(f"Loading material {k}")
+        # window.printmessage(f"Loading material {k}")
         materialtiles.append(Tile(k, "material", [1], "Material", 0, img, img, img.toImage(), QSize(1, 1), col, [[-1], 0],
                                                       QPoint(matcatcount + 1, len(solved_copy[matcatcount]["items"]) + 1),
                                                       ["material"], False, preview, False, material_category))
@@ -407,6 +406,6 @@ def load_tiles(window: SplashDialog) -> Tiles:
         #     matcatcount += 1
         #     matcat = f"materials {matcatcount}"
         #     solved_copy.insert(matcatcount, {"name": matcat, "color": QColor(0, 0, 0), "items": []})
-    window.printmessage("All tiles loaded!")
+    # window.printmessage("All tiles loaded!")
     categories_list.append(material_category)
     return Tiles(categories_list)

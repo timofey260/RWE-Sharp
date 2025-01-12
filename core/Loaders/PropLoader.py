@@ -1,6 +1,7 @@
 from core.Loaders.Prop import Props, PropCategory, Prop
 from core.Loaders.Tile import Tile, TileCategory, Tiles
 from core.Loaders.TileLoader import init_solve, colortable
+from core.configTypes.BaseTypes import IntConfigurable
 from core.utils import log, color_lerp
 from core.info import PATH_DRIZZLE, PATH_FILES, SPRITESIZE, PATH_DRIZZLE_PROPS, PATH_FILES_CACHE, CELLSIZE
 from core.lingoIO import fromarr
@@ -122,7 +123,7 @@ def load_prop(item: dict, colr, category, catnum, indx):
         newimg = QPixmap.fromImage(newimg)
 
     for i in range(vars):
-        images.append(newimg.copy(w * i, 0, w, h))
+        images.append(newimg.toImage().copy(w * i, 0, w, h))
         images[-1].save(os.path.join(PATH_FILES_CACHE, f"{path}_{i}.png"))
 
     return Prop(item, item.get("nm", "NoName"), item.get("tp"), repeatl, "todo",
@@ -203,6 +204,26 @@ class Tile2PropLoader(QThread):
         # self.finished.emit()
 
 
+class PropProgress(QThread):
+    def __init__(self, window, workers):
+        super().__init__()
+        window.printmessage("Loading Props...")
+        self.workers = workers
+        self.window = window
+        self.overall = sum(list(map(lambda x: x.amount, self.workers)))
+        self.loaded = IntConfigurable(None, "da", 0)
+        self.loaded.valueChanged.connect(self.window.ui.progressBar.setValue)
+        self.finished.connect(self.deleteLater)
+
+    def run(self):
+        loaded = sum(list(map(lambda x: x.progress, self.workers)))
+        while loaded != self.overall:
+            self.msleep(100)
+            loaded = sum(list(map(lambda x: x.progress, self.workers)))
+            self.window.ui.label_2.setText(f"({loaded}/{self.overall})")
+            self.loaded.update_value(loaded / self.overall * 100)
+
+
 def load_props(tiles: Tiles, window: SplashDialog):
     log("Loading Props")
     solved_copy = init_solve(os.path.join(PATH_DRIZZLE_PROPS, "Init.txt"))
@@ -224,12 +245,13 @@ def load_props(tiles: Tiles, window: SplashDialog):
         workers.append(PropPackLoader(solved_copy.data[i * data_per_thread:i * data_per_thread + data_per_thread]))
     if unused > 0:
         workers.append(PropPackLoader(solved_copy.data[-unused:]))
-    # progress = Tileprogress(window, workers)
+    progress = PropProgress(window, workers)
     for i in workers:
         i.start()
-    # progress.start()
+    progress.start()
     for i in workers:
         i.wait()
+    progress.wait()
     categories = []
     for i in workers:
         categories = [*categories, *i.cats]
@@ -245,15 +267,15 @@ def load_props(tiles: Tiles, window: SplashDialog):
         workers.append(Tile2PropLoader(tiles.categories[i * data_per_thread:i * data_per_thread + data_per_thread]))
     if unused > 0:
         workers.append(Tile2PropLoader(tiles.categories[-unused:]))
-
+    progress = PropProgress(window, workers)
     for i in workers:
         i.start()
-    # progress.start()
+    progress.start()
     for i in workers:
         i.wait()
-
+    progress.wait()
     for i in workers:
         categories = [*categories, *i.cats]
-
+    window.printmessage("All Props loaded!")
     log("Finished Loading")
     return Props(categories)

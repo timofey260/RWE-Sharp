@@ -6,7 +6,7 @@ from PySide6.QtGui import QColor, QPixmap
 
 
 def load_effects(splash):
-    splash.printmessage("Loading Effects")
+    # splash.printmessage("Loading Effects")
     effects_file = os.path.join(PATH_FILES, "effects.json")
     effects = ujson.load(open(effects_file))
     loaded_effects = []

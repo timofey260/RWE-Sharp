@@ -298,22 +298,22 @@
     		{"nm": "Storm Plants", "options": [["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"], ["Color", ["Color1", "Color2", "Dead"], "Color2"]], "preview": "no", "description": "Goes from bottom of level if not blocked by thick floor\nFuzzy indeed"}
 
     	]},
-		{"nm": "Nautillo Plants 2", "color": [167, 120, 90], "efs": [
+		{"nm": "Nautillo Plants 2", "color": [145, 105, 78], "efs": [
     		{"nm": "Coral Growers", "crossScreen":  1, "options": [["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"], ["Color", ["Color1", "Color2", "Dead"], "Color2"]], "preview": "no", "description": "Goes from bottom of level if not blocked by thick floor\nFuzzy indeed"},
     		{"nm": "Horror Growers", "options": [["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"], ["Color", ["Color1", "Color2", "Dead"], "Color2"]], "preview": "no", "description": "Goes from bottom of level if not blocked by thick floor\nFuzzy indeed"}
 
     	]},
-		{"nm": "Tronsx Plants", "color": [167, 120, 90], "efs": [
+		{"nm": "Tronsx Plants", "color": [158, 154, 152], "efs": [
     		{"nm": "Thunder Growers", "crossScreen":  1, "options": [["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"], ["Color", ["Color1", "Color2", "Dead"], "Color2"]], "preview": "no", "description": "Goes from bottom of level if not blocked by thick floor\nFuzzy indeed"}
 
     	]},
-		{"nm": "Intrepid Plants", "color": [167, 120, 90], "efs": [
+		{"nm": "Intrepid Plants", "color": [131, 189, 106], "efs": [
     		{"nm": "Ice Growers", "crossScreen":  1, "options": [["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"], ["Color", ["Color1", "Color2", "Dead"], "Color2"]], "preview": "no", "description": "Goes from bottom of level if not blocked by thick floor\nFuzzy indeed"},
     		{"nm": "Grass Growers", "crossScreen":  1, "options": [["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"], ["Color", ["Color1", "Color2", "Dead"], "Color2"]], "preview": "no", "description": "Goes from bottom of level if not blocked by thick floor\nFuzzy indeed"},
     		{"nm": "Fancy Growers", "crossScreen":  1, "options": [["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"], ["Color", ["Color1", "Color2", "Dead"], "Color2"]], "preview": "no", "description": "Goes from bottom of level if not blocked by thick floor\nFuzzy indeed"}
 
     	]},
-		{"nm": "LudoCrypt Plants", "color": [167, 120, 90], "efs": [
+		{"nm": "LudoCrypt Plants", "color": [181, 80, 67], "efs": [
     		{"nm": "Mushroom Stubs", "options": [
 				["Color", ["Color1", "Color2", "Dead"], "Color2"],
 				["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"],
@@ -322,7 +322,7 @@
 			], "preview": "no", "description": "Goes from bottom of level if not blocked by thick floor\nFuzzy indeed"}
 
     	]},
-		{"nm": "Alduris Effects", "color": [167, 120, 90], "efs": [
+		{"nm": "Alduris Effects", "color": [74, 162, 168], "efs": [
     		{"nm": "Mosaic Plants", "crossScreen":  1, "options": [
 				["Layers", ["1", "2", "1:st and 2:nd"], "1"],
 				["Color", ["Color1", "Color2", "Dead"], "Color2"],
@@ -344,7 +344,7 @@
 			], "preview": "no", "description": "Goes from bottom of level if not blocked by thick floor\nFuzzy indeed"}
 
     	]},
-		{"nm": "April Plants", "color": [167, 120, 90], "efs": [
+		{"nm": "April Plants", "color": [171, 90, 9], "efs": [
     		{"nm": "Grape Roots", "crossScreen":  1, "options": [
 				["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"],
 				["Color", ["Color1", "Color2", "Dead"], "Color2"]
