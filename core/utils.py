@@ -1,8 +1,9 @@
 import datetime
 import os
+import math
 from core.info import PATH_FILES_CACHE, LOG
 from PySide6.QtGui import QColor, QIcon
-from PySide6.QtCore import QPoint, QFile, QByteArray, QRect, QLineF
+from PySide6.QtCore import QPoint, QPointF, QFile, QByteArray, QRect, QLineF
 from collections.abc import Callable
 
 
@@ -190,3 +191,11 @@ def closest_line(pos, lastpos) -> QLineF:
             smallest = i
             smallestdis = QLineF(i, pos - lastpos).length()
     return QLineF(lastpos, lastpos + smallest)
+
+
+def rotate_point(point: QPointF, angle):
+    px, py = point.x(), point.y()
+    angle = math.radians(angle)
+    qx = math.cos(angle) * px - math.sin(angle) * py
+    qy = math.sin(angle) * px + math.cos(angle) * py
+    return QPointF(qx, qy)

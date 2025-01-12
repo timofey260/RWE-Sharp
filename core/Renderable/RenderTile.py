@@ -22,7 +22,7 @@ class RenderTile(RenderImage):
         self.colsimage = collisions_image(tile)
         self.redraw()
         self.tile = tile
-        self.zoom_event(self.zoom)
+        self.zoom_event()
 
     def redraw(self) -> None:
         super().redraw()
@@ -49,4 +49,4 @@ class RenderTile(RenderImage):
     def zoom_event(self):
         self.colsimage_rendered.setScale(self.zoom)
         self.scale = (20 / 16) if self.drawoption == 0 else 1
-        super().zoom_event(self.zoom)
+        super().zoom_event()

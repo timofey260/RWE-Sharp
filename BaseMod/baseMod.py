@@ -75,14 +75,18 @@ class BaseMod(Mod):
         geoelement.add_children_configurables(*get_hotkeys_from_pattern(self, "KEYS_geo"), *get_hotkeys_from_pattern(self, "EDIT_geo"))
         tileelement = HotkeyElement(self, "Tile Editor", "tileedit", parent=self.editorsTree)
         tileelement.add_children_configurables(*get_hotkeys_from_pattern(self, "EDIT_tile"))
+
+        effectelement = HotkeyElement(self, "Effect Editor", "effectedit", parent=self.editorsTree)
+        effectelement.add_children_configurables(*get_hotkeys_from_pattern(self, "EDIT_effect"))
+
+        propelement = HotkeyElement(self, "Prop Editor", "propedit", parent=self.editorsTree)
+        propelement.add_children_configurables(*get_hotkeys_from_pattern(self, "EDIT_props"))
+
         self.visualsTree = HotkeyElement(self, "Visuals(Modules)", "visuals").add_myself()
         geoviewelement = HotkeyElement(self, "Geometry View", "geoview", parent=self.visualsTree)
         geoviewelement.add_children_configurables(*get_hotkeys_from_pattern(self, "VIEW_geo"))
         tileviewelement = HotkeyElement(self, "Tiles View", "tileview", parent=self.visualsTree)
         tileviewelement.add_children_configurables(*get_hotkeys_from_pattern(self, "VIEW_tile"))
-
-        effectskeys = HotkeyElement(self, "Effect editor", "effectedit", parent=self.editorsTree)
-        effectskeys.add_children_configurables(*get_hotkeys_from_pattern(self, "EDIT_effect"))
 
         self.action_geoeditor = QAction("Geometry Editor")
         self.bmconfig.geometry_editor.link_action(self.action_geoeditor)

@@ -174,6 +174,10 @@ class TileUI(UI):
         self.force_geo_key = KeyConfigurable(mod, "EDIT_tiles.fgkey", "g", "Force geometry")
         self.force_place_key = KeyConfigurable(mod, "EDIT_tiles.fpkey", "f", "Force place")
 
+        self.explorer_key = KeyConfigurable(mod, "EDIT_tile.explorer_key", "Ctrl+e", "Show Tile Explorer")
+
+        self.explorer_key.link_button(self.ui.OpenExplorer)
+
         self.tile_next_key.link_button(self.ui.TileNext)
         self.tile_prev_key.link_button(self.ui.TilePrev)
         self.cat_next_key.link_button(self.ui.CatNext)
@@ -202,7 +206,7 @@ class TileUI(UI):
         self.editor.tile_item.set_tile(self.editor.tile_item.tile, self.editor.colortable, 4)
 
     def open_explorer(self):
-        self.basemod.tileeditor.explorer.change_visibility(True)
+        self.editor.explorer.change_visibility(True)
 
 
 class TileSettings(SettingUI):

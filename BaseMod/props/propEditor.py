@@ -4,6 +4,7 @@ from RWESharp.Configurable import ColorConfigurable
 from RWESharp.Loaders import Prop
 from RWESharp.Core import lingoIO
 from RWESharp.Renderable import RenderLine, RenderPoly, RenderRect
+from RWESharp.Utils import rotate_point
 
 from BaseMod.props.propExplorer import PropExplorer
 from BaseMod.props.propRenderable import PropRenderable
@@ -48,9 +49,44 @@ class PropEditor(Editor):
         if self.propsui is not None:
             self.propsui.display_settings()
         self.reset_transform()
+        self.placingprop.set_variation(self.prop_settings.get("variation", 1))
+        self.apply_tags()
+
+    def apply_tags(self):
+        tags = self.prop.tags
+        for tag in tags:
+            match tag:
+                case "randomRotat":
+                    self.rotate(rnd.randint(0, 360))
+                case "randomFlipX":
+                    self.flipx() if rnd.choice([True, False]) else False
+                case "randomFlipY":
+                    self.flipy() if rnd.choice([True, False]) else False
+
+    def flipx(self):
+        self.transform[0].setX(-self.transform[0].x())
+        self.transform[1].setX(-self.transform[1].x())
+        self.transform[2].setX(-self.transform[2].x())
+        self.transform[3].setX(-self.transform[3].x())
+        self.placingprop.move_event()
+
+    def flipy(self):
+        self.transform[0].setY(-self.transform[0].y())
+        self.transform[1].setY(-self.transform[1].y())
+        self.transform[2].setY(-self.transform[2].y())
+        self.transform[3].setY(-self.transform[3].y())
+        self.placingprop.move_event()
+
+    def rotate(self, rot):
+        newtransform = []
+        for t in self.transform:
+            newtransform.append(rotate_point(t, rot))
+        self.placingprop.transform = newtransform
+        self.placingprop.move_event()
 
     def move_event(self):
         super().move_event()
+        self.manager.set_status(f"{self.editor_pos.x()}, {self.editor_pos.y()} | {self.prop_settings.get('variation', 0)}, {self.prop.vars}")
         if not self.editingprop:
             self.placingprop.setPos(self.viewport.viewport_to_editor_float(self.mouse_pos.toPointF()) * CELLSIZE)
         self.debugline.drawline.setOpacity(0)
@@ -87,6 +123,11 @@ class PropEditor(Editor):
         closest = self.find_nearest(self.editor_pos)
         self.level.add_history(PropRemove(self.level.history, closest))
 
+    def mouse_right_press(self):
+        if self.prop_settings.get("variation") is not None:
+            self.prop_settings["variation"] = (self.prop_settings["variation"] + 1) % (self.prop.vars + 1)
+            self.placingprop.set_variation(self.prop_settings["variation"])
+
     def reset_selection(self):
         for i in self.selected_poly:
             i.remove_graphics(self.viewport)
@@ -121,6 +162,7 @@ class PropEditor(Editor):
     def reset_transform(self):
         w, h, = self.prop.size.width() / 2, self.prop.size.height() / 2
         self.transform = [QPointF(-w, -h), QPointF(w, -h), QPointF(w, h), QPointF(-w, h)]
+        self.placingprop.move_event()
 
     @property
     def transform(self) -> [QPointF, QPointF, QPointF, QPointF]:

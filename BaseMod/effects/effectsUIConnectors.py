@@ -1,4 +1,5 @@
 from RWESharp.Ui import UI
+from RWESharp.Configurable import KeyConfigurable
 from PySide6.QtWidgets import QTreeWidgetItem, QDialog, QInputDialog, QMenu
 from PySide6.QtCore import Qt, QPoint, QItemSelectionModel
 from PySide6.QtGui import QPixmap
@@ -31,12 +32,23 @@ class EffectsUI(UI):
         self.explorer = self.editor.effect_explorer
         self.ui.EffectsTree.setAlternatingRowColors(True)
 
-        self.editor.effectup.link_button(self.ui.Up)
-        self.editor.effectdown.link_button(self.ui.Down)
-        self.editor.effectmoveup.link_button(self.ui.MoveUp)
-        self.editor.effectmovedown.link_button(self.ui.MoveDown)
-        self.editor.delete.link_button(self.ui.DeleteEffect)
-        self.editor.duplicate.link_button(self.ui.DuplicateEffect)
+        self.effectup = KeyConfigurable(mod, "EDIT_effect.effectup", "w", "Previous effect")
+        self.effectdown = KeyConfigurable(mod, "EDIT_effect.effectdown", "s", "Next effect")
+        self.effectmoveup = KeyConfigurable(mod, "EDIT_effect.effectmoveup", "Shift+w", "Move effect back")
+        self.effectmovedown = KeyConfigurable(mod, "EDIT_effect.effectmovedown", "Shift+s", "Move effect forward")
+        self.duplicate = KeyConfigurable(mod, "EDIT_effect.duplicate", "Ctrl+d", "Duplicate effect")
+        self.delete = KeyConfigurable(mod, "EDIT_effect.delete", "Delete", "Delete effect")
+        self.explorer_key = KeyConfigurable(mod, "EDIT_effect.explorer_key", "Ctrl+e", "Open Effect Explorer")
+
+        self.explorer_key.link_button(self.ui.Explorer)
+        self.ui.Explorer.clicked.connect(self.open_explorer)
+
+        self.effectup.link_button(self.ui.Up)
+        self.effectdown.link_button(self.ui.Down)
+        self.effectmoveup.link_button(self.ui.MoveUp)
+        self.effectmovedown.link_button(self.ui.MoveDown)
+        self.delete.link_button(self.ui.DeleteEffect)
+        self.duplicate.link_button(self.ui.DuplicateEffect)
         self.ui.EffectsTree.itemClicked.connect(self.effect_pressed)
 
         self.explorer.ui.AddEffect.clicked.connect(self.add_effects)
@@ -46,6 +58,9 @@ class EffectsUI(UI):
         self.ui.OptionsTree.itemDoubleClicked.connect(self.effect_settings_double_click)
         self.ui.OptionsTree.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
         self.ui.OptionsTree.customContextMenuRequested.connect(self.settings_context_menu)
+
+    def open_explorer(self):
+        self.explorer.change_visibility(True)
 
     def effect_up(self):
         self.editor.effectindex.update_value((self.editor.effectindex.value - 1) % len(self.level.l_effects))

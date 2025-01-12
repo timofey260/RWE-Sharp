@@ -8,6 +8,7 @@ from PySide6.QtGui import QTransform, QPolygonF, QPainter, QPixmap, QImage
 from PySide6.QtWidgets import QGraphicsPixmapItem
 
 from BaseMod.props.Handle import Handle
+import random
 
 
 class PropRenderable(Renderable):
@@ -38,6 +39,14 @@ class PropRenderable(Renderable):
         w, h = prop.images[0].width(), prop.images[0].height()
         self.transform: list[QPointF] = [QPointF(0, 0), QPointF(w, 0), QPointF(w, h), QPointF(0, h)]
         self.handlers: list[Handle] = []
+
+    def set_variation(self, variation: int):
+        if variation == 0:
+            self.image = self.prop.images[random.randint(0, self.prop.vars - 1)]
+            self.renderedtexture.setPixmap(QPixmap.fromImage(self.image))
+            return
+        self.image = self.prop.images[variation - 1]
+        self.renderedtexture.setPixmap(QPixmap.fromImage(self.image))
 
     def setprop(self, prop: Prop):
         self.prop = prop

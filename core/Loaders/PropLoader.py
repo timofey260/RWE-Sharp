@@ -139,7 +139,7 @@ def tile2prop(tile: Tile, cat, category):
     return Prop({"depth": 10 * (int(tile.cols[1] != []) + 1)}, tile.name, "standard", tile.repeatl, tile.description,
                 [tile.image3], "standard", 1,
                 tile.color, cat, [*tile.tags, "tile"], err, category, ["Tile as Prop"],
-                tile.size * tile.bfTiles * 2 * CELLSIZE)
+                (tile.size + QSize(tile.bfTiles, tile.bfTiles) * 2) * CELLSIZE)
 
 
 class PropPackLoader(QThread):

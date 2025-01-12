@@ -19,13 +19,6 @@ class EffectEditor(Editor):
         self.effectindex = IntConfigurable(None, "EDIT_effect.effectindex", 0, "Current effect")
         self.brushsize = IntConfigurable(mod, "EDIT_effect.brushsize", 4, "Current effect")
 
-        self.effectup = KeyConfigurable(mod, "EDIT_effect.effectup", "w", "Previous effect")
-        self.effectdown = KeyConfigurable(mod, "EDIT_effect.effectdown", "s", "Next effect")
-        self.effectmoveup = KeyConfigurable(mod, "EDIT_effect.effectmoveup", "Shift+w", "Move effect back")
-        self.effectmovedown = KeyConfigurable(mod, "EDIT_effect.effectmovedown", "Shift+s", "Move effect forward")
-        self.duplicate = KeyConfigurable(mod, "EDIT_effect.duplicate", "Ctrl+d", "Duplicate effect")
-        self.delete = KeyConfigurable(mod, "EDIT_effect.delete", "Delete", "Delete effect")
-
         self.brush = RenderEllipse(self, 0, QRect(0, 0, 1, 1))
         self.effectindex.valueChanged.connect(self.select_effect)
         self.lastpos = QPoint()

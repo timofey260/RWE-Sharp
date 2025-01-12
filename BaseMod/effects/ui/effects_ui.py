@@ -111,6 +111,11 @@ class Ui_Effects(object):
 
         self.verticalLayout_12.addLayout(self.gridLayout_5)
 
+        self.Explorer = QPushButton(self.scrollAreaWidgetContents_3)
+        self.Explorer.setObjectName(u"Explorer")
+
+        self.verticalLayout_12.addWidget(self.Explorer)
+
         self.label_7 = QLabel(self.scrollAreaWidgetContents_3)
         self.label_7.setObjectName(u"label_7")
 
@@ -152,6 +157,7 @@ class Ui_Effects(object):
         self.CopyEffect.setText(QCoreApplication.translate("Effects", u"Copy", None))
         self.DuplicateEffect.setText(QCoreApplication.translate("Effects", u"Duplicate", None))
         self.DeleteEffect.setText(QCoreApplication.translate("Effects", u"Delete", None))
+        self.Explorer.setText(QCoreApplication.translate("Effects", u"Open Explorer", None))
         self.label_7.setText(QCoreApplication.translate("Effects", u"Options:", None))
     # retranslateUi
 

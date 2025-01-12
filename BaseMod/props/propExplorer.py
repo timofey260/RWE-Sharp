@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import QTreeWidgetItem, QListWidgetItem
+from PySide6.QtWidgets import QTreeWidgetItem, QListWidgetItem, QTableWidgetItem
 from PySide6.QtGui import QPixmap, QAction
 from PySide6.QtCore import Qt
 
@@ -49,12 +49,25 @@ class PropExplorer(Explorer):
     def itemtype(self) -> type:
         return Prop
 
-    def preview_item(self, item):
+    def preview_item(self, item: Prop):
         if item is None:
             self.previeweffect.setOpacity(0)
             return
         self.previeweffect.setOpacity(1)
         self.previeweffect.setPixmap(self.getimage(item.images[0]))
+        self.ui.Properties.clear()
+        self.ui.Properties.setRowCount(4)
+        self.ui.Properties.setColumnCount(1)
+        self.ui.Properties.setVerticalHeaderItem(0, QTableWidgetItem("Name"))
+        self.ui.Properties.setItem(0, 0, QTableWidgetItem(item.name))
+        self.ui.Properties.setVerticalHeaderItem(1, QTableWidgetItem("Description"))
+        self.ui.Properties.setItem(1, 0, QTableWidgetItem(item.description))
+        self.ui.Properties.setVerticalHeaderItem(2, QTableWidgetItem("Size"))
+        self.ui.Properties.setItem(2, 0, QTableWidgetItem(f"{item.size.width()}x{item.size.height()}"))
+        self.ui.Properties.setVerticalHeaderItem(3, QTableWidgetItem("Tags"))
+        self.ui.Properties.setItem(3, 0, QTableWidgetItem(", ".join(item.tags)))
+        self.ui.Properties.adjustSize()
+        self.ui.Properties.resizeColumnsToContents()
 
     def __init__(self, editor, parent=None):
         self.props = editor.manager.props

@@ -1,7 +1,6 @@
 from __future__ import annotations
 from PySide6.QtCore import QPointF
 from core.Modify.baseModule import Module
-from core.Modify.Editor import Editor
 from abc import abstractmethod, ABC
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
@@ -48,18 +47,22 @@ class Renderable(ABC):
 
     def setScale(self, scale):
         self.scale = scale
-        self.zoom_event(self.zoom)
+        self.zoom_event()
 
     @property
     def actual_offset(self):
         return self.pos + self.offset * self.zoom
 
     @property
-    def zoom(self):
+    def zoom(self) -> float:
+        if self.viewport is None:
+            return 1
         return self.viewport.zoom
 
     @property
-    def pos(self):
+    def pos(self) -> QPointF:
+        if self.viewport is None:
+            return QPointF(0, 0)
         return self.viewport.topleft.pos()
 
     def level_resized(self):

@@ -9,7 +9,7 @@ class PropModule(Module):
         super().__init__(mod)
         self.opshift = BoolConfigurable(mod, "VIEW_props.opshift", True, "Opacity shift")
         self.props: list[PropRenderable] = []
-        Handle(self)
+        # Handle(self)
 
     def init_scene_items(self, viewport):
         self.render_props()
