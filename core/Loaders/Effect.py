@@ -3,6 +3,7 @@ from dataclasses import dataclass, field
 from PySide6.QtGui import QColor, QPixmap
 from PySide6.QtCore import QSize
 from random import randint
+import numpy as np
 
 
 @dataclass
@@ -44,7 +45,7 @@ class Effect:
 
     def todict(self, size: QSize):
         newoptions = [i.tolist() for i in self.options]
-        matrix = [[0 for _ in range(size.height())] for _ in range(size.width())]
+        matrix = np.zeros(size.toTuple(), np.float16)
         return {"nm": self.name, "tp": self.tp, "options": newoptions, "repeats": self.repeats,
                 "affectOpenAreas": self.affect_open_areas, "crossScreen": self.crossscreen, "mtrx": matrix}
 

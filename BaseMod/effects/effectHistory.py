@@ -88,6 +88,25 @@ class EffectAdd(HistoryElement):
         self.add_effect()
 
 
+class EffectRemove(HistoryElement): # todo
+    def __init__(self, history, effect: Effect):
+        super().__init__(history)
+        self.effect = effect
+        self.add_effect()
+
+    def add_effect(self):
+        self.history.level.l_effects.append(self.effect.todict(self.history.level.level_size_qsize))
+        self.history.level.manager.basemod.effectui.add_effects()
+        self.history.level.manager.basemod.effecteditor.effectindex.update_value(len(self.history.level.l_effects) - 1)
+
+    def undo_changes(self):
+        self.history.level.l_effects.pop()
+        self.history.level.manager.basemod.effectui.add_effects()
+
+    def redo_changes(self):
+        self.add_effect()
+
+
 class EffectOptionChange(HistoryElement):
     def __init__(self, history, index, option, value):
         super().__init__(history)

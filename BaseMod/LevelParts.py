@@ -186,3 +186,12 @@ class EffectLevelPart(LevelPart):
 
     def __iter__(self):
         return self.effects.__iter__()
+
+    def append(self, item):
+        self.effects.append(item)
+
+    def insert(self, index, item):
+        self.effects.insert(index, item)
+
+    def pop(self, index=-1):
+        return self.effects.pop(index)
