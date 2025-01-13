@@ -76,5 +76,7 @@ class EffectExplorer(ViewDockWidget):
         if isinstance(item.data(0, Qt.ItemDataRole.UserRole), Effect):
             self.effect = item.data(0, Qt.ItemDataRole.UserRole)
             self.image.setPixmap(self.effect.preview)
+            self.ui.Description.setText(item.data(0, Qt.ItemDataRole.UserRole).description)
         elif isinstance(item.data(0, Qt.ItemDataRole.UserRole), EffectCategory):
             self.ui.Effects.expand(self.ui.Effects.indexFromItem(item, 0))
+            self.ui.Description.setText(item.data(0, Qt.ItemDataRole.UserRole).name)

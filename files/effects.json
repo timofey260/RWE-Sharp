@@ -89,10 +89,10 @@
 			{"nm": "Fungi Flowers", "options": [["Layers", ["1", "2", "3"], "1"]], "preview":"fungiflowers", "description": "Fungus looking plants\nIntensity doesn't matter"},
 			{"nm": "Lighthouse Flowers", "options": [["Layers", ["1", "2", "3"], "1"]], "preview":"lighthouseflowers", "description": "If painted above ground may look weird\nIntensity doesn't matter"},
 			{"nm": "Fern", "options": [["Layers", ["1", "2", "3"], "1"], ["Color", ["Color1", "Color2", "Dead"], "Color2"]], "preview":"fern", "description": "Bush looking plant\nIntensity doesn't matter"},
-			{"nm": "Giant Mushroom", "options": [["Layers", ["1", "2", "3"], "1"], ["Color", ["Color1", "Color2", "Dead"], "Color2"]], "preview":"giantmushroom", "description": "Mushroom but bigger\nIntensity doesn't matter. These are placed as a single tile above ground where you want it to grow. larger variant avaliable if placing a second tile above it. there are the only size variations"},
+			{"nm": "Giant Mushroom", "options": [["Layers", ["1", "2", "3"], "1"], ["Color", ["Color1", "Color2", "Dead"], "Color2"]], "preview":"giantmushroom", "description": "Mushroom but bigger\nIntensity doesn't matter.\nThese are placed as a single tile above ground where you want it to grow.\nlarger variant avaliable if placing a second tile above it. there are the only size variations"},
 			{"nm": "Sprawlbush", "options": [["Layers", ["1", "2", "3"], "1"], ["Color", ["Color1", "Color2", "Dead"], "Color2"]], "preview":"sprawlbush", "description": "Height and intensity doesn't matter, colored"},
 			{"nm": "featherFern", "options": [["Layers", ["1", "2", "3"], "1"], ["Color", ["Color1", "Color2", "Dead"], "Color2"]], "preview":"featherfern", "description": "Height and intensity doesn't matter, colored"},
-			{"nm": "Fungus Tree", "options": [["Layers", ["1", "2", "3"], "1"], ["Color", ["Color1", "Color2", "Dead"], "Color2"]], "preview":"fungustree", "description": "Height and intensity doesn't matter, colored.These are placed as a single tile above ground where you want it to grow. larger variant avaliable if placing a second tile above it. there are the only size variations"}
+			{"nm": "Fungus Tree", "options": [["Layers", ["1", "2", "3"], "1"], ["Color", ["Color1", "Color2", "Dead"], "Color2"]], "preview":"fungustree", "description": "Height and intensity doesn't matter, colored.\nThese are placed as a single tile above ground where you want it to grow.\nlarger variant avaliable if placing a second tile above it. there are the only size variations"}
 		]},
 		{"nm": "Paint Effects", "color": [90, 107, 91], "efs": [
 			{"nm": "BlackGoo", "preview": "blackgoo", "description": "Black thing that hides tiles\nDoes not work for some materials and tiles"},
@@ -290,27 +290,27 @@
     	]},
     	{"nm": "Nautillo Plants", "color": [167, 120, 90], "efs": [
     		{"nm": "Fuzzy Growers", "crossScreen":  1, "options": [["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"], ["Color", ["Color1", "Color2", "Dead"], "Color2"]], "preview": "fuzzygrowers", "description": "Goes from bottom of level if not blocked by thick floor\nFuzzy indeed"},
-    		{"nm": "Leaf Growers", "crossScreen":  1, "options": [["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"], ["Color", ["Color1", "Color2", "Dead"], "Color2"]], "preview": "Leaf_Growers", "description": "Goes from bottom of level if not blocked by thick floor\nFuzzy indeed"},
-    		{"nm": "Meat Growers", "crossScreen":  1, "options": [["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"], ["Color", ["Color1", "Color2", "Dead"], "Color2"]], "preview": "meat_roots", "description": "Goes from bottom of level if not blocked by thick floor\nFuzzy indeed"},
-    		{"nm": "Hyacinths", "options": [["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"], ["Color", ["Color1", "Color2", "Dead"], "Color2"]], "preview": "hyancinthis", "description": "Goes from bottom of level if not blocked by thick floor\nFuzzy indeed"},
-    		{"nm": "Seed Grass", "options": [["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"], ["Color", ["Color1", "Color2", "Dead"], "Color2"]], "preview": "Seed_Grass", "description": "Goes from bottom of level if not blocked by thick floor\nFuzzy indeed"},
-    		{"nm": "Orb Plants", "options": [["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"], ["Color", ["Color1", "Color2", "Dead"], "Color2"]], "preview": "Orb_Plants", "description": "Goes from bottom of level if not blocked by thick floor\nFuzzy indeed"},
-    		{"nm": "Storm Plants", "options": [["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"], ["Color", ["Color1", "Color2", "Dead"], "Color2"]], "preview": "Storm_Plants", "description": "Goes from bottom of level if not blocked by thick floor\nFuzzy indeed"}
+    		{"nm": "Leaf Growers", "crossScreen":  1, "options": [["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"], ["Color", ["Color1", "Color2", "Dead"], "Color2"]], "preview": "Leaf_Growers", "description": "Small growers on floor"},
+    		{"nm": "Meat Growers", "crossScreen":  1, "options": [["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"], ["Color", ["Color1", "Color2", "Dead"], "Color2"]], "preview": "meat_roots", "description": "Meat spikes"},
+    		{"nm": "Hyacinths", "options": [["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"], ["Color", ["Color1", "Color2", "Dead"], "Color2"]], "preview": "hyancinthis", "description": "Hyacinths"},
+    		{"nm": "Seed Grass", "options": [["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"], ["Color", ["Color1", "Color2", "Dead"], "Color2"]], "preview": "Seed_Grass", "description": "Grass, grows on floor"},
+    		{"nm": "Orb Plants", "options": [["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"], ["Color", ["Color1", "Color2", "Dead"], "Color2"]], "preview": "Orb_Plants", "description": "Orb Plants"},
+    		{"nm": "Storm Plants", "options": [["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"], ["Color", ["Color1", "Color2", "Dead"], "Color2"]], "preview": "Storm_Plants", "description": "Tree-wire looking plants"}
 
     	]},
 		{"nm": "Nautillo Plants 2", "color": [145, 105, 78], "efs": [
-    		{"nm": "Coral Growers", "crossScreen":  1, "options": [["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"], ["Color", ["Color1", "Color2", "Dead"], "Color2"]], "preview": "Coral_Growers", "description": "Goes from bottom of level if not blocked by thick floor\nFuzzy indeed"},
-    		{"nm": "Horror Growers", "options": [["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"], ["Color", ["Color1", "Color2", "Dead"], "Color2"]], "preview": "Horror Growers", "description": "Goes from bottom of level if not blocked by thick floor\nFuzzy indeed"}
+    		{"nm": "Coral Growers", "crossScreen":  1, "options": [["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"], ["Color", ["Color1", "Color2", "Dead"], "Color2"]], "preview": "Coral_Growers", "description": "Long corals"},
+    		{"nm": "Horror Growers", "options": [["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"], ["Color", ["Color1", "Color2", "Dead"], "Color2"]], "preview": "Horror Growers", "description": ":Fear:"}
 
     	]},
 		{"nm": "Tronsx Plants", "color": [158, 154, 152], "efs": [
-    		{"nm": "Thunder Growers", "crossScreen":  1, "options": [["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"], ["Color", ["Color1", "Color2", "Dead"], "Color2"]], "preview": "Thunder_Growers.", "description": "Goes from bottom of level if not blocked by thick floor\nFuzzy indeed"}
+    		{"nm": "Thunder Growers", "crossScreen":  1, "options": [["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"], ["Color", ["Color1", "Color2", "Dead"], "Color2"]], "preview": "Thunder_Growers", "description": "Thin spike growers"}
 
     	]},
 		{"nm": "Intrepid Plants", "color": [131, 189, 106], "efs": [
-    		{"nm": "Ice Growers", "crossScreen":  1, "options": [["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"], ["Color", ["Color1", "Color2", "Dead"], "Color2"]], "preview": "lee_Growers", "description": "Goes from bottom of level if not blocked by thick floor\nFuzzy indeed"},
-    		{"nm": "Grass Growers", "crossScreen":  1, "options": [["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"], ["Color", ["Color1", "Color2", "Dead"], "Color2"]], "preview": "Grass_Growers", "description": "Goes from bottom of level if not blocked by thick floor\nFuzzy indeed"},
-    		{"nm": "Fancy Growers", "crossScreen":  1, "options": [["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"], ["Color", ["Color1", "Color2", "Dead"], "Color2"]], "preview": "Fancy_Growers", "description": "Goes from bottom of level if not blocked by thick floor\nFuzzy indeed"}
+    		{"nm": "Ice Growers", "crossScreen":  1, "options": [["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"], ["Color", ["Color1", "Color2", "Dead"], "Color2"]], "preview": "lee_Growers", "description": "Ice growers"},
+    		{"nm": "Grass Growers", "crossScreen":  1, "options": [["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"], ["Color", ["Color1", "Color2", "Dead"], "Color2"]], "preview": "Grass_Growers", "description": "Dark grass"},
+    		{"nm": "Fancy Growers", "crossScreen":  1, "options": [["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"], ["Color", ["Color1", "Color2", "Dead"], "Color2"]], "preview": "Fancy_Growers", "description": "Thorn growers, but less straight"}
 
     	]},
 		{"nm": "LudoCrypt Plants", "color": [181, 80, 67], "efs": [
@@ -319,7 +319,7 @@
 				["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"],
 				["Mushroom Size", ["Small", "Medium", "Random"], "Medium"],
 				["Mushroom Width", ["Small", "Medium", "Wide", "Random"], "Medium"]
-			], "preview": "Mushroom_Stubs", "description": "Goes from bottom of level if not blocked by thick floor\nFuzzy indeed"}
+			], "preview": "Mushroom_Stubs", "description": "Mushroom Stubs, grow on walls"}
 
     	]},
 		{"nm": "Alduris Effects", "color": [74, 162, 168], "efs": [
@@ -329,31 +329,31 @@
 				["Color Intensity", ["High", "Medium", "Low", "None", "Random"], "Medium"],
 				["Flowers", ["Off", "On"], "Off"],
 				["Detail Color", ["Color1", "Color2", "Dead"], "Color1"]
-			], "preview": "Mosaic_Plants", "description": "Goes from bottom of level if not blocked by thick floor\nFuzzy indeed"},
-    		{"nm": "Lollipop Mold", "options": [["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"], ["Color", ["Color1", "Color2", "Dead"], "Color2"]], "preview": "Lollipop_Mold", "description": "Goes from bottom of level if not blocked by thick floor\nFuzzy indeed"},
+			], "preview": "Mosaic_Plants", "description": "Small Bushes, can only be placed if there's wall behind its layer"},
+    		{"nm": "Lollipop Mold", "options": [["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"], ["Color", ["Color1", "Color2", "Dead"], "Color2"]], "preview": "Lollipop_Mold", "description": "Mold, grows on floor"},
     		{"nm": "Cobwebs", "crossScreen":  1, "options": [
 				["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "1"],
 				["Effect Color", ["EffectColor1", "EffectColor2", "None"], "None"],
 				["Color Intensity", ["High", "Medium", "Low", "None"], "Medium"]
-			], "preview": "cobwebs", "description": "Goes from bottom of level if not blocked by thick floor\nFuzzy indeed"},
+			], "preview": "cobwebs", "description": "Cobwebs, what there else to say"},
     		{"nm": "Fingers", "options": [
 				["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"],
 				["Color", ["Color1", "Color2", "Dead"], "Dead"],
 				["Finger Thickness", ["Small", "Medium", "FAT", "Random"], "Medium"],
 				["Finger Length", ["Short", "Medium", "Tall", "Random"], "Medium"]
-			], "preview": "fingers", "description": "Goes from bottom of level if not blocked by thick floor\nFuzzy indeed"}
+			], "preview": "fingers", "description": "Fingers, grow on floor and walls"}
 
     	]},
 		{"nm": "April Plants", "color": [171, 90, 9], "efs": [
     		{"nm": "Grape Roots", "crossScreen":  1, "options": [
 				["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"],
 				["Color", ["Color1", "Color2", "Dead"], "Color2"]
-			], "preview": "grape roots", "description": "Goes from bottom of level if not blocked by thick floor\nFuzzy indeed"},
-    		{"nm": "Og Grass", "options": [["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"], ["Color", ["Color1", "Color2", "Dead"], "Color2"]], "preview": "Og_Grass", "description": "Goes from bottom of level if not blocked by thick floor\nFuzzy indeed"},
+			], "preview": "grape roots", "description": "Grape hanging from the celling"},
+    		{"nm": "Og Grass", "options": [["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"], ["Color", ["Color1", "Color2", "Dead"], "Color2"]], "preview": "Og_Grass", "description": "Smaller Circuit plants"},
     		{"nm": "Hand Growers", "crossScreen":  1, "options": [
 				["Layers", ["All", "1", "2", "3", "1:st and 2:nd", "2:nd and 3:rd"], "All"],
 				["Color", ["Color1", "Color2", "Dead"], "Color2"]
-			], "preview": "Hand_Growers", "description": "Goes from bottom of level if not blocked by thick floor\nFuzzy indeed"}
+			], "preview": "Hand_Growers", "description": "Ogscule"}
     	]}
 	],
 	"maxstr": ["BlackGoo", "Fungi Flowers", "Lighthouse Flowers", "Colored Fungi Flowers", "Colored Lighthouse Flowers", "High Fern", "High Grass", "Fern", "Giant Mushroom", "Sprawlbush", "featherFern", "Fungus Tree", "Restore As Scaffolding", "Restore As Pipes", "Small Springs", "Super BlackGoo", "Stained Glass Properties", "Cobwebs", "Hand Growers"]

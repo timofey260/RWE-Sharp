@@ -1,4 +1,5 @@
 from core.info import PATH_FILES, PATH_EFFECT_PREVIEWS
+from core.utils import log
 import ujson
 import os
 from core.Loaders.Effect import EffectCategory, Effect, MoveDeleteOption, SeedOption, EffectOption, Effects
@@ -11,6 +12,7 @@ def load_effects(splash):
     effects = ujson.load(open(effects_file))
     loaded_effects = []
     defaultprops = effects["defaultproperties"]
+    amount = 0
     for category in effects["effects"]:
         currentcat = EffectCategory(category.get("nm", "NoName"), QColor(*category.get("color", [0, 0, 0])), [])
         for i in category["efs"]:
@@ -21,6 +23,7 @@ def load_effects(splash):
                     op = e["options"].pop(indx)
                     e["options"].insert(1, op)
                     break
+            amount += 1
             effect = Effect(e["nm"],
                             e.get("description"),
                             e.get("tp", "nn"),
@@ -33,4 +36,5 @@ def load_effects(splash):
                             currentcat, e["nm"] in effects["maxstr"])
             currentcat.effects.append(effect)
         loaded_effects.append(currentcat)
+    log(f"Loaded {amount} Effects")
     return Effects(loaded_effects)

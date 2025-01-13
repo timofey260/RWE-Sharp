@@ -95,6 +95,11 @@ class Ui_EffectExplorer(object):
 
         self.verticalLayout_2.addWidget(self.Effectpreview)
 
+        self.Description = QLabel(self.layoutWidget1)
+        self.Description.setObjectName(u"Description")
+
+        self.verticalLayout_2.addWidget(self.Description)
+
         self.horizontalLayout_2 = QHBoxLayout()
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
         self.Favorite = QToolButton(self.layoutWidget1)
@@ -130,6 +135,7 @@ class Ui_EffectExplorer(object):
         self.Up.setText(QCoreApplication.translate("EffectExplorer", u"...", None))
         self.Down.setText(QCoreApplication.translate("EffectExplorer", u"...", None))
         self.label_2.setText(QCoreApplication.translate("EffectExplorer", u"Preview:", None))
+        self.Description.setText(QCoreApplication.translate("EffectExplorer", u"Description", None))
         self.Favorite.setText("")
         self.AddEffect.setText(QCoreApplication.translate("EffectExplorer", u"Add", None))
     # retranslateUi

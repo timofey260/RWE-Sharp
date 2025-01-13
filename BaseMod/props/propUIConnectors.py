@@ -53,7 +53,20 @@ class PropsUI(UI):
     def display_settings(self):
         self.ui.PropOptions.clear()
         for k, v in self.editor.prop_settings.items():
-            item = QTreeWidgetItem([k, str(v)])
+            match k:
+                case "release":
+                    t = ["left", "none", "right"][v - 1]
+                case "renderTime":
+                    t = ["Pre Effects", "Post Effcts"][v]
+                case "variation":
+                    t = "random" if v == 0 else str(v)
+                case "applyColor":
+                    t = ["NO", "YES"][v]
+                case "color":
+                    t = "NONE" if v == 0 else self.mod.manager.prop_colors[v - 1]
+                case _:
+                    t = str(v)
+            item = QTreeWidgetItem([k, t])
             item.setData(0, Qt.ItemDataRole.UserRole, k)
             self.ui.PropOptions.addTopLevelItem(item)
 
@@ -97,31 +110,68 @@ class PropsUI(UI):
         vals = []
         match key:
             case "release":
-                vals = [-1, 0, 1]
+                a = QAction("left", menu)
+                b = QAction("none", menu)
+                c = QAction("right", menu)
+                a.triggered.connect(self.setoption(key, -1))
+                b.triggered.connect(self.setoption(key, 0))
+                c.triggered.connect(self.setoption(key, 1))
+                vals = [a, b, c]
             case "renderTime":
-                vals = [0, 1]
+                a = QAction("Pre Effects", menu)
+                b = QAction("Post Effcts", menu)
+                a.triggered.connect(self.setoption(key, 0))
+                b.triggered.connect(self.setoption(key, 1))
+                vals = [a, b]
             case "customDepth":
-                vals = list(range(1, 31))
-                # val = self.editor.prop_settings[name] % 30 + 1
+                vals = []
+                for i in range(1, 31):
+                    a = QAction(str(i), menu)
+                    a.triggered.connect(self.setoption(key, i))
+                    vals.append(a)
             case "variation":
-                vals = list(range(0, self.editor.prop.vars+1))
+                vals = []
+                for i in range(0, self.editor.prop.vars+1):
+                    if i == 0:
+                        a = QAction("random", menu)
+                        a.triggered.connect(self.setoption(key, 0))
+                        vals.append(a)
+                        continue
+                    a = QAction(str(i), menu)
+                    a.triggered.connect(self.setoption(key, i))
+                    vals.append(a)
             case "thickness":
-                vals = [1, 2, 3, 4, 5]
+                vals = []
+                for i in range(1, 6):
+                    a = QAction(str(i), menu)
+                    a.triggered.connect(self.setoption(key, i))
+                    vals.append(a)
             case "applyColor":
-                vals = [0, 1]
+                a = QAction("NO", menu)
+                b = QAction("YES", menu)
+                a.triggered.connect(self.setoption(key, 0))
+                b.triggered.connect(self.setoption(key, 1))
+                vals = [a, b]
             case "color":
-                vals = list(range(len(self.mod.manager.prop_colors)))
+                vals = []
+                for i in range(0, len(self.mod.manager.prop_colors)+1):
+                    if i == 0:
+                        a = QAction("NONE", menu)
+                        a.triggered.connect(self.setoption(key, 0))
+                        vals.append(a)
+                        continue
+                    a = QAction(str(self.mod.manager.prop_colors[i - 1]), menu)
+                    a.triggered.connect(self.setoption(key, i))
+                    vals.append(a)
             case _:
                 self.prop_options_click(item, 0)
                 return
         if len(vals) == 0:
             return
-        default = None
-        for i in vals:
-            menu.addAction(str(i), self.setoption(key, i))
-            if i == self.editor.prop_settings[key]:
-                default = menu.actions()[-1]
-        menu.popup(self.ui.PropOptions.mapToGlobal(pos), default)
+        # default = None
+        menu.addActions(vals)
+        menu.popup(self.ui.PropOptions.mapToGlobal(pos))
+        menu.show()
 
     def setoption(self, key, value):
         def callback():

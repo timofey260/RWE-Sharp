@@ -130,6 +130,7 @@ class PropEditor(Editor):
         if self.prop_settings.get("variation") is not None:
             self.prop_settings["variation"] = (self.prop_settings["variation"] + 1) % (self.prop.vars + 1)
             self.placingprop.set_variation(self.prop_settings["variation"])
+            self.propsui.display_settings()
 
     def reset_selection(self):
         for i in self.selected_poly:
