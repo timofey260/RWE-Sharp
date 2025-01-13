@@ -34,6 +34,7 @@ class BaseMod(Mod):
         ), path)
         from BaseMod.geo.geoUIConnectors import GeoUI, GeoViewUI, GeoSettings
         from BaseMod.tiles.tileUIConnectors import TileViewUI, TileUI, TileSettings
+        from BaseMod.props.propUIConnectors import PropsViewUI
         self.bmconfig = BaseModConfig(self)
 
         self.preferences = PreferencesUI(self)
@@ -58,6 +59,7 @@ class BaseMod(Mod):
         self.propeditor = PropEditor(self)
         self.propui = PropsUI(self)
         self.propeditor.add_myself(self.propui)
+        self.propsview = PropsViewUI(self).add_myself()
 
         if self.bmconfig.funny.value:
             self.sex = QAction("sex")

@@ -2,3 +2,4 @@ from widgets.Viewport import ViewPort
 from widgets.SettingsViewer import SettingsViewer
 from widgets.ViewDockWidget import ViewDockWidget
 from widgets.SimpleViewport import SimpleViewport
+from widgets.ColorPicker import ColorPicker

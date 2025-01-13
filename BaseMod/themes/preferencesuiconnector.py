@@ -71,7 +71,6 @@ class PreferencesUI(SettingUI):
         #self.setup_ui(self.ui.Theme.currentData(Qt.ItemDataRole.UserRole))
 
     def index_changed(self, index):
-        print("was", index)
         if index == 0:
             self.lasttheme.update_value("")
         else:

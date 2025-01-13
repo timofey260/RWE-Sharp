@@ -12,7 +12,7 @@ class RaspberryDark(Theme):
         from BaseMod.themes.paletteuiconnector import RPDarkUI
         super().__init__("Raspberry Dark", mod)
         self.styleindex = IntConfigurable(mod, "rpdark.styleoption", 0, description="Style file")
-        self.styleindex.valueChanged.connect(self.theme_enable)
+        self.styleindex.valueChanged.connect(self.get_style)
         self.stylepalette = IntConfigurable(mod, "rpdark.stylepalette", 0, description="Style palette")
         self.stylepalette.valueChanged.connect(self.palette_change)
         self.themefiles = ["sharp", "circular", "atmoled", "darkeum"]
@@ -110,17 +110,18 @@ class RaspberryDark(Theme):
         newtext = self.currentstyle
         for i in self.colors:
             newtext = newtext.replace(i.name, i.value.name())
-        self.mod.manager.application.setStyleSheet(newtext)
+        # self.mod.manager.application.setStyleSheet(newtext)
 
     def theme_enable(self):
+        self.mod.manager.application.setStyleSheet(self.get_style())
+
+    def get_style(self):
         with open(os.path.join(PATH_BASEMOD, "themes", "qssfiles", self.themefiles[self.styleindex.value]) + ".txt") as f:
             newtext = f.read()
             self.currentstyle = newtext
             for i in self.colors:
                 newtext = newtext.replace(i.name, i.value.name())
-            self.mod.manager.application.setStyleSheet(newtext)
-            #print("Applied " + self.themefiles[self.styleindex.value])
-            #print(newtext)
+            return newtext
 
     def open_palette(self, file):
         self.multiple = True

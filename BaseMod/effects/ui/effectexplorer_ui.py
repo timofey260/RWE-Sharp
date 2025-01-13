@@ -97,6 +97,7 @@ class Ui_EffectExplorer(object):
 
         self.Description = QLabel(self.layoutWidget1)
         self.Description.setObjectName(u"Description")
+        self.Description.setWordWrap(True)
 
         self.verticalLayout_2.addWidget(self.Description)
 

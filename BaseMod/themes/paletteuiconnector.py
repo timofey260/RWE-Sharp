@@ -43,10 +43,12 @@ class RPDarkUI(ThemeUI):
 
     def clicked(self, item: QTreeWidgetItem, column):
         conf = item.data(0, Qt.ItemDataRole.UserRole)
-        dialog = QColorDialog(conf.value, self.mod.manager.window)
-        dialog.open()
-        # dialog.show()
-        dialog.colorSelected.connect(lambda x: [conf.update_value(x), self.fill_tree()])
+        d = QColorDialog.getColor(conf.value, self.mod.manager.window, options=QColorDialog.ColorDialogOption.DontUseNativeDialog)
+        # dialog = QColorDialog(conf.value, self.mod.manager.window)
+        # dialog.open()
+        conf.update_value(d)
+        self.fill_tree()
+        # dialog.colorSelected.connect(lambda x: [conf.update_value(x), self.fill_tree()])
 
     def import_action(self):
         file, _ = QFileDialog.getOpenFileName(self.mod.manager.window, "Select a file", PATH)

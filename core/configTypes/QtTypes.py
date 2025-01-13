@@ -3,6 +3,7 @@ from core.configTypes.ConfigBase import Configurable
 from PySide6.QtGui import QKeySequence, QColor, QAction, QShortcut
 from PySide6.QtWidgets import QAbstractButton, QComboBox, QKeySequenceEdit
 from PySide6.QtCore import Signal, Qt, Slot
+from widgets.ColorPicker import ColorPicker
 
 
 class KeyConfigurable(Configurable):
@@ -74,6 +75,13 @@ class ColorConfigurable(Configurable):
 
     def update_value(self, value: QColor):
         super().update_value(value)
+
+    def link_color_picker(self, colorpicker: ColorPicker):
+        if len(self.description) > 0:
+            colorpicker.setToolTip(self.description)
+        colorpicker.set_color(self.value)
+        colorpicker.colorPicked.connect(self.update_value)
+        self.valueChanged.connect(colorpicker.set_color)
 
 
 class EnumConfigurable(Configurable):

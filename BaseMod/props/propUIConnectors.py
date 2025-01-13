@@ -1,6 +1,7 @@
-from RWESharp.Ui import UI
+from RWESharp.Ui import UI, ViewUI
 from RWESharp.Configurable import KeyConfigurable
 from BaseMod.props.ui.props_ui import Ui_Props
+from BaseMod.props.ui.props_vis_ui import Ui_PropsView
 
 from PySide6.QtWidgets import QTreeWidgetItem, QInputDialog, QMenu
 from PySide6.QtGui import QAction
@@ -178,3 +179,10 @@ class PropsUI(UI):
             self.editor.prop_settings[key] = value
             self.display_settings()
         return callback
+
+
+class PropsViewUI(ViewUI):
+    def __init__(self, mod, parent=None):
+        super().__init__(mod, parent)
+        self.ui = Ui_PropsView()
+        self.ui.setupUi(self)

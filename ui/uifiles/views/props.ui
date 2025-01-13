@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>PropsView</class>
+ <widget class="QWidget" name="PropsView">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>429</width>
+    <height>592</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QScrollArea" name="scrollArea">
+     <property name="widgetResizable">
+      <bool>true</bool>
+     </property>
+     <widget class="QWidget" name="scrollAreaWidgetContents">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>409</width>
+        <height>572</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QCheckBox" name="ShowProps">
+         <property name="text">
+          <string>Show Props</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <widget class="QCheckBox" name="Outline">
+           <property name="text">
+            <string>Outline</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="text">
+            <string>Color:</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="ColorPicker" name="OutlineColor">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Orientation::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>ColorPicker</class>
+   <extends>QToolButton</extends>
+   <header>RWESharpWidgets.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>Outline</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>label</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>138</x>
+     <y>60</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>341</x>
+     <y>59</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>Outline</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>OutlineColor</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>74</x>
+     <y>59</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>395</x>
+     <y>56</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>
