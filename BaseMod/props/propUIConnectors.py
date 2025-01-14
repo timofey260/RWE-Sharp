@@ -189,7 +189,7 @@ class PropsViewUI(ViewUI):
 
         # self.opshift = BoolConfigurable(mod, "VIEW_props.opshift", True, "Opacity shift")
         self.showprops = BoolConfigurable(mod, "VIEW_props.show", True, "Show Props")
-        self.showoutline = BoolConfigurable(mod, "VIEW_props.showoutline", True, "Outline Props")
+        self.showoutline = BoolConfigurable(mod, "VIEW_props.showoutline", False, "Outline Props")
         self.outline_color = ColorConfigurable(mod, "VIEW_props.showoutline", QColor(255, 0, 0), "Outline Color")
 
         self.menu_showprops = QAction("Show Props")

@@ -17,7 +17,6 @@ from RWESharp.Modify import Mod, ModInfo
 from RWESharp.Core import SettingElement, HotkeyElement, get_hotkeys_from_pattern, PATH_FILES_VIDEOS
 from RWESharp.Ui import FunnyVideo
 from PySide6.QtGui import QAction
-from RWESharp.Core import Manager
 import os
 
 from widgets.Viewport import ViewPort
