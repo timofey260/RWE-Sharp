@@ -68,15 +68,17 @@ class History:
         self.undoactions.append(element)
 
 
-class SimpleChange(HistoryElement):
-    def __init__(self, history, path, value, prev_value):
+class MultiHistoryElement(HistoryElement):
+    def __init__(self, history, elements: list[HistoryElement]):
         super().__init__(history)
-        self.path = path
-        self.value = value
-        self.prev_value = prev_value
+        self.elements = elements
 
     def undo_changes(self):
-        self.level[self.path] = deepcopy(self.prev_value)
+        self.elements.reverse()  # just in case
+        for i in self.elements:
+            i.undo_changes()
+        self.elements.reverse()
 
     def redo_changes(self):
-        self.level[self.path] = deepcopy(self.value)
+        for i in self.elements:
+            i.redo_changes()

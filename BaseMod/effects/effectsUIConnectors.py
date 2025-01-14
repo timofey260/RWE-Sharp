@@ -5,7 +5,7 @@ from PySide6.QtCore import Qt, QPoint, QItemSelectionModel
 from PySide6.QtGui import QPixmap
 from BaseMod.effects.ui.effects_ui import Ui_Effects
 from BaseMod.effects.ui.effectsdialog import Ui_EffectDialog
-from BaseMod.effects.effectHistory import EffectOptionChange
+from BaseMod.effects.effectHistory import EffectOptionChange, EffectRemove, EffectMove, EffectDuplicate
 from random import randint
 
 
@@ -32,32 +32,41 @@ class EffectsUI(UI):
         self.explorer = self.editor.effect_explorer
         self.ui.EffectsTree.setAlternatingRowColors(True)
 
-        self.effectup = KeyConfigurable(mod, "EDIT_effect.effectup", "w", "Previous effect")
-        self.effectdown = KeyConfigurable(mod, "EDIT_effect.effectdown", "s", "Next effect")
-        self.effectmoveup = KeyConfigurable(mod, "EDIT_effect.effectmoveup", "Shift+w", "Move effect back")
-        self.effectmovedown = KeyConfigurable(mod, "EDIT_effect.effectmovedown", "Shift+s", "Move effect forward")
-        self.duplicate = KeyConfigurable(mod, "EDIT_effect.duplicate", "Ctrl+d", "Duplicate effect")
-        self.delete = KeyConfigurable(mod, "EDIT_effect.delete", "Delete", "Delete effect")
+        self.effectup_key = KeyConfigurable(mod, "EDIT_effect.effectup", "w", "Previous effect")
+        self.effectdown_key = KeyConfigurable(mod, "EDIT_effect.effectdown", "s", "Next effect")
+        self.effectmoveup_key = KeyConfigurable(mod, "EDIT_effect.effectmoveup", "Shift+w", "Move effect back")
+        self.effectmovedown_key = KeyConfigurable(mod, "EDIT_effect.effectmovedown", "Shift+s", "Move effect forward")
+        self.duplicate_key = KeyConfigurable(mod, "EDIT_effect.duplicate", "Ctrl+d", "Duplicate effect")
+        self.delete_key = KeyConfigurable(mod, "EDIT_effect.delete", "Delete", "Delete effect")
         self.explorer_key = KeyConfigurable(mod, "EDIT_effect.explorer_key", "Ctrl+e", "Open Effect Explorer")
 
         self.explorer_key.link_button(self.ui.Explorer)
         self.ui.Explorer.clicked.connect(self.open_explorer)
 
-        self.effectup.link_button(self.ui.Up)
-        self.effectdown.link_button(self.ui.Down)
-        self.effectmoveup.link_button(self.ui.MoveUp)
-        self.effectmovedown.link_button(self.ui.MoveDown)
-        self.delete.link_button(self.ui.DeleteEffect)
-        self.duplicate.link_button(self.ui.DuplicateEffect)
+        self.effectup_key.link_button(self.ui.Up)
+        self.effectdown_key.link_button(self.ui.Down)
+        self.effectmoveup_key.link_button(self.ui.MoveUp)
+        self.effectmovedown_key.link_button(self.ui.MoveDown)
+        self.delete_key.link_button(self.ui.DeleteEffect)
+        self.duplicate_key.link_button(self.ui.DuplicateEffect)
         self.ui.EffectsTree.itemClicked.connect(self.effect_pressed)
 
         self.explorer.ui.AddEffect.clicked.connect(self.add_effects)
         self.editor.effectindex.valueChanged.connect(self.effect_select)
         self.ui.Up.clicked.connect(self.effect_up)
         self.ui.Down.clicked.connect(self.effect_down)
+        self.ui.DeleteEffect.clicked.connect(self.delete_effect)
+        self.ui.MoveUp.clicked.connect(self.effect_move_up)
+        self.ui.MoveDown.clicked.connect(self.effect_move_down)
+        self.ui.DuplicateEffect.clicked.connect(self.duplicate_effect)
+
         self.ui.OptionsTree.itemDoubleClicked.connect(self.effect_settings_double_click)
         self.ui.OptionsTree.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
         self.ui.OptionsTree.customContextMenuRequested.connect(self.settings_context_menu)
+
+    def delete_effect(self):
+        if 0 <= self.editor.effectindex.value < len(self.level.l_effects):
+            self.level.add_history(EffectRemove(self.level.history, self.editor.effectindex.value))
 
     def open_explorer(self):
         self.explorer.change_visibility(True)
@@ -67,6 +76,18 @@ class EffectsUI(UI):
 
     def effect_down(self):
         self.editor.effectindex.update_value((self.editor.effectindex.value + 1) % len(self.level.l_effects))
+
+    def effect_move_up(self):
+        if self.editor.effectindex.value > 0:
+            self.level.add_history(EffectMove(self.level.history, self.editor.effectindex.value, -1))
+
+    def effect_move_down(self):
+        if self.editor.effectindex.value < len(self.level.l_effects) - 1:
+            self.level.add_history(EffectMove(self.level.history, self.editor.effectindex.value, 1))
+
+    def duplicate_effect(self):
+        if 0 <= self.editor.effectindex.value < len(self.level.l_effects) - 1:
+            self.level.add_history(EffectDuplicate(self.level.history, self.editor.effectindex.value))
 
     def add_effects(self):
         self.ui.EffectsTree.clear()

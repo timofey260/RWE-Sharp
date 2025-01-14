@@ -120,6 +120,8 @@ class PropEditor(Editor):
         if not self.shift:
             self.place()
             return
+        if len(self.level.l_props) == 0:
+            return
         closest = self.find_nearest(self.editor_pos)
         self.level.add_history(PropRemove(self.level.history, closest))
 

@@ -1,10 +1,10 @@
 from RWESharp.Ui import UI, ViewUI
-from RWESharp.Configurable import KeyConfigurable
+from RWESharp.Configurable import KeyConfigurable, BoolConfigurable, ColorConfigurable
 from BaseMod.props.ui.props_ui import Ui_Props
 from BaseMod.props.ui.props_vis_ui import Ui_PropsView
 
 from PySide6.QtWidgets import QTreeWidgetItem, QInputDialog, QMenu
-from PySide6.QtGui import QAction
+from PySide6.QtGui import QAction, QColor
 from PySide6.QtCore import Qt, QPoint
 
 
@@ -186,3 +186,17 @@ class PropsViewUI(ViewUI):
         super().__init__(mod, parent)
         self.ui = Ui_PropsView()
         self.ui.setupUi(self)
+
+        # self.opshift = BoolConfigurable(mod, "VIEW_props.opshift", True, "Opacity shift")
+        self.showprops = BoolConfigurable(mod, "VIEW_props.show", True, "Show Props")
+        self.showoutline = BoolConfigurable(mod, "VIEW_props.showoutline", True, "Outline Props")
+        self.outline_color = ColorConfigurable(mod, "VIEW_props.showoutline", QColor(255, 0, 0), "Outline Color")
+
+        self.menu_showprops = QAction("Show Props")
+        self.mod.manager.view_menu.addAction(self.menu_showprops)
+        self.showprops = BoolConfigurable(mod, "VIEW_props.show", True, "Show Props")
+        self.showprops_key = KeyConfigurable(mod, "VIEW_props.show_key", "Ctrl+4", "Show Props Key")
+
+        self.showoutline.link_button(self.ui.Outline)
+        self.outline_color.link_color_picker(self.ui.OutlineColor)
+        self.showprops.link_button_action(self.ui.ShowProps, self.menu_showprops, self.showprops_key)

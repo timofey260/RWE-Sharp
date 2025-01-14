@@ -1,10 +1,11 @@
 from RWESharp.Renderable import Renderable
 from RWESharp.Core import lingoIO, CELLSIZE, SPRITESIZE
+from RWESharp.Renderable import RenderPoly
 from RWESharp.Utils import remap
 from RWESharp.Loaders import Prop
 
 from PySide6.QtCore import QPoint, QPointF
-from PySide6.QtGui import QTransform, QPolygonF, QPainter, QPixmap, QImage
+from PySide6.QtGui import QTransform, QPolygonF, QPainter, QPixmap, QImage, QPen
 from PySide6.QtWidgets import QGraphicsPixmapItem
 
 from BaseMod.props.Handle import Handle
@@ -13,9 +14,12 @@ import random
 
 class PropRenderable(Renderable):
     def __init__(self, module, prop: list | Prop):
+        self.hide = False
+        self.drawpoly = False
         if not isinstance(prop, Prop):
             self.propdepth = prop[0]
             super().__init__(module, -self.propdepth // 10 * 100 + 100)
+            self.poly = RenderPoly(module, self.depth, QPolygonF())
             found = self.manager.props.find_prop(prop[1])
             self.transform: list[QPointF] = prop[3]
             if found is None:
@@ -33,6 +37,7 @@ class PropRenderable(Renderable):
         self.prop = prop
         self.image = prop.images[0]
         super().__init__(module, 100)
+        self.poly = RenderPoly(module, 100, QPolygonF())
         self.renderedtexture = QGraphicsPixmapItem(QPixmap.fromImage(self.image))
         self.renderedtexture.setZValue(self.depth)
         self.propdepth = 0
@@ -66,10 +71,16 @@ class PropRenderable(Renderable):
         viewport.workscene.addItem(self.renderedtexture)
         self.retransform()
         #self.free_transform()
+        # self.poly.init_graphics(viewport)
 
     def remove_graphics(self, viewport):
         super().remove_graphics(viewport)
         viewport.workscene.removeItem(self.renderedtexture)
+        self.poly.remove_graphics(viewport)
+
+    def remove_myself(self):
+        super().remove_myself()
+        self.poly.remove_myself()
 
     def move_event(self):
         super().move_event()
@@ -91,11 +102,13 @@ class PropRenderable(Renderable):
         #transform.translate(self.actual_offset.x(), self.actual_offset.y())
         transform = transform.quadToQuad(QPolygonF([QPoint(0, 0), QPoint(w, 0), QPoint(w, h), QPoint(0, h)]),
                                          QPolygonF([i * self.zoom * self.scale for i in self.transform]))
+        self.poly.setPoly(QPolygonF(self.transform))
         #transform = transform.scale(self.zoom, self.zoom)
 
         layer = self.propdepth // 10
         alph = remap(abs(layer - self.propdepth / 10), 3, 0, 40, 190)
-        self.renderedtexture.setOpacity(alph / 255)
+        self.renderedtexture.setOpacity(0 if self.hide else (alph / 255))
+        self.poly.drawpoly.setOpacity((alph / 255) if self.drawpoly else 0)
         #self.renderedtexture.setTransformOriginPoint(self.actual_offset)
         self.renderedtexture.setTransform(transform)
         #self.renderedtexture.setScale(self.zoom)
@@ -119,3 +132,12 @@ class PropRenderable(Renderable):
             self.transform[i] = v - self.offset
             self.retransform()
         return p
+
+    def set_visible(self, state):
+        self.hide = not state
+        self.retransform()
+
+    def set_outline(self, state, outline):
+        self.drawpoly = state
+        self.poly.drawpoly.setPen(QPen(outline, 4))
+        self.retransform()

@@ -73,11 +73,6 @@ class Editor(Module, ABC):
             return bool(QGuiApplication.keyboardModifiers() & Qt.KeyboardModifier.ControlModifier)
         return bool(QGuiApplication.keyboardModifiers() & Qt.KeyboardModifier.MetaModifier)
 
-
-    @property
-    def level(self):
-        return self.viewport.level
-
     def add_myself(self, ui, viewport=None, name=None):
         self.mod.add_editor(self, ui)
         ui.begin_recording()

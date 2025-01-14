@@ -2,6 +2,11 @@ from RWESharp.Modify import HistoryElement
 from RWESharp.Loaders import Effect
 from RWESharp.Utils import draw_line
 from PySide6.QtCore import QPoint, QLineF, QRect
+from copy import deepcopy
+
+
+def copy_effect(effect):
+    return deepcopy(effect)  # i should come up with better solution at sometime
 
 
 class EffectBrush(HistoryElement):
@@ -76,35 +81,37 @@ class EffectAdd(HistoryElement):
         self.add_effect()
 
     def add_effect(self):
-        self.history.level.l_effects.append(self.effect.todict(self.history.level.level_size_qsize))
-        self.history.level.manager.basemod.effectui.add_effects()
-        self.history.level.manager.basemod.effecteditor.effectindex.update_value(len(self.history.level.l_effects) - 1)
+        self.level.l_effects.append(self.effect.todict(self.level.level_size_qsize))
+        self.basemod.effectui.add_effects()
+        self.basemod.effecteditor.effectindex.update_value(len(self.level.l_effects) - 1)
 
     def undo_changes(self):
-        self.history.level.l_effects.pop()
-        self.history.level.manager.basemod.effectui.add_effects()
+        self.level.l_effects.pop()
+        self.basemod.effectui.add_effects()
 
     def redo_changes(self):
         self.add_effect()
 
 
-class EffectRemove(HistoryElement): # todo
-    def __init__(self, history, effect: Effect):
+class EffectRemove(HistoryElement):
+    def __init__(self, history, index):
         super().__init__(history)
-        self.effect = effect
-        self.add_effect()
+        self.index = index
+        self.savedeffect = self.history.level.l_effects.pop(index)
+        self.remove_effect()
 
-    def add_effect(self):
-        self.history.level.l_effects.append(self.effect.todict(self.history.level.level_size_qsize))
-        self.history.level.manager.basemod.effectui.add_effects()
-        self.history.level.manager.basemod.effecteditor.effectindex.update_value(len(self.history.level.l_effects) - 1)
+    def remove_effect(self):
+        self.basemod.effectui.add_effects()
+        self.basemod.effecteditor.effectindex.update_value(max(0, self.index - 1))
 
     def undo_changes(self):
-        self.history.level.l_effects.pop()
-        self.history.level.manager.basemod.effectui.add_effects()
+        self.history.level.l_effects.insert(self.index, self.savedeffect)
+        self.basemod.effectui.add_effects()
+        self.basemod.effecteditor.effectindex.update_value(max(0, self.index))
 
     def redo_changes(self):
-        self.add_effect()
+        self.history.level.l_effects.pop(self.index)
+        self.remove_effect()
 
 
 class EffectOptionChange(HistoryElement):
@@ -118,8 +125,44 @@ class EffectOptionChange(HistoryElement):
 
     def undo_changes(self):
         self.level.l_effects[self.index]["options"][self.option][2] = self.prevvalue
-        self.level.manager.basemod.effectui.effect_settings()
+        self.basemod.effectui.effect_settings()
 
     def redo_changes(self):
         self.level.l_effects[self.index]["options"][self.option][2] = self.value
-        self.level.manager.basemod.effectui.effect_settings()
+        self.basemod.effectui.effect_settings()
+
+
+class EffectMove(HistoryElement):
+    def __init__(self, history, index, dir):
+        super().__init__(history)
+        self.index = index
+        self.newindex = index + dir
+        self.redo_changes()
+
+    def redo_changes(self):
+        self.level.l_effects.insert(self.newindex, self.level.l_effects.pop(self.index))
+        self.basemod.effectui.add_effects()
+        self.basemod.effecteditor.effectindex.update_value(self.newindex)
+
+    def undo_changes(self):
+        self.level.l_effects.insert(self.index, self.level.l_effects.pop(self.newindex))
+        self.basemod.effectui.add_effects()
+        self.basemod.effecteditor.effectindex.update_value(self.index)
+
+
+class EffectDuplicate(HistoryElement):
+    def __init__(self, history, index):
+        super().__init__(history)
+        self.index = index
+        self.duplicate = deepcopy(self.level.l_effects[index])
+        self.redo_changes()
+
+    def redo_changes(self):
+        self.level.l_effects.insert(self.index+1, self.duplicate)
+        self.basemod.effectui.add_effects()
+        self.basemod.effecteditor.effectindex.update_value(self.index+1)
+
+    def undo_changes(self):
+        self.level.l_effects.pop(self.index+1)
+        self.basemod.effectui.add_effects()
+        self.basemod.effecteditor.effectindex.update_value(self.index)

@@ -7,8 +7,10 @@ from BaseMod.props.Handle import Handle
 class PropModule(Module):
     def __init__(self, mod):
         super().__init__(mod)
-        self.opshift = BoolConfigurable(mod, "VIEW_props.opshift", True, "Opacity shift")
         self.props: list[PropRenderable] = []
+        mod.propsview.ui.ShowProps.toggled.connect(self.set_visibility)
+        mod.propsview.ui.Outline.toggled.connect(lambda x: self.set_outline(x, mod.propsview.outline_color.value))
+        mod.propsview.ui.OutlineColor.colorPicked.connect(lambda x: self.set_outline(True, x))
         # Handle(self)
 
     def init_scene_items(self, viewport):
@@ -21,6 +23,8 @@ class PropModule(Module):
         self.props = []
         for i in self.level.l_props:
             self.props.append(PropRenderable(self, i))
+        self.set_visibility(self.mod.propsview.showprops.value)
+        self.set_outline(self.mod.propsview.showoutline.value, self.mod.propsview.outline_color.value)
 
     def render_prop(self, index: int):
         p = PropRenderable(self, self.level.l_props[index])
@@ -52,3 +56,11 @@ class PropModule(Module):
 
     def level_resized(self):
         self.render_props()
+
+    def set_visibility(self, state):
+        for i in self.props:
+            i.set_visible(state)
+
+    def set_outline(self, state, color):
+        for i in self.props:
+            i.set_outline(state, color)
