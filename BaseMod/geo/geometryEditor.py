@@ -2,7 +2,7 @@ import os
 from enum import Enum, auto
 import numpy as np
 
-from PySide6.QtCore import QRect, QPoint, QSize, QLine, Qt, QLineF
+from PySide6.QtCore import QRectF, QPoint, QSize, QLine, Qt, QLineF, QRect
 from PySide6.QtGui import QColor, QMoveEvent, QMouseEvent, QPixmap, QPainter, QGuiApplication
 
 from BaseMod.geo.geoControls import GeoControls
@@ -101,8 +101,8 @@ class GeometryEditor(Editor):
         from BaseMod.baseMod import BaseMod
         self.mod: BaseMod
 
-        self.cursor = RenderRect(self, 0, QRect(0, 0, CELLSIZE, CELLSIZE))
-        self.rect = RenderRect(self, 0, QRect(0, 0, CELLSIZE, CELLSIZE))
+        self.cursor = RenderRect(self, 0, QRectF(0, 0, CELLSIZE, CELLSIZE))
+        self.rect = RenderRect(self, 0, QRectF(0, 0, CELLSIZE, CELLSIZE))
         self.ellipse = RenderEllipse(self, 0, QRect(0, 0, CELLSIZE, CELLSIZE))
         self.brushellipse = RenderEllipse(self, 0, QRect(0, 0, CELLSIZE, CELLSIZE))
         self.lineline = RenderLine(self, 0, QLine(0, 0, 0, 0))

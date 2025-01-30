@@ -89,5 +89,9 @@ def point(col: list):
     return f"point({col[0]}, {col[1]})"
 
 
+def frompoint(col: str):
+    return fromarr(col, "point")
+
+
 def makearr(col: list, mark: str):
     return f"{mark}({col[0]}, {col[1]})"

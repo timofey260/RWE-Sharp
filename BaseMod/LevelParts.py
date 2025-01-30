@@ -195,3 +195,26 @@ class EffectLevelPart(LevelPart):
 
     def pop(self, index=-1):
         return self.effects.pop(index)
+
+
+class CameraLevelPart(LevelPart):
+    def __init__(self, level):
+        super().__init__("camera", level)
+        self.cameras: list[CameraLevelPart.Camera] = []
+        for i, v in enumerate(level.data["CM"]["cameras"]):
+            quad = [lingoIO.frompoint(k) for k in level.data["CM"]["quads"][i]]
+            self.cameras.append(CameraLevelPart.Camera(lingoIO.frompoint(v), quad))
+
+    def save_level(self):
+        self.level.data["CM"]["cameras"] = []
+        self.level.data["CM"]["quads"] = []
+
+        for i in self.cameras:
+            quad = [lingoIO.point(k) for k in i.quads]
+            self.level.data["CM"]["quads"].append(quad)
+            self.level.data["CM"]["cameras"].append(lingoIO.point(i.pos))
+
+    class Camera:
+        def __init__(self, pos, quads):
+            self.pos = pos
+            self.quads = quads

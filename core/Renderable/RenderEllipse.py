@@ -1,15 +1,16 @@
 from core.Renderable.Renderable import Renderable
-from PySide6.QtCore import QRect, Qt, QPointF
+from PySide6.QtCore import QRect, Qt, QPointF, QRectF
 from PySide6.QtWidgets import QGraphicsEllipseItem
 from PySide6.QtGui import QColor, QPen, QBrush
 from widgets import Viewport
 
 
 class RenderEllipse(Renderable):
-    def __init__(self, module, depth, rect: QRect, pen=QPen(Qt.GlobalColor.red), brush=QBrush(Qt.GlobalColor.transparent)):
+    def __init__(self, module, depth, rect: QRect | QRectF, pen=QPen(Qt.GlobalColor.red), brush=QBrush(Qt.GlobalColor.transparent)):
         super().__init__(module, depth)
-        self.rect = rect
+        self.rect = QRectF()
         self.drawellipse = QGraphicsEllipseItem(self.rect)
+        self.setRect(rect)
         self.pen = QPen(pen)
         self.brush = QBrush(brush)
         self.drawellipse.setZValue(self.depth)
@@ -32,8 +33,11 @@ class RenderEllipse(Renderable):
     def zoom_event(self):
         self.drawellipse.setScale(self.zoom * self.scale)
 
-    def setRect(self, rect: QRect):
-        self.rect = rect
+    def setRect(self, rect: QRect | QRectF):
+        if isinstance(self.rect, QRect):
+            self.rect = rect.toRectF()
+        else:
+            self.rect = rect
         self.drawellipse.setRect(rect)
 
     def setPos(self, pos: QPointF):
