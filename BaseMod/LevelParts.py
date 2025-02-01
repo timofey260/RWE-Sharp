@@ -202,15 +202,15 @@ class CameraLevelPart(LevelPart):
         super().__init__("camera", level)
         self.cameras: list[CameraLevelPart.Camera] = []
         for i, v in enumerate(level.data["CM"]["cameras"]):
-            quad = [lingoIO.frompoint(k) for k in level.data["CM"]["quads"][i]]
-            self.cameras.append(CameraLevelPart.Camera(lingoIO.frompoint(v), quad))
+            quad = [QPointF(*k) for k in level.data["CM"]["quads"][i]]
+            self.cameras.append(CameraLevelPart.Camera(QPointF(*lingoIO.frompoint(v)), quad))
 
     def save_level(self):
         self.level.data["CM"]["cameras"] = []
         self.level.data["CM"]["quads"] = []
 
         for i in self.cameras:
-            quad = [lingoIO.point(k) for k in i.quads]
+            quad = [[round(k.x(), 4), round(k.y(), 4)] for k in i.quads]
             self.level.data["CM"]["quads"].append(quad)
             self.level.data["CM"]["cameras"].append(lingoIO.point(i.pos))
 
@@ -218,3 +218,9 @@ class CameraLevelPart(LevelPart):
         def __init__(self, pos, quads):
             self.pos = pos
             self.quads = quads
+
+    def __iter__(self):
+        return self.cameras.__iter__()
+
+    def __len__(self):
+        return self.cameras.__len__()

@@ -34,7 +34,7 @@ class RWELevel:
         self.l_tiles = self.levelparts["tiles"]
         self.l_effects = self.levelparts["effects"]
         self.l_props = self.levelparts["props"]
-        self.l_camera = self.levelparts["camera"]
+        self.l_cameras = self.levelparts["camera"]
 
         self.custom_level_data = CustomLevelData(self)
 

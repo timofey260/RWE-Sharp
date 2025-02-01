@@ -12,6 +12,7 @@ from BaseMod.props.propUIConnectors import PropsUI
 from BaseMod.effects.effectEditor import EffectEditor
 from BaseMod.effects.effectsUIConnectors import EffectsUI
 from BaseMod.themes.preferencesuiconnector import PreferencesUI
+from BaseMod.camera.cameraModule import CameraModule
 from BaseMod.LevelParts import GeoLevelPart, TileLevelPart, PropLevelPart, EffectLevelPart, CameraLevelPart
 from RWESharp.Modify import Mod, ModInfo
 from RWESharp.Core import SettingElement, HotkeyElement, get_hotkeys_from_pattern, PATH_FILES_VIDEOS
@@ -122,6 +123,7 @@ class BaseMod(Mod):
         GridModule(self).add_myself(viewport, "grid")
         # # effects
         PropModule(self).add_myself(viewport, "props")
+        CameraModule(self).add_myself(viewport, "camera")
 
     def mount_levelparts(self, level):
         GeoLevelPart(level)
