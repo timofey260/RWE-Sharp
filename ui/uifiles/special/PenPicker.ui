@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Penpicker</class>
+ <widget class="QWidget" name="Penpicker">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>28</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
+   <property name="spacing">
+    <number>0</number>
+   </property>
+   <item row="0" column="0">
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QComboBox" name="Style">
+       <item>
+        <property name="text">
+         <string>Solid Line _____</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>No Pen</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Dash Dot Line ._._._</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Dash Dot Dot Line .._.._</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Dot Line ......</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Dash Line -----</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item>
+      <widget class="ColorPicker" name="toolButton">
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>ColorPicker</class>
+   <extends>QToolButton</extends>
+   <header>RWESharpWidgets.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>
