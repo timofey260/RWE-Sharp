@@ -3,7 +3,7 @@ import os
 import math
 from core.info import PATH_FILES_CACHE, LOG
 from PySide6.QtGui import QColor, QIcon
-from PySide6.QtCore import QPoint, QPointF, QFile, QByteArray, QRect, QLineF
+from PySide6.QtCore import QPoint, QPointF, QFile, QByteArray, QRect, QLineF, QRectF
 from collections.abc import Callable
 
 
@@ -199,3 +199,7 @@ def rotate_point(point: QPointF, angle):
     qx = math.cos(angle) * px - math.sin(angle) * py
     qy = math.sin(angle) * px + math.cos(angle) * py
     return QPointF(qx, qy)
+
+
+def circle2rect(pos: QPointF, radius: float) -> QRectF:
+    return QRectF(pos.x() - radius, pos.y() - radius, radius * 2, radius * 2)

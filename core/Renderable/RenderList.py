@@ -1,16 +1,12 @@
 from PySide6.QtWidgets import QGraphicsItem
-from RWESharp.Renderable import Renderable
 from core.Renderable.Renderable import Renderable
-from PySide6.QtCore import QRectF, Qt, QPointF, QRect
-from PySide6.QtWidgets import QGraphicsRectItem
-from PySide6.QtGui import QColor, QPen, QBrush
-from widgets import Viewport
+from PySide6.QtCore import QPointF
 
 
 class RenderList(Renderable):
     def __init__(self, module, depth):
         super().__init__(module, depth)
-        self.rendered = []
+        self.rendered: list[QGraphicsItem] = []
 
     def assign_depth(self):
         for i in self.rendered:

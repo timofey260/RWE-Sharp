@@ -3,9 +3,9 @@ from RWESharp.Configurable import KeyConfigurable, BoolConfigurable, ColorConfig
 from BaseMod.props.ui.props_ui import Ui_Props
 from BaseMod.props.ui.props_vis_ui import Ui_PropsView
 
-from PySide6.QtWidgets import QTreeWidgetItem, QInputDialog, QMenu
+from PySide6.QtWidgets import QTreeWidgetItem, QInputDialog, QMenu, QCheckBox
 from PySide6.QtGui import QAction, QColor
-from PySide6.QtCore import Qt, QPoint
+from PySide6.QtCore import Qt, QPoint, QCoreApplication
 
 
 class PropsUI(UI):
@@ -192,7 +192,7 @@ class PropsViewUI(ViewUI):
         self.showoutline = BoolConfigurable(mod, "VIEW_props.showoutline", False, "Outline Props")
         self.outline_color = ColorConfigurable(mod, "VIEW_props.showoutline", QColor(255, 0, 0), "Outline Color")
 
-        self.menu_showprops = QAction("Show Props")
+        self.menu_showprops = QAction("Props")
         self.mod.manager.view_menu.addAction(self.menu_showprops)
         self.showprops = BoolConfigurable(mod, "VIEW_props.show", True, "Show Props")
         self.showprops_key = KeyConfigurable(mod, "VIEW_props.show_key", "Ctrl+4", "Show Props Key")
@@ -200,3 +200,11 @@ class PropsViewUI(ViewUI):
         self.showoutline.link_button(self.ui.Outline)
         self.outline_color.link_color_picker(self.ui.OutlineColor)
         self.showprops.link_button_action(self.ui.ShowProps, self.menu_showprops, self.showprops_key)
+
+        self.VQuickProps = QCheckBox()
+        self.VQuickProps.setObjectName(u"VQuickProps")
+        self.VQuickProps.setText(QCoreApplication.translate("MainWindow", u"Props", None))
+        self.VQuickProps.setChecked(True)
+        self.mod.add_quickview_option(self.VQuickProps)
+
+        self.showprops.link_button_action(self.VQuickProps, self.menu_showprops, self.showprops_key)

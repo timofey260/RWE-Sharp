@@ -108,7 +108,7 @@ class PropRenderable(Renderable):
         layer = self.propdepth // 10
         alph = remap(abs(layer - self.propdepth / 10), 3, 0, 40, 190)
         self.renderedtexture.setOpacity(0 if self.hide else (alph / 255))
-        self.poly.drawpoly.setOpacity((alph / 255) if self.drawpoly else 0)
+        self.poly.drawpoly.setOpacity((alph / 255) if self.drawpoly and not self.hide else 0)
         #self.renderedtexture.setTransformOriginPoint(self.actual_offset)
         self.renderedtexture.setTransform(transform)
         #self.renderedtexture.setScale(self.zoom)

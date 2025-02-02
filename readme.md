@@ -7,7 +7,7 @@
 /_/|_||__/|__/___/_    __/ 
                   /_/_/    
 
-RWE# - timofey26 and atom
+RWE# - timofey26, atom and lang0s 
 
 ```
 

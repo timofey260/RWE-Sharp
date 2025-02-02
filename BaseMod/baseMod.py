@@ -13,6 +13,7 @@ from BaseMod.effects.effectEditor import EffectEditor
 from BaseMod.effects.effectsUIConnectors import EffectsUI
 from BaseMod.themes.preferencesuiconnector import PreferencesUI
 from BaseMod.camera.cameraModule import CameraModule
+from BaseMod.camera.cameraUIConnectors import CameraViewUI
 from BaseMod.LevelParts import GeoLevelPart, TileLevelPart, PropLevelPart, EffectLevelPart, CameraLevelPart
 from RWESharp.Modify import Mod, ModInfo
 from RWESharp.Core import SettingElement, HotkeyElement, get_hotkeys_from_pattern, PATH_FILES_VIDEOS
@@ -60,6 +61,8 @@ class BaseMod(Mod):
         self.propui = PropsUI(self)
         self.propeditor.add_myself(self.propui)
         self.propsview = PropsViewUI(self).add_myself()
+
+        self.cameraview = CameraViewUI(self).add_myself()
 
         if self.bmconfig.funny.value:
             self.sex = QAction("sex")

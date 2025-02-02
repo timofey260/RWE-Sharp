@@ -235,7 +235,6 @@ class GeoViewUI(ViewUI):
         self.VQuickGeo.setObjectName(u"VQuickGeo")
         self.VQuickGeo.setText(QCoreApplication.translate("MainWindow", u"Geometry", None))
         self.VQuickGeo.setChecked(True)
-        # self.VQuickGeo.checkStateChanged.connect(self.toggle_geo)
         self.mod.add_quickview_option(self.VQuickGeo)
 
         self.drawgeo.link_button_action(self.VQuickGeo, self.menu_drawlall, self.drawlgeo_key)

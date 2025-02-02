@@ -35,7 +35,7 @@ ISWIN = not ISMAC and not ISLINUX
 
 VERSION = "0.0.1"
 AUTHOR = "timofey26"
-AUTHORS = "timofey26, atom"
+AUTHORS = "timofey26, atom, Lang0s"
 NAME = "RWE#"
 PROGNAME = "RWESharp.exe" if ISWIN else "RWESharp"
 FULLNAME = "Rain World Editor Sharp"
@@ -56,6 +56,15 @@ can be interpreted as viewport quality
 SPRITESIZE = CONSTS.get("spritesize", 16)
 """
 size of tile sprite
+"""
+
+camw = 70
+"""
+Camera width(in cells)
+"""
+camh = 40
+"""
+Camera height(in cells)
 """
 
 LOG = open(os.path.join(PATH, "loadLog.txt"), "w")
