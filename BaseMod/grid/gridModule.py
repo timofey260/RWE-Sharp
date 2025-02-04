@@ -12,19 +12,18 @@ class GridModule(Module):
         super().__init__(mod)
         self.ui = mod.gridui
 
-        self.gridtexture = GridRenderLevelImage(self, 0)
+        self.gridtexture = GridRenderLevelImage(self, -100)
         self.rect = RenderRect(self, 1000, QRect(QPoint(0, 0), QPoint(1, 1)),
                                Qt.GlobalColor.transparent, QBrush(self.ui.backgroundcolor.value))
         self.border = RenderRect(self, 0,
                                  QRect(QPoint(0, 0), QPoint(1, 1)),
-                                 QPen(self.ui.bordercolor.value, 5, Qt.PenStyle.DashLine))
-
+                                 self.ui.borderpen.value)
         self.ui.enablegrid.valueChanged.connect(self.check_change)
         self.ui.gridopacity.valueChanged.connect(self.check_change)
         self.ui.enableborder.valueChanged.connect(self.change_border)
 
         self.ui.backgroundcolor.valueChanged.connect(self.rect.drawrect.setBrush)
-        self.ui.bordercolor.valueChanged.connect(lambda x: self.border.drawrect.setPen(QPen(x, 5, Qt.PenStyle.DashLine)))
+        # self.ui.bordercolor.valueChanged.connect(lambda x: self.border.drawrect.setPen(QPen(x, 5, Qt.PenStyle.DashLine)))
         self.render_module()
 
     @Slot()

@@ -7,9 +7,11 @@ from PySide6.QtGui import QColor
 class GridRenderLevelImage(RenderLevelImage):
     def __init__(self, module, depth):
         super().__init__(module, depth)
-        self.painter.setPen(QColor(0, 0, 0, 255))
+        module.ui.gridpen.valueChanged.connect(self.draw_layer)
 
     def draw_layer(self) -> None:
+        self.painter.setPen(self.module.ui.gridpen.value)
+        self.image.fill(QColor(0, 0, 0, 0))
         self.painter.drawLines([QLine(i, 0, i, self.image.height()) for i in range(0, self.image.width(), CELLSIZE)])
         self.painter.drawLines([QLine(0, i, self.image.width(), i) for i in range(0, self.image.height(), CELLSIZE)])
         self.redraw()

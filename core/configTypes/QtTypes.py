@@ -1,9 +1,10 @@
 import enum
 from core.configTypes.ConfigBase import Configurable
-from PySide6.QtGui import QKeySequence, QColor, QAction, QShortcut
+from PySide6.QtGui import QKeySequence, QColor, QAction, QShortcut, QPen
 from PySide6.QtWidgets import QAbstractButton, QComboBox, QKeySequenceEdit
 from PySide6.QtCore import Signal, Qt, Slot
 from widgets.ColorPicker import ColorPicker
+from widgets.PenPicker import PenPicker
 
 
 class KeyConfigurable(Configurable):
@@ -82,6 +83,40 @@ class ColorConfigurable(Configurable):
         colorpicker.set_color(self.value)
         colorpicker.colorPicked.connect(self.update_value)
         self.valueChanged.connect(colorpicker.set_color)
+
+
+class PenConfigurable(Configurable):
+    valueChanged = Signal(QPen)
+
+    def __init__(self, mod, name, default: QPen | None, description=""):
+        if default is None:
+            default = QPen()
+        self.value = default
+        super().__init__(mod, name, default, description)
+
+    def save_str_value(self) -> str:
+        return (f"{self.value.widthF()} {self.value.style().value}"
+                f"{self.value.color().red()} {self.value.color().green()} {self.value.color().blue()} "
+                f"{self.value.color().alpha()}")
+
+    def load_str_value(self, text: str) -> None:
+        t = text.split()
+        self.value = QPen()
+        self.value.setWidthF(float(t[0]))
+        c = QColor(int(t[2]), int(t[3]), int(t[4]), int(t[5]))
+        self.value.setColor(c)
+        self.value.setStyle(Qt.PenStyle(int(t[1])))
+        self.valueChanged.emit(self.value)
+
+    def update_value(self, value: QPen):
+        super().update_value(value)
+
+    def link_pen_picker(self, penpicker: PenPicker):
+        if len(self.description) > 0:
+            penpicker.setToolTip(self.description)
+        penpicker.set_pen(self.value)
+        penpicker.penChanged.connect(self.update_value)
+        self.valueChanged.connect(penpicker.set_pen)
 
 
 class EnumConfigurable(Configurable):

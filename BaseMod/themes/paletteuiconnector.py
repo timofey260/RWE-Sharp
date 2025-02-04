@@ -46,6 +46,8 @@ class RPDarkUI(ThemeUI):
         d = QColorDialog.getColor(conf.value, self.mod.manager.window, options=QColorDialog.ColorDialogOption.DontUseNativeDialog)
         # dialog = QColorDialog(conf.value, self.mod.manager.window)
         # dialog.open()
+        if not d.isValid():
+            return
         conf.update_value(d)
         self.fill_tree()
         # dialog.colorSelected.connect(lambda x: [conf.update_value(x), self.fill_tree()])

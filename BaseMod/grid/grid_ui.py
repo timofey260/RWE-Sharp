@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'grid.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.7.0
+## Created by: Qt User Interface Compiler version 6.7.2
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -18,6 +18,8 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QApplication, QCheckBox, QGridLayout, QLabel,
     QScrollArea, QSizePolicy, QSpacerItem, QSpinBox,
     QVBoxLayout, QWidget)
+
+from RWESharpWidgets import PenPicker
 
 class Ui_GridView(object):
     def setupUi(self, GridView):
@@ -129,10 +131,30 @@ class Ui_GridView(object):
 
         self.verticalLayout_2.addLayout(self.gridLayout)
 
+        self.label_7 = QLabel(self.scrollAreaWidgetContents)
+        self.label_7.setObjectName(u"label_7")
+
+        self.verticalLayout_2.addWidget(self.label_7)
+
+        self.GridColor = PenPicker(self.scrollAreaWidgetContents)
+        self.GridColor.setObjectName(u"GridColor")
+
+        self.verticalLayout_2.addWidget(self.GridColor)
+
         self.ShowBorder = QCheckBox(self.scrollAreaWidgetContents)
         self.ShowBorder.setObjectName(u"ShowBorder")
 
         self.verticalLayout_2.addWidget(self.ShowBorder)
+
+        self.label_8 = QLabel(self.scrollAreaWidgetContents)
+        self.label_8.setObjectName(u"label_8")
+
+        self.verticalLayout_2.addWidget(self.label_8)
+
+        self.BorderColor = PenPicker(self.scrollAreaWidgetContents)
+        self.BorderColor.setObjectName(u"BorderColor")
+
+        self.verticalLayout_2.addWidget(self.BorderColor)
 
         self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
@@ -161,6 +183,8 @@ class Ui_GridView(object):
         self.label_2.setText(QCoreApplication.translate("GridView", u"Scale", None))
         self.label.setText(QCoreApplication.translate("GridView", u"Offset", None))
         self.label_4.setText(QCoreApplication.translate("GridView", u"Y:", None))
+        self.label_7.setText(QCoreApplication.translate("GridView", u"Grid Style:", None))
         self.ShowBorder.setText(QCoreApplication.translate("GridView", u"Border", None))
+        self.label_8.setText(QCoreApplication.translate("GridView", u"Border Style:", None))
     # retranslateUi
 

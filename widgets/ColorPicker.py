@@ -13,7 +13,9 @@ class ColorPicker(QToolButton):
         self.pressed.connect(self.pick)
 
     def pick(self):
-        c = QColorDialog.getColor(self.color)
+        c = QColorDialog.getColor(self.color, options=QColorDialog.ColorDialogOption.ShowAlphaChannel)
+        if not c.isValid():
+            return
         self.color = c
         self.colorPicked.emit(c)
         self.set_style()
@@ -25,5 +27,7 @@ class ColorPicker(QToolButton):
 
     def set_style(self):
         self.setStyleSheet(f"background-color: {self.color.name()}")
+        e = self.isEnabled()
         self.setDisabled(True)  # yeah for some reason this works
         self.setEnabled(True)
+        self.setEnabled(e)

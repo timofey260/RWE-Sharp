@@ -186,11 +186,31 @@
         </layout>
        </item>
        <item>
+        <widget class="QLabel" name="label_7">
+         <property name="text">
+          <string>Grid Style:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="PenPicker" name="GridColor" native="true"/>
+       </item>
+       <item>
         <widget class="QCheckBox" name="ShowBorder">
          <property name="text">
           <string>Border</string>
          </property>
         </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_8">
+         <property name="text">
+          <string>Border Style:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="PenPicker" name="BorderColor" native="true"/>
        </item>
        <item>
         <spacer name="verticalSpacer">
@@ -211,6 +231,14 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>PenPicker</class>
+   <extends>QWidget</extends>
+   <header>RWESharpWidgets.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections>
   <connection>
