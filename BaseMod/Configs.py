@@ -40,9 +40,11 @@ class BaseModConfig:
         self.tile_editor = KeyConfigurable(mod, "basemod.tiles", "2", "Open Tile editor")
         self.effect_editor = KeyConfigurable(mod, "basemod.effect", "3", "Open Effect editor")
         self.prop_editor = KeyConfigurable(mod, "basemod.props", "4", "Open Prop editor")
+        self.camera_editor = KeyConfigurable(mod, "basemod.cameras", "5", "Open Camera editor")
 
         self.funny_vid = BoolConfigurable(mod, "basemod.funnyvid", True, "Funny video when you close rwe#")
         self.funny = BoolConfigurable(mod, "basemod.funny", True, "Adds funny")
+        self.more_funny = BoolConfigurable(mod, "basemod.morefunny", False, "Adds more funny")
 
         self.windowstate = StringConfigurable(mod, "basemod.windowstate", b"", "Main window state")
         mod.manager.window.restoreState(self.windowstate.value)

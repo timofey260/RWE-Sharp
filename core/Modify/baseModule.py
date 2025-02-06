@@ -4,6 +4,8 @@ from abc import ABC, abstractmethod
 if TYPE_CHECKING:
     from core.Renderable.Renderable import Renderable
     from widgets.Viewport import ViewPort
+    from core.Level.RWELevel import RWELevel
+    from BaseMod.baseMod import BaseMod
 
 
 class Module(ABC):
@@ -52,13 +54,13 @@ class Module(ABC):
         """
 
     @property
-    def basemod(self):
+    def basemod(self) -> BaseMod:
         return self.manager.basemod
 
     @property
-    def level(self):
+    def level(self) -> RWELevel:
         return self.viewport.level
 
     @property
-    def zoom(self):
+    def zoom(self) -> float:
         return self.viewport.zoom

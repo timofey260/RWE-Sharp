@@ -1,1 +1,41 @@
 from RWESharp.Modify import Editor
+from RWESharp.Renderable import Handle, RenderList
+from BaseMod.camera.cameraRenderable import RenderCamera
+from BaseMod.LevelParts import CameraLevelPart
+
+
+class CameraHandles(RenderList):
+    def __init__(self, module, depth, camera: CameraLevelPart.Camera, rendercamera: RenderCamera):
+        super().__init__(module, depth)
+        self.camera = camera
+        self.rendercamera = rendercamera
+
+        self.poshandle = Handle(module)
+        self.renderables.append(self.poshandle)
+        self.poshandle.setPos(self.camera.pos)
+        self.poshandle.posChanged.connect(self.rendercamera.setPos)
+        self.poshandle.mouseReleased.connect(self.changepos)  # todo
+
+    def changepos(self, x):
+        self.camera.pos = x
+
+
+class CameraEditor(Editor):
+    def __init__(self, mod):
+        super().__init__(mod)
+        self.handles: list[CameraHandles] = []
+
+    def init_scene_items(self, viewport):
+        self.add_handles()
+        super().init_scene_items(viewport)
+
+    def clear_handles(self):
+        for i in self.handles:
+            i.remove_graphics(self.viewport)
+            i.remove_myself()
+        self.handles.clear()
+
+    def add_handles(self):
+        self.clear_handles()
+        for i, v in enumerate(self.level.l_cameras):
+            self.handles.append(CameraHandles(self, 0, v, self.viewport.modulenames["cameras"].cameras[i]))

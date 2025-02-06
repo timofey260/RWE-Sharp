@@ -29,6 +29,7 @@ class MainWindow(QMainWindow):
         self.ui.tabWidget.tabCloseRequested.connect(self.close_tab)
 
         self.ui.actionOpen.triggered.connect(self.open_file)
+        self.ui.actionNew.triggered.connect(self.new_file)
         self.ui.actionClose.triggered.connect(self.close)
         self.ui.actionAbout.triggered.connect(self.open_about)
         self.ui.actionPreferences.triggered.connect(self.open_settings)
@@ -119,6 +120,10 @@ class MainWindow(QMainWindow):
         if name == "":
             return
         self.manager.change_level(name)
+
+    @Slot()
+    def new_file(self) -> None:
+        self.manager.change_level(None)
 
     @Slot()
     def close_tab(self, index):

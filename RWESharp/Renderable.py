@@ -7,3 +7,4 @@ from core.Renderable.RenderEllipse import RenderEllipse
 from core.Renderable.RenderPoly import RenderPoly
 from core.Renderable.RenderLine import RenderLine
 from core.Renderable.RenderList import RenderList
+from core.Renderable.Handle import Handle

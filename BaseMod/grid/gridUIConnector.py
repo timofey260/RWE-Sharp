@@ -15,7 +15,8 @@ class GridView(ViewUI):
 
         self.enablegrid = BoolConfigurable(mod, "grid.enable_grid", False, "Enable grid")
         self.enableborder = BoolConfigurable(mod, "grid.enable_border", True, "Enable grid")
-        self.gridopacity = FloatConfigurable(mod, "grid.grid_opacity", .5, "Opacity grid")
+        self.more_funny = self.mod.bmconfig.more_funny
+        #self.gridopacity = FloatConfigurable(mod, "grid.grid_opacity", .5, "Opacity grid")
         self.enablegrid_key = KeyConfigurable(mod, "grid.enable_grid_key", "Ctrl+G", "Grid key")
         self.backgroundcolor = ColorConfigurable(mod, "grid.bgcolor", QColor(150, 150, 150), "color of the background")
         self.grid_size_X = IntConfigurable(mod, "grid.gridsizex", 1, "Grid scale X")

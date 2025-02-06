@@ -1,10 +1,12 @@
 from __future__ import annotations
-from PySide6.QtGui import QColor
+from PySide6.QtGui import QColor, QPixmap
 from PySide6.QtCore import Qt, QPoint, Slot, QPointF
 from PySide6.QtWidgets import QGraphicsView, QGraphicsScene, QApplication, QFileDialog
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from core.Modify.baseModule import Module
+    from core.Manager import Manager
+    from core.Level.RWELevel import RWELevel
 from core.info import CELLSIZE, PATH_LEVELS
 
 
@@ -17,11 +19,10 @@ class ViewPort(QGraphicsView):
     :param parent: widget parent
     """
     def __init__(self, level, manager, parent=None):
-        from core.Manager import Manager
         super().__init__(parent)
-        self.level = level
+        self.level: RWELevel = level
         self.level.viewport = self
-        self.manager = manager
+        self.manager: Manager = manager
         self.workscene: QGraphicsScene = QGraphicsScene(self)
         self.setScene(self.workscene)
         self.zoom = 1

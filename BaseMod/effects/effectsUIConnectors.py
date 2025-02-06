@@ -72,20 +72,30 @@ class EffectsUI(UI):
         self.explorer.change_visibility(True)
 
     def effect_up(self):
+        if len(self.level.l_effects) == 0:
+            return
         self.editor.effectindex.update_value((self.editor.effectindex.value - 1) % len(self.level.l_effects))
 
     def effect_down(self):
+        if len(self.level.l_effects) == 0:
+            return
         self.editor.effectindex.update_value((self.editor.effectindex.value + 1) % len(self.level.l_effects))
 
     def effect_move_up(self):
+        if len(self.level.l_effects) == 0:
+            return
         if self.editor.effectindex.value > 0:
             self.level.add_history(EffectMove(self.level.history, self.editor.effectindex.value, -1))
 
     def effect_move_down(self):
+        if len(self.level.l_effects) == 0:
+            return
         if self.editor.effectindex.value < len(self.level.l_effects) - 1:
             self.level.add_history(EffectMove(self.level.history, self.editor.effectindex.value, 1))
 
     def duplicate_effect(self):
+        if len(self.level.l_effects) == 0:
+            return
         if 0 <= self.editor.effectindex.value < len(self.level.l_effects) - 1:
             self.level.add_history(EffectDuplicate(self.level.history, self.editor.effectindex.value))
 

@@ -212,12 +212,12 @@ class CameraLevelPart(LevelPart):
         for i in self.cameras:
             quad = [[round(k.x(), 4), round(k.y(), 4)] for k in i.quads]
             self.level.data["CM"]["quads"].append(quad)
-            self.level.data["CM"]["cameras"].append(lingoIO.point(i.pos))
+            self.level.data["CM"]["cameras"].append(lingoIO.point(i.pos.toTuple()))
 
     class Camera:
         def __init__(self, pos, quads):
-            self.pos = pos
-            self.quads = quads
+            self.pos: QPointF = pos
+            self.quads: list[QPointF] = quads
 
     def __iter__(self):
         return self.cameras.__iter__()

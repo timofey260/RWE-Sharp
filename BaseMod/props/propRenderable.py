@@ -1,14 +1,11 @@
-from RWESharp.Renderable import Renderable
-from RWESharp.Core import lingoIO, CELLSIZE, SPRITESIZE
-from RWESharp.Renderable import RenderPoly
+from RWESharp.Renderable import Renderable, RenderPoly, Handle
 from RWESharp.Utils import remap
 from RWESharp.Loaders import Prop
 
 from PySide6.QtCore import QPoint, QPointF
-from PySide6.QtGui import QTransform, QPolygonF, QPainter, QPixmap, QImage, QPen
+from PySide6.QtGui import QTransform, QPolygonF, QPixmap, QImage, QPen
 from PySide6.QtWidgets import QGraphicsPixmapItem
 
-from BaseMod.props.Handle import Handle
 import random
 
 

@@ -195,7 +195,7 @@ class PropsViewUI(ViewUI):
         self.menu_showprops = QAction("Props")
         self.mod.manager.view_menu.addAction(self.menu_showprops)
         self.showprops = BoolConfigurable(mod, "VIEW_props.show", True, "Show Props")
-        self.showprops_key = KeyConfigurable(mod, "VIEW_props.show_key", "Ctrl+4", "Show Props Key")
+        self.showprops_key = KeyConfigurable(mod, "VIEW_props.show_key", "Alt+p", "Show Props Key")
 
         self.showoutline.link_button(self.ui.Outline)
         self.outline_color.link_color_picker(self.ui.OutlineColor)

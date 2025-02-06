@@ -13,25 +13,25 @@ class RenderCamera(RenderList):
 
         self.drawrect = QGraphicsRectItem(QRectF())
         self.drawrect.setPen(QPen(QColor(0, 255, 0), 4, Qt.PenStyle.DashDotLine))
-        self.rendered.append(self.drawrect)
+        self.graphicsitems.append(self.drawrect)
 
         self.drawrect2 = QGraphicsRectItem(QRectF())
         self.drawrect2.setPen(QPen(QColor(0, 120, 0), 3))
-        self.rendered.append(self.drawrect2)
+        self.graphicsitems.append(self.drawrect2)
 
         self.drawrect3 = QGraphicsRectItem(QRectF())
         self.drawrect3.setPen(QPen(QColor(255, 255, 0), 3, Qt.PenStyle.DotLine))
-        self.rendered.append(self.drawrect3)
+        self.graphicsitems.append(self.drawrect3)
 
         self.line1 = QGraphicsLineItem(QLineF())
         self.line1.setPen(QPen(QColor(40, 40, 40), 5))
-        self.rendered.append(self.line1)
+        self.graphicsitems.append(self.line1)
         self.line2 = QGraphicsLineItem(QLineF())
         self.line2.setPen(QPen(QColor(40, 40, 40), 5))
-        self.rendered.append(self.line2)
+        self.graphicsitems.append(self.line2)
         self.circle1 = QGraphicsEllipseItem(QRectF())
         self.circle1.setPen(QPen(QColor(40, 40, 40), 5))
-        self.rendered.append(self.circle1)
+        self.graphicsitems.append(self.circle1)
 
         self.circles: list[QGraphicsEllipseItem] = []
         self.camlines: list[QGraphicsLineItem] = []
@@ -40,11 +40,11 @@ class RenderCamera(RenderList):
             circ = QGraphicsEllipseItem()
             circ.setPen(QPen(QColor(0, 255, 0), 5))
             self.circles.append(circ)
-            self.rendered.append(circ)
+            self.graphicsitems.append(circ)
             line = QGraphicsLineItem()
             line.setPen(QPen(QColor(0, 255, 0), 6, Qt.PenStyle.DashLine))
             self.camlines.append(line)
-            self.rendered.append(line)
+            self.graphicsitems.append(line)
 
         self.show = True
         self.camera = camera
@@ -82,6 +82,6 @@ class RenderCamera(RenderList):
 
     def change_visibility(self, state):
         self.show = state
-        for i in self.rendered:
+        for i in self.graphicsitems:
             i.setOpacity(1 if self.show else 0)
         self.update_camera()

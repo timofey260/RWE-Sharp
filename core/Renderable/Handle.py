@@ -7,6 +7,8 @@ from PySide6.QtCore import Qt, Signal, QPointF, QObject
 
 class HandleItem(QGraphicsRectItem, QObject):
     posChanged = Signal(QPointF)
+    mouseReleased = Signal(QPointF)
+    mousePressed = Signal(QPointF)
 
     def __init__(self, handle):
         QGraphicsRectItem.__init__(self, -5, -5, 10, 10)
@@ -34,9 +36,10 @@ class HandleItem(QGraphicsRectItem, QObject):
     def mousePressEvent(self, event):
         event.accept()
         self.reserved_pos = self.handle.offset
+        self.mousePressed.emit(self.handle.offset)
 
     def mouseReleaseEvent(self, event):
-        pass
+        self.mouseReleased.emit(self.handle.offset)
 
 
 class Handle(Renderable):
@@ -68,5 +71,13 @@ class Handle(Renderable):
             self.handle.setPos(self.actual_offset)
 
     @property
-    def posChanged(self):
+    def posChanged(self) -> Signal:
         return self.handle.posChanged
+
+    @property
+    def mousePressed(self) -> Signal:
+        return self.handle.mousePressed
+
+    @property
+    def mouseReleased(self) -> Signal:
+        return self.handle.mouseReleased

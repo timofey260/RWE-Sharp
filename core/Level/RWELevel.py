@@ -62,7 +62,7 @@ class RWELevel:
     @property
     def shortname(self):
         if self.file is None:
-            return None
+            return "Unnamed"
         return os.path.split(self.file)[1]
 
     def __getitem__(self, item):

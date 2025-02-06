@@ -1,7 +1,5 @@
 from RWESharp.Modify import Module
-from RWESharp.Configurable import BoolConfigurable
 from BaseMod.props.propRenderable import PropRenderable
-from BaseMod.props.Handle import Handle
 
 
 class PropModule(Module):

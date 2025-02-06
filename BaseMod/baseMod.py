@@ -13,12 +13,13 @@ from BaseMod.effects.effectEditor import EffectEditor
 from BaseMod.effects.effectsUIConnectors import EffectsUI
 from BaseMod.themes.preferencesuiconnector import PreferencesUI
 from BaseMod.camera.cameraModule import CameraModule
-from BaseMod.camera.cameraUIConnectors import CameraViewUI
+from BaseMod.camera.cameraUIConnectors import CameraViewUI, CameraSettingsUI, CameraUI
+from BaseMod.camera.cameraEditor import CameraEditor
 from BaseMod.LevelParts import GeoLevelPart, TileLevelPart, PropLevelPart, EffectLevelPart, CameraLevelPart
 from RWESharp.Modify import Mod, ModInfo
 from RWESharp.Core import SettingElement, HotkeyElement, get_hotkeys_from_pattern, PATH_FILES_VIDEOS
 from RWESharp.Ui import FunnyVideo
-from PySide6.QtGui import QAction
+from PySide6.QtGui import QAction, QPixmap
 import os
 
 from widgets.Viewport import ViewPort
@@ -63,8 +64,10 @@ class BaseMod(Mod):
         self.propsview = PropsViewUI(self).add_myself()
 
         self.cameraview = CameraViewUI(self).add_myself()
+        self.cameraui = CameraUI(self)
+        self.cameraeditor = CameraEditor(self).add_myself(self.cameraui)
 
-        if self.bmconfig.funny.value:
+        if self.bmconfig.funny.value:  # todo make it so it updates dynamically
             self.sex = QAction("sex")
             self.manager.tool_menu.addAction(self.sex)
             self.sex.triggered.connect(self.sexthing)
@@ -113,6 +116,11 @@ class BaseMod(Mod):
         self.action_propeditor.triggered.connect(lambda: self.manager.change_editor_name("props"))
         self.manager.editors_menu.addAction(self.action_propeditor)
 
+        self.action_cameraeditor = QAction("Camera Editor")
+        self.bmconfig.camera_editor.link_action(self.action_cameraeditor)
+        self.action_cameraeditor.triggered.connect(lambda: self.manager.change_editor_name("cameras"))
+        self.manager.editors_menu.addAction(self.action_cameraeditor)
+
     def sexthing(self):
         self.vid = FunnyVideo(self.manager, False, os.path.join(PATH_FILES_VIDEOS, "sex.mp4").replace("\\", "/"), "SEX")
 
@@ -126,7 +134,7 @@ class BaseMod(Mod):
         GridModule(self).add_myself(viewport, "grid")
         # # effects
         PropModule(self).add_myself(viewport, "props")
-        CameraModule(self).add_myself(viewport, "camera")
+        CameraModule(self).add_myself(viewport, "cameras")
 
     def mount_levelparts(self, level):
         GeoLevelPart(level)
