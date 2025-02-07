@@ -18,6 +18,12 @@ class CameraUI(UI):
         self.editor = self.mod.cameraeditor
         self.editor.cameraui = self
 
+        self.add_key = KeyConfigurable(mod, "EDIT_cameras.add", "Ctrl+a", "Add Camera")
+
+        self.add_key.link_button(self.ui.AddCamera)
+        self.ui.AddCamera.clicked.connect(self.editor.add_camera)
+        self.ui.RemoveCamera.clicked.connect(self.editor.remove_camera)
+
     def add_cameras(self):
         self.ui.CameraTree.clear()
         for i, v in enumerate(self.editor.viewport.level.l_cameras):

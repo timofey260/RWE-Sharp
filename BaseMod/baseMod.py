@@ -69,7 +69,7 @@ class BaseMod(Mod):
         self.cameraeditor.add_myself(self.cameraui)
 
         if self.bmconfig.funny.value:  # todo make it so it updates dynamically
-            self.sex = QAction("sex")
+            self.sex = QAction("sex(earrape warning)")
             self.manager.tool_menu.addAction(self.sex)
             self.sex.triggered.connect(self.sexthing)
         self.gridui = GridView(self).add_myself()

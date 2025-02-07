@@ -1,5 +1,5 @@
 from __future__ import annotations
-from PySide6.QtCore import QPointF
+from PySide6.QtCore import QPointF, QPoint
 from core.Modify.baseModule import Module
 from abc import abstractmethod, ABC
 from typing import TYPE_CHECKING
@@ -40,8 +40,11 @@ class Renderable(ABC):
     def move_event(self):
         pass
 
-    def setPos(self, pos):
+    def setPos(self, pos: QPoint | QPointF):
         if pos is None:
+            return
+        if isinstance(pos, QPoint):
+            self.offset = pos.toPointF()
             return
         self.offset = pos
 

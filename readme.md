@@ -1,4 +1,4 @@
-# RWE#: The sequel to RWE+
+# RWE#: Grand sequel to RWE+
 
 ```
    ___ _      ______  ____ 
@@ -11,7 +11,7 @@ RWE# - timofey26, atom and lang0s
 
 ```
 
-Rain World Editor Sharp(RWE#) is Level editor for an indie game Rain World(2017) and being second iteration of RWE+
+RWE#(r-we-i sharp) is custom Level editor for Rain World(2017) and second iteration of RWE+
 
 Main features from RWE+:
 * Better UI(in all the ways, the pyside 6 is awesome)

@@ -30,7 +30,6 @@ class CameraEditor(Editor):
     def init_scene_items(self, viewport):
         self.add_handles()
         super().init_scene_items(viewport)
-        self.cameraui.add_cameras()
         
     def remove_items_from_scene(self, viewport):
         self.clear_handles()
@@ -42,7 +41,19 @@ class CameraEditor(Editor):
             i.remove_myself()
         self.handles.clear()
 
-    def add_handles(self):
+    def add_camera(self):
+        module = self.viewport.modulenames["cameras"]
+        self.level.add_history(AddCamera(self.level.history, module, len(module.cameras), self.editor_pos))
+        self.add_handles(True)
+
+    def remove_camera(self):
+        pass
+
+    def add_handles(self, init=False):
         self.clear_handles()
         for i, v in enumerate(self.level.l_cameras):
             self.handles.append(CameraHandles(self, 0, v, self.viewport.modulenames["cameras"].cameras[i]))
+        if init:
+            for i in self.handles:
+                i.init_graphics(self.viewport)
+        self.cameraui.add_cameras()
