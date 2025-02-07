@@ -64,8 +64,9 @@ class BaseMod(Mod):
         self.propsview = PropsViewUI(self).add_myself()
 
         self.cameraview = CameraViewUI(self).add_myself()
+        self.cameraeditor = CameraEditor(self)
         self.cameraui = CameraUI(self)
-        self.cameraeditor = CameraEditor(self).add_myself(self.cameraui)
+        self.cameraeditor.add_myself(self.cameraui)
 
         if self.bmconfig.funny.value:  # todo make it so it updates dynamically
             self.sex = QAction("sex")

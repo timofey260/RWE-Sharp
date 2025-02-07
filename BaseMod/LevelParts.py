@@ -141,6 +141,9 @@ class PropLevelPart(LevelPart):
     def copyprop(self, prop):
         return [prop[0], prop[1], prop[2], prop[3].copy(), prop[4].copy()]
 
+    def index(self, item):
+        return self.props.index(item)
+
 
 class EffectLevelPart(LevelPart):
     def __init__(self, level):
@@ -196,6 +199,9 @@ class EffectLevelPart(LevelPart):
     def pop(self, index=-1):
         return self.effects.pop(index)
 
+    def index(self, item):
+        return self.effects.index(item)
+
 
 class CameraLevelPart(LevelPart):
     def __init__(self, level):
@@ -224,3 +230,12 @@ class CameraLevelPart(LevelPart):
 
     def __len__(self):
         return self.cameras.__len__()
+
+    def pop(self, index):
+        return self.cameras.pop(index)
+
+    def insert(self, index, prop):
+        self.cameras.insert(index, prop)
+
+    def index(self, item):
+        return self.cameras.index(item)

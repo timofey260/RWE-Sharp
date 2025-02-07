@@ -15,9 +15,9 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QHeaderView, QScrollArea, QSizePolicy,
-    QSpacerItem, QTreeWidget, QTreeWidgetItem, QVBoxLayout,
-    QWidget)
+from PySide6.QtWidgets import (QApplication, QHBoxLayout, QHeaderView, QPushButton,
+    QScrollArea, QSizePolicy, QSpacerItem, QTreeWidget,
+    QTreeWidgetItem, QVBoxLayout, QWidget)
 
 class Ui_Cameras(object):
     def setupUi(self, Cameras):
@@ -34,10 +34,36 @@ class Ui_Cameras(object):
         self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 368, 527))
         self.verticalLayout_12 = QVBoxLayout(self.scrollAreaWidgetContents_3)
         self.verticalLayout_12.setObjectName(u"verticalLayout_12")
-        self.treeWidget = QTreeWidget(self.scrollAreaWidgetContents_3)
-        self.treeWidget.setObjectName(u"treeWidget")
+        self.CameraTree = QTreeWidget(self.scrollAreaWidgetContents_3)
+        self.CameraTree.setObjectName(u"CameraTree")
+        self.CameraTree.header().setVisible(False)
 
-        self.verticalLayout_12.addWidget(self.treeWidget)
+        self.verticalLayout_12.addWidget(self.CameraTree)
+
+        self.horizontalLayout = QHBoxLayout()
+        self.horizontalLayout.setObjectName(u"horizontalLayout")
+        self.AddCamera = QPushButton(self.scrollAreaWidgetContents_3)
+        self.AddCamera.setObjectName(u"AddCamera")
+
+        self.horizontalLayout.addWidget(self.AddCamera)
+
+        self.RemoveCamera = QPushButton(self.scrollAreaWidgetContents_3)
+        self.RemoveCamera.setObjectName(u"RemoveCamera")
+
+        self.horizontalLayout.addWidget(self.RemoveCamera)
+
+        self.MoveUp = QPushButton(self.scrollAreaWidgetContents_3)
+        self.MoveUp.setObjectName(u"MoveUp")
+
+        self.horizontalLayout.addWidget(self.MoveUp)
+
+        self.MoveDown = QPushButton(self.scrollAreaWidgetContents_3)
+        self.MoveDown.setObjectName(u"MoveDown")
+
+        self.horizontalLayout.addWidget(self.MoveDown)
+
+
+        self.verticalLayout_12.addLayout(self.horizontalLayout)
 
         self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
@@ -55,8 +81,12 @@ class Ui_Cameras(object):
 
     def retranslateUi(self, Cameras):
         Cameras.setWindowTitle(QCoreApplication.translate("Cameras", u"Cameras", None))
-        ___qtreewidgetitem = self.treeWidget.headerItem()
+        ___qtreewidgetitem = self.CameraTree.headerItem()
         ___qtreewidgetitem.setText(1, QCoreApplication.translate("Cameras", u"Pos", None));
         ___qtreewidgetitem.setText(0, QCoreApplication.translate("Cameras", u"Order", None));
+        self.AddCamera.setText(QCoreApplication.translate("Cameras", u"Add", None))
+        self.RemoveCamera.setText(QCoreApplication.translate("Cameras", u"Remove", None))
+        self.MoveUp.setText(QCoreApplication.translate("Cameras", u"Move Up", None))
+        self.MoveDown.setText(QCoreApplication.translate("Cameras", u"Move Down", None))
     # retranslateUi
 

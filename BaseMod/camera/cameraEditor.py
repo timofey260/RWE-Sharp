@@ -1,6 +1,7 @@
 from RWESharp.Modify import Editor
 from RWESharp.Renderable import Handle, RenderList
 from BaseMod.camera.cameraRenderable import RenderCamera
+from BaseMod.camera.cameraHistory import AddCamera, RemoveCamera
 from BaseMod.LevelParts import CameraLevelPart
 
 
@@ -23,11 +24,17 @@ class CameraHandles(RenderList):
 class CameraEditor(Editor):
     def __init__(self, mod):
         super().__init__(mod)
+        self.cameraui = None
         self.handles: list[CameraHandles] = []
 
     def init_scene_items(self, viewport):
         self.add_handles()
         super().init_scene_items(viewport)
+        self.cameraui.add_cameras()
+        
+    def remove_items_from_scene(self, viewport):
+        self.clear_handles()
+        super().remove_items_from_scene(viewport)
 
     def clear_handles(self):
         for i in self.handles:

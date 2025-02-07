@@ -52,10 +52,11 @@ class RenderCamera(RenderList):
         self.update_camera()
 
     def update_camera(self):
-        rect = QRectF(self.camera.pos.x(), self.camera.pos.y(), camw * CELLSIZE, camh * CELLSIZE)
-        rect2 = QRectF(rect.x() + CELLSIZE, rect.y() + CELLSIZE, rect.width() - CELLSIZE * 2,
+        self.setPos(self.camera.pos)
+        rect = QRectF(0, 0, camw * CELLSIZE, camh * CELLSIZE)
+        rect2 = QRectF(CELLSIZE, CELLSIZE, rect.width() - CELLSIZE * 2,
                        rect.height() - CELLSIZE * 2)
-        rect3 = QRectF(rect2.x() + CELLSIZE * 8, rect2.y(), rect2.width() - CELLSIZE * 16, rect2.height())
+        rect3 = QRectF(CELLSIZE * 8, 0, rect2.width() - CELLSIZE * 16, rect2.height())
         self.drawrect.setRect(rect)
         self.drawrect2.setRect(rect2)
         self.drawrect3.setRect(rect3)

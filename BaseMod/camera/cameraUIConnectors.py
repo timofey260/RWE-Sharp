@@ -5,7 +5,7 @@ from BaseMod.camera.ui.camerasettings_ui import Ui_Cameras as Ui_CameraSettings
 from BaseMod.camera.ui.cameras_ui import Ui_Cameras
 from PySide6.QtGui import QAction
 from PySide6.QtCore import QCoreApplication
-from PySide6.QtWidgets import QCheckBox
+from PySide6.QtWidgets import QCheckBox, QTreeWidgetItem
 
 from widgets.SettingsViewer import SettingsViewer
 
@@ -15,6 +15,15 @@ class CameraUI(UI):
         super().__init__(mod, parent)
         self.ui = Ui_Cameras()
         self.ui.setupUi(self)
+        self.editor = self.mod.cameraeditor
+        self.editor.cameraui = self
+
+    def add_cameras(self):
+        self.ui.CameraTree.clear()
+        for i, v in enumerate(self.editor.viewport.level.l_cameras):
+            item = QTreeWidgetItem([str(i), str([v.pos.x(), v.pos.y()])])
+            self.ui.CameraTree.addTopLevelItem(item)
+        self.ui.CameraTree.resizeColumnToContents(0)
 
 
 class CameraViewUI(ViewUI):
