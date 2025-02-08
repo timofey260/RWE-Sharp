@@ -7,6 +7,7 @@ from PySide6.QtCore import Qt, Signal, QPointF, QObject
 
 class HandleItem(QGraphicsRectItem, QObject):
     posChanged = Signal(QPointF)
+    posChangedRelative = Signal(QPointF)
     mouseReleased = Signal(QPointF)
     mousePressed = Signal(QPointF)
 
@@ -24,14 +25,21 @@ class HandleItem(QGraphicsRectItem, QObject):
     def mouseMoveEvent(self, event):
         #super().mouseMoveEvent(event)
         p = event.pos() * (1 / self.handle.zoom)
+        self.movehandle(p, True, True)
+
+    def movehandle(self, p, emit=False, emitrel=False):
+        if emitrel:
+            self.posChangedRelative.emit(p)
         sh = QGuiApplication.keyboardModifiers() & Qt.KeyboardModifier.ShiftModifier
         if sh:
             p = closest_line(self.handle.offset + p, self.reserved_pos).p2()
             self.handle.setPos(p)
-            self.posChanged.emit(self.handle.offset)
+            if emit:
+                self.posChanged.emit(self.handle.offset)
             return
         self.handle.setPos(self.handle.offset + p)
-        self.posChanged.emit(self.handle.offset)
+        if emit:
+            self.posChanged.emit(self.handle.offset)
 
     def mousePressEvent(self, event):
         event.accept()
@@ -48,6 +56,7 @@ class Handle(Renderable):
         self.handle = HandleItem(self)
         self.handle.setZValue(self.depth)
         self.handle.setPos(self.offset)
+        self.handle_offset = QPointF()
 
     def init_graphics(self, viewport):
         super().init_graphics(viewport)
@@ -70,9 +79,21 @@ class Handle(Renderable):
         if self.handle is not None:
             self.handle.setPos(self.actual_offset)
 
+    def setOpacity(self, opacity):
+        super().setOpacity(opacity)
+        self.handle.setOpacity(self.opacity)
+
+    @property
+    def actual_offset(self):
+        return super().actual_offset + self.handle_offset * self.zoom
+
     @property
     def posChanged(self) -> Signal:
         return self.handle.posChanged
+
+    @property
+    def posChangedRelative(self) -> Signal:
+        return self.handle.posChangedRelative
 
     @property
     def mousePressed(self) -> Signal:

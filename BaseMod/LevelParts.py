@@ -221,9 +221,9 @@ class CameraLevelPart(LevelPart):
             self.level.data["CM"]["cameras"].append(lingoIO.point(i.pos.toTuple()))
 
     class Camera:
-        def __init__(self, pos, quads):
-            self.pos: QPointF = pos
-            self.quads: list[QPointF] = quads
+        def __init__(self, pos: QPointF, quads: list[QPointF]):
+            self.pos = QPointF(round(pos.x(), 4), round(pos.y(), 4))
+            self.quads = quads
 
     def __iter__(self):
         return self.cameras.__iter__()

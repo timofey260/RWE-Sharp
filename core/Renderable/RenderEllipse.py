@@ -40,6 +40,10 @@ class RenderEllipse(Renderable):
             self.rect = rect
         self.drawellipse.setRect(rect)
 
+    def setOpacity(self, opacity):
+        super().setOpacity(opacity)
+        self.drawellipse.setOpacity(self.opacity)
+
     def setPos(self, pos: QPointF):
         super().setPos(pos)
         self.drawellipse.setPos(self.actual_offset)

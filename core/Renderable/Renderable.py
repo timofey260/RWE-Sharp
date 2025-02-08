@@ -13,6 +13,7 @@ class Renderable(ABC):
         # self.pos: QPointF = QPointF()
         self.offset: QPointF = QPointF()
         self.scale = 1
+        self.opacity = 1
         self.module: Module = module
         self.module.add_renderable(self)
 
@@ -51,6 +52,9 @@ class Renderable(ABC):
     def setScale(self, scale):
         self.scale = scale
         self.zoom_event()
+
+    def setOpacity(self, opacity):
+        self.opacity = opacity
 
     @property
     def actual_offset(self):

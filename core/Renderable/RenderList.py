@@ -25,18 +25,18 @@ class RenderList(Renderable):
             i.init_graphics(viewport)
 
     def remove_graphics(self, viewport):
-        super().remove_graphics(viewport)
         for i in self.graphicsitems:
             viewport.workscene.removeItem(i)
         for i in self.renderables:
             i.remove_graphics(viewport)
+        super().remove_graphics(viewport)
 
     def remove_myself(self):
-        super().remove_myself()
         for i in self.graphicsitems:
             self.viewport.workscene.removeItem(i)
         for i in self.renderables:
             i.remove_myself()
+        super().remove_myself()
 
     def move_event(self):
         super().move_event()
@@ -51,3 +51,12 @@ class RenderList(Renderable):
         super().setPos(pos)
         for i in self.graphicsitems:
             i.setPos(self.actual_offset)
+        for i in self.renderables:
+            i.setPos(self.offset)
+
+    def setOpacity(self, opacity):
+        super().setOpacity(opacity)
+        for i in self.renderables:
+            i.setOpacity(self.opacity)
+        for i in self.graphicsitems:
+            i.setOpacity(self.opacity)

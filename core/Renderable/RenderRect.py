@@ -43,3 +43,7 @@ class RenderRect(Renderable):
     def setPos(self, pos: QPointF):
         super().setPos(pos)
         self.drawrect.setPos(self.actual_offset)
+
+    def setOpacity(self, opacity):
+        super().setOpacity(opacity)
+        self.drawrect.setOpacity(self.opacity)

@@ -47,3 +47,7 @@ class RenderImage(Renderable):
     def setPos(self, pos: QPointF):
         super().setPos(pos)
         self.renderedtexture.setPos(self.actual_offset)
+
+    def setOpacity(self, opacity):
+        super().setOpacity(opacity)
+        self.renderedtexture.setOpacity(self.opacity)

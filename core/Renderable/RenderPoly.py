@@ -39,3 +39,7 @@ class RenderPoly(Renderable):
     def setPos(self, pos: QPointF):
         super().setPos(pos)
         self.drawpoly.setPos(self.actual_offset)
+
+    def setOpacity(self, opacity):
+        super().setOpacity(opacity)
+        self.drawpoly.setOpacity(self.opacity)

@@ -1,4 +1,4 @@
-from RWESharp.Renderable import RenderList
+from RWESharp.Renderable import RenderList, Handle
 from RWESharp.Core import CELLSIZE, SPRITESIZE, camh, camw
 from RWESharp.Utils import circle2rect, rotate_point
 from PySide6.QtCore import QRectF, QPointF, Qt, QLineF
@@ -12,37 +12,47 @@ class RenderCamera(RenderList):
         super().__init__(module, depth)
 
         self.drawrect = QGraphicsRectItem(QRectF())
-        self.drawrect.setPen(QPen(QColor(0, 255, 0), 4, Qt.PenStyle.DashDotLine))
+        module.basemod.cameraview.rectcolor.valueChanged.connect(self.drawrect.setPen)
+        self.drawrect.setPen(module.basemod.cameraview.rectcolor.value)
         self.graphicsitems.append(self.drawrect)
 
         self.drawrect2 = QGraphicsRectItem(QRectF())
-        self.drawrect2.setPen(QPen(QColor(0, 120, 0), 3))
+        module.basemod.cameraview.rect2color.valueChanged.connect(self.drawrect2.setPen)
+        self.drawrect2.setPen(module.basemod.cameraview.rect2color.value)
         self.graphicsitems.append(self.drawrect2)
 
         self.drawrect3 = QGraphicsRectItem(QRectF())
-        self.drawrect3.setPen(QPen(QColor(255, 255, 0), 3, Qt.PenStyle.DotLine))
+        module.basemod.cameraview.rect3color.valueChanged.connect(self.drawrect3.setPen)
+        self.drawrect3.setPen(module.basemod.cameraview.rect3color.value)
         self.graphicsitems.append(self.drawrect3)
 
         self.line1 = QGraphicsLineItem(QLineF())
-        self.line1.setPen(QPen(QColor(40, 40, 40), 5))
+        self.line1.setPen(module.basemod.cameraview.rectcentercolor.value)
         self.graphicsitems.append(self.line1)
         self.line2 = QGraphicsLineItem(QLineF())
-        self.line2.setPen(QPen(QColor(40, 40, 40), 5))
+        self.line2.setPen(module.basemod.cameraview.rectcentercolor.value)
         self.graphicsitems.append(self.line2)
         self.circle1 = QGraphicsEllipseItem(QRectF())
-        self.circle1.setPen(QPen(QColor(40, 40, 40), 5))
+        self.circle1.setPen(module.basemod.cameraview.rectcentercolor.value)
         self.graphicsitems.append(self.circle1)
+        module.basemod.cameraview.rectcentercolor.valueChanged.connect(self.line1.setPen)
+        module.basemod.cameraview.rectcentercolor.valueChanged.connect(self.line2.setPen)
+        module.basemod.cameraview.rectcentercolor.valueChanged.connect(self.circle1.setPen)
+
+        self.poshandle = None
 
         self.circles: list[QGraphicsEllipseItem] = []
         self.camlines: list[QGraphicsLineItem] = []
 
         for i in range(4):
             circ = QGraphicsEllipseItem()
-            circ.setPen(QPen(QColor(0, 255, 0), 5))
+            module.basemod.cameraview.circcolor.valueChanged.connect(circ.setPen)
+            circ.setPen(module.basemod.cameraview.circcolor.value)
             self.circles.append(circ)
             self.graphicsitems.append(circ)
             line = QGraphicsLineItem()
-            line.setPen(QPen(QColor(0, 255, 0), 6, Qt.PenStyle.DashLine))
+            module.basemod.cameraview.polycolor.valueChanged.connect(line.setPen)
+            line.setPen(module.basemod.cameraview.polycolor.value)
             self.camlines.append(line)
             self.graphicsitems.append(line)
 
@@ -50,6 +60,8 @@ class RenderCamera(RenderList):
         self.camera = camera
         self.assign_depth()
         self.update_camera()
+        self.zoom_event()
+        self.move_event()
 
     def update_camera(self):
         self.setPos(self.camera.pos)
@@ -83,6 +95,36 @@ class RenderCamera(RenderList):
 
     def change_visibility(self, state):
         self.show = state
-        for i in self.graphicsitems:
-            i.setOpacity(1 if self.show else 0)
+        self.setOpacity(1 if self.show else 0)
         self.update_camera()
+
+    def edit_camera(self, edit=True):
+        if not edit:
+            self.poshandle.remove_graphics(self.viewport)
+            self.poshandle.remove_myself()
+            self.poshandle = None
+            return
+        if self.poshandle is not None:
+            self.poshandle.posChanged.disconnect()
+            self.poshandle.posChangedRelative.disconnect()
+            self.poshandle.mouseReleased.disconnect()
+            self.poshandle.mousePressed.disconnect()
+            self.poshandle.posChanged.connect(self.setPos)
+            return
+        self.poshandle = Handle(self.module)
+        self.poshandle.init_graphics(self.viewport)
+        self.poshandle.setPos(self.camera.pos)
+        self.poshandle.handle_offset = QPointF(camw / 2 * CELLSIZE, camh / 2 * CELLSIZE)
+        self.poshandle.posChanged.connect(self.setPos)
+        self.poshandle.move_event()
+        self.renderables.append(self.poshandle)
+
+    def paintselected(self, selected=True):
+        if selected:
+            self.line1.setPen(QPen(QColor(255, 0, 0), 4))
+            self.line2.setPen(QPen(QColor(255, 0, 0), 4))
+            self.circle1.setPen(QPen(QColor(255, 0, 0), 4))
+            return
+        self.line1.setPen(self.module.basemod.cameraview.rectcentercolor.value)
+        self.line2.setPen(self.module.basemod.cameraview.rectcentercolor.value)
+        self.circle1.setPen(self.module.basemod.cameraview.rectcentercolor.value)
