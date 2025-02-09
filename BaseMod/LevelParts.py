@@ -239,3 +239,6 @@ class CameraLevelPart(LevelPart):
 
     def index(self, item):
         return self.cameras.index(item)
+
+    def __getitem__(self, item):
+        return self.cameras.__getitem__(item)

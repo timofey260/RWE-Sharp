@@ -203,3 +203,16 @@ def rotate_point(point: QPointF, angle):
 
 def circle2rect(pos: QPointF, radius: float) -> QRectF:
     return QRectF(pos.x() - radius, pos.y() - radius, radius * 2, radius * 2)
+
+
+def point2polar(pos: QPointF) -> QPointF:
+    dist = math.dist([0, 0], pos.toTuple())
+    if pos.x() == 0:
+        return QPointF(90 if pos.y() < 0 else 270, dist)
+    if pos.x() < 0:
+        angle = math.degrees(math.atan(pos.y()/pos.x()) + math.pi)
+    elif pos.y() >= 0:
+        angle = math.degrees(math.atan(pos.y()/pos.x()) + 2 * math.pi)
+    else:
+        angle = math.degrees(math.atan(pos.y()/pos.x()))
+    return QPointF(angle, dist)

@@ -43,20 +43,47 @@ class RemoveCamera(HistoryElement):
 
 
 class CameraMove(HistoryElement):
-    def __init__(self, history, editor, module, cameras: list, offset):
+    def __init__(self, history, editor, module, cameras: list[int], offset):
         super().__init__(history)
         self.editor = editor
         self.module = module
         self.cameras = cameras
         self.offset = offset
-        self.redo_changes()
+        self.redo_changes(True)
 
     def undo_changes(self):
         for i in self.cameras:
-            i.camera.pos -= self.offset
-            i.update_camera()
+            self.history.level.l_cameras[i].pos -= self.offset
+            self.module.cameras[i].update_camera()
+        self.editor.reset_selection()
 
-    def redo_changes(self):
+    def redo_changes(self, reset=False):
         for i in self.cameras:
-            i.camera.pos += self.offset
-            i.update_camera()
+            self.history.level.l_cameras[i].pos += self.offset
+            self.module.cameras[i].update_camera()
+        if reset:
+            self.editor.reset_selection()
+
+
+class CameraQuadMove(HistoryElement):
+    def __init__(self, history, editor, module, quad: int, cameras: list[int], offset):
+        super().__init__(history)
+        self.editor = editor
+        self.module = module
+        self.cameras = cameras
+        self.offset = offset
+        self.quad = quad
+        self.redo_changes(True)
+
+    def undo_changes(self):
+        for i in self.cameras:
+            self.history.level.l_cameras[i].quads[self.quad] -= self.offset
+            self.module.cameras[i].update_camera()
+        self.editor.reset_selection()
+
+    def redo_changes(self, reset=False):
+        for i in self.cameras:
+            self.history.level.l_cameras[i].quads[self.quad] += self.offset
+            self.module.cameras[i].update_camera()
+        if reset:
+            self.editor.reset_selection()

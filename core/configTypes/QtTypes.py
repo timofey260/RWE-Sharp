@@ -95,12 +95,13 @@ class PenConfigurable(Configurable):
         super().__init__(mod, name, default, description)
 
     def save_str_value(self) -> str:
-        return (f"{self.value.widthF()} {self.value.style().value}"
+        return (f"{self.value.widthF()} {self.value.style().value} "
                 f"{self.value.color().red()} {self.value.color().green()} {self.value.color().blue()} "
                 f"{self.value.color().alpha()}")
 
     def load_str_value(self, text: str) -> None:
         t = text.split()
+        print(text, self.save_str_value())
         self.value = QPen()
         self.value.setWidthF(float(t[0]))
         c = QColor(int(t[2]), int(t[3]), int(t[4]), int(t[5]))

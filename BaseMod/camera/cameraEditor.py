@@ -2,7 +2,7 @@ from RWESharp.Modify import Editor
 from RWESharp.Renderable import Handle, RenderList, RenderRect
 from RWESharp.Core import camw, camh, CELLSIZE
 from BaseMod.camera.cameraRenderable import RenderCamera
-from BaseMod.camera.cameraHistory import AddCamera, RemoveCamera, CameraMove
+from BaseMod.camera.cameraHistory import AddCamera, RemoveCamera, CameraMove, CameraQuadMove
 from BaseMod.LevelParts import CameraLevelPart
 from PySide6.QtCore import QPointF, QRect, Qt, QPoint
 from PySide6.QtGui import QPen, QColor
@@ -79,10 +79,10 @@ class CameraEditor(Editor):
         self.reset_selection()
         self.add_handles()
         super().init_scene_items(viewport)
-        module = self.viewport.modulenames["cameras"]
-        # for i in range(4000):
+        # module = self.viewport.modulenames["cameras"]
+        # for i in range(40000):
         #     print(i)
-        #     module.add_new_camera(0, QPointF(random.randrange(0, 2000), random.randrange(0, 2000)))
+        #     module.add_new_camera(0, QPointF(random.randrange(0, 4000), random.randrange(0, 4000)))
         #     #self.add_camera()
         # self.add_handles()
 
@@ -152,10 +152,42 @@ class CameraEditor(Editor):
         for i in self.cameras:
             i.edit_camera()
             i.poshandle.posChangedRelative.connect(self.move_selected(i))
-            #i.poshandle.mouseReleased.connect(self.finishmove(i))
+            i.poshandle.mouseReleased.connect(self.finishmove(i))
+            for k in range(4):
+                i.quadhandles[k].posChangedRelative.connect(self.quad_moved(i, k))
+                i.quadhandles[k].mouseReleased.connect(self.finishmovequad(i, k))
         self.cameraui.add_cameras()
 
+    def quad_moved(self, camera, quad):
+        if camera not in self.selected:
+            self.reset_selection()
+            self.selected = [camera]
+            camera.paintselected()
+
+        def move(x):
+            if camera not in self.selected:
+                self.reset_selection()
+                self.selected = [camera]
+                camera.paintselected()
+            for i in self.selected:
+                if i == camera:
+                    continue
+                i.quadhandles[quad].handle.movehandle(x, True)
+        return move
+
+    def finishmovequad(self, camera, quad):
+        module = self.viewport.modulenames["cameras"]
+
+        def move(x):
+            self.level.add_history(CameraQuadMove(self.level.history, self, module, quad, self.cameraindexes, x - camera.poshandle.handle.reserved_pos))
+        return move
+
     def move_selected(self, camera: RenderCamera):
+        if camera not in self.selected:
+            self.reset_selection()
+            self.selected = [camera]
+            camera.paintselected()
+
         def move(x):
             if camera not in self.selected:
                 self.reset_selection()
@@ -168,8 +200,16 @@ class CameraEditor(Editor):
         return move
 
     def finishmove(self, camera):
-        pass
+        module = self.viewport.modulenames["cameras"]
+
+        def move(x):
+            self.level.add_history(CameraMove(self.level.history, self, module, self.cameraindexes, x - camera.poshandle.handle.reserved_pos))
+        return move
 
     @property
-    def cameras(self):
+    def cameras(self) -> list[RenderCamera]:
         return self.viewport.modulenames["cameras"].cameras
+
+    @property
+    def cameraindexes(self) -> list[int]:
+        return [self.viewport.modulenames["cameras"].cameras.index(i) for i in self.selected]

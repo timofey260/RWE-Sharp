@@ -1,6 +1,6 @@
 from RWESharp.Renderable import RenderList, Handle
 from RWESharp.Core import CELLSIZE, SPRITESIZE, camh, camw
-from RWESharp.Utils import circle2rect, rotate_point
+from RWESharp.Utils import circle2rect, rotate_point, point2polar
 from PySide6.QtCore import QRectF, QPointF, Qt, QLineF
 from PySide6.QtGui import QPen, QColor
 from PySide6.QtWidgets import QGraphicsRectItem, QGraphicsEllipseItem, QGraphicsLineItem
@@ -40,6 +40,7 @@ class RenderCamera(RenderList):
         module.basemod.cameraview.rectcentercolor.valueChanged.connect(self.circle1.setPen)
 
         self.poshandle = None
+        self.quadhandles = None
 
         self.circles: list[QGraphicsEllipseItem] = []
         self.camlines: list[QGraphicsLineItem] = []
@@ -63,9 +64,13 @@ class RenderCamera(RenderList):
         self.zoom_event()
         self.move_event()
 
+    @property
+    def camerarect(self):
+        return QRectF(0, 0, camw * CELLSIZE, camh * CELLSIZE)
+
     def update_camera(self):
         self.setPos(self.camera.pos)
-        rect = QRectF(0, 0, camw * CELLSIZE, camh * CELLSIZE)
+        rect = self.camerarect
         rect2 = QRectF(CELLSIZE, CELLSIZE, rect.width() - CELLSIZE * 2,
                        rect.height() - CELLSIZE * 2)
         rect3 = QRectF(CELLSIZE * 8, 0, rect2.width() - CELLSIZE * 16, rect2.height())
@@ -88,6 +93,8 @@ class RenderCamera(RenderList):
             n.setX(math.sin(nq) * q.y() * CELLSIZE * 5)
             n.setY(-math.cos(nq) * q.y() * CELLSIZE * 5)
             newquads.append(n + [rect.topLeft(), rect.topRight(), rect.bottomRight(), rect.bottomLeft()][i])
+            # if self.quadhandles is not None:
+            #     self.quadhandles[i].handle_offset = newquads[i]
         self.camlines[0].setLine(QLineF(newquads[1], newquads[0]))
         self.camlines[1].setLine(QLineF(newquads[2], newquads[1]))
         self.camlines[2].setLine(QLineF(newquads[3], newquads[2]))
@@ -102,14 +109,23 @@ class RenderCamera(RenderList):
         if not edit:
             self.poshandle.remove_graphics(self.viewport)
             self.poshandle.remove_myself()
+            self.renderables.remove(self.poshandle)
             self.poshandle = None
+            for i in self.quadhandles:
+                i.remove_graphics(self.viewport)
+                i.remove_myself()
+                self.renderables.remove(i)
+            self.quadhandles = None
             return
         if self.poshandle is not None:
             self.poshandle.posChanged.disconnect()
             self.poshandle.posChangedRelative.disconnect()
             self.poshandle.mouseReleased.disconnect()
-            self.poshandle.mousePressed.disconnect()
+            # self.poshandle.mousePressed.disconnect()
             self.poshandle.posChanged.connect(self.setPos)
+            for i in self.quadhandles:
+                i.posChangedRelative.disconnect()
+                i.mouseReleased.disconnect()
             return
         self.poshandle = Handle(self.module)
         self.poshandle.init_graphics(self.viewport)
@@ -118,6 +134,23 @@ class RenderCamera(RenderList):
         self.poshandle.posChanged.connect(self.setPos)
         self.poshandle.move_event()
         self.renderables.append(self.poshandle)
+        self.quadhandles = []
+        for i, v in enumerate(self.rectsides):
+            h = Handle(self.module)
+            h.handle_offset = v
+            # h.setPos(self.camera.pos)
+            h.posChanged.connect(self.movequad(i))
+            h.init_graphics(self.viewport)
+            h.move_event()
+            self.quadhandles.append(h)
+            self.renderables.append(h)
+        self.update_camera()
+
+    def movequad(self, quad):
+        def move(x):
+            self.camera.quads[quad] = point2polar((x - self.rectsides[quad]) * (1 / (CELLSIZE * 5)))
+            self.update_camera()
+        return move
 
     def paintselected(self, selected=True):
         if selected:
@@ -128,3 +161,7 @@ class RenderCamera(RenderList):
         self.line1.setPen(self.module.basemod.cameraview.rectcentercolor.value)
         self.line2.setPen(self.module.basemod.cameraview.rectcentercolor.value)
         self.circle1.setPen(self.module.basemod.cameraview.rectcentercolor.value)
+
+    @property
+    def rectsides(self):
+        return [QPointF(0, 0), self.camerarect.topRight(), self.camerarect.bottomRight(), self.camerarect.bottomLeft()]
