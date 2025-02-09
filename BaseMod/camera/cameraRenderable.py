@@ -41,6 +41,7 @@ class RenderCamera(RenderList):
 
         self.poshandle = None
         self.quadhandles = None
+        self.newquads = [QPointF(), QPointF(), QPointF(), QPointF()]
 
         self.circles: list[QGraphicsEllipseItem] = []
         self.camlines: list[QGraphicsLineItem] = []
@@ -68,8 +69,9 @@ class RenderCamera(RenderList):
     def camerarect(self):
         return QRectF(0, 0, camw * CELLSIZE, camh * CELLSIZE)
 
-    def update_camera(self):
-        self.setPos(self.camera.pos)
+    def update_camera(self, setpos=True):
+        if setpos:
+            self.setPos(self.camera.pos)
         rect = self.camerarect
         rect2 = QRectF(CELLSIZE, CELLSIZE, rect.width() - CELLSIZE * 2,
                        rect.height() - CELLSIZE * 2)
@@ -148,8 +150,8 @@ class RenderCamera(RenderList):
 
     def movequad(self, quad):
         def move(x):
-            self.camera.quads[quad] = point2polar((x - self.rectsides[quad]) * (1 / (CELLSIZE * 5)))
-            self.update_camera()
+            self.camera.quads[quad] = point2polar(rotate_point((x - self.rectsides[quad] - self.camera.pos), 90) * (1 / (CELLSIZE * 5)))
+            self.update_camera(False)
         return move
 
     def paintselected(self, selected=True):
