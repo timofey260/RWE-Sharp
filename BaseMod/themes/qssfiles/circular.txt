@@ -48,7 +48,7 @@ QGroupBox::title {
     padding: 0 5px;
 }
 
-QPushButton {
+QPushButton,QToolButton,ColorPicker {
     background-color: @base_dark;
     color: @text_light;
     border: 1px solid @border_light;
@@ -57,12 +57,13 @@ QPushButton {
     transition: background-color 0.3s, border-color 0.3s;
 }
 
-QPushButton:hover {
+QPushButton,QToolButton,ColorPicker:hover {
     background-color: @base_dark;
     border-color: @border_light;
+    background-color: @accent_light;
 }
 
-QPushButton:pressed {
+QPushButton,QToolButton,ColorPicker:pressed {
     background-color: @accent_medium;
     border-color: @accent_medium;
     color: @text_light;
@@ -319,7 +320,7 @@ QComboBox {
     min-width: 6em;
 }
 
-QComboBox:hover,QPushButton:hover,QAbstractSpinBox:hover,QLineEdit:hover,QTextEdit:hover,QPlainTextEdit:hover,QAbstractView:hover,QTreeView:hover {
+QComboBox:hover,QPushButton:hover,QAbstractSpinBox:hover,QLineEdit:hover,QTextEdit:hover,QPlainTextEdit:hover,QAbstractView:hover,QTreeView:hover,QDoubleSpinBox:hover {
     border: 1px solid @accent_light;
     color: @text_light;
     border-radius: 2px;
@@ -345,7 +346,7 @@ QTreeView,QTreeWidget {
     alternate-background-color: @base_dark;
 }
 
-QSpinBox {
+QSpinBox,QDoubleSpinBox,QTimeEdit,QDateTimeEdit,QDateEdit {
     border: 1px solid @accent_medium;
     border-radius: 5px;
     padding: 1px 18px 1px 3px;
@@ -360,7 +361,7 @@ QComboBox {
 }
 
 
-QComboBox:hover,QPushButton:hover,QAbstractSpinBox:hover,QLineEdit:hover,QTextEdit:hover,QPlainTextEdit:hover,QAbstractView:hover,QTreeView:hover{
+QComboBox:hover,QPushButton:hover,QAbstractSpinBox:hover,QLineEdit:hover,QTextEdit:hover,QPlainTextEdit:hover,QAbstractView:hover,QTreeView:hover,QDoubleSpinBox:hover,QTimeEdit:hover,QDateTimeEdit:hover,QDateEdit:hover{
     border: 1px solid @accent_light;
     color: @text_light;
     border-radius: 2px;
@@ -383,7 +384,7 @@ QComboBox::down-arrow {
     image: img(:/misc/misc/arrow_down.svg);
 }
 
-QSpinBox {
+QSpinBox,QDoubleSpinBox,QTimeEdit,QDateTimeEdit,QDateEdit {
     border: 2px solid @accent_dark;
     border-radius: 10px;
     padding: 1px 18px 1px 3px;
@@ -391,7 +392,7 @@ QSpinBox {
 }
 
 
-QSpinBox:hover,QPushButton:hover,QAbstractSpinBox:hover,QLineEdit:hover,QTextEdit:hover,QPlainTextEdit:hover,QAbstractView:hover,QTreeView:hover{
+QSpinBox:hover,QPushButton:hover,QAbstractSpinBox:hover,QLineEdit:hover,QTextEdit:hover,QPlainTextEdit:hover,QAbstractView:hover,QTreeView:hover,QDoubleSpinBox:hover,QTimeEdit:hover,QDateTimeEdit:hover,QDateEdit:hover{
     border: 1px solid @accent_light;
     color: @text_light;
     border-radius: 3px;
@@ -400,7 +401,7 @@ QSpinBox:hover,QPushButton:hover,QAbstractSpinBox:hover,QLineEdit:hover,QTextEdi
 
 
 
-QSpinBox::down-button{
+QSpinBox,QDoubleSpinBox::down-button{
     subcontrol-origin: padding;
     subcontrol-position: top right;
     width: 15px;
@@ -412,7 +413,7 @@ QSpinBox::down-button{
 }
 
 
-QSpinBox::up-button{
+QSpinBox,QDoubleSpinBox::up-button{
     subcontrol-origin: padding;
     subcontrol-position: bottom right;
     width: 15px;
@@ -424,7 +425,7 @@ QSpinBox::up-button{
 }
 
 
-QSpinBox::down-arrow {
+QSpinBox,QDoubleSpinBox::down-arrow {
     image: img(:/misc/misc/arrow_down.svg);
 }
 
