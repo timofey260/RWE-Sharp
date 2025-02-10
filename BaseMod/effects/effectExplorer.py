@@ -40,6 +40,8 @@ class EffectExplorer(ViewDockWidget):
 
     def add_effect(self):
         self.mod.manager.selected_viewport.level.add_history(EffectAdd(self.mod.manager.selected_viewport.level.history, self.effect))
+        if len(self.mod.manager.selected_viewport.level.l_effects) == 1:
+            self.mod.effecteditor.select_effect(0)
 
     def load_effects(self):
         filter = self.ui.Search.text()

@@ -37,6 +37,8 @@ class EffectEditor(Editor):
         if self.brushsize.value % 2 == 0:
             rect.moveTo(brushpos + QPoint(CELLSIZE // 2, CELLSIZE // 2))
         self.brush.setRect(rect)
+        if len(self.level.l_effects) == 0:
+            return
         if self.mouse_left or self.mouse_right:
             if self.lastpos != pos:
                 self.level.last_history_element.add_move(pos)

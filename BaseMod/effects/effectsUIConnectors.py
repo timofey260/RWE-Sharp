@@ -96,7 +96,7 @@ class EffectsUI(UI):
     def duplicate_effect(self):
         if len(self.level.l_effects) == 0:
             return
-        if 0 <= self.editor.effectindex.value < len(self.level.l_effects) - 1:
+        if 0 <= self.editor.effectindex.value < len(self.level.l_effects):
             self.level.add_history(EffectDuplicate(self.level.history, self.editor.effectindex.value))
 
     def add_effects(self):

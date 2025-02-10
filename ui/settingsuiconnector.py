@@ -27,6 +27,8 @@ class SettingsDialogUI(QDialog):
         self.apply_button = self.ui.buttonBox.button(QDialogButtonBox.StandardButton.Apply)
         self.apply_button.clicked.connect(self.manager.config.save_configs)
 
+        self.ui.buttonBox.button(QDialogButtonBox.StandardButton.Reset).setText("Restore Changed")
+
     @Slot(QTreeWidgetItem, int)
     def change(self, item: QTreeWidgetItem, column: int):
         data = item.data(0, Qt.ItemDataRole.UserRole)
