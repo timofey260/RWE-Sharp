@@ -40,8 +40,8 @@ class EffectsUI(UI):
         self.delete_key = KeyConfigurable(mod, "EDIT_effect.delete", "Delete", "Delete effect")
         self.explorer_key = KeyConfigurable(mod, "EDIT_effect.explorer_key", "Ctrl+e", "Open Effect Explorer")
 
-        self.brushup_key = KeyConfigurable(mod, "EDIT_effect.brushup", "Ctrl+=", "Brush Size +")
-        self.brushdown_key = KeyConfigurable(mod, "EDIT_effect.brushdown", "Ctrl+-", "Brush Size -")
+        self.brushup_key = KeyConfigurable(mod, "EDIT_effect.brushup", "Ctrl+Shift+=", "Brush Size +")
+        self.brushdown_key = KeyConfigurable(mod, "EDIT_effect.brushdown", "Ctrl+Shift+-", "Brush Size -")
 
         self.explorer_key.link_button(self.ui.Explorer)
         self.ui.Explorer.clicked.connect(self.open_explorer)

@@ -146,19 +146,22 @@ class ViewPort(QGraphicsView):
             event.setModifiers(Qt.KeyboardModifier.NoModifier)
             self.horizontalScrollBar().wheelEvent(event)
             return
+        self.do_zoom(event.angleDelta().y() * (-1 if event.inverted() else 1) / 800)
+        self.editor.mouse_wheel_event(event)
+        self.editor.mouse_move_event(event)
+        #self.verticalScrollBar().size
+        #self.horizontalScrollBar().adjustSize()
+
+    def do_zoom(self, zoom):
         pointbefore = self.viewport_to_editor_float(self.mouse_pos.toPointF())
-        self.zoom = max(0.01, self.zoom + (event.angleDelta().y() * (-1 if event.inverted() else 1) / 800) * self.zoom)
+        self.zoom = max(0.01, self.zoom + zoom * self.zoom)
         offset = (self.viewport_to_editor_float(self.mouse_pos.toPointF()) - pointbefore) * CELLSIZE * self.zoom
         self.topleft.setPos(self.topleft.pos() + offset)
         for i in self.modules:
             i.zoom_event()
             i.move_event()
-        self.editor.mouse_wheel_event(event)
-        self.editor.mouse_move_event(event)
         self.editor.zoom_event()
         self.editor.move_event()
-        #self.verticalScrollBar().size
-        #self.horizontalScrollBar().adjustSize()
 
     def mouseMoveEvent(self, event):
         if self.scene().mouseGrabberItem() is not None:
