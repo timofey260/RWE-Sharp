@@ -32,17 +32,21 @@ class EffectEditor(Editor):
     def mouse_move_event(self, event: QMoveEvent):
         super().mouse_move_event(event)
         pos = self.viewport.viewport_to_editor(self.mouse_pos)
-        brushpos = (pos - QPoint(self.brushsize.value, self.brushsize.value)) * CELLSIZE
-        rect = QRect(brushpos, QSize(self.brushsize.value * 2, self.brushsize.value * 2) * CELLSIZE)
-        if self.brushsize.value % 2 == 0:
-            rect.moveTo(brushpos + QPoint(CELLSIZE // 2, CELLSIZE // 2))
-        self.brush.setRect(rect)
+        self.update_brush()
         if len(self.level.l_effects) == 0:
             return
         if self.mouse_left or self.mouse_right:
             if self.lastpos != pos:
                 self.level.last_history_element.add_move(pos)
         self.lastpos = pos
+
+    def update_brush(self):
+        pos = self.viewport.viewport_to_editor(self.mouse_pos)
+        brushpos = (pos - QPoint(self.brushsize.value, self.brushsize.value)) * CELLSIZE
+        rect = QRect(brushpos, QSize(self.brushsize.value * 2, self.brushsize.value * 2) * CELLSIZE)
+        if self.brushsize.value % 2 == 0:
+            rect.moveTo(brushpos + QPoint(CELLSIZE // 2, CELLSIZE // 2))
+        self.brush.setRect(rect)
 
     def mouse_left_press(self):
         pos = self.viewport.viewport_to_editor(self.mouse_pos)

@@ -30,6 +30,45 @@
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_12">
        <item>
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>Brush:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <widget class="QLabel" name="label_2">
+           <property name="text">
+            <string>Shape:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="BrushShape"/>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <item>
+          <widget class="QPushButton" name="BrushSizeDown">
+           <property name="text">
+            <string>Size-</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="BrushSizeUp">
+           <property name="text">
+            <string>Size+</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
         <widget class="QLabel" name="label_6">
          <property name="text">
           <string>Effects:</string>
