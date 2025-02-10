@@ -15,10 +15,10 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QGridLayout, QHeaderView, QLabel,
-    QPushButton, QScrollArea, QSizePolicy, QSpacerItem,
-    QToolButton, QTreeWidget, QTreeWidgetItem, QVBoxLayout,
-    QWidget)
+from PySide6.QtWidgets import (QApplication, QComboBox, QGridLayout, QHBoxLayout,
+    QHeaderView, QLabel, QPushButton, QScrollArea,
+    QSizePolicy, QSpacerItem, QToolButton, QTreeWidget,
+    QTreeWidgetItem, QVBoxLayout, QWidget)
 
 class Ui_Effects(object):
     def setupUi(self, Effects):
@@ -35,6 +35,41 @@ class Ui_Effects(object):
         self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 368, 527))
         self.verticalLayout_12 = QVBoxLayout(self.scrollAreaWidgetContents_3)
         self.verticalLayout_12.setObjectName(u"verticalLayout_12")
+        self.label = QLabel(self.scrollAreaWidgetContents_3)
+        self.label.setObjectName(u"label")
+
+        self.verticalLayout_12.addWidget(self.label)
+
+        self.horizontalLayout = QHBoxLayout()
+        self.horizontalLayout.setObjectName(u"horizontalLayout")
+        self.label_2 = QLabel(self.scrollAreaWidgetContents_3)
+        self.label_2.setObjectName(u"label_2")
+
+        self.horizontalLayout.addWidget(self.label_2)
+
+        self.BrushShape = QComboBox(self.scrollAreaWidgetContents_3)
+        self.BrushShape.setObjectName(u"BrushShape")
+
+        self.horizontalLayout.addWidget(self.BrushShape)
+
+
+        self.verticalLayout_12.addLayout(self.horizontalLayout)
+
+        self.horizontalLayout_2 = QHBoxLayout()
+        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
+        self.BrushSizeDown = QPushButton(self.scrollAreaWidgetContents_3)
+        self.BrushSizeDown.setObjectName(u"BrushSizeDown")
+
+        self.horizontalLayout_2.addWidget(self.BrushSizeDown)
+
+        self.BrushSizeUp = QPushButton(self.scrollAreaWidgetContents_3)
+        self.BrushSizeUp.setObjectName(u"BrushSizeUp")
+
+        self.horizontalLayout_2.addWidget(self.BrushSizeUp)
+
+
+        self.verticalLayout_12.addLayout(self.horizontalLayout_2)
+
         self.label_6 = QLabel(self.scrollAreaWidgetContents_3)
         self.label_6.setObjectName(u"label_6")
 
@@ -146,6 +181,10 @@ class Ui_Effects(object):
 
     def retranslateUi(self, Effects):
         Effects.setWindowTitle(QCoreApplication.translate("Effects", u"Effects", None))
+        self.label.setText(QCoreApplication.translate("Effects", u"Brush:", None))
+        self.label_2.setText(QCoreApplication.translate("Effects", u"Shape:", None))
+        self.BrushSizeDown.setText(QCoreApplication.translate("Effects", u"Size-", None))
+        self.BrushSizeUp.setText(QCoreApplication.translate("Effects", u"Size+", None))
         self.label_6.setText(QCoreApplication.translate("Effects", u"Effects:", None))
         ___qtreewidgetitem = self.EffectsTree.headerItem()
         ___qtreewidgetitem.setText(1, QCoreApplication.translate("Effects", u"Name", None));

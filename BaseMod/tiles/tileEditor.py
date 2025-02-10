@@ -127,7 +127,6 @@ class TileEditor(Editor):
         fpos = self.viewport.viewport_to_editor(self.mouse_pos) - offset
         self.tile_rect.drawrect.setPen(QColor(0, 255, 0) if can_place(self.level, fpos, self.layer, self.tile, self.force_place.value, self.force_geo.value) else QColor(255, 0, 0))
 
-
     def init_scene_items(self, viewport):
         super().init_scene_items(viewport)
         self.module = viewport.modulenames["tiles"]
@@ -141,7 +140,7 @@ class TileEditor(Editor):
     def mouse_press_event(self, event: QMouseEvent):
         if self.mouse_left:
             self.tool_specific_press(self.toolleft.value, self.deleteleft.value)
-        if self.mouse_left:
+        if self.mouse_right:
             self.tool_specific_press(self.toolright.value, self.deleteright.value)
 
     def tool_specific_press(self, tool: Enum, delete: bool):

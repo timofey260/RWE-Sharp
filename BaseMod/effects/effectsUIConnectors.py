@@ -40,6 +40,9 @@ class EffectsUI(UI):
         self.delete_key = KeyConfigurable(mod, "EDIT_effect.delete", "Delete", "Delete effect")
         self.explorer_key = KeyConfigurable(mod, "EDIT_effect.explorer_key", "Ctrl+e", "Open Effect Explorer")
 
+        self.brushup_key = KeyConfigurable(mod, "EDIT_effect.brushup", "Ctrl+=", "Brush Size +")
+        self.brushdown_key = KeyConfigurable(mod, "EDIT_effect.brushdown", "Ctrl+-", "Brush Size -")
+
         self.explorer_key.link_button(self.ui.Explorer)
         self.ui.Explorer.clicked.connect(self.open_explorer)
 
@@ -63,6 +66,19 @@ class EffectsUI(UI):
         self.ui.OptionsTree.itemDoubleClicked.connect(self.effect_settings_double_click)
         self.ui.OptionsTree.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
         self.ui.OptionsTree.customContextMenuRequested.connect(self.settings_context_menu)
+
+        self.brushup_key.link_button(self.ui.BrushSizeUp)
+        self.brushdown_key.link_button(self.ui.BrushSizeDown)
+        self.ui.BrushSizeUp.clicked.connect(self.brushup)
+        self.ui.BrushSizeDown.clicked.connect(self.brushdown)
+
+    def brushup(self):
+        self.editor.brushsize.update_value(self.editor.brushsize.value + 1)
+        self.editor.update_brush()
+
+    def brushdown(self):
+        self.editor.brushsize.update_value(max(1, self.editor.brushsize.value - 1))
+        self.editor.update_brush()
 
     def delete_effect(self):
         if 0 <= self.editor.effectindex.value < len(self.level.l_effects):
