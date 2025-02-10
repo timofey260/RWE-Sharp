@@ -15,6 +15,9 @@ class BaseModConfig:
                                                "Secondary button")
         self.icon_color = ColorConfigurable(mod, "basemod.icon_theme", QColor(255, 255, 255, 255))
 
+        self.zoom_in_key = KeyConfigurable(mod, "basemod.zoomin", "Ctrl+=", "Zoom In")
+        self.zoom_out_key = KeyConfigurable(mod, "basemod.zoomout", "Ctrl+-", "Zoom Out")
+
         self.undo_key = KeyConfigurable(mod, "basemod.undo", QKeySequence.StandardKey.Undo, "Undo")
         self.redo_key = KeyConfigurable(mod, "basemod.redo", QKeySequence.StandardKey.Redo, "Redo")
         self.save_key = KeyConfigurable(mod, "basemod.save", QKeySequence.StandardKey.Save, "Save the level")

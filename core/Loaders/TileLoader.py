@@ -407,5 +407,5 @@ def load_tiles(window: SplashDialog) -> Tiles:
         #     matcat = f"materials {matcatcount}"
         #     solved_copy.insert(matcatcount, {"name": matcat, "color": QColor(0, 0, 0), "items": []})
     # window.printmessage("All tiles loaded!")
-    categories_list.append(material_category)
+    categories_list.insert(0, material_category)
     return Tiles(categories_list)

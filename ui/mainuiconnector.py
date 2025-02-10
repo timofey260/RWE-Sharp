@@ -48,6 +48,11 @@ class MainWindow(QMainWindow):
         self.manager.basemod.bmconfig.render_key.link_action(self.ui.actionRender)
         self.manager.basemod.bmconfig.opendrizzle_key.link_action(self.ui.actionDrizzleOpen)
 
+        self.manager.basemod.bmconfig.zoom_in_key.link_action(self.ui.actionZoom_In)
+        self.ui.actionZoom_In.triggered.connect(lambda: self.manager.selected_viewport.do_zoom(0.2))
+        self.manager.basemod.bmconfig.zoom_out_key.link_action(self.ui.actionZoom_Out)
+        self.ui.actionZoom_Out.triggered.connect(lambda: self.manager.selected_viewport.do_zoom(-0.2))
+
         self.manager.basemod.bmconfig.about_key.link_action(self.ui.actionAbout)
 
         # self.ui.viewPort.add_managed_fields(self.manager)
