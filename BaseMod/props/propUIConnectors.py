@@ -25,7 +25,7 @@ class PropsUI(UI):
         self.cat_prev_key = KeyConfigurable(mod, "EDIT_props.cat_prev", "a", "Previous Category")
         self.prop_next_key = KeyConfigurable(mod, "EDIT_props.prop_next", "s", "Next Prop")
         self.cat_next_key = KeyConfigurable(mod, "EDIT_props.cat_next", "d", "Next Category")
-        self.find_key = KeyConfigurable(mod, "EDIT_props.find_key", "Ctrl+f", "Find tile")
+        self.find_key = KeyConfigurable(mod, "EDIT_props.find_key", "Ctrl+f", "Find prop")
 
         self.explorer_key.link_button(self.ui.Explorer)
         self.prop_next_key.link_button(self.ui.PropNext)
