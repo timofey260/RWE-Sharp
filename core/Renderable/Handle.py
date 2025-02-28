@@ -84,6 +84,10 @@ class Handle(Renderable):
         self.handle.setOpacity(self.opacity)
 
     @property
+    def previous_pos(self):
+        return self.handle.reserved_pos
+
+    @property
     def actual_offset(self):
         return super().actual_offset + self.handle_offset * self.zoom
 

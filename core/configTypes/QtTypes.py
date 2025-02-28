@@ -101,7 +101,6 @@ class PenConfigurable(Configurable):
 
     def load_str_value(self, text: str) -> None:
         t = text.split()
-        print(text, self.save_str_value())
         self.value = QPen()
         self.value.setWidthF(float(t[0]))
         c = QColor(int(t[2]), int(t[3]), int(t[4]), int(t[5]))

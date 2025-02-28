@@ -1,5 +1,6 @@
 from RWESharp.Modify import LevelPart
 from RWESharp.Core import lingoIO, SPRITESIZE, CELLSIZE
+from RWESharp.Utils import polar2point, point2polar
 from PySide6.QtCore import QPoint, QPointF
 import numpy as np
 from copy import deepcopy
@@ -209,6 +210,7 @@ class CameraLevelPart(LevelPart):
         self.cameras: list[CameraLevelPart.Camera] = []
         for i, v in enumerate(level.data["CM"]["cameras"]):
             quad = [QPointF(*k) for k in level.data["CM"]["quads"][i]]
+            quad = [polar2point(QPointF(i.x() - 90, i.y())) for i in quad]
             self.cameras.append(CameraLevelPart.Camera(QPointF(*lingoIO.frompoint(v)), quad))
 
     def save_level(self):
@@ -216,7 +218,8 @@ class CameraLevelPart(LevelPart):
         self.level.data["CM"]["quads"] = []
 
         for i in self.cameras:
-            quad = [[round(k.x(), 4), round(k.y(), 4)] for k in i.quads]
+            newquads = [point2polar(q) for q in i.quads]
+            quad = [[(round(k.x(), 4) + 90) % 360, round(k.y(), 4)] for k in newquads]
             self.level.data["CM"]["quads"].append(quad)
             self.level.data["CM"]["cameras"].append(lingoIO.point(i.pos.toTuple()))
 

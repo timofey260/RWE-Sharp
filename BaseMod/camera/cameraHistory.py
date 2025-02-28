@@ -1,4 +1,5 @@
 from RWESharp.Modify import HistoryElement
+from RWESharp.Core import CELLSIZE
 
 
 class AddCamera(HistoryElement):
@@ -66,24 +67,36 @@ class CameraMove(HistoryElement):
 
 
 class CameraQuadMove(HistoryElement):
-    def __init__(self, history, editor, module, quad: int, cameras: list[int], offset):
+    def __init__(self, history, editor, module, quad: int, cameras: list[int]):
         super().__init__(history)
         self.editor = editor
         self.module = module
         self.cameras = cameras
-        self.offset = offset
+        self.offsets = []
         self.quad = quad
-        self.redo_changes(True)
+        for i in self.cameras:
+            oldpos = self.module.cameras[i].camera.quads[quad]
+            newpos = self.module.cameras[i].newquads[quad]
+            self.offsets.append([i, oldpos, newpos])
+            self.module.cameras[i].camera.quads[quad] = newpos
+
+            self.module.cameras[i].fix_offset(self.quad)
+        #self.redo_changes(True)
+        self.editor.reset_selection()
 
     def undo_changes(self):
-        for i in self.cameras:
-            self.history.level.l_cameras[i].quads[self.quad] -= self.offset
-            self.module.cameras[i].update_camera()
+        for i in self.offsets:
+            index = i[0]
+            oldpos = i[1]
+            self.module.cameras[index].camera.quads[self.quad] = oldpos
+            self.module.cameras[index].fix_offset(self.quad)
+
         self.editor.reset_selection()
 
     def redo_changes(self, reset=False):
-        for i in self.cameras:
-            self.history.level.l_cameras[i].quads[self.quad] += self.offset
-            self.module.cameras[i].update_camera()
-        if reset:
-            self.editor.reset_selection()
+        for i in self.offsets:
+            index = i[0]
+            newpos = i[2]
+            self.module.cameras[index].camera.quads[self.quad] = newpos
+            self.module.cameras[index].fix_offset(self.quad)
+        self.editor.reset_selection()

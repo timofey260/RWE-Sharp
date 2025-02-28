@@ -121,6 +121,10 @@ class ViewPort(QGraphicsView):
     def editor(self):
         return self.manager.editor
 
+    def setTabName(self):
+        i = self.manager.window.ui.tabWidget.indexOf(self)
+        self.manager.window.ui.tabWidget.setTabText(i, self.level.shortname)
+
     def clean(self):
         self.workscene.update(0, 0, 10000, 10000)  # that'l do
 
@@ -207,6 +211,7 @@ class ViewPort(QGraphicsView):
                 return
             self.level.file = dialog[0]
         self.level.save_file()
+        self.setTabName()
 
     def save_level_as(self):
         dialog = QFileDialog.getSaveFileName(self.manager.window, "Save a level...", PATH_LEVELS, "Level files (*.txt *.wep *.rwl)", selectedFilter=".wep")
@@ -214,3 +219,4 @@ class ViewPort(QGraphicsView):
             return
         self.level.file = dialog[0]
         self.level.save_file()
+        self.setTabName()

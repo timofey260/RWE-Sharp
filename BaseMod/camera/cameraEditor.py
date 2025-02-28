@@ -179,7 +179,7 @@ class CameraEditor(Editor):
         module = self.viewport.modulenames["cameras"]
 
         def move(x):
-            self.level.add_history(CameraQuadMove(self.level.history, self, module, quad, self.cameraindexes, x - camera.poshandle.handle.reserved_pos))
+            self.level.add_history(CameraQuadMove(self.level.history, self, module, quad, self.cameraindexes))
         return move
 
     def move_selected(self, camera: RenderCamera):
@@ -203,7 +203,7 @@ class CameraEditor(Editor):
         module = self.viewport.modulenames["cameras"]
 
         def move(x):
-            self.level.add_history(CameraMove(self.level.history, self, module, self.cameraindexes, x - camera.poshandle.handle.reserved_pos))
+            self.level.add_history(CameraMove(self.level.history, self, module, self.cameraindexes, x - camera.poshandle.previous_pos))
         return move
 
     @property

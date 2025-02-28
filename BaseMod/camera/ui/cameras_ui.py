@@ -15,7 +15,7 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QHBoxLayout, QHeaderView, QPushButton,
+from PySide6.QtWidgets import (QApplication, QGridLayout, QHeaderView, QPushButton,
     QScrollArea, QSizePolicy, QSpacerItem, QTreeWidget,
     QTreeWidgetItem, QVBoxLayout, QWidget)
 
@@ -40,30 +40,30 @@ class Ui_Cameras(object):
 
         self.verticalLayout_12.addWidget(self.CameraTree)
 
-        self.horizontalLayout = QHBoxLayout()
-        self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.AddCamera = QPushButton(self.scrollAreaWidgetContents_3)
-        self.AddCamera.setObjectName(u"AddCamera")
-
-        self.horizontalLayout.addWidget(self.AddCamera)
-
+        self.gridLayout = QGridLayout()
+        self.gridLayout.setObjectName(u"gridLayout")
         self.RemoveCamera = QPushButton(self.scrollAreaWidgetContents_3)
         self.RemoveCamera.setObjectName(u"RemoveCamera")
 
-        self.horizontalLayout.addWidget(self.RemoveCamera)
+        self.gridLayout.addWidget(self.RemoveCamera, 0, 1, 1, 1)
+
+        self.AddCamera = QPushButton(self.scrollAreaWidgetContents_3)
+        self.AddCamera.setObjectName(u"AddCamera")
+
+        self.gridLayout.addWidget(self.AddCamera, 0, 0, 1, 1)
 
         self.MoveUp = QPushButton(self.scrollAreaWidgetContents_3)
         self.MoveUp.setObjectName(u"MoveUp")
 
-        self.horizontalLayout.addWidget(self.MoveUp)
+        self.gridLayout.addWidget(self.MoveUp, 1, 0, 1, 1)
 
         self.MoveDown = QPushButton(self.scrollAreaWidgetContents_3)
         self.MoveDown.setObjectName(u"MoveDown")
 
-        self.horizontalLayout.addWidget(self.MoveDown)
+        self.gridLayout.addWidget(self.MoveDown, 1, 1, 1, 1)
 
 
-        self.verticalLayout_12.addLayout(self.horizontalLayout)
+        self.verticalLayout_12.addLayout(self.gridLayout)
 
         self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
@@ -84,8 +84,8 @@ class Ui_Cameras(object):
         ___qtreewidgetitem = self.CameraTree.headerItem()
         ___qtreewidgetitem.setText(1, QCoreApplication.translate("Cameras", u"Pos", None));
         ___qtreewidgetitem.setText(0, QCoreApplication.translate("Cameras", u"Order", None));
-        self.AddCamera.setText(QCoreApplication.translate("Cameras", u"Add", None))
         self.RemoveCamera.setText(QCoreApplication.translate("Cameras", u"Remove", None))
+        self.AddCamera.setText(QCoreApplication.translate("Cameras", u"Add", None))
         self.MoveUp.setText(QCoreApplication.translate("Cameras", u"Move Up", None))
         self.MoveDown.setText(QCoreApplication.translate("Cameras", u"Move Down", None))
     # retranslateUi

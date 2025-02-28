@@ -1,6 +1,6 @@
 from RWESharp.Renderable import RenderList, Handle
 from RWESharp.Core import CELLSIZE, SPRITESIZE, camh, camw
-from RWESharp.Utils import circle2rect, rotate_point, point2polar
+from RWESharp.Utils import circle2rect, rotate_point, point2polar, polar2point
 from PySide6.QtCore import QRectF, QPointF, Qt, QLineF
 from PySide6.QtGui import QPen, QColor
 from PySide6.QtWidgets import QGraphicsRectItem, QGraphicsEllipseItem, QGraphicsLineItem
@@ -57,6 +57,7 @@ class RenderCamera(RenderList):
             line.setPen(module.basemod.cameraview.polycolor.value)
             self.camlines.append(line)
             self.graphicsitems.append(line)
+            self.newquads[i] = camera.quads[i]
 
         self.show = True
         self.camera = camera
@@ -89,12 +90,12 @@ class RenderCamera(RenderList):
 
         newquads = []
 
-        for i, q in enumerate(self.camera.quads):
-            n = QPointF()
-            nq = math.radians(q.x() % 360)
-            n.setX(math.sin(nq) * q.y() * CELLSIZE * 5)
-            n.setY(-math.cos(nq) * q.y() * CELLSIZE * 5)
-            newquads.append(n + [rect.topLeft(), rect.topRight(), rect.bottomRight(), rect.bottomLeft()][i])
+        for i, q in enumerate(self.newquads):
+            # n = QPointF()
+            # nq = math.radians(q.x() % 360)
+            # n.setX(math.sin(nq) * q.y() * CELLSIZE * 5)
+            # n.setY(-math.cos(nq) * q.y() * CELLSIZE * 5)
+            newquads.append((q * CELLSIZE * 5) + [rect.topLeft(), rect.topRight(), rect.bottomRight(), rect.bottomLeft()][i])
             # if self.quadhandles is not None:
             #     self.quadhandles[i].handle_offset = newquads[i]
         self.camlines[0].setLine(QLineF(newquads[1], newquads[0]))
@@ -139,7 +140,7 @@ class RenderCamera(RenderList):
         self.quadhandles = []
         for i, v in enumerate(self.rectsides):
             h = Handle(self.module)
-            h.handle_offset = v
+            h.handle_offset = v + self.newquads[i] * 5 * CELLSIZE
             # h.setPos(self.camera.pos)
             h.posChanged.connect(self.movequad(i))
             h.init_graphics(self.viewport)
@@ -150,9 +151,18 @@ class RenderCamera(RenderList):
 
     def movequad(self, quad):
         def move(x):
-            self.camera.quads[quad] = point2polar(rotate_point((x - self.rectsides[quad] - self.camera.pos), 90) * (1 / (CELLSIZE * 5)))
+            print(x, self.newquads[quad])
+            self.newquads[quad] = (self.quadhandles[quad].handle_offset - self.rectsides[quad] + x - self.camera.pos) * (1 / (CELLSIZE * 5))
+            pol = point2polar(self.newquads[quad])
+            if pol.y() > 1:
+                self.newquads[quad] = polar2point(QPointF(pol.x(), 1))
             self.update_camera(False)
         return move
+
+    def fix_offset(self, quad):
+        self.newquads = self.camera.quads.copy()
+        self.quadhandles[quad].handle_offset = self.rectsides[quad] + self.newquads[quad] * 5 * CELLSIZE
+        self.update_camera()
 
     def paintselected(self, selected=True):
         if selected:

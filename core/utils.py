@@ -206,13 +206,22 @@ def circle2rect(pos: QPointF, radius: float) -> QRectF:
 
 
 def point2polar(pos: QPointF) -> QPointF:
+    """
+    :param pos: position in cartesian coordinates
+    :return: point in polar coordinates where x is angle and y is distance
+    """
     dist = math.dist([0, 0], pos.toTuple())
-    if pos.x() == 0:
-        return QPointF(90 if pos.y() < 0 else 270, dist)
-    if pos.x() < 0:
-        angle = math.degrees(math.atan(pos.y()/pos.x()) + math.pi)
-    elif pos.y() >= 0:
-        angle = math.degrees(math.atan(pos.y()/pos.x()) + 2 * math.pi)
-    else:
-        angle = math.degrees(math.atan(pos.y()/pos.x()))
+    angle = math.degrees(math.atan2(pos.y(), pos.x()))
     return QPointF(angle, dist)
+
+
+def polar2point(pos: QPointF) -> QPointF:
+    """
+    :param pos: position in polar coordinates where x is angle and y is distance
+    :return: point in cartesian coordinates
+    """
+    n = QPointF()
+    nq = math.radians((pos.x() + 90) % 360)
+    n.setX(math.sin(nq) * pos.y())
+    n.setY(-math.cos(nq) * pos.y())
+    return n

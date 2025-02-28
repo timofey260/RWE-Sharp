@@ -47,29 +47,29 @@
         </widget>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout">
-         <item>
-          <widget class="QPushButton" name="AddCamera">
-           <property name="text">
-            <string>Add</string>
-           </property>
-          </widget>
-         </item>
-         <item>
+        <layout class="QGridLayout" name="gridLayout">
+         <item row="0" column="1">
           <widget class="QPushButton" name="RemoveCamera">
            <property name="text">
             <string>Remove</string>
            </property>
           </widget>
          </item>
-         <item>
+         <item row="0" column="0">
+          <widget class="QPushButton" name="AddCamera">
+           <property name="text">
+            <string>Add</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
           <widget class="QPushButton" name="MoveUp">
            <property name="text">
             <string>Move Up</string>
            </property>
           </widget>
          </item>
-         <item>
+         <item row="1" column="1">
           <widget class="QPushButton" name="MoveDown">
            <property name="text">
             <string>Move Down</string>
