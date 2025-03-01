@@ -1,6 +1,7 @@
 from RWESharp.Modify import LevelPart
 from RWESharp.Core import lingoIO, SPRITESIZE, CELLSIZE
 from RWESharp.Utils import polar2point, point2polar
+from BaseMod.tiles.tileUtils import PlacedMaterial, PlacedTileHead, PlacedTileBody
 from PySide6.QtCore import QPoint, QPointF
 import numpy as np
 from copy import deepcopy
@@ -77,12 +78,52 @@ class GeoLevelPart(LevelPart):
 class TileLevelPart(LevelPart):
     def __init__(self, level):
         super().__init__("tiles", level)
-        self.tiles = self.level.data["TE"]["tlMatrix"]
+        # self.tiles = self.level.data["TE"]["tlMatrix"]
+        self.tiles: list[list[PlacedTileHead | PlacedTileBody | PlacedMaterial | None]] | None = None
+        self.load_tiles()
+
+    def load_tiles(self):
+        tilebodies: dict[(QPoint, int), list] = {}
+        self.tiles = [[[self.scantile(x, y, 0, tilebodies), self.scantile(x, y, 1, tilebodies),
+                        self.scantile(x, y, 2, tilebodies)]
+                       for y in range(self.level.level_height)] for x in range(self.level.level_width)]
+        for k, v in tilebodies.items():
+            pos = k[0]
+            layer = k[1]
+            tilehead = self.tiles[pos.x()][pos.y()][layer]
+            if not isinstance(tilehead, PlacedTileHead):
+                continue
+            tilehead.tilebodies = v
+
+    def scantile(self, x: int, y: int, layer: int, tb: dict):
+        tile = self.level.data["TE"]["tlMatrix"][x][y][layer]
+        match tile["tp"]:
+            case "material":
+                foundtile = self.level.manager.tiles.find_tile(tile["data"])
+                if foundtile is None:
+                    return None  # todo notfound material and tile exceptions
+                return PlacedMaterial(foundtile)
+            case "tileHead":
+                foundtile = self.level.manager.tiles.find_tile(tile["data"][1])
+                if foundtile is None:
+                    return None
+                return PlacedTileHead(foundtile)
+            case "tileBody":
+                head = tile.get("data")
+                layer = head[1] - 1
+                tileheadpos = QPoint(*lingoIO.frompoint(head[0])) - QPoint(1, 1)
+                l = tb.get((tileheadpos, layer), None)
+                tilebody = PlacedTileBody(None)
+                if l is None:
+                    tb[(tileheadpos, layer)] = [tilebody]
+                    return tilebody
+                l.append(tilebody)
+                return tilebody
 
     def save_level(self):
         self.level.data["TE"]["tlMatrix"] = self.tiles
 
-    def tile_data_xy(self, x: int, y: int, layer: int) -> dict[str, ...]:
+    def tile_data_xy(self, x: int, y: int, layer: int) -> None | PlacedTileBody | PlacedTileHead | PlacedMaterial:
         """
         returns tile on specific layer
         :param x: x position of tile
@@ -92,7 +133,7 @@ class TileLevelPart(LevelPart):
         """
         return self.tiles[x][y][layer]
 
-    def tile_data(self, pos: QPoint, layer: int) -> dict[str, ...]:
+    def tile_data(self, pos: QPoint, layer: int) -> None | PlacedTileBody | PlacedTileHead | PlacedMaterial:
         """
         returns tile on specific layer
         :param pos: position of tile
@@ -103,6 +144,9 @@ class TileLevelPart(LevelPart):
 
     def __call__(self, *args, **kwargs):
         return self.tile_data(*args, **kwargs)
+
+    def __getitem__(self, item: QPoint):
+        return self.tiles[item.x()][item.y()]
 
 
 class PropLevelPart(LevelPart):

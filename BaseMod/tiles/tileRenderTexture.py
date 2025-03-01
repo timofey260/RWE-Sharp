@@ -4,6 +4,7 @@ from PySide6.QtGui import QBrush, QColor, QPainter
 from RWESharp.Core import CONSTS, CELLSIZE, SPRITESIZE
 from RWESharp.Loaders import colortable, color_colortable
 from RWESharp.Renderable import RenderLevelImage
+from BaseMod.tiles.tileUtils import PlacedMaterial, PlacedTileHead, PlacedTileBody
 
 
 class TileRenderLevelImage(RenderLevelImage):
@@ -51,86 +52,45 @@ class TileRenderLevelImage(RenderLevelImage):
         tile = self.viewport.level.l_tiles(pos, self.tilelayer)
         x = pos.x()
         y = pos.y()
-        match tile["tp"]:
-            case "default":
+        if isinstance(tile, PlacedMaterial):
+            if self.ui.drawoption.value == 0:
+                sz = CONSTS.get("materialsize", [6, 8])
+                self.painter.setBrush(QBrush(QColor(*CONSTS.get("materials", {}).get(tile.tile.name, [255, 0, 0, 255]))))
+                self.painter.setPen(Qt.PenStyle.NoPen)
+                self.painter.drawRoundedRect(x * CELLSIZE + sz[0], y * CELLSIZE + sz[0], sz[1], sz[1], 2, 2)
+            elif self.ui.drawoption.value == 3:
+                self.painter.fillRect(x * CELLSIZE, y * CELLSIZE, CELLSIZE, CELLSIZE, QColor(122, 0, 0, 255))
+        elif isinstance(tile, PlacedTileHead):
+            foundtile = tile.tile
+            if foundtile is None:
                 return
-            case "material":
-                if self.ui.drawoption.value == 0:
-                    sz = CONSTS.get("materialsize", [6, 8])
-                    self.painter.setBrush(QBrush(QColor(*CONSTS.get("materials", {}).get(tile["data"], [255, 0, 0, 255]))))
-                    self.painter.setPen(Qt.PenStyle.NoPen)
-                    self.painter.drawRoundedRect(x * CELLSIZE + sz[0], y * CELLSIZE + sz[0], sz[1], sz[1], 2, 2)
-                elif self.ui.drawoption.value == 3:
-                    self.painter.fillRect(x * CELLSIZE, y * CELLSIZE, CELLSIZE, CELLSIZE, QColor(122, 0, 0, 255))
-            # old version
-            # case "tileBody":
-            #     pointer = fromarr(tile["data"][0], "point")
-            #     if self.layer != tile["data"][1] - 1:
-            #         # drawing arrow
-            #         # self.painter.setPen(Qt.PenStyle.DashLine)
-            #         # self.painter.setPen(QColor(255, 0, 0, 255))
-            #         self.painter.setPen(QPen(QColor(255, 0, 0, 255), 2))
-            #         self.painter.drawLines([
-            #             QLine(x * CELLSIZE + 10, y * CELLSIZE + 3, x * CELLSIZE + 10, y * CELLSIZE + 17),
-            #             QLine(x * CELLSIZE + 10, y * CELLSIZE + 3, x * CELLSIZE + 5, y * CELLSIZE + 8),
-            #             QLine(x * CELLSIZE + 10, y * CELLSIZE + 3, x * CELLSIZE + 15, y * CELLSIZE + 8)
-            #         ])
-            #     pointer = [pointer[0] - 1, pointer[1] - 1]
-            #     newtile = self.manager.level.TE_data(pointer[0], pointer[1], tile["data"][1] - 1)
-            #     if newtile["tp"] != "tileHead":
-            #         print("uuh error")
-            #         return
-            #     foundtile = self.manager.tiles[newtile["data"][1]]
-            #     if foundtile == None:
-            #         print("uuh tile not found")
-            #         return
-            #     cposxo = pointer[0] - int((foundtile.size[0] * .5) + .5) + 1
-            #     cposyo = pointer[1] - int((foundtile.size[1] * .5) + .5) + 1
-            #     offset = [x - cposxo, y - cposyo]
-            #     if offset[0] > foundtile.size[0] or offset[1] > foundtile.size[1]:
-            #         print("broken tile size")
-            #         return
-            #     sourcerect = QRect(offset[0] * SPRITESIZE, offset[1] * SPRITESIZE, SPRITESIZE, SPRITESIZE)
-            #     self.painter.drawImage(drawrect, foundtile.image, sourcerect)
-            # case "tileHead":
-            #     foundtile = self.manager.tiles[tile["data"][1]]
-            #     cposxo = int((foundtile.size[0] * .5) + .5) - 1
-            #     cposyo = int((foundtile.size[1] * .5) + .5) - 1
-            #     sourcerect = QRect(cposxo * SPRITESIZE, cposyo * SPRITESIZE, SPRITESIZE, SPRITESIZE)
-            #     self.painter.drawImage(drawrect, foundtile.image, sourcerect)
+            cposxo = int((foundtile.size.width() * .5) + .5) - 1
+            cposyo = int((foundtile.size.height() * .5) + .5) - 1
+            if self.ui.drawoption.value == 0:
+                sourcerect = QRect(0, 0, SPRITESIZE * foundtile.size.width(), SPRITESIZE * foundtile.size.height())
+                drawrect = QRect((x - cposxo) * CELLSIZE, (y - cposyo) * CELLSIZE, CELLSIZE * foundtile.size.width(), CELLSIZE * foundtile.size.height())  # it works trust
+                self.painter.drawPixmap(drawrect, foundtile.image, sourcerect)
+            elif self.ui.drawoption.value == 1:
+                drawrect = QRect((x - cposxo - foundtile.bfTiles) * CELLSIZE,
+                                 (y - cposyo - foundtile.bfTiles) * CELLSIZE,
+                                 CELLSIZE * (foundtile.size.width() + foundtile.bfTiles * 2),
+                                 CELLSIZE * (foundtile.size.height() + foundtile.bfTiles * 2))  # it works trust
 
-            # new one
-            case "tileHead":
-                foundtile = self.manager.tiles.find_tile(tile["data"][1])
-                if foundtile is None:
-                    return
-                cposxo = int((foundtile.size.width() * .5) + .5) - 1
-                cposyo = int((foundtile.size.height() * .5) + .5) - 1
-                if self.ui.drawoption.value == 0:
-                    sourcerect = QRect(0, 0, SPRITESIZE * foundtile.size.width(), SPRITESIZE * foundtile.size.height())
-                    drawrect = QRect((x - cposxo) * CELLSIZE, (y - cposyo) * CELLSIZE, CELLSIZE * foundtile.size.width(), CELLSIZE * foundtile.size.height())  # it works trust
-                    self.painter.drawPixmap(drawrect, foundtile.image, sourcerect)
-                elif self.ui.drawoption.value == 1:
-                    drawrect = QRect((x - cposxo - foundtile.bfTiles) * CELLSIZE,
-                                     (y - cposyo - foundtile.bfTiles) * CELLSIZE,
-                                     CELLSIZE * (foundtile.size.width() + foundtile.bfTiles * 2),
-                                     CELLSIZE * (foundtile.size.height() + foundtile.bfTiles * 2))  # it works trust
+                self.painter.drawPixmap(drawrect, foundtile.image2)
 
-                    self.painter.drawPixmap(drawrect, foundtile.image2)
-
+            else:
+                drawrect = QRect((x - cposxo - foundtile.bfTiles) * CELLSIZE,
+                                 (y - cposyo - foundtile.bfTiles) * CELLSIZE,
+                                 CELLSIZE * (foundtile.size.width() + foundtile.bfTiles * 2),
+                                 CELLSIZE * (foundtile.size.height() + foundtile.bfTiles * 2))  # it works trust
+                if self.ui.drawoption.value == 3:
+                    foundtile.image3.setColorTable(colortable[self.tilelayer])
+                elif self.ui.drawoption.value == 2:
+                    foundtile.image3.setColorTable(color_colortable(foundtile.color))
                 else:
-                    drawrect = QRect((x - cposxo - foundtile.bfTiles) * CELLSIZE,
-                                     (y - cposyo - foundtile.bfTiles) * CELLSIZE,
-                                     CELLSIZE * (foundtile.size.width() + foundtile.bfTiles * 2),
-                                     CELLSIZE * (foundtile.size.height() + foundtile.bfTiles * 2))  # it works trust
-                    if self.ui.drawoption.value == 3:
-                        foundtile.image3.setColorTable(colortable[self.tilelayer])
-                    elif self.ui.drawoption.value == 2:
-                        foundtile.image3.setColorTable(color_colortable(foundtile.color))
-                    else:
-                        col = self.ui.drawoption.value - 4
-                        foundtile.image3.setColorTable(self.ui.colortable[col][self.tilelayer])
-                    self.painter.drawImage(drawrect, foundtile.image3)
+                    col = self.ui.drawoption.value - 4
+                    foundtile.image3.setColorTable(self.ui.colortable[col][self.tilelayer])
+                self.painter.drawImage(drawrect, foundtile.image3)
 
     def draw_material(self):
         pass

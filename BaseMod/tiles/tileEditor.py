@@ -115,7 +115,8 @@ class TileEditor(Editor):
             else:
                 self.manager.selected_viewport.level.history.last_element.add_move(cellpos)
         if self.manager.selected_viewport.level.inside(cellpos):
-            self.manager.set_status(f"x: {cellpos.x()}, y: {cellpos.y()}, {self.manager.selected_viewport.level['TE']['tlMatrix'][cellpos.x()][cellpos.y()]}")
+            # self.manager.set_status(f"x: {cellpos.x()}, y: {cellpos.y()}, {self.manager.selected_viewport.level['TE']['tlMatrix'][cellpos.x()][cellpos.y()]}")
+            self.manager.set_status(f"x: {cellpos.x()}, y: {cellpos.y()}, {[str(i) for i in self.manager.selected_viewport.level.l_tiles[cellpos]]}")
         # self.tile_item.setPos(pos)
         self.tile_rect.setPos(self.tile_item.offset)
         rect = self.tile_item.image.rect()

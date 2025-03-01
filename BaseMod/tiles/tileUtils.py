@@ -9,6 +9,31 @@ from RWESharp.Loaders import Tile, tile_offset
 from RWESharp.Modify import HistoryElement
 
 
+class PlacedTileHead:
+    def __init__(self, tile):
+        self.tile = tile
+        self.tilebodies = []
+
+    def __str__(self):
+        return self.tile.name
+
+
+class PlacedTileBody:
+    def __init__(self, tilehead: PlacedTileHead | None):
+        self.tilehead = tilehead
+
+    def __str__(self):
+        return self.tilehead.tile.name
+
+
+class PlacedMaterial:
+    def __init__(self, tile):
+        self.tile = tile
+
+    def __str__(self):
+        return self.tile.name
+
+
 def copy_tile(tile: dict) -> dict:
     if isinstance(tile.get("data", []), list):
         return {"tp": tile.get("tp", "default"), "data": tile.get("data", []).copy()}
