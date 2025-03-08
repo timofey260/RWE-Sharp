@@ -429,5 +429,35 @@ QSpinBox,QDoubleSpinBox::down-arrow {
     image: img(:/misc/misc/arrow_down.svg);
 }
 
+QTreeView::branch {
+        color: @accent_medium;
+}
 
+QTreeView::branch:has-siblings:!adjoins-item {
+        color: @accent_medium;
+}
+
+QTreeView::branch:has-siblings:adjoins-item {
+        color: @accent_medium;
+}
+
+QTreeView::branch:!has-children:!has-siblings:adjoins-item {
+        color: @accent_medium;
+}
+
+QTreeView::branch:closed:has-children:has-siblings {
+        color: @accent_medium;
+}
+
+QTreeView::branch:has-children:!has-siblings:closed {
+        color: @accent_medium;
+}
+
+QTreeView::branch:open:has-children:has-siblings {
+        color: @accent_medium;
+}
+
+QTreeView::branch:open:has-children:!has-siblings {
+        color: @accent_medium;
+}
 
