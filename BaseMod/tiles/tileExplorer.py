@@ -35,6 +35,9 @@ class TileExplorer(Explorer):
         self.ui.Properties.setItem(4, 0, QTableWidgetItem(", ".join(item.tags)))
         self.ui.Properties.adjustSize()
         self.ui.Properties.resizeColumnsToContents()
+        self.ui.Properties.resizeRowsToContents()
+        self.ui.Properties.verticalHeaderDefaultSectionSize = 25
+        self.ui.Properties.verticalHeaderStretchLastSection = True
         # self.ui.Properties.setAutoScroll(True)
 
     def itemtype(self) -> type:
