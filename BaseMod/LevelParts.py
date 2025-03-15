@@ -79,7 +79,7 @@ class TileLevelPart(LevelPart):
     def __init__(self, level):
         super().__init__("tiles", level)
         # self.tiles = self.level.data["TE"]["tlMatrix"]
-        self.tiles: list[list[PlacedTileHead | PlacedTileBody | PlacedMaterial | None]] | None = None
+        self.tiles: list[list[list[PlacedTileHead | PlacedTileBody | PlacedMaterial | None]]] | None = None
         self.load_tiles()
 
     def load_tiles(self):
@@ -107,13 +107,13 @@ class TileLevelPart(LevelPart):
                 foundtile = self.level.manager.tiles.find_tile(tile["data"][1])
                 if foundtile is None:
                     return None
-                return PlacedTileHead(foundtile)
+                return PlacedTileHead(foundtile, QPoint(x, y), layer)
             case "tileBody":
                 head = tile.get("data")
                 layer = head[1] - 1
                 tileheadpos = QPoint(*lingoIO.frompoint(head[0])) - QPoint(1, 1)
                 l = tb.get((tileheadpos, layer), None)
-                tilebody = PlacedTileBody(None)
+                tilebody = PlacedTileBody(None, QPoint(x, y), layer)
                 if l is None:
                     tb[(tileheadpos, layer)] = [tilebody]
                     return tilebody

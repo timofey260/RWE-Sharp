@@ -10,20 +10,36 @@ from RWESharp.Modify import HistoryElement
 
 
 class PlacedTileHead:
-    def __init__(self, tile):
+    def __init__(self, tile, pos, layer):
         self.tile = tile
         self.tilebodies = []
+        self.pos = pos
+        self.layer = layer
 
     def __str__(self):
         return self.tile.name
 
+    def remove(self, level):
+        for i in self.tilebodies:
+            i.remove(level)
+
 
 class PlacedTileBody:
-    def __init__(self, tilehead: PlacedTileHead | None):
+    def __init__(self, tilehead: PlacedTileHead | None, pos, layer):
         self.tilehead = tilehead
+        self.pos = pos
+        self.layer = layer
 
     def __str__(self):
         return self.tilehead.tile.name
+
+    def remove(self, level: RWELevel):
+        level.l_tiles[self.pos][self.layer] = None
+        #level.viewport.modulenames["tiles"].get_layer(self.layer)
+
+    @property
+    def tile(self):
+        return self.tilehead.tile
 
 
 class PlacedMaterial:

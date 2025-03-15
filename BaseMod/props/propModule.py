@@ -1,5 +1,7 @@
 from RWESharp.Modify import Module
 from BaseMod.props.propRenderable import PropRenderable
+from PySide6.QtWidgets import QGraphicsPixmapItem, QGraphicsItemGroup
+from PySide6.QtGui import QPixmap
 
 
 class PropModule(Module):
@@ -9,11 +11,21 @@ class PropModule(Module):
         mod.propsview.ui.ShowProps.toggled.connect(self.set_visibility)
         mod.propsview.ui.Outline.toggled.connect(lambda x: self.set_outline(x, mod.propsview.outline_color.value))
         mod.propsview.ui.OutlineColor.colorPicked.connect(lambda x: self.set_outline(True, x))
+        self.group = QGraphicsItemGroup()
+        prop = QPixmap.fromImage(self.manager.props.find_prop("Big Brick").images[0])
+        # for x in range(0, 5000, 50):
+        #     for y in range(0, 5000, 50):
+        #         item = QGraphicsPixmapItem(prop)
+        #         item.setPos(x, y)
+        #         self.group.addToGroup(item)
         # Handle(self)
-
+    def move_event(self):
+        super().move_event()
+        self.group.setPos(self.viewport.topleft.pos())
     def init_scene_items(self, viewport):
         self.render_props()
         super().init_scene_items(viewport)
+        self.viewport.scene().addItem(self.group)
 
     def render_props(self):
         for i in self.props:
