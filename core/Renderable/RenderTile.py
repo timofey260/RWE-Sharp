@@ -1,7 +1,6 @@
 from core.Renderable.RenderImage import RenderImage
 from core.Loaders.Tile import Tile
 from core.info import CELLSIZE
-from core.Loaders.TileLoader import palette_to_colortable, return_tile_pixmap, collisions_image, tile_offset
 from PySide6.QtCore import QSize, QPoint
 from PySide6.QtGui import QPixmap
 from PySide6.QtWidgets import QGraphicsPixmapItem
@@ -18,8 +17,8 @@ class RenderTile(RenderImage):
 
     def set_tile(self, tile: Tile, colortable, option: int = 0):
         self.drawoption = option
-        self.image = return_tile_pixmap(tile, self.drawoption, self.layer, colortable)
-        self.colsimage = collisions_image(tile)
+        self.image = tile.return_tile_pixmap(self.drawoption, self.layer, colortable)
+        self.colsimage = tile.collisions_image()
         self.redraw()
         self.tile = tile
         self.zoom_event()

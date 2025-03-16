@@ -18,6 +18,7 @@ defaultlevellines = defaultlevel.split("\n")
 
 class RWELevel:
     def __init__(self, manager, file=None):
+        from BaseMod.LevelParts import GeoLevelPart, TileLevelPart, EffectLevelPart, PropLevelPart, CameraLevelPart
         self.manager = manager
         self.file = file
         if file is not None:
@@ -30,11 +31,11 @@ class RWELevel:
         self.mount_levelparts()
 
         # quick access stuff
-        self.l_geo = self.levelparts["geo"]
-        self.l_tiles = self.levelparts["tiles"]
-        self.l_effects = self.levelparts["effects"]
-        self.l_props = self.levelparts["props"]
-        self.l_cameras = self.levelparts["camera"]
+        self.l_geo: GeoLevelPart = self.levelparts["geo"]
+        self.l_tiles: TileLevelPart = self.levelparts["tiles"]
+        self.l_effects: EffectLevelPart = self.levelparts["effects"]
+        self.l_props: PropLevelPart = self.levelparts["props"]
+        self.l_cameras: CameraLevelPart = self.levelparts["camera"]
 
         self.custom_level_data = CustomLevelData(self)
 

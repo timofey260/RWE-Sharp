@@ -2,7 +2,7 @@ from PySide6.QtCore import QRect, Qt, Slot, QPoint, QSize
 from PySide6.QtGui import QBrush, QColor, QPainter
 
 from RWESharp.Core import CONSTS, CELLSIZE, SPRITESIZE
-from RWESharp.Loaders import colortable, color_colortable
+from RWESharp.Loaders import colortable, color_colortable, Tile
 from RWESharp.Renderable import RenderLevelImage
 from BaseMod.tiles.tileUtils import PlacedMaterial, PlacedTileHead, PlacedTileBody
 
@@ -42,6 +42,14 @@ class TileRenderLevelImage(RenderLevelImage):
         self.painter.setCompositionMode(QPainter.CompositionMode.CompositionMode_Clear)
         self.painter.eraseRect(QRect(pos * CELLSIZE, QSize(CELLSIZE, CELLSIZE)))
         self.painter.setCompositionMode(QPainter.CompositionMode.CompositionMode_SourceOver)
+
+    def clean_tile(self, pos: QPoint):
+        ptile = self.viewport.level.l_tiles(pos, self.tilelayer)
+        if ptile is None:
+            return
+        tile: Tile = ptile.tile
+
+
 
     def level_resized(self):
         super().level_resized()

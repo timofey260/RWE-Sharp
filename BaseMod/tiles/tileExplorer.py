@@ -8,7 +8,7 @@ from BaseMod.Explorer import Explorer
 from BaseMod.tiles.tilePin import TilePin
 from RWESharp.Configurable import BoolConfigurable, IntConfigurable, StringConfigurable
 from RWESharp.Core import PATH_FILES_IMAGES_PALETTES, CELLSIZE, SPRITESIZE
-from RWESharp.Loaders import Tile, palette_to_colortable, return_tile_pixmap, collisions_image
+from RWESharp.Loaders import Tile, palette_to_colortable
 
 
 class TileExplorer(Explorer):
@@ -162,8 +162,8 @@ class TileExplorer(Explorer):
 
     def preview_tile(self, tile):
         self.tileimage.setOpacity(1)
-        self.tileimage.setPixmap(return_tile_pixmap(tile, self.synced_draw_option, self.layer.value, self.colortable))
-        self.tilecolsimage.setPixmap(collisions_image(tile))
+        self.tileimage.setPixmap(tile.return_tile_pixmap(self.synced_draw_option, self.layer.value, self.colortable))
+        self.tilecolsimage.setPixmap(tile.collisions_image())
         self.tileimage.setData(2, (CELLSIZE / SPRITESIZE) if self.synced_draw_option == 0 else 1)
 
         self.tileimage.setData(1, QPoint(0, 0) if self.synced_draw_option == 0 else (-QPoint(tile.bfTiles, tile.bfTiles) * CELLSIZE))
@@ -193,4 +193,4 @@ class TileExplorer(Explorer):
         self.tileimage.setOpacity(1 if value and len(self.selected) > 0 else 0)
 
     def get_icon(self, tile: Tile):
-        return return_tile_pixmap(tile, self.synced_draw_option, self.layer.value, self.colortable)
+        return tile.return_tile_pixmap(self.synced_draw_option, self.layer.value, self.colortable)

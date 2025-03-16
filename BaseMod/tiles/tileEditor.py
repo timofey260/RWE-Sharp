@@ -10,7 +10,7 @@ from PySide6.QtCore import QRect, QPoint
 from RWESharp.Configurable import IntConfigurable, BoolConfigurable, StringConfigurable, EnumConfigurable
 from RWESharp.Core import CELLSIZE, PATH_FILES_IMAGES_PALETTES
 from RWESharp.Modify import Editor
-from RWESharp.Loaders import palette_to_colortable, tile_offset, Tile
+from RWESharp.Loaders import palette_to_colortable, Tile
 from RWESharp.Renderable import RenderTile, RenderRect
 from BaseMod.tiles.tileExplorer import TileExplorer
 from BaseMod.tiles.tileHistory import TilePen
@@ -105,9 +105,8 @@ class TileEditor(Editor):
     def mouse_move_event(self, event: QMoveEvent):
         if self.tile is None:
             return
-        offset = tile_offset(self.tile)
         curpos = self.viewport.viewport_to_editor(self.mouse_pos)
-        cellpos = curpos - offset
+        cellpos = curpos - self.tile.top_left
         self.tile_item.setPos(cellpos * CELLSIZE)
         if self.mouse_left:
             if self.deleteleft.value:
@@ -124,8 +123,7 @@ class TileEditor(Editor):
         rect.setBottomRight(rect.bottomRight() + QPoint(3, 3))
         self.tile_rect.setRect(rect)
         self.tile_rect.setScale(self.tile_item.scale)
-        offset = tile_offset(self.tile)
-        fpos = self.viewport.viewport_to_editor(self.mouse_pos) - offset
+        fpos = self.viewport.viewport_to_editor(self.mouse_pos) - self.tile.top_left
         self.tile_rect.drawrect.setPen(QColor(0, 255, 0) if can_place(self.level, fpos, self.layer, self.tile, self.force_place.value, self.force_geo.value) else QColor(255, 0, 0))
 
     def init_scene_items(self, viewport):
@@ -145,7 +143,6 @@ class TileEditor(Editor):
             self.tool_specific_press(self.toolright.value, self.deleteright.value)
 
     def tool_specific_press(self, tool: Enum, delete: bool):
-        offset = tile_offset(self.tile)
-        fpos = self.viewport.viewport_to_editor(self.mouse_pos) - offset
+        fpos = self.viewport.viewport_to_editor(self.mouse_pos) - self.tile.top_left
         if tool == TileTools.Pen:
             self.manager.selected_viewport.level.add_history(TilePen(self.manager.selected_viewport.level.history, fpos, self.tile, self.layer, delete, self.force_place.value, self.force_geo.value))

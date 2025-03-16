@@ -5,7 +5,7 @@ import numpy as np
 from PySide6.QtCore import QPoint
 
 from RWESharp.Core import lingoIO, RWELevel
-from RWESharp.Loaders import Tile, tile_offset
+from RWESharp.Loaders import Tile
 from RWESharp.Modify import HistoryElement
 
 
@@ -101,7 +101,7 @@ def check_collisions(level: RWELevel, pos: QPoint, layer: int, tile: Tile, force
 
 def can_place(level: RWELevel, pos: QPoint, layer: int, tile: Tile, force_place: bool, force_geometry: bool,
               area: list[list[bool]] = None, area2: list[list[bool]] = None) -> bool:
-    headpos = tile_offset(tile) + pos
+    headpos = tile.top_left + pos
     if not level.inside(headpos):
         return False
     # if area is available
@@ -170,7 +170,7 @@ def place_tile(level: RWELevel,
         level.viewport.modulenames["tiles"].get_layer(layer).draw_tile(pos)
         level.viewport.modulenames["geo"].get_layer(layer).draw_geo(pos.x(), pos.y(), True)
         return PlacedTile([change], geochange)
-    headpos = tile_offset(tile) + pos
+    headpos = tile.top_left + pos
     if not level.inside(headpos):
         return None
     changes = []
@@ -235,7 +235,7 @@ def remove_tile(level: RWELevel, pos: QPoint, layer: int) -> RemovedTile | None:
         return
     tiledata = {"tp": "tileBody", "data": [lingoIO.point([headpos.x() + 1, headpos.y() + 1]), layer + 1]}
     changes = []
-    offset = tile_offset(foundtile)
+    offset = foundtile.top_left
     for x in range(foundtile.size.width()):
         for y in range(foundtile.size.height()):
             bodypos = QPoint(x, y) + headpos - offset

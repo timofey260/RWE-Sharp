@@ -1,7 +1,6 @@
 from BaseMod.tiles.ui.tilepin import Ui_TilePin
 from RWESharp.Configurable import IntConfigurable
 from RWESharp.Core import ViewDockWidget, CELLSIZE, SPRITESIZE
-from RWESharp.Loaders import return_tile_pixmap, collisions_image
 from PySide6.QtCore import Qt, QPoint
 from PySide6.QtGui import QPixmap
 
@@ -46,8 +45,8 @@ class TilePin(ViewDockWidget):
 
         self.tileimage.setOpacity(1)
         self.tilecolsimage.setOpacity(self.ui.Collisions.isChecked())
-        self.tileimage.setPixmap(return_tile_pixmap(self.tile, self.drawoption.value, self.layer.value - 1, self.explorer.colortable))
-        self.tilecolsimage.setPixmap(collisions_image(self.tile))
+        self.tileimage.setPixmap(self.tile.return_tile_pixmap(self.drawoption.value, self.layer.value - 1, self.explorer.colortable))
+        self.tilecolsimage.setPixmap(self.tile.collisions_image())
         self.tileimage.setData(2, (CELLSIZE / SPRITESIZE) if self.drawoption.value == 0 else 1)
 
         self.tileimage.setData(1, QPoint(0, 0) if self.drawoption.value == 0 else (-QPoint(self.tile.bfTiles, self.tile.bfTiles) * CELLSIZE))

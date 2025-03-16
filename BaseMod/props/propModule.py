@@ -19,9 +19,11 @@ class PropModule(Module):
         #         item.setPos(x, y)
         #         self.group.addToGroup(item)
         # Handle(self)
+
     def move_event(self):
         super().move_event()
         self.group.setPos(self.viewport.topleft.pos())
+
     def init_scene_items(self, viewport):
         self.render_props()
         super().init_scene_items(viewport)

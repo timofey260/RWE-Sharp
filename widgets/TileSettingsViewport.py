@@ -1,7 +1,6 @@
 from PySide6.QtCore import QPointF, QPoint
 
 from RWESharpWidgets import SimpleViewport
-from RWESharp.Loaders import Tile, collisions_image, return_tile_pixmap, palette_to_colortable
 from RWESharp.Core import CELLSIZE, SPRITESIZE
 from PySide6.QtGui import QPixmap, QImage
 
@@ -26,9 +25,9 @@ class TileSettingsViewport(SimpleViewport):
     def redraw(self):
         self.colortable = self.manager.basemod.tileeditor.colortable
         tile = self.manager.tiles["Four Holes"]
-        self.tilel1.setPixmap(return_tile_pixmap(tile, self.drawoption, 0, self.colortable))
-        self.tilel2.setPixmap(return_tile_pixmap(tile, self.drawoption, 1, self.colortable))
-        self.tilel3.setPixmap(return_tile_pixmap(tile, self.drawoption, 2, self.colortable))
+        self.tilel1.setPixmap(tile.return_tile_pixmap(self.drawoption, 0, self.colortable))
+        self.tilel2.setPixmap(tile.return_tile_pixmap(self.drawoption, 1, self.colortable))
+        self.tilel3.setPixmap(tile.return_tile_pixmap(self.drawoption, 2, self.colortable))
         self.update_preview()
 
     def update_preview(self):

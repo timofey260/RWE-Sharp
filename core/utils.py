@@ -210,9 +210,7 @@ def point2polar(pos: QPointF) -> QPointF:
     :param pos: position in cartesian coordinates
     :return: point in polar coordinates where x is angle and y is distance
     """
-    dist = math.dist([0, 0], pos.toTuple())
-    angle = math.degrees(math.atan2(pos.y(), pos.x()))
-    return QPointF(angle, dist)
+    return QPointF(math.degrees(math.atan2(pos.y(), pos.x())), math.dist([0, 0], pos.toTuple()))
 
 
 def polar2point(pos: QPointF) -> QPointF:
@@ -220,8 +218,5 @@ def polar2point(pos: QPointF) -> QPointF:
     :param pos: position in polar coordinates where x is angle and y is distance
     :return: point in cartesian coordinates
     """
-    n = QPointF()
     nq = math.radians((pos.x() + 90) % 360)
-    n.setX(math.sin(nq) * pos.y())
-    n.setY(-math.cos(nq) * pos.y())
-    return n
+    return QPointF(math.sin(nq) * pos.y(), -math.cos(nq) * pos.y())
