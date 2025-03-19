@@ -56,7 +56,7 @@ def tojson(string: str, replacement: str = None, log=False):
                 return tojson(replacement)
             return {}
     except:
-        print("fixing, just wait")
+        print("fixing, just wait bro we got it bro")
         if replacement is None:
             raise
         return tojson(replacement)

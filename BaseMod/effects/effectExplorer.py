@@ -8,6 +8,7 @@ from RWESharp.Loaders import Effect, EffectCategory
 from BaseMod.effects.effectHistory import EffectAdd
 
 
+
 class EffectExplorer(ViewDockWidget):
     def __init__(self, editor, parent=None):
         super().__init__(parent)
@@ -29,11 +30,23 @@ class EffectExplorer(ViewDockWidget):
         self.image = self.ui.Effectpreview.workscene.addPixmap(QPixmap(1, 1))
         self.ui.Effectpreview.items.append(self.image)
 
+        self.splitter = self.ui.splitter
+
         self.effect_explorer_action = QAction("Effect Explorer")
         self.mod.manager.window_menu.addAction(self.effect_explorer_action)
         self.link_action(self.effect_explorer_action)
         self.change_visibility(False)
         self.mod.bmconfig.effectexplorer_key.link_action(self.effect_explorer_action)
+
+    def resizeEvvent(self,  event):
+        if hasattr(self,  'ui') and self.ui:
+            width,  height = self.width(), self.height()
+            aspect_ratio = width / height if height else 1
+
+            if hasattr(self.ui, "splitter") and self.ui.splitter:
+                 self.ui.splitter.setOrientation(Qt.Horizontal if aspect_ratio > 1.45 else Qt.Vertical)
+
+        super().resizeEvent(event)
 
     def search(self):
         self.load_effects()
@@ -82,3 +95,5 @@ class EffectExplorer(ViewDockWidget):
         elif isinstance(item.data(0, Qt.ItemDataRole.UserRole), EffectCategory):
             self.ui.Effects.expand(self.ui.Effects.indexFromItem(item, 0))
             self.ui.Description.setText(item.data(0, Qt.ItemDataRole.UserRole).name)
+
+
