@@ -38,8 +38,8 @@ class EffectExplorer(ViewDockWidget):
         self.change_visibility(False)
         self.mod.bmconfig.effectexplorer_key.link_action(self.effect_explorer_action)
 
-    def resizeEvvent(self,  event):
-        if hasattr(self,  'ui') and self.ui:
+    def resizeEvent(self,event):
+        if hasattr(self,'ui') and self.ui:
             width,  height = self.width(), self.height()
             aspect_ratio = width / height if height else 1
 

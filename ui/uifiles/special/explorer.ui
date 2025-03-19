@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>421</width>
-    <height>666</height>
+    <width>907</width>
+    <height>606</height>
    </rect>
   </property>
   <property name="floating">
@@ -20,26 +20,29 @@
    <string>Explorer</string>
   </property>
   <widget class="QWidget" name="dockWidgetContents">
-   <layout class="QGridLayout" name="gridLayout">
-    <item row="1" column="0">
-     <widget class="QLabel" name="LCategories">
-      <property name="text">
-       <string>Categories</string>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QLineEdit" name="SearchBar">
+      <property name="inputMask">
+       <string/>
+      </property>
+      <property name="placeholderText">
+       <string>Search</string>
+      </property>
+      <property name="cursorMoveStyle">
+       <enum>Qt::CursorMoveStyle::LogicalMoveStyle</enum>
+      </property>
+      <property name="clearButtonEnabled">
+       <bool>true</bool>
       </property>
      </widget>
     </item>
-    <item row="1" column="1" rowspan="3">
+    <item>
      <widget class="QSplitter" name="splitter">
       <property name="orientation">
        <enum>Qt::Orientation::Horizontal</enum>
       </property>
       <widget class="QWidget" name="CatsTab" native="true">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <property name="leftMargin">
          <number>0</number>
@@ -47,28 +50,46 @@
         <property name="rightMargin">
          <number>0</number>
         </property>
-       </layout>
-      </widget>
-      <widget class="QWidget" name="ItemsTab" native="true">
-       <layout class="QGridLayout" name="gridLayout_2">
-        <property name="leftMargin">
-         <number>0</number>
-        </property>
-        <property name="rightMargin">
-         <number>0</number>
-        </property>
-        <item row="7" column="0">
-         <layout class="QHBoxLayout" name="horizontalLayout_5">
+        <item>
+         <widget class="QLabel" name="LCategories">
+          <property name="text">
+           <string>Categories</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QTreeWidget" name="Categories">
+          <property name="editTriggers">
+           <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
+          </property>
+          <property name="alternatingRowColors">
+           <bool>true</bool>
+          </property>
+          <property name="selectionMode">
+           <enum>QAbstractItemView::SelectionMode::ExtendedSelection</enum>
+          </property>
+          <attribute name="headerVisible">
+           <bool>false</bool>
+          </attribute>
+          <column>
+           <property name="text">
+            <string notr="true">1</string>
+           </property>
+          </column>
+         </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout">
           <property name="spacing">
            <number>0</number>
           </property>
           <item>
-           <widget class="QToolButton" name="Favourite">
+           <widget class="QToolButton" name="CatsAddCC">
             <property name="text">
              <string/>
             </property>
             <property name="icon">
-             <iconset theme="emblem-favorite"/>
+             <iconset theme="list-add"/>
             </property>
             <property name="arrowType">
              <enum>Qt::ArrowType::NoArrow</enum>
@@ -76,26 +97,19 @@
            </widget>
           </item>
           <item>
-           <widget class="QToolButton" name="Pin">
+           <widget class="QToolButton" name="CatsRemoveCC">
             <property name="text">
-             <string>Pin</string>
+             <string/>
             </property>
             <property name="icon">
-             <iconset resource="../../../resources/res.qrc">
-              <normaloff>:/special/special/pin.svg</normaloff>:/special/special/pin.svg</iconset>
-            </property>
-            <property name="arrowType">
-             <enum>Qt::ArrowType::NoArrow</enum>
+             <iconset theme="list-remove"/>
             </property>
            </widget>
           </item>
           <item>
-           <spacer name="horizontalSpacer_5">
+           <spacer name="horizontalSpacer">
             <property name="orientation">
              <enum>Qt::Orientation::Horizontal</enum>
-            </property>
-            <property name="sizeType">
-             <enum>QSizePolicy::Policy::Minimum</enum>
             </property>
             <property name="sizeHint" stdset="0">
              <size>
@@ -106,85 +120,73 @@
            </spacer>
           </item>
           <item>
-           <widget class="QComboBox" name="RenderOption">
-            <item>
-             <property name="text">
-              <string>Classic</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Tile image</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Henry</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Unrendered</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Rendered (sun)</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Rendered (shaded)</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Rendered (rain)</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Sync</string>
-             </property>
-            </item>
+           <widget class="QToolButton" name="CatPrev">
+            <property name="text">
+             <string>...</string>
+            </property>
+            <property name="arrowType">
+             <enum>Qt::ArrowType::LeftArrow</enum>
+            </property>
            </widget>
           </item>
           <item>
-           <widget class="QComboBox" name="LayerBox">
-            <item>
-             <property name="text">
-              <string>1</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>2</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>3</string>
-             </property>
-            </item>
+           <widget class="QToolButton" name="CatNext">
+            <property name="text">
+             <string>...</string>
+            </property>
+            <property name="arrowType">
+             <enum>Qt::ArrowType::RightArrow</enum>
+            </property>
            </widget>
           </item>
          </layout>
         </item>
-        <item row="0" column="0">
+       </layout>
+      </widget>
+      <widget class="QWidget" name="ItemsTab" native="true">
+       <layout class="QVBoxLayout" name="verticalLayout_3">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <item>
          <widget class="QLabel" name="LItems">
           <property name="text">
            <string>Items</string>
           </property>
          </widget>
         </item>
-        <item row="3" column="0">
-         <widget class="QLabel" name="LItem">
-          <property name="text">
-           <string>Item</string>
+        <item>
+         <widget class="QListWidget" name="Items">
+          <property name="mouseTracking">
+           <bool>true</bool>
+          </property>
+          <property name="autoFillBackground">
+           <bool>true</bool>
+          </property>
+          <property name="editTriggers">
+           <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
+          </property>
+          <property name="alternatingRowColors">
+           <bool>true</bool>
+          </property>
+          <property name="resizeMode">
+           <enum>QListView::ResizeMode::Fixed</enum>
+          </property>
+          <property name="layoutMode">
+           <enum>QListView::LayoutMode::SinglePass</enum>
+          </property>
+          <property name="spacing">
+           <number>10</number>
+          </property>
+          <property name="viewMode">
+           <enum>QListView::ViewMode::IconMode</enum>
           </property>
          </widget>
         </item>
-        <item row="2" column="0">
+        <item>
          <layout class="QHBoxLayout" name="horizontalLayout_2">
           <property name="spacing">
            <number>0</number>
@@ -271,10 +273,27 @@
           </item>
          </layout>
         </item>
-        <item row="1" column="0">
-         <widget class="QListWidget" name="Items">
+       </layout>
+      </widget>
+      <widget class="QWidget" name="ItemTab" native="true">
+       <layout class="QVBoxLayout" name="verticalLayout_4">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="QLabel" name="LItem">
+          <property name="text">
+           <string>Item</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="SimpleViewport" name="Preview">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Expanding">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
             <horstretch>0</horstretch>
             <verstretch>1</verstretch>
            </sizepolicy>
@@ -282,79 +301,87 @@
           <property name="mouseTracking">
            <bool>true</bool>
           </property>
-          <property name="autoFillBackground">
-           <bool>true</bool>
-          </property>
-          <property name="editTriggers">
-           <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
-          </property>
-          <property name="alternatingRowColors">
-           <bool>true</bool>
-          </property>
-          <property name="resizeMode">
-           <enum>QListView::ResizeMode::Fixed</enum>
-          </property>
-          <property name="layoutMode">
-           <enum>QListView::LayoutMode::SinglePass</enum>
-          </property>
-          <property name="spacing">
-           <number>10</number>
-          </property>
-          <property name="viewMode">
-           <enum>QListView::ViewMode::IconMode</enum>
-          </property>
          </widget>
         </item>
-        <item row="4" column="0">
-         <widget class="SimpleViewport" name="Preview">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>150</height>
-           </size>
-          </property>
-          <property name="mouseTracking">
-           <bool>true</bool>
-          </property>
-         </widget>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_6">
+          <item>
+           <widget class="QToolButton" name="OnetoOne">
+            <property name="text">
+             <string>1:1</string>
+            </property>
+            <property name="arrowType">
+             <enum>Qt::ArrowType::NoArrow</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="FitInScreen">
+            <property name="text">
+             <string>Fit</string>
+            </property>
+            <property name="arrowType">
+             <enum>Qt::ArrowType::NoArrow</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_7">
+            <property name="orientation">
+             <enum>Qt::Orientation::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QToolButton" name="ToggleCollisions">
+            <property name="text">
+             <string>Collisions</string>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+            <property name="arrowType">
+             <enum>Qt::ArrowType::NoArrow</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="TogglePreview">
+            <property name="text">
+             <string>Preview</string>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+            <property name="arrowType">
+             <enum>Qt::ArrowType::NoArrow</enum>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </item>
-        <item row="6" column="0">
+        <item>
          <widget class="QTableWidget" name="Properties">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>100</height>
-           </size>
-          </property>
-          <property name="sizeIncrement">
-           <size>
-            <width>0</width>
-            <height>0</height>
-           </size>
-          </property>
           <property name="sizeAdjustPolicy">
-           <enum>QAbstractScrollArea::SizeAdjustPolicy::AdjustIgnored</enum>
+           <enum>QAbstractScrollArea::SizeAdjustPolicy::AdjustToContents</enum>
           </property>
           <property name="editTriggers">
            <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
           </property>
-          <property name="dragDropOverwriteMode">
-           <bool>false</bool>
-          </property>
           <property name="alternatingRowColors">
-           <bool>true</bool>
+           <bool>false</bool>
           </property>
           <property name="showGrid">
            <bool>false</bool>
@@ -363,252 +390,145 @@
            <enum>Qt::PenStyle::NoPen</enum>
           </property>
           <property name="sortingEnabled">
-           <bool>true</bool>
-          </property>
-          <property name="wordWrap">
            <bool>false</bool>
           </property>
           <property name="cornerButtonEnabled">
            <bool>true</bool>
           </property>
-          <property name="rowCount">
-           <number>0</number>
-          </property>
           <attribute name="horizontalHeaderVisible">
-           <bool>false</bool>
-          </attribute>
-          <attribute name="horizontalHeaderCascadingSectionResizes">
            <bool>false</bool>
           </attribute>
           <attribute name="horizontalHeaderHighlightSections">
            <bool>true</bool>
           </attribute>
-          <attribute name="verticalHeaderCascadingSectionResizes">
-           <bool>false</bool>
-          </attribute>
           <attribute name="verticalHeaderMinimumSectionSize">
-           <number>25</number>
+           <number>20</number>
           </attribute>
           <attribute name="verticalHeaderDefaultSectionSize">
-           <number>25</number>
+           <number>20</number>
           </attribute>
           <attribute name="verticalHeaderHighlightSections">
            <bool>true</bool>
           </attribute>
-          <attribute name="verticalHeaderShowSortIndicator" stdset="0">
-           <bool>false</bool>
-          </attribute>
-          <attribute name="verticalHeaderStretchLastSection">
-           <bool>true</bool>
-          </attribute>
+          <column>
+           <property name="text">
+            <string>Value</string>
+           </property>
+          </column>
          </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_5">
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QToolButton" name="Favourite">
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset theme="emblem-favorite"/>
+            </property>
+            <property name="arrowType">
+             <enum>Qt::ArrowType::NoArrow</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="Pin">
+            <property name="text">
+             <string>Pin</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../../../resources/res.qrc">
+              <normaloff>:/special/special/pin.svg</normaloff>:/special/special/pin.svg</iconset>
+            </property>
+            <property name="arrowType">
+             <enum>Qt::ArrowType::NoArrow</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_5">
+            <property name="orientation">
+             <enum>Qt::Orientation::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QComboBox" name="RenderOption">
+            <item>
+             <property name="text">
+              <string>Classic</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Tile image</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Henry</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Unrendered</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Rendered (sun)</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Rendered (shaded)</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Rendered (rain)</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Sync</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="LayerBox">
+            <item>
+             <property name="text">
+              <string>1</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>2</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>3</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+         </layout>
         </item>
        </layout>
       </widget>
-     </widget>
-    </item>
-    <item row="4" column="0">
-     <widget class="QFrame" name="frame">
-      <property name="maximumSize">
-       <size>
-        <width>250</width>
-        <height>16777215</height>
-       </size>
-      </property>
-      <property name="frameShape">
-       <enum>QFrame::Shape::StyledPanel</enum>
-      </property>
-      <property name="frameShadow">
-       <enum>QFrame::Shadow::Raised</enum>
-      </property>
-      <layout class="QHBoxLayout" name="horizontalLayout_3">
-       <item>
-        <widget class="QToolButton" name="CatsAddCC">
-         <property name="text">
-          <string/>
-         </property>
-         <property name="icon">
-          <iconset theme="list-add"/>
-         </property>
-         <property name="arrowType">
-          <enum>Qt::ArrowType::NoArrow</enum>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QToolButton" name="CatsRemoveCC">
-         <property name="text">
-          <string/>
-         </property>
-         <property name="icon">
-          <iconset theme="list-remove"/>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <spacer name="horizontalSpacer">
-         <property name="orientation">
-          <enum>Qt::Orientation::Horizontal</enum>
-         </property>
-         <property name="sizeType">
-          <enum>QSizePolicy::Policy::Expanding</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
-        <widget class="QToolButton" name="CatPrev">
-         <property name="text">
-          <string>...</string>
-         </property>
-         <property name="arrowType">
-          <enum>Qt::ArrowType::LeftArrow</enum>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QToolButton" name="CatNext">
-         <property name="text">
-          <string>...</string>
-         </property>
-         <property name="arrowType">
-          <enum>Qt::ArrowType::RightArrow</enum>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-    </item>
-    <item row="4" column="1">
-     <layout class="QHBoxLayout" name="horizontalLayout_6">
-      <item>
-       <widget class="QToolButton" name="OnetoOne">
-        <property name="text">
-         <string>1:1</string>
-        </property>
-        <property name="arrowType">
-         <enum>Qt::ArrowType::NoArrow</enum>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QToolButton" name="FitInScreen">
-        <property name="text">
-         <string>Fit</string>
-        </property>
-        <property name="arrowType">
-         <enum>Qt::ArrowType::NoArrow</enum>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <spacer name="horizontalSpacer_7">
-        <property name="orientation">
-         <enum>Qt::Orientation::Horizontal</enum>
-        </property>
-        <property name="sizeType">
-         <enum>QSizePolicy::Policy::Expanding</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item>
-       <widget class="QToolButton" name="ToggleCollisions">
-        <property name="text">
-         <string>Collisions</string>
-        </property>
-        <property name="checkable">
-         <bool>true</bool>
-        </property>
-        <property name="arrowType">
-         <enum>Qt::ArrowType::NoArrow</enum>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QToolButton" name="TogglePreview">
-        <property name="text">
-         <string>Preview</string>
-        </property>
-        <property name="checkable">
-         <bool>true</bool>
-        </property>
-        <property name="arrowType">
-         <enum>Qt::ArrowType::NoArrow</enum>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item row="2" column="0">
-     <widget class="QLineEdit" name="SearchBar">
-      <property name="maximumSize">
-       <size>
-        <width>250</width>
-        <height>16777215</height>
-       </size>
-      </property>
-      <property name="inputMask">
-       <string/>
-      </property>
-      <property name="placeholderText">
-       <string>Search</string>
-      </property>
-      <property name="cursorMoveStyle">
-       <enum>Qt::CursorMoveStyle::LogicalMoveStyle</enum>
-      </property>
-      <property name="clearButtonEnabled">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="0">
-     <widget class="QTreeWidget" name="Categories">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>100</width>
-        <height>0</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>250</width>
-        <height>16777215</height>
-       </size>
-      </property>
-      <property name="editTriggers">
-       <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
-      </property>
-      <property name="alternatingRowColors">
-       <bool>true</bool>
-      </property>
-      <property name="selectionMode">
-       <enum>QAbstractItemView::SelectionMode::ExtendedSelection</enum>
-      </property>
-      <attribute name="headerVisible">
-       <bool>false</bool>
-      </attribute>
-      <column>
-       <property name="text">
-        <string notr="true">1</string>
-       </property>
-      </column>
      </widget>
     </item>
    </layout>
