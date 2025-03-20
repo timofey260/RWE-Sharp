@@ -210,6 +210,7 @@ class TileUI(UI):
 
     def open_explorer(self):
         self.editor.explorer.change_visibility(True)
+        self.editor.explorer.focussearch()
 
 
 class TileSettings(SettingUI):

@@ -75,6 +75,7 @@ class PropsUI(UI):
 
     def open_explorer(self):
         self.editor.explorer.change_visibility(True)
+        self.editor.explorer.focussearch()
 
     def prop_options_click(self, item: QTreeWidgetItem, column):
         name = item.data(0, Qt.ItemDataRole.UserRole)
