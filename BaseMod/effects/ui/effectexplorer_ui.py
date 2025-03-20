@@ -36,6 +36,9 @@ class Ui_EffectExplorer(object):
 
         self.verticalLayout_3.addWidget(self.Search)
 
+
+
+
         self.splitter = QSplitter(self.dockWidgetContents)
         self.splitter.setObjectName(u"splitter")
         self.splitter.setOrientation(Qt.Orientation.Horizontal)
