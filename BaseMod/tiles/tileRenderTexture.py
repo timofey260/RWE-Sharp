@@ -1,5 +1,6 @@
 from PySide6.QtCore import QRect, Qt, Slot, QPoint, QSize
-from PySide6.QtGui import QBrush, QColor, QPainter
+from PySide6.QtGui import QBrush, QColor, QPainter, QPixmap
+from PySide6.QtWidgets import QGraphicsScene, QGraphicsPixmapItem
 
 from RWESharp.Core import CONSTS, CELLSIZE, SPRITESIZE
 from RWESharp.Loaders import colortable, color_colortable, Tile
@@ -13,6 +14,31 @@ class TileRenderLevelImage(RenderLevelImage):
         self.module = module
         self.ui = self.module.ui
         self.tilelayer = tilelayer
+        self.tilescene = QGraphicsScene(0, 0, 100, 100)
+        self.tileindex: list[QGraphicsPixmapItem] | None = None
+
+    def fill_scene(self):
+        self.clear_scene()
+        self.tilescene.setSceneRect(0, 0, self.viewport.level.level_width * CELLSIZE, self.viewport.level.level_height * CELLSIZE)
+        # air = QPixmap(1, 1)
+        # air.fill(QColor(0, 0, 0, 0))
+        for x in range(self.level.level_width):
+            for y in range(self.level.level_height):
+                tile = self.level.l_tiles.tile_data(QPoint(x, y), self.tilelayer)
+                if isinstance(tile, PlacedTileHead):
+                    item = self.tilescene.addPixmap(tile.tile.image)
+                    item.setPos(QPoint(x * CELLSIZE, y * CELLSIZE) - tile.tile.top_left * CELLSIZE)
+                    item.setScale(20 / 16)
+                    tile.graphics = item
+                elif isinstance(tile, PlacedMaterial):
+                    item = self.tilescene.addPixmap(tile.tile.image)
+                    item.setPos(QPoint(x * CELLSIZE, y * CELLSIZE))
+                    item.setScale(16 / 20)
+                    tile.graphics = item
+        self.tilescene.render(self.painter)
+
+    def clear_scene(self):
+        self.tilescene.clear()
 
     def draw_layer(self, clear=False):
         if clear:
@@ -22,9 +48,12 @@ class TileRenderLevelImage(RenderLevelImage):
             #     for yp, y in enumerate(x):
             #         self.painter.fillRect(QRect(xp * CELLSIZE, yp * CELLSIZE, CELLSIZE, CELLSIZE), QColor(0, 0, 0, 0))
             # self.painter.setCompositionMode(QPainter.CompositionMode.CompositionMode_SourceOver)
+        """
         for xp, x in enumerate(self.viewport.level["TE"]["tlMatrix"]):
             for yp, y in enumerate(x):
-                self.draw_tile(QPoint(xp, yp))
+                self.draw_tile(QPoint(xp, yp))"""
+
+        self.fill_scene()
         self.redraw()
 
     @Slot(bool)
@@ -48,11 +77,12 @@ class TileRenderLevelImage(RenderLevelImage):
         if ptile is None:
             return
         tile: Tile = ptile.tile
-
-
+        # todo
 
     def level_resized(self):
         super().level_resized()
+        self.tilescene.setSceneRect(0, 0, self.viewport.level.level_width * CELLSIZE, self.viewport.level.level_height * CELLSIZE)
+        # todo other tile bullshit
         self.draw_layer(True)
 
     def draw_tile(self, pos: QPoint):

@@ -200,7 +200,7 @@ def loadTile(item, colr, category, catnum, indx) -> Tile | None:
         img3.save(itempath)
 
     return Tile(item["nm"], tp, item.get("repeatL", [1]), f"Tile", item.get("bfTiles", 0), QPixmap(img), img2, img3,
-                sz, colr, (item.get("specs", [1]), item.get("specs2", 0)),
+                sz, colr, item.get("specs", [1]), item.get("specs2", None),
                 QPoint(catnum + 1, indx + 1),
                 item.get("tags"), True, None, err, category)
 
@@ -311,7 +311,7 @@ def load_tiles(window: SplashDialog) -> Tiles:
             preview = QImage(1, 1, QImage.Format.Format_RGBA64)
         # preview.set_colorkey(pg.Color(255, 255, 255))
         # window.printmessage(f"Loading material {k}")
-        materialtiles.append(Tile(k, "material", [1], "Material", 0, img, img, img.toImage(), QSize(1, 1), col, [[-1], 0],
+        materialtiles.append(Tile(k, "material", [1], "Material", 0, img, img, img.toImage(), QSize(1, 1), col, [-1], None,
                                                       QPoint(matcatcount + 1, len(solved_copy[matcatcount]["items"]) + 1),
                                                       ["material"], False, preview, False, material_category))
         # solved_copy[matcatcount]["items"].append(Tile(k, None, [1], "Material", 0, img, img, img.toImage(), QSize(1, 1),

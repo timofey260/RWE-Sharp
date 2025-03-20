@@ -39,7 +39,8 @@ class Tile:
     image3: QImage | None
     size: QSize
     color: QColor
-    cols: [list[int], [list[int] | int]]
+    cols: list[int]
+    cols1: list[int] | None
     cat: QPoint
     tags: list[str]
     printcols: bool
@@ -84,11 +85,11 @@ class Tile:
                         painter.drawLines([QLine(pos, endpos), QLine(endpos, pos3), QLine(pos3, pos)])
 
         painter.setBrush(QColor(0, 0, 0, 0))
-        if isinstance(self.cols[1], list):
+        if isinstance(self.cols1, list):
             painter.setPen(QPen(l2color, 2, Qt.PenStyle.DotLine))
-            drawlayer(self.cols[1])
+            drawlayer(self.cols1)
         painter.setPen(QPen(l1color, 1, Qt.PenStyle.DashLine))
-        drawlayer(self.cols[0])
+        drawlayer(self.cols)
         return tile_image
 
     def return_tile_pixmap(self, option: int, layer: int, layercolortable) -> QPixmap:

@@ -82,3 +82,7 @@ class Renderable(ABC):
     @property
     def viewport(self):
         return self.module.viewport
+
+    @property
+    def level(self):
+        return self.module.viewport.level

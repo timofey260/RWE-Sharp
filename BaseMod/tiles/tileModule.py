@@ -30,7 +30,6 @@ class TileModule(Module):
         self.ui.drawoption.valueChanged.connect(self.redraw_option)
         self.ui.render.connect(self.render_module)
 
-    @Slot()
     def redraw_option(self):
         self.render_module(True)
 
@@ -39,7 +38,6 @@ class TileModule(Module):
         self.check_l2_change()
         self.check_l3_change()
 
-    @Slot()
     def check_l1_change(self):
         if not self.ui.drawtiles.value:
             self.l1.renderedtexture.setOpacity(0)
@@ -49,7 +47,6 @@ class TileModule(Module):
         opacityl1 = self.ui.drawl1rendered.value if self.ui.drawoption.value > 2 else self.ui.drawl1notrendered.value
         self.l1.renderedtexture.setOpacity(opacityl1 if self.ui.drawl1.value else 0)
 
-    @Slot()
     def check_l2_change(self):
         if not self.ui.drawtiles.value:
             self.l2.renderedtexture.setOpacity(0)
@@ -64,7 +61,6 @@ class TileModule(Module):
             opval = opacityl2 if self.ui.drawl2.value else 0
         self.l2.renderedtexture.setOpacity(opval)
 
-    @Slot()
     def check_l3_change(self):
         if not self.ui.drawtiles.value:
             self.l3.renderedtexture.setOpacity(0)
@@ -101,4 +97,8 @@ class TileModule(Module):
 
     def get_layer(self, layer: int) -> TileRenderLevelImage:
         return [self.l1, self.l2, self.l3][layer]
+
+    def init_scene_items(self, viewport):
+        super().init_scene_items(viewport)
+        self.render_module()
 

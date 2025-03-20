@@ -3,6 +3,7 @@ from __future__ import annotations
 import numpy as np
 
 from PySide6.QtCore import QPoint
+from PySide6.QtWidgets import QGraphicsPixmapItem, QGraphicsRectItem
 
 from RWESharp.Core import lingoIO, RWELevel
 from RWESharp.Loaders import Tile
@@ -15,6 +16,7 @@ class PlacedTileHead:
         self.tilebodies = []
         self.pos = pos
         self.layer = layer
+        self.graphics: QGraphicsPixmapItem | None = None
 
     def __str__(self):
         return self.tile.name
@@ -45,9 +47,23 @@ class PlacedTileBody:
 class PlacedMaterial:
     def __init__(self, tile):
         self.tile = tile
+        self.graphics: QGraphicsRectItem | None = None
 
     def __str__(self):
         return self.tile.name
+
+
+def new_can_place(level: RWELevel, pos: QPoint, layer: int, tile: Tile, force_place: bool = False, force_geometry: bool = False):
+    size = tile.size
+    geo_pass = True
+    collission_pass = True
+    check_second_layer = tile.cols1 is not None and layer != 2
+    for x in range(pos.x(), pos.y() + size.width()):
+        for y in range(pos.y(), pos.y() + size.height()):
+            # check geometry
+            level.l_geo.getlevelgeo(x, y, layer)
+            if check_second_layer:
+                level.l_geo.getlevelgeo(x, y, layer + 1)
 
 
 def copy_tile(tile: dict) -> dict:
@@ -68,17 +84,17 @@ def point_collision(level: RWELevel, pos: QPoint, layer: int, tilepos: QPoint, t
         return False
     geodata = level.l_geo.blocks[pos.x(), pos.y(), layer]
     try:
-        collision = tile.cols[0][tilepos.x() * tile.size.height() + tilepos.y()]
+        collision = tile.cols[tilepos.x() * tile.size.height() + tilepos.y()]
     except IndexError:
         collision = 1
     if collision != -1 and geodata != collision and not force_geometry:
         return False
     # next layer
-    if not isinstance(tile.cols[1], list) or layer + 1 > 2:
+    if not isinstance(tile.cols1, list) or layer + 1 > 2:
         return True
     geodata = level.l_geo.blocks[pos.x(), pos.y(), layer + 1]
     try:
-        collision = tile.cols[1][tilepos.x() * tile.size.height() + tilepos.y()]
+        collision = tile.cols1[tilepos.x() * tile.size.height() + tilepos.y()]
     except IndexError:
         collision = 1
     if collision != -1 and geodata != collision and not force_geometry:
@@ -111,7 +127,7 @@ def can_place(level: RWELevel, pos: QPoint, layer: int, tile: Tile, force_place:
                 continue
             if area is not None and not area[x][y]:
                 return False
-            if area2 is not None and isinstance(tile.cols[1], list) and not area2[x][y]:
+            if area2 is not None and isinstance(tile.cols1, list) and not area2[x][y]:
                 return False
     return check_collisions(level, pos, layer, tile, force_place, force_geometry)
 
@@ -175,7 +191,7 @@ def place_tile(level: RWELevel,
         return None
     changes = []
     geochanges = []
-    isnextlayer = isinstance(tile.cols[1], list) and layer + 1 < 3
+    isnextlayer = isinstance(tile.cols1, list) and layer + 1 < 3
     for x in range(tile.size.width()):
         for y in range(tile.size.height()):
             tilepos = QPoint(x, y) + pos
@@ -185,14 +201,14 @@ def place_tile(level: RWELevel,
                 area[tilepos.x()][tilepos.y()] = False
             # area2[x][y] = False
             try:
-                col = tile.cols[0][x * tile.size.height() + y]
+                col = tile.cols[x * tile.size.height() + y]
             except IndexError:
                 col = 1
             if isnextlayer:
                 if area2 is not None:
                     area2[tilepos.x()][tilepos.y()] = False
                 try:
-                    col2 = tile.cols[1][x * tile.size.height() + y]
+                    col2 = tile.cols1[x * tile.size.height() + y]
                 except IndexError:
                     col2 = 1
                 ch, gch = check4tile_col(level, tilepos, headpos, tile, layer + 1, col2, force_place, force_geometry, True)
@@ -242,12 +258,12 @@ def remove_tile(level: RWELevel, pos: QPoint, layer: int) -> RemovedTile | None:
             if not level.inside(bodypos):
                 continue
             try:
-                col = foundtile.cols[0][x * foundtile.size.height() + y]
+                col = foundtile.cols[x * foundtile.size.height() + y]
             except IndexError:
                 col = 1
-            if isinstance(foundtile.cols[1], list) and layer + 1 < 3:
+            if isinstance(foundtile.cols1, list) and layer + 1 < 3:
                 try:
-                    col2 = foundtile.cols[1][x * foundtile.size.height() + y]
+                    col2 = foundtile.cols1[x * foundtile.size.height() + y]
                 except IndexError:
                     col2 = 1
                 if col2 != -1 and (level.l_tiles(bodypos, layer + 1) == tiledata or level.l_tiles(bodypos, layer + 1)["tp"] == "default"):

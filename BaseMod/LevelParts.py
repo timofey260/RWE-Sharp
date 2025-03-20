@@ -83,7 +83,7 @@ class TileLevelPart(LevelPart):
         self.load_tiles()
 
     def load_tiles(self):
-        tilebodies: dict[(QPoint, int), list] = {}
+        tilebodies: dict[(QPoint, int), list[PlacedTileBody]] = {}
         self.tiles = [[[self.scantile(x, y, 0, tilebodies), self.scantile(x, y, 1, tilebodies),
                         self.scantile(x, y, 2, tilebodies)]
                        for y in range(self.level.level_height)] for x in range(self.level.level_width)]
@@ -94,6 +94,8 @@ class TileLevelPart(LevelPart):
             if not isinstance(tilehead, PlacedTileHead):
                 continue
             tilehead.tilebodies = v
+            for i in v:
+                i.tilehead = tilehead
 
     def scantile(self, x: int, y: int, layer: int, tb: dict):
         tile = self.level.data["TE"]["tlMatrix"][x][y][layer]
