@@ -40,8 +40,18 @@
         <height>480</height>
        </rect>
       </property>
-      <layout class="QHBoxLayout" name="horizontalLayout">
-       <item>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="0" column="1">
+        <widget class="SimpleGeoViewport" name="graphicsView"/>
+       </item>
+       <item row="1" column="1">
+        <widget class="QPushButton" name="pushButton">
+         <property name="text">
+          <string>PushButton</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0" rowspan="2">
         <layout class="QVBoxLayout" name="verticalLayout">
          <item>
           <widget class="QLabel" name="label_4">
@@ -286,9 +296,6 @@
           </spacer>
          </item>
         </layout>
-       </item>
-       <item>
-        <widget class="SimpleGeoViewport" name="graphicsView"/>
        </item>
       </layout>
      </widget>

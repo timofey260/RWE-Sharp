@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>274</width>
+    <width>332</width>
     <height>804</height>
    </rect>
   </property>
@@ -32,7 +32,7 @@
    <item>
     <widget class="QScrollArea" name="scrollArea">
      <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+      <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
@@ -53,9 +53,9 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>0</y>
-        <width>260</width>
-        <height>852</height>
+        <y>-54</y>
+        <width>315</width>
+        <height>858</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -539,7 +539,7 @@
                  <string>Whack a mole hole</string>
                 </property>
                 <property name="text">
-                 <string>Wrayk a mole</string>
+                 <string>Whackamole</string>
                 </property>
                </widget>
               </item>

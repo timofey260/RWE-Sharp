@@ -1,6 +1,8 @@
+import json
+
 from PySide6.QtCore import Slot, Qt, QCoreApplication, Signal
 from PySide6.QtGui import QAction, QColor
-from PySide6.QtWidgets import QMenu, QCheckBox
+from PySide6.QtWidgets import QMenu, QCheckBox, QFileDialog, QPushButton
 
 from BaseMod.baseMod import BaseMod
 from BaseMod.geo.geometryEditor import GeoBlocks, stackables, stackables_all_layers
@@ -299,6 +301,7 @@ class GeoSettings(SettingUI):
     def init_ui(self, viewer: SettingsViewer):
         self.ui = Ui_Geometry()
         self.ui.setupUi(viewer)
+        self.ui.changeGeometryPath.clicked.connect(self.change_spritesheet)
 
         self.l1op.setting.link_slider_spinbox(self.ui.L1op, self.ui.L1op2)
         self.l2op.setting.link_slider_spinbox(self.ui.L2op, self.ui.L2op2)
@@ -312,3 +315,16 @@ class GeoSettings(SettingUI):
         self.ui.L2show.setChecked(True)
         self.ui.L3show.setChecked(True)
         self.ui.RWEpreview.setChecked(True)
+
+    def change_spritesheet(self, path: str):
+
+        file_path, _ = QFileDialog.getOpenFileName(self.ui.changeGeometryPath, "Select Geometry PNG", "", "PNG Files (*.png)")
+        if file_path:
+            with open("files/Consts.json", "r+") as f:
+                data = json.load(f)
+                data["geo_image_config"]["image"] = file_path
+                f.seek(0)
+                json.dump(data, f, indent=4)
+                f.truncate()
+
+        # hey timo do that thing you said youre gonna do

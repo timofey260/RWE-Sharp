@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'geo.ui'
+## Form generated from reading UI file 'geoGJYUnl.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.7.2
+## Created by: Qt User Interface Compiler version 6.7.3
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -16,9 +16,9 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QCheckBox, QFrame, QGridLayout,
-    QHBoxLayout, QLabel, QRadioButton, QScrollArea,
-    QSizePolicy, QSlider, QSpacerItem, QSpinBox,
-    QVBoxLayout, QWidget)
+    QHBoxLayout, QLabel, QPushButton, QRadioButton,
+    QScrollArea, QSizePolicy, QSlider, QSpacerItem,
+    QSpinBox, QVBoxLayout, QWidget)
 
 from BaseModWidgets import SimpleGeoViewport
 
@@ -36,8 +36,18 @@ class Ui_Geometry(object):
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
         self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 614, 480))
-        self.horizontalLayout = QHBoxLayout(self.scrollAreaWidgetContents)
-        self.horizontalLayout.setObjectName(u"horizontalLayout")
+        self.gridLayout_2 = QGridLayout(self.scrollAreaWidgetContents)
+        self.gridLayout_2.setObjectName(u"gridLayout_2")
+        self.graphicsView = SimpleGeoViewport(self.scrollAreaWidgetContents)
+        self.graphicsView.setObjectName(u"graphicsView")
+
+        self.gridLayout_2.addWidget(self.graphicsView, 0, 1, 1, 1)
+
+        self.changeGeometryPath = QPushButton(self.scrollAreaWidgetContents)
+        self.changeGeometryPath.setObjectName(u"changeGeometryPath")
+
+        self.gridLayout_2.addWidget(self.changeGeometryPath, 1, 1, 1, 1)
+
         self.verticalLayout = QVBoxLayout()
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.label_4 = QLabel(self.scrollAreaWidgetContents)
@@ -208,12 +218,7 @@ class Ui_Geometry(object):
         self.verticalLayout.addItem(self.verticalSpacer)
 
 
-        self.horizontalLayout.addLayout(self.verticalLayout)
-
-        self.graphicsView = SimpleGeoViewport(self.scrollAreaWidgetContents)
-        self.graphicsView.setObjectName(u"graphicsView")
-
-        self.horizontalLayout.addWidget(self.graphicsView)
+        self.gridLayout_2.addLayout(self.verticalLayout, 0, 0, 2, 1)
 
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
 
@@ -232,6 +237,7 @@ class Ui_Geometry(object):
 
     def retranslateUi(self, Geometry):
         Geometry.setWindowTitle(QCoreApplication.translate("Geometry", u"Geometry", None))
+        self.changeGeometryPath.setText(QCoreApplication.translate("Geometry", u"Change sprite sheet (restart required)", None))
         self.label_4.setText(QCoreApplication.translate("Geometry", u"RWE+ view layer opacity", None))
         self.L1show.setText(QCoreApplication.translate("Geometry", u"Layer 1", None))
         self.L2show.setText(QCoreApplication.translate("Geometry", u"Layer 2", None))
