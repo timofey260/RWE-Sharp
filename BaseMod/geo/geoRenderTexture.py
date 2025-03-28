@@ -28,8 +28,18 @@ class GeoRenderLevelImage(RenderLevelImage):
         # self.painter.setTransform(transform.quadToQuad(QPolygonF([QPointF(0, 0), QPointF(self.image.width(), 0), QPointF(self.image.width(), self.image.height()), QPointF(0, self.image.height())]),
         #                                                QPolygonF([QPointF(20, 20), QPointF(100, 0), QPointF(1000, 1000), QPointF(0, 100)])))
 
-        if os.path.exists(os.path.join(PATH_FILES_IMAGES, CONSTS.get("geo_image_config", {}).get("image"))):
-            self.geo_texture = QPixmap(os.path.join(PATH_FILES_IMAGES, CONSTS.get("geo_image_config", {}).get("image")))
+        self.geo_texture = QPixmap(os.path.join(PATH_FILES_IMAGES, "notfound.png"))
+        self.geo_texture_colored = self.geo_texture.copy()
+        self.update_image()
+        #self.painter.drawPixmap(QRect(0, 0, 20, 20), self.geo_texture, QRect(100, 100, 100, 100))
+        self.binfo: dict = CONSTS.get("geo_image_config", {}).get("blocksinfo", {})
+        self.sinfo: dict = CONSTS.get("geo_image_config", {}).get("stackablesinfo", {})
+        self._sz = CONSTS.get("geo_image_config", {}).get("itemsize", 100)
+        # self.draw_layer()
+
+    def update_image(self):
+        if os.path.exists(self.module.ui.imagepath.value):
+            self.geo_texture = QPixmap(self.module.ui.imagepath.value)
         else:
             self.geo_texture = QPixmap(os.path.join(PATH_FILES_IMAGES, "notfound.png"))
         self.geo_texture_colored = self.geo_texture.copy()
@@ -37,11 +47,6 @@ class GeoRenderLevelImage(RenderLevelImage):
         cp.setCompositionMode(QPainter.CompositionMode.CompositionMode_SourceAtop)
         op = 50
         cp.fillRect(self.geo_texture.rect(), [0, QColor(0, 255, 0, op), QColor(255, 0, 0, op)][self.geolayer])
-        #self.painter.drawPixmap(QRect(0, 0, 20, 20), self.geo_texture, QRect(100, 100, 100, 100))
-        self.binfo: dict = CONSTS.get("geo_image_config", {}).get("blocksinfo", {})
-        self.sinfo: dict = CONSTS.get("geo_image_config", {}).get("stackablesinfo", {})
-        self._sz = CONSTS.get("geo_image_config", {}).get("itemsize", 100)
-        # self.draw_layer()
 
     def draw_layer(self):
         self.image.fill(QColor(0, 0, 0, 0))

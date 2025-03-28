@@ -11,11 +11,13 @@ from BaseMod.geo.ui.geometry_vis_ui import Ui_GeoView
 from BaseMod.geo.ui.geosettings_ui import Ui_Geometry
 from BaseMod.geo.GeoConsts import *
 
-from RWESharp.Configurable import IntConfigurable, BoolConfigurable, KeyConfigurable
-from RWESharp.Core import SettingsViewer
+from RWESharp.Configurable import KeyConfigurable, StringConfigurable
+from RWESharp.Core import SettingsViewer, CONSTS, PATH_FILES_IMAGES
 from RWESharp.Ui import ViewUI, SettingUI, UI
 from RWESharp.Utils import paint_svg_qicon
 from RWESharp.Configurable import BoolConfigurable, FloatConfigurable, IntConfigurable
+
+import os
 
 button_to_geo = {
     "ToolGeoWall": GeoBlocks.Wall,
@@ -201,6 +203,7 @@ class GeoViewUI(ViewUI):
         self.drawlpipes_key = KeyConfigurable(mod, "VIEW_geo.drawlpipes_key", "Alt+x", "Show connection pipes")
         self.drawlmisc_key = KeyConfigurable(mod, "VIEW_geo.drawlmisc_key", "Alt+v", "Show other/misc")
 
+        self.imagepath = StringConfigurable(mod, "VIEW_geo.imagepath", os.path.join(PATH_FILES_IMAGES, CONSTS.get("geo_image_config", {}).get("image")), "Geo Image path")
         self.draw = True
 
         # adding menu and stuff
@@ -296,12 +299,14 @@ class GeoSettings(SettingUI):
                              "For example, if layer 1 is hidden, layer 2 will have opacity of layer 1 and "
                              "layer 3 will have opacity of layer 2"),
             self.geoviewui.opacityshift).add_myself(self)
+        self.imagepath = SettingUI.ManageableSetting(
+            StringConfigurable(None, "imgpath", "", "Image Path"), self.geoviewui.imagepath).add_myself(self)
         self.reset_values()
 
     def init_ui(self, viewer: SettingsViewer):
         self.ui = Ui_Geometry()
         self.ui.setupUi(viewer)
-        self.ui.changeGeometryPath.clicked.connect(self.change_spritesheet)
+        self.ui.ChangeImage.clicked.connect(self.change_spritesheet)
 
         self.l1op.setting.link_slider_spinbox(self.ui.L1op, self.ui.L1op2)
         self.l2op.setting.link_slider_spinbox(self.ui.L2op, self.ui.L2op2)
@@ -309,6 +314,7 @@ class GeoSettings(SettingUI):
         self.rgbop.setting.link_slider_spinbox(self.ui.RGBop, self.ui.RGBop2)
 
         self.opshift.setting.link_button(self.ui.OPshift)
+        self.imagepath.setting.valueChanged.connect(self.ui.graphicsView.update_pixmaps)
 
         self.ui.graphicsView.add_manager(self.mod.manager, self)
         self.ui.L1show.setChecked(True)
@@ -316,15 +322,16 @@ class GeoSettings(SettingUI):
         self.ui.L3show.setChecked(True)
         self.ui.RWEpreview.setChecked(True)
 
-    def change_spritesheet(self, path: str):
-
-        file_path, _ = QFileDialog.getOpenFileName(self.ui.changeGeometryPath, "Select Geometry PNG", "", "PNG Files (*.png)")
+    def change_spritesheet(self):
+        file_path, _ = QFileDialog.getOpenFileName(self.ui.ChangeImage, "Select Geometry Image", PATH_FILES_IMAGES, "Images (*.png; *.jpg)")
         if file_path:
-            with open("files/Consts.json", "r+") as f:
-                data = json.load(f)
-                data["geo_image_config"]["image"] = file_path
-                f.seek(0)
-                json.dump(data, f, indent=4)
-                f.truncate()
+            self.imagepath.setting.update_value(file_path)
+            # with open("files/Consts.json", "r+") as f:
+            #     data = json.load(f)
+            #     data["geo_image_config"]["image"] = file_path
+            #     f.seek(0)
+            #     json.dump(data, f, indent=4)
+            #     f.truncate()
 
         # hey timo do that thing you said youre gonna do
+        # oki

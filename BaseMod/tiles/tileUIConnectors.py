@@ -52,6 +52,9 @@ class TileViewUI(ViewUI):
         self.opacityshift = BoolConfigurable(mod, "VIEW_tile.opacityShift", True,
                                              "Does not change opacity of hidden layers")
 
+        self.matborder = BoolConfigurable(mod, "VIEW_tile.matborder", True,
+                                          "Material Border")
+
         if not os.path.exists(self.palettepath.value):
             self.palettepath.reset_value()
 
@@ -231,6 +234,10 @@ class TileSettings(SettingUI):
                                         "For example, if layer 1 is hidden, layer 2 will have opacity of layer 1 and "
                                         "layer 3 will have opacity of layer 2"), self.tileviewui.opacityshift).add_myself(self)
 
+        self.matborder = SettingUI.ManageableSetting(BoolConfigurable(None, "matborder", True,
+                                                                    "Add black border to materials"),
+                                                   self.tileviewui.matborder).add_myself(self)
+
         self.drawoption = IntConfigurable(None, "drawoption", 0, "Draw option")
 
         self.showl1 = BoolConfigurable(None, "sl1", True, "Show First layer")
@@ -257,6 +264,8 @@ class TileSettings(SettingUI):
 
         self.drawoption.link_combobox(self.ui.RenderOption)
         self.drawoption.valueChanged.connect(self.ui.TilePreview.update_option)
+
+        self.matborder.setting.link_button(self.ui.MatBorder)
 
         self.opshift.setting.link_button(self.ui.Opacityshift)
 

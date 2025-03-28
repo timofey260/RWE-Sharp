@@ -1,6 +1,6 @@
 from PySide6.QtCore import QRect, Qt, Slot, QPoint, QSize
-from PySide6.QtGui import QBrush, QColor, QPainter, QPixmap
-from PySide6.QtWidgets import QGraphicsScene, QGraphicsPixmapItem
+from PySide6.QtGui import QBrush, QColor, QPainter, QPixmap, QPen
+from PySide6.QtWidgets import QGraphicsScene, QGraphicsPixmapItem, QGraphicsRectItem
 
 from RWESharp.Core import CONSTS, CELLSIZE, SPRITESIZE
 from RWESharp.Loaders import colortable, color_colortable, Tile
@@ -15,13 +15,14 @@ class TileRenderLevelImage(RenderLevelImage):
         self.ui = self.module.ui
         self.tilelayer = tilelayer
         self.tilescene = QGraphicsScene(0, 0, 100, 100)
-        self.tileindex: list[QGraphicsPixmapItem] | None = None
+        self.tileindex: list[QGraphicsPixmapItem | QGraphicsRectItem] = []
 
     def fill_scene(self):
         self.clear_scene()
         self.tilescene.setSceneRect(0, 0, self.viewport.level.level_width * CELLSIZE, self.viewport.level.level_height * CELLSIZE)
         # air = QPixmap(1, 1)
         # air.fill(QColor(0, 0, 0, 0))
+        matpen = QPen(QColor(0, 0, 0, 255 if self.module.ui.matborder.value else 0), 0)
         for x in range(self.level.level_width):
             for y in range(self.level.level_height):
                 tile = self.level.l_tiles.tile_data(QPoint(x, y), self.tilelayer)
@@ -30,15 +31,37 @@ class TileRenderLevelImage(RenderLevelImage):
                     item.setPos(QPoint(x * CELLSIZE, y * CELLSIZE) - tile.tile.top_left * CELLSIZE)
                     item.setScale(20 / 16)
                     tile.graphics = item
+                    self.tileindex.append(item)
                 elif isinstance(tile, PlacedMaterial):
-                    item = self.tilescene.addPixmap(tile.tile.image)
-                    item.setPos(QPoint(x * CELLSIZE, y * CELLSIZE))
-                    item.setScale(16 / 20)
+                    sz = CONSTS.get("materialsize", [6, 8])
+                    # self.painter.setBrush(QBrush(QColor(*CONSTS.get("materials", {}).get(tile.tile.name, [255, 0, 0, 255]))))
+                    # self.painter.setPen(Qt.PenStyle.NoPen)
+                    # self.painter.drawRoundedRect(x * CELLSIZE + sz[0], y * CELLSIZE + sz[0], sz[1], sz[1], 2, 2)
+                    item = self.tilescene.addRect(x * CELLSIZE + sz[0], y * CELLSIZE + sz[0], sz[1], sz[1],
+                                                  pen=matpen,
+                                                  brush=tile.tile.color)
+                    #item = self.tilescene.addPixmap(tile.tile.image)
+                    #item.setPos(QPoint(x * CELLSIZE, y * CELLSIZE))
+                    #item.setScale(16 / 20)
                     tile.graphics = item
+                    self.tileindex.append(item)
         self.tilescene.render(self.painter)
+
+    def render_layer(self):
+        self.image.fill(QColor(0, 0, 0, 0))
+        self.tilescene.render(self.painter)
+        self.redraw()
+
+    def change_material_border(self, enabled):
+        matpen = QPen(QColor(0, 0, 0, 255 if enabled else 0), 0)
+        for i in self.tileindex:
+            if isinstance(i, QGraphicsRectItem):
+                i.setPen(matpen)
+        self.render_layer()
 
     def clear_scene(self):
         self.tilescene.clear()
+        self.tileindex.clear()
 
     def draw_layer(self, clear=False):
         if clear:
@@ -54,7 +77,7 @@ class TileRenderLevelImage(RenderLevelImage):
                 self.draw_tile(QPoint(xp, yp))"""
 
         self.fill_scene()
-        self.redraw()
+        self.render_layer()
 
     @Slot(bool)
     @Slot(Qt.CheckState)

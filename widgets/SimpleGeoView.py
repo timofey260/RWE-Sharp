@@ -19,28 +19,33 @@ class SimpleGeoViewport(QGraphicsView):
         self.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
         self.setCursor(Qt.CursorShape.SizeAllCursor)
 
-    def add_manager(self, manager, settings: GeoSettings):
-        self.manager = manager
-        self.settings = settings
-        self.workscene = QGraphicsScene(0, 0, 0, 0)
-        if os.path.exists(os.path.join(PATH_FILES_IMAGES, CONSTS.get("geo_image_config", {}).get("image"))):
-            self.geo_texture = QPixmap(os.path.join(PATH_FILES_IMAGES, CONSTS.get("geo_image_config", {}).get("image")))
+    def update_pixmaps(self, change=True):
+        if os.path.exists(self.settings.imagepath.value):
+            self.geo_texture = QPixmap(self.settings.imagepath.value)
         else:
             self.geo_texture = QPixmap(os.path.join(PATH_FILES_IMAGES, "notfound.png"))
-
-        self._sz = CONSTS.get("geo_image_config", {}).get("itemsize", 100)
-        self.setScene(self.workscene)
         self.l1 = QPixmap(self.geo_texture)
         self.l1_2 = QPixmap(self.geo_texture)
         self.l2 = QPixmap(self.geo_texture)
         self.l2_2 = QPixmap(self.geo_texture)
         self.l3 = QPixmap(self.geo_texture)
         self.l3_2 = QPixmap(self.geo_texture)
+        print("damnnnn", self.settings.imagepath.value, self.geo_texture)
         op = 50
         for i in range(3):
             painter = QPainter([self.l1_2, self.l2_2, self.l3_2][i])
             painter.setCompositionMode(QPainter.CompositionMode.CompositionMode_SourceAtop)
             painter.fillRect(self.l1.rect(), [0, QColor(0, 255, 0, op), QColor(255, 0, 0, op)][i])
+        if change:
+            self.change_shit()
+
+    def add_manager(self, manager, settings: GeoSettings):
+        self.manager = manager
+        self.settings = settings
+        self.workscene = QGraphicsScene(0, 0, 0, 0)
+        self._sz = CONSTS.get("geo_image_config", {}).get("itemsize", 100)
+        self.update_pixmaps(False)
+        self.setScene(self.workscene)
 
         self.l3g = self.workscene.addPixmap(self.l3)
         self.l2g = self.workscene.addPixmap(self.l2)

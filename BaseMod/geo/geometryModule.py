@@ -32,6 +32,15 @@ class GeoModule(Module):
         self.ui.drawlmisc.valueChanged.connect(self.check_misc_change)
         self.ui.drawoption.valueChanged.connect(self.render_module)
         self.ui.render.connect(self.render_module)
+        self.ui.imagepath.valueChanged.connect(self.update_image)
+
+    def update_image(self):
+        self.l1.update_image()
+        self.l1.draw_layer()
+        self.l2.update_image()
+        self.l2.draw_layer()
+        self.l3.update_image()
+        self.l3.draw_layer()
 
     @Slot()
     def check_l1_change(self):

@@ -29,6 +29,12 @@ class TileModule(Module):
 
         self.ui.drawoption.valueChanged.connect(self.redraw_option)
         self.ui.render.connect(self.render_module)
+        self.ui.matborder.valueChanged.connect(self.change_border)
+
+    def change_border(self, enabled):
+        self.l1.change_material_border(enabled)
+        self.l2.change_material_border(enabled)
+        self.l3.change_material_border(enabled)
 
     def redraw_option(self):
         self.render_module(True)

@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'geoGJYUnl.ui'
+## Form generated from reading UI file 'geo.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.7.3
+## Created by: Qt User Interface Compiler version 6.7.2
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -43,10 +43,10 @@ class Ui_Geometry(object):
 
         self.gridLayout_2.addWidget(self.graphicsView, 0, 1, 1, 1)
 
-        self.changeGeometryPath = QPushButton(self.scrollAreaWidgetContents)
-        self.changeGeometryPath.setObjectName(u"changeGeometryPath")
+        self.ChangeImage = QPushButton(self.scrollAreaWidgetContents)
+        self.ChangeImage.setObjectName(u"ChangeImage")
 
-        self.gridLayout_2.addWidget(self.changeGeometryPath, 1, 1, 1, 1)
+        self.gridLayout_2.addWidget(self.ChangeImage, 1, 1, 1, 1)
 
         self.verticalLayout = QVBoxLayout()
         self.verticalLayout.setObjectName(u"verticalLayout")
@@ -237,7 +237,7 @@ class Ui_Geometry(object):
 
     def retranslateUi(self, Geometry):
         Geometry.setWindowTitle(QCoreApplication.translate("Geometry", u"Geometry", None))
-        self.changeGeometryPath.setText(QCoreApplication.translate("Geometry", u"Change sprite sheet (restart required)", None))
+        self.ChangeImage.setText(QCoreApplication.translate("Geometry", u"Change Geometry Image", None))
         self.label_4.setText(QCoreApplication.translate("Geometry", u"RWE+ view layer opacity", None))
         self.L1show.setText(QCoreApplication.translate("Geometry", u"Layer 1", None))
         self.L2show.setText(QCoreApplication.translate("Geometry", u"Layer 2", None))
