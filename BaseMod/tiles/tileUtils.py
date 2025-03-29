@@ -21,9 +21,18 @@ class PlacedTileHead:
     def __str__(self):
         return self.tile.name
 
-    def remove(self, level):
+    def remove(self, level, redraw=True):
         for i in self.tilebodies:
             i.remove(level)
+        level.l_tiles[self.pos][self.layer] = None
+        if self.graphics is not None:
+            bounds = self.graphics.sceneBoundingRect()
+            self.graphics.removeFromIndex()
+            self.graphics = None
+            texture = level.viewport.modulenames["tiles"].get_layer(self.layer)
+            texture.render_rect(bounds)
+            if redraw:
+                texture.redraw()
 
 
 class PlacedTileBody:
@@ -37,7 +46,6 @@ class PlacedTileBody:
 
     def remove(self, level: RWELevel):
         level.l_tiles[self.pos][self.layer] = None
-        #level.viewport.modulenames["tiles"].get_layer(self.layer)
 
     @property
     def tile(self):
@@ -53,19 +61,34 @@ class PlacedMaterial:
         return self.tile.name
 
 
-def new_can_place(level: RWELevel, pos: QPoint, layer: int, tile: Tile, force_place: bool = False, force_geometry: bool = False):
-    size = tile.size
-    geo_pass = True
-    collission_pass = True
-    check_second_layer = tile.cols1 is not None and layer != 2
-    for x in range(pos.x(), pos.y() + size.width()):
-        for y in range(pos.y(), pos.y() + size.height()):
-            # check geometry
-            block = level.l_geo.getlevelgeo(x, y, layer)[0]
-            if block == -1:
+def new_can_place(level: RWELevel, pos: QPoint, layer: int, tile: Tile, force_place: bool, force_geometry: bool,
+              area: list[list[bool]] = None, area2: list[list[bool]] = None) -> bool:
+    headpos = tile.top_left + pos
+    if not level.inside(headpos):
+        return False
+    # if area is available
+    for x in range(pos.x(), pos.x() + tile.size.width()):
+        for y in range(pos.y(), pos.y() + tile.size.height()):
+            if not level.inside(QPoint(x, y)):
                 continue
-            if check_second_layer:
-                block = level.l_geo.getlevelgeo(x, y, layer + 1)[0]
+            if area is not None and not area[x][y]:
+                return False
+            if area2 is not None and isinstance(tile.cols1, list) and not area2[x][y]:
+                return False
+    return new_check_collisions(level, pos, layer, tile, force_place, force_geometry)
+
+
+def new_check_collisions(level: RWELevel, pos: QPoint, layer: int, tile: Tile, force_place: bool = False, force_geometry: bool = False) -> bool:
+    for x in range(tile.size.width()):
+        for y in range(tile.size.height()):
+            tilepos = QPoint(x, y)
+            levelpos = tilepos + pos
+            if not level.inside(levelpos):
+                continue
+            result = new_point_collision(level, levelpos, layer, tilepos, tile, force_place, force_geometry)
+            if not result:
+                return False
+    return True
 
 
 def new_point_collision(level: RWELevel, pos: QPoint, layer: int, tilepos: QPoint, tile: Tile, force_place: bool = False, force_geometry: bool = False) -> bool:
@@ -85,7 +108,7 @@ def new_point_collision(level: RWELevel, pos: QPoint, layer: int, tilepos: QPoin
     if collision != -1 and geodata != collision and not force_geometry and not force_place: return False
 
     # next layer(if exists)
-    if isinstance(tiledata.tile.cols1, list) or layer > 1: return True
+    if not isinstance(tile.cols1, list) or layer > 1: return True
 
     try:
         collision = tile.cols1[tilepos.x() * tile.size.height() + tilepos.y()]
@@ -104,6 +127,17 @@ def new_point_collision(level: RWELevel, pos: QPoint, layer: int, tilepos: QPoin
     if collision != -1 and geodata != collision and not force_geometry and not force_place: return False
 
     return True
+
+def new_place_tile(level: RWELevel,
+               pos: QPoint,
+               layer: int,
+               tile: Tile,
+               area: list[list[bool]] = None,
+               area2: list[list[bool]] = None,
+               force_place: bool = False,
+               force_geometry: bool = False) -> PlacedTile | None:
+    if tile.type == "material":
+        pass
 
 
 def copy_tile(tile: dict) -> dict:
@@ -320,6 +354,18 @@ def remove_tile(level: RWELevel, pos: QPoint, layer: int) -> RemovedTile | None:
     level.data["TE"]["tlMatrix"][headpos.x()][headpos.y()][layer] = {"tp": "default", "data": 0}
     return RemovedTile(changes)
 
+
+class PlacedTileChange:
+    def __init__(self, changes: dict[(QPoint, int), [any, any]], geochanges=None):
+        # changes structure: dict with (pos, layer) and [before, after]
+        self.changes = changes
+        self.geochanges = geochanges
+        if geochanges is None:
+            self.geochanges = []
+
+    def undo(self, level, module):
+        for k, v in self.changes:
+            pass
 
 class BaseTileChangelist:
     def __init__(self, changes):

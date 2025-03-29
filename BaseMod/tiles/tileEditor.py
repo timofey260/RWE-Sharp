@@ -14,7 +14,7 @@ from RWESharp.Loaders import palette_to_colortable, Tile
 from RWESharp.Renderable import RenderTile, RenderRect
 from BaseMod.tiles.tileExplorer import TileExplorer
 from BaseMod.tiles.tileHistory import TilePen
-from BaseMod.tiles.tileUtils import can_place
+from BaseMod.tiles.tileUtils import new_can_place
 
 if TYPE_CHECKING:
     from BaseMod.baseMod import BaseMod
@@ -124,7 +124,7 @@ class TileEditor(Editor):
         self.tile_rect.setRect(rect)
         self.tile_rect.setScale(self.tile_item.scale)
         fpos = self.viewport.viewport_to_editor(self.mouse_pos) - self.tile.top_left
-        self.tile_rect.drawrect.setPen(QColor(0, 255, 0) if can_place(self.level, fpos, self.layer, self.tile, self.force_place.value, self.force_geo.value) else QColor(255, 0, 0))
+        self.tile_rect.drawrect.setPen(QColor(0, 255, 0) if new_can_place(self.level, fpos, self.layer, self.tile, self.force_place.value, self.force_geo.value) else QColor(255, 0, 0))
 
     def init_scene_items(self, viewport):
         super().init_scene_items(viewport)
@@ -138,7 +138,8 @@ class TileEditor(Editor):
 
     def mouse_press_event(self, event: QMouseEvent):
         if self.mouse_left:
-            self.tool_specific_press(self.toolleft.value, self.deleteleft.value)
+            self.level.l_tiles.tile_data(self.viewport.viewport_to_editor(self.mouse_pos), self.layer).remove(self.level)
+            #self.tool_specific_press(self.toolleft.value, self.deleteleft.value)  # todo
         if self.mouse_right:
             self.tool_specific_press(self.toolright.value, self.deleteright.value)
 
