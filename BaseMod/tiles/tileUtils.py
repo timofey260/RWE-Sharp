@@ -12,7 +12,7 @@ from RWESharp.Modify import HistoryElement
 
 class PlacedTileHead:
     def __init__(self, tile, pos, layer):
-        self.tile = tile
+        self.tile: Tile = tile
         self.tilebodies = []
         self.pos = pos
         self.layer = layer
@@ -61,9 +61,49 @@ def new_can_place(level: RWELevel, pos: QPoint, layer: int, tile: Tile, force_pl
     for x in range(pos.x(), pos.y() + size.width()):
         for y in range(pos.y(), pos.y() + size.height()):
             # check geometry
-            level.l_geo.getlevelgeo(x, y, layer)
+            block = level.l_geo.getlevelgeo(x, y, layer)[0]
+            if block == -1:
+                continue
             if check_second_layer:
-                level.l_geo.getlevelgeo(x, y, layer + 1)
+                block = level.l_geo.getlevelgeo(x, y, layer + 1)[0]
+
+
+def new_point_collision(level: RWELevel, pos: QPoint, layer: int, tilepos: QPoint, tile: Tile, force_place: bool = False, force_geometry: bool = False) -> bool:
+    tiledata = level.l_tiles(pos, layer)
+    try:
+        collision = tile.cols[tilepos.x() * tile.size.height() + tilepos.y()]
+    except IndexError:
+        collision = 1
+
+    # checking tile-tile collisions
+    if isinstance(tiledata, PlacedTileHead) and collision != -1:  # when we know we are placing block on tile head
+        return False
+    elif not force_place and tiledata is not None and not isinstance(tiledata, PlacedMaterial): return False # when it's not force place
+
+    # checking tile_geo collisions
+    geodata = level.l_geo.blocks[pos.x(), pos.y(), layer]
+    if collision != -1 and geodata != collision and not force_geometry and not force_place: return False
+
+    # next layer(if exists)
+    if isinstance(tiledata.tile.cols1, list) or layer > 1: return True
+
+    try:
+        collision = tile.cols1[tilepos.x() * tile.size.height() + tilepos.y()]
+    except IndexError:
+        collision = 1
+    if collision != -1:
+        return True
+    # checking tile-tile collision on next layer
+    tiledata = level.l_tiles(pos, layer + 1)
+    if isinstance(tiledata, PlacedTileHead) and collision != -1:  # when we know we are placing block on tile head
+        return False
+    elif not force_place and tiledata is not None and not isinstance(tiledata, PlacedMaterial): return False  # when it's not force place
+
+    # checking tile-geo collision on next layer
+    geodata = level.l_geo.blocks[pos.x(), pos.y(), layer + 1]
+    if collision != -1 and geodata != collision and not force_geometry and not force_place: return False
+
+    return True
 
 
 def copy_tile(tile: dict) -> dict:

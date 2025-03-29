@@ -96,6 +96,7 @@ def loadTile(item, colr, category, catnum, indx) -> Tile | None:
         if imagepath is None:
             return None
         origimg = QImage(imagepath)
+        origimg.setPixel(0, 0, 0)
     except FileNotFoundError:
         return None
     if not origimg.colorTable():
@@ -104,6 +105,7 @@ def loadTile(item, colr, category, catnum, indx) -> Tile | None:
                               Qt.ImageConversionFlag.ThresholdDither)
     try:
         white = origimg.colorTable().index(4294967295)
+        origimg.setPixel(0, 0, 4)
         origimg.setColor(white, 0)
     except ValueError:
         log(f"Error loading {item['nm']}", True)

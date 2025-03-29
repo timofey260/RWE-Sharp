@@ -57,13 +57,13 @@ class GeoLevelPart(LevelPart):
                 stack.append(stack_pos[i])
         return stack
 
-    def getlevelgeo_all(self, x, y) -> [np.uint8, np.uint16]:
+    def getlevelgeo_all(self, x: int, y: int) -> [np.uint8, np.uint16]:
         return [[self.blocks[x, y, 0], self.stack[x, y, 0]], [self.blocks[x, y, 1], self.stack[x, y, 1]], [self.blocks[x, y, 2], self.stack[x, y, 2]]]
 
-    def getlevelgeo(self, x, y, l) -> [np.uint8, np.uint16]:
+    def getlevelgeo(self, x: int, y: int, l: int) -> [np.uint8, np.uint16]:
         return [self.blocks[x, y, l], self.stack[x, y, l]]
 
-    def setlevelgeo(self, x, y, l, v: [np.uint8, np.uint16]):
+    def setlevelgeo(self, x: int, y: int, l: int, v: [np.uint8, np.uint16]):
         self.blocks[x, y, l], self.stack[x, y, l] = v
 
     @property

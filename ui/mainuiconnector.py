@@ -90,7 +90,7 @@ class MainWindow(QMainWindow):
         self.vid = None
 
     def add_viewport(self, viewport):
-        self.ui.tabWidget.addTab(viewport, viewport.level.shortname)
+        self.ui.tabWidget.setCurrentIndex(self.ui.tabWidget.addTab(viewport, viewport.level.shortname))
 
     @Slot(int)
     def change_editor(self, val) -> None:

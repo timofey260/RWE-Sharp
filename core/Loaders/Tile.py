@@ -52,6 +52,11 @@ class Tile:
     def top_left(self) -> QPoint:
         return QPoint(int((self.size.width() * 0.5) + .5) - 1, int((self.size.height() * .5) + .5) - 1)
 
+    def option_based_top_left(self, option):
+        if option == 0:
+            return self.top_left
+        return self.top_left + QPoint(self.bfTiles, self.bfTiles)
+
     def collisions_image(self, l1color: QColor = QColor(255, 0, 0, 255),
                          l2color: QColor = QColor(0, 0, 255, 255)) -> QPixmap:
         tile_image = QPixmap((self.size + QSize(self.bfTiles * 2, self.bfTiles * 2)) * CELLSIZE)
