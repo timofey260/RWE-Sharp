@@ -138,8 +138,9 @@ class TileEditor(Editor):
 
     def mouse_press_event(self, event: QMouseEvent):
         if self.mouse_left:
-            self.level.l_tiles.tile_data(self.viewport.viewport_to_editor(self.mouse_pos), self.layer).remove(self.level)
+            #self.level.l_tiles.tile_data(self.viewport.viewport_to_editor(self.mouse_pos), self.layer).remove(self.level)
             #self.tool_specific_press(self.toolleft.value, self.deleteleft.value)  # todo
+            self.viewport.print()
         if self.mouse_right:
             self.tool_specific_press(self.toolright.value, self.deleteright.value)
 

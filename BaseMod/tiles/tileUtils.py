@@ -26,11 +26,13 @@ class PlacedTileHead:
             i.remove(level)
         level.l_tiles[self.pos][self.layer] = None
         if self.graphics is not None:
-            bounds = self.graphics.sceneBoundingRect()
+            print(self.graphics)
+            bounds = self.graphics.boundingRect()
             self.graphics.removeFromIndex()
             self.graphics = None
             texture = level.viewport.modulenames["tiles"].get_layer(self.layer)
             texture.render_rect(bounds)
+            #texture.render_layer()
             if redraw:
                 texture.redraw()
 

@@ -180,6 +180,8 @@
     <addaction name="separator"/>
     <addaction name="actionSave"/>
     <addaction name="actionSave_As"/>
+    <addaction name="separator"/>
+    <addaction name="actionOpen_Levels_Folder"/>
    </widget>
    <widget class="QMenu" name="menuSettings">
     <property name="title">
@@ -198,6 +200,9 @@
     <addaction name="actionLediting_help"/>
     <addaction name="actionModding_Api"/>
     <addaction name="actionInteractive_Map"/>
+    <addaction name="separator"/>
+    <addaction name="actionRWE_Github"/>
+    <addaction name="actionRWE_Issues"/>
    </widget>
    <widget class="QMenu" name="menutools">
     <property name="title">
@@ -209,7 +214,9 @@
      <string>Drizzle</string>
     </property>
     <addaction name="actionRender"/>
-    <addaction name="actionDrizzleOpen"/>
+    <addaction name="actionRender_All_Levels"/>
+    <addaction name="actionDrizzleOpenExplorer"/>
+    <addaction name="actionLaunch_Drizzle"/>
    </widget>
    <widget class="QMenu" name="menuMods">
     <property name="title">
@@ -508,9 +515,12 @@
     <string>Hotkeys...</string>
    </property>
   </action>
-  <action name="actionDrizzleOpen">
+  <action name="actionDrizzleOpenExplorer">
+   <property name="icon">
+    <iconset theme="QIcon::ThemeIcon::FolderOpen"/>
+   </property>
    <property name="text">
-    <string>Open</string>
+    <string>Open Drizzle in Explorer</string>
    </property>
   </action>
   <action name="actionUndo">
@@ -571,6 +581,42 @@
   <action name="actionZoom_Out">
    <property name="text">
     <string>Zoom Out</string>
+   </property>
+  </action>
+  <action name="actionRender_All_Levels">
+   <property name="text">
+    <string>Render All Levels</string>
+   </property>
+  </action>
+  <action name="actionLaunch_Drizzle">
+   <property name="text">
+    <string>Launch Drizzle</string>
+   </property>
+  </action>
+  <action name="actionRWE_Github">
+   <property name="icon">
+    <iconset resource="../../resources/res.qrc">
+     <normaloff>:/icons/github-mark-white.svg</normaloff>:/icons/github-mark-white.svg</iconset>
+   </property>
+   <property name="text">
+    <string>RWE# Github</string>
+   </property>
+  </action>
+  <action name="actionRWE_Issues">
+   <property name="icon">
+    <iconset resource="../../resources/res.qrc">
+     <normaloff>:/icons/github-mark-white.svg</normaloff>:/icons/github-mark-white.svg</iconset>
+   </property>
+   <property name="text">
+    <string>RWE# Issues</string>
+   </property>
+  </action>
+  <action name="actionOpen_Levels_Folder">
+   <property name="icon">
+    <iconset theme="QIcon::ThemeIcon::FolderOpen"/>
+   </property>
+   <property name="text">
+    <string>Open Levels Folder</string>
    </property>
   </action>
  </widget>

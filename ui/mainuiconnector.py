@@ -1,12 +1,14 @@
 from PySide6.QtWidgets import QMainWindow, QFileDialog, QSpacerItem, QSizePolicy, QWidget, QGridLayout
-from PySide6.QtCore import Slot, Qt
+from PySide6.QtCore import Slot, Qt, QUrl
+from PySide6.QtGui import QDesktopServices
 
 from ui.FunnyVideo import FunnyVideo
 from ui.uiscripts.mainui import Ui_MainWindow
 from ui.aboutuiconnector import AboutDialog
 from ui.settingsuiconnector import SettingsDialogUI
 from ui.hotkeysuiconnector import HotkeysUI
-from core.info import PATH_LEVELS, PATH_FILES_VIDEOS
+from core.utils import modify_path_url
+from core.info import PATH_LEVELS, PATH_FILES_VIDEOS, PATH_DRIZZLE, ISWIN, REPO_ISSUES, REPO
 
 import os
 
@@ -46,7 +48,7 @@ class MainWindow(QMainWindow):
         self.manager.basemod.bmconfig.save_as_key.link_action(self.ui.actionSave_As)
         self.manager.basemod.bmconfig.close_key.link_action(self.ui.actionClose)
         self.manager.basemod.bmconfig.render_key.link_action(self.ui.actionRender)
-        self.manager.basemod.bmconfig.opendrizzle_key.link_action(self.ui.actionDrizzleOpen)
+        self.manager.basemod.bmconfig.opendrizzle_key.link_action(self.ui.actionLaunch_Drizzle)
 
         self.manager.basemod.bmconfig.zoom_in_key.link_action(self.ui.actionZoom_In)
         self.ui.actionZoom_In.triggered.connect(lambda: self.manager.selected_viewport.do_zoom(0.2))
@@ -81,6 +83,14 @@ class MainWindow(QMainWindow):
         self.ui.DockView.link_action(self.ui.actionView)
         self.ui.DockPrefabs.link_action(self.ui.actionPrefabs)
 
+        self.ui.actionRender.triggered.connect(lambda: self.level_render(self.ui.tabWidget.currentWidget().level))
+        self.ui.actionLaunch_Drizzle.triggered.connect(self.open_drizzle)
+        self.ui.actionRender_All_Levels.triggered.connect(self.render_all)
+        self.ui.actionDrizzleOpenExplorer.triggered.connect(self.open_drizzle_folder)
+        self.ui.actionOpen_Levels_Folder.triggered.connect(lambda: QDesktopServices.openUrl(modify_path_url(PATH_LEVELS)))
+        self.ui.actionRWE_Github.triggered.connect(lambda: QDesktopServices.openUrl(REPO))
+        self.ui.actionRWE_Issues.triggered.connect(lambda: QDesktopServices.openUrl(REPO_ISSUES))
+
         self.hotkeys = HotkeysUI(self.manager, self)
         self.settings = SettingsDialogUI(self.manager, self)
 
@@ -88,6 +98,22 @@ class MainWindow(QMainWindow):
         self.setDockNestingEnabled(True)
 
         self.vid = None
+
+    def level_render(self, level):
+        print(level)
+        a, _ = os.path.split(level.file)
+        print(QDesktopServices.openUrl(modify_path_url(a)), a)
+
+    def render_all(self):
+        for i in range(self.ui.tabWidget.count()):
+            self.level_render(self.ui.tabWidget.widget(i).level)
+
+    def open_drizzle_folder(self):
+        QDesktopServices.openUrl(modify_path_url(PATH_DRIZZLE))
+
+    def open_drizzle(self):
+        print(modify_path_url(os.path.join(PATH_DRIZZLE, "drizzle.exe" if ISWIN else "drizzle")))
+        QDesktopServices.openUrl(modify_path_url(os.path.join(PATH_DRIZZLE, "Drizzle.Editor.exe" if ISWIN else "Drizzle.Editor")))
 
     def add_viewport(self, viewport):
         self.ui.tabWidget.setCurrentIndex(self.ui.tabWidget.addTab(viewport, viewport.level.shortname))

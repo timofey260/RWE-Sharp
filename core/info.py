@@ -39,6 +39,8 @@ AUTHORS = "timofey26, atom, Lang0s"
 NAME = "RWE#"
 PROGNAME = "RWESharp.exe" if ISWIN else "RWESharp"
 FULLNAME = "Rain World Editor Sharp"
+REPO = "https://github.com/timofey260/RWE-Sharp"
+REPO_ISSUES = "https://github.com/timofey260/RWE-Sharp/issues"
 
 RP_ID = "1226198202454380677"
 

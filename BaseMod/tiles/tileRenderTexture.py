@@ -126,7 +126,7 @@ class TileRenderLevelImage(RenderLevelImage):
 
     def render_rect(self, rect: QRect):
         self.painter.setCompositionMode(self.painter.CompositionMode.CompositionMode_Source)
-        self.tilescene.render(self.painter, source= rect)
+        self.tilescene.render(self.painter, rect, rect)
 
     def draw_tile(self, pos: QPoint, render: bool):
         self.painter.setCompositionMode(self.painter.CompositionMode.CompositionMode_Source)

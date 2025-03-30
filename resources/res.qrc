@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="icons">
+    <file>github-mark-white.svg</file>
     <file>icon.svg</file>
   </qresource>
   <qresource prefix="misc">

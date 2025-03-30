@@ -220,3 +220,12 @@ def polar2point(pos: QPointF) -> QPointF:
     """
     nq = math.radians((pos.x() + 90) % 360)
     return QPointF(math.sin(nq) * pos.y(), -math.cos(nq) * pos.y())
+
+
+def modify_path_url(path: str) -> str:
+    """
+    converts specifiet path to file url
+    :param path: path to convert
+    :return: converted path
+    """
+    return "file:///" + path.replace("\\", "/").replace("#", "%23")
