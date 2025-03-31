@@ -121,10 +121,7 @@ class GeometryEditor(Editor):
         self.block.valueChanged.connect(self.block_changed)
         self.rotation.valueChanged.connect(self.block_changed)
 
-        if os.path.exists(os.path.join(PATH_FILES_IMAGES, CONSTS.get("geo_image_config", {}).get("image"))):
-            self.geo_texture = QPixmap(os.path.join(PATH_FILES_IMAGES, CONSTS.get("geo_image_config", {}).get("image")))
-        else:
-            self.geo_texture = QPixmap(os.path.join(PATH_FILES_IMAGES, "notfound.png"))
+        self.geo_texture = QPixmap(os.path.join(PATH_FILES_IMAGES, "notfound.png"))
 
         self.binfo: dict = CONSTS.get("geo_image_config", {}).get("blocksinfo", {})
         self.sinfo: dict = CONSTS.get("geo_image_config", {}).get("stackablesinfo", {})
@@ -137,10 +134,10 @@ class GeometryEditor(Editor):
         self.toolcolor.valueChanged.connect(self.change_color)
 
         self.geo_preload = QPixmap(256 * self._sz, self._sz * 2)  # this would be something
-        self.geo_preload.fill(QColor(0, 0, 0, 0))
-        self.preload_geo_textures()
+        #self.preload_geo_textures()
 
     def preload_geo_textures(self):  # optimizations my man
+        self.geo_preload.fill(QColor(0, 0, 0, 0))
         p = QPainter(self.geo_preload)
         for i in range(256):
             for j in GeoLevelPart.byte2stack(i):
@@ -156,6 +153,13 @@ class GeometryEditor(Editor):
                 pos = self.sinfo.get(str(j), [0, 0])
                 p.drawPixmap(QPoint(i * self._sz, self._sz), self.geo_texture, QRect(pos[0] * self._sz, pos[1] * self._sz, self._sz, self._sz))
         p.end()
+
+    def update_geo_texture(self):
+        if os.path.exists(self.mod.geoview.imagepath.value):
+            self.geo_texture = QPixmap(self.mod.geoview.imagepath.value)
+        else:
+            self.geo_texture = QPixmap(os.path.join(PATH_FILES_IMAGES, "notfound.png"))
+        self.preload_geo_textures()
 
     @property
     def module(self):

@@ -36,11 +36,11 @@ class GeoModule(Module):
 
     def update_image(self):
         self.l1.update_image()
-        self.l1.draw_layer()
+        self.l1.draw_layer(True)
         self.l2.update_image()
-        self.l2.draw_layer()
+        self.l2.draw_layer(True)
         self.l3.update_image()
-        self.l3.draw_layer()
+        self.l3.draw_layer(True)
 
     @Slot()
     def check_l1_change(self):

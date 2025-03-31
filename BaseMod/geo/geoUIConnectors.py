@@ -204,6 +204,8 @@ class GeoViewUI(ViewUI):
         self.drawlmisc_key = KeyConfigurable(mod, "VIEW_geo.drawlmisc_key", "Alt+v", "Show other/misc")
 
         self.imagepath = StringConfigurable(mod, "VIEW_geo.imagepath", os.path.join(PATH_FILES_IMAGES, CONSTS.get("geo_image_config", {}).get("image")), "Geo Image path")
+        self.imagepath.valueChanged.connect(mod.geoeditor.update_geo_texture)
+
         self.draw = True
 
         # adding menu and stuff
@@ -302,6 +304,7 @@ class GeoSettings(SettingUI):
         self.imagepath = SettingUI.ManageableSetting(
             StringConfigurable(None, "imgpath", "", "Image Path"), self.geoviewui.imagepath).add_myself(self)
         self.reset_values()
+        self.mod.geoeditor.update_geo_texture()
 
     def init_ui(self, viewer: SettingsViewer):
         self.ui = Ui_Geometry()
