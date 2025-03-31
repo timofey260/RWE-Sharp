@@ -1,23 +1,24 @@
-import json
 
-from PySide6.QtCore import Slot, Qt, QCoreApplication, Signal
-from PySide6.QtGui import QAction, QColor
-from PySide6.QtWidgets import QMenu, QCheckBox, QFileDialog, QPushButton
+import os
+
+from PySide6.QtCore import QCoreApplication
+from PySide6.QtCore import Qt
+from PySide6.QtCore import Slot, Signal, QRect, QSize
+from PySide6.QtGui import QAction, QColor, QImage, QPixmap
+from PySide6.QtGui import QIcon
+from PySide6.QtWidgets import QMenu, QCheckBox, QFileDialog, QSizePolicy
 
 from BaseMod.baseMod import BaseMod
+from BaseMod.geo.GeoConsts import *
 from BaseMod.geo.geometryEditor import GeoBlocks, stackables, stackables_all_layers
 from BaseMod.geo.ui.geometry_ui import Ui_Geo
 from BaseMod.geo.ui.geometry_vis_ui import Ui_GeoView
 from BaseMod.geo.ui.geosettings_ui import Ui_Geometry
-from BaseMod.geo.GeoConsts import *
-
+from RWESharp.Configurable import BoolConfigurable, FloatConfigurable, IntConfigurable
 from RWESharp.Configurable import KeyConfigurable, StringConfigurable
 from RWESharp.Core import SettingsViewer, CONSTS, PATH_FILES_IMAGES
 from RWESharp.Ui import ViewUI, SettingUI, UI
 from RWESharp.Utils import paint_svg_qicon
-from RWESharp.Configurable import BoolConfigurable, FloatConfigurable, IntConfigurable
-
-import os
 
 button_to_geo = {
     "ToolGeoWall": GeoBlocks.Wall,
@@ -54,6 +55,10 @@ class GeoUI(UI):
         self.mod: BaseMod
         self.ui = Ui_Geo()
         self.ui.setupUi(self)
+
+
+
+
         self.controls = None
         self.editor = None
 
@@ -166,6 +171,57 @@ class GeoUI(UI):
             self.ui.ToolGeoApplyToL2.setEnabled(False)
             self.ui.ToolGeoApplyToL3.setEnabled(False)
 
+    def apply_icons(self):
+
+    #   self.mod.geoview.imagepath.valueChanged somehwere
+        image_path = self.mod.geoview.imagepath.value
+        self.image = QImage(image_path)
+        self.squares = []
+
+        for i in range(8):
+            for j in range(4):
+                rect = QRect(j * 100, i * 100, 100, 100)
+                self.squares.append(self.image.copy(rect))
+
+        # Mapping of UI elements to icon index
+        tool_buttons = {
+            "ToolGeoAir": 2,
+            "ToolGeoBeam": 24,
+            "ToolGeoCrack": 26,
+            "ToolGeoDen": 10,
+            "ToolGeoEntrance": 9,
+            "ToolGeoFloor": 13,
+            "ToolGeoForbidChains": 20,
+            "ToolGeoGarbageWorm": 19,
+            "ToolGeoGlass": 22,
+            "ToolGeoHive": 21,
+            "ToolGeoRock": 12,
+            "ToolGeoScavHole": 17,
+            "ToolGeoShortcut": 8,
+            "ToolGeoShortcutEntrance": 11,
+            "ToolGeoSlope": 6,
+            "ToolGeoSpear": 16,
+            "ToolGeoWall": 0,
+            "ToolGeoWaterfall": 15,
+            "ToolGeoWormGrass": 14,
+            "ToolGeoWraykAMoleHole": 18,
+        }
+
+        # Assign icons dynamically
+        for tool_name, index in tool_buttons.items():
+            button = getattr(self.ui, tool_name, None)
+            if button:
+                pixmap = QPixmap.fromImage(self.squares[index])
+                button.setIcon(QIcon(pixmap))
+                button.setIconSize(QSize(32, 32))  # Adaptive size?
+                button.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+                button.setMinimumSize(20, 20)  # Ensures a minimum square size
+                button.setMaximumSize(200, 200)  # Prevents excessive stretching
+                button.setText("")
+                button.setStyleSheet("padding: 2px;")
+        self.ui.ToolGeoInvert.setToolTip('<img src="files/images/invert_tooltip.png">')
+        self.ui.ToolGeoAir.setIconSize(QSize(0, 0))
+        self.ui.ToolGeoAir.setText("Air")
 
 class GeoViewUI(ViewUI):
     render = Signal()
@@ -249,6 +305,12 @@ class GeoViewUI(ViewUI):
 
         self.drawgeo.valueChanged.connect(self.hide_geo)
 
+
+
+
+
+
+
     @Slot()
     def hide_geo(self):
         self.draw = False
@@ -280,6 +342,9 @@ class GeoSettings(SettingUI):
     def __init__(self, mod):
         super().__init__(mod)
         self.mod: BaseMod
+
+
+
         self.geoviewui = self.mod.geoview
         l1 = lambda x: int(x * 255)
         l2 = lambda x: x / 255
@@ -305,6 +370,7 @@ class GeoSettings(SettingUI):
             StringConfigurable(None, "imgpath", "", "Image Path"), self.geoviewui.imagepath).add_myself(self)
         self.reset_values()
         self.mod.geoeditor.update_geo_texture()
+        self.on_geo_view_ui_loaded()
 
     def init_ui(self, viewer: SettingsViewer):
         self.ui = Ui_Geometry()
@@ -329,12 +395,14 @@ class GeoSettings(SettingUI):
         file_path, _ = QFileDialog.getOpenFileName(self.ui.ChangeImage, "Select Geometry Image", PATH_FILES_IMAGES, "Images (*.png; *.jpg)")
         if file_path:
             self.imagepath.setting.update_value(file_path)
-            # with open("files/Consts.json", "r+") as f:
-            #     data = json.load(f)
-            #     data["geo_image_config"]["image"] = file_path
-            #     f.seek(0)
-            #     json.dump(data, f, indent=4)
-            #     f.truncate()
+            self.mod.geoview.imagepath.valueChanged.emit(file_path) #todo
 
+
+        return file_path
         # hey timo do that thing you said youre gonna do
         # oki
+    def on_geo_view_ui_loaded(self):
+
+        self.mod.geoui.apply_icons()
+
+        print("good")

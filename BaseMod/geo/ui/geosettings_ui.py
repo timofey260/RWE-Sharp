@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'geo.ui'
+## Form generated from reading UI file 'geoysYlvJ.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.7.2
+## Created by: Qt User Interface Compiler version 6.7.3
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -42,11 +42,6 @@ class Ui_Geometry(object):
         self.graphicsView.setObjectName(u"graphicsView")
 
         self.gridLayout_2.addWidget(self.graphicsView, 0, 1, 1, 1)
-
-        self.ChangeImage = QPushButton(self.scrollAreaWidgetContents)
-        self.ChangeImage.setObjectName(u"ChangeImage")
-
-        self.gridLayout_2.addWidget(self.ChangeImage, 1, 1, 1, 1)
 
         self.verticalLayout = QVBoxLayout()
         self.verticalLayout.setObjectName(u"verticalLayout")
@@ -218,7 +213,17 @@ class Ui_Geometry(object):
         self.verticalLayout.addItem(self.verticalSpacer)
 
 
-        self.gridLayout_2.addLayout(self.verticalLayout, 0, 0, 2, 1)
+        self.gridLayout_2.addLayout(self.verticalLayout, 0, 0, 3, 1)
+
+        self.ChangeImage = QPushButton(self.scrollAreaWidgetContents)
+        self.ChangeImage.setObjectName(u"ChangeImage")
+
+        self.gridLayout_2.addWidget(self.ChangeImage, 2, 1, 1, 1)
+
+        self.checkBox = QCheckBox(self.scrollAreaWidgetContents)
+        self.checkBox.setObjectName(u"checkBox")
+
+        self.gridLayout_2.addWidget(self.checkBox, 1, 1, 1, 1)
 
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
 
@@ -237,7 +242,6 @@ class Ui_Geometry(object):
 
     def retranslateUi(self, Geometry):
         Geometry.setWindowTitle(QCoreApplication.translate("Geometry", u"Geometry", None))
-        self.ChangeImage.setText(QCoreApplication.translate("Geometry", u"Change Geometry Image", None))
         self.label_4.setText(QCoreApplication.translate("Geometry", u"RWE+ view layer opacity", None))
         self.L1show.setText(QCoreApplication.translate("Geometry", u"Layer 1", None))
         self.L2show.setText(QCoreApplication.translate("Geometry", u"Layer 2", None))
@@ -247,5 +251,7 @@ class Ui_Geometry(object):
         self.label_6.setText(QCoreApplication.translate("Geometry", u"Preview", None))
         self.RWEpreview.setText(QCoreApplication.translate("Geometry", u"RWE+", None))
         self.Leditorpreview.setText(QCoreApplication.translate("Geometry", u"Leditor", None))
+        self.ChangeImage.setText(QCoreApplication.translate("Geometry", u"Change Geometry Image", None))
+        self.checkBox.setText(QCoreApplication.translate("Geometry", u"Use text for UI icons", None))
     # retranslateUi
 
