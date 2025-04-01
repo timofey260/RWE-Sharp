@@ -62,13 +62,13 @@ class PreferencesUI(SettingUI):
 
     def pick_active(self):
         for i, v in enumerate(self.themes):
-            print(v, self.current_theme)
+            # print(v, self.current_theme)
             if v == self.current_theme:
                 self.ui.Theme.setCurrentIndex(i + 1)
                 break
         else:
             self.ui.Theme.setCurrentIndex(0)
-        #self.setup_ui(self.ui.Theme.currentData(Qt.ItemDataRole.UserRole))
+        # self.setup_ui(self.ui.Theme.currentData(Qt.ItemDataRole.UserRole))
 
     def index_changed(self, index):
         if index == 0:

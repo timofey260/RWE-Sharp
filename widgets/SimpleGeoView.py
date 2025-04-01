@@ -30,7 +30,6 @@ class SimpleGeoViewport(QGraphicsView):
         self.l2_2 = QPixmap(self.geo_texture)
         self.l3 = QPixmap(self.geo_texture)
         self.l3_2 = QPixmap(self.geo_texture)
-        print("damnnnn", self.settings.imagepath.value, self.geo_texture)
         op = 50
         for i in range(3):
             painter = QPainter([self.l1_2, self.l2_2, self.l3_2][i])
