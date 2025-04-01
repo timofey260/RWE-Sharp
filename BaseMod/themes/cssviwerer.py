@@ -1,6 +1,7 @@
 import re
-from PIL import Image
 
+# for attom
+# this bullshit no longer works since i uninstalled pillow
 
 def find_hex_colors(input_string):
     hex_pattern = r'#(?:[0-9a-fA-F]{3}){1,2}\b'
@@ -319,7 +320,8 @@ def create_image(hex_colors, size=(43, 2)):
         raise ValueError(f"Number of colors ({len(hex_colors)}) does not match the image size ({size[0]}x{size[1]}).")
 
     # Create a new image with the specified size
-    img = Image.new('RGB', size)
+    img = None
+    # img = Image.new('RGB', size)
     pixels = img.load()
 
     # Convert HEX colors to RGB and populate the image
