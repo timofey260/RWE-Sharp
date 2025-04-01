@@ -249,13 +249,10 @@
          </item>
          <item>
           <layout class="QGridLayout" name="gridLayout_3">
-           <item row="0" column="0" colspan="2">
-            <widget class="QLabel" name="label_6">
+           <item row="1" column="0">
+            <widget class="QRadioButton" name="RWEpreview">
              <property name="text">
-              <string>Preview</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignmentFlag::AlignCenter</set>
+              <string>RWE+</string>
              </property>
             </widget>
            </item>
@@ -266,27 +263,13 @@
              </property>
             </widget>
            </item>
-           <item row="1" column="0">
-            <widget class="QRadioButton" name="RWEpreview">
+           <item row="0" column="0" colspan="2">
+            <widget class="QLabel" name="label_6">
              <property name="text">
-              <string>RWE+</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="0" colspan="2">
-            <widget class="QLabel" name="label">
-             <property name="text">
-              <string>Geo icons</string>
+              <string>Preview</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignmentFlag::AlignCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="0">
-            <widget class="QCheckBox" name="UseIconsCheckBox">
-             <property name="text">
-              <string>Use text for UI icons</string>
              </property>
             </widget>
            </item>

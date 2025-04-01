@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'geowlWron.ui'
+## Form generated from reading UI file 'geoFFBtLl.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.7.3
 ##
@@ -189,32 +189,21 @@ class Ui_Geometry(object):
 
         self.gridLayout_3 = QGridLayout()
         self.gridLayout_3.setObjectName(u"gridLayout_3")
-        self.label_6 = QLabel(self.scrollAreaWidgetContents)
-        self.label_6.setObjectName(u"label_6")
-        self.label_6.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.RWEpreview = QRadioButton(self.scrollAreaWidgetContents)
+        self.RWEpreview.setObjectName(u"RWEpreview")
 
-        self.gridLayout_3.addWidget(self.label_6, 0, 0, 1, 2)
+        self.gridLayout_3.addWidget(self.RWEpreview, 1, 0, 1, 1)
 
         self.Leditorpreview = QRadioButton(self.scrollAreaWidgetContents)
         self.Leditorpreview.setObjectName(u"Leditorpreview")
 
         self.gridLayout_3.addWidget(self.Leditorpreview, 1, 1, 1, 1)
 
-        self.RWEpreview = QRadioButton(self.scrollAreaWidgetContents)
-        self.RWEpreview.setObjectName(u"RWEpreview")
+        self.label_6 = QLabel(self.scrollAreaWidgetContents)
+        self.label_6.setObjectName(u"label_6")
+        self.label_6.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        self.gridLayout_3.addWidget(self.RWEpreview, 1, 0, 1, 1)
-
-        self.label = QLabel(self.scrollAreaWidgetContents)
-        self.label.setObjectName(u"label")
-        self.label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-
-        self.gridLayout_3.addWidget(self.label, 2, 0, 1, 2)
-
-        self.UseIconsCheckBox = QCheckBox(self.scrollAreaWidgetContents)
-        self.UseIconsCheckBox.setObjectName(u"UseIconsCheckBox")
-
-        self.gridLayout_3.addWidget(self.UseIconsCheckBox, 3, 0, 1, 1)
+        self.gridLayout_3.addWidget(self.label_6, 0, 0, 1, 2)
 
 
         self.verticalLayout.addLayout(self.gridLayout_3)
@@ -254,11 +243,9 @@ class Ui_Geometry(object):
         self.L3show.setText(QCoreApplication.translate("Geometry", u"Layer 3", None))
         self.OPshift.setText(QCoreApplication.translate("Geometry", u"Opacity Shift", None))
         self.label_5.setText(QCoreApplication.translate("Geometry", u"Old(Leditor) view layers opacity", None))
-        self.label_6.setText(QCoreApplication.translate("Geometry", u"Preview", None))
-        self.Leditorpreview.setText(QCoreApplication.translate("Geometry", u"Leditor", None))
         self.RWEpreview.setText(QCoreApplication.translate("Geometry", u"RWE+", None))
-        self.label.setText(QCoreApplication.translate("Geometry", u"Geo icons", None))
-        self.UseIconsCheckBox.setText(QCoreApplication.translate("Geometry", u"Use text for UI icons", None))
+        self.Leditorpreview.setText(QCoreApplication.translate("Geometry", u"Leditor", None))
+        self.label_6.setText(QCoreApplication.translate("Geometry", u"Preview", None))
         self.ChangeImage.setText(QCoreApplication.translate("Geometry", u"Change Geometry Image", None))
     # retranslateUi
 
