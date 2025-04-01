@@ -248,28 +248,45 @@
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="label_6">
-           <property name="text">
-            <string>Preview</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignmentFlag::AlignCenter</set>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_3">
-           <item>
+          <layout class="QGridLayout" name="gridLayout_3">
+           <item row="0" column="0" colspan="2">
+            <widget class="QLabel" name="label_6">
+             <property name="text">
+              <string>Preview</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignmentFlag::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QRadioButton" name="Leditorpreview">
+             <property name="text">
+              <string>Leditor</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
             <widget class="QRadioButton" name="RWEpreview">
              <property name="text">
               <string>RWE+</string>
              </property>
             </widget>
            </item>
-           <item>
-            <widget class="QRadioButton" name="Leditorpreview">
+           <item row="2" column="0" colspan="2">
+            <widget class="QLabel" name="label">
              <property name="text">
-              <string>Leditor</string>
+              <string>Geo icons</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignmentFlag::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="0">
+            <widget class="QCheckBox" name="UseIconsCheckBox">
+             <property name="text">
+              <string>Use text for UI icons</string>
              </property>
             </widget>
            </item>
@@ -294,13 +311,6 @@
         <widget class="QPushButton" name="ChangeImage">
          <property name="text">
           <string>Change Geometry Image</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QCheckBox" name="checkBox">
-         <property name="text">
-          <string>Use text for UI icons</string>
          </property>
         </widget>
        </item>

@@ -56,6 +56,9 @@ class GeoUI(UI):
         self.ui = Ui_Geo()
         self.ui.setupUi(self)
 
+
+
+
         self.controls = None
         self.editor = None
 
@@ -169,7 +172,10 @@ class GeoUI(UI):
             self.ui.ToolGeoApplyToL3.setEnabled(False)
 
     def apply_icons(self):
-        self.image = QImage(self.mod.geoview.imagepath.value)
+
+    #   self.mod.geoview.imagepath.valueChanged somehwere
+        image_path = self.mod.geoview.imagepath.value
+        self.image = QImage(image_path)
         self.squares = []
 
         for i in range(8):
@@ -214,8 +220,6 @@ class GeoUI(UI):
                 #button.setText("")
                 #button.setStyleSheet("padding: 2px;")
         self.ui.ToolGeoInvert.setToolTip('<img src="files/images/invert_tooltip.png">')
-        self.ui.ToolGeoAir.setIconSize(QSize(0, 0))
-        self.ui.ToolGeoAir.setText("Air")
 
 
 class GeoViewUI(ViewUI):
@@ -256,7 +260,6 @@ class GeoViewUI(ViewUI):
 
         self.imagepath = StringConfigurable(mod, "VIEW_geo.imagepath", os.path.join(PATH_FILES_IMAGES, CONSTS.get("geo_image_config", {}).get("image")), "Geo Image path")
         self.imagepath.valueChanged.connect(mod.geoeditor.update_geo_texture)
-        self.imagepath.valueChanged.connect(mod.geoui.apply_icons)
 
         self.draw = True
 
@@ -301,6 +304,12 @@ class GeoViewUI(ViewUI):
 
         self.drawgeo.valueChanged.connect(self.hide_geo)
 
+
+
+
+
+
+
     @Slot()
     def hide_geo(self):
         self.draw = False
@@ -332,6 +341,9 @@ class GeoSettings(SettingUI):
     def __init__(self, mod):
         super().__init__(mod)
         self.mod: BaseMod
+
+
+
         self.geoviewui = self.mod.geoview
         l1 = lambda x: int(x * 255)
         l2 = lambda x: x / 255
@@ -357,7 +369,7 @@ class GeoSettings(SettingUI):
             StringConfigurable(None, "imgpath", "", "Image Path"), self.geoviewui.imagepath).add_myself(self)
         self.reset_values()
         self.mod.geoeditor.update_geo_texture()
-        self.mod.geoui.apply_icons()
+        self.on_geo_view_ui_loaded()
 
     def init_ui(self, viewer: SettingsViewer):
         self.ui = Ui_Geometry()

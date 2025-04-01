@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'geoysYlvJ.ui'
+## Form generated from reading UI file 'geowlWron.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.7.3
 ##
@@ -187,26 +187,37 @@ class Ui_Geometry(object):
 
         self.verticalLayout.addWidget(self.line_2)
 
+        self.gridLayout_3 = QGridLayout()
+        self.gridLayout_3.setObjectName(u"gridLayout_3")
         self.label_6 = QLabel(self.scrollAreaWidgetContents)
         self.label_6.setObjectName(u"label_6")
         self.label_6.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        self.verticalLayout.addWidget(self.label_6)
-
-        self.horizontalLayout_3 = QHBoxLayout()
-        self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
-        self.RWEpreview = QRadioButton(self.scrollAreaWidgetContents)
-        self.RWEpreview.setObjectName(u"RWEpreview")
-
-        self.horizontalLayout_3.addWidget(self.RWEpreview)
+        self.gridLayout_3.addWidget(self.label_6, 0, 0, 1, 2)
 
         self.Leditorpreview = QRadioButton(self.scrollAreaWidgetContents)
         self.Leditorpreview.setObjectName(u"Leditorpreview")
 
-        self.horizontalLayout_3.addWidget(self.Leditorpreview)
+        self.gridLayout_3.addWidget(self.Leditorpreview, 1, 1, 1, 1)
+
+        self.RWEpreview = QRadioButton(self.scrollAreaWidgetContents)
+        self.RWEpreview.setObjectName(u"RWEpreview")
+
+        self.gridLayout_3.addWidget(self.RWEpreview, 1, 0, 1, 1)
+
+        self.label = QLabel(self.scrollAreaWidgetContents)
+        self.label.setObjectName(u"label")
+        self.label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        self.gridLayout_3.addWidget(self.label, 2, 0, 1, 2)
+
+        self.UseIconsCheckBox = QCheckBox(self.scrollAreaWidgetContents)
+        self.UseIconsCheckBox.setObjectName(u"UseIconsCheckBox")
+
+        self.gridLayout_3.addWidget(self.UseIconsCheckBox, 3, 0, 1, 1)
 
 
-        self.verticalLayout.addLayout(self.horizontalLayout_3)
+        self.verticalLayout.addLayout(self.gridLayout_3)
 
         self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
@@ -219,11 +230,6 @@ class Ui_Geometry(object):
         self.ChangeImage.setObjectName(u"ChangeImage")
 
         self.gridLayout_2.addWidget(self.ChangeImage, 2, 1, 1, 1)
-
-        self.checkBox = QCheckBox(self.scrollAreaWidgetContents)
-        self.checkBox.setObjectName(u"checkBox")
-
-        self.gridLayout_2.addWidget(self.checkBox, 1, 1, 1, 1)
 
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
 
@@ -249,9 +255,10 @@ class Ui_Geometry(object):
         self.OPshift.setText(QCoreApplication.translate("Geometry", u"Opacity Shift", None))
         self.label_5.setText(QCoreApplication.translate("Geometry", u"Old(Leditor) view layers opacity", None))
         self.label_6.setText(QCoreApplication.translate("Geometry", u"Preview", None))
-        self.RWEpreview.setText(QCoreApplication.translate("Geometry", u"RWE+", None))
         self.Leditorpreview.setText(QCoreApplication.translate("Geometry", u"Leditor", None))
+        self.RWEpreview.setText(QCoreApplication.translate("Geometry", u"RWE+", None))
+        self.label.setText(QCoreApplication.translate("Geometry", u"Geo icons", None))
+        self.UseIconsCheckBox.setText(QCoreApplication.translate("Geometry", u"Use text for UI icons", None))
         self.ChangeImage.setText(QCoreApplication.translate("Geometry", u"Change Geometry Image", None))
-        self.checkBox.setText(QCoreApplication.translate("Geometry", u"Use text for UI icons", None))
     # retranslateUi
 
