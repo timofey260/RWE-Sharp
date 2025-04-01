@@ -123,7 +123,20 @@ class TileLevelPart(LevelPart):
                 return tilebody
 
     def save_level(self):
-        self.level.data["TE"]["tlMatrix"] = self.tiles  # todo
+        self.level.data["TE"]["tlMatrix"] = [[[self.convert_to_dict(x, y, 0), self.convert_to_dict(x, y, 1), self.convert_to_dict(x, y, 2)]
+                       for y in range(self.level.level_height)] for x in range(self.level.level_width)]
+
+    def convert_to_dict(self, x, y, l):
+        tile = self.tiles[x][y][l]
+        if tile is None:
+            return {"tp": "default", "data": 0}
+        if isinstance(tile, PlacedMaterial):
+            return {"tp": "material", "data": tile.tile.name}
+        if isinstance(tile, PlacedTileBody):
+            return {"tp": "tileBody", "data": [lingoIO.point((tile.tilehead.pos + QPoint(1, 1)).toTuple()), tile.tilehead.layer + 1]}
+        if isinstance(tile, PlacedTileHead):
+            return {"tp": "tileHead", "data": [lingoIO.point((tile.tile.cat + QPoint(1, 1)).toTuple()), tile.tile.name]}
+        raise NotImplementedError("someone probably fucked up")
 
     def tile_data_xy(self, x: int, y: int, layer: int) -> None | PlacedTileBody | PlacedTileHead | PlacedMaterial:
         """

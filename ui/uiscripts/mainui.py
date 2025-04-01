@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'main_tim.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.7.2
+## Created by: Qt User Interface Compiler version 6.8.3
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -136,6 +136,9 @@ class Ui_MainWindow(object):
         self.actionOpen_Levels_Folder = QAction(MainWindow)
         self.actionOpen_Levels_Folder.setObjectName(u"actionOpen_Levels_Folder")
         self.actionOpen_Levels_Folder.setIcon(icon10)
+        self.actionOpen_ShowLevelFile = QAction(MainWindow)
+        self.actionOpen_ShowLevelFile.setObjectName(u"actionOpen_ShowLevelFile")
+        self.actionOpen_ShowLevelFile.setIcon(icon10)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.gridLayout_6 = QGridLayout(self.centralwidget)
@@ -318,6 +321,7 @@ class Ui_MainWindow(object):
         self.menuFile.addAction(self.actionSave_As)
         self.menuFile.addSeparator()
         self.menuFile.addAction(self.actionOpen_Levels_Folder)
+        self.menuFile.addAction(self.actionOpen_ShowLevelFile)
         self.menuSettings.addAction(self.actionPreferences)
         self.menuSettings.addAction(self.actionHotkeys)
         self.menuHelp.addAction(self.actionAbout)
@@ -389,6 +393,7 @@ class Ui_MainWindow(object):
         self.actionRWE_Github.setText(QCoreApplication.translate("MainWindow", u"RWE# Github", None))
         self.actionRWE_Issues.setText(QCoreApplication.translate("MainWindow", u"RWE# Issues", None))
         self.actionOpen_Levels_Folder.setText(QCoreApplication.translate("MainWindow", u"Open Levels Folder", None))
+        self.actionOpen_ShowLevelFile.setText(QCoreApplication.translate("MainWindow", u"Show Level File", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.level1), QCoreApplication.translate("MainWindow", u"Level", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.new), QCoreApplication.translate("MainWindow", u"New level", None))
         self.DockTools.setWindowTitle(QCoreApplication.translate("MainWindow", u"Editors", None))

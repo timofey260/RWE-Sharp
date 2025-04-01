@@ -84,12 +84,14 @@ class MainWindow(QMainWindow):
         self.ui.DockPrefabs.link_action(self.ui.actionPrefabs)
 
         self.ui.actionRender.triggered.connect(lambda: self.level_render(self.ui.tabWidget.currentWidget().level))
-        self.ui.actionLaunch_Drizzle.triggered.connect(self.open_drizzle)
+        self.ui.actionLaunch_Drizzle.triggered.connect(lambda:
+            QDesktopServices.openUrl(modify_path_url(os.path.join(PATH_DRIZZLE, "Drizzle.Editor.exe" if ISWIN else "Drizzle.Editor"))))
         self.ui.actionRender_All_Levels.triggered.connect(self.render_all)
-        self.ui.actionDrizzleOpenExplorer.triggered.connect(self.open_drizzle_folder)
+        self.ui.actionDrizzleOpenExplorer.triggered.connect(lambda: QDesktopServices.openUrl(modify_path_url(PATH_DRIZZLE)))
         self.ui.actionOpen_Levels_Folder.triggered.connect(lambda: QDesktopServices.openUrl(modify_path_url(PATH_LEVELS)))
         self.ui.actionRWE_Github.triggered.connect(lambda: QDesktopServices.openUrl(REPO))
         self.ui.actionRWE_Issues.triggered.connect(lambda: QDesktopServices.openUrl(REPO_ISSUES))
+        self.ui.actionOpen_ShowLevelFile.triggered.connect(lambda: self.open_level_folder(self.ui.tabWidget.currentWidget().level))
 
         self.hotkeys = HotkeysUI(self.manager, self)
         self.settings = SettingsDialogUI(self.manager, self)
@@ -100,7 +102,7 @@ class MainWindow(QMainWindow):
         self.vid = None
 
     def level_render(self, level):
-        print(level)
+        print(level)  #todo
         a, _ = os.path.split(level.file)
         print(QDesktopServices.openUrl(modify_path_url(a)), a)
 
@@ -108,15 +110,14 @@ class MainWindow(QMainWindow):
         for i in range(self.ui.tabWidget.count()):
             self.level_render(self.ui.tabWidget.widget(i).level)
 
-    def open_drizzle_folder(self):
-        QDesktopServices.openUrl(modify_path_url(PATH_DRIZZLE))
-
-    def open_drizzle(self):
-        print(modify_path_url(os.path.join(PATH_DRIZZLE, "drizzle.exe" if ISWIN else "drizzle")))
-        QDesktopServices.openUrl(modify_path_url(os.path.join(PATH_DRIZZLE, "Drizzle.Editor.exe" if ISWIN else "Drizzle.Editor")))
-
     def add_viewport(self, viewport):
         self.ui.tabWidget.setCurrentIndex(self.ui.tabWidget.addTab(viewport, viewport.level.shortname))
+
+    def open_level_folder(self, level):
+        if level.file is None or self.ui.tabWidget.count() <= 0:
+            return
+        a, _ = os.path.split(level.file)
+        QDesktopServices.openUrl(modify_path_url(a))
 
     @Slot(int)
     def change_editor(self, val) -> None:

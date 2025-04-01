@@ -182,6 +182,7 @@
     <addaction name="actionSave_As"/>
     <addaction name="separator"/>
     <addaction name="actionOpen_Levels_Folder"/>
+    <addaction name="actionOpen_ShowLevelFile"/>
    </widget>
    <widget class="QMenu" name="menuSettings">
     <property name="title">
@@ -617,6 +618,14 @@
    </property>
    <property name="text">
     <string>Open Levels Folder</string>
+   </property>
+  </action>
+  <action name="actionOpen_ShowLevelFile">
+   <property name="icon">
+    <iconset theme="QIcon::ThemeIcon::FolderOpen"/>
+   </property>
+   <property name="text">
+    <string>Show Level File</string>
    </property>
   </action>
  </widget>

@@ -85,7 +85,7 @@ def fromarr(col: str, mark: str):
     return a
 
 
-def point(col: list):
+def point(col: list | tuple):
     return f"point({col[0]}, {col[1]})"
 
 
@@ -93,5 +93,5 @@ def frompoint(col: str):
     return fromarr(col, "point")
 
 
-def makearr(col: list, mark: str):
+def makearr(col: list | tuple, mark: str):
     return f"{mark}({col[0]}, {col[1]})"
