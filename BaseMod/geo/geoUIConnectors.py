@@ -369,7 +369,7 @@ class GeoSettings(SettingUI):
             StringConfigurable(None, "imgpath", "", "Image Path"), self.geoviewui.imagepath).add_myself(self)
         self.reset_values()
         self.mod.geoeditor.update_geo_texture()
-        self.on_geo_view_ui_loaded()
+        self.mod.geoui.apply_icons()
 
     def init_ui(self, viewer: SettingsViewer):
         self.ui = Ui_Geometry()
