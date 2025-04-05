@@ -64,6 +64,7 @@ class TileRenderLevelImage(RenderLevelImage):
 
     def render_layer(self):
         self.image.fill(QColor(0, 0, 0, 0))
+        self.painter.setCompositionMode(QPainter.CompositionMode.CompositionMode_SourceOver)
         self.tilescene.render(self.painter)
         self.redraw()
 
@@ -125,12 +126,10 @@ class TileRenderLevelImage(RenderLevelImage):
         self.draw_layer(True)
 
     def render_rect(self, rect: QRect):
-        self.painter.setCompositionMode(self.painter.CompositionMode.CompositionMode_Source)
         self.painter.fillRect(rect, QColor(0, 0, 0, 0))
         self.tilescene.render(self.painter, target=rect, source=rect)
 
     def draw_tile(self, pos: QPoint, render: bool):
-        self.painter.setCompositionMode(self.painter.CompositionMode.CompositionMode_Source)
         tile = self.viewport.level.l_tiles(pos, self.tilelayer)
         if tile is not None and isinstance(tile, PlacedTileBody) and tile.graphics is not None:
             tile.graphics.removeFromIndex()
@@ -191,6 +190,3 @@ class TileRenderLevelImage(RenderLevelImage):
     #                 col = self.ui.drawoption.value - 4
     #                 foundtile.image3.setColorTable(self.ui.colortable[col][self.tilelayer])
     #             self.painter.drawImage(drawrect, foundtile.image3)
-
-    def draw_material(self):
-        pass
