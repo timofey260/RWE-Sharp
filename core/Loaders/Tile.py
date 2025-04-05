@@ -50,7 +50,7 @@ class Tile:
 
     @property
     def multilayer(self) -> bool:
-        return self.cols1 is not None
+        return isinstance(self.cols1, list)
 
     @property
     def top_left(self) -> QPoint:

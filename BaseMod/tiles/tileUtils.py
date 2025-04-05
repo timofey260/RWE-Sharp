@@ -84,10 +84,10 @@ class PlacedTileBody:
     def remove(self, level: RWELevel):
         level.l_tiles[self.pos][self.layer] = None
 
-    def remove_graphics(self):
+    def remove_graphics(self, *args):
         pass
 
-    def add_graphics(self):
+    def add_graphics(self, *args):
         pass
 
     def tile(self, level):
@@ -277,6 +277,47 @@ def old_can_place(level: RWELevel, pos: QPoint, layer: int, tile: Tile, force_pl
     return check_collisions(level, pos, layer, tile, force_place, force_geometry)
 
 
+def tile_changes(level: RWELevel,
+                   pos: QPoint,
+                   head: QPoint,
+                   tile: Tile,
+                   layer: int,
+                   col: int,
+                   fp: bool,
+                   fg: bool,
+                   secondlayer: bool) -> [list | None, list | None]:
+    if col == -1:
+        return None, None
+    geochange = None
+    if fp and isinstance(level.l_tiles[pos][layer], PlacedTileHead):
+        return None, None
+    elif not fp and level.l_tiles[pos][layer] is not None:
+        return None, None
+    #level.viewport.modulenames["tiles"].get_layer(layer).clean_pixel(pos)
+    if fg and col != level.l_geo.blocks[pos.x(), pos.y(), layer]:
+        geochange = [pos, layer, level.l_geo.blocks[pos.x(), pos.y(), layer], col]
+        level.l_geo.blocks[pos.x(), pos.y(), layer] = np.uint8(col)
+        # level.data["GE"][pos.x()][pos.y()][layer][0] = col
+        level.viewport.modulenames["geo"].get_layer(layer).draw_geo(pos.x(), pos.y(), True)
+    if not secondlayer and pos == head:
+        change = [copy_tile(level.l_tiles(pos, layer)), PlacedTileHead(tile, pos, layer)]
+        if level.l_tiles[pos][layer] is not None:
+            level.l_tiles[pos][layer].remove_graphics(level, True)
+        # change = [pos, layer,
+        #           {"tp": "tileHead", "data": [lingoIO.point([tile.cat.x(), tile.cat.y()]), tile.name]},
+        #           copy_tile(level.l_tiles(pos, layer))]
+        level.l_tiles[pos][layer] = copy_tile(change[1])
+        return change, geochange
+    change = [copy_tile(level.l_tiles[pos][layer]), PlacedTileBody(head, layer + (1 if secondlayer else 0), pos, layer)]
+    if level.l_tiles[pos][layer] is not None:
+        level.l_tiles[pos][layer].remove_graphics(level, True)
+    # change = [pos, layer,
+    #           {"tp": "tileBody", "data": [lingoIO.point([head.x() + 1, head.y() + 1]), layer + 1]},
+    #           copy_tile(level.l_tiles(pos, layer))]
+    level.l_tiles[pos][layer] = copy_tile(change[1])
+    return change, geochange
+
+
 def check4tile_col(level: RWELevel,
                    pos: QPoint,
                    head: QPoint,
@@ -321,18 +362,57 @@ def place_tile(level: RWELevel,
                force_place: bool = False,
                force_geometry: bool = False) -> PlacedTile | None:
     if tile.type == "material" and area[pos.x(), pos.y()]:
-        change = [copy_tile(level.l_tiles(pos, layer)), PlacedMaterial(tile, pos, layer)]
+        change = [copy_tile(level.l_tiles[pos][layer]), PlacedMaterial(tile, pos, layer)]
         geochange = []
         if force_geometry and level.l_geo.blocks[pos.x(), pos.y(), layer] != 0:
-            geochange = [[pos, layer, 1, level.l_geo.blocks[pos.x(), pos.y(), layer]]]
+            geochange = [[pos, layer, level.l_geo.blocks[pos.x(), pos.y(), layer], 1]]
             # level.data["GE"][pos.x()][pos.y()][layer][0] = 1
             level.l_geo.blocks[pos.x(), pos.y(), layer] = np.uint8(1)
         #level.data["TE"]["tlMatrix"][pos.x()][pos.y()][layer] = {"tp": "material", "data": tile.name}
+        if level.l_tiles[pos][layer] is not None:
+            level.l_tiles[pos][layer].remove_graphics(level, True)
         level.l_tiles[pos][layer] = PlacedMaterial(tile, pos, layer)
         area[pos.x(), pos.y()] = False
         level.viewport.modulenames["tiles"].get_layer(layer).draw_tile(pos, True)
         level.viewport.modulenames["geo"].get_layer(layer).draw_geo(pos.x(), pos.y(), True)
         return PlacedTile(level, [change], geochange)
+    headpos = tile.top_left + pos
+    if not level.inside(headpos):
+        return None
+    changes = []
+    geochanges = []
+    isnextlayer = tile.multilayer and layer < 2
+    for x in range(tile.size.width()):
+        for y in range(tile.size.height()):
+            tilepos = QPoint(x, y) + pos
+            if not level.inside(tilepos):
+                continue
+            if area is not None:
+                area[tilepos.x(), tilepos.y()] = False
+            # area2[x][y] = False
+            try:
+                col = tile.cols[x * tile.size.height() + y]
+            except IndexError:
+                col = 1
+            if isnextlayer:
+                if area2 is not None:
+                    area2[tilepos.x(), tilepos.y()] = False
+                try:
+                    col2 = tile.cols1[x * tile.size.height() + y]
+                except IndexError:
+                    col2 = 1
+                ch, gch = tile_changes(level, tilepos, headpos, tile, layer + 1, col2, force_place, force_geometry, True)
+                if ch is not None:
+                    changes.append(ch)
+                if gch is not None:
+                    geochanges.append(gch)
+            ch, gch = tile_changes(level, tilepos, headpos, tile, layer, col, force_place, force_geometry, False)
+            if ch is not None:
+                changes.append(ch)
+            if gch is not None:
+                geochanges.append(gch)
+    level.viewport.modulenames["tiles"].get_layer(layer).draw_tile(headpos, True)
+    return PlacedTile(level, changes, geochanges)
 
 
 def old_place_tile(level: RWELevel,
@@ -449,19 +529,6 @@ def remove_tile(level: RWELevel, pos: QPoint, layer: int) -> RemovedTile | None:
     return RemovedTile(changes)
 
 
-class PlacedTileChange:
-    def __init__(self, changes: dict[(QPoint, int), [any, any]], geochanges=None):
-        # changes structure: dict with (pos, layer) and [before, after]
-        self.changes = changes
-        self.geochanges = geochanges
-        if geochanges is None:
-            self.geochanges = []
-
-    def undo(self, level, module):
-        for k, v in self.changes:
-            pass
-
-
 class BaseTileChangelist:
     def __init__(self, changes, level: RWELevel):
         self.changes = changes  # [before, after]
@@ -478,15 +545,17 @@ class BaseTileChangelist:
                     continue
                 pos = after.pos
                 layer = after.layer
-                if self.level.l_tiles.tiles[pos.x()][pos.y()][layer] is not None:
-                    self.level.l_tiles.tiles[pos.x()][pos.y()][layer].remove_graphics(self.level, False)
-                self.level.l_tiles.tiles[pos.x()][pos.y()][layer] = None
+                if self.level.l_tiles[pos][layer] is not None:
+                    self.level.l_tiles[pos][layer].remove_graphics(self.level, False)
+                self.level.l_tiles[pos][layer] = None
                 layers2redraw[layer] = True
                 continue
             pos = before.pos
             layer = before.layer
-            self.level.l_tiles.tiles[pos.x()][pos.y()][layer] = before.copy()
-            self.level.l_tiles.tiles[pos.x()][pos.y()][layer].add_graphics(self.level)
+            if self.level.l_tiles[pos][layer] is not None:
+                self.level.l_tiles[pos][layer].remove_graphics(self.level, False)
+            self.level.l_tiles[pos][layer] = before.copy()
+            self.level.l_tiles[pos][layer].add_graphics(self.level, False)
             layers2redraw[layer] = True
         [self.module.get_layer(i).redraw() for i in layers2redraw if i]
 
@@ -507,8 +576,10 @@ class BaseTileChangelist:
                 continue
             pos = after.pos
             layer = after.layer
+            if self.level.l_tiles[pos][layer] is not None:
+                self.level.l_tiles[pos][layer].remove_graphics(self.level, False)
             self.level.l_tiles.tiles[pos.x()][pos.y()][layer] = after.copy()
-            self.level.l_tiles.tiles[pos.x()][pos.y()][layer].add_graphics(self.level)
+            self.level.l_tiles.tiles[pos.x()][pos.y()][layer].add_graphics(self.level, False)
             layers2redraw[layer] = True
         [self.module.get_layer(i).redraw() for i in layers2redraw if i]
 
@@ -523,14 +594,14 @@ class PlacedTile(BaseTileChangelist):
     def undo(self):
         super().undo()
         for i in self.geochanges:
-            self.level.l_geo.blocks[i[0].x(), i[0].y(), i[1]] = np.uint8(i[3])
+            self.level.l_geo.blocks[i[0].x(), i[0].y(), i[1]] = np.uint8(i[2])
             # element.history.level.data["GE"][i[0].x()][i[0].y()][i[1]][0] = i[3]
             self.level.viewport.modulenames["geo"].get_layer(i[1]).draw_geo(i[0].x(), i[0].y(), True)
 
     def redo(self):
         super().redo()
         for i in self.geochanges:
-            self.level.history.level.l_geo.blocks[i[0].x(), i[0].y(), i[1]] = np.uint8(i[2])
+            self.level.history.level.l_geo.blocks[i[0].x(), i[0].y(), i[1]] = np.uint8(i[3])
             # element.history.level.data["GE"][i[0].x()][i[0].y()][i[1]][0] = i[2]
             self.level.viewport.modulenames["geo"].get_layer(i[1]).draw_geo(i[0].x(), i[0].y(), True)
 
@@ -549,15 +620,17 @@ class TileHistory(HistoryElement):
         self.savedtiles: list[BaseTileChangelist] = []
         self.fp = force_place
         self.fg = force_geometry
+        self.tilemodule = self.level.viewport.modulenames["tiles"]
+        self.geomodule = self.level.viewport.modulenames["geo"]
 
     def redraw(self):
-        self.history.level.viewport.modulenames["tiles"].get_layer(self.layer).redraw()
+        self.tilemodule.get_layer(self.layer).redraw()
         if self.fg:
-            self.history.level.viewport.modulenames["geo"].get_layer(self.layer).redraw()
-        if self.layer + 1 < 3:
+            self.geomodule.get_layer(self.layer).redraw()
+        if self.layer < 2:
             if self.fg:
-                self.history.level.viewport.modulenames["geo"].get_layer(self.layer + 1).redraw()
-            self.history.level.viewport.modulenames["tiles"].get_layer(self.layer + 1).redraw()
+                self.geomodule.get_layer(self.layer + 1).redraw()
+            self.tilemodule.get_layer(self.layer + 1).redraw()
 
     def undo_changes(self):
         for i in self.savedtiles:
