@@ -14,7 +14,7 @@ from RWESharp.Loaders import palette_to_colortable, Tile
 from RWESharp.Renderable import RenderTile, RenderRect
 from BaseMod.tiles.tileExplorer import TileExplorer
 from BaseMod.tiles.tileHistory import TilePen
-from BaseMod.tiles.tileUtils import new_can_place
+from BaseMod.tiles.tileUtils import can_place
 
 if TYPE_CHECKING:
     from BaseMod.baseMod import BaseMod
@@ -115,7 +115,13 @@ class TileEditor(Editor):
                 self.manager.selected_viewport.level.history.last_element.add_move(cellpos)
         if self.manager.selected_viewport.level.inside(cellpos):
             # self.manager.set_status(f"x: {cellpos.x()}, y: {cellpos.y()}, {self.manager.selected_viewport.level['TE']['tlMatrix'][cellpos.x()][cellpos.y()]}")
-            self.manager.set_status(f"x: {cellpos.x()}, y: {cellpos.y()}, {[str(i) for i in self.manager.selected_viewport.level.l_tiles[cellpos]]}")
+            layers = []
+            for i in self.manager.selected_viewport.level.l_tiles[cellpos]:
+                if i is None:
+                    layers.append("None")
+                    continue
+                layers.append(i.tostring(self.level))
+            self.manager.set_status(f"x: {cellpos.x()}, y: {cellpos.y()}, {layers}")
         # self.tile_item.setPos(pos)
         self.tile_rect.setPos(self.tile_item.offset)
         rect = self.tile_item.image.rect()
@@ -124,7 +130,7 @@ class TileEditor(Editor):
         self.tile_rect.setRect(rect)
         self.tile_rect.setScale(self.tile_item.scale)
         fpos = self.viewport.viewport_to_editor(self.mouse_pos) - self.tile.top_left
-        self.tile_rect.drawrect.setPen(QColor(0, 255, 0) if new_can_place(self.level, fpos, self.layer, self.tile, self.force_place.value, self.force_geo.value) else QColor(255, 0, 0))
+        self.tile_rect.drawrect.setPen(QColor(0, 255, 0) if can_place(self.level, fpos, self.layer, self.tile, self.force_place.value, self.force_geo.value) else QColor(255, 0, 0))
 
     def init_scene_items(self, viewport):
         super().init_scene_items(viewport)
@@ -139,8 +145,7 @@ class TileEditor(Editor):
     def mouse_press_event(self, event: QMouseEvent):
         if self.mouse_left:
             #self.level.l_tiles.tile_data(self.viewport.viewport_to_editor(self.mouse_pos), self.layer).remove(self.level)
-            #self.tool_specific_press(self.toolleft.value, self.deleteleft.value)  # todo
-            self.viewport.print()
+            self.tool_specific_press(self.toolleft.value, self.deleteleft.value)  # todo
         if self.mouse_right:
             self.tool_specific_press(self.toolright.value, self.deleteright.value)
 

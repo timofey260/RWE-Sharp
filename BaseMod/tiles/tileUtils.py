@@ -1,69 +1,143 @@
 from __future__ import annotations
 
+import numpy
 import numpy as np
 
-from PySide6.QtCore import QPoint
+from PySide6.QtCore import QPoint, QRect, QSize
 from PySide6.QtWidgets import QGraphicsPixmapItem, QGraphicsRectItem
 
-from RWESharp.Core import lingoIO, RWELevel
+from RWESharp.Core import lingoIO, RWELevel, CELLSIZE
 from RWESharp.Loaders import Tile
 from RWESharp.Modify import HistoryElement
 
 
 class PlacedTileHead:
-    def __init__(self, tile, pos, layer):
-        self.tile: Tile = tile
-        self.tilebodies = []
+    def __init__(self, tile: Tile, pos: QPoint, layer: int):
+        self.tile = tile
+        # self.tilebodies = []
         self.pos = pos
         self.layer = layer
         self.graphics: QGraphicsPixmapItem | None = None
 
-    def __str__(self):
+    def tostring(self, level):
         return self.tile.name
 
     def remove(self, level, redraw=True):
-        for i in self.tilebodies:
-            i.remove(level)
+        # for i in self.tilebodies:
+        #     i.remove(level)
+        ofs = self.tile.top_left
+        pos = self.pos - ofs
+        for x in range(pos.x(), pos.x() + self.tile.size.width()):
+            for y in range(pos.y(), pos.y() + self.tile.size.height()):
+                tile = level.l_tiles.tiles[x][y][self.layer]
+                if isinstance(tile, PlacedTileBody) and tile.headpos == self.pos and tile.headlayer == self.layer:
+                    tile.remove(level)
+        if self.tile.multilayer and self.layer < 2:
+            for x in range(pos.x(), pos.x() + self.tile.size.width()):
+                for y in range(pos.y(), pos.y() + self.tile.size.height()):
+                    tile = level.l_tiles.tiles[x][y][self.layer + 1]
+                    if isinstance(tile, PlacedTileBody) and tile.headpos == self.pos and tile.headlayer == self.layer:
+                        tile.remove(level)
         level.l_tiles[self.pos][self.layer] = None
+        self.remove_graphics(level, redraw)
+
+    def remove_graphics(self, level, redraw=True):
         if self.graphics is not None:
-            print(self.graphics)
-            bounds = self.graphics.boundingRect()
+            bounds = self.tile_bounds
             self.graphics.removeFromIndex()
             self.graphics = None
-            texture = level.viewport.modulenames["tiles"].get_layer(self.layer)
-            texture.render_rect(bounds)
-            #texture.render_layer()
-            if redraw:
-                texture.redraw()
+        texture = level.viewport.modulenames["tiles"].get_layer(self.layer)
+        texture.render_rect(bounds)
+        if redraw:
+            texture.redraw()
+
+    def add_graphics(self, level, redraw=True):
+        if self.graphics is not None:
+            self.remove_graphics(level, False)
+        layer = level.viewport.modulenames["tiles"].get_layer(self.layer)
+        layer.draw_tile(self.pos, True)
+        if redraw:
+            layer.redraw()
+
+    @property
+    def tile_bounds(self):
+        tl = (self.pos - self.tile.option_based_top_left(1)) * CELLSIZE
+        return QRect(tl, (self.tile.size + QSize(self.tile.bfTiles, self.tile.bfTiles) * 2) * CELLSIZE)
+
+    def copy(self):
+        return PlacedTileHead(self.tile, self.pos.__copy__(), self.layer)
 
 
 class PlacedTileBody:
-    def __init__(self, tilehead: PlacedTileHead | None, pos, layer):
-        self.tilehead = tilehead
+    def __init__(self, tileheadpos: QPoint, headlayer, pos: QPoint, layer: int):
+        self.headpos = tileheadpos
+        self.headlayer = headlayer
         self.pos = pos
         self.layer = layer
 
-    def __str__(self):
-        return self.tilehead.tile.name
+    def tilehead(self, level):
+        return level.l_tiles[self.headpos][self.headlayer]
+
+    def tostring(self, level):
+        return self.tilehead(level).tile.name
 
     def remove(self, level: RWELevel):
         level.l_tiles[self.pos][self.layer] = None
 
-    @property
-    def tile(self):
-        return self.tilehead.tile
+    def remove_graphics(self):
+        pass
+
+    def add_graphics(self):
+        pass
+
+    def tile(self, level):
+        return self.tilehead(level).tile
+
+    def copy(self):
+        return PlacedTileBody(self.headpos.__copy__(), self.headlayer, self.pos.__copy__(), self.layer)
 
 
 class PlacedMaterial:
-    def __init__(self, tile):
+    def __init__(self, tile: Tile, pos: QPoint, layer: int):
         self.tile = tile
         self.graphics: QGraphicsRectItem | None = None
+        self.pos = pos
+        self.layer = layer
 
-    def __str__(self):
+    def tostring(self, level):
         return self.tile.name
 
+    def copy(self):
+        return PlacedMaterial(self.tile, self.pos.__copy__(), self.layer)
 
-def new_can_place(level: RWELevel, pos: QPoint, layer: int, tile: Tile, force_place: bool, force_geometry: bool,
+    def remove(self, level, redraw=True):
+        level.l_tiles[self.pos][self.layer] = None
+        self.remove_graphics(level, redraw)
+
+    def remove_graphics(self, level, redraw=True):
+        if self.graphics is not None:
+            bounds = self.tile_bounds
+            self.graphics.removeFromIndex()
+            self.graphics = None
+        texture = level.viewport.modulenames["tiles"].get_layer(self.layer)
+        texture.render_rect(bounds)
+        if redraw:
+            texture.redraw()
+
+    def add_graphics(self, level, redraw=True):
+        if self.graphics is not None:
+            self.remove_graphics(level, False)
+        layer = level.viewport.modulenames["tiles"].get_layer(self.layer)
+        layer.draw_tile(self.pos, True)
+        if redraw:
+            layer.redraw()
+
+    @property
+    def tile_bounds(self):
+        return QRect(self.pos * CELLSIZE, QSize(CELLSIZE, CELLSIZE))
+
+
+def can_place(level: RWELevel, pos: QPoint, layer: int, tile: Tile, force_place: bool, force_geometry: bool,
               area: list[list[bool]] = None, area2: list[list[bool]] = None) -> bool:
     headpos = tile.top_left + pos
     if not level.inside(headpos):
@@ -77,23 +151,23 @@ def new_can_place(level: RWELevel, pos: QPoint, layer: int, tile: Tile, force_pl
                 return False
             if area2 is not None and isinstance(tile.cols1, list) and not area2[x][y]:
                 return False
-    return new_check_collisions(level, pos, layer, tile, force_place, force_geometry)
+    return check_collisions(level, pos, layer, tile, force_place, force_geometry)
 
 
-def new_check_collisions(level: RWELevel, pos: QPoint, layer: int, tile: Tile, force_place: bool = False, force_geometry: bool = False) -> bool:
+def check_collisions(level: RWELevel, pos: QPoint, layer: int, tile: Tile, force_place: bool = False, force_geometry: bool = False) -> bool:
     for x in range(tile.size.width()):
         for y in range(tile.size.height()):
             tilepos = QPoint(x, y)
             levelpos = tilepos + pos
             if not level.inside(levelpos):
                 continue
-            result = new_point_collision(level, levelpos, layer, tilepos, tile, force_place, force_geometry)
+            result = point_collision(level, levelpos, layer, tilepos, tile, force_place, force_geometry)
             if not result:
                 return False
     return True
 
 
-def new_point_collision(level: RWELevel, pos: QPoint, layer: int, tilepos: QPoint, tile: Tile, force_place: bool = False, force_geometry: bool = False) -> bool:
+def point_collision(level: RWELevel, pos: QPoint, layer: int, tilepos: QPoint, tile: Tile, force_place: bool = False, force_geometry: bool = False) -> bool:
     tiledata = level.l_tiles(pos, layer)
     try:
         collision = tile.cols[tilepos.x() * tile.size.height() + tilepos.y()]
@@ -130,25 +204,20 @@ def new_point_collision(level: RWELevel, pos: QPoint, layer: int, tilepos: QPoin
 
     return True
 
-def new_place_tile(level: RWELevel,
-               pos: QPoint,
-               layer: int,
-               tile: Tile,
-               area: list[list[bool]] = None,
-               area2: list[list[bool]] = None,
-               force_place: bool = False,
-               force_geometry: bool = False) -> PlacedTile | None:
-    if tile.type == "material":
-        pass
+
+def copy_tile(tile: PlacedTileHead | PlacedTileBody | PlacedMaterial | None):
+    if tile is None:
+        return None
+    return tile.copy()
 
 
-def copy_tile(tile: dict) -> dict:
+def old_copy_tile(tile: dict) -> dict:
     if isinstance(tile.get("data", []), list):
         return {"tp": tile.get("tp", "default"), "data": tile.get("data", []).copy()}
     return {"tp": tile.get("tp", "default"), "data": tile.get("data", "")}
 
 
-def point_collision(level: RWELevel, pos: QPoint, layer: int, tilepos: QPoint, tile: Tile, force_place: bool = False, force_geometry: bool = False) -> bool:
+def old_point_collision(level: RWELevel, pos: QPoint, layer: int, tilepos: QPoint, tile: Tile, force_place: bool = False, force_geometry: bool = False) -> bool:
     tiledata = level.l_tiles(pos, layer)
     tp = tiledata.get("tp", "default")
     # data = tiledata.get("data", 0)
@@ -178,7 +247,7 @@ def point_collision(level: RWELevel, pos: QPoint, layer: int, tilepos: QPoint, t
     return True
 
 
-def check_collisions(level: RWELevel, pos: QPoint, layer: int, tile: Tile, force_place: bool = False, force_geometry: bool = False) -> bool:
+def old_check_collisions(level: RWELevel, pos: QPoint, layer: int, tile: Tile, force_place: bool = False, force_geometry: bool = False) -> bool:
     for x in range(tile.size.width()):
         for y in range(tile.size.height()):
             tilepos = QPoint(x, y)
@@ -191,7 +260,7 @@ def check_collisions(level: RWELevel, pos: QPoint, layer: int, tile: Tile, force
     return True
 
 
-def can_place(level: RWELevel, pos: QPoint, layer: int, tile: Tile, force_place: bool, force_geometry: bool,
+def old_can_place(level: RWELevel, pos: QPoint, layer: int, tile: Tile, force_place: bool, force_geometry: bool,
               area: list[list[bool]] = None, area2: list[list[bool]] = None) -> bool:
     headpos = tile.top_left + pos
     if not level.inside(headpos):
@@ -247,6 +316,29 @@ def place_tile(level: RWELevel,
                pos: QPoint,
                layer: int,
                tile: Tile,
+               area: np.array = None,
+               area2: np.array = None,
+               force_place: bool = False,
+               force_geometry: bool = False) -> PlacedTile | None:
+    if tile.type == "material" and area[pos.x(), pos.y()]:
+        change = [copy_tile(level.l_tiles(pos, layer)), PlacedMaterial(tile, pos, layer)]
+        geochange = []
+        if force_geometry and level.l_geo.blocks[pos.x(), pos.y(), layer] != 0:
+            geochange = [[pos, layer, 1, level.l_geo.blocks[pos.x(), pos.y(), layer]]]
+            # level.data["GE"][pos.x()][pos.y()][layer][0] = 1
+            level.l_geo.blocks[pos.x(), pos.y(), layer] = np.uint8(1)
+        #level.data["TE"]["tlMatrix"][pos.x()][pos.y()][layer] = {"tp": "material", "data": tile.name}
+        level.l_tiles[pos][layer] = PlacedMaterial(tile, pos, layer)
+        area[pos.x(), pos.y()] = False
+        level.viewport.modulenames["tiles"].get_layer(layer).draw_tile(pos, True)
+        level.viewport.modulenames["geo"].get_layer(layer).draw_geo(pos.x(), pos.y(), True)
+        return PlacedTile(level, [change], geochange)
+
+
+def old_place_tile(level: RWELevel,
+               pos: QPoint,
+               layer: int,
+               tile: Tile,
                area: list[list[bool]] = None,
                area2: list[list[bool]] = None,
                force_place: bool = False,
@@ -267,7 +359,7 @@ def place_tile(level: RWELevel,
         return None
     changes = []
     geochanges = []
-    isnextlayer = isinstance(tile.cols1, list) and layer + 1 < 3
+    isnextlayer = tile.multilayer and layer < 2
     for x in range(tile.size.width()):
         for y in range(tile.size.height()):
             tilepos = QPoint(x, y) + pos
@@ -369,64 +461,89 @@ class PlacedTileChange:
         for k, v in self.changes:
             pass
 
+
 class BaseTileChangelist:
-    def __init__(self, changes):
-        self.changes = changes  # [pos, layer, after, before?]
+    def __init__(self, changes, level: RWELevel):
+        self.changes = changes  # [before, after]
+        self.level = level
+        self.module = level.viewport.modulenames["tiles"]
 
-    def undo(self, element: TileHistory):
-        pass
+    def undo(self):
+        layers2redraw = [False, False, False]
+        for i in self.changes:
+            before: PlacedTileHead | PlacedTileBody | PlacedMaterial | None = i[0]
+            after: PlacedTileHead | PlacedTileBody | PlacedMaterial | None = i[1]
+            if before is None:
+                if after is None:
+                    continue
+                pos = after.pos
+                layer = after.layer
+                if self.level.l_tiles.tiles[pos.x()][pos.y()][layer] is not None:
+                    self.level.l_tiles.tiles[pos.x()][pos.y()][layer].remove_graphics(self.level, False)
+                self.level.l_tiles.tiles[pos.x()][pos.y()][layer] = None
+                layers2redraw[layer] = True
+                continue
+            pos = before.pos
+            layer = before.layer
+            self.level.l_tiles.tiles[pos.x()][pos.y()][layer] = before.copy()
+            self.level.l_tiles.tiles[pos.x()][pos.y()][layer].add_graphics(self.level)
+            layers2redraw[layer] = True
+        [self.module.get_layer(i).redraw() for i in layers2redraw if i]
 
-    def redo(self, element: TileHistory):
-        pass
+    def redo(self):
+        layers2redraw = [False, False, False]
+        for i in self.changes:
+            before: PlacedTileHead | PlacedTileBody | PlacedMaterial | None = i[0]
+            after: PlacedTileHead | PlacedTileBody | PlacedMaterial | None = i[1]
+            if after is None:
+                if before is None:
+                    continue
+                pos = before.pos
+                layer = before.layer
+                if self.level.l_tiles.tiles[pos.x()][pos.y()][layer] is not None:
+                    self.level.l_tiles.tiles[pos.x()][pos.y()][layer].remove_graphics(self.level, False)
+                self.level.l_tiles.tiles[pos.x()][pos.y()][layer] = None
+                layers2redraw[layer] = True
+                continue
+            pos = after.pos
+            layer = after.layer
+            self.level.l_tiles.tiles[pos.x()][pos.y()][layer] = after.copy()
+            self.level.l_tiles.tiles[pos.x()][pos.y()][layer].add_graphics(self.level)
+            layers2redraw[layer] = True
+        [self.module.get_layer(i).redraw() for i in layers2redraw if i]
 
 
 class PlacedTile(BaseTileChangelist):
-    def __init__(self, changes, geochanges=None):
-        super().__init__(changes)
+    def __init__(self, level, changes, geochanges=None):
+        super().__init__(changes, level)
         if geochanges is None:
             geochanges = []
         self.geochanges = geochanges  # [pos, layer, after, before]
 
-    def undo(self, element: TileHistory):
-        for i in self.changes:
-            element.history.level.viewport.modulenames["tiles"].get_layer(i[1]).clean_pixel(i[0])
-            element.history.level.data["TE"]["tlMatrix"][i[0].x()][i[0].y()][i[1]] = copy_tile(i[3])
-            if i[2]["tp"] in ["tileHead", "material"]:
-                element.history.level.viewport.modulenames["tiles"].get_layer(i[1]).draw_tile(i[0])
+    def undo(self):
+        super().undo()
         for i in self.geochanges:
-            element.history.level.l_geo.blocks[i[0].x(), i[0].y(), i[1]] = np.uint8(i[3])
+            self.level.l_geo.blocks[i[0].x(), i[0].y(), i[1]] = np.uint8(i[3])
             # element.history.level.data["GE"][i[0].x()][i[0].y()][i[1]][0] = i[3]
-            element.history.level.viewport.modulenames["geo"].get_layer(i[1]).draw_geo(i[0].x(), i[0].y(), True)
+            self.level.viewport.modulenames["geo"].get_layer(i[1]).draw_geo(i[0].x(), i[0].y(), True)
 
-    def redo(self, element: TileHistory):
-        for i in self.changes:
-            element.history.level.data["TE"]["tlMatrix"][i[0].x()][i[0].y()][i[1]] = copy_tile(i[2])
-            if i[2]["tp"] in ["tileHead", "material"]:
-                element.history.level.viewport.modulenames["tiles"].get_layer(i[1]).draw_tile(i[0])
+    def redo(self):
+        super().redo()
         for i in self.geochanges:
-            element.history.level.l_geo.blocks[i[0].x(), i[0].y(), i[1]] = np.uint8(i[2])
+            self.level.history.level.l_geo.blocks[i[0].x(), i[0].y(), i[1]] = np.uint8(i[2])
             # element.history.level.data["GE"][i[0].x()][i[0].y()][i[1]][0] = i[2]
-            element.history.level.viewport.modulenames["geo"].get_layer(i[1]).draw_geo(i[0].x(), i[0].y(), True)
+            self.level.viewport.modulenames["geo"].get_layer(i[1]).draw_geo(i[0].x(), i[0].y(), True)
 
 
 class RemovedTile(BaseTileChangelist):
-    def undo(self, element: TileHistory):
-        for i in self.changes:
-            element.history.level.data["TE"]["tlMatrix"][i[0].x()][i[0].y()][i[1]] = i[2]
-            if i[2]["tp"] in ["tileHead", "material"]:
-                element.history.level.viewport.modulenames["tiles"].get_layer(i[1]).draw_tile(i[0])
-
-    def redo(self, element: TileHistory):
-        for i in self.changes:
-            element.history.level.viewport.modulenames["tiles"].get_layer(i[1]).clean_pixel(i[0])
-            element.history.level.data["TE"]["tlMatrix"][i[0].x()][i[0].y()][i[1]] = {"tp": "default", "data": 0}
+    pass
 
 
 class TileHistory(HistoryElement):
     def __init__(self, history, tile: Tile, layer: int, force_place=False, force_geometry=False):
         super().__init__(history)
-        self.area = [[True for _ in range(self.history.level.level_height)] for _ in range(self.history.level.level_width)]
-        self.area2 = [[True for _ in range(self.history.level.level_height)] for _ in range(self.history.level.level_width)]
+        self.area = np.ones([self.history.level.level_width, self.history.level.level_height], np.bool)
+        self.area2 = np.ones([self.history.level.level_width, self.history.level.level_height], np.bool)
         self.layer = layer
         self.tile = tile
         self.savedtiles: list[BaseTileChangelist] = []
@@ -444,10 +561,10 @@ class TileHistory(HistoryElement):
 
     def undo_changes(self):
         for i in self.savedtiles:
-            i.undo(self)
+            i.undo()
         self.redraw()
 
     def redo_changes(self):
         for i in self.savedtiles:
-            i.redo(self)
+            i.redo()
         self.redraw()

@@ -126,7 +126,8 @@ class TileRenderLevelImage(RenderLevelImage):
 
     def render_rect(self, rect: QRect):
         self.painter.setCompositionMode(self.painter.CompositionMode.CompositionMode_Source)
-        self.tilescene.render(self.painter, rect, rect)
+        self.painter.fillRect(rect, QColor(0, 0, 0, 0))
+        self.tilescene.render(self.painter, target=rect, source=rect)
 
     def draw_tile(self, pos: QPoint, render: bool):
         self.painter.setCompositionMode(self.painter.CompositionMode.CompositionMode_Source)
@@ -138,12 +139,12 @@ class TileRenderLevelImage(RenderLevelImage):
             self.add_tile_graphics(pos)
             # tile.graphics: QGraphicsPixmapItem
             if render:
-                self.render_rect(tile.graphics.boundingRect()) # todo
+                self.render_rect(tile.tile_bounds)
         elif isinstance(tile, PlacedMaterial):
             self.add_material_graphics(pos)
             # tile.graphics: QGraphicsPixmapItem
             if render:
-                self.render_rect(QRect(pos, pos + QPoint(CELLSIZE, CELLSIZE)))
+                self.render_rect(tile.tile_bounds)
 
 
     # def draw_tile(self, pos: QPoint):

@@ -49,6 +49,10 @@ class Tile:
     category: TileCategory
 
     @property
+    def multilayer(self) -> bool:
+        return self.cols1 is not None
+
+    @property
     def top_left(self) -> QPoint:
         return QPoint(int((self.size.width() * 0.5) + .5) - 1, int((self.size.height() * .5) + .5) - 1)
 

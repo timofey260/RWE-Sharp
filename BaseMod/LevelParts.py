@@ -83,43 +83,46 @@ class TileLevelPart(LevelPart):
         self.load_tiles()
 
     def load_tiles(self):
-        tilebodies: dict[(QPoint, int), list[PlacedTileBody]] = {}
-        self.tiles = [[[self.scantile(x, y, 0, tilebodies), self.scantile(x, y, 1, tilebodies),
-                        self.scantile(x, y, 2, tilebodies)]
+        # tilebodies: dict[(QPoint, int), list[PlacedTileBody]] = {}
+        self.tiles = [[[self.scantile(QPoint(x, y), 0),
+                        self.scantile(QPoint(x, y), 1),
+                        self.scantile(QPoint(x, y), 2)]
                        for y in range(self.level.level_height)] for x in range(self.level.level_width)]
-        for k, v in tilebodies.items():
-            pos = k[0]
-            layer = k[1]
-            tilehead = self.tiles[pos.x()][pos.y()][layer]
-            if not isinstance(tilehead, PlacedTileHead):
-                continue
-            tilehead.tilebodies = v
-            for i in v:
-                i.tilehead = tilehead
+        # for k, v in tilebodies.items():
+        #     pos = k[0]
+        #     layer = k[1]
+        #     tilehead = self.tiles[pos.x()][pos.y()][layer]
+        #     if not isinstance(tilehead, PlacedTileHead):
+        #         continue
+        #     tilehead.tilebodies = v
+        #     for i in v:
+        #         i.tilehead = tilehead
 
-    def scantile(self, x: int, y: int, layer: int, tb: dict):
-        tile = self.level.data["TE"]["tlMatrix"][x][y][layer]
+    def scantile(self, pos: QPoint, layer: int):
+        tile = self.level.data["TE"]["tlMatrix"][pos.x()][pos.y()][layer]
         match tile["tp"]:
             case "material":
                 foundtile = self.level.manager.tiles.find_tile(tile["data"])
                 if foundtile is None:
                     return None  # todo notfound material and tile exceptions
-                return PlacedMaterial(foundtile)
+                return PlacedMaterial(foundtile, pos, layer)
             case "tileHead":
                 foundtile = self.level.manager.tiles.find_tile(tile["data"][1])
                 if foundtile is None:
                     return None
-                return PlacedTileHead(foundtile, QPoint(x, y), layer)
+                return PlacedTileHead(foundtile, pos, layer)
             case "tileBody":
                 head = tile.get("data")
-                layer = head[1] - 1
+                headlayer = head[1] - 1
                 tileheadpos = QPoint(*lingoIO.frompoint(head[0])) - QPoint(1, 1)
-                l = tb.get((tileheadpos, layer), None)
-                tilebody = PlacedTileBody(None, QPoint(x, y), layer)
-                if l is None:
-                    tb[(tileheadpos, layer)] = [tilebody]
-                    return tilebody
-                l.append(tilebody)
+                if self.level.data["TE"]["tlMatrix"][tileheadpos.x()][tileheadpos.y()][headlayer].get("tp") == "default":
+                    return None  # removing all improper tile bodies
+                # l = tb.get((tileheadpos, layer), None)
+                tilebody = PlacedTileBody(tileheadpos, headlayer, pos, layer)
+                # if l is None:
+                #     tb[(tileheadpos, layer)] = [tilebody]
+                #     return tilebody
+                # l.append(tilebody)
                 return tilebody
 
     def save_level(self):
@@ -133,7 +136,7 @@ class TileLevelPart(LevelPart):
         if isinstance(tile, PlacedMaterial):
             return {"tp": "material", "data": tile.tile.name}
         if isinstance(tile, PlacedTileBody):
-            return {"tp": "tileBody", "data": [lingoIO.point((tile.tilehead.pos + QPoint(1, 1)).toTuple()), tile.tilehead.layer + 1]}
+            return {"tp": "tileBody", "data": [lingoIO.point((tile.headpos + QPoint(1, 1)).toTuple()), tile.headlayer + 1]}
         if isinstance(tile, PlacedTileHead):
             return {"tp": "tileHead", "data": [lingoIO.point((tile.tile.cat + QPoint(1, 1)).toTuple()), tile.tile.name]}
         raise NotImplementedError("someone probably fucked up")
