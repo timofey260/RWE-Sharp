@@ -82,7 +82,7 @@ class EffectsUI(UI):
 
     def delete_effect(self):
         if 0 <= self.editor.effectindex.value < len(self.level.l_effects):
-            self.level.add_history(EffectRemove(self.level.history, self.editor.effectindex.value))
+            self.level.add_history(EffectRemove, self.editor.effectindex.value)
 
     def open_explorer(self):
         self.explorer.change_visibility(True)
@@ -102,19 +102,19 @@ class EffectsUI(UI):
         if len(self.level.l_effects) == 0:
             return
         if self.editor.effectindex.value > 0:
-            self.level.add_history(EffectMove(self.level.history, self.editor.effectindex.value, -1))
+            self.level.add_history(EffectMove, self.editor.effectindex.value, -1)
 
     def effect_move_down(self):
         if len(self.level.l_effects) == 0:
             return
         if self.editor.effectindex.value < len(self.level.l_effects) - 1:
-            self.level.add_history(EffectMove(self.level.history, self.editor.effectindex.value, 1))
+            self.level.add_history(EffectMove, self.editor.effectindex.value, 1)
 
     def duplicate_effect(self):
         if len(self.level.l_effects) == 0:
             return
         if 0 <= self.editor.effectindex.value < len(self.level.l_effects):
-            self.level.add_history(EffectDuplicate(self.level.history, self.editor.effectindex.value))
+            self.level.add_history(EffectDuplicate, self.editor.effectindex.value)
 
     def add_effects(self):
         self.ui.EffectsTree.clear()
@@ -169,13 +169,12 @@ class EffectsUI(UI):
                 value, ok = QInputDialog.getInt(self, f"Enter Seed", f"Seed:", int(options[2]))
 
                 if ok:
-                    self.level.add_history(
-                        EffectOptionChange(self.level.history, self.editor.effectindex.value, index, str(value)))
+                    self.level.add_history(EffectOptionChange, self.editor.effectindex.value, index, str(value))
                 return
             d = EffectDialog(options[1], options[0])
             value = d.exec()
             if value == QDialog.DialogCode.Accepted:
-                self.level.add_history(EffectOptionChange(self.level.history, self.editor.effectindex.value, index, d.ui.EffectSettingValueComboBox.currentText()))
+                self.level.add_history(EffectOptionChange, self.editor.effectindex.value, index, d.ui.EffectSettingValueComboBox.currentText())
 
     def settings_context_menu(self, pos: QPoint):
         if len(self.ui.OptionsTree.selectedItems()) == 0:
@@ -196,5 +195,5 @@ class EffectsUI(UI):
 
     def setoption(self, index, value):
         def callback():
-            self.level.add_history(EffectOptionChange(self.level.history, self.editor.effectindex.value, index, value))
+            self.level.add_history(EffectOptionChange, self.editor.effectindex.value, index, value)
         return callback

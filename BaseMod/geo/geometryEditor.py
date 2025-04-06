@@ -315,17 +315,17 @@ class GeometryEditor(Editor):
         if tool == GeoTools.Rect or tool == GeoTools.RectHollow:
             blk, stak = self.block2info()
             rect = self.fit_rect(lpos, fpos, shift, alt)
-            self.level.add_history(GERectChange(self.level.history, rect, [blk, stak], self.layers, tool == GeoTools.RectHollow))
+            self.level.add_history(GERectChange, rect, [blk, stak], self.layers, tool == GeoTools.RectHollow)
             self.rect.drawrect.setOpacity(0)
         elif tool == GeoTools.Circle or tool == GeoTools.CircleHollow:
             blk, stak = self.block2info()
             rect = self.fit_rect(lpos, fpos, shift, alt)
-            self.level.add_history(GEEllipseChange(self.level.history, rect, [blk, stak], self.layers, tool == GeoTools.CircleHollow))
+            self.level.add_history(GEEllipseChange, rect, [blk, stak], self.layers, tool == GeoTools.CircleHollow)
             self.ellipse.drawellipse.setOpacity(0)
         elif tool == GeoTools.Line:
             self.lineline.drawline.setOpacity(0)
             blk, stak = self.block2info()
-            self.level.add_history(GEBrushChange(self.level.history, lpos, [blk, stak], self.layers, self.brushsize.value))
+            self.level.add_history(GEBrushChange, lpos, [blk, stak], self.layers, self.brushsize.value)
             line = self.fit_line(lpos, fpos, shift)
             self.level.last_history_element.add_move(line.p2())
 
@@ -333,10 +333,10 @@ class GeometryEditor(Editor):
         fpos = self.viewport.viewport_to_editor(self.mouse_pos)
         if tool == GeoTools.Pen:
             blk, stak = self.block2info()
-            self.level.add_history(GEPointChange(self.level.history, fpos, [blk, stak], self.layers))
+            self.level.add_history(GEPointChange, fpos, [blk, stak], self.layers)
         elif tool == GeoTools.Brush:
             blk, stak = self.block2info()
-            self.level.add_history(GEBrushChange(self.level.history, fpos, [blk, stak], self.layers, self.brushsize.value))
+            self.level.add_history(GEBrushChange, fpos, [blk, stak], self.layers, self.brushsize.value)
         elif tool == GeoTools.Rect or tool == GeoTools.RectHollow:
             lpos = self.viewport.viewport_to_editor(self.lastclick)
             self.rect.setRect(QRect.span(lpos * CELLSIZE, fpos * CELLSIZE))
@@ -347,7 +347,7 @@ class GeometryEditor(Editor):
             self.ellipse.drawellipse.setOpacity(1)
         elif tool == GeoTools.Bucket:
             blk, stak = self.block2info()
-            self.level.add_history(GEFillChange(self.level.history, fpos, [blk, stak], self.layers))
+            self.level.add_history(GEFillChange, fpos, [blk, stak], self.layers)
         elif tool == GeoTools.Line:
             self.lineline.drawline.setOpacity(1)
 

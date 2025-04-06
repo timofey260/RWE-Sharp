@@ -126,7 +126,9 @@ class TileRenderLevelImage(RenderLevelImage):
         self.draw_layer(True)
 
     def render_rect(self, rect: QRect):
+        self.painter.setCompositionMode(QPainter.CompositionMode.CompositionMode_Clear)
         self.painter.fillRect(rect, QColor(0, 0, 0, 0))
+        self.painter.setCompositionMode(QPainter.CompositionMode.CompositionMode_SourceOver)
         self.tilescene.render(self.painter, target=rect, source=rect)
 
     def draw_tile(self, pos: QPoint, render: bool):

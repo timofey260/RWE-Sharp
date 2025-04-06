@@ -123,13 +123,15 @@ class TileEditor(Editor):
                 layers.append(i.tostring(self.level))
             self.manager.set_status(f"x: {cellpos.x()}, y: {cellpos.y()}, {layers}")
         # self.tile_item.setPos(pos)
-        self.tile_rect.setPos(self.tile_item.offset)
-        rect = self.tile_item.image.rect()
-        rect.setTopLeft(rect.topLeft() - QPoint(3, 3))
-        rect.setBottomRight(rect.bottomRight() + QPoint(3, 3))
-        self.tile_rect.setRect(rect)
-        self.tile_rect.setScale(self.tile_item.scale)
+        # self.tile_rect.setPos(self.tile_item.offset)
+        # rect.setTopLeft(rect.topLeft() - QPoint(3, 3))
+        # rect.setBottomRight(rect.bottomRight() + QPoint(3, 3))
         fpos = self.viewport.viewport_to_editor(self.mouse_pos) - self.tile.top_left
+        rect = QRect(fpos * CELLSIZE, self.tile.size * CELLSIZE)
+        rect.adjust(-3, -3, 3, 3)
+        self.tile_rect.setRect(rect)
+        # self.tile_rect.setScale(self.tile_item.scale)
+
         self.tile_rect.drawrect.setPen(QColor(0, 255, 0) if can_place(self.level, fpos, self.layer, self.tile, self.force_place.value, self.force_geo.value) else QColor(255, 0, 0))
 
     def init_scene_items(self, viewport):
@@ -152,4 +154,5 @@ class TileEditor(Editor):
     def tool_specific_press(self, tool: Enum, delete: bool):
         fpos = self.viewport.viewport_to_editor(self.mouse_pos) - self.tile.top_left
         if tool == TileTools.Pen:
-            self.manager.selected_viewport.level.add_history(TilePen(self.manager.selected_viewport.level.history, fpos, self.tile, self.layer, delete, self.force_place.value, self.force_geo.value))
+            self.manager.selected_viewport.level.add_history(TilePen, fpos, self.tile, self.layer, delete, self.force_place.value, self.force_geo.value)
+            print(self.level.history)

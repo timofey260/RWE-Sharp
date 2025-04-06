@@ -130,13 +130,13 @@ class CameraEditor(Editor):
 
     def add_camera(self):
         module = self.viewport.modulenames["cameras"]
-        self.level.add_history(AddCamera(self.level.history, self, module, len(module.cameras),
-                                         self.editor_pos.toPointF() - QPointF(camw / 2 * CELLSIZE, camh / 2 * CELLSIZE)))
+        self.level.add_history(AddCamera, self, module, len(module.cameras),
+                                         self.editor_pos.toPointF() - QPointF(camw / 2 * CELLSIZE, camh / 2 * CELLSIZE))
         self.add_handles()
 
     def remove_cameras(self, cameras: list[int]):
         module = self.viewport.modulenames["cameras"]
-        self.level.add_history(RemoveCamera(self.level.history, self, module, cameras))
+        self.level.add_history(RemoveCamera, self, module, cameras)
         self.add_handles()
         # group = CameraGroup(self, self.handles)
         # self.viewport.scene().addItem(group)
@@ -179,7 +179,7 @@ class CameraEditor(Editor):
         module = self.viewport.modulenames["cameras"]
 
         def move(x):
-            self.level.add_history(CameraQuadMove(self.level.history, self, module, quad, self.cameraindexes))
+            self.level.add_history(CameraQuadMove, self, module, quad, self.cameraindexes)
         return move
 
     def move_selected(self, camera: RenderCamera):
@@ -203,7 +203,7 @@ class CameraEditor(Editor):
         module = self.viewport.modulenames["cameras"]
 
         def move(x):
-            self.level.add_history(CameraMove(self.level.history, self, module, self.cameraindexes, x - camera.poshandle.previous_pos))
+            self.level.add_history(CameraMove, self, module, self.cameraindexes, x - camera.poshandle.previous_pos)
         return move
 
     @property

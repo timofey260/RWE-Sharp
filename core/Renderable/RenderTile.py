@@ -1,7 +1,7 @@
 from core.Renderable.RenderImage import RenderImage
 from core.Loaders.Tile import Tile
 from core.info import CELLSIZE
-from PySide6.QtCore import QSize, QPoint
+from PySide6.QtCore import QSize, QPoint, QPointF
 from PySide6.QtGui import QPixmap
 from PySide6.QtWidgets import QGraphicsPixmapItem
 
@@ -39,6 +39,10 @@ class RenderTile(RenderImage):
         if self.tile is None:
             return
         super().move_event()
+        self.setPos(self.offset)
+
+    def setPos(self, pos: QPointF):
+        super().setPos(pos)
         self.colsimage_rendered.setPos(self.actual_offset)
         if self.drawoption == 0:
             self.renderedtexture.setPos(self.actual_offset)

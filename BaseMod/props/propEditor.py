@@ -123,7 +123,7 @@ class PropEditor(Editor):
         if len(self.level.l_props) == 0:
             return
         closest = self.find_nearest(self.editor_pos)
-        self.level.add_history(PropRemove(self.level.history, closest))
+        self.level.add_history(PropRemove, closest)
 
     def mouse_right_press(self):
         self.variationadd()
@@ -236,4 +236,4 @@ class PropEditor(Editor):
         quads = [i + self.placingprop.offset for i in self.transform]
         prop = [-self.depth, self.prop.name, lingoIO.point([self.prop.cat.x(), self.prop.cat.y()]),
                 quads, {"settings": self.prop_settings.copy()}]
-        self.level.add_history(PropPlace(self.level.history, prop))
+        self.level.add_history(PropPlace, prop)

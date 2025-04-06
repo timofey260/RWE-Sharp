@@ -52,13 +52,13 @@ class EffectEditor(Editor):
         pos = self.viewport.viewport_to_editor(self.mouse_pos)
         if len(self.level.l_effects) == 0:
             return 
-        self.level.add_history(EffectBrush(self.level.history, self.effectindex.value, pos, self.brushsize.value, False, self.shift))
+        self.level.add_history(EffectBrush, self.effectindex.value, pos, self.brushsize.value, False, self.shift)
 
     def mouse_right_press(self):
         if self.mouse_left or len(self.level.l_effects) == 0:
             return
         pos = self.viewport.viewport_to_editor(self.mouse_pos)
-        self.level.add_history(EffectBrush(self.level.history, self.effectindex.value, pos, self.brushsize.value, True, self.shift))
+        self.level.add_history(EffectBrush, self.effectindex.value, pos, self.brushsize.value, True, self.shift)
 
     def init_scene_items(self, viewport):
         super().init_scene_items(viewport)

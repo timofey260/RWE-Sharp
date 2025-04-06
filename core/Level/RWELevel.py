@@ -53,8 +53,8 @@ class RWELevel:
     def redo(self):
         self.history.redo()
 
-    def add_history(self, historyelement: HistoryElement):
-        self.history.add_element(historyelement)
+    def add_history(self, historytype, *args, **kwargs):
+        self.history.add_element(historytype(self.history, *args, **kwargs))
 
     @property
     def last_history_element(self):
