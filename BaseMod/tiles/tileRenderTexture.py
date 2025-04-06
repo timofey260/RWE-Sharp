@@ -96,29 +96,6 @@ class TileRenderLevelImage(RenderLevelImage):
         self.fill_scene()
         self.render_layer()
 
-    @Slot(bool)
-    @Slot(Qt.CheckState)
-    def redraw_mats(self, state: bool | Qt.CheckState):
-        if isinstance(state, bool):
-            pass #todo
-        for xp, x in enumerate(self.viewport.level["TE"]["tlMatrix"]):
-            for yp, y in enumerate(x):
-                if y[self.tilelayer]["tp"] == "material":
-                    self.draw_tile(QPoint(xp, yp))
-        self.redraw()
-
-    def clean_pixel(self, pos: QPoint):
-        self.painter.setCompositionMode(QPainter.CompositionMode.CompositionMode_Clear)
-        self.painter.eraseRect(QRect(pos * CELLSIZE, QSize(CELLSIZE, CELLSIZE)))
-        self.painter.setCompositionMode(QPainter.CompositionMode.CompositionMode_SourceOver)
-
-    def clean_tile(self, pos: QPoint):
-        ptile = self.viewport.level.l_tiles(pos, self.tilelayer)
-        if ptile is None:
-            return
-        tile: Tile = ptile.tile
-        # todo
-
     def level_resized(self):
         super().level_resized()
         self.tilescene.setSceneRect(0, 0, self.viewport.level.level_width * CELLSIZE, self.viewport.level.level_height * CELLSIZE)
