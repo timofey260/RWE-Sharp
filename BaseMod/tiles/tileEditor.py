@@ -130,10 +130,10 @@ class TileEditor(Editor):
             layers = []
             for i in self.manager.selected_viewport.level.l_tiles[cellpos]:
                 if i is None:
-                    layers.append("None")
+                    layers.append("Empty")
                     continue
                 layers.append(i.tostring(self.level))
-            self.manager.set_status(f"x: {cellpos.x()}, y: {cellpos.y()}, {layers}")
+            self.manager.set_status(f"x: {cellpos.x()}, y: {cellpos.y()}, [{', '.join(layers)}]")
         # self.tile_item.setPos(pos)
         # self.tile_rect.setPos(self.tile_item.offset)
         # rect.setTopLeft(rect.topLeft() - QPoint(3, 3))

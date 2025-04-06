@@ -81,7 +81,7 @@ class PlacedTileBody:
 
     def tostring(self, level):
         if not isinstance(level.l_tiles[self.headpos][self.headlayer], PlacedTileHead):
-            return ""
+            return "Error"
         return self.tilehead(level).tile.name
 
     def remove(self, level: RWELevel):
