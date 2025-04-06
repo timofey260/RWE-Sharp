@@ -42,8 +42,8 @@ class PlacedTileHead:
         self.remove_graphics(level, redraw)
 
     def remove_graphics(self, level, redraw=True):
+        bounds = self.tile_bounds
         if self.graphics is not None:
-            bounds = self.tile_bounds
             self.graphics.removeFromIndex()
             self.graphics = None
         texture = level.viewport.modulenames["tiles"].get_layer(self.layer)
@@ -117,8 +117,8 @@ class PlacedMaterial:
         self.remove_graphics(level, redraw)
 
     def remove_graphics(self, level, redraw=True):
+        bounds = self.tile_bounds
         if self.graphics is not None:
-            bounds = self.tile_bounds
             self.graphics.removeFromIndex()
             self.graphics = None
         texture = level.viewport.modulenames["tiles"].get_layer(self.layer)
