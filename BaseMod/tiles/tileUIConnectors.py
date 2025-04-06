@@ -169,6 +169,7 @@ class TileUI(UI):
         self.editor.deleteright.link_button(self.ui.DeleteM2)
         self.editor.force_place.link_button(self.ui.ForcePlace)
         self.editor.force_geo.link_button(self.ui.ForceGeo)
+        self.editor.strictmode.link_combobox(self.ui.StrictMode)
 
         self.tile_prev_key = KeyConfigurable(mod, "EDIT_tile.tile_prev", "w", "Previous Tile")
         self.cat_prev_key = KeyConfigurable(mod, "EDIT_tile.cat_prev", "a", "Previous Category")

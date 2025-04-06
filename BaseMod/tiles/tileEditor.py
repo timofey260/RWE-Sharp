@@ -48,6 +48,10 @@ class TileEditor(Editor):
                                                 "Layer to place tiles on")
         if not os.path.exists(self.palette_image.value):
             self.palette_image.reset_value()
+        self.strictmode = IntConfigurable(mod, "EDIT_tiles.strict", 0,
+                                          "If mode is Strict, all tilebodies that refer to tilehead will be removed\n"
+                                          "if mode is Full, all tilebodies in tilehead area will be removed\n"
+                                          "Might be helpful when dealing with broken levels")
         self.toolleft = EnumConfigurable(mod, "EDIT_tiles.lmb", TileTools.Pen, TileTools, "Current geo tool for LMB")
         self.toolright = EnumConfigurable(mod, "EDIT_tiles.rmb", TileTools.Rect, TileTools, "Current geo tool for RMB")
         self.deleteleft = BoolConfigurable(mod, "EDIT_tiles.deletelmb", False, "Delete tiles with LMB")
@@ -70,6 +74,9 @@ class TileEditor(Editor):
         self.vis_layer.valueChanged.connect(self.redraw_tile)
         self.palette_image.valueChanged.connect(self.change_palette)
 
+    @property
+    def strict(self):
+        return self.strictmode.value == 0
     @property
     def layer(self):
         return self.vis_layer.value - 1
@@ -110,6 +117,11 @@ class TileEditor(Editor):
         self.tile_item.setPos(cellpos * CELLSIZE)
         if self.mouse_left:
             if self.deleteleft.value:
+                self.manager.selected_viewport.level.history.last_element.add_move(curpos)
+            else:
+                self.manager.selected_viewport.level.history.last_element.add_move(cellpos)
+        if self.mouse_right:
+            if self.deleteright.value:
                 self.manager.selected_viewport.level.history.last_element.add_move(curpos)
             else:
                 self.manager.selected_viewport.level.history.last_element.add_move(cellpos)
@@ -154,5 +166,4 @@ class TileEditor(Editor):
     def tool_specific_press(self, tool: Enum, delete: bool):
         fpos = self.viewport.viewport_to_editor(self.mouse_pos) - self.tile.top_left
         if tool == TileTools.Pen:
-            self.manager.selected_viewport.level.add_history(TilePen, fpos, self.tile, self.layer, delete, self.force_place.value, self.force_geo.value)
-            print(self.level.history)
+            self.manager.selected_viewport.level.add_history(TilePen, fpos, self.tile, self.layer, delete, self.force_place.value, self.force_geo.value, self.strict)

@@ -8,14 +8,16 @@ from PySide6.QtCore import QPoint
 
 
 class TilePen(TileHistory):
-    def __init__(self, history, start: QPoint, tile: Tile, layer: int, delete=False, force_place=False, force_geometry=False):
+    def __init__(self, history, start: QPoint, tile: Tile, layer: int,
+                 delete=False, force_place=False, force_geometry=False, strict=True):
         super().__init__(history, tile, layer, force_place, force_geometry)
         self.positions = []
         self.start = start
         self.delete = delete
+        self.strict = strict
 
         if delete:
-            tile = remove_tile(history.level, start, layer)
+            tile = remove_tile(history.level, start, layer, strict)
             if tile is not None:
                 self.savedtiles.append(tile)
         elif can_place(self.history.level, start, layer, tile, self.fp, self.fg, self.area, self.area2):
@@ -35,7 +37,7 @@ class TilePen(TileHistory):
         points.pop(0)
         for point in points:
             if self.delete:
-                tile = remove_tile(self.history.level, point, self.layer)
+                tile = remove_tile(self.history.level, point, self.layer, self.strict)
                 if tile is not None:
                     self.savedtiles.append(tile)
             elif can_place(self.history.level, point, self.layer, self.tile, self.fp, self.fg, self.area, self.area2):

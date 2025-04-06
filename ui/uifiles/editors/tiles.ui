@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>263</width>
-    <height>527</height>
+    <width>379</width>
+    <height>700</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -36,8 +36,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>261</width>
-        <height>525</height>
+        <width>377</width>
+        <height>698</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -269,7 +269,7 @@
             <bool>true</bool>
            </property>
            <property name="correctionMode">
-            <enum>QAbstractSpinBox::CorrectToPreviousValue</enum>
+            <enum>QAbstractSpinBox::CorrectionMode::CorrectToPreviousValue</enum>
            </property>
            <property name="minimum">
             <number>1</number>
@@ -277,6 +277,37 @@
            <property name="maximum">
             <number>3</number>
            </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <widget class="QLabel" name="label_9">
+           <property name="text">
+            <string>Tile Remove Strategy:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="StrictMode">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <item>
+            <property name="text">
+             <string>Strict</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Full</string>
+            </property>
+           </item>
           </widget>
          </item>
         </layout>

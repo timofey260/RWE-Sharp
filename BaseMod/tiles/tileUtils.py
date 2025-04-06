@@ -25,6 +25,7 @@ class PlacedTileHead:
     def remove(self, level, redraw=True):
         # for i in self.tilebodies:
         #     i.remove(level)
+        # not recommended to use this method since it doesn't create any history
         ofs = self.tile.top_left
         pos = self.pos - ofs
         for x in range(pos.x(), pos.x() + self.tile.size.width()):
@@ -92,7 +93,7 @@ class PlacedTileBody:
     def add_graphics(self, *args):
         pass
 
-    def tile(self, level):
+    def tile(self, level) -> Tile:
         return self.tilehead(level).tile
 
     def copy(self):
@@ -475,7 +476,7 @@ def old_place_tile(level: RWELevel,
     return PlacedTile(changes, geochanges)
 
 
-def remove_tile(level: RWELevel, pos: QPoint, layer: int) -> RemovedTile | None:
+def old_remove_tile(level: RWELevel, pos: QPoint, layer: int) -> RemovedTile | None:
     if not level.inside(pos):
         return
     data = level.l_tiles(pos, layer)
@@ -529,6 +530,51 @@ def remove_tile(level: RWELevel, pos: QPoint, layer: int) -> RemovedTile | None:
     level.viewport.modulenames["tiles"].get_layer(layer).clean_pixel(headpos)
     level.data["TE"]["tlMatrix"][headpos.x()][headpos.y()][layer] = {"tp": "default", "data": 0}
     return RemovedTile(changes)
+
+
+def remove_tile(level: RWELevel, pos: QPoint, layer: int, strict=True):
+    tile = level.l_tiles[pos][layer]
+    if tile is None:
+        return None
+    if isinstance(tile, PlacedMaterial):
+        tile.remove(level, True)
+        return RemovedTile([[copy_tile(tile), None]], level)
+    headpos = tile.headpos if isinstance(tile, PlacedTileBody) else pos
+    headlayer = tile.headlayer if isinstance(tile, PlacedTileBody) else layer
+    headtile = level.l_tiles[headpos][headlayer]
+    if not isinstance(headtile, PlacedTileHead):
+        return None
+    changes = []
+    tilesize = headtile.tile.size
+    tl = headpos - headtile.tile.top_left
+    for x in range(tl.x(), tl.x() + tilesize.width()):
+        for y in range(tl.y(), tl.y() + tilesize.height()):
+            # searching for tilebodies
+            tb = level.l_tiles[QPoint(x, y)][layer]
+            if QPoint(x, y) == headpos and isinstance(tb, PlacedTileHead):
+                tb.remove_graphics(level, True)
+                changes.append([copy_tile(tb), None])
+                level.l_tiles[QPoint(x, y)][layer] = None
+                continue
+            if not isinstance(tb, PlacedTileBody):
+                continue
+            if strict and tb.headpos != headpos:
+                continue
+            changes.append([copy_tile(tb), None])
+            level.l_tiles[QPoint(x, y)][layer] = None
+    if not headtile.tile.multilayer or layer >= 2:
+        return RemovedTile(changes, level)
+    for x in range(tl.x(), tl.x() + tilesize.width()):
+        for y in range(tl.y(), tl.y() + tilesize.height()):
+            # searching for tilebodies
+            tb = level.l_tiles[QPoint(x, y)][layer + 1]
+            if not isinstance(tb, PlacedTileBody):
+                continue
+            if strict and tb.headpos != headpos:
+                continue
+            changes.append([copy_tile(tb), None])
+            level.l_tiles[QPoint(x, y)][layer + 1] = None
+    return RemovedTile(changes, level)
 
 
 class BaseTileChangelist:
