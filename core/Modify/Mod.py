@@ -1,4 +1,7 @@
 from __future__ import annotations
+
+import json
+import os.path
 from dataclasses import dataclass, field
 from typing import TYPE_CHECKING
 from abc import ABC
@@ -17,12 +20,32 @@ if TYPE_CHECKING:
 @dataclass(frozen=True, init=True)
 class ModInfo:
     title: str
-    name: str
+    id: str
     author: str
     version: str
     description: str = "No description provided"
     tags: list[str] = field(default_factory=list)
-    requirements: list[str] = field(default_factory=list)
+    required_modules: list[str] = field(default_factory=list)
+    required_mods: list[str] = field(default_factory=list)
+    mod_class: str = "NOTFOUND"
+
+    @staticmethod
+    def import_from_file(file) -> ModInfo | None:
+        d: dict = json.load(file)
+        return ModInfo(d.get("title", "UNNAMED"),
+                       d["id"],
+                       d.get("authors", "idk like someone"),
+                       d.get("version", "0.1.0"),
+                       d.get("description", "No description provided"),
+                       d.get("tags", []),
+                       d.get("required_modules", []),
+                       d.get("required_mods", []),
+                       d["mod_class"])
+
+    @staticmethod
+    def import_from_mod_path(path) -> ModInfo | None:
+        with open(os.path.join(path, "modinfo.json")) as f:
+            return ModInfo.import_from_file(f)
 
 
 class Mod(ABC):
@@ -40,8 +63,8 @@ class Mod(ABC):
         self.configs = []
 
     @property
-    def author_name(self) -> str:
-        return f"{self.modinfo.author}.{self.modinfo.name}"
+    def author_id(self) -> str:
+        return f"{self.modinfo.author}.{self.modinfo.id}"
 
     def add_editor(self, editor: Editor, ui: UI):
         self.manager.add_editor(editor, ui)

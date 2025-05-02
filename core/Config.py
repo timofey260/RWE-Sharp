@@ -46,12 +46,12 @@ class Config:
         # uuh that it i think
         for i in self.manager.mods:
             for v in i.configs:
-                self.settings.setValue(f"{i.author_name}.{v.name}", v.save_str_value())
+                self.settings.setValue(f"{i.author_id}.{v.name}", v.save_str_value())
         return
         js = {}
         for i in self.manager.mods:
             for v in i.configs:
-                js[f"{i.author_name}.{v.name}"] = v.save_str_value()
+                js[f"{i.author_id}.{v.name}"] = v.save_str_value()
         path = self.ensure_config()
         with open(path, "w") as f:
             f.write(json.dumps(js))

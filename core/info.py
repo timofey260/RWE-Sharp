@@ -6,9 +6,11 @@ json = jsoncomment.JsonComment()
 
 if getattr(sys, 'frozen', False):
     PATH = os.path.dirname(sys.executable)
+    PE = True
 else:
     from pathlib import Path
     PATH = str(Path(__file__).parent.parent.absolute())
+    PE = False
 
 PATH_FILES = os.path.join(PATH, "files")
 PATH_FILES_VIDEOS = os.path.join(PATH_FILES, "videos")
@@ -41,6 +43,8 @@ PROGNAME = "RWESharp.exe" if ISWIN else "RWESharp"
 FULLNAME = "Rain World Editor Sharp"
 REPO = "https://github.com/timofey260/RWE-Sharp"
 REPO_ISSUES = "https://github.com/timofey260/RWE-Sharp/issues"
+REPO_DOWNLOAD = "https://github.com/timofey260/RWE-Sharp/releases"
+REPO_DOWNLOAD_LATEST = "https://github.com/timofey260/RWE-Sharp/releases/latest"
 
 RP_ID = "1226198202454380677"
 

@@ -28,4 +28,4 @@ class Theme:
 
     @property
     def config_name(self):
-        return f"{self.mod.author_name}.{self.name}"
+        return f"{self.mod.author_id}.{self.name}"

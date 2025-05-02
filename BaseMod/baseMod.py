@@ -74,7 +74,7 @@ class BaseMod(Mod):
             self.sex.triggered.connect(self.sexthing)
         self.gridui = GridView(self).add_myself()
 
-        self.settingtree = SettingElement(self, self.modinfo.title, self.modinfo.name).add_myself()
+        self.settingtree = SettingElement(self, self.modinfo.title, self.modinfo.id).add_myself()
         SettingElement(self, "Theme", "pref", self.preferences, self.settingtree)
         self.settingtree.add_child(SettingElement(self, "Geo", "geo", self.geosettings))
         self.settingtree.add_child(SettingElement(self, "Tiles", "tiles", self.tilesettings))

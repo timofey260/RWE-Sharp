@@ -102,12 +102,14 @@ class Manager:
 
     def pre_init_mods(self):
         # mods adding
+        log("Loading mods...")
         for indx, i in enumerate(os.listdir(PATH_MODS)):
             if not os.path.isdir(os.path.join(PATH_MODS, i)):
                 continue
             mod = load_mod(os.path.join(PATH_MODS, i), self, indx)
             if mod is not None:
                 self.mod_types.append(mod)
+        log("Mod loading finished!")
 
     def add_editor(self, editor, ui: QWidget):
         self.editors.append(editor)
