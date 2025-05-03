@@ -1,0 +1,11 @@
+{
+ "id": "timofey26.discord_rpc",
+ "title": "RWE# Discord Rich Presence",
+ "authors": "timofey26",
+ "description": "now everyone knows you're lediting HUG_DIH_2.wep",
+ "version": "1.0.0",
+ "required_modules": ["discord-rpc"],
+ "required_mods": [],
+ "tags": ["discord"],
+ "mod_class": "RPC"
+}

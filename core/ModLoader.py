@@ -35,6 +35,7 @@ def load_mod(path: str, manager, index) -> type | None:
                 return None
             del sys.modules["mod"]
             sys.path.remove(path)
+            log(f"{modinfo.id} loaded!")
             return [a, path]  # NOQA
         except Exception as e:
             log(f"Mod Loading failed for {modinfo.id}!!!", True)
