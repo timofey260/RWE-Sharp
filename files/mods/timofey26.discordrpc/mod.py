@@ -2,8 +2,9 @@ from RWESharp.Modify import Mod, ModInfo
 from PySide6.QtCore import QTimer
 from discordrpc.presence import RPC as DRPC
 from discordrpc.button import Button
+from RWESharp.Core import REPO, REPO_DOWNLOAD_LATEST
 import time
-from RWESharp.Core import REPO, NAME, REPO_DOWNLOAD_LATEST
+import random
 
 
 class RPC(Mod):
@@ -13,12 +14,16 @@ class RPC(Mod):
         self.timer.setInterval(5000)
         self.timer.timeout.connect(self.change)
         self.timer.start()
-        self.rpc = DRPC(1226198202454380677)
+        self.rpc = DRPC(1226198202454380677, output=False)
         self.start = time.time()
+        self.mistakes = 0
         # todo settings
 
     def change(self):
         button = Button("Github", REPO, "Download", REPO_DOWNLOAD_LATEST)
-        self.rpc.set_activity(self.manager.selected_viewport.level.shortname, "Lediting", 0,
-                              int(self.start), large_image="icon", large_text=NAME,
+        self.rpc.set_activity(type(self.manager.editor).__name__, self.manager.selected_viewport.level.shortname, 0,
+                              int(self.start), large_image="icon", large_text=f"Mistakes: {self.mistakes}",
                               buttons=button)
+        if random.randint(0, 5) == 1:
+            self.mistakes += 1
+

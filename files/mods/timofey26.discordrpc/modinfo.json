@@ -6,6 +6,6 @@
  "version": "1.0.0",
  "required_modules": ["discord-rpc"],
  "required_mods": [],
- "tags": ["discord"],
+ "tags": ["discord", "random"],
  "mod_class": "RPC"
 }
