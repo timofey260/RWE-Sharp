@@ -118,22 +118,11 @@
            </widget>
           </item>
           <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_2">
-            <item>
-             <widget class="QPushButton" name="NextLayer">
-              <property name="text">
-               <string>Next</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="PreviousLayer">
-              <property name="text">
-               <string>Previous</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
+           <widget class="QCheckBox" name="checkBox">
+            <property name="text">
+             <string>Follow current layer</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>
@@ -1039,5 +1028,54 @@
  <resources>
   <include location="../../../resources/res.qrc"/>
  </resources>
- <connections/>
+ <connections>
+  <connection>
+   <sender>checkBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>ToolGeoApplyToL3</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>93</x>
+     <y>127</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>84</x>
+     <y>107</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>ToolGeoApplyToL2</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>138</x>
+     <y>132</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>140</x>
+     <y>74</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>ToolGeoApplyToL1</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>209</x>
+     <y>133</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>207</x>
+     <y>55</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

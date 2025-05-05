@@ -67,6 +67,9 @@ class Manager:
         Collection of ui's for hotkey window
         """
         self.mod_types = []
+        from core.configTypes.BaseTypes import IntConfigurable
+        self.layer = IntConfigurable(None, "layer", 0, "Current layer")
+
         from BaseMod.baseMod import BaseMod
 
         self.config.init_configs(self.application.args.reset)  # mounting configs and applying them

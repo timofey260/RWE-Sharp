@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'tiles.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.8.3
+## Created by: Qt User Interface Compiler version 6.9.0
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -138,6 +138,11 @@ class Ui_Tiles(object):
 
         self.gridLayout.addWidget(self.Layer, 4, 1, 1, 1)
 
+        self.checkBox = QCheckBox(self.scrollAreaWidgetContents)
+        self.checkBox.setObjectName(u"checkBox")
+
+        self.gridLayout.addWidget(self.checkBox, 4, 2, 1, 1)
+
 
         self.verticalLayout_2.addLayout(self.gridLayout)
 
@@ -262,6 +267,7 @@ class Ui_Tiles(object):
 
 
         self.retranslateUi(Tiles)
+        self.checkBox.toggled.connect(self.Layer.setDisabled)
 
         QMetaObject.connectSlotsByName(Tiles)
     # setupUi
@@ -292,7 +298,8 @@ class Ui_Tiles(object):
         self.ToolTilesM2Select.setItemText(7, QCoreApplication.translate("Tiles", u"Hollow Circle", None))
 
         self.label_2.setText(QCoreApplication.translate("Tiles", u"Right Mouse", None))
-        self.label_7.setText(QCoreApplication.translate("Tiles", u"Layer", None))
+        self.label_7.setText(QCoreApplication.translate("Tiles", u"Layer:", None))
+        self.checkBox.setText(QCoreApplication.translate("Tiles", u"Follow", None))
         self.label_9.setText(QCoreApplication.translate("Tiles", u"Tile Remove Strategy:", None))
         self.StrictMode.setItemText(0, QCoreApplication.translate("Tiles", u"Strict", None))
         self.StrictMode.setItemText(1, QCoreApplication.translate("Tiles", u"Full", None))

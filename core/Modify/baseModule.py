@@ -64,3 +64,7 @@ class Module(ABC):
     @property
     def zoom(self) -> float:
         return self.viewport.zoom
+
+    @property
+    def layer(self):
+        return self.manager.layer.value

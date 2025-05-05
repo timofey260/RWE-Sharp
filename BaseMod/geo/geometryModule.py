@@ -33,6 +33,7 @@ class GeoModule(Module):
         self.ui.drawoption.valueChanged.connect(self.render_module)
         self.ui.render.connect(self.render_module)
         self.ui.imagepath.valueChanged.connect(self.update_image)
+        self.manager.layer.valueChanged.connect(self.init_module_textures)
 
     def update_image(self):
         self.l1.update_image()
@@ -44,6 +45,11 @@ class GeoModule(Module):
 
     @Slot()
     def check_l1_change(self):
+        if self.layer == 0:
+            self.l1.setOpacity(1)
+            return
+        self.l1.setOpacity(0.196)
+        return
         if not self.ui.drawgeo.value:
             self.l1.renderedtexture.setOpacity(0)
             return
@@ -56,6 +62,11 @@ class GeoModule(Module):
 
     @Slot()
     def check_l2_change(self):
+        if self.layer == 1:
+            self.l2.setOpacity(1)
+            return
+        self.l2.setOpacity(0.196)
+        return
         if not self.ui.drawgeo.value:
             self.l2.renderedtexture.setOpacity(0)
             return
@@ -73,6 +84,11 @@ class GeoModule(Module):
 
     @Slot()
     def check_l3_change(self):
+        if self.layer == 2:
+            self.l3.setOpacity(1)
+            return
+        self.l3.setOpacity(0.196)
+        return
         if not self.ui.drawgeo.value:
             self.l3.renderedtexture.setOpacity(0)
             return

@@ -104,9 +104,6 @@ class GeoUI(UI):
         self.controls.rotate.link_button(self.ui.RotateRight)
         self.controls.rotate_back.link_button(self.ui.RotateLeft)
 
-        self.controls.nextlayer.link_button(self.ui.NextLayer)
-        self.controls.prevlayer.link_button(self.ui.PreviousLayer)
-
         self.controls.wall.link_button(self.ui.ToolGeoWall)
         self.controls.air.link_button(self.ui.ToolGeoAir)
         self.controls.slope.link_button(self.ui.ToolGeoSlope)
@@ -137,9 +134,6 @@ class GeoUI(UI):
 
         self.ui.RotateRight.clicked.connect(self.editor.rotate)
         self.ui.RotateLeft.clicked.connect(self.editor.rotate_back)
-
-        self.ui.NextLayer.clicked.connect(self.editor.next_layer)
-        self.ui.PreviousLayer.clicked.connect(self.editor.prev_layer)
 
         self.editor.brushsize.link_spinbox(self.ui.Brushsize)
         self.editor.controls.brushsizeup.link_button(self.ui.BrushSizeUp)

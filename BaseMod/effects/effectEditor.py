@@ -15,7 +15,7 @@ class EffectEditor(Editor):
         self.effectui = None
         self.coloroff = ColorConfigurable(mod, "EDIT_effect.color_off", QColor(210, 37, 219, 100), "No value color")
         self.coloron = ColorConfigurable(mod, "EDIT_effect.color_on", QColor(37, 204, 18, 130), "Full value color")
-        self.layer = EffectRenderLevelImage(self, 100, 0)
+        self.elayer = EffectRenderLevelImage(self, 100, 0)
         self.effectindex = IntConfigurable(None, "EDIT_effect.effectindex", 0, "Current effect")
         self.brushsize = IntConfigurable(mod, "EDIT_effect.brushsize", 4, "Current effect")
 
@@ -27,7 +27,7 @@ class EffectEditor(Editor):
 
     def select_effect(self, index):
         self.effectindex.update_value(index)
-        self.layer.change_index(self.effectindex.value)
+        self.elayer.change_index(self.effectindex.value)
 
     def mouse_move_event(self, event: QMoveEvent):
         super().mouse_move_event(event)

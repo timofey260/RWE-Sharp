@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'geometry.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.7.2
+## Created by: Qt User Interface Compiler version 6.9.0
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -82,20 +82,10 @@ class Ui_Geo(object):
 
         self.verticalLayout_4.addWidget(self.ToolGeoApplyToL3)
 
-        self.horizontalLayout_2 = QHBoxLayout()
-        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
-        self.NextLayer = QPushButton(self.frame)
-        self.NextLayer.setObjectName(u"NextLayer")
+        self.checkBox = QCheckBox(self.frame)
+        self.checkBox.setObjectName(u"checkBox")
 
-        self.horizontalLayout_2.addWidget(self.NextLayer)
-
-        self.PreviousLayer = QPushButton(self.frame)
-        self.PreviousLayer.setObjectName(u"PreviousLayer")
-
-        self.horizontalLayout_2.addWidget(self.PreviousLayer)
-
-
-        self.verticalLayout_4.addLayout(self.horizontalLayout_2)
+        self.verticalLayout_4.addWidget(self.checkBox)
 
 
         self.verticalLayout_7.addWidget(self.frame)
@@ -542,6 +532,9 @@ class Ui_Geo(object):
 
 
         self.retranslateUi(Geo)
+        self.checkBox.toggled.connect(self.ToolGeoApplyToL3.setDisabled)
+        self.checkBox.toggled.connect(self.ToolGeoApplyToL2.setDisabled)
+        self.checkBox.toggled.connect(self.ToolGeoApplyToL1.setDisabled)
 
         QMetaObject.connectSlotsByName(Geo)
     # setupUi
@@ -552,8 +545,7 @@ class Ui_Geo(object):
         self.ToolGeoApplyToL1.setText(QCoreApplication.translate("Geo", u"Layer 1", None))
         self.ToolGeoApplyToL2.setText(QCoreApplication.translate("Geo", u"Layer 2", None))
         self.ToolGeoApplyToL3.setText(QCoreApplication.translate("Geo", u"Layer 3", None))
-        self.NextLayer.setText(QCoreApplication.translate("Geo", u"Next", None))
-        self.PreviousLayer.setText(QCoreApplication.translate("Geo", u"Previous", None))
+        self.checkBox.setText(QCoreApplication.translate("Geo", u"Follow current layer", None))
         self.label.setText(QCoreApplication.translate("Geo", u"Place:", None))
         self.label_5.setText(QCoreApplication.translate("Geo", u"Brush Size:", None))
         self.ToolGeoM1Select.setItemText(0, QCoreApplication.translate("Geo", u"Pencil", None))

@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'main_tim.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.8.3
+## Created by: Qt User Interface Compiler version 6.9.0
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -16,10 +16,10 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QIcon, QImage, QKeySequence, QLinearGradient,
     QPainter, QPalette, QPixmap, QRadialGradient,
     QTransform)
-from PySide6.QtWidgets import (QApplication, QDockWidget, QGridLayout, QLabel,
-    QMainWindow, QMenu, QMenuBar, QScrollArea,
-    QSizePolicy, QStatusBar, QTabWidget, QVBoxLayout,
-    QWidget)
+from PySide6.QtWidgets import (QApplication, QDockWidget, QGridLayout, QHBoxLayout,
+    QLabel, QMainWindow, QMenu, QMenuBar,
+    QPushButton, QScrollArea, QSizePolicy, QSpinBox,
+    QStatusBar, QTabWidget, QVBoxLayout, QWidget)
 
 from RWESharpWidgets import ViewDockWidget
 import ui.res_rc
@@ -271,8 +271,40 @@ class Ui_MainWindow(object):
         self.scrollAreaWidgetContents_4.setGeometry(QRect(0, 0, 194, 109))
         self.verticalLayout = QVBoxLayout(self.scrollAreaWidgetContents_4)
         self.verticalLayout.setObjectName(u"verticalLayout")
+        self.horizontalLayout = QHBoxLayout()
+        self.horizontalLayout.setObjectName(u"horizontalLayout")
+        self.label = QLabel(self.scrollAreaWidgetContents_4)
+        self.label.setObjectName(u"label")
+
+        self.horizontalLayout.addWidget(self.label)
+
+        self.LayerChange = QSpinBox(self.scrollAreaWidgetContents_4)
+        self.LayerChange.setObjectName(u"LayerChange")
+        self.LayerChange.setWrapping(True)
+        self.LayerChange.setMaximum(2)
+
+        self.horizontalLayout.addWidget(self.LayerChange)
+
+
+        self.verticalLayout.addLayout(self.horizontalLayout)
+
         self.QuickOverlay = QVBoxLayout()
         self.QuickOverlay.setObjectName(u"QuickOverlay")
+        self.horizontalLayout_2 = QHBoxLayout()
+        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
+        self.NextLayer = QPushButton(self.scrollAreaWidgetContents_4)
+        self.NextLayer.setObjectName(u"NextLayer")
+
+        self.horizontalLayout_2.addWidget(self.NextLayer)
+
+        self.PreviousLayer = QPushButton(self.scrollAreaWidgetContents_4)
+        self.PreviousLayer.setObjectName(u"PreviousLayer")
+
+        self.horizontalLayout_2.addWidget(self.PreviousLayer)
+
+
+        self.QuickOverlay.addLayout(self.horizontalLayout_2)
+
         self.VQuickLabel = QLabel(self.scrollAreaWidgetContents_4)
         self.VQuickLabel.setObjectName(u"VQuickLabel")
 
@@ -413,6 +445,9 @@ class Ui_MainWindow(object):
         self.menuWindow.setTitle(QCoreApplication.translate("MainWindow", u"Window", None))
         self.menuEditors.setTitle(QCoreApplication.translate("MainWindow", u"Editors", None))
         self.DockView.setWindowTitle(QCoreApplication.translate("MainWindow", u"VIew", None))
+        self.label.setText(QCoreApplication.translate("MainWindow", u"Layer:", None))
+        self.NextLayer.setText(QCoreApplication.translate("MainWindow", u"Next", None))
+        self.PreviousLayer.setText(QCoreApplication.translate("MainWindow", u"Previous", None))
         self.VQuickLabel.setText(QCoreApplication.translate("MainWindow", u"Show:", None))
         self.ViewTab.setTabText(self.ViewTab.indexOf(self.VQuick), QCoreApplication.translate("MainWindow", u"Quick", None))
         self.DockPrefabs.setWindowTitle(QCoreApplication.translate("MainWindow", u"Prefabs", None))

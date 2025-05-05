@@ -83,6 +83,10 @@ class MainWindow(QMainWindow):
         self.ui.DockView.link_action(self.ui.actionView)
         self.ui.DockPrefabs.link_action(self.ui.actionPrefabs)
 
+        self.manager.layer.link_spinbox(self.ui.LayerChange)
+        self.ui.NextLayer.clicked.connect(lambda: self.manager.layer.update_value((self.manager.layer.value + 1) % 3))
+        self.ui.PreviousLayer.clicked.connect(lambda: self.manager.layer.update_value((self.manager.layer.value - 1) % 3))
+
         self.ui.actionRender.triggered.connect(lambda: self.level_render(self.ui.tabWidget.currentWidget().level))
         self.ui.actionLaunch_Drizzle.triggered.connect(lambda:
             QDesktopServices.openUrl(modify_path_url(os.path.join(PATH_DRIZZLE, "Drizzle.Editor.exe" if ISWIN else "Drizzle.Editor"))))
