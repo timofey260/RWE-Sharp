@@ -27,8 +27,12 @@ def load_mod(path: str, manager, index) -> type | None:
                 return None
 
             sys.path.insert(0, path)
-            exec(f"from mod import {modinfo.mod_class}")
-            a = eval(modinfo.mod_class)
+            # todo requirements
+            try:
+                exec(f"from mod import {modinfo.mod_class}")
+                a = eval(modinfo.mod_class)
+            except ImportError:
+                pass
             # import mod
             # a = mod.mod
             if a is None:
