@@ -9,3 +9,5 @@ __pycache__/
 /levelEditorProjects/
 /levelEditorProjects/*
 BaseMod/palettes/.alshda;
+/build/*
+/build/
