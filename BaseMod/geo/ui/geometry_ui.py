@@ -82,10 +82,10 @@ class Ui_Geo(object):
 
         self.verticalLayout_4.addWidget(self.ToolGeoApplyToL3)
 
-        self.checkBox = QCheckBox(self.frame)
-        self.checkBox.setObjectName(u"checkBox")
+        self.FollowCurrentLayer = QCheckBox(self.frame)
+        self.FollowCurrentLayer.setObjectName(u"FollowCurrentLayer")
 
-        self.verticalLayout_4.addWidget(self.checkBox)
+        self.verticalLayout_4.addWidget(self.FollowCurrentLayer)
 
 
         self.verticalLayout_7.addWidget(self.frame)
@@ -532,9 +532,9 @@ class Ui_Geo(object):
 
 
         self.retranslateUi(Geo)
-        self.checkBox.toggled.connect(self.ToolGeoApplyToL3.setDisabled)
-        self.checkBox.toggled.connect(self.ToolGeoApplyToL2.setDisabled)
-        self.checkBox.toggled.connect(self.ToolGeoApplyToL1.setDisabled)
+        self.FollowCurrentLayer.toggled.connect(self.ToolGeoApplyToL3.setDisabled)
+        self.FollowCurrentLayer.toggled.connect(self.ToolGeoApplyToL2.setDisabled)
+        self.FollowCurrentLayer.toggled.connect(self.ToolGeoApplyToL1.setDisabled)
 
         QMetaObject.connectSlotsByName(Geo)
     # setupUi
@@ -545,7 +545,7 @@ class Ui_Geo(object):
         self.ToolGeoApplyToL1.setText(QCoreApplication.translate("Geo", u"Layer 1", None))
         self.ToolGeoApplyToL2.setText(QCoreApplication.translate("Geo", u"Layer 2", None))
         self.ToolGeoApplyToL3.setText(QCoreApplication.translate("Geo", u"Layer 3", None))
-        self.checkBox.setText(QCoreApplication.translate("Geo", u"Follow current layer", None))
+        self.FollowCurrentLayer.setText(QCoreApplication.translate("Geo", u"Follow current layer", None))
         self.label.setText(QCoreApplication.translate("Geo", u"Place:", None))
         self.label_5.setText(QCoreApplication.translate("Geo", u"Brush Size:", None))
         self.ToolGeoM1Select.setItemText(0, QCoreApplication.translate("Geo", u"Pencil", None))

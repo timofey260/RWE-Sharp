@@ -24,10 +24,8 @@ class SettingsDialogUI(QDialog):
         self.ui.treeWidget.expandAll()
         self.ui.treeWidget.itemClicked.connect(self.change)
 
-        self.apply_button = self.ui.buttonBox.button(QDialogButtonBox.StandardButton.Apply)
-        self.apply_button.clicked.connect(self.manager.config.save_configs)
-
         self.ui.buttonBox.button(QDialogButtonBox.StandardButton.Reset).setText("Restore Changed")
+        self.ui.buttonBox.button(QDialogButtonBox.StandardButton.Close).setDefault(True)
 
     @Slot(QTreeWidgetItem, int)
     def change(self, item: QTreeWidgetItem, column: int):

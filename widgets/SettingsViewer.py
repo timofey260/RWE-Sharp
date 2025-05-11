@@ -5,7 +5,8 @@ from core.Modify.ui import SettingUI
 class SettingsViewer(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.ui: QDialog | None = None
+        from ui.settingsuiconnector import SettingsDialogUI
+        self.ui: SettingsDialogUI | None = None
         self.settingui: None | SettingUI = None
         self.nextsettingui: None | SettingUI = None
         self.apply_button: QPushButton | None = None
@@ -15,23 +16,28 @@ class SettingsViewer(QWidget):
         self.message: QMessageBox | None = None
 
     def load_ui(self, settingui: SettingUI):
-        if len(self.children()) != 0 and self.settingui is not None:
+        if (self.layout() is not None and self.layout().count() != 0) and self.settingui is not None:
             if self.settingui.is_changed:
                 self.message = QMessageBox(QMessageBox.Icon.Question,
                                            "Apply settings?", "Would you like to apply changes?",
                                            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No |
                                            QMessageBox.StandardButton.Cancel, self.ui)
-                self.message.buttonClicked.connect(self.answer_settings)
                 self.nextsettingui = settingui
-                self.message.show()
-            else:
-                self.clear_settings()
-                self.settingui = settingui
-                self.children()[-1].destroyed.connect(self.continue_deleting)  # no idea how this one works but ok
-        else:
-            self.clear_settings()
-            self.settingui = settingui
-            self.continue_deleting()
+                self.answer_settings(self.message.exec())
+                # self.message.buttonClicked.connect(self.answer_settings)
+                # self.message.show()
+                return
+            self.init_ui(settingui)
+            return
+        self.init_ui(settingui)
+
+    def init_ui(self, settingsui):
+        self.clear_settings()
+        self.settingui = settingsui
+        if len(self.children()) > 0:
+            self.children()[-1].destroyed.connect(self.continue_deleting)
+            return
+        self.continue_deleting()
 
     def continue_deleting(self):
         self.settingui.init_ui(self)
@@ -60,34 +66,29 @@ class SettingsViewer(QWidget):
                                            "Apply settings?", "Would you like to apply changes?",
                                            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No |
                                            QMessageBox.StandardButton.Cancel, self.ui)
-                self.message.buttonClicked.connect(self.answer)
-                self.message.show()
+                self.answer(self.message.exec())
                 return
             else:
                 self.ui.close()
                 return
         self.ui.close()
 
-    def answer(self, button: QAbstractButton):
-        if button == self.message.button(QMessageBox.StandardButton.Yes):
-            self.settingui.apply_values()
+    def answer(self, button: QDialogButtonBox.StandardButton):
+        if button == QMessageBox.StandardButton.Yes:
+            self.apply_settings()
             self.ui.close()
-        elif button == self.message.button(QMessageBox.StandardButton.No):
+        elif button == QMessageBox.StandardButton.No:
             self.settingui.reset_values_default()
             self.ui.close()
 
-    def answer_settings(self, button: QAbstractButton):
-        if button == self.message.button(QMessageBox.StandardButton.Yes):
-            self.settingui.apply_values()
-            self.clear_settings()
-            self.settingui = self.nextsettingui
+    def answer_settings(self, button: QDialogButtonBox.StandardButton):
+        if button == QMessageBox.StandardButton.Yes:
+            self.apply_settings()
+            self.init_ui(self.nextsettingui)
             self.nextsettingui = None
-            self.children()[-1].destroyed.connect(self.continue_deleting)
-        elif button == self.message.button(QMessageBox.StandardButton.No):
-            self.clear_settings()
-            self.settingui = self.nextsettingui
+        elif button == QMessageBox.StandardButton.No:
+            self.init_ui(self.nextsettingui)
             self.nextsettingui = None
-            self.children()[-1].destroyed.connect(self.continue_deleting)
 
     def restore_settings(self):
         if self.settingui is None:
@@ -98,6 +99,7 @@ class SettingsViewer(QWidget):
         if self.settingui is None:
             return
         self.settingui.apply_values()
+        self.ui.manager.config.save_configs()
 
     def clear_settings(self):
         for i in self.children():

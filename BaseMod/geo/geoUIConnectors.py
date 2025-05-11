@@ -65,6 +65,7 @@ class GeoUI(UI):
         self.drawl1_key = KeyConfigurable(mod, "EDIT_geo.drawl1_key", "Ctrl+1", "Edit only on layer 1")
         self.drawl2_key = KeyConfigurable(mod, "EDIT_geo.drawl2_key", "Ctrl+2", "Edit only on layer 2")
         self.drawl3_key = KeyConfigurable(mod, "EDIT_geo.drawl3_key", "Ctrl+3", "Edit only on layer 3")
+        self.draw_follow = KeyConfigurable(mod, "KEYS_geo.drawfollow", "Ctrl+Shift+f", "Follow current layer to draw")
 
         self.ui.ToolGeoWall.clicked.connect(self.set_tool)
         self.ui.ToolGeoAir.clicked.connect(self.set_tool)
@@ -145,6 +146,7 @@ class GeoUI(UI):
 
         self.editor.toolleft.link_combobox(self.ui.ToolGeoM1Select)
         self.editor.toolright.link_combobox(self.ui.ToolGeoM2Select)
+        self.editor.drawfollow.link_button(self.ui.FollowCurrentLayer, self.draw_follow)
 
     def change_color(self, color: QColor):
         items = [IMG_PEN, IMG_BRUSH, IMG_BUCKET, IMG_LINE, IMG_RECT, IMG_RECT_HOLLOW, IMG_CIRCLE, IMG_CIRCLE_HOLLOW]

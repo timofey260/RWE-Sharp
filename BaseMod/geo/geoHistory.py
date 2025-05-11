@@ -149,10 +149,10 @@ class GEPointChange(GEChange):
                 continue
             if not self.history.level.inside(pos):
                 continue
-            if self.before.get(pos, None) is not None:
+            if self.before.get((pos, i), None) is not None:
                 continue
             block, save = geo_save(self.replace, self.history.level.l_geo.getlevelgeo(pos.x(), pos.y(), i))
-            self.before[pos] = [i, save]
+            self.before[(pos, i)] = save
             self.history.level.l_geo.setlevelgeo(pos.x(), pos.y(), i, block)
             t = self.module.get_layer(i)
             t.draw_geo(pos.x(), pos.y(), True)
@@ -172,18 +172,18 @@ class GEPointChange(GEChange):
 
     def undo_changes(self):  # removing placed cells with replaced ones
         for k, v in self.before.items():
-            block = geo_undo(self.replace, self.history.level.l_geo.getlevelgeo(k.x(), k.y(), v[0]), v[1])
-            self.history.level.l_geo.setlevelgeo(k.x(), k.y(), v[0], block)
-            t = self.module.get_layer(v[0])
-            t.draw_geo(k.x(), k.y(), True)
+            block = geo_undo(self.replace, self.history.level.l_geo.getlevelgeo(k[0].x(), k[0].y(), k[1]), v)
+            self.history.level.l_geo.setlevelgeo(k[0].x(), k[0].y(), k[1], block)
+            t = self.module.get_layer(k[1])
+            t.draw_geo(k[0].x(), k[0].y(), True)
         self.redraw()
 
     def redo_changes(self):  # re-adding replace cell
         for k, v in self.before.items():
-            block, save = geo_save(self.replace, self.history.level.l_geo.getlevelgeo(k.x(), k.y(), v[0]))
-            self.history.level.l_geo.setlevelgeo(k.x(), k.y(), v[0], block)
-            t = self.module.get_layer(v[0])
-            t.draw_geo(k.x(), k.y(), True)
+            block, save = geo_save(self.replace, self.history.level.l_geo.getlevelgeo(k[0].x(), k[0].y(), k[1]))
+            self.history.level.l_geo.setlevelgeo(k[0].x(), k[0].y(), k[1], block)
+            t = self.module.get_layer(k[1])
+            t.draw_geo(k[0].x(), k[0].y(), True)
         self.redraw()
 
 

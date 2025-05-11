@@ -115,6 +115,7 @@ class GeometryEditor(Editor):
         self.drawl1 = BoolConfigurable(mod, "EDIT_geo.drawl1", True, "Draw on l1")
         self.drawl2 = BoolConfigurable(mod, "EDIT_geo.drawl2", False, "Draw on l2")
         self.drawl3 = BoolConfigurable(mod, "EDIT_geo.drawl3", False, "Draw on l3")
+        self.drawfollow = BoolConfigurable(mod, "EDIT_geo.drawlfollow", True, "Follow current layer")
         self.brushsize = IntConfigurable(mod, "EDIT_geo.brushsize", 4, "Brush size")
 
         self.controls = GeoControls(mod)
@@ -219,6 +220,8 @@ class GeometryEditor(Editor):
 
     @property
     def layers(self) -> list[bool]:
+        if self.drawfollow.value:
+            return [self.layer == 0, self.layer == 1, self.layer == 3]
         return [self.drawl1.value, self.drawl2.value, self.drawl3.value]
 
     def block2info(self) -> [np.uint16 | np.uint8 | int, bool]:  # tile, stackable

@@ -118,7 +118,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QCheckBox" name="checkBox">
+           <widget class="QCheckBox" name="FollowCurrentLayer">
             <property name="text">
              <string>Follow current layer</string>
             </property>
@@ -1030,7 +1030,7 @@
  </resources>
  <connections>
   <connection>
-   <sender>checkBox</sender>
+   <sender>FollowCurrentLayer</sender>
    <signal>toggled(bool)</signal>
    <receiver>ToolGeoApplyToL3</receiver>
    <slot>setDisabled(bool)</slot>
@@ -1046,7 +1046,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>checkBox</sender>
+   <sender>FollowCurrentLayer</sender>
    <signal>toggled(bool)</signal>
    <receiver>ToolGeoApplyToL2</receiver>
    <slot>setDisabled(bool)</slot>
@@ -1062,7 +1062,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>checkBox</sender>
+   <sender>FollowCurrentLayer</sender>
    <signal>toggled(bool)</signal>
    <receiver>ToolGeoApplyToL1</receiver>
    <slot>setDisabled(bool)</slot>

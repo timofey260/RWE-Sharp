@@ -1,5 +1,3 @@
-import os.path
-
 from PySide6.QtCore import Slot
 from PySide6.QtGui import QImage, QColor
 
@@ -43,6 +41,22 @@ class TileModule(Module):
         self.check_l1_change()
         self.check_l2_change()
         self.check_l3_change()
+
+    @Slot()
+    def check_layers_change(self):
+        if self.ui.drawoption.value == 1:
+            self.l1.setOpacity(self.ui.popacityrgb.value if self.layer == 0 else self.ui.sopacityrgb.value)
+            self.l2.setOpacity(self.ui.popacityrgb.value if self.layer == 1 else self.ui.sopacityrgb.value)
+            self.l3.setOpacity(self.ui.popacityrgb.value if self.layer == 2 else self.ui.sopacityrgb.value)
+            return
+        self.l1.setOpacity(self.ui.popacity.value if self.layer == 0 else self.ui.sopacity.value)
+        if self.layer == 1 and not self.ui.renderall.value and self.ui.drawoption.value != 1:
+            self.l1.setOpacity(0)
+        self.l2.setOpacity(self.ui.popacity.value if self.layer == 1 else self.ui.sopacity.value)
+        if self.layer == 2 and not self.ui.renderall.value and self.ui.drawoption.value != 1:
+            self.l1.setOpacity(0)
+            self.l2.setOpacity(0)
+        self.l3.setOpacity(self.ui.popacity.value if self.layer == 2 else self.ui.sopacity.value)
 
     def check_l1_change(self):
         if not self.ui.drawtiles.value:
