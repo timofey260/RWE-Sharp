@@ -31,10 +31,10 @@ class SimpleGeoViewport(QGraphicsView):
         self.l3 = QPixmap(self.geo_texture)
         self.l3_2 = QPixmap(self.geo_texture)
         op = 50
-        for i in range(3):
-            painter = QPainter([self.l1_2, self.l2_2, self.l3_2][i])
+        for i in range(2):
+            painter = QPainter([self.l2_2, self.l3_2][i])
             painter.setCompositionMode(QPainter.CompositionMode.CompositionMode_SourceAtop)
-            painter.fillRect(self.l1.rect(), [0, QColor(0, 255, 0, op), QColor(255, 0, 0, op)][i])
+            painter.fillRect(self.l1.rect(), [QColor(0, 255, 0, op), QColor(255, 0, 0, op)][i])
         if change:
             self.change_shit()
 
@@ -66,45 +66,56 @@ class SimpleGeoViewport(QGraphicsView):
         self.l3g.setPos(QPoint(self._sz, 0))
         self.setBackgroundBrush(QBrush(self.manager.basemod.gridui.backgroundcolor.value))
 
-        self.settings.ui.L1show.toggled.connect(self.change_shit)
-        self.settings.ui.L2show.toggled.connect(self.change_shit)
-        self.settings.ui.L3show.toggled.connect(self.change_shit)
-        self.settings.l1op.setting.valueChanged.connect(self.change_shit)
-        self.settings.l2op.setting.valueChanged.connect(self.change_shit)
-        self.settings.l3op.setting.valueChanged.connect(self.change_shit)
-        self.settings.rgbop.setting.valueChanged.connect(self.change_shit)
+        self.settings.ui.Pshow.toggled.connect(self.change_shit)
+        self.settings.ui.Sshow.toggled.connect(self.change_shit)
+        self.settings.Pop.setting.valueChanged.connect(self.change_shit)
+        self.settings.Sop.setting.valueChanged.connect(self.change_shit)
+        self.settings.rgbsop.setting.valueChanged.connect(self.change_shit)
+        self.settings.rgbpop.setting.valueChanged.connect(self.change_shit)
         self.settings.ui.Leditorpreview.toggled.connect(self.change_shit)
         self.settings.ui.RWEpreview.toggled.connect(self.change_shit)
+        self.settings.ui.LayerSlider.valueChanged.connect(self.change_shit)
+
+    @property
+    def current_layer(self):
+        return self.settings.ui.LayerSlider.value()
+
+    @property
+    def popval(self):
+        return self.settings.Pop.value if self.settings.ui.Pshow.isChecked() else 0
+
+    @property
+    def sopval(self):
+        return self.settings.Sop.value if self.settings.ui.Sshow.isChecked() else 0
+
+    @property
+    def rgbpopval(self):
+        return self.settings.rgbpop.value if self.settings.ui.Pshow.isChecked() else 0
+
+    @property
+    def rgbsopval(self):
+        return self.settings.rgbsop.value if self.settings.ui.Sshow.isChecked() else 0
 
     def change_shit(self):
         if self.settings.ui.Leditorpreview.isChecked():
             self.l1g.setPixmap(self.l1_2)
             self.l2g.setPixmap(self.l2_2)
             self.l3g.setPixmap(self.l3_2)
-            self.l1g.setOpacity(self.settings.rgbop.value / 255 if self.settings.ui.L1show.isChecked() else 0)
-            self.l2g.setOpacity(self.settings.rgbop.value / 255 if self.settings.ui.L2show.isChecked() else 0)
-            self.l3g.setOpacity(self.settings.rgbop.value / 255 if self.settings.ui.L3show.isChecked() else 0)
+            self.l1g.setOpacity(self.rgbpopval / 255 if self.current_layer == 0 else self.rgbsopval / 255)
+            self.l2g.setOpacity(self.rgbpopval / 255 if self.current_layer == 1 else self.rgbsopval / 255)
+            self.l3g.setOpacity(self.rgbpopval / 255 if self.current_layer == 2 else self.rgbsopval / 255)
             return
         self.l1g.setPixmap(self.l1)
         self.l2g.setPixmap(self.l2)
         self.l3g.setPixmap(self.l3)
-        self.l1g.setOpacity(self.settings.l1op.value / 255 if self.settings.ui.L1show.isChecked() else 0)
-        if self.settings.opshift.value:
-            self.l2g.setOpacity(
-                (
-                    self.settings.l1op.value / 255 if not self.settings.ui.L1show.isChecked() else
-                    self.settings.l2op.value / 255) if self.settings.ui.L2show.isChecked() else 0
-            )
-            self.l3g.setOpacity(
-                (
-                    self.settings.l1op.value / 255 if not self.settings.ui.L1show.isChecked() and not self.settings.ui.L2show.isChecked() else
-                    self.settings.l2op.value / 255 if not self.settings.ui.L1show.isChecked() or not self.settings.ui.L2show.isChecked() else
-                    self.settings.l3op.value / 255
-                ) if self.settings.ui.L3show.isChecked() else 0
-            )
-        else:
-            self.l2g.setOpacity(self.settings.l2op.value / 255 if self.settings.ui.L2show.isChecked() else 0)
-            self.l3g.setOpacity(self.settings.l3op.value / 255 if self.settings.ui.L3show.isChecked() else 0)
+        self.l1g.setOpacity(self.popval / 255 if self.current_layer == 0 else self.sopval / 255)
+        if self.current_layer == 1 and not self.settings.renderall.value:
+            self.l1g.setOpacity(0)
+        self.l2g.setOpacity(self.popval / 255 if self.current_layer == 1 else self.sopval / 255)
+        if self.current_layer == 2 and not self.settings.renderall.value:
+            self.l1g.setOpacity(0)
+            self.l2g.setOpacity(0)
+        self.l3g.setOpacity(self.popval / 255 if self.current_layer == 2 else self.sopval / 255)
 
     def mouseMoveEvent(self, event):
         offset = event.pos() - self.lastpos

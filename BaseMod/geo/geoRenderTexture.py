@@ -43,10 +43,12 @@ class GeoRenderLevelImage(RenderLevelImage):
         else:
             self.geo_texture = QPixmap(os.path.join(PATH_FILES_IMAGES, "notfound.png"))
         self.geo_texture_colored = self.geo_texture.copy()
+        if self.geolayer == 0:
+            return
         cp = QPainter(self.geo_texture_colored)  # it's color painter i swear
         cp.setCompositionMode(QPainter.CompositionMode.CompositionMode_SourceAtop)
         op = 50
-        cp.fillRect(self.geo_texture.rect(), [0, QColor(0, 255, 0, op), QColor(255, 0, 0, op)][self.geolayer])
+        cp.fillRect(self.geo_texture.rect(), [QColor(0, 255, 0, op), QColor(255, 0, 0, op)][self.geolayer - 1])
 
     def draw_layer(self, clear=False):
         self.image.fill(QColor(0, 0, 0, 0))

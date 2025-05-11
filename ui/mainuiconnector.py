@@ -84,8 +84,13 @@ class MainWindow(QMainWindow):
         self.ui.DockPrefabs.link_action(self.ui.actionPrefabs)
 
         self.manager.layer.link_spinbox(self.ui.LayerChange)
-        self.ui.NextLayer.clicked.connect(lambda: self.manager.layer.update_value((self.manager.layer.value + 1) % 3))
-        self.ui.PreviousLayer.clicked.connect(lambda: self.manager.layer.update_value((self.manager.layer.value - 1) % 3))
+        self.ui.actionNext_Layer.triggered.connect(lambda: self.manager.layer.update_value((self.manager.layer.value + 1) % 3))
+        self.ui.actionPrevious_Layer.triggered.connect(lambda: self.manager.layer.update_value((self.manager.layer.value - 1) % 3))
+
+        self.manager.basemod.bmconfig.next_layer.link_button(self.ui.actionNext_Layer)
+        self.manager.basemod.bmconfig.prev_layer.link_button(self.ui.actionPrevious_Layer)
+        # self.manager.basemod.bmconfig.next_layer.link_button(self.ui.NextLayer)
+        # self.manager.basemod.bmconfig.prev_layer.link_button(self.ui.PreviousLayer)
 
         self.ui.actionRender.triggered.connect(lambda: self.level_render(self.ui.tabWidget.currentWidget().level))
         self.ui.actionLaunch_Drizzle.triggered.connect(lambda:

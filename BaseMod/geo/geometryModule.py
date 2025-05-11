@@ -18,14 +18,14 @@ class GeoModule(Module):
         self.l2 = GeoRenderLevelImage(self, 250, 1)
         self.l3 = GeoRenderLevelImage(self, 350, 2)
 
-        self.ui.drawl1.valueChanged.connect(self.check_l1_change)
-        self.ui.drawl2.valueChanged.connect(self.check_l2_change)
-        self.ui.drawl3.valueChanged.connect(self.check_l3_change)
-        self.ui.opacityl1.valueChanged.connect(self.check_l1_change)
-        self.ui.opacityl2.valueChanged.connect(self.check_l2_change)
-        self.ui.opacityl3.valueChanged.connect(self.check_l3_change)
-        self.ui.opacityrgb.valueChanged.connect(self.init_module_textures)
-        self.ui.opacityshift.valueChanged.connect(self.init_module_textures)
+        self.ui.drawl1.valueChanged.connect(self.check_layers_change)
+        self.ui.drawl2.valueChanged.connect(self.check_layers_change)
+        self.ui.drawl3.valueChanged.connect(self.check_layers_change)
+        self.ui.popacity.valueChanged.connect(self.check_layers_change) #todo
+        self.ui.sopacity.valueChanged.connect(self.check_layers_change)
+        self.ui.sopacityrgb.valueChanged.connect(self.check_layers_change)
+        self.ui.popacityrgb.valueChanged.connect(self.init_module_textures)
+        self.ui.renderall.valueChanged.connect(self.remove_items_from_scene)
 
         self.ui.drawlbeams.valueChanged.connect(self.check_beams_change)
         self.ui.drawlpipes.valueChanged.connect(self.check_pipes_change)
@@ -44,64 +44,15 @@ class GeoModule(Module):
         self.l3.draw_layer(True)
 
     @Slot()
-    def check_l1_change(self):
-        if self.layer == 0:
-            self.l1.setOpacity(1)
-            return
-        self.l1.setOpacity(0.196)
-        return
-        if not self.ui.drawgeo.value:
-            self.l1.renderedtexture.setOpacity(0)
-            return
-        if self.ui.opacityshift.value:
-            self.check_l2_change()
-        if self.ui.drawoption.value == 0:
-            self.l1.renderedtexture.setOpacity(self.ui.opacityl1.value if self.ui.drawl1.value else 0)
-            return
-        self.l1.renderedtexture.setOpacity(self.ui.opacityrgb.value if self.ui.drawl1.value else 0)
-
-    @Slot()
-    def check_l2_change(self):
-        if self.layer == 1:
-            self.l2.setOpacity(1)
-            return
-        self.l2.setOpacity(0.196)
-        return
-        if not self.ui.drawgeo.value:
-            self.l2.renderedtexture.setOpacity(0)
-            return
-        if self.ui.opacityshift.value:
-            self.check_l3_change()
-        if self.ui.drawoption.value == 0:
-            if self.ui.opacityshift.value and self.ui.drawl2.value:
-                opval = self.ui.opacityl1.value if not self.ui.drawl1.value else \
-                        self.ui.opacityl2.value
-            else:
-                opval = self.ui.opacityl2.value if self.ui.drawl2.value else 0
-            self.l2.renderedtexture.setOpacity(opval)
-            return
-        self.l2.renderedtexture.setOpacity(self.ui.opacityrgb.value if self.ui.drawl2.value else 0)
-
-    @Slot()
-    def check_l3_change(self):
-        if self.layer == 2:
-            self.l3.setOpacity(1)
-            return
-        self.l3.setOpacity(0.196)
-        return
-        if not self.ui.drawgeo.value:
-            self.l3.renderedtexture.setOpacity(0)
-            return
-        if self.ui.drawoption.value == 0:
-            if self.ui.opacityshift.value and self.ui.drawl3.value:
-                opval = self.ui.opacityl1.value if not self.ui.drawl1.value and not self.ui.drawl2.value else \
-                        self.ui.opacityl2.value if not self.ui.drawl2.value or not self.ui.drawl1.value else \
-                        self.ui.opacityl3.value
-            else:
-                opval = self.ui.opacityl3.value if self.ui.drawl3.value else 0
-            self.l3.renderedtexture.setOpacity(opval)
-            return
-        self.l3.renderedtexture.setOpacity(self.ui.opacityrgb.value if self.ui.drawl3.value else 0)
+    def check_layers_change(self):
+        self.l1.setOpacity(self.ui.popacity.value if self.layer == 0 else self.ui.sopacityrgb.value)
+        if self.layer == 1 and not self.ui.renderall.value and self.ui.drawoption.value != 1:
+            self.l1.setOpacity(0)
+        self.l2.setOpacity(self.ui.popacity.value if self.layer == 1 else self.ui.sopacityrgb.value)
+        if self.layer == 2 and not self.ui.renderall.value and self.ui.drawoption.value != 1:
+            self.l1.setOpacity(0)
+            self.l2.setOpacity(0)
+        self.l3.setOpacity(self.ui.popacity.value if self.layer == 2 else self.ui.sopacityrgb.value)
 
     # a lot of bullshit functions to speed up rendering
     @Slot()
@@ -129,9 +80,7 @@ class GeoModule(Module):
         self.l3.redraw_pipes()
 
     def init_module_textures(self):
-        self.check_l1_change()
-        self.check_l2_change()
-        self.check_l3_change()
+        self.check_layers_change()
 
     def render_module(self):
         self.l1.draw_layer()

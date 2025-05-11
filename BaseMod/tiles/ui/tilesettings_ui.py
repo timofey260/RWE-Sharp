@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'tiles.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.7.2
+## Created by: Qt User Interface Compiler version 6.9.0
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -15,10 +15,10 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QCheckBox, QComboBox, QFrame,
-    QGridLayout, QHBoxLayout, QLabel, QScrollArea,
-    QSizePolicy, QSlider, QSpacerItem, QSpinBox,
-    QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QAbstractSpinBox, QApplication, QCheckBox, QComboBox,
+    QFrame, QGridLayout, QHBoxLayout, QLabel,
+    QScrollArea, QSizePolicy, QSlider, QSpacerItem,
+    QSpinBox, QVBoxLayout, QWidget)
 
 from BaseModWidgets import TileSettingsViewport
 
@@ -42,31 +42,31 @@ class Ui_TileSettings(object):
         self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.verticalLayout_3 = QVBoxLayout()
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
-        self.L1show = QCheckBox(self.scrollAreaWidgetContents)
-        self.L1show.setObjectName(u"L1show")
+        self.Pshow = QCheckBox(self.scrollAreaWidgetContents)
+        self.Pshow.setObjectName(u"Pshow")
         sizePolicy = QSizePolicy(QSizePolicy.Policy.Maximum, QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.L1show.sizePolicy().hasHeightForWidth())
-        self.L1show.setSizePolicy(sizePolicy)
+        sizePolicy.setHeightForWidth(self.Pshow.sizePolicy().hasHeightForWidth())
+        self.Pshow.setSizePolicy(sizePolicy)
 
-        self.verticalLayout_3.addWidget(self.L1show)
+        self.verticalLayout_3.addWidget(self.Pshow)
 
         self.gridLayout_2 = QGridLayout()
         self.gridLayout_2.setObjectName(u"gridLayout_2")
-        self.L1opr = QSlider(self.scrollAreaWidgetContents)
-        self.L1opr.setObjectName(u"L1opr")
-        self.L1opr.setMaximum(255)
-        self.L1opr.setOrientation(Qt.Orientation.Horizontal)
+        self.Popr = QSlider(self.scrollAreaWidgetContents)
+        self.Popr.setObjectName(u"Popr")
+        self.Popr.setMaximum(255)
+        self.Popr.setOrientation(Qt.Orientation.Horizontal)
 
-        self.gridLayout_2.addWidget(self.L1opr, 2, 1, 1, 1)
+        self.gridLayout_2.addWidget(self.Popr, 2, 1, 1, 1)
 
-        self.L1opn = QSlider(self.scrollAreaWidgetContents)
-        self.L1opn.setObjectName(u"L1opn")
-        self.L1opn.setMaximum(255)
-        self.L1opn.setOrientation(Qt.Orientation.Horizontal)
+        self.Popn = QSlider(self.scrollAreaWidgetContents)
+        self.Popn.setObjectName(u"Popn")
+        self.Popn.setMaximum(255)
+        self.Popn.setOrientation(Qt.Orientation.Horizontal)
 
-        self.gridLayout_2.addWidget(self.L1opn, 3, 1, 1, 1)
+        self.gridLayout_2.addWidget(self.Popn, 3, 1, 1, 1)
 
         self.label_2 = QLabel(self.scrollAreaWidgetContents)
         self.label_2.setObjectName(u"label_2")
@@ -78,138 +78,94 @@ class Ui_TileSettings(object):
 
         self.gridLayout_2.addWidget(self.label, 2, 0, 1, 1)
 
-        self.L1opr_2 = QSpinBox(self.scrollAreaWidgetContents)
-        self.L1opr_2.setObjectName(u"L1opr_2")
+        self.Popr_2 = QSpinBox(self.scrollAreaWidgetContents)
+        self.Popr_2.setObjectName(u"Popr_2")
         sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Fixed)
         sizePolicy1.setHorizontalStretch(0)
         sizePolicy1.setVerticalStretch(0)
-        sizePolicy1.setHeightForWidth(self.L1opr_2.sizePolicy().hasHeightForWidth())
-        self.L1opr_2.setSizePolicy(sizePolicy1)
-        self.L1opr_2.setMaximum(255)
+        sizePolicy1.setHeightForWidth(self.Popr_2.sizePolicy().hasHeightForWidth())
+        self.Popr_2.setSizePolicy(sizePolicy1)
+        self.Popr_2.setAlignment(Qt.AlignmentFlag.AlignRight|Qt.AlignmentFlag.AlignTrailing|Qt.AlignmentFlag.AlignVCenter)
+        self.Popr_2.setButtonSymbols(QAbstractSpinBox.ButtonSymbols.NoButtons)
+        self.Popr_2.setMaximum(255)
 
-        self.gridLayout_2.addWidget(self.L1opr_2, 2, 2, 1, 1)
+        self.gridLayout_2.addWidget(self.Popr_2, 2, 2, 1, 1)
 
-        self.L1opn_2 = QSpinBox(self.scrollAreaWidgetContents)
-        self.L1opn_2.setObjectName(u"L1opn_2")
-        sizePolicy1.setHeightForWidth(self.L1opn_2.sizePolicy().hasHeightForWidth())
-        self.L1opn_2.setSizePolicy(sizePolicy1)
-        self.L1opn_2.setMaximum(255)
+        self.Popn_2 = QSpinBox(self.scrollAreaWidgetContents)
+        self.Popn_2.setObjectName(u"Popn_2")
+        sizePolicy1.setHeightForWidth(self.Popn_2.sizePolicy().hasHeightForWidth())
+        self.Popn_2.setSizePolicy(sizePolicy1)
+        self.Popn_2.setAlignment(Qt.AlignmentFlag.AlignRight|Qt.AlignmentFlag.AlignTrailing|Qt.AlignmentFlag.AlignVCenter)
+        self.Popn_2.setButtonSymbols(QAbstractSpinBox.ButtonSymbols.NoButtons)
+        self.Popn_2.setMaximum(255)
 
-        self.gridLayout_2.addWidget(self.L1opn_2, 3, 2, 1, 1)
+        self.gridLayout_2.addWidget(self.Popn_2, 3, 2, 1, 1)
 
 
         self.verticalLayout_3.addLayout(self.gridLayout_2)
 
-        self.L2show = QCheckBox(self.scrollAreaWidgetContents)
-        self.L2show.setObjectName(u"L2show")
-        sizePolicy.setHeightForWidth(self.L2show.sizePolicy().hasHeightForWidth())
-        self.L2show.setSizePolicy(sizePolicy)
+        self.Sshow = QCheckBox(self.scrollAreaWidgetContents)
+        self.Sshow.setObjectName(u"Sshow")
+        sizePolicy.setHeightForWidth(self.Sshow.sizePolicy().hasHeightForWidth())
+        self.Sshow.setSizePolicy(sizePolicy)
 
-        self.verticalLayout_3.addWidget(self.L2show)
+        self.verticalLayout_3.addWidget(self.Sshow)
 
         self.gridLayout_3 = QGridLayout()
         self.gridLayout_3.setObjectName(u"gridLayout_3")
-        self.L2opn = QSlider(self.scrollAreaWidgetContents)
-        self.L2opn.setObjectName(u"L2opn")
-        self.L2opn.setMaximum(255)
-        self.L2opn.setOrientation(Qt.Orientation.Horizontal)
+        self.Sopn = QSlider(self.scrollAreaWidgetContents)
+        self.Sopn.setObjectName(u"Sopn")
+        self.Sopn.setMaximum(255)
+        self.Sopn.setOrientation(Qt.Orientation.Horizontal)
 
-        self.gridLayout_3.addWidget(self.L2opn, 1, 1, 1, 1)
+        self.gridLayout_3.addWidget(self.Sopn, 1, 1, 1, 1)
 
-        self.L2opr_2 = QSpinBox(self.scrollAreaWidgetContents)
-        self.L2opr_2.setObjectName(u"L2opr_2")
-        sizePolicy1.setHeightForWidth(self.L2opr_2.sizePolicy().hasHeightForWidth())
-        self.L2opr_2.setSizePolicy(sizePolicy1)
-        self.L2opr_2.setMaximum(255)
+        self.Sopr_2 = QSpinBox(self.scrollAreaWidgetContents)
+        self.Sopr_2.setObjectName(u"Sopr_2")
+        sizePolicy1.setHeightForWidth(self.Sopr_2.sizePolicy().hasHeightForWidth())
+        self.Sopr_2.setSizePolicy(sizePolicy1)
+        self.Sopr_2.setAlignment(Qt.AlignmentFlag.AlignRight|Qt.AlignmentFlag.AlignTrailing|Qt.AlignmentFlag.AlignVCenter)
+        self.Sopr_2.setButtonSymbols(QAbstractSpinBox.ButtonSymbols.NoButtons)
+        self.Sopr_2.setMaximum(255)
 
-        self.gridLayout_3.addWidget(self.L2opr_2, 0, 2, 1, 1)
+        self.gridLayout_3.addWidget(self.Sopr_2, 0, 2, 1, 1)
 
         self.label_3 = QLabel(self.scrollAreaWidgetContents)
         self.label_3.setObjectName(u"label_3")
 
         self.gridLayout_3.addWidget(self.label_3, 1, 0, 1, 1)
 
-        self.L2opn_2 = QSpinBox(self.scrollAreaWidgetContents)
-        self.L2opn_2.setObjectName(u"L2opn_2")
-        sizePolicy1.setHeightForWidth(self.L2opn_2.sizePolicy().hasHeightForWidth())
-        self.L2opn_2.setSizePolicy(sizePolicy1)
-        self.L2opn_2.setMaximum(255)
+        self.Sopn_2 = QSpinBox(self.scrollAreaWidgetContents)
+        self.Sopn_2.setObjectName(u"Sopn_2")
+        sizePolicy1.setHeightForWidth(self.Sopn_2.sizePolicy().hasHeightForWidth())
+        self.Sopn_2.setSizePolicy(sizePolicy1)
+        self.Sopn_2.setAlignment(Qt.AlignmentFlag.AlignRight|Qt.AlignmentFlag.AlignTrailing|Qt.AlignmentFlag.AlignVCenter)
+        self.Sopn_2.setButtonSymbols(QAbstractSpinBox.ButtonSymbols.NoButtons)
+        self.Sopn_2.setMaximum(255)
 
-        self.gridLayout_3.addWidget(self.L2opn_2, 1, 2, 1, 1)
+        self.gridLayout_3.addWidget(self.Sopn_2, 1, 2, 1, 1)
 
         self.label_4 = QLabel(self.scrollAreaWidgetContents)
         self.label_4.setObjectName(u"label_4")
 
         self.gridLayout_3.addWidget(self.label_4, 0, 0, 1, 1)
 
-        self.L2opr = QSlider(self.scrollAreaWidgetContents)
-        self.L2opr.setObjectName(u"L2opr")
-        self.L2opr.setMaximum(255)
-        self.L2opr.setOrientation(Qt.Orientation.Horizontal)
+        self.Sopr = QSlider(self.scrollAreaWidgetContents)
+        self.Sopr.setObjectName(u"Sopr")
+        self.Sopr.setMaximum(255)
+        self.Sopr.setOrientation(Qt.Orientation.Horizontal)
 
-        self.gridLayout_3.addWidget(self.L2opr, 0, 1, 1, 1)
+        self.gridLayout_3.addWidget(self.Sopr, 0, 1, 1, 1)
 
 
         self.verticalLayout_3.addLayout(self.gridLayout_3)
 
-        self.L3show = QCheckBox(self.scrollAreaWidgetContents)
-        self.L3show.setObjectName(u"L3show")
-        sizePolicy.setHeightForWidth(self.L3show.sizePolicy().hasHeightForWidth())
-        self.L3show.setSizePolicy(sizePolicy)
-
-        self.verticalLayout_3.addWidget(self.L3show)
-
-        self.gridLayout_4 = QGridLayout()
-        self.gridLayout_4.setObjectName(u"gridLayout_4")
-        self.L3opr = QSlider(self.scrollAreaWidgetContents)
-        self.L3opr.setObjectName(u"L3opr")
-        self.L3opr.setMaximum(255)
-        self.L3opr.setOrientation(Qt.Orientation.Horizontal)
-
-        self.gridLayout_4.addWidget(self.L3opr, 1, 1, 1, 1)
-
-        self.label_7 = QLabel(self.scrollAreaWidgetContents)
-        self.label_7.setObjectName(u"label_7")
-
-        self.gridLayout_4.addWidget(self.label_7, 2, 0, 1, 1)
-
-        self.L3opn_2 = QSpinBox(self.scrollAreaWidgetContents)
-        self.L3opn_2.setObjectName(u"L3opn_2")
-        sizePolicy1.setHeightForWidth(self.L3opn_2.sizePolicy().hasHeightForWidth())
-        self.L3opn_2.setSizePolicy(sizePolicy1)
-        self.L3opn_2.setMaximum(255)
-
-        self.gridLayout_4.addWidget(self.L3opn_2, 2, 2, 1, 1)
-
-        self.label_8 = QLabel(self.scrollAreaWidgetContents)
-        self.label_8.setObjectName(u"label_8")
-
-        self.gridLayout_4.addWidget(self.label_8, 1, 0, 1, 1)
-
-        self.L3opn = QSlider(self.scrollAreaWidgetContents)
-        self.L3opn.setObjectName(u"L3opn")
-        self.L3opn.setMaximum(255)
-        self.L3opn.setOrientation(Qt.Orientation.Horizontal)
-
-        self.gridLayout_4.addWidget(self.L3opn, 2, 1, 1, 1)
-
-        self.L3opr_2 = QSpinBox(self.scrollAreaWidgetContents)
-        self.L3opr_2.setObjectName(u"L3opr_2")
-        sizePolicy1.setHeightForWidth(self.L3opr_2.sizePolicy().hasHeightForWidth())
-        self.L3opr_2.setSizePolicy(sizePolicy1)
-        self.L3opr_2.setMaximum(255)
-
-        self.gridLayout_4.addWidget(self.L3opr_2, 1, 2, 1, 1)
-
-
-        self.verticalLayout_3.addLayout(self.gridLayout_4)
-
         self.horizontalLayout_2 = QHBoxLayout()
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
-        self.Opacityshift = QCheckBox(self.scrollAreaWidgetContents)
-        self.Opacityshift.setObjectName(u"Opacityshift")
+        self.Rall = QCheckBox(self.scrollAreaWidgetContents)
+        self.Rall.setObjectName(u"Rall")
 
-        self.horizontalLayout_2.addWidget(self.Opacityshift)
+        self.horizontalLayout_2.addWidget(self.Rall)
 
         self.MatBorder = QCheckBox(self.scrollAreaWidgetContents)
         self.MatBorder.setObjectName(u"MatBorder")
@@ -268,16 +224,13 @@ class Ui_TileSettings(object):
 
     def retranslateUi(self, TileSettings):
         TileSettings.setWindowTitle(QCoreApplication.translate("TileSettings", u"Form", None))
-        self.L1show.setText(QCoreApplication.translate("TileSettings", u"Layer 1", None))
+        self.Pshow.setText(QCoreApplication.translate("TileSettings", u"Primary", None))
         self.label_2.setText(QCoreApplication.translate("TileSettings", u"Not Rendered", None))
         self.label.setText(QCoreApplication.translate("TileSettings", u"Rendered", None))
-        self.L2show.setText(QCoreApplication.translate("TileSettings", u"Layer 2", None))
+        self.Sshow.setText(QCoreApplication.translate("TileSettings", u"Secondary", None))
         self.label_3.setText(QCoreApplication.translate("TileSettings", u"Not Rendered", None))
         self.label_4.setText(QCoreApplication.translate("TileSettings", u"Rendered", None))
-        self.L3show.setText(QCoreApplication.translate("TileSettings", u"Layer 3", None))
-        self.label_7.setText(QCoreApplication.translate("TileSettings", u"Not Rendered", None))
-        self.label_8.setText(QCoreApplication.translate("TileSettings", u"Rendered", None))
-        self.Opacityshift.setText(QCoreApplication.translate("TileSettings", u"Opacity Shift", None))
+        self.Rall.setText(QCoreApplication.translate("TileSettings", u"Render All", None))
         self.MatBorder.setText(QCoreApplication.translate("TileSettings", u"Material Border", None))
         self.label_10.setText(QCoreApplication.translate("TileSettings", u"Preview", None))
         self.RenderOption.setItemText(0, QCoreApplication.translate("TileSettings", u"Classic", None))

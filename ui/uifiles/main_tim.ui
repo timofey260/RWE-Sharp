@@ -244,6 +244,9 @@
     <addaction name="separator"/>
     <addaction name="actionZoom_In"/>
     <addaction name="actionZoom_Out"/>
+    <addaction name="separator"/>
+    <addaction name="actionNext_Layer"/>
+    <addaction name="actionPrevious_Layer"/>
    </widget>
    <widget class="QMenu" name="menuWindow">
     <property name="title">
@@ -348,7 +351,7 @@
               <x>0</x>
               <y>0</y>
               <width>194</width>
-              <height>109</height>
+              <height>138</height>
              </rect>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout">
@@ -665,6 +668,16 @@
    </property>
    <property name="text">
     <string>Show Level File</string>
+   </property>
+  </action>
+  <action name="actionNext_Layer">
+   <property name="text">
+    <string>Next Layer</string>
+   </property>
+  </action>
+  <action name="actionPrevious_Layer">
+   <property name="text">
+    <string>Previous Layer</string>
    </property>
   </action>
  </widget>

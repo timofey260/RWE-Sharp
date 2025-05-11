@@ -45,6 +45,9 @@ class BaseModConfig:
         self.prop_editor = KeyConfigurable(mod, "basemod.props", "4", "Open Prop editor")
         self.camera_editor = KeyConfigurable(mod, "basemod.cameras", "5", "Open Camera editor")
 
+        self.next_layer = KeyConfigurable(mod, "basemod.nextlayer", "l", "Next_layer")
+        self.prev_layer = KeyConfigurable(mod, "basemod.prevlayer", "Ctrl+l", "Previous Layer")
+
         self.funny_vid = BoolConfigurable(mod, "basemod.funnyvid", True, "Funny video when you close rwe#")
         self.funny = BoolConfigurable(mod, "basemod.funny", True, "Adds funny")
         self.more_funny = BoolConfigurable(mod, "basemod.morefunny", False, "Adds more funny")

@@ -50,7 +50,7 @@
        <item>
         <layout class="QVBoxLayout" name="verticalLayout_3">
          <item>
-          <widget class="QCheckBox" name="L1show">
+          <widget class="QCheckBox" name="Pshow">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
              <horstretch>0</horstretch>
@@ -58,14 +58,14 @@
             </sizepolicy>
            </property>
            <property name="text">
-            <string>Layer 1</string>
+            <string>Primary</string>
            </property>
           </widget>
          </item>
          <item>
           <layout class="QGridLayout" name="gridLayout_2">
            <item row="2" column="1">
-            <widget class="QSlider" name="L1opr">
+            <widget class="QSlider" name="Popr">
              <property name="maximum">
               <number>255</number>
              </property>
@@ -75,7 +75,7 @@
             </widget>
            </item>
            <item row="3" column="1">
-            <widget class="QSlider" name="L1opn">
+            <widget class="QSlider" name="Popn">
              <property name="maximum">
               <number>255</number>
              </property>
@@ -99,12 +99,18 @@
             </widget>
            </item>
            <item row="2" column="2">
-            <widget class="QSpinBox" name="L1opr_2">
+            <widget class="QSpinBox" name="Popr_2">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+             </property>
+             <property name="buttonSymbols">
+              <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
              </property>
              <property name="maximum">
               <number>255</number>
@@ -112,12 +118,18 @@
             </widget>
            </item>
            <item row="3" column="2">
-            <widget class="QSpinBox" name="L1opn_2">
+            <widget class="QSpinBox" name="Popn_2">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+             </property>
+             <property name="buttonSymbols">
+              <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
              </property>
              <property name="maximum">
               <number>255</number>
@@ -127,7 +139,7 @@
           </layout>
          </item>
          <item>
-          <widget class="QCheckBox" name="L2show">
+          <widget class="QCheckBox" name="Sshow">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
              <horstretch>0</horstretch>
@@ -135,14 +147,14 @@
             </sizepolicy>
            </property>
            <property name="text">
-            <string>Layer 2</string>
+            <string>Secondary</string>
            </property>
           </widget>
          </item>
          <item>
           <layout class="QGridLayout" name="gridLayout_3">
            <item row="1" column="1">
-            <widget class="QSlider" name="L2opn">
+            <widget class="QSlider" name="Sopn">
              <property name="maximum">
               <number>255</number>
              </property>
@@ -152,12 +164,18 @@
             </widget>
            </item>
            <item row="0" column="2">
-            <widget class="QSpinBox" name="L2opr_2">
+            <widget class="QSpinBox" name="Sopr_2">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+             </property>
+             <property name="buttonSymbols">
+              <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
              </property>
              <property name="maximum">
               <number>255</number>
@@ -172,12 +190,18 @@
             </widget>
            </item>
            <item row="1" column="2">
-            <widget class="QSpinBox" name="L2opn_2">
+            <widget class="QSpinBox" name="Sopn_2">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+             </property>
+             <property name="buttonSymbols">
+              <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
              </property>
              <property name="maximum">
               <number>255</number>
@@ -192,89 +216,12 @@
             </widget>
            </item>
            <item row="0" column="1">
-            <widget class="QSlider" name="L2opr">
+            <widget class="QSlider" name="Sopr">
              <property name="maximum">
               <number>255</number>
              </property>
              <property name="orientation">
               <enum>Qt::Orientation::Horizontal</enum>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item>
-          <widget class="QCheckBox" name="L3show">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="text">
-            <string>Layer 3</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <layout class="QGridLayout" name="gridLayout_4">
-           <item row="1" column="1">
-            <widget class="QSlider" name="L3opr">
-             <property name="maximum">
-              <number>255</number>
-             </property>
-             <property name="orientation">
-              <enum>Qt::Orientation::Horizontal</enum>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="0">
-            <widget class="QLabel" name="label_7">
-             <property name="text">
-              <string>Not Rendered</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="2">
-            <widget class="QSpinBox" name="L3opn_2">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="maximum">
-              <number>255</number>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="0">
-            <widget class="QLabel" name="label_8">
-             <property name="text">
-              <string>Rendered</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="1">
-            <widget class="QSlider" name="L3opn">
-             <property name="maximum">
-              <number>255</number>
-             </property>
-             <property name="orientation">
-              <enum>Qt::Orientation::Horizontal</enum>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="2">
-            <widget class="QSpinBox" name="L3opr_2">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="maximum">
-              <number>255</number>
              </property>
             </widget>
            </item>
@@ -283,9 +230,9 @@
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_2">
            <item>
-            <widget class="QCheckBox" name="Opacityshift">
+            <widget class="QCheckBox" name="Rall">
              <property name="text">
-              <string>Opacity Shift</string>
+              <string>Render All</string>
              </property>
             </widget>
            </item>

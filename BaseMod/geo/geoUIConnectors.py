@@ -230,19 +230,19 @@ class GeoViewUI(ViewUI):
         self.drawl1 = BoolConfigurable(mod, "VIEW_geo.drawl1", True, "Draw layer 1")
         self.drawl2 = BoolConfigurable(mod, "VIEW_geo.drawl2", True, "Draw layer 2")
         self.drawl3 = BoolConfigurable(mod, "VIEW_geo.drawl3", True, "Draw layer 3")
-        self.opacityl1 = FloatConfigurable(mod, "VIEW_geo.opacityl1", .9, "Opacity of the first layer")
-        self.opacityl2 = FloatConfigurable(mod, "VIEW_geo.opacityl2", .5, "Opacity of the second layer")
-        self.opacityl3 = FloatConfigurable(mod, "VIEW_geo.opacityl3", .2, "Opacity of the third layer")
-        self.opacityrgb = FloatConfigurable(mod, "VIEW_geo.opacityrgb", .5,
-                                            "Opacity of all layers on old rendering option")
+        self.popacity = FloatConfigurable(mod, "VIEW_geo.popacity", .9, "Opacity of primary layer")
+        self.sopacity = FloatConfigurable(mod, "VIEW_geo.spoacity", .196, "Opacity of secondary layers")
+        self.popacityrgb = FloatConfigurable(mod, "VIEW_geo.popacityrgb", .9,
+                                            "Opacity of primary layer on old rendering option")
+        self.sopacityrgb = FloatConfigurable(mod, "VIEW_geo.sopacityrgb", .67,
+                                            "Opacity of secondary layers on old rendering option")
 
         self.drawlbeams = BoolConfigurable(mod, "VIEW_geo.drawlbeams", True, "Draw Beams")
         self.drawlpipes = BoolConfigurable(mod, "VIEW_geo.drawlpipes", True, "Draw pipes")
         self.drawlmisc = BoolConfigurable(mod, "VIEW_geo.drawlmisc", True, "Draw rocks, spears etc")
 
         self.drawoption = IntConfigurable(mod, "VIEW_geo.drawOption", 0, "method of drawing")
-        self.opacityshift = BoolConfigurable(mod, "VIEW_geo.opacityShift", True,
-                                             "Does not change opacity of hidden layers")
+        self.renderall = BoolConfigurable(mod, "VIEW_geo.renderall", True, "Renders layers behind current one")
 
         self.drawlgeo_key = KeyConfigurable(mod, "VIEW_geo.drawlall_key", "Alt+G", "Show geometry")
         self.drawl1_key = KeyConfigurable(mod, "VIEW_geo.drawl1_key", "Alt+1", "Show 1st layer geometry")
@@ -298,12 +298,6 @@ class GeoViewUI(ViewUI):
 
         self.drawgeo.valueChanged.connect(self.hide_geo)
 
-
-
-
-
-
-
     @Slot()
     def hide_geo(self):
         self.draw = False
@@ -337,28 +331,24 @@ class GeoSettings(SettingUI):
         self.mod: BaseMod
 
 
-
         self.geoviewui = self.mod.geoview
         l1 = lambda x: int(x * 255)
         l2 = lambda x: x / 255
-        self.l1op = SettingUI.ManageableSetting(
-            IntConfigurable(None, "l1op", 0, "Opacity of layer 1"),
-            self.geoviewui.opacityl1, l1, l2).add_myself(self)
-        self.l2op = SettingUI.ManageableSetting(
-            IntConfigurable(None, "l2op", 0, "Opacity of layer 2"),
-            self.geoviewui.opacityl2, l1, l2).add_myself(self)
-        self.l3op = SettingUI.ManageableSetting(
-            IntConfigurable(None, "l3op", 0, "Opacity of layer 3"),
-            self.geoviewui.opacityl3, l1, l2).add_myself(self)
-        self.rgbop = SettingUI.ManageableSetting(
-            IntConfigurable(None, "rgbop", 0, "Opacity of all layers on Leditor render option"),
-            self.geoviewui.opacityrgb, l1, l2).add_myself(self)
-        self.opshift = SettingUI.ManageableSetting(
-            BoolConfigurable(None, "opshift", False,
-                             "Opacity shift\nOnly change opacity of shown layers\n"
-                             "For example, if layer 1 is hidden, layer 2 will have opacity of layer 1 and "
-                             "layer 3 will have opacity of layer 2"),
-            self.geoviewui.opacityshift).add_myself(self)
+        self.Pop = SettingUI.ManageableSetting(
+            IntConfigurable(None, "Pop", 0, "Opacity of Primary layer"),
+            self.geoviewui.popacity, l1, l2).add_myself(self)
+        self.Sop = SettingUI.ManageableSetting(
+            IntConfigurable(None, "Sop", 0, "Opacity of Secondary layer"),
+            self.geoviewui.sopacity, l1, l2).add_myself(self)
+        self.rgbpop = SettingUI.ManageableSetting(
+            IntConfigurable(None, "rgbpop", 0, "Opacity of Primary layer on Leditor render option"),
+            self.geoviewui.popacityrgb, l1, l2).add_myself(self)
+        self.rgbsop = SettingUI.ManageableSetting(
+            IntConfigurable(None, "rgbsop", 0, "Opacity of Secondary layers on Leditor render option"),
+            self.geoviewui.sopacityrgb, l1, l2).add_myself(self)
+        self.renderall = SettingUI.ManageableSetting(
+            BoolConfigurable(None, "opshift", False, "Render layers behind current one"),
+            self.geoviewui.renderall).add_myself(self)
         self.imagepath = SettingUI.ManageableSetting(
             StringConfigurable(None, "imgpath", "", "Image Path"), self.geoviewui.imagepath).add_myself(self)
         self.reset_values()
@@ -370,18 +360,17 @@ class GeoSettings(SettingUI):
         self.ui.setupUi(viewer)
         self.ui.ChangeImage.clicked.connect(self.change_spritesheet)
 
-        self.l1op.setting.link_slider_spinbox(self.ui.L1op, self.ui.L1op2)
-        self.l2op.setting.link_slider_spinbox(self.ui.L2op, self.ui.L2op2)
-        self.l3op.setting.link_slider_spinbox(self.ui.L3op, self.ui.L3op2)
-        self.rgbop.setting.link_slider_spinbox(self.ui.RGBop, self.ui.RGBop2)
+        self.Pop.setting.link_slider_spinbox(self.ui.Pop2, self.ui.Pop)
+        self.Sop.setting.link_slider_spinbox(self.ui.Sop2, self.ui.Sop)
+        self.rgbpop.setting.link_slider_spinbox(self.ui.PRGBop2, self.ui.PRGBop)
+        self.rgbsop.setting.link_slider_spinbox(self.ui.SRGBop2, self.ui.SRGBop)
 
-        self.opshift.setting.link_button(self.ui.OPshift)
+        self.renderall.setting.link_button(self.ui.Rall)
         self.imagepath.setting.valueChanged.connect(self.ui.graphicsView.update_pixmaps)
 
         self.ui.graphicsView.add_manager(self.mod.manager, self)
-        self.ui.L1show.setChecked(True)
-        self.ui.L2show.setChecked(True)
-        self.ui.L3show.setChecked(True)
+        self.ui.Pshow.setChecked(True)
+        self.ui.Sshow.setChecked(True)
         self.ui.RWEpreview.setChecked(True)
 
     def change_spritesheet(self):

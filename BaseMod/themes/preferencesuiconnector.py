@@ -29,7 +29,7 @@ class PreferencesUI(SettingUI):
                     self.current_theme.theme_disable()
                 i.theme_enable()
                 self.current_theme = i
-                log(f"Using Theme {i.id}")
+                log(f"Using Theme {i.name}")
                 return
 
     def add_theme(self, theme):
@@ -55,7 +55,7 @@ class PreferencesUI(SettingUI):
         self.ui.Theme.clear()
         self.ui.Theme.addItem("Disabled")
         for i, v in enumerate(self.themes):
-            self.ui.Theme.addItem(v.id, v)
+            self.ui.Theme.addItem(v.name, v)
         self.pick_active()
         self.setup_ui(self.ui.Theme.currentData(Qt.ItemDataRole.UserRole))
         self.ui.Theme.currentIndexChanged.connect(self.index_changed)
