@@ -78,6 +78,7 @@ class SettingUI(ABC):
         """
         for i in self.settings:
             i.source2setting()
+            i.apply_setting()
 
     def reset_values_default(self):
         """
@@ -94,6 +95,7 @@ class SettingUI(ABC):
         """
         for i in self.settings:
             i.setting2source()
+            i.apply_setting()
 
     @property
     def is_changed(self):
@@ -136,6 +138,10 @@ class SettingUI(ABC):
                 self.setting.update_value_default(self.source2settingfunc(None))
                 return
             self.setting.update_value(self.source2settingfunc(self.source.default))
+
+        def apply_setting(self):
+            if self.setting is not None:
+                self.setting.update_value_default(self.setting.value)
 
         def add_myself(self, settingui: SettingUI):
             settingui.settings.append(self)

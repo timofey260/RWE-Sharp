@@ -200,6 +200,17 @@ class Ui_TileSettings(object):
 
         self.verticalLayout_3.addWidget(self.RenderOption)
 
+        self.label_5 = QLabel(self.scrollAreaWidgetContents)
+        self.label_5.setObjectName(u"label_5")
+
+        self.verticalLayout_3.addWidget(self.label_5)
+
+        self.LayerSlider = QSlider(self.scrollAreaWidgetContents)
+        self.LayerSlider.setObjectName(u"LayerSlider")
+        self.LayerSlider.setOrientation(Qt.Orientation.Horizontal)
+
+        self.verticalLayout_3.addWidget(self.LayerSlider)
+
         self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
         self.verticalLayout_3.addItem(self.verticalSpacer)
@@ -241,5 +252,6 @@ class Ui_TileSettings(object):
         self.RenderOption.setItemText(5, QCoreApplication.translate("TileSettings", u"Rendered (shaded)", None))
         self.RenderOption.setItemText(6, QCoreApplication.translate("TileSettings", u"Rendered (rain)", None))
 
+        self.label_5.setText(QCoreApplication.translate("TileSettings", u"Layer:", None))
     # retranslateUi
 

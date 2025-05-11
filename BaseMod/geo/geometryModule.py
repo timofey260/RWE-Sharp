@@ -21,7 +21,7 @@ class GeoModule(Module):
         self.ui.drawl1.valueChanged.connect(self.check_layers_change)
         self.ui.drawl2.valueChanged.connect(self.check_layers_change)
         self.ui.drawl3.valueChanged.connect(self.check_layers_change)
-        self.ui.popacity.valueChanged.connect(self.check_layers_change) #todo
+        self.ui.popacity.valueChanged.connect(self.check_layers_change)
         self.ui.sopacity.valueChanged.connect(self.check_layers_change)
         self.ui.sopacityrgb.valueChanged.connect(self.check_layers_change)
         self.ui.popacityrgb.valueChanged.connect(self.init_module_textures)
@@ -45,14 +45,19 @@ class GeoModule(Module):
 
     @Slot()
     def check_layers_change(self):
-        self.l1.setOpacity(self.ui.popacity.value if self.layer == 0 else self.ui.sopacityrgb.value)
+        if self.ui.drawoption.value == 1:
+            self.l1.setOpacity(self.ui.popacityrgb.value if self.layer == 0 else self.ui.sopacityrgb.value)
+            self.l2.setOpacity(self.ui.popacityrgb.value if self.layer == 1 else self.ui.sopacityrgb.value)
+            self.l3.setOpacity(self.ui.popacityrgb.value if self.layer == 2 else self.ui.sopacityrgb.value)
+            return
+        self.l1.setOpacity(self.ui.popacity.value if self.layer == 0 else self.ui.sopacity.value)
         if self.layer == 1 and not self.ui.renderall.value and self.ui.drawoption.value != 1:
             self.l1.setOpacity(0)
-        self.l2.setOpacity(self.ui.popacity.value if self.layer == 1 else self.ui.sopacityrgb.value)
+        self.l2.setOpacity(self.ui.popacity.value if self.layer == 1 else self.ui.sopacity.value)
         if self.layer == 2 and not self.ui.renderall.value and self.ui.drawoption.value != 1:
             self.l1.setOpacity(0)
             self.l2.setOpacity(0)
-        self.l3.setOpacity(self.ui.popacity.value if self.layer == 2 else self.ui.sopacityrgb.value)
+        self.l3.setOpacity(self.ui.popacity.value if self.layer == 2 else self.ui.sopacity.value)
 
     # a lot of bullshit functions to speed up rendering
     @Slot()
