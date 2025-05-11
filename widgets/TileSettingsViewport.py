@@ -30,14 +30,24 @@ class TileSettingsViewport(SimpleViewport):
         self.tilel3.setPixmap(tile.return_tile_pixmap(self.drawoption, 2, self.colortable))
         self.update_preview()
 
-    def update_preview(self):
-        opacityl1 = (self.ui.rl1.value if self.drawoption > 2 else self.ui.nl1.value) / 255
-        opacityl2 = (self.ui.rl2.value if self.drawoption > 2 else self.ui.nl2.value) / 255
-        opacityl3 = (self.ui.rl3.value if self.drawoption > 2 else self.ui.nl3.value) / 255
+    @property
+    def current_layer(self):
+        return self.ui.ui.LayerSlider.value()
 
-        self.tilel1.setOpacity(0 if not self.ui.showl1.value else opacityl1)
-        self.tilel2.setOpacity(0 if not self.ui.showl2.value else (opacityl2 if self.ui.showl1.value else opacityl1))
-        self.tilel3.setOpacity(0 if not self.ui.showl3.value else (opacityl3 if self.ui.showl1.value and self.ui.showl2.value else opacityl2 if self.ui.showl1.value != self.ui.showl2.value else opacityl1))
+    def update_preview(self):
+        if self.drawoption > 2:
+            self.tilel1.setOpacity((self.ui.rp.value if self.current_layer == 0 else self.ui.rs.value) / 255)
+            self.tilel2.setOpacity((self.ui.rp.value if self.current_layer == 1 else self.ui.rs.value) / 255)
+            self.tilel3.setOpacity((self.ui.rp.value if self.current_layer == 2 else self.ui.rs.value) / 255)
+            return
+        self.tilel1.setOpacity((self.ui.np.value if self.current_layer == 0 else self.ui.ns.value) / 255)
+        if self.current_layer == 1 and not self.ui.renderall.value:
+            self.tilel1.setOpacity(0)
+        self.tilel2.setOpacity((self.ui.np.value if self.current_layer == 1 else self.ui.ns.value) / 255)
+        if self.current_layer == 2 and not self.ui.renderall.value:
+            self.tilel1.setOpacity(0)
+            self.tilel2.setOpacity(0)
+        self.tilel3.setOpacity((self.ui.np.value if self.current_layer == 2 else self.ui.ns.value) / 255)
         self.set_mapzoom()
 
     def set_pos(self, pos: QPointF | QPoint):

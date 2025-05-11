@@ -38,19 +38,15 @@ class TileViewUI(ViewUI):
                                               os.path.join(PATH_FILES_IMAGES_PALETTES, "palette0.png"),
                                               "Path to themes")
 
-        self.drawl1notrendered = FloatConfigurable(mod, "VIEW_tile.drawl1notrend", .9,
-                                                   "Layer 1 draw opacity(classic and henry)")
-        self.drawl2notrendered = FloatConfigurable(mod, "VIEW_tile.drawl2notrend", .5,
-                                                   "Layer 2 draw opacity(classic and henry)")
-        self.drawl3notrendered = FloatConfigurable(mod, "VIEW_tile.drawl3notrend", .2,
-                                                   "Layer 3 draw opacity(classic and henry)")
+        self.drawpnotrendered = FloatConfigurable(mod, "VIEW_tile.drawpnotrend", .9,
+                                                   "Primary layer draw opacity(classic and henry)")
+        self.drawsnotrendered = FloatConfigurable(mod, "VIEW_tile.drawsnotrend", .196,
+                                                   "Secondary layer draw opacity(classic and henry)")
 
-        self.drawl1rendered = FloatConfigurable(mod, "VIEW_tile.drawl1rend", 1, "Layer 1 draw opacity(rendered)")
-        self.drawl2rendered = FloatConfigurable(mod, "VIEW_tile.drawl2rend", 1, "Layer 2 draw opacity(rendered)")
-        self.drawl3rendered = FloatConfigurable(mod, "VIEW_tile.drawl3rend", 1, "Layer 3 draw opacity(rendered)")
+        self.drawprendered = FloatConfigurable(mod, "VIEW_tile.drawprend", 1, "Primary layer draw opacity(rendered)")
+        self.drawsrendered = FloatConfigurable(mod, "VIEW_tile.drawsrend", 1, "Secondary layer draw opacity(rendered)")
 
-        self.opacityshift = BoolConfigurable(mod, "VIEW_tile.opacityShift", True,
-                                             "Does not change opacity of hidden layers")
+        self.renderall = BoolConfigurable(mod, "VIEW_tile.renderall", True, "Render layers behind current")
 
         self.matborder = BoolConfigurable(mod, "VIEW_tile.matborder", True,
                                           "Material Border")
@@ -223,27 +219,19 @@ class TileSettings(SettingUI):
         self.tileviewui = self.mod.tileview
         l1 = lambda x: int(x * 255)
         l2 = lambda x: x / 255
-        self.rl1 = SettingUI.ManageableSetting(IntConfigurable(None, "rl1", 0, "Opacity of rendered layer 1"), self.tileviewui.drawl1rendered, l1, l2).add_myself(self)
-        self.nl1 = SettingUI.ManageableSetting(IntConfigurable(None, "nl1", 0, "Opacity of not rendered layer 1"), self.tileviewui.drawl1notrendered, l1, l2).add_myself(self)
-        self.rl2 = SettingUI.ManageableSetting(IntConfigurable(None, "rl2", 0, "Opacity of rendered layer 2"), self.tileviewui.drawl2rendered, l1, l2).add_myself(self)
-        self.nl2 = SettingUI.ManageableSetting(IntConfigurable(None, "nl2", 0, "Opacity of not rendered layer 2"), self.tileviewui.drawl2notrendered, l1, l2).add_myself(self)
-        self.rl3 = SettingUI.ManageableSetting(IntConfigurable(None, "rl2", 0, "Opacity of rendered layer 3"), self.tileviewui.drawl3rendered, l1, l2).add_myself(self)
-        self.nl3 = SettingUI.ManageableSetting(IntConfigurable(None, "nl2", 0, "Opacity of not rendered layer 3"), self.tileviewui.drawl3notrendered, l1, l2).add_myself(self)
+        self.rp = SettingUI.ManageableSetting(IntConfigurable(None, "rp", 0, "Opacity of rendered primary layer"), self.tileviewui.drawprendered, l1, l2).add_myself(self)
+        self.np = SettingUI.ManageableSetting(IntConfigurable(None, "np", 0, "Opacity of not rendered primary layer"), self.tileviewui.drawpnotrendered, l1, l2).add_myself(self)
+        self.rs = SettingUI.ManageableSetting(IntConfigurable(None, "rs", 0, "Opacity of rendered secondary layer"), self.tileviewui.drawsrendered, l1, l2).add_myself(self)
+        self.ns = SettingUI.ManageableSetting(IntConfigurable(None, "ns", 0, "Opacity of not rendered secondary layer"), self.tileviewui.drawsnotrendered, l1, l2).add_myself(self)
 
-        self.opshift = SettingUI.ManageableSetting(BoolConfigurable(None, "opshift", False,
-                                        "Opacity shift\nOnly change opacity of shown layers\n"
-                                        "For example, if layer 1 is hidden, layer 2 will have opacity of layer 1 and "
-                                        "layer 3 will have opacity of layer 2"), self.tileviewui.opacityshift).add_myself(self)
+        self.renderall = SettingUI.ManageableSetting(BoolConfigurable(None, "renderall", False,
+                                        "Draw layers behind current one"), self.tileviewui.renderall).add_myself(self)
 
         self.matborder = SettingUI.ManageableSetting(BoolConfigurable(None, "matborder", True,
                                                                     "Add black border to materials"),
                                                    self.tileviewui.matborder).add_myself(self)
 
         self.drawoption = IntConfigurable(None, "drawoption", 0, "Draw option")
-
-        self.showl1 = BoolConfigurable(None, "sl1", True, "Show First layer")
-        self.showl2 = BoolConfigurable(None, "sl2", True, "Show Second layer")
-        self.showl3 = BoolConfigurable(None, "sl3", True, "Show Third layer")
         self.reset_values()
 
     def init_ui(self, viewer: SettingsViewer):
@@ -251,26 +239,19 @@ class TileSettings(SettingUI):
         self.ui.setupUi(viewer)
         self.ui.TilePreview.add_manager(self.mod.manager, self)
 
-        self.rl1.setting.link_slider_spinbox(self.ui.L1opr, self.ui.L1opr_2)
-        self.rl2.setting.link_slider_spinbox(self.ui.L2opr, self.ui.L2opr_2)
-        self.rl3.setting.link_slider_spinbox(self.ui.L3opr, self.ui.L3opr_2)
+        self.rp.setting.link_slider_spinbox(self.ui.Popr, self.ui.Popr_2)
+        self.rs.setting.link_slider_spinbox(self.ui.Sopr, self.ui.Sopr_2)
 
-        self.nl1.setting.link_slider_spinbox(self.ui.L1opn, self.ui.L1opn_2)
-        self.nl2.setting.link_slider_spinbox(self.ui.L2opn, self.ui.L2opn_2)
-        self.nl3.setting.link_slider_spinbox(self.ui.L3opn, self.ui.L3opn_2)
-
-        self.showl1.link_button(self.ui.L1show)
-        self.showl2.link_button(self.ui.L2show)
-        self.showl3.link_button(self.ui.L3show)
+        self.np.setting.link_slider_spinbox(self.ui.Popn, self.ui.Popn_2)
+        self.ns.setting.link_slider_spinbox(self.ui.Sopn, self.ui.Sopn_2)
 
         self.drawoption.link_combobox(self.ui.RenderOption)
         self.drawoption.valueChanged.connect(self.ui.TilePreview.update_option)
 
         self.matborder.setting.link_button(self.ui.MatBorder)
 
-        self.opshift.setting.link_button(self.ui.Opacityshift)
+        self.renderall.setting.link_button(self.ui.Rall)
 
-        for i in [self.rl1, self.rl2, self.rl3, self.nl1, self.nl2, self.nl3, self.opshift]:
+        for i in [self.rp, self.rs, self.np, self.ns, self.renderall]:
             i.setting.valueChanged.connect(self.ui.TilePreview.update_preview)
-        for i in [self.showl1, self.showl2, self.showl3]:
-            i.valueChanged.connect(self.ui.TilePreview.update_preview)
+        self.ui.LayerSlider.valueChanged.connect(self.ui.TilePreview.update_preview)

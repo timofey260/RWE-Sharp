@@ -15,19 +15,20 @@ class TileModule(Module):
         self.l2 = TileRenderLevelImage(self, 200, 1)
         self.l3 = TileRenderLevelImage(self, 300, 2)
 
-        self.ui.drawl1.valueChanged.connect(self.check_l1_change)
-        self.ui.drawl1rendered.valueChanged.connect(self.check_l1_change)
-        self.ui.drawl1notrendered.valueChanged.connect(self.check_l1_change)
-        self.ui.drawl2.valueChanged.connect(self.check_l2_change)
-        self.ui.drawl2rendered.valueChanged.connect(self.check_l2_change)
-        self.ui.drawl2notrendered.valueChanged.connect(self.check_l2_change)
-        self.ui.drawl3.valueChanged.connect(self.check_l3_change)
-        self.ui.drawl3rendered.valueChanged.connect(self.check_l3_change)
-        self.ui.drawl3notrendered.valueChanged.connect(self.check_l3_change)
+        self.ui.drawprendered.valueChanged.connect(self.check_layers_change)
+        self.ui.drawpnotrendered.valueChanged.connect(self.check_layers_change)
+        self.ui.drawsrendered.valueChanged.connect(self.check_layers_change)
+        self.ui.drawsnotrendered.valueChanged.connect(self.check_layers_change)
+        self.ui.renderall.valueChanged.connect(self.check_layers_change)
+
+        self.ui.drawl1.valueChanged.connect(self.check_layers_change)
+        self.ui.drawl2.valueChanged.connect(self.check_layers_change)
+        self.ui.drawl3.valueChanged.connect(self.check_layers_change)
 
         self.ui.drawoption.valueChanged.connect(self.redraw_option)
         self.ui.render.connect(self.render_module)
         self.ui.matborder.valueChanged.connect(self.change_border)
+        self.manager.layer.valueChanged.connect(self.check_layers_change)
 
     def change_border(self, enabled):
         self.l1.change_material_border(enabled)
@@ -38,62 +39,23 @@ class TileModule(Module):
         self.render_module(True)
 
     def init_module_textures(self):
-        self.check_l1_change()
-        self.check_l2_change()
-        self.check_l3_change()
+        self.check_layers_change()
 
     @Slot()
     def check_layers_change(self):
-        if self.ui.drawoption.value == 1:
-            self.l1.setOpacity(self.ui.popacityrgb.value if self.layer == 0 else self.ui.sopacityrgb.value)
-            self.l2.setOpacity(self.ui.popacityrgb.value if self.layer == 1 else self.ui.sopacityrgb.value)
-            self.l3.setOpacity(self.ui.popacityrgb.value if self.layer == 2 else self.ui.sopacityrgb.value)
+        if self.ui.drawoption.value > 2:
+            self.l1.setOpacity(self.ui.drawprendered.value if self.layer == 0 else self.ui.drawsrendered.value)
+            self.l2.setOpacity(self.ui.drawprendered.value if self.layer == 1 else self.ui.drawsrendered.value)
+            self.l3.setOpacity(self.ui.drawprendered.value if self.layer == 2 else self.ui.drawsrendered.value)
             return
-        self.l1.setOpacity(self.ui.popacity.value if self.layer == 0 else self.ui.sopacity.value)
-        if self.layer == 1 and not self.ui.renderall.value and self.ui.drawoption.value != 1:
+        self.l1.setOpacity(self.ui.drawpnotrendered.value if self.layer == 0 else self.ui.drawsnotrendered.value)
+        if self.layer == 1 and not self.ui.renderall.value:
             self.l1.setOpacity(0)
-        self.l2.setOpacity(self.ui.popacity.value if self.layer == 1 else self.ui.sopacity.value)
-        if self.layer == 2 and not self.ui.renderall.value and self.ui.drawoption.value != 1:
+        self.l2.setOpacity(self.ui.drawpnotrendered.value if self.layer == 1 else self.ui.drawsnotrendered.value)
+        if self.layer == 2 and not self.ui.renderall.value:
             self.l1.setOpacity(0)
             self.l2.setOpacity(0)
-        self.l3.setOpacity(self.ui.popacity.value if self.layer == 2 else self.ui.sopacity.value)
-
-    def check_l1_change(self):
-        if not self.ui.drawtiles.value:
-            self.l1.renderedtexture.setOpacity(0)
-            return
-        if self.ui.opacityshift.value:
-            self.check_l2_change()
-        opacityl1 = self.ui.drawl1rendered.value if self.ui.drawoption.value > 2 else self.ui.drawl1notrendered.value
-        self.l1.renderedtexture.setOpacity(opacityl1 if self.ui.drawl1.value else 0)
-
-    def check_l2_change(self):
-        if not self.ui.drawtiles.value:
-            self.l2.renderedtexture.setOpacity(0)
-            return
-        if self.ui.opacityshift.value:
-            self.check_l3_change()
-        opacityl1 = self.ui.drawl1rendered.value if self.ui.drawoption.value > 2 else self.ui.drawl1notrendered.value
-        opacityl2 = self.ui.drawl2rendered.value if self.ui.drawoption.value > 2 else self.ui.drawl2notrendered.value
-        if self.ui.opacityshift.value and self.ui.drawl2.value:
-            opval = opacityl1 if not self.ui.drawl1.value else opacityl2
-        else:
-            opval = opacityl2 if self.ui.drawl2.value else 0
-        self.l2.renderedtexture.setOpacity(opval)
-
-    def check_l3_change(self):
-        if not self.ui.drawtiles.value:
-            self.l3.renderedtexture.setOpacity(0)
-            return
-        opacityl1 = self.ui.drawl1rendered.value if self.ui.drawoption.value > 2 else self.ui.drawl1notrendered.value
-        opacityl2 = self.ui.drawl2rendered.value if self.ui.drawoption.value > 2 else self.ui.drawl2notrendered.value
-        opacityl3 = self.ui.drawl3rendered.value if self.ui.drawoption.value > 2 else self.ui.drawl3notrendered.value
-        if self.ui.opacityshift.value and self.ui.drawl3.value:
-            opval = opacityl1 if not self.ui.drawl1.value and not self.ui.drawl2.value else \
-                opacityl2 if not self.ui.drawl2.value or not self.ui.drawl1.value else opacityl3
-        else:
-            opval = opacityl3 if self.ui.drawl3.value else 0
-        self.l3.renderedtexture.setOpacity(opval)
+        self.l3.setOpacity(self.ui.drawpnotrendered.value if self.layer == 2 else self.ui.drawsnotrendered.value)
 
     def render_module(self, clear=False):
         self.l1.draw_layer(clear)

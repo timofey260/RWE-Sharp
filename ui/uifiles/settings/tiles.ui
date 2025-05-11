@@ -310,6 +310,9 @@
          </item>
          <item>
           <widget class="QSlider" name="LayerSlider">
+           <property name="maximum">
+            <number>2</number>
+           </property>
            <property name="orientation">
             <enum>Qt::Orientation::Horizontal</enum>
            </property>

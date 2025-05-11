@@ -207,6 +207,7 @@ class Ui_TileSettings(object):
 
         self.LayerSlider = QSlider(self.scrollAreaWidgetContents)
         self.LayerSlider.setObjectName(u"LayerSlider")
+        self.LayerSlider.setMaximum(2)
         self.LayerSlider.setOrientation(Qt.Orientation.Horizontal)
 
         self.verticalLayout_3.addWidget(self.LayerSlider)

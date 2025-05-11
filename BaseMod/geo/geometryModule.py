@@ -51,10 +51,10 @@ class GeoModule(Module):
             self.l3.setOpacity(self.ui.popacityrgb.value if self.layer == 2 else self.ui.sopacityrgb.value)
             return
         self.l1.setOpacity(self.ui.popacity.value if self.layer == 0 else self.ui.sopacity.value)
-        if self.layer == 1 and not self.ui.renderall.value and self.ui.drawoption.value != 1:
+        if self.layer == 1 and not self.ui.renderall.value:
             self.l1.setOpacity(0)
         self.l2.setOpacity(self.ui.popacity.value if self.layer == 1 else self.ui.sopacity.value)
-        if self.layer == 2 and not self.ui.renderall.value and self.ui.drawoption.value != 1:
+        if self.layer == 2 and not self.ui.renderall.value:
             self.l1.setOpacity(0)
             self.l2.setOpacity(0)
         self.l3.setOpacity(self.ui.popacity.value if self.layer == 2 else self.ui.sopacity.value)

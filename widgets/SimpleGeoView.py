@@ -101,21 +101,21 @@ class SimpleGeoViewport(QGraphicsView):
             self.l1g.setPixmap(self.l1_2)
             self.l2g.setPixmap(self.l2_2)
             self.l3g.setPixmap(self.l3_2)
-            self.l1g.setOpacity(self.rgbpopval / 255 if self.current_layer == 0 else self.rgbsopval / 255)
-            self.l2g.setOpacity(self.rgbpopval / 255 if self.current_layer == 1 else self.rgbsopval / 255)
-            self.l3g.setOpacity(self.rgbpopval / 255 if self.current_layer == 2 else self.rgbsopval / 255)
+            self.l1g.setOpacity((self.rgbpopval if self.current_layer == 0 else self.rgbsopval) / 255)
+            self.l2g.setOpacity((self.rgbpopval if self.current_layer == 1 else self.rgbsopval) / 255)
+            self.l3g.setOpacity((self.rgbpopval if self.current_layer == 2 else self.rgbsopval) / 255)
             return
         self.l1g.setPixmap(self.l1)
         self.l2g.setPixmap(self.l2)
         self.l3g.setPixmap(self.l3)
-        self.l1g.setOpacity(self.popval / 255 if self.current_layer == 0 else self.sopval / 255)
+        self.l1g.setOpacity((self.popval if self.current_layer == 0 else self.sopval) / 255)
         if self.current_layer == 1 and not self.settings.renderall.value:
             self.l1g.setOpacity(0)
-        self.l2g.setOpacity(self.popval / 255 if self.current_layer == 1 else self.sopval / 255)
+        self.l2g.setOpacity((self.popval if self.current_layer == 1 else self.sopval) / 255)
         if self.current_layer == 2 and not self.settings.renderall.value:
             self.l1g.setOpacity(0)
             self.l2g.setOpacity(0)
-        self.l3g.setOpacity(self.popval / 255 if self.current_layer == 2 else self.sopval / 255)
+        self.l3g.setOpacity((self.popval if self.current_layer == 2 else self.sopval) / 255)
 
     def mouseMoveEvent(self, event):
         offset = event.pos() - self.lastpos
