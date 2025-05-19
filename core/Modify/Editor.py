@@ -1,5 +1,5 @@
 from __future__ import annotations
-from PySide6.QtGui import QMoveEvent, QMouseEvent, QWheelEvent, QGuiApplication
+from PySide6.QtGui import QMoveEvent, QMouseEvent, QWheelEvent, QGuiApplication, QCursor
 from PySide6.QtCore import QPoint, Qt
 from PySide6.QtWidgets import QGraphicsScene
 from typing import TYPE_CHECKING
@@ -16,6 +16,7 @@ class Editor(Module, ABC):
     """
     def __init__(self, mod):
         super().__init__(mod)
+        self.defaultcursor: QCursor = QCursor(Qt.CursorShape.ArrowCursor)
 
     def mouse_move_event(self, event: QMoveEvent):
         pass

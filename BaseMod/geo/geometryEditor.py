@@ -2,17 +2,18 @@ import os
 from enum import Enum, auto
 import numpy as np
 
-from PySide6.QtCore import QRectF, QPoint, QSize, QLine, Qt, QLineF, QRect
-from PySide6.QtGui import QColor, QMoveEvent, QMouseEvent, QPixmap, QPainter, QGuiApplication
+from PySide6.QtCore import QRectF, QPoint, QSize, QLine, QRect
+from PySide6.QtGui import QColor, QMoveEvent, QMouseEvent, QPixmap, QPainter, QCursor
 
 from BaseMod.geo.geoControls import GeoControls
+from BaseMod.geo.GeoConsts import IMG_PEN, IMG_BRUSH, IMG_BUCKET, IMG_LINE, IMG_RECT, IMG_RECT_HOLLOW, IMG_CIRCLE, IMG_CIRCLE_HOLLOW
 from BaseMod.geo.geoHistory import GEPointChange, GERectChange, GEBrushChange, GEEllipseChange, GEFillChange
 from BaseMod.LevelParts import stack_pos, GeoLevelPart
 from RWESharp.Configurable import BoolConfigurable, IntConfigurable, EnumConfigurable, ColorConfigurable
 from RWESharp.Core import CELLSIZE, PATH_FILES_IMAGES, CONSTS
 from RWESharp.Modify import Editor
 from RWESharp.Renderable import RenderImage, RenderRect, RenderEllipse, RenderLine
-from RWESharp.Utils import closest_line
+from RWESharp.Utils import closest_line, paint_svg
 
 
 class GeoBlocks(Enum):
@@ -101,7 +102,7 @@ class GeometryEditor(Editor):
         from BaseMod.baseMod import BaseMod
         self.mod: BaseMod
 
-        self.cursor = RenderRect(self, 0, QRectF(0, 0, CELLSIZE, CELLSIZE))
+        self.cursorrect = RenderRect(self, 0, QRectF(0, 0, CELLSIZE, CELLSIZE))
         self.rect = RenderRect(self, 0, QRectF(0, 0, CELLSIZE, CELLSIZE))
         self.ellipse = RenderEllipse(self, 0, QRect(0, 0, CELLSIZE, CELLSIZE))
         self.brushellipse = RenderEllipse(self, 0, QRect(0, 0, CELLSIZE, CELLSIZE))
@@ -168,7 +169,7 @@ class GeometryEditor(Editor):
 
     def change_color(self):
         self.rect.drawrect.setPen(self.toolcolor.value)
-        self.cursor.drawrect.setPen(self.toolcolor.value)
+        self.cursorrect.drawrect.setPen(self.toolcolor.value)
         self.brushellipse.drawellipse.setPen(self.toolcolor.value)
         self.ellipse.drawellipse.setPen(self.toolcolor.value)
         self.lineline.drawline.setPen(self.toolcolor.value)
@@ -334,6 +335,7 @@ class GeometryEditor(Editor):
 
     def tool_specific_press(self, tool: Enum):
         fpos = self.viewport.viewport_to_editor(self.mouse_pos)
+        self.cursor = QCursor(QPixmap(paint_svg(IMG_PEN, self.basemod.bmconfig.icon_color.value)))
         if tool == GeoTools.Pen:
             blk, stak = self.block2info()
             self.level.add_history(GEPointChange, fpos, [blk, stak], self.layers)
@@ -427,8 +429,8 @@ class GeometryEditor(Editor):
         super().mouse_move_event(event)
         fpos = self.viewport.viewport_to_editor(self.mouse_pos)
         # print(fpos * CELLSIZE, self.viewport.viewport_to_editor_float(self.mouse_pos.toPointF()))
-        if fpos * CELLSIZE != self.cursor.pos.toPoint():
-            self.cursor.setPos(fpos.toPointF() * CELLSIZE)
+        if fpos * CELLSIZE != self.cursorrect.pos.toPoint():
+            self.cursorrect.setPos(fpos.toPointF() * CELLSIZE)
             self.pixmap.setPos(fpos.toPointF() * CELLSIZE)
             self.repos_brush()
             # self.cursor_item.setPos(self.viewport.editor_to_viewport(fpos))

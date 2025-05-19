@@ -52,7 +52,7 @@ class Manager:
         # """
         self.mods: list[Mod] = []
         """
-        Mods are what powers RWE#
+        List of all mods enabled
         """
         self.config = Config(self)
         """

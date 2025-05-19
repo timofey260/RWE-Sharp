@@ -2,58 +2,68 @@ import datetime
 import os
 import math
 from core.info import PATH_FILES_CACHE, LOG
-from PySide6.QtGui import QColor, QIcon
+from PySide6.QtGui import QColor, QIcon, QPixmap
 from PySide6.QtCore import QPoint, QPointF, QFile, QByteArray, QRect, QLineF, QRectF
 from collections.abc import Callable
 
 
-def log(message, error=False):
+def log(message, error=False) -> None:
+    """
+    Logs a message in both terminal and log file
+    :param message: message to log
+    :param error: Whether it's error or not
+    :return: None
+    """
     s = f"[{datetime.datetime.now().strftime('%H:%M')}; {'ERROR' if error else ' INFO'}]: {message}\n"
     print(s, end="", file=LOG, flush=True)
     print(s, end="")
 
 
-def plotLineLow(pointa: QPoint, pointb: QPoint, callback: Callable):
-    if pointa.x() > pointb.x():
-        pointa, pointb = pointb, pointa
-    d = pointb - pointa
-    yi = 1
-    if d.y() < 0:
-        yi = -1
-        d.setY(-d.y())
-    D = (2 * d.y()) - d.x()
-    y = pointa.y()
+def draw_line(pointa: QPoint, pointb: QPoint, callback: Callable) -> None:
+    """
+    Calls callback function for each point line intersected with
+    :param pointa: Line point a
+    :param pointb: Line point b
+    :param callback: Callback function(lambda QPoint:)
+    :return: None
+    """
+    def plotLineLow(pointa: QPoint, pointb: QPoint, callback: Callable):
+        if pointa.x() > pointb.x():
+            pointa, pointb = pointb, pointa
+        d = pointb - pointa
+        yi = 1
+        if d.y() < 0:
+            yi = -1
+            d.setY(-d.y())
+        D = (2 * d.y()) - d.x()
+        y = pointa.y()
 
-    for x in range(pointa.x(), pointb.x()):
-        callback(QPoint(x, y))
-        if D > 0:
-            y = y + yi
-            D = D + (2 * (d.y() - d.x()))
-        else:
-            D = D + 2 * d.y()
+        for x in range(pointa.x(), pointb.x()):
+            callback(QPoint(x, y))
+            if D > 0:
+                y = y + yi
+                D = D + (2 * (d.y() - d.x()))
+            else:
+                D = D + 2 * d.y()
 
+    def plotLineHigh(pointa: QPoint, pointb: QPoint, callback: Callable):
+        if pointa.y() > pointb.y():
+            pointa, pointb = pointb, pointa
+        d = pointb - pointa
+        xi = 1
+        if d.x() < 0:
+            xi = -1
+            d.setX(-d.x())
+        D = (2 * d.x()) - d.y()
+        x = pointa.x()
 
-def plotLineHigh(pointa: QPoint, pointb: QPoint, callback: Callable):
-    if pointa.y() > pointb.y():
-        pointa, pointb = pointb, pointa
-    d = pointb - pointa
-    xi = 1
-    if d.x() < 0:
-        xi = -1
-        d.setX(-d.x())
-    D = (2 * d.x()) - d.y()
-    x = pointa.x()
-
-    for y in range(pointa.y(), pointb.y()):
-        callback(QPoint(x, y))
-        if D > 0:
-            x = x + xi
-            D = D + (2 * (d.x() - d.y()))
-        else:
-            D = D + 2 * d.x()
-
-
-def draw_line(pointa: QPoint, pointb: QPoint, callback: Callable):
+        for y in range(pointa.y(), pointb.y()):
+            callback(QPoint(x, y))
+            if D > 0:
+                x = x + xi
+                D = D + (2 * (d.x() - d.y()))
+            else:
+                D = D + 2 * d.x()
     # callback(pointa)
     if abs(pointb.y() - pointa.y()) < abs(pointb.x() - pointa.x()):
         plotLineLow(pointa, pointb, callback)
@@ -79,7 +89,16 @@ def insensitive_path(path) -> str | None:
     return None
 
 
-def draw_ellipse(rect: QRect, hollow: bool, callback: Callable):
+def draw_ellipse(rect: QRect, hollow: bool, callback: Callable) -> None:
+    """
+    Calls callback for each point ellipse intersects with
+
+    NOTE: Callback may be called multiple times on same point
+    :param rect:
+    :param hollow: call callback only on edges or whole ellipse
+    :param callback: callback function(lambda QPoint:)
+    :return: None
+    """
     width = rect.width() // 2
     height = rect.height() // 2
     origin = rect.center()
@@ -133,7 +152,9 @@ def draw_ellipse(rect: QRect, hollow: bool, callback: Callable):
 def paint_svg(filename: str, color: QColor) -> str:
     """
     Paints svg image with caching and returns path to edited svg in cache
+
     works with resources too
+
     if file is already stored in cache, passes it instead
     """
 
@@ -159,11 +180,31 @@ def paint_svg_qicon(filename: str, color: QColor) -> QIcon:
     return QIcon(paint_svg(filename, color))
 
 
+def paint_svg_qpixmap(filename: str, color: QColor) -> QPixmap:
+    return QPixmap(paint_svg(filename, color))
+
+
 def remap(x: float, in_min: float, in_max: float, out_min: float, out_max: float) -> float:
+    """
+    converts value from one range to another
+    :param x: value in **in** range
+    :param in_min: **in** in start
+    :param in_max:  **in** end
+    :param out_min: **out** start
+    :param out_max:  **out** end
+    :return: value in **out** range
+    """
     return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
 
 
 def lerp(a: float, b: float, t: float) -> float:  # laundmo
+    """
+    linear interpolation or something
+    :param a: start
+    :param b: end
+    :param t: t
+    :return: value interpolated between a and b
+    """
     return (1 - t) * a + t * b
 
 
@@ -175,6 +216,13 @@ def color_lerp(c1: QColor, c2: QColor, t: float) -> QColor:
 
 
 def closest_line(pos, lastpos) -> QLineF:
+    """
+    Returns the line closest to one in 8 directions
+
+    :param pos: start of line
+    :param lastpos: end of line
+    :return: closest line to given argument
+    """
     magnitude = QLineF(lastpos, pos).length()
     points = [QLineF.fromPolar(magnitude, 0).p2().toPoint(),
               QLineF.fromPolar(magnitude, 45).p2().toPoint(),
@@ -194,6 +242,12 @@ def closest_line(pos, lastpos) -> QLineF:
 
 
 def rotate_point(point: QPointF, angle):
+    """
+    Rotates point with some angle
+    :param point: point to rotate
+    :param angle: angle to rotate
+    :return: rotated point
+    """
     px, py = point.x(), point.y()
     angle = math.radians(angle)
     qx = math.cos(angle) * px - math.sin(angle) * py
@@ -224,7 +278,7 @@ def polar2point(pos: QPointF) -> QPointF:
 
 def modify_path_url(path: str) -> str:
     """
-    converts specifiet path to file url
+    converts specified path to file url
     :param path: path to convert
     :return: converted path
     """

@@ -80,13 +80,15 @@ class ViewPort(QGraphicsView):
         if event.buttons() & self.manager.basemod.bmconfig.main_button.value:
             self._lmb = True
             self.editor.mouse_left_press()
+            self.update_cursor()
         if event.buttons() & self.manager.basemod.bmconfig.sec_button.value:
             self._rmb = True
             self.editor.mouse_right_press()
+            self.update_cursor()
         if event.buttons() & self.manager.basemod.bmconfig.movement_button.value:
-            self.setCursor(Qt.CursorShape.SizeAllCursor)
             self._mmb = True
             self.editor.mouse_middle_press()
+            self.setCursor(Qt.CursorShape.SizeAllCursor)
         self.editor.mouse_press_event(event)
 
     def mouseReleaseEvent(self, event):
@@ -96,13 +98,15 @@ class ViewPort(QGraphicsView):
         if event.button() & self.manager.basemod.bmconfig.main_button.value:
             self._lmb = False
             self.editor.mouse_left_release()
+            self.update_cursor()
         if event.button() & self.manager.basemod.bmconfig.sec_button.value:
             self._rmb = False
             self.editor.mouse_right_release()
+            self.update_cursor()
         if event.button() & self.manager.basemod.bmconfig.movement_button.value:
-            self.setCursor(Qt.CursorShape.ArrowCursor)
             self._mmb = False
             self.editor.mouse_middle_release()
+            self.update_cursor()
         self.editor.mouse_release_event(event)
 
     @property
@@ -127,6 +131,9 @@ class ViewPort(QGraphicsView):
 
     def clean(self):
         self.workscene.update(0, 0, 10000, 10000)  # that'l do
+
+    def update_cursor(self):
+        self.setCursor(Qt.CursorShape.ArrowCursor if self.editor is None else self.editor.defaultcursor)
 
     def levelchanged(self):
         # for i in self.editor.renderables:
