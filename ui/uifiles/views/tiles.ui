@@ -95,13 +95,26 @@
        <item>
         <widget class="QCheckBox" name="VTilesHeads">
          <property name="enabled">
-          <bool>false</bool>
+          <bool>true</bool>
          </property>
          <property name="text">
           <string>Tile heads</string>
          </property>
          <property name="checked">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="VTilesBodies">
+         <property name="enabled">
           <bool>true</bool>
+         </property>
+         <property name="text">
+          <string>Tile bodies</string>
+         </property>
+         <property name="checked">
+          <bool>false</bool>
          </property>
         </widget>
        </item>
@@ -208,16 +221,16 @@
   <connection>
    <sender>VTilesAllTiles</sender>
    <signal>toggled(bool)</signal>
-   <receiver>VTilesLayer1</receiver>
+   <receiver>VTilesLayer3</receiver>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>67</x>
-     <y>52</y>
+     <x>119</x>
+     <y>54</y>
     </hint>
     <hint type="destinationlabel">
-     <x>66</x>
-     <y>75</y>
+     <x>120</x>
+     <y>127</y>
     </hint>
    </hints>
   </connection>
@@ -240,16 +253,16 @@
   <connection>
    <sender>VTilesAllTiles</sender>
    <signal>toggled(bool)</signal>
-   <receiver>VTilesLayer3</receiver>
+   <receiver>VTilesLayer1</receiver>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>119</x>
-     <y>54</y>
+     <x>67</x>
+     <y>52</y>
     </hint>
     <hint type="destinationlabel">
-     <x>120</x>
-     <y>127</y>
+     <x>66</x>
+     <y>75</y>
     </hint>
    </hints>
   </connection>
@@ -266,22 +279,6 @@
     <hint type="destinationlabel">
      <x>141</x>
      <y>150</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>VTilesAllTiles</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>VTilesHeads</receiver>
-   <slot>setDisabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>166</x>
-     <y>51</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>161</x>
-     <y>175</y>
     </hint>
    </hints>
   </connection>

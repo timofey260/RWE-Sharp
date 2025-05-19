@@ -56,6 +56,10 @@ class Tile:
     def top_left(self) -> QPoint:
         return QPoint(int((self.size.width() * 0.5) + .5) - 1, int((self.size.height() * .5) + .5) - 1)
 
+    @property
+    def area(self):
+        return self.size.width() * self.size.height()
+
     def option_based_top_left(self, option):
         if option == 0:
             return self.top_left

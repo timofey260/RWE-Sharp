@@ -16,7 +16,7 @@ class PlacedTileHead:
         # self.tilebodies = []
         self.pos = pos
         self.layer = layer
-        self.graphics: QGraphicsPixmapItem | None = None
+        self.graphics: list[QGraphicsPixmapItem] = []
 
     def tostring(self, level):
         return self.tile.name
@@ -43,16 +43,18 @@ class PlacedTileHead:
 
     def remove_graphics(self, level, redraw=True):
         bounds = self.tile_bounds
-        if self.graphics is not None:
-            self.graphics.removeFromIndex()
-            self.graphics = None
+        if len(self.graphics) > 0:
+            for i in self.graphics:
+                i.removeFromIndex()
+            self.graphics.clear()
+            self.graphics = []
         texture = level.viewport.modulenames["tiles"].get_layer(self.layer)
         texture.render_rect(bounds)
         if redraw:
             texture.redraw()
 
     def add_graphics(self, level, redraw=True):
-        if self.graphics is not None:
+        if len(self.graphics) > 0:
             self.remove_graphics(level, False)
         layer = level.viewport.modulenames["tiles"].get_layer(self.layer)
         layer.draw_tile(self.pos, True)
@@ -102,7 +104,7 @@ class PlacedTileBody:
 class PlacedMaterial:
     def __init__(self, tile: Tile, pos: QPoint, layer: int):
         self.tile = tile
-        self.graphics: QGraphicsRectItem | None = None
+        self.graphics: list[QGraphicsRectItem] = []
         self.pos = pos
         self.layer = layer
 
@@ -118,16 +120,18 @@ class PlacedMaterial:
 
     def remove_graphics(self, level, redraw=True):
         bounds = self.tile_bounds
-        if self.graphics is not None:
-            self.graphics.removeFromIndex()
-            self.graphics = None
+        if len(self.graphics) > 0:
+            for i in self.graphics:
+                i.removeFromIndex()
+            self.graphics.clear()
+            self.graphics = []
         texture = level.viewport.modulenames["tiles"].get_layer(self.layer)
         texture.render_rect(bounds)
         if redraw:
             texture.redraw()
 
     def add_graphics(self, level, redraw=True):
-        if self.graphics is not None:
+        if len(self.graphics) > 0:
             self.remove_graphics(level, False)
         layer = level.viewport.modulenames["tiles"].get_layer(self.layer)
         layer.draw_tile(self.pos, True)

@@ -1,8 +1,10 @@
 from PySide6.QtCore import Slot
-from PySide6.QtGui import QImage, QColor
+from PySide6.QtGui import QImage, QColor, QPixmap
 
 from BaseMod.tiles.tileRenderTexture import TileRenderLevelImage
 from RWESharp.Modify import Module
+from RWESharp.Core import PATH_FILES_IMAGES
+import os
 
 
 class TileModule(Module):
@@ -11,6 +13,10 @@ class TileModule(Module):
         from BaseMod.baseMod import BaseMod
         self.mod: BaseMod
         self.ui = self.mod.tileview
+
+        self.tilehead = QPixmap(os.path.join(PATH_FILES_IMAGES, "tileHead.png"))
+        self.tilebody = QPixmap(os.path.join(PATH_FILES_IMAGES, "tileBody.png"))
+
         self.l1 = TileRenderLevelImage(self, 100, 0)
         self.l2 = TileRenderLevelImage(self, 200, 1)
         self.l3 = TileRenderLevelImage(self, 300, 2)
@@ -20,6 +26,7 @@ class TileModule(Module):
         self.ui.drawsrendered.valueChanged.connect(self.check_layers_change)
         self.ui.drawsnotrendered.valueChanged.connect(self.check_layers_change)
         self.ui.renderall.valueChanged.connect(self.check_layers_change)
+        self.ui.drawtiles.valueChanged.connect(self.check_layers_change)
 
         self.ui.drawl1.valueChanged.connect(self.check_layers_change)
         self.ui.drawl2.valueChanged.connect(self.check_layers_change)
@@ -28,12 +35,15 @@ class TileModule(Module):
         self.ui.drawoption.valueChanged.connect(self.redraw_option)
         self.ui.render.connect(self.render_module)
         self.ui.matborder.valueChanged.connect(self.change_border)
+        self.ui.drawheads.valueChanged.connect(self.redraw_option)
+        self.ui.drawbodies.valueChanged.connect(self.redraw_option)
+        self.ui.drawmats.valueChanged.connect(self.change_border)
         self.manager.layer.valueChanged.connect(self.check_layers_change)
 
-    def change_border(self, enabled):
-        self.l1.change_material_border(enabled)
-        self.l2.change_material_border(enabled)
-        self.l3.change_material_border(enabled)
+    def change_border(self):
+        self.l1.change_material_border(self.ui.matborder.value)
+        self.l2.change_material_border(self.ui.matborder.value)
+        self.l3.change_material_border(self.ui.matborder.value)
 
     def redraw_option(self):
         self.render_module(True)
@@ -43,10 +53,18 @@ class TileModule(Module):
 
     @Slot()
     def check_layers_change(self):
+        if not self.ui.drawtiles.value:
+            self.l1.setOpacity(0)
+            self.l2.setOpacity(0)
+            self.l3.setOpacity(0)
+            return
         if self.ui.drawoption.value > 2:
             self.l1.setOpacity(self.ui.drawprendered.value if self.layer == 0 else self.ui.drawsrendered.value)
             self.l2.setOpacity(self.ui.drawprendered.value if self.layer == 1 else self.ui.drawsrendered.value)
             self.l3.setOpacity(self.ui.drawprendered.value if self.layer == 2 else self.ui.drawsrendered.value)
+            self.l1.setOpacity(self.l1.opacity if self.ui.drawl1.value else 0)
+            self.l2.setOpacity(self.l2.opacity if self.ui.drawl2.value else 0)
+            self.l3.setOpacity(self.l3.opacity if self.ui.drawl3.value else 0)
             return
         self.l1.setOpacity(self.ui.drawpnotrendered.value if self.layer == 0 else self.ui.drawsnotrendered.value)
         if self.layer == 1 and not self.ui.renderall.value:
@@ -56,6 +74,9 @@ class TileModule(Module):
             self.l1.setOpacity(0)
             self.l2.setOpacity(0)
         self.l3.setOpacity(self.ui.drawpnotrendered.value if self.layer == 2 else self.ui.drawsnotrendered.value)
+        self.l1.setOpacity(self.l1.opacity if self.ui.drawl1.value else 0)
+        self.l2.setOpacity(self.l2.opacity if self.ui.drawl2.value else 0)
+        self.l3.setOpacity(self.l3.opacity if self.ui.drawl3.value else 0)
 
     def render_module(self, clear=False):
         self.l1.draw_layer(clear)

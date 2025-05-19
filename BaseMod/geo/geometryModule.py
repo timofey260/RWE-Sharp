@@ -45,10 +45,19 @@ class GeoModule(Module):
 
     @Slot()
     def check_layers_change(self):
+        if not self.ui.drawgeo.value:
+            self.l1.setOpacity(0)
+            self.l2.setOpacity(0)
+            self.l3.setOpacity(0)
+            return
         if self.ui.drawoption.value == 1:
             self.l1.setOpacity(self.ui.popacityrgb.value if self.layer == 0 else self.ui.sopacityrgb.value)
             self.l2.setOpacity(self.ui.popacityrgb.value if self.layer == 1 else self.ui.sopacityrgb.value)
             self.l3.setOpacity(self.ui.popacityrgb.value if self.layer == 2 else self.ui.sopacityrgb.value)
+
+            self.l1.setOpacity(self.l1.opacity if self.ui.drawl1.value else 0)
+            self.l2.setOpacity(self.l2.opacity if self.ui.drawl2.value else 0)
+            self.l3.setOpacity(self.l3.opacity if self.ui.drawl3.value else 0)
             return
         self.l1.setOpacity(self.ui.popacity.value if self.layer == 0 else self.ui.sopacity.value)
         if self.layer == 1 and not self.ui.renderall.value:
@@ -58,6 +67,9 @@ class GeoModule(Module):
             self.l1.setOpacity(0)
             self.l2.setOpacity(0)
         self.l3.setOpacity(self.ui.popacity.value if self.layer == 2 else self.ui.sopacity.value)
+        self.l1.setOpacity(self.l1.opacity if self.ui.drawl1.value else 0)
+        self.l2.setOpacity(self.l2.opacity if self.ui.drawl2.value else 0)
+        self.l3.setOpacity(self.l3.opacity if self.ui.drawl3.value else 0)
 
     # a lot of bullshit functions to speed up rendering
     @Slot()

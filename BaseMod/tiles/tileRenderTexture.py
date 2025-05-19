@@ -36,9 +36,22 @@ class TileRenderLevelImage(RenderLevelImage):
         item = self.tilescene.addPixmap(tile.tile.return_tile_pixmap(self.ui.drawoption.value, self.tilelayer, self.ui.colortable))
         item.setPos(pos * CELLSIZE - tile.tile.option_based_top_left(self.ui.drawoption.value) * CELLSIZE)
         if self.ui.drawoption.value == 0:
-            item.setScale(20 / 16)
+            item.setScale(CELLSIZE / SPRITESIZE)
         item.setZValue(tile.tile.size.height() * tile.tile.size.width())
-        tile.graphics = item
+        tile.graphics.append(item)
+        if self.ui.drawheads.value and tile.tile.area != 1:
+            item = self.tilescene.addPixmap(self.module.tilehead)
+            item.setScale(1 / item.pixmap().size().width() * CELLSIZE)
+            item.setPos(pos * CELLSIZE)
+            item.setOpacity(.8)
+            tile.graphics.append(item)
+        if self.ui.drawbodies.value and tile.tile.multilayer:
+            return # todo
+            item = self.tilescene.addPixmap(self.module.tilebody)
+            item.setScale(1 / item.pixmap().size().width() * CELLSIZE)
+            item.setPos(pos * CELLSIZE)
+            item.setOpacity(.6)
+            tile.graphics.append(item)
 
     def add_material_graphics(self, pos):
         tile = self.level.l_tiles.tile_data(pos, self.tilelayer)
@@ -48,14 +61,14 @@ class TileRenderLevelImage(RenderLevelImage):
                                           pen=QColor(122, 0, 0, 255),
                                           brush=QColor(122, 0, 0, 255))
             item.setZValue(-100)
-            tile.graphics = item
+            tile.graphics.append(item)
             return
         matpen = QPen(QColor(0, 0, 0, 255 if self.ui.matborder.value else 0), 0)
         item = self.tilescene.addRect(pos.x() * CELLSIZE + sz[0], pos.y() * CELLSIZE + sz[0], sz[1], sz[1],
                                       pen=matpen,
                                       brush=tile.tile.color)
         item.setZValue(-100)
-        tile.graphics = item
+        tile.graphics.append(item)
 
     def init_graphics(self, viewport):
         super().init_graphics(viewport)
@@ -73,12 +86,20 @@ class TileRenderLevelImage(RenderLevelImage):
         for x in range(self.level.level_width):
             for y in range(self.level.level_height):
                 tile = self.level.l_tiles.tile_data_xy(x, y, self.tilelayer)
-                if isinstance(tile, PlacedMaterial) and tile.graphics is not None:
-                    tile.graphics.setPen(matpen)
+                if not isinstance(tile, PlacedMaterial) or len(tile.graphics) <= 0:
+                    continue
+                tile.graphics[0].setPen(matpen)
+                tile.graphics[0].setOpacity(1 if self.ui.drawmats.value else 0)
         self.render_layer()
 
     def clear_scene(self):
-        self.tilescene.clear()
+        for x in range(self.level.level_width):
+            for y in range(self.level.level_height):
+                tile = self.level.l_tiles.tile_data(QPoint(x, y), self.tilelayer)
+                if isinstance(tile, PlacedTileHead):
+                    tile.remove_graphics(self.level, False)
+                elif isinstance(tile, PlacedMaterial):
+                    tile.remove_graphics(self.level, False)
 
     def draw_layer(self, clear=False):
         if clear:
@@ -110,9 +131,8 @@ class TileRenderLevelImage(RenderLevelImage):
 
     def draw_tile(self, pos: QPoint, render: bool):
         tile = self.viewport.level.l_tiles(pos, self.tilelayer)
-        if tile is not None and isinstance(tile, PlacedTileBody) and tile.graphics is not None:
-            tile.graphics.removeFromIndex()
-            tile.graphics = None
+        # if isinstance(tile, PlacedTileBody) and len(tile.graphics) > 0:
+        #     tile.remove_graphics()
         if isinstance(tile, PlacedTileHead):
             self.add_tile_graphics(pos)
             # tile.graphics: QGraphicsPixmapItem

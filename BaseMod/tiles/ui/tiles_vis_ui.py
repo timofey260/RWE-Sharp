@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'tiles.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.7.2
+## Created by: Qt User Interface Compiler version 6.9.0
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -73,10 +73,17 @@ class Ui_TilesView(object):
 
         self.VTilesHeads = QCheckBox(self.scrollAreaWidgetContents)
         self.VTilesHeads.setObjectName(u"VTilesHeads")
-        self.VTilesHeads.setEnabled(False)
-        self.VTilesHeads.setChecked(True)
+        self.VTilesHeads.setEnabled(True)
+        self.VTilesHeads.setChecked(False)
 
         self.verticalLayout_2.addWidget(self.VTilesHeads)
+
+        self.VTilesBodies = QCheckBox(self.scrollAreaWidgetContents)
+        self.VTilesBodies.setObjectName(u"VTilesBodies")
+        self.VTilesBodies.setEnabled(True)
+        self.VTilesBodies.setChecked(False)
+
+        self.verticalLayout_2.addWidget(self.VTilesBodies)
 
         self.line = QFrame(self.scrollAreaWidgetContents)
         self.line.setObjectName(u"line")
@@ -146,11 +153,10 @@ class Ui_TilesView(object):
 
 
         self.retranslateUi(TilesView)
-        self.VTilesAllTiles.toggled.connect(self.VTilesLayer1.setDisabled)
-        self.VTilesAllTiles.toggled.connect(self.VTilesLayer2.setDisabled)
         self.VTilesAllTiles.toggled.connect(self.VTilesLayer3.setDisabled)
+        self.VTilesAllTiles.toggled.connect(self.VTilesLayer2.setDisabled)
+        self.VTilesAllTiles.toggled.connect(self.VTilesLayer1.setDisabled)
         self.VTilesAllTiles.toggled.connect(self.VTilesMaterials.setDisabled)
-        self.VTilesAllTiles.toggled.connect(self.VTilesHeads.setDisabled)
 
         QMetaObject.connectSlotsByName(TilesView)
     # setupUi
@@ -164,6 +170,7 @@ class Ui_TilesView(object):
         self.VTilesLayer3.setText(QCoreApplication.translate("TilesView", u"Layer 3", None))
         self.VTilesMaterials.setText(QCoreApplication.translate("TilesView", u"Materials", None))
         self.VTilesHeads.setText(QCoreApplication.translate("TilesView", u"Tile heads", None))
+        self.VTilesBodies.setText(QCoreApplication.translate("TilesView", u"Tile bodies", None))
         self.label.setText(QCoreApplication.translate("TilesView", u"Preview:", None))
         self.VTilesClassic.setText(QCoreApplication.translate("TilesView", u"Classic tile preview", None))
         self.VTilesImage.setText(QCoreApplication.translate("TilesView", u"Tile image preview", None))
