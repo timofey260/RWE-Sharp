@@ -39,19 +39,29 @@ class TileRenderLevelImage(RenderLevelImage):
             item.setScale(CELLSIZE / SPRITESIZE)
         item.setZValue(tile.tile.size.height() * tile.tile.size.width())
         tile.graphics.append(item)
-        if self.ui.drawheads.value and tile.tile.area != 1:
+        if tile.tile.area == 1:
+            return
+        if self.ui.drawheads.value:
             item = self.tilescene.addPixmap(self.module.tilehead)
             item.setScale(1 / item.pixmap().size().width() * CELLSIZE)
             item.setPos(pos * CELLSIZE)
             item.setOpacity(.8)
             tile.graphics.append(item)
         if self.ui.drawbodies.value and tile.tile.multilayer:
-            return # todo
-            item = self.tilescene.addPixmap(self.module.tilebody)
-            item.setScale(1 / item.pixmap().size().width() * CELLSIZE)
-            item.setPos(pos * CELLSIZE)
-            item.setOpacity(.6)
-            tile.graphics.append(item)
+            for i, v in enumerate(tile.tile.cols1):
+                if v == -1:
+                    continue
+                bodypos = pos - tile.tile.top_left
+                bodypos.setY(bodypos.y() + (i % tile.tile.size.height()))
+                bodypos.setX(bodypos.x() + (i // tile.tile.size.height()))
+                if bodypos == pos:
+                    continue
+                # print(bodypos, i, tile.tile.size)
+                item = self.tilescene.addPixmap(self.module.tilebody)
+                item.setScale(1 / item.pixmap().size().width() * CELLSIZE)
+                item.setPos(bodypos * CELLSIZE)
+                item.setOpacity(.7)
+                tile.graphics.append(item)
 
     def add_material_graphics(self, pos):
         tile = self.level.l_tiles.tile_data(pos, self.tilelayer)
