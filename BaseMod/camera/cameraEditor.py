@@ -111,6 +111,9 @@ class CameraEditor(Editor):
                 if self.selectrect.rect.contains(i.camera.pos.toPoint() + QPoint(camw / 2 * CELLSIZE, camh / 2 * CELLSIZE)):
                     self.selected.append(i)
                     i.paintselected()
+            for i in self.selected:
+                indx = self.cameras.index(i)
+                self.cameraui.select_camera(indx, False)
 
     def mouse_left_release(self):
         self.selectpos = QPoint()
@@ -127,6 +130,7 @@ class CameraEditor(Editor):
             return
         for i in self.cameras:
             i.paintselected(False)
+        self.cameraui.reset_selection()
 
     def add_camera(self):
         module = self.viewport.modulenames["cameras"]

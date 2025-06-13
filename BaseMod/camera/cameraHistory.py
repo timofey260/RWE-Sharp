@@ -50,20 +50,26 @@ class CameraMove(HistoryElement):
         self.module = module
         self.cameras = cameras
         self.offset = offset
-        self.redo_changes(True)
+        self.redo_changes(False)
 
     def undo_changes(self):
         for i in self.cameras:
             self.history.level.l_cameras[i].pos -= self.offset
+            self.history.level.l_cameras[i].pos.setX(round(self.history.level.l_cameras[i].pos.x(), 4))
+            self.history.level.l_cameras[i].pos.setY(round(self.history.level.l_cameras[i].pos.y(), 4))
             self.module.cameras[i].update_camera()
         self.editor.reset_selection()
+        self.editor.cameraui.add_cameras()
 
-    def redo_changes(self, reset=False):
+    def redo_changes(self, reset=True):
         for i in self.cameras:
             self.history.level.l_cameras[i].pos += self.offset
+            self.history.level.l_cameras[i].pos.setX(round(self.history.level.l_cameras[i].pos.x(), 4))
+            self.history.level.l_cameras[i].pos.setY(round(self.history.level.l_cameras[i].pos.y(), 4))
             self.module.cameras[i].update_camera()
         if reset:
             self.editor.reset_selection()
+        self.editor.cameraui.add_cameras()
 
 
 class CameraQuadMove(HistoryElement):
@@ -82,7 +88,7 @@ class CameraQuadMove(HistoryElement):
 
             self.module.cameras[i].fix_offset(self.quad)
         #self.redo_changes(True)
-        self.editor.reset_selection()
+        # self.editor.reset_selection()
 
     def undo_changes(self):
         for i in self.offsets:
@@ -93,10 +99,11 @@ class CameraQuadMove(HistoryElement):
 
         self.editor.reset_selection()
 
-    def redo_changes(self, reset=False):
+    def redo_changes(self, reset=True):
         for i in self.offsets:
             index = i[0]
             newpos = i[2]
             self.module.cameras[index].camera.quads[self.quad] = newpos
             self.module.cameras[index].fix_offset(self.quad)
-        self.editor.reset_selection()
+        if reset:
+            self.editor.reset_selection()

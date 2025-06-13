@@ -44,6 +44,9 @@ class CameraUI(UI):
             return
         item.setSelected(True)
 
+    def reset_selection(self):
+        self.ui.CameraTree.clearSelection()
+
 
 class CameraViewUI(ViewUI):
     def __init__(self, mod, parent=None):

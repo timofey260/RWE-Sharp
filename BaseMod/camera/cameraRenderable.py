@@ -2,8 +2,8 @@ from RWESharp.Renderable import RenderList, Handle
 from RWESharp.Core import CELLSIZE, SPRITESIZE, camh, camw
 from RWESharp.Utils import circle2rect, rotate_point, point2polar, polar2point
 from PySide6.QtCore import QRectF, QPointF, Qt, QLineF
-from PySide6.QtGui import QPen, QColor
-from PySide6.QtWidgets import QGraphicsRectItem, QGraphicsEllipseItem, QGraphicsLineItem
+from PySide6.QtGui import QPen, QColor, QFont
+from PySide6.QtWidgets import QGraphicsRectItem, QGraphicsEllipseItem, QGraphicsLineItem, QGraphicsTextItem
 import math
 
 
@@ -38,6 +38,10 @@ class RenderCamera(RenderList):
         module.basemod.cameraview.rectcentercolor.valueChanged.connect(self.line1.setPen)
         module.basemod.cameraview.rectcentercolor.valueChanged.connect(self.line2.setPen)
         module.basemod.cameraview.rectcentercolor.valueChanged.connect(self.circle1.setPen)
+
+        self.textindex = QGraphicsTextItem("0")
+        self.textindex.setFont(QFont("Comic Sans", 30))
+        self.graphicsitems.append(self.textindex)
 
         self.poshandle = None
         self.quadhandles = None
@@ -102,6 +106,12 @@ class RenderCamera(RenderList):
         self.camlines[1].setLine(QLineF(newquads[2], newquads[1]))
         self.camlines[2].setLine(QLineF(newquads[3], newquads[2]))
         self.camlines[3].setLine(QLineF(newquads[0], newquads[3]))
+        self.textindex.setPos(rect.center() * self.zoom + self.actual_offset)
+
+    def move_event(self):
+        super().move_event()
+        rect = self.camerarect
+        self.textindex.setPos(rect.center() * self.zoom + self.actual_offset)
 
     def change_visibility(self, state):
         self.show = state
@@ -151,7 +161,7 @@ class RenderCamera(RenderList):
 
     def movequad(self, quad):
         def move(x):
-            print(x, self.newquads[quad])
+            # print(x, self.newquads[quad])
             self.newquads[quad] = (self.quadhandles[quad].handle_offset - self.rectsides[quad] + x - self.camera.pos) * (1 / (CELLSIZE * 5))
             pol = point2polar(self.newquads[quad])
             if pol.y() > 1:
