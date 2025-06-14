@@ -54,15 +54,10 @@ class PropsUI(UI):
         self.ui.PropOptions.itemClicked.connect(self.prop_options_click)
         self.ui.PropOptions.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
         self.ui.PropOptions.customContextMenuRequested.connect(self.settings_context_menu)
-        self.ui.add15.clicked.connect(self.rotate_cw_15)
-        self.ui.sub15.clicked.connect(self.rotate_ccw_15)
+        self.ui.add15.clicked.connect(lambda: self.editor.rotate(15))
+        self.ui.sub15.clicked.connect(lambda: self.editor.rotate(-15))
+        self.ui.Rotateby.clicked.connect(lambda: self.editor.rotate(self.ui.degreeamount.value()))
         self.display_settings()
-
-    def rotate_cw_15(self):
-        pass
-
-    def rotate_ccw_15(self):
-        pass
 
     def display_settings(self):
         self.ui.PropOptions.clear()

@@ -70,10 +70,7 @@ class Explorer(ViewDockWidget):
         if hasattr(self, 'ui') and self.ui:
             width,  height = self.width(), self.height()
             aspect_ratio = width / height if height else 1
-
-            if hasattr(self.ui, "splitter_1") and self.ui.splitter_1:
-                 self.ui.splitter_1.setOrientation(Qt.Horizontal if aspect_ratio > 1.6 else Qt.Vertical)
-        print("triggerd resize")
+            self.ui.splitter_1.setOrientation(Qt.Orientation.Horizontal if aspect_ratio > 1.6 else Qt.Orientation.Vertical)
         super().resizeEvent(event)
 
     def splitter_moved(self, pos, index):

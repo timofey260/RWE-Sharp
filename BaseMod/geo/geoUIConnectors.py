@@ -56,9 +56,6 @@ class GeoUI(UI):
         self.ui = Ui_Geo()
         self.ui.setupUi(self)
 
-
-
-
         self.controls = None
         self.editor = None
 
@@ -91,6 +88,7 @@ class GeoUI(UI):
         self.ui.ToolGeoFloor.clicked.connect(self.set_tool)
         self.ui.ToolGeoWraykAMoleHole.clicked.connect(self.set_tool)
         self.ui.ToolGeoInvert.clicked.connect(self.set_tool)
+        self.ui.ToolGeoWaterfall.clicked.connect(self.set_tool)
 
         self.mod.bmconfig.icon_color.valueChanged.connect(self.change_color)
         self.change_color(self.mod.bmconfig.icon_color.value)

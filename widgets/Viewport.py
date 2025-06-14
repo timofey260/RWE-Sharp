@@ -42,6 +42,15 @@ class ViewPort(QGraphicsView):
         for i in self.manager.mods:
             i.level_opened(self)
 
+    def reset_viewport(self):
+        self.topleft.setPos(0, 0)
+        self.zoom = 1
+        self.verticalScrollBar().setValue(0)
+        self.horizontalScrollBar().setValue(0)
+        for i in self.modules:
+            i.move_event()
+            i.zoom_event()
+
     @Slot()
     def redraw(self):
         self.repaint()

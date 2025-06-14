@@ -141,9 +141,6 @@ class PropEditor(Editor):
         self.selected_poly = []
         self.selected = []
 
-    def rotate_prop(self, rotation):
-        pass
-
     def mouse_left_release(self):
         self.selectpoint = QPoint(0, 0)
         self.selectrect.drawrect.setOpacity(0)

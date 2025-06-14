@@ -27,6 +27,7 @@ class BaseModConfig:
         self.close_key = KeyConfigurable(mod, "basemod.close", QKeySequence.StandardKey.Close, "Close RWE#")
         self.render_key = KeyConfigurable(mod, "basemod.render", "Ctrl+r", "Render")
         self.opendrizzle_key = KeyConfigurable(mod, "basemod.opendrizzle", "Ctrl+Shift+d", "Open Drizzle")
+        self.reset_viewport_key = KeyConfigurable(mod, "basemod.reset_viewport", "", "Reset Viewport")
 
         self.about_key = KeyConfigurable(mod, "basemod.about", QKeySequence.StandardKey.HelpContents, "About menu")
 
