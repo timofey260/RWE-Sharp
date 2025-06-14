@@ -1,6 +1,7 @@
 from PySide6.QtWidgets import QToolButton, QColorDialog
 from PySide6.QtGui import QColor
 from PySide6.QtCore import Signal
+from core.utils import color_lerp
 
 
 class ColorPicker(QToolButton):
@@ -26,8 +27,12 @@ class ColorPicker(QToolButton):
         self.set_style()
 
     def set_style(self):
-        self.setStyleSheet(f"background-color: {self.color.name()}")
+        self.setStyleSheet(f"background-color: {self.colorname.name()}")
         e = self.isEnabled()
         self.setDisabled(True)  # yeah for some reason this works
         self.setEnabled(True)
         self.setEnabled(e)
+
+    @property
+    def colorname(self):
+        return color_lerp(QColor(0, 0, 0), self.color, self.color.alphaF())

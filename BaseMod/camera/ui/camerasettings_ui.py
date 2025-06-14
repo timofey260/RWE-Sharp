@@ -16,7 +16,8 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QGridLayout, QHBoxLayout, QLabel,
-    QScrollArea, QSizePolicy, QVBoxLayout, QWidget)
+    QScrollArea, QSizePolicy, QSpacerItem, QVBoxLayout,
+    QWidget)
 
 from RWESharpWidgets import (ColorPicker, PenPicker)
 
@@ -38,76 +39,115 @@ class Ui_Cameras(object):
         self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.verticalLayout = QVBoxLayout()
         self.verticalLayout.setObjectName(u"verticalLayout")
+        self.horizontalLayout_2 = QHBoxLayout()
+        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
         self.label = QLabel(self.scrollAreaWidgetContents)
         self.label.setObjectName(u"label")
 
-        self.verticalLayout.addWidget(self.label)
+        self.horizontalLayout_2.addWidget(self.label)
 
         self.rect1 = PenPicker(self.scrollAreaWidgetContents)
         self.rect1.setObjectName(u"rect1")
 
-        self.verticalLayout.addWidget(self.rect1)
+        self.horizontalLayout_2.addWidget(self.rect1)
 
+
+        self.verticalLayout.addLayout(self.horizontalLayout_2)
+
+        self.horizontalLayout_3 = QHBoxLayout()
+        self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
         self.label_2 = QLabel(self.scrollAreaWidgetContents)
         self.label_2.setObjectName(u"label_2")
 
-        self.verticalLayout.addWidget(self.label_2)
+        self.horizontalLayout_3.addWidget(self.label_2)
 
         self.rect2 = PenPicker(self.scrollAreaWidgetContents)
         self.rect2.setObjectName(u"rect2")
 
-        self.verticalLayout.addWidget(self.rect2)
+        self.horizontalLayout_3.addWidget(self.rect2)
 
+
+        self.verticalLayout.addLayout(self.horizontalLayout_3)
+
+        self.horizontalLayout_4 = QHBoxLayout()
+        self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
         self.label_3 = QLabel(self.scrollAreaWidgetContents)
         self.label_3.setObjectName(u"label_3")
 
-        self.verticalLayout.addWidget(self.label_3)
+        self.horizontalLayout_4.addWidget(self.label_3)
 
         self.rect3 = PenPicker(self.scrollAreaWidgetContents)
         self.rect3.setObjectName(u"rect3")
 
-        self.verticalLayout.addWidget(self.rect3)
+        self.horizontalLayout_4.addWidget(self.rect3)
 
+
+        self.verticalLayout.addLayout(self.horizontalLayout_4)
+
+        self.horizontalLayout_5 = QHBoxLayout()
+        self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
         self.label_4 = QLabel(self.scrollAreaWidgetContents)
         self.label_4.setObjectName(u"label_4")
 
-        self.verticalLayout.addWidget(self.label_4)
+        self.horizontalLayout_5.addWidget(self.label_4)
 
         self.circle = PenPicker(self.scrollAreaWidgetContents)
         self.circle.setObjectName(u"circle")
 
-        self.verticalLayout.addWidget(self.circle)
+        self.horizontalLayout_5.addWidget(self.circle)
 
+
+        self.verticalLayout.addLayout(self.horizontalLayout_5)
+
+        self.horizontalLayout_6 = QHBoxLayout()
+        self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
         self.label_5 = QLabel(self.scrollAreaWidgetContents)
         self.label_5.setObjectName(u"label_5")
 
-        self.verticalLayout.addWidget(self.label_5)
+        self.horizontalLayout_6.addWidget(self.label_5)
 
         self.center = PenPicker(self.scrollAreaWidgetContents)
         self.center.setObjectName(u"center")
 
-        self.verticalLayout.addWidget(self.center)
+        self.horizontalLayout_6.addWidget(self.center)
 
+
+        self.verticalLayout.addLayout(self.horizontalLayout_6)
+
+        self.horizontalLayout_7 = QHBoxLayout()
+        self.horizontalLayout_7.setObjectName(u"horizontalLayout_7")
         self.label_7 = QLabel(self.scrollAreaWidgetContents)
         self.label_7.setObjectName(u"label_7")
 
-        self.verticalLayout.addWidget(self.label_7)
+        self.horizontalLayout_7.addWidget(self.label_7)
 
         self.poly = PenPicker(self.scrollAreaWidgetContents)
         self.poly.setObjectName(u"poly")
 
-        self.verticalLayout.addWidget(self.poly)
+        self.horizontalLayout_7.addWidget(self.poly)
 
+
+        self.verticalLayout.addLayout(self.horizontalLayout_7)
+
+        self.horizontalLayout_8 = QHBoxLayout()
+        self.horizontalLayout_8.setObjectName(u"horizontalLayout_8")
         self.label_6 = QLabel(self.scrollAreaWidgetContents)
         self.label_6.setObjectName(u"label_6")
 
-        self.verticalLayout.addWidget(self.label_6)
+        self.horizontalLayout_8.addWidget(self.label_6)
 
         self.Index = ColorPicker(self.scrollAreaWidgetContents)
         self.Index.setObjectName(u"Index")
         self.Index.setEnabled(True)
 
-        self.verticalLayout.addWidget(self.Index)
+        self.horizontalLayout_8.addWidget(self.Index)
+
+
+        self.verticalLayout.addLayout(self.horizontalLayout_8)
+
+        self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+
+        self.verticalLayout.addItem(self.verticalSpacer)
 
 
         self.horizontalLayout.addLayout(self.verticalLayout)
@@ -126,11 +166,11 @@ class Ui_Cameras(object):
         Cameras.setWindowTitle(QCoreApplication.translate("Cameras", u"Cameras", None))
         self.label.setText(QCoreApplication.translate("Cameras", u"Outer Rectangle:", None))
         self.label_2.setText(QCoreApplication.translate("Cameras", u"Inner Rectangle:", None))
-        self.label_3.setText(QCoreApplication.translate("Cameras", u"Inner Rectangle 4:3", None))
+        self.label_3.setText(QCoreApplication.translate("Cameras", u"Inner Rectangle 4:3:", None))
         self.label_4.setText(QCoreApplication.translate("Cameras", u"Edge Circles:", None))
         self.label_5.setText(QCoreApplication.translate("Cameras", u"Center:", None))
         self.label_7.setText(QCoreApplication.translate("Cameras", u"Camera shape:", None))
-        self.label_6.setText(QCoreApplication.translate("Cameras", u"Index:", None))
+        self.label_6.setText(QCoreApplication.translate("Cameras", u"Index(text color):", None))
         self.Index.setText("")
     # retranslateUi
 
