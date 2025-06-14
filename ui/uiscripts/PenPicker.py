@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'PenPicker.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.7.2
+## Created by: Qt User Interface Compiler version 6.9.0
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -16,7 +16,8 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QAbstractSpinBox, QApplication, QComboBox, QDoubleSpinBox,
-    QGridLayout, QHBoxLayout, QSizePolicy, QWidget)
+    QGridLayout, QHBoxLayout, QLayout, QSizePolicy,
+    QWidget)
 
 from RWESharpWidgets import ColorPicker
 
@@ -24,13 +25,14 @@ class Ui_Penpicker(object):
     def setupUi(self, Penpicker):
         if not Penpicker.objectName():
             Penpicker.setObjectName(u"Penpicker")
-        Penpicker.resize(400, 28)
+        Penpicker.resize(548, 186)
         self.gridLayout = QGridLayout(Penpicker)
         self.gridLayout.setSpacing(0)
         self.gridLayout.setObjectName(u"gridLayout")
         self.gridLayout.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
+        self.horizontalLayout.setSizeConstraint(QLayout.SizeConstraint.SetMaximumSize)
         self.Style = QComboBox(Penpicker)
         self.Style.addItem("")
         self.Style.addItem("")
@@ -49,7 +51,7 @@ class Ui_Penpicker(object):
 
         self.Width = QDoubleSpinBox(Penpicker)
         self.Width.setObjectName(u"Width")
-        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
+        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Maximum, QSizePolicy.Policy.Fixed)
         sizePolicy1.setHorizontalStretch(0)
         sizePolicy1.setVerticalStretch(0)
         sizePolicy1.setHeightForWidth(self.Width.sizePolicy().hasHeightForWidth())
@@ -58,7 +60,7 @@ class Ui_Penpicker(object):
         self.Width.setFrame(True)
         self.Width.setButtonSymbols(QAbstractSpinBox.ButtonSymbols.PlusMinus)
         self.Width.setAccelerated(False)
-        self.Width.setProperty("showGroupSeparator", False)
+        self.Width.setProperty(u"showGroupSeparator", False)
         self.Width.setDecimals(1)
         self.Width.setMinimum(1.000000000000000)
         self.Width.setSingleStep(0.500000000000000)
