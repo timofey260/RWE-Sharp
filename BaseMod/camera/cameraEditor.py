@@ -2,7 +2,7 @@ from RWESharp.Modify import Editor
 from RWESharp.Renderable import Handle, RenderList, RenderRect
 from RWESharp.Core import camw, camh, CELLSIZE
 from BaseMod.camera.cameraRenderable import RenderCamera
-from BaseMod.camera.cameraHistory import AddCamera, RemoveCamera, CameraMove, CameraQuadMove
+from BaseMod.camera.cameraHistory import AddCamera, RemoveCamera, CameraMove, CameraQuadMove, MoveCameraOrder
 from BaseMod.LevelParts import CameraLevelPart
 from PySide6.QtCore import QPointF, QRect, Qt, QPoint
 from PySide6.QtGui import QPen, QColor
@@ -101,6 +101,12 @@ class CameraEditor(Editor):
         for i in self.cameras:
             i.edit_camera(False)
 
+    def move_up(self, selection):
+        self.level.add_history(MoveCameraOrder, self, self.viewport.modulenames["cameras"], True, selection)
+
+    def move_down(self, selection):
+        self.level.add_history(MoveCameraOrder, self, self.viewport.modulenames["cameras"], False, selection)
+
     def move_event(self):
         super().move_event()
         if self.control and self.selectpos != QPoint(0, 0):
@@ -124,13 +130,20 @@ class CameraEditor(Editor):
             self.selectpos = self.editor_pos
             self.reset_selection()
 
-    def reset_selection(self):
+    def reset_selection(self, reset_ui=True):
         self.selected = []
         if self.viewport is None:
             return
         for i in self.cameras:
             i.paintselected(False)
-        self.cameraui.reset_selection()
+        if reset_ui:
+            self.cameraui.reset_selection()
+
+    def select_indexes(self, selection):
+        for i, v in enumerate(self.cameras):
+            if i in selection:
+                self.selected.append(v)
+                v.paintselected()
 
     def add_camera(self):
         module = self.viewport.modulenames["cameras"]
@@ -173,6 +186,7 @@ class CameraEditor(Editor):
                 self.reset_selection()
                 self.selected = [camera]
                 camera.paintselected()
+                self.cameraui.select_camera(self.cameras.index(camera), False)
             for i in self.selected:
                 if i == camera:
                     continue
@@ -197,6 +211,7 @@ class CameraEditor(Editor):
                 self.reset_selection()
                 self.selected = [camera]
                 camera.paintselected()
+                self.cameraui.select_camera(self.cameras.index(camera), False)
             for i in self.selected:
                 if i == camera:
                     continue

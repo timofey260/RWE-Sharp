@@ -107,3 +107,49 @@ class CameraQuadMove(HistoryElement):
             self.module.cameras[index].fix_offset(self.quad)
         if reset:
             self.editor.reset_selection()
+
+
+class MoveCameraOrder(HistoryElement):
+    def __init__(self, history, editor, module, up: bool, cameras: list[int]):
+        super().__init__(history)
+        self.editor = editor
+        self.module = module
+        self.cameras = cameras
+        self.cameras.sort(reverse=not up)
+        self.up = up
+        self.cameras_moved = []
+        self.cams_amount = len(self.module.cameras)
+        self.redo_changes(False)
+        # self.editor.reset_selection()
+
+    def undo_changes(self):
+        if self.up:
+            for i in reversed(self.cameras_moved):
+                if i >= self.cams_amount - 1:
+                    continue
+                self.module.move_camera(i, i + 1)
+        else:
+            for i in reversed(self.cameras_moved):
+                if i == 0:
+                    continue
+                self.module.move_camera(i, i - 1)
+        self.editor.cameraui.add_cameras()
+        self.editor.reset_selection()
+
+    def redo_changes(self, reset=True):
+        self.cameras_moved = []
+        if self.up:
+            for i in self.cameras:
+                if i == 0:
+                    continue
+                self.cameras_moved.append(i - 1)
+                self.module.move_camera(i, i - 1)
+        else:
+            for i in self.cameras:
+                if i >= self.cams_amount - 1:
+                    continue
+                self.cameras_moved.append(i + 1)
+                self.module.move_camera(i, i + 1)
+        if reset:
+            self.editor.reset_selection()
+        self.editor.cameraui.add_cameras()

@@ -26,14 +26,25 @@ class CameraModule(Module):
         rc = self.cameras.pop(index)
         rc.remove_graphics(self.viewport)
         rc.remove_myself()
-        return self.viewport.level.l_cameras.pop(index)
+        return self.level.l_cameras.pop(index)
 
     def add_new_camera(self, index, pos):
         cam = CameraLevelPart.Camera(pos, [QPointF(), QPointF(), QPointF(), QPointF()])
         self.add_camera(index, cam)
 
     def add_camera(self, index, camera: CameraLevelPart.Camera):
-        self.viewport.level.l_cameras.cameras.insert(index, camera)
+        self.level.l_cameras.cameras.insert(index, camera)
         rc = RenderCamera(self, cameradepth, camera)
         rc.init_graphics(self.viewport)
+        rc.textindex.setPlainText(str(index))
         self.cameras.insert(index, rc)
+
+    def move_camera(self, index, newindex):
+        cam = self.level.l_cameras.cameras.pop(index)
+        rc = self.cameras.pop(index)
+
+        self.level.l_cameras.cameras.insert(index, cam)
+        self.cameras.insert(max(0, newindex), rc)
+        for i, v in enumerate(self.cameras):
+            v.textindex.setPlainText(str(i))
+

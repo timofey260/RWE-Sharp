@@ -21,21 +21,39 @@ class CameraUI(UI):
         self.ui.CameraTree.setSelectionMode(self.ui.CameraTree.SelectionMode.ExtendedSelection)
 
         self.add_key = KeyConfigurable(mod, "EDIT_cameras.add", "Ctrl+a", "Add Camera")
+        self.remove_key = KeyConfigurable(mod, "EDIT_cameras.remove", "Ctrl+d", "Remove Camera")
 
         self.add_key.link_button(self.ui.AddCamera)
+        self.remove_key.link_button(self.ui.RemoveCamera)
+
         self.ui.AddCamera.clicked.connect(self.editor.add_camera)
         self.ui.RemoveCamera.clicked.connect(self.remove_cameras)
+        self.ui.CameraTree.itemClicked.connect(self.select_cameras)
+
+        self.ui.MoveUp.clicked.connect(self.move_up)
+        self.ui.MoveDown.clicked.connect(self.move_down)
+
+    def move_up(self):
+        self.editor.move_up(self.selection)
+
+    def move_down(self):
+        self.editor.move_down(self.selection)
+
+    def select_cameras(self):
+        self.editor.reset_selection(False)
+        selection = self.selection
+        self.editor.select_indexes(selection)
 
     def add_cameras(self):
         self.ui.CameraTree.clear()
-        for i, v in enumerate(self.editor.viewport.level.l_cameras):
-            item = QTreeWidgetItem([str(i), str([v.pos.x(), v.pos.y()])])
+        for i, v in enumerate(self.editor.viewport.modulenames["cameras"].cameras):
+            item = QTreeWidgetItem([str(i), str([v.camera.pos.x(), v.camera.pos.y()])])
             self.ui.CameraTree.addTopLevelItem(item)
+            item.setSelected(v in self.editor.selected)
         self.ui.CameraTree.resizeColumnToContents(0)
 
     def remove_cameras(self):
-        indexes = [v.row() for i, v in enumerate(self.ui.CameraTree.selectedIndexes()) if i % 2 == 0]
-        self.editor.remove_cameras(indexes)
+        self.editor.remove_cameras(self.selection)
 
     def select_camera(self, row, clear=True):
         item = self.ui.CameraTree.itemAt(QPoint(0, row * self.ui.CameraTree.sizeHintForRow(0)))
@@ -46,6 +64,10 @@ class CameraUI(UI):
 
     def reset_selection(self):
         self.ui.CameraTree.clearSelection()
+
+    @property
+    def selection(self):
+        return [v.row() for i, v in enumerate(self.ui.CameraTree.selectedIndexes()) if i % 2 == 0]
 
 
 class CameraViewUI(ViewUI):

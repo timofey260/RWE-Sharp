@@ -41,6 +41,7 @@ class RenderCamera(RenderList):
 
         self.textindex = QGraphicsTextItem("0")
         self.textindex.setFont(QFont("Comic Sans", 30))
+        self.textindex.setDefaultTextColor(QColor(168, 168, 168, 255))
         self.graphicsitems.append(self.textindex)
 
         self.poshandle = None
