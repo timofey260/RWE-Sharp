@@ -26,7 +26,9 @@ class CameraModule(Module):
         rc = self.cameras.pop(index)
         rc.remove_graphics(self.viewport)
         rc.remove_myself()
-        return self.level.l_cameras.pop(index)
+        pop = self.level.l_cameras.pop(index)
+        self.reindex()
+        return pop
 
     def add_new_camera(self, index, pos):
         cam = CameraLevelPart.Camera(pos, [QPointF(), QPointF(), QPointF(), QPointF()])
@@ -45,6 +47,9 @@ class CameraModule(Module):
 
         self.level.l_cameras.cameras.insert(index, cam)
         self.cameras.insert(max(0, newindex), rc)
+        self.reindex()
+
+    def reindex(self):
         for i, v in enumerate(self.cameras):
             v.textindex.setPlainText(str(i))
 
