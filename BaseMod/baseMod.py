@@ -67,6 +67,7 @@ class BaseMod(Mod):
         self.cameraeditor = CameraEditor(self)
         self.cameraui = CameraUI(self)
         self.cameraeditor.add_myself(self.cameraui)
+        self.camerasettings = CameraSettingsUI(self)
 
         if self.bmconfig.funny.value:  # todo make it so it updates dynamically
             self.sex = QAction("sex(earrape warning)")
@@ -78,6 +79,7 @@ class BaseMod(Mod):
         SettingElement(self, "Theme", "pref", self.preferences, self.settingtree)
         self.settingtree.add_child(SettingElement(self, "Geo", "geo", self.geosettings))
         self.settingtree.add_child(SettingElement(self, "Tiles", "tiles", self.tilesettings))
+        self.settingtree.add_child(SettingElement(self, "Cameras", "cameras", self.camerasettings))
 
         self.editorsTree = HotkeyElement(self, "Editors", "editors").add_myself()
         geoelement = HotkeyElement(self, "Geometry Editor", "geoedit", parent=self.editorsTree)

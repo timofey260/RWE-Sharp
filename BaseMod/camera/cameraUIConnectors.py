@@ -1,5 +1,5 @@
 from RWESharp.Ui import ViewUI, UI, SettingUI
-from RWESharp.Configurable import BoolConfigurable, KeyConfigurable, PenConfigurable
+from RWESharp.Configurable import BoolConfigurable, KeyConfigurable, PenConfigurable, ColorConfigurable
 from BaseMod.camera.ui.camera_vis_ui import Ui_CameraView
 from BaseMod.camera.ui.camerasettings_ui import Ui_Cameras as Ui_CameraSettings
 from BaseMod.camera.ui.cameras_ui import Ui_Cameras
@@ -86,7 +86,8 @@ class CameraViewUI(ViewUI):
         self.rect3color = PenConfigurable(mod, "VIEW_cameras.rect3color", QPen(QColor(255, 255, 0, 120), 3, Qt.PenStyle.DotLine), "4x3 Camera rect color")
         self.rectcentercolor = PenConfigurable(mod, "VIEW_cameras.rectcentercolor", QPen(QColor(40, 40, 40, 120), 5), "Camera rect center color")
         self.polycolor = PenConfigurable(mod, "VIEW_cameras.polycolor", QPen(QColor(0, 255, 0, 210), 6, Qt.PenStyle.DashLine), "Outer Camera polygon color")
-        self.circcolor = PenConfigurable(mod, "VIEW_cameras.polycolor", QPen(QColor(0, 255, 0, 210), 5), "Camera corner circle color")
+        self.circcolor = PenConfigurable(mod, "VIEW_cameras.circcolor", QPen(QColor(0, 255, 0, 210), 5), "Camera corner circle color")
+        self.indexcolor = ColorConfigurable(mod, "VIEW_cameras.fontcolor", QColor(168, 168, 168), "Font color")
 
         self.VQuickCameras = QCheckBox()
         self.VQuickCameras.setObjectName(u"VQuickCameras")
@@ -101,9 +102,31 @@ class CameraViewUI(ViewUI):
 class CameraSettingsUI(SettingUI):
     def __init__(self, mod):
         super().__init__(mod)
+        self.viewui = self.mod.cameraview
+
+        self.rectcolor = SettingUI.ManageableSetting(PenConfigurable(None, "rectcolor", QPen(), "Outer Camera rect color"),
+                                                     self.viewui.rectcolor).add_myself(self)
+        self.rect2color = SettingUI.ManageableSetting(PenConfigurable(None, "rect2color", QPen(), "Inner Camera rect color"),
+                                                      self.viewui.rect2color).add_myself(self)
+        self.rect3color = SettingUI.ManageableSetting(PenConfigurable(None, "rect3color", QPen(), "4x3 Camera rect color"),
+                                                      self.viewui.rect3color).add_myself(self)
+        self.rectcentercolor = SettingUI.ManageableSetting(PenConfigurable(None, "rectcentercolor", QPen(), "Camera rect center color"),
+                                                           self.viewui.rectcentercolor).add_myself(self)
+        self.polycolor = SettingUI.ManageableSetting(PenConfigurable(None, "polycolor", QPen(), "Outer Camera polygon color"),
+                                                     self.viewui.polycolor).add_myself(self)
+        self.circcolor = SettingUI.ManageableSetting(PenConfigurable(None, "circcolor", QPen(), "Camera corner circle color"),
+                                                     self.viewui.circcolor).add_myself(self)
+        self.indexcolor = SettingUI.ManageableSetting(ColorConfigurable(None, "fontcolor", QColor(), "Font color"),
+                                                      self.viewui.indexcolor).add_myself(self)
 
     def init_ui(self, viewer: SettingsViewer):
         self.ui = Ui_CameraSettings()
         self.ui.setupUi(viewer)
 
-        # todo
+        self.rectcolor.setting.link_pen_picker(self.ui.rect1)
+        self.rect2color.setting.link_pen_picker(self.ui.rect2)
+        self.rect3color.setting.link_pen_picker(self.ui.rect3)
+        self.rectcentercolor.setting.link_pen_picker(self.ui.center)
+        self.polycolor.setting.link_pen_picker(self.ui.poly)
+        self.circcolor.setting.link_pen_picker(self.ui.circle)
+        self.indexcolor.setting.link_color_picker(self.ui.Index)
