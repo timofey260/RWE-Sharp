@@ -27,12 +27,17 @@ class PropsUI(UI):
         self.cat_next_key = KeyConfigurable(mod, "EDIT_props.cat_next", "d", "Next Category")
         self.find_key = KeyConfigurable(mod, "EDIT_props.find_key", "Ctrl+f", "Find Prop")
 
+        self.rotate_cw = KeyConfigurable(mod, "EDIT_props.cw", "Shift+e", "Rotate prop clockwise")
+        self.rotate_ccw = KeyConfigurable(mod, "EDIT_props.ccw", "Shift+q", "Rotate prop counter-clockwise")
+
         self.explorer_key.link_button(self.ui.Explorer)
         self.prop_next_key.link_button(self.ui.PropNext)
         self.prop_prev_key.link_button(self.ui.PropPrev)
         self.cat_next_key.link_button(self.ui.CatNext)
         self.cat_prev_key.link_button(self.ui.CatPrev)
         self.find_key.link_button(self.ui.FindPE)
+        self.rotate_cw.link_button(self.ui.add15)
+        self.rotate_ccw.link_button(self.ui.sub15)
 
         self.ui.PropNext.clicked.connect(self.editor.explorer.item_next)
         self.ui.PropPrev.clicked.connect(self.editor.explorer.item_prev)
@@ -49,7 +54,15 @@ class PropsUI(UI):
         self.ui.PropOptions.itemClicked.connect(self.prop_options_click)
         self.ui.PropOptions.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
         self.ui.PropOptions.customContextMenuRequested.connect(self.settings_context_menu)
+        self.ui.add15.clicked.connect(self.rotate_cw_15)
+        self.ui.sub15.clicked.connect(self.rotate_ccw_15)
         self.display_settings()
+
+    def rotate_cw_15(self):
+        pass
+
+    def rotate_ccw_15(self):
+        pass
 
     def display_settings(self):
         self.ui.PropOptions.clear()

@@ -11,8 +11,8 @@ class PropModule(Module):
         mod.propsview.ui.ShowProps.toggled.connect(self.set_visibility)
         mod.propsview.ui.Outline.toggled.connect(lambda x: self.set_outline(x, mod.propsview.outline_color.value))
         mod.propsview.ui.OutlineColor.colorPicked.connect(lambda x: self.set_outline(True, x))
-        self.group = QGraphicsItemGroup()
-        prop = QPixmap.fromImage(self.manager.props.find_prop("Big Brick").images[0])
+        # self.group = QGraphicsItemGroup()
+        # prop = QPixmap.fromImage(self.manager.props.find_prop("Big Brick").images[0])
         # for x in range(0, 5000, 50):
         #     for y in range(0, 5000, 50):
         #         item = QGraphicsPixmapItem(prop)
@@ -22,12 +22,12 @@ class PropModule(Module):
 
     def move_event(self):
         super().move_event()
-        self.group.setPos(self.viewport.topleft.pos())
+        # self.group.setPos(self.viewport.topleft.pos())
 
     def init_scene_items(self, viewport):
         self.render_props()
         super().init_scene_items(viewport)
-        self.viewport.scene().addItem(self.group)
+        # self.viewport.scene().addItem(self.group)
 
     def render_props(self):
         for i in self.props:
@@ -40,8 +40,11 @@ class PropModule(Module):
 
     def render_prop(self, index: int):
         p = PropRenderable(self, self.level.l_props[index])
+        p.poly.init_graphics(self.viewport)  # because
         self.props.insert(index, p)
         p.init_graphics(self.viewport)
+        p.set_visible(self.mod.propsview.showprops.value)
+        p.set_outline(self.mod.propsview.showoutline.value, self.mod.propsview.outline_color.value)
 
     def remove_render_prop(self, index: int):
         p = self.props.pop(index)

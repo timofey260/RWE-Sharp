@@ -105,7 +105,7 @@ class PropEditor(Editor):
                         poly.init_graphics(self.viewport)
                         break
             return
-        if self.shift:
+        if self.shift and len(self.level.l_props) > 0:
             self.debugline.drawline.setOpacity(1)
             self.debugpoly.drawpoly.setOpacity(1)
             closest = self.level.l_props[self.find_nearest(self.editor_pos)]
@@ -140,6 +140,9 @@ class PropEditor(Editor):
             i.remove_myself()
         self.selected_poly = []
         self.selected = []
+
+    def rotate_prop(self, rotation):
+        pass
 
     def mouse_left_release(self):
         self.selectpoint = QPoint(0, 0)

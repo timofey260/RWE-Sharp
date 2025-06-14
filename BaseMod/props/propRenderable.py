@@ -9,6 +9,7 @@ from PySide6.QtWidgets import QGraphicsPixmapItem
 import random
 # todo redo prop editor to optimize it
 
+
 class PropRenderable(Renderable):
     def __init__(self, module, prop: list | Prop):
         self.hide = False

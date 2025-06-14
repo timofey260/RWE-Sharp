@@ -21,10 +21,14 @@ class CameraUI(UI):
         self.ui.CameraTree.setSelectionMode(self.ui.CameraTree.SelectionMode.ExtendedSelection)
 
         self.add_key = KeyConfigurable(mod, "EDIT_cameras.add", "Ctrl+a", "Add Camera")
-        self.remove_key = KeyConfigurable(mod, "EDIT_cameras.remove", "Ctrl+d", "Remove Camera")
+        self.remove_key = KeyConfigurable(mod, "EDIT_cameras.remove", "Ctrl+d", "Remove Cameras")
+        self.moveup_key = KeyConfigurable(mod, "EDIT_cameras.moveup", "Shift+w", "Move Cameras up")
+        self.movedown_key = KeyConfigurable(mod, "EDIT_cameras.movedown", "Shift+s", "Move Cameras down")
 
         self.add_key.link_button(self.ui.AddCamera)
         self.remove_key.link_button(self.ui.RemoveCamera)
+        self.moveup_key.link_button(self.ui.MoveUp)
+        self.movedown_key.link_button(self.ui.MoveDown)
 
         self.ui.AddCamera.clicked.connect(self.editor.add_camera)
         self.ui.RemoveCamera.clicked.connect(self.remove_cameras)
