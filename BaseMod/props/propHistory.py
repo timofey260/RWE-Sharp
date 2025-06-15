@@ -21,7 +21,7 @@ class PropPlace(HistoryElement):
 
 
 class PropRemove(HistoryElement):
-    def __init__(self, history, index):
+    def __init__(self, history, index: int):
         super().__init__(history)
         self.prop = copyprop(history.level.l_props[index])
         self.module = history.level.viewport.modulenames["props"]
@@ -33,3 +33,8 @@ class PropRemove(HistoryElement):
 
     def undo_changes(self):
         self.module.add_prop(self.index, copyprop(self.prop))
+
+
+class PropsMove(HistoryElement):
+    def __init__(self, history, indexes: list[int], offset):
+        pass

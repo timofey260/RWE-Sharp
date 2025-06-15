@@ -1,12 +1,12 @@
 from RWESharp.Core import ViewDockWidget
-from PySide6.QtWidgets import QTreeWidgetItem
-from PySide6.QtGui import QPixmap, QAction
+from RWESharp.Utils import color_lerp
+from RWESharp.Loaders import Effect, EffectCategory
 
+from PySide6.QtWidgets import QTreeWidgetItem
+from PySide6.QtGui import QPixmap, QAction, QColor
 from PySide6.QtCore import Qt
 from BaseMod.effects.ui.effectexplorer_ui import Ui_EffectExplorer
-from RWESharp.Loaders import Effect, EffectCategory
 from BaseMod.effects.effectHistory import EffectAdd
-
 
 
 class EffectExplorer(ViewDockWidget):
@@ -30,22 +30,18 @@ class EffectExplorer(ViewDockWidget):
         self.image = self.ui.Effectpreview.workscene.addPixmap(QPixmap(1, 1))
         self.ui.Effectpreview.items.append(self.image)
 
-        self.splitter = self.ui.splitter
-
         self.effect_explorer_action = QAction("Effect Explorer")
         self.mod.manager.window_menu.addAction(self.effect_explorer_action)
         self.link_action(self.effect_explorer_action)
         self.change_visibility(False)
         self.mod.bmconfig.effectexplorer_key.link_action(self.effect_explorer_action)
 
-    def resizeEvent(self,event):
-        if hasattr(self,'ui') and self.ui:
+    def resizeEvent(self, event):
+        if hasattr(self, 'ui') and self.ui:
             width,  height = self.width(), self.height()
             aspect_ratio = width / height if height else 1
-
             if hasattr(self.ui, "splitter") and self.ui.splitter:
-                 self.ui.splitter.setOrientation(Qt.Horizontal if aspect_ratio > 1.45 else Qt.Vertical)
-
+                self.ui.splitter.setOrientation(Qt.Orientation.Horizontal if aspect_ratio > 1.45 else Qt.Orientation.Vertical)
         super().resizeEvent(event)
 
     def search(self):
@@ -65,12 +61,14 @@ class EffectExplorer(ViewDockWidget):
             icon = QPixmap(20, 20)
             icon.fill(i.color)
             item.setIcon(0, icon)
-            for e in i.effects:
+            for indx, e in enumerate(i.effects):
                 if filter != "" and filter.lower() not in e.name.lower():
                     continue
+                icon2 = QPixmap(20, 20)
+                icon2.fill(color_lerp(i.color, QColor(0, 0, 0), indx / 15))
                 effect = QTreeWidgetItem([e.name])
                 effect.setData(0, Qt.ItemDataRole.UserRole, e)
-                effect.setIcon(0, icon)
+                effect.setIcon(0, icon2)
                 item.addChild(effect)
             if filter != "" and item.childCount() == 0:
                 continue

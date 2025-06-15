@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'explorerzvrvjX.ui'
+## Form generated from reading UI file 'explorer2.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.7.3
+## Created by: Qt User Interface Compiler version 6.9.0
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -23,32 +23,33 @@ from PySide6.QtWidgets import (QAbstractItemView, QAbstractScrollArea, QApplicat
     QVBoxLayout, QWidget)
 
 from RWESharpWidgets import SimpleViewport
+import ui.res_rc
 
 class Ui_Explorer(object):
     def setupUi(self, Explorer):
         if not Explorer.objectName():
             Explorer.setObjectName(u"Explorer")
-        Explorer.resize(680, 513)
+        Explorer.resize(907, 606)
         Explorer.setFloating(False)
         Explorer.setFeatures(QDockWidget.DockWidgetFeature.DockWidgetClosable|QDockWidget.DockWidgetFeature.DockWidgetFloatable|QDockWidget.DockWidgetFeature.DockWidgetMovable)
         self.dockWidgetContents = QWidget()
         self.dockWidgetContents.setObjectName(u"dockWidgetContents")
-        self.verticalLayout = QVBoxLayout(self.dockWidgetContents)
-        self.verticalLayout.setObjectName(u"verticalLayout")
+        self.verticalLayout_7 = QVBoxLayout(self.dockWidgetContents)
+        self.verticalLayout_7.setObjectName(u"verticalLayout_7")
         self.SearchBar = QLineEdit(self.dockWidgetContents)
         self.SearchBar.setObjectName(u"SearchBar")
         self.SearchBar.setCursorMoveStyle(Qt.CursorMoveStyle.LogicalMoveStyle)
         self.SearchBar.setClearButtonEnabled(True)
 
-        self.verticalLayout.addWidget(self.SearchBar)
+        self.verticalLayout_7.addWidget(self.SearchBar)
 
-        self.splitter_1 = QSplitter(self.dockWidgetContents)
-        self.splitter_1.setObjectName(u"splitter_1")
-        self.splitter_1.setOrientation(Qt.Orientation.Horizontal)
-        self.splitter_2 = QSplitter(self.splitter_1)
-        self.splitter_2.setObjectName(u"splitter_2")
-        self.splitter_2.setOrientation(Qt.Orientation.Horizontal)
-        self.CatsTab = QWidget(self.splitter_2)
+        self.splitter_3 = QSplitter(self.dockWidgetContents)
+        self.splitter_3.setObjectName(u"splitter_3")
+        self.splitter_3.setOrientation(Qt.Orientation.Horizontal)
+        self.splitter = QSplitter(self.splitter_3)
+        self.splitter.setObjectName(u"splitter")
+        self.splitter.setOrientation(Qt.Orientation.Horizontal)
+        self.CatsTab = QWidget(self.splitter)
         self.CatsTab.setObjectName(u"CatsTab")
         self.verticalLayout_2 = QVBoxLayout(self.CatsTab)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
@@ -107,8 +108,8 @@ class Ui_Explorer(object):
 
         self.verticalLayout_2.addLayout(self.horizontalLayout)
 
-        self.splitter_2.addWidget(self.CatsTab)
-        self.ItemsTab = QWidget(self.splitter_2)
+        self.splitter.addWidget(self.CatsTab)
+        self.ItemsTab = QWidget(self.splitter)
         self.ItemsTab.setObjectName(u"ItemsTab")
         self.verticalLayout_3 = QVBoxLayout(self.ItemsTab)
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
@@ -186,9 +187,12 @@ class Ui_Explorer(object):
 
         self.verticalLayout_3.addLayout(self.horizontalLayout_2)
 
-        self.splitter_2.addWidget(self.ItemsTab)
-        self.splitter_1.addWidget(self.splitter_2)
-        self.ItemTab = QWidget(self.splitter_1)
+        self.splitter.addWidget(self.ItemsTab)
+        self.splitter_3.addWidget(self.splitter)
+        self.splitter_2 = QSplitter(self.splitter_3)
+        self.splitter_2.setObjectName(u"splitter_2")
+        self.splitter_2.setOrientation(Qt.Orientation.Vertical)
+        self.ItemTab = QWidget(self.splitter_2)
         self.ItemTab.setObjectName(u"ItemTab")
         self.verticalLayout_4 = QVBoxLayout(self.ItemTab)
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
@@ -244,13 +248,24 @@ class Ui_Explorer(object):
 
         self.verticalLayout_4.addLayout(self.horizontalLayout_6)
 
-        self.Properties = QTableWidget(self.ItemTab)
+        self.splitter_2.addWidget(self.ItemTab)
+        self.ItemInfo = QWidget(self.splitter_2)
+        self.ItemInfo.setObjectName(u"ItemInfo")
+        self.verticalLayout_6 = QVBoxLayout(self.ItemInfo)
+        self.verticalLayout_6.setObjectName(u"verticalLayout_6")
+        self.verticalLayout_6.setContentsMargins(0, -1, 0, -1)
+        self.LItem_2 = QLabel(self.ItemInfo)
+        self.LItem_2.setObjectName(u"LItem_2")
+
+        self.verticalLayout_6.addWidget(self.LItem_2)
+
+        self.Properties = QTableWidget(self.ItemInfo)
         if (self.Properties.columnCount() < 1):
             self.Properties.setColumnCount(1)
         __qtablewidgetitem = QTableWidgetItem()
         self.Properties.setHorizontalHeaderItem(0, __qtablewidgetitem)
         self.Properties.setObjectName(u"Properties")
-        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
+        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Expanding)
         sizePolicy1.setHorizontalStretch(0)
         sizePolicy1.setVerticalStretch(0)
         sizePolicy1.setHeightForWidth(self.Properties.sizePolicy().hasHeightForWidth())
@@ -268,33 +283,33 @@ class Ui_Explorer(object):
         self.Properties.verticalHeader().setDefaultSectionSize(20)
         self.Properties.verticalHeader().setHighlightSections(True)
 
-        self.verticalLayout_4.addWidget(self.Properties)
+        self.verticalLayout_6.addWidget(self.Properties)
 
-        self.horizontalLayout_5 = QHBoxLayout()
-        self.horizontalLayout_5.setSpacing(0)
-        self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
-        self.Favourite = QToolButton(self.ItemTab)
+        self.horizontalLayout_9 = QHBoxLayout()
+        self.horizontalLayout_9.setSpacing(0)
+        self.horizontalLayout_9.setObjectName(u"horizontalLayout_9")
+        self.Favourite = QToolButton(self.ItemInfo)
         self.Favourite.setObjectName(u"Favourite")
         icon6 = QIcon(QIcon.fromTheme(u"emblem-favorite"))
         self.Favourite.setIcon(icon6)
         self.Favourite.setArrowType(Qt.ArrowType.NoArrow)
 
-        self.horizontalLayout_5.addWidget(self.Favourite)
+        self.horizontalLayout_9.addWidget(self.Favourite)
 
-        self.Pin = QToolButton(self.ItemTab)
+        self.Pin = QToolButton(self.ItemInfo)
         self.Pin.setObjectName(u"Pin")
         icon7 = QIcon()
         icon7.addFile(u":/special/special/pin.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.Pin.setIcon(icon7)
         self.Pin.setArrowType(Qt.ArrowType.NoArrow)
 
-        self.horizontalLayout_5.addWidget(self.Pin)
+        self.horizontalLayout_9.addWidget(self.Pin)
 
-        self.horizontalSpacer_5 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+        self.horizontalSpacer_9 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
-        self.horizontalLayout_5.addItem(self.horizontalSpacer_5)
+        self.horizontalLayout_9.addItem(self.horizontalSpacer_9)
 
-        self.RenderOption = QComboBox(self.ItemTab)
+        self.RenderOption = QComboBox(self.ItemInfo)
         self.RenderOption.addItem("")
         self.RenderOption.addItem("")
         self.RenderOption.addItem("")
@@ -305,22 +320,23 @@ class Ui_Explorer(object):
         self.RenderOption.addItem("")
         self.RenderOption.setObjectName(u"RenderOption")
 
-        self.horizontalLayout_5.addWidget(self.RenderOption)
+        self.horizontalLayout_9.addWidget(self.RenderOption)
 
-        self.LayerBox = QComboBox(self.ItemTab)
+        self.LayerBox = QComboBox(self.ItemInfo)
         self.LayerBox.addItem("")
         self.LayerBox.addItem("")
         self.LayerBox.addItem("")
         self.LayerBox.setObjectName(u"LayerBox")
 
-        self.horizontalLayout_5.addWidget(self.LayerBox)
+        self.horizontalLayout_9.addWidget(self.LayerBox)
 
 
-        self.verticalLayout_4.addLayout(self.horizontalLayout_5)
+        self.verticalLayout_6.addLayout(self.horizontalLayout_9)
 
-        self.splitter_1.addWidget(self.ItemTab)
+        self.splitter_2.addWidget(self.ItemInfo)
+        self.splitter_3.addWidget(self.splitter_2)
 
-        self.verticalLayout.addWidget(self.splitter_1)
+        self.verticalLayout_7.addWidget(self.splitter_3)
 
         Explorer.setWidget(self.dockWidgetContents)
 
@@ -350,6 +366,7 @@ class Ui_Explorer(object):
         self.FitInScreen.setText(QCoreApplication.translate("Explorer", u"Fit", None))
         self.ToggleCollisions.setText(QCoreApplication.translate("Explorer", u"Collisions", None))
         self.TogglePreview.setText(QCoreApplication.translate("Explorer", u"Preview", None))
+        self.LItem_2.setText(QCoreApplication.translate("Explorer", u"Item Info", None))
         ___qtablewidgetitem = self.Properties.horizontalHeaderItem(0)
         ___qtablewidgetitem.setText(QCoreApplication.translate("Explorer", u"Value", None));
         self.Favourite.setText("")

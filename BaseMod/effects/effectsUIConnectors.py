@@ -86,7 +86,7 @@ class EffectsUI(UI):
 
     def open_explorer(self):
         self.explorer.change_visibility(True)
-        self.explorer.focussearch()
+        #self.explorer.focussearch()
 
     def effect_up(self):
         if len(self.level.l_effects) == 0:

@@ -58,27 +58,25 @@ class Explorer(ViewDockWidget):
         self.ui.TilePrev.clicked.connect(self.item_prev)
         self.setFloating(True)
 
-        self.splitter_1 = self.ui.splitter_1
-        self.splitter_2 = self.ui.splitter_2
-
         self.mod.bmconfig.icon_color.valueChanged.connect(self.changecolor)
         self.changecolor(self.mod.bmconfig.icon_color.value)
-        self.ui.splitter_2.splitterMoved.connect(self.splitter_moved)
+        self.ui.splitter.splitterMoved.connect(self.splitter_moved)
         self.ui.SearchBar.textChanged.connect(self.search)
 
     def resizeEvent(self,  event):
         if hasattr(self, 'ui') and self.ui:
             width,  height = self.width(), self.height()
             aspect_ratio = width / height if height else 1
-            self.ui.splitter_1.setOrientation(Qt.Orientation.Horizontal if aspect_ratio > 1.6 else Qt.Orientation.Vertical)
+            self.ui.splitter_3.setOrientation(Qt.Orientation.Horizontal if aspect_ratio > 1.6 else Qt.Orientation.Vertical)
+            self.ui.splitter_2.setOrientation(Qt.Orientation.Vertical if 1.6 < aspect_ratio < 2 else Qt.Orientation.Horizontal)
         super().resizeEvent(event)
 
     def splitter_moved(self, pos, index):
-        if self.ui.splitter_2.sizes()[1] == 0 and not self.simplemode:
+        if self.ui.splitter.sizes()[1] == 0 and not self.simplemode:
             self.simplemode = True
             self.load_categories()
             self.view_items.clear()
-        elif self.ui.splitter_2.sizes()[1] != 0 and self.simplemode:
+        elif self.ui.splitter.sizes()[1] != 0 and self.simplemode:
             self.simplemode = False
             self.load_categories()
             self.change_items()
