@@ -201,7 +201,6 @@ class GeometryEditor(Editor):
         if not stak and blk != 0:
             pos = self.binfo.get(str(blk), [0, 0])
             cellpos = QRect(pos[0] * self._sz, pos[1] * self._sz, self._sz, self._sz)
-            print(pos, cellpos, stak, blk)
             self.pixmap.painter.drawPixmap(QRect(0, 0, CELLSIZE, CELLSIZE), self.geo_texture, cellpos)
         elif self.block.value in stackables:
             blk = self.level.l_geo.byte2stack(blk)[0]
@@ -213,7 +212,6 @@ class GeometryEditor(Editor):
                 pos = self.sinfo.get(str(blk), [[0, 0]])
                 pos = pos[0]
             cellpos = QRect(pos[0] * self._sz, pos[1] * self._sz, self._sz, self._sz)
-            print(pos, cellpos, stak, blk)
             self.pixmap.painter.drawPixmap(QRect(0, 0, CELLSIZE, CELLSIZE), self.geo_texture, cellpos)
         else:
             self.pixmap.painter.setBrush(QColor(0, 0, 0, 0))

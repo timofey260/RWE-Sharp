@@ -1,34 +1,32 @@
 from RWESharp.Renderable import Renderable, RenderPoly, Handle
 from RWESharp.Utils import remap
+from RWESharp.Core import CELLSIZE, SPRITESIZE, lingoIO
 from RWESharp.Loaders import Prop
 
+from BaseMod.LevelParts import PropLevelPart
 from PySide6.QtCore import QPoint, QPointF
-from PySide6.QtGui import QTransform, QPolygonF, QPixmap, QImage, QPen
-from PySide6.QtWidgets import QGraphicsPixmapItem
+from PySide6.QtGui import QTransform, QPolygonF, QPixmap, QImage, QPen, QColor
+from PySide6.QtWidgets import QGraphicsPixmapItem, QGraphicsEllipseItem
 
 import random
-# todo redo prop editor to optimize it
 
 
 class PropRenderable(Renderable):
-    def __init__(self, module, prop: list | Prop):
+    def __init__(self, module, prop: PropLevelPart.PlacedProp | Prop):
         self.hide = False
         self.drawpoly = False
         if not isinstance(prop, Prop):
-            self.propdepth = prop[0]
+            self.propdepth = prop.depth
             super().__init__(module, -self.propdepth // 10 * 100 + 100)
             self.poly = RenderPoly(module, self.depth, QPolygonF())
-            found = self.manager.props.find_prop(prop[1])
-            self.transform: list[QPointF] = prop[3]
-            if found is None:
-                self.prop = None
-                self.image = QImage(20, 20, QImage.Format.Format_Mono)
-                self.renderedtexture = QGraphicsPixmapItem(QPixmap.fromImage(self.image))
-                self.renderedtexture.setZValue(self.depth)
-                return
-            self.prop = found
-            variation = prop[4]["settings"].get("variation", 1) - 1
-            self.image = found.images[variation]
+            self.transform: list[QPointF] = prop.quad
+            self.prop = prop.prop
+            if self.prop.rope:
+                self.rope_segments = [QPointF(*lingoIO.fromarr(p, "point")) for p in prop.settings["points"]]
+                self.rope_graphics = [QGraphicsEllipseItem(i.x() - 5, i.y() - 5, 10, 10) for i in self.rope_segments]
+                self.previewcolor = QColor(*lingoIO.fromarr(self.prop.get("previewColor", QColor(255, 0, 0)), "color"))
+            variation = prop.settings["settings"].get("variation", 1) - 1
+            self.image = prop.prop.images[variation]
             self.renderedtexture = QGraphicsPixmapItem(QPixmap.fromImage(self.image))
             self.renderedtexture.setZValue(self.depth)
             return
@@ -42,6 +40,28 @@ class PropRenderable(Renderable):
         w, h = prop.images[0].width(), prop.images[0].height()
         self.transform: list[QPointF] = [QPointF(0, 0), QPointF(w, 0), QPointF(w, h), QPointF(0, h)]
         self.handlers: list[Handle] = []
+
+        self.rope_graphics = []
+        self.rope_segments = []
+        self.previewcolor = QColor(255, 0, 0)
+
+    def create_rope_graphics_from_model(self, model):
+        if not self.prop.rope:
+            return
+        for i in self.rope_graphics:
+            self.viewport.workscene.removeItem(i)
+        self.previewcolor = QColor(*lingoIO.fromarr(self.prop.get("previewColor", "color(255, 0, 0)"), "color"))
+        self.rope_graphics = []
+        for i in model.segments:
+            pos = i["pos"]
+            self.rope_segments.append(pos)
+            self.rope_graphics.append(QGraphicsEllipseItem(0, 0, 10, 10))
+            self.rope_graphics[-1].setBrush(self.previewcolor)
+            color2 = self.previewcolor.__copy__()
+            color2.setAlpha(180)
+            self.rope_graphics[-1].setPen(color2)
+            self.viewport.workscene.addItem(self.rope_graphics[-1])
+        self.retransform()
 
     def set_variation(self, variation: int):
         if variation == 0:
@@ -67,6 +87,13 @@ class PropRenderable(Renderable):
     def init_graphics(self, viewport):
         super().init_graphics(viewport)
         viewport.workscene.addItem(self.renderedtexture)
+        if self.prop.rope:
+            for i in self.rope_graphics:
+                viewport.workscene.addItem(i)
+                i.setBrush(self.previewcolor)
+                color2 = self.previewcolor.__copy__()
+                color2.setAlpha(180)
+                i.setPen(color2)
         self.retransform()
         #self.free_transform()
         # self.poly.init_graphics(viewport)
@@ -75,6 +102,9 @@ class PropRenderable(Renderable):
         super().remove_graphics(viewport)
         viewport.workscene.removeItem(self.renderedtexture)
         self.poly.remove_graphics(viewport)
+        if self.prop.rope:
+            for i in self.rope_graphics:
+                viewport.workscene.removeItem(i)
 
     def remove_myself(self):
         super().remove_myself()
@@ -108,7 +138,13 @@ class PropRenderable(Renderable):
         self.renderedtexture.setOpacity(0 if self.hide else (alph / 255))
         self.poly.drawpoly.setOpacity((alph / 255) if self.drawpoly and not self.hide else 0)
         #self.renderedtexture.setTransformOriginPoint(self.actual_offset)
-        self.renderedtexture.setTransform(transform)
+        if self.prop.rope:
+            for i, s in zip(self.rope_graphics, self.rope_segments):
+                i.setRect(s.x() - 5, s.y() - 5, 10, 10)
+                i.setPos(self.actual_offset)
+                i.setScale(self.zoom)
+        if transform is not None:
+            self.renderedtexture.setTransform(transform)
         #self.renderedtexture.setScale(self.zoom)
 
     def delete_handlers(self):

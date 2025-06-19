@@ -1,13 +1,11 @@
 from RWESharp.Modify import HistoryElement
-from RWESharp.Loaders import Prop
-from RWESharp.Core import RWELevel
-from BaseMod.props.propUtils import copyprop
+from BaseMod.LevelParts import PropLevelPart
 
 
 class PropPlace(HistoryElement):
-    def __init__(self, history, prop: list):
+    def __init__(self, history, prop: PropLevelPart.PlacedProp):
         super().__init__(history)
-        self.prop = copyprop(prop)
+        self.prop = prop.copy()
         self.module = history.level.viewport.modulenames["props"]
         #self.index = len(history.level.props)
         self.redo_changes()
@@ -23,7 +21,7 @@ class PropPlace(HistoryElement):
 class PropRemove(HistoryElement):
     def __init__(self, history, index: int):
         super().__init__(history)
-        self.prop = copyprop(history.level.l_props[index])
+        self.prop = history.level.l_props[index].copy()
         self.module = history.level.viewport.modulenames["props"]
         self.index = index
         self.redo_changes()
@@ -32,7 +30,7 @@ class PropRemove(HistoryElement):
         self.module.remove_prop(self.index)
 
     def undo_changes(self):
-        self.module.add_prop(self.index, copyprop(self.prop))
+        self.module.add_prop(self.index, self.prop.copy())
 
 
 class PropsMove(HistoryElement):

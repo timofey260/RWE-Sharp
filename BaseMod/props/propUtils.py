@@ -12,4 +12,4 @@ def find_mid(prop) -> QPointF:
     :param prop: prop
     :return: pos in editors coordinates
     """
-    return sum(prop[3], QPointF()) / 4
+    return sum(prop.quad, QPointF()) / 4

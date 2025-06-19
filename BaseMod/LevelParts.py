@@ -170,18 +170,44 @@ class TileLevelPart(LevelPart):
 class PropLevelPart(LevelPart):
     def __init__(self, level):
         super().__init__("props", level)
-        self.props = []
+        self.props: list[PropLevelPart.PlacedProp] = []
         for i in self.level["PR"]["props"]:
             newp = self.copyprop(i)
-            newp[3] = [QPointF(*lingoIO.fromarr(p, "point")) * (CELLSIZE / SPRITESIZE) for p in newp[3]]
-            self.props.append(newp)
+            # find prop
+            found = self.manager.props.find_prop(newp[1])
+            if found is None:
+                found = self.manager.props.default
+            prop = PropLevelPart.PlacedProp(found, newp[0],
+                                            [QPointF(*lingoIO.fromarr(p, "point")) * (CELLSIZE / SPRITESIZE) for p in newp[3]],
+                                            newp[4])
+            # newp[3] = [QPointF(*lingoIO.fromarr(p, "point")) * (CELLSIZE / SPRITESIZE) for p in newp[3]]
+            # if newp[4].get("points") is not None:
+            #     newp[4]["points"] = [QPointF(*lingoIO.fromarr(p, "point")) * (CELLSIZE / SPRITESIZE) for p in newp[4]["points"]]
+            self.props.append(prop)
 
     def save_level(self):
         self.level["PR"]["props"] = []
         for i in self.props:
-            newp = self.copyprop(i)
-            newp[3] = [lingoIO.point((p * (SPRITESIZE / CELLSIZE)).toTuple()) for p in newp[3]]
-            self.level["PR"]["props"].append(newp)
+            self.level["PR"]["props"].append(i.tolist)
+
+    class PlacedProp:
+        def __init__(self, prop, depth: int, quad: [QPointF, QPointF, QPointF, QPointF], settings: dict):
+            self.prop = prop
+            self.depth = depth
+            self.quad = quad
+            self.settings = settings
+
+        @property
+        def name(self):
+            return self.prop.name
+
+        @property
+        def tolist(self):
+            return [self.depth, self.name, lingoIO.point(self.prop.cat.toTuple()),
+                    [lingoIO.point((p * (SPRITESIZE / CELLSIZE)).toTuple()) for p in self.quad], self.settings]
+
+        def copy(self):
+            return PropLevelPart.PlacedProp(self.prop, self.depth, self.quad.copy(), self.settings.copy())
 
     def __len__(self):
         return len(self.props)

@@ -14,7 +14,7 @@ class Prop:
     images: list[QImage]
     colorTreatment: str
     vars: int
-    color: str
+    # color: str
     color: QColor
     cat: QPoint
     tags: list[str]
@@ -24,6 +24,8 @@ class Prop:
     size: QSize
     layerExceptions: list = field(default=list)
     beveltable: None | list[int] = None
+    rope: bool = False
+    long: bool = False
 
     @property
     def colorable(self):
@@ -34,6 +36,11 @@ class Prop:
 
     def __getitem__(self, item):
         return self.item.get(item)
+
+    def copy(self):
+        return Prop(self.item, self.name, self.type, self.repeatl, self.description, self.images, self.colorTreatment,
+                    self.vars, self.color, self.cat, self.tags, self.err, self.category, self.notes, self.size, self.layerExceptions,
+                    self.beveltable, self.rope, self.long)
 
 
 @dataclass
@@ -55,6 +62,7 @@ class PropCategory:
 @dataclass
 class Props:
     categories: list[PropCategory]
+    default = Prop({}, "None", "standard", [1], "No Description", [QImage(10, 10, QImage.Format.Format_RGBA64)], "none", 1, QColor(255, 0, 0), QPoint(0, 0), [], True, None, [], QSize(1, 1))
 
     def find_prop(self, name) -> Prop | None:
         for i in self.categories:

@@ -27,10 +27,12 @@ def load_prop(item: dict, colr, category, catnum, indx):
         return Prop(item, item.get("nm", "NoName"), item.get("tp"), repeatl, "todo",
                     images, item.get("colorTreatment", "standard"), vars,
                     colr, QPoint(catnum, indx), item.get("tags", []), err,
-                    category, item.get("notes", []), images[0].size(), item.get("layerExceptions", []))
+                    category, item.get("notes", []), images[0].size(), item.get("layerExceptions", []),
+                    rope=item.get("tp") == "rope", long=item.get("tp") == "long")
     img = QImage(os.path.join(PATH_DRIZZLE_PROPS, f"{path}.png"))
     standard = item.get("tp", "standard") in ["standard", "variedStandard"]
     soft = item.get("tp", "soft") in ["soft", "variedSoft"]
+    rope_long = item.get("tp", "standard") in ["rope", "long"]
 
     ws, hs = img.width(), img.height()
     w, h = ws, hs
@@ -55,7 +57,18 @@ def load_prop(item: dict, colr, category, catnum, indx):
         except ValueError:
             log(f"Error loading {item['nm']}", True)
             err = True
-    if not standard or soft:
+
+    if rope_long:
+        mask = img.createMaskFromColor(QColor(255, 255, 255, 255).rgba(), Qt.MaskMode.MaskOutColor)
+        mask.setColorTable([4294967295, 0])
+        newimg = QPixmap(img.size())
+        newimg.fill(QColor(0, 0, 0, 0))
+        painter = QPainter(newimg)
+        painter.drawImage(0, 0, img)
+        painter.setCompositionMode(QPainter.CompositionMode.CompositionMode_DestinationOut)
+        painter.drawImage(0, 0, mask)
+        painter.end()
+    elif not standard or soft:
         mask = img.createMaskFromColor(QColor(255, 255, 255, 255).rgba(), Qt.MaskMode.MaskOutColor)
         mask.setColorTable([4294967295, 0])
         mask2 = img.createMaskFromColor(QColor(0, 0, 0, 0).rgba(), Qt.MaskMode.MaskOutColor)
@@ -129,7 +142,8 @@ def load_prop(item: dict, colr, category, catnum, indx):
     return Prop(item, item.get("nm", "NoName"), item.get("tp"), repeatl, "todo",
                 images, item.get("colorTreatment", "standard"), vars,
                 colr, QPoint(catnum, indx), item.get("tags", []), err,
-                category, item.get("notes", []), QSize(w, h), item.get("layerExceptions", []))
+                category, item.get("notes", []), QSize(w, h), item.get("layerExceptions", []),
+                rope=item.get("tp") == "rope", long = item.get("tp") == "long")
 
 
 def tile2prop(tile: Tile, cat, category):

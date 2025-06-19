@@ -15,3 +15,7 @@ class LevelPart(ABC):
     @abstractmethod
     def save_level(self):
         pass
+
+    @property
+    def manager(self):
+        return self.level.manager

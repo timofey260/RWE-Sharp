@@ -1,3 +1,5 @@
+import math
+
 from RWESharp.Modify import Editor
 from RWESharp.Core import CELLSIZE, SPRITESIZE
 from RWESharp.Configurable import ColorConfigurable
@@ -10,8 +12,10 @@ from BaseMod.props.propExplorer import PropExplorer
 from BaseMod.props.propRenderable import PropRenderable
 from BaseMod.props.propHistory import PropPlace, PropRemove
 from BaseMod.props.propUtils import find_mid
+from BaseMod.props.RopePhysics import RopeModel
+from BaseMod.LevelParts import PropLevelPart
 
-from PySide6.QtCore import QPointF, QLineF, Qt, QRect, QPoint
+from PySide6.QtCore import QPointF, QLineF, Qt, QRect, QPoint, QTimer
 from PySide6.QtGui import QPolygonF, QColor, QPen
 
 import random as rnd
@@ -41,6 +45,25 @@ class PropEditor(Editor):
         self.selected_poly: list[RenderPoly] = []
         self.selectpoint = QPoint()
 
+        self.prop_simulation: RopeModel = None
+        self.updatetimer = QTimer()
+        self.updatetimer.setInterval(3.333333333)
+        self.updatetimer.timeout.connect(self.update_rope)
+        self.updatetimer.start()
+
+    def update_rope(self):
+        if not self.prop.rope or self.prop_simulation is None:
+            return
+        #middle = (self.placingprop.transform[0] + self.placingprop.transform[1] + self.placingprop.transform[2] + self.placingprop.transform[3]) * (1 / 4)
+        ropepos = self.viewport.viewport_to_editor_float(self.mouse_pos.toPointF()) * CELLSIZE
+        pA = (self.placingprop.transform[0] + self.placingprop.transform[3]) * .5 + ropepos
+        pB = (self.placingprop.transform[1] + self.placingprop.transform[2]) * .5 + ropepos
+        self.prop_simulation.posA = pA
+        self.prop_simulation.posB = pB
+        self.prop_simulation.modelRopeUpdate() # todo disable rope colission
+        self.placingprop.rope_segments = [i["pos"] - ropepos for i in self.prop_simulation.segments]
+        self.placingprop.retransform()
+
     def setprop(self, props: list[Prop]):
         if len(props) > 0:
             self.prop = props[0]
@@ -51,6 +74,24 @@ class PropEditor(Editor):
         self.reset_transform()
         self.placingprop.set_variation(self.prop_settings.get("variation", 1))
         self.apply_tags()
+        if self.prop.rope:
+            self.create_rope_simulation()
+
+    def create_rope_simulation(self):
+        if self.prop.rope:
+            ropepos = self.editor_pos
+            pA = (self.placingprop.transform[0] + self.placingprop.transform[3]) * .5 + ropepos
+            pB = (self.placingprop.transform[1] + self.placingprop.transform[2]) * .5 + ropepos
+            collDep = ((self.layer - 1) * 10) + self.depth + self.prop["collisionDepth"]
+            if collDep < 10:
+                cd = 0
+            elif collDep < 20:
+                cd = 1
+            else:
+                cd = 2
+            fac = math.dist(self.placingprop.transform[0].toTuple(), self.placingprop.transform[3].toTuple()) / self.prop.images[0].height()
+            self.prop_simulation = RopeModel(self.level.l_geo, pA, pB, self.prop, fac, cd, self.prop_settings["release"])
+            self.placingprop.create_rope_graphics_from_model(self.prop_simulation)
 
     def apply_tags(self):
         tags = self.prop.tags
@@ -97,10 +138,10 @@ class PropEditor(Editor):
             self.selectrect.drawrect.setOpacity(1)
             self.reset_selection()
             for i, prop in enumerate(self.level.l_props):
-                for p in prop[3]:
+                for p in prop.quad:
                     if rect.contains(p.toPoint()):
                         self.selected.append(i)
-                        poly = RenderPoly(self, 0, QPolygonF(prop[3]), self.select_color.value)
+                        poly = RenderPoly(self, 0, QPolygonF(prop.quad), self.select_color.value)
                         self.selected_poly.append(poly)
                         poly.init_graphics(self.viewport)
                         break
@@ -110,7 +151,7 @@ class PropEditor(Editor):
             self.debugpoly.drawpoly.setOpacity(1)
             closest = self.level.l_props[self.find_nearest(self.editor_pos)]
             self.debugline.setLine(QLineF(self.editor_pos, find_mid(closest)))
-            self.debugpoly.setPoly(QPolygonF(closest[3]))
+            self.debugpoly.setPoly(QPolygonF(closest.quad))
 
     def mouse_left_press(self):
         if self.control:
@@ -150,6 +191,7 @@ class PropEditor(Editor):
             self.editingprop = False
             self.placingprop.delete_handlers()
             self.viewport.clean()
+            self.create_rope_simulation()
             return
         self.editingprop = True
         self.placingprop.free_transform()
@@ -234,6 +276,9 @@ class PropEditor(Editor):
 
     def place(self):
         quads = [i + self.placingprop.offset for i in self.transform]
-        prop = [-self.depth, self.prop.name, lingoIO.point([self.prop.cat.x(), self.prop.cat.y()]),
-                quads, {"settings": self.prop_settings.copy()}]
+        settings = {"settings": self.prop_settings.copy()}
+        if self.prop.rope:
+            ropepos = self.viewport.viewport_to_editor_float(self.mouse_pos.toPointF()) * CELLSIZE
+            settings["points"] = [lingoIO.point((i + ropepos).toTuple()) for i in self.placingprop.rope_segments]
+        prop = PropLevelPart.PlacedProp(self.prop, -self.depth, quads, settings)
         self.level.add_history(PropPlace, prop)
