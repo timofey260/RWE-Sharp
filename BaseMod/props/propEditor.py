@@ -109,6 +109,7 @@ class PropEditor(Editor):
         self.transform[1].setX(-self.transform[1].x())
         self.transform[2].setX(-self.transform[2].x())
         self.transform[3].setX(-self.transform[3].x())
+        self.create_rope_simulation()
         self.placingprop.move_event()
 
     def flipy(self):
@@ -116,6 +117,7 @@ class PropEditor(Editor):
         self.transform[1].setY(-self.transform[1].y())
         self.transform[2].setY(-self.transform[2].y())
         self.transform[3].setY(-self.transform[3].y())
+        self.create_rope_simulation()
         self.placingprop.move_event()
 
     def rotate(self, rot):
@@ -123,6 +125,7 @@ class PropEditor(Editor):
         for t in self.transform:
             newtransform.append(rotate_point(t, rot))
         self.placingprop.transform = newtransform
+        self.create_rope_simulation()
         self.placingprop.move_event()
 
     def move_event(self):
