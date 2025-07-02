@@ -312,7 +312,7 @@
     <set>QDockWidget::DockWidgetFeature::DockWidgetClosable|QDockWidget::DockWidgetFeature::DockWidgetFloatable|QDockWidget::DockWidgetFeature::DockWidgetMovable</set>
    </property>
    <property name="windowTitle">
-    <string>VIew</string>
+    <string>View</string>
    </property>
    <attribute name="dockWidgetArea">
     <number>1</number>

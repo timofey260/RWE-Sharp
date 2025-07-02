@@ -459,7 +459,7 @@ class Ui_MainWindow(object):
         self.menuedit.setTitle(QCoreApplication.translate("MainWindow", u"Edit", None))
         self.menuWindow.setTitle(QCoreApplication.translate("MainWindow", u"Window", None))
         self.menuEditors.setTitle(QCoreApplication.translate("MainWindow", u"Editors", None))
-        self.DockView.setWindowTitle(QCoreApplication.translate("MainWindow", u"VIew", None))
+        self.DockView.setWindowTitle(QCoreApplication.translate("MainWindow", u"View", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"Layer:", None))
         self.NextLayer.setText(QCoreApplication.translate("MainWindow", u"Next", None))
         self.PreviousLayer.setText(QCoreApplication.translate("MainWindow", u"Previous", None))
