@@ -24,7 +24,6 @@ class CameraModule(Module):
 
     def pop_camera(self, index):
         rc = self.cameras.pop(index)
-        rc.remove_graphics(self.viewport)
         rc.remove_myself()
         pop = self.level.l_cameras.pop(index)
         self.reindex()

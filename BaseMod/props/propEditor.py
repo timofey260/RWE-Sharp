@@ -180,7 +180,6 @@ class PropEditor(Editor):
 
     def reset_selection(self):
         for i in self.selected_poly:
-            i.remove_graphics(self.viewport)
             i.remove_myself()
         self.selected_poly = []
         self.selected = []

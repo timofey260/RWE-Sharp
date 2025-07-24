@@ -124,12 +124,10 @@ class RenderCamera(RenderList):
 
     def edit_camera(self, edit=True):
         if not edit:
-            self.poshandle.remove_graphics(self.viewport)
             self.poshandle.remove_myself()
             self.renderables.remove(self.poshandle)
             self.poshandle = None
             for i in self.quadhandles:
-                i.remove_graphics(self.viewport)
                 i.remove_myself()
                 self.renderables.remove(i)
             self.quadhandles = None

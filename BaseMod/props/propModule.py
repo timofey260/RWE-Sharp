@@ -31,7 +31,7 @@ class PropModule(Module):
 
     def render_props(self):
         for i in self.props:
-            i.remove_graphics(self.viewport)
+            i.remove_myself()
         self.props = []
         for i in self.level.l_props:
             self.props.append(PropRenderable(self, i))

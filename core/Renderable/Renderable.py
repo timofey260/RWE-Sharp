@@ -21,6 +21,8 @@ class Renderable(ABC):
     def remove_myself(self):
         if self.module is None:
             return
+        if self.viewport is not None:
+            self.remove_graphics(self.viewport)
         self.module.renderables.remove(self)
         self.module = None
 
