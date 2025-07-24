@@ -17,8 +17,8 @@ checkpoints2 = [QPoint(0, -1),
 
 
 class GeoRenderLevelImage(RenderLevelImage):
-    def __init__(self, module, depth, geolayer):
-        super().__init__(module, depth)
+    def __init__(self, module, depth, geolayer, add_renderable: bool = True):
+        super().__init__(module, depth, add_renderable=False)
         self.module = module
         self.geolayer = geolayer
         # transform = QTransform()
@@ -36,6 +36,8 @@ class GeoRenderLevelImage(RenderLevelImage):
         self.sinfo: dict = CONSTS.get("geo_image_config", {}).get("stackablesinfo", {})
         self._sz = CONSTS.get("geo_image_config", {}).get("itemsize", 100)
         # self.draw_layer()
+        if add_renderable:
+            self.module.add_renderable(self)
 
     def update_image(self):
         if os.path.exists(self.module.ui.imagepath.value):

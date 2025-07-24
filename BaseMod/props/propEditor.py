@@ -146,7 +146,7 @@ class PropEditor(Editor):
                         self.selected.append(i)
                         poly = RenderPoly(self, 0, QPolygonF(prop.quad), self.select_color.value)
                         self.selected_poly.append(poly)
-                        poly.init_graphics(self.viewport)
+                        #poly.init_graphics(self.viewport)
                         break
             return
         if self.shift and len(self.level.l_props) > 0:

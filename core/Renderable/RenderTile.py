@@ -7,13 +7,15 @@ from PySide6.QtWidgets import QGraphicsPixmapItem
 
 
 class RenderTile(RenderImage):
-    def __init__(self, module, depth, layer: int):
-        super().__init__(module, depth, QSize(1, 1))
+    def __init__(self, module, depth, layer: int, add_renderable: bool = True):
+        super().__init__(module, depth, QSize(1, 1), add_renderable=False)
         self.colsimage = QPixmap(1, 1)
         self.colsimage_rendered = QGraphicsPixmapItem(self.colsimage)
         self.layer = layer
         self.tile = None
         self.drawoption = 0
+        if add_renderable:
+            self.module.add_renderable(self)
 
     def set_tile(self, tile: Tile, colortable, option: int = 0):
         self.drawoption = option

@@ -114,6 +114,7 @@ class Manager:
                 self.mod_types.append(mod)
         log("Mod loading finished!")
 
+
     def add_editor(self, editor, ui: QWidget):
         self.editors.append(editor)
         self.window.ui.ToolsTabs.addTab(ui, ui.objectName())

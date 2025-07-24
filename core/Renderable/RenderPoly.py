@@ -6,8 +6,8 @@ from widgets import Viewport
 
 
 class RenderPoly(Renderable):
-    def __init__(self, module, depth, poly: QPolygonF, pen=QPen(Qt.GlobalColor.red), brush=QBrush(Qt.GlobalColor.transparent)):
-        super().__init__(module, depth)
+    def __init__(self, module, depth, poly: QPolygonF, pen=QPen(Qt.GlobalColor.red), brush=QBrush(Qt.GlobalColor.transparent), add_renderable: bool = True):
+        super().__init__(module, depth, False)
         self.poly = poly
         self.drawpoly = QGraphicsPolygonItem(self.poly)
         self.pen = QPen(pen)
@@ -15,6 +15,8 @@ class RenderPoly(Renderable):
         self.drawpoly.setZValue(self.depth)
         self.drawpoly.setPen(self.pen)
         self.drawpoly.setBrush(self.brush)
+        if add_renderable:
+            self.module.add_renderable(self)
 
     def init_graphics(self, viewport):
         super().init_graphics(viewport)

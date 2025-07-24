@@ -7,12 +7,14 @@ import numpy as np
 
 
 class EffectRenderLevelImage(RenderLevelImage):
-    def __init__(self, editor, depth, effect_index):
-        super().__init__(editor, depth)
+    def __init__(self, editor, depth, effect_index, add_renderable: bool = True):
+        super().__init__(editor, depth, add_renderable=False)
         self.index = effect_index
         self.editor = editor
         self.painter.setPen(QColor(0, 0, 0, 0))
         # self.painter.setCompositionMode(self.painter.CompositionMode.CompositionMode_Source)
+        if add_renderable:
+            self.module.add_renderable(self)
 
     def change_index(self, index):
         self.index = index

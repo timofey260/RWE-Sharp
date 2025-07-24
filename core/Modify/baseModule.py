@@ -27,6 +27,11 @@ class Module(ABC):
 
     def add_renderable(self, renderable: Renderable):
         self.renderables.append(renderable)
+        if self.viewport is not None:
+            renderable.init_graphics(self.viewport)
+            renderable.post_init_graphics(self.viewport)
+            renderable.move_event()
+            renderable.zoom_event()
 
     def add_myself(self, viewport: ViewPort, name=None):
         self.viewport = viewport

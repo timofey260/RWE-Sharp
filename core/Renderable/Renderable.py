@@ -8,14 +8,15 @@ if TYPE_CHECKING:
 
 
 class Renderable(ABC):
-    def __init__(self, module: Module, depth: int):
+    def __init__(self, module: Module, depth: int, add_renderable: bool = True):
         self.depth: int = -depth
         # self.pos: QPointF = QPointF()
         self.offset: QPointF = QPointF()
         self.scale = 1
         self.opacity = 1
         self.module: Module = module
-        self.module.add_renderable(self)
+        if add_renderable:
+            self.module.add_renderable(self)
 
     def remove_myself(self):
         if self.module is None:

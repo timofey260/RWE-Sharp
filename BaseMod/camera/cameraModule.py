@@ -37,7 +37,7 @@ class CameraModule(Module):
     def add_camera(self, index, camera: CameraLevelPart.Camera):
         self.level.l_cameras.cameras.insert(index, camera)
         rc = RenderCamera(self, cameradepth, camera)
-        rc.init_graphics(self.viewport)
+        #rc.init_graphics(self.viewport)
         rc.textindex.setPlainText(str(index))
         self.cameras.insert(index, rc)
 

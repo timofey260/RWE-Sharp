@@ -40,11 +40,11 @@ class PropModule(Module):
 
     def render_prop(self, index: int):
         p = PropRenderable(self, self.level.l_props[index])
-        p.poly.init_graphics(self.viewport)  # because
+        #p.poly.init_graphics(self.viewport)  # because
         for i in p.rope_graphics:
             self.viewport.workscene.addItem(i)
         self.props.insert(index, p)
-        p.init_graphics(self.viewport)
+        #p.init_graphics(self.viewport)
         p.set_visible(self.mod.propsview.showprops.value)
         p.set_outline(self.mod.propsview.showoutline.value, self.mod.propsview.outline_color.value)
 

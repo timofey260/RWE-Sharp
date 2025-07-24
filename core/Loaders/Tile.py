@@ -1,6 +1,6 @@
 from __future__ import annotations
 from PySide6.QtGui import QImage, QColor, QPixmap, QPainter, QPen
-from PySide6.QtCore import QPoint, QSize, QLine, Qt, QRect
+from PySide6.QtCore import QPoint, QSize, QLine, Qt, QRect, Signal
 from core.info import CELLSIZE
 from dataclasses import dataclass
 
@@ -138,6 +138,7 @@ class TileCategory:
 @dataclass
 class Tiles:
     categories: list[TileCategory]
+    tileschanged = Signal()
 
     def find_tile(self, name) -> Tile | None:
         for i in self.categories:

@@ -5,9 +5,11 @@ from PySide6.QtGui import QColor
 
 
 class GridRenderLevelImage(RenderLevelImage):
-    def __init__(self, module, depth):
-        super().__init__(module, depth)
+    def __init__(self, module, depth, add_renderable: bool = True):
+        super().__init__(module, depth, add_renderable=False)
         module.ui.gridpen.valueChanged.connect(self.draw_layer)
+        if add_renderable:
+            self.module.add_renderable(self)
 
     def draw_layer(self) -> None:
         self.painter.setPen(self.module.ui.gridpen.value)

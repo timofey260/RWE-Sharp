@@ -12,12 +12,12 @@ import random
 
 
 class PropRenderable(Renderable):
-    def __init__(self, module, prop: PropLevelPart.PlacedProp | Prop):
+    def __init__(self, module, prop: PropLevelPart.PlacedProp | Prop, add_renderable: bool = True):
         self.hide = False
         self.drawpoly = False
         if not isinstance(prop, Prop):
             self.propdepth = prop.depth
-            super().__init__(module, -self.propdepth // 10 * 100 + 100)
+            super().__init__(module, -self.propdepth // 10 * 100 + 100, False)
             self.poly = RenderPoly(module, self.depth, QPolygonF())
             self.transform: list[QPointF] = prop.quad
             self.prop = prop.prop
@@ -29,10 +29,12 @@ class PropRenderable(Renderable):
             self.image = prop.prop.images[variation]
             self.renderedtexture = QGraphicsPixmapItem(QPixmap.fromImage(self.image))
             self.renderedtexture.setZValue(self.depth)
+            if add_renderable:
+                self.module.add_renderable(self)
             return
         self.prop = prop
         self.image = prop.images[0]
-        super().__init__(module, 100)
+        super().__init__(module, 100, False)
         self.poly = RenderPoly(module, 100, QPolygonF())
         self.renderedtexture = QGraphicsPixmapItem(QPixmap.fromImage(self.image))
         self.renderedtexture.setZValue(self.depth)
@@ -44,6 +46,8 @@ class PropRenderable(Renderable):
         self.rope_graphics = []
         self.rope_segments = []
         self.previewcolor = QColor(255, 0, 0)
+        if add_renderable:
+            self.module.add_renderable(self)
 
     def create_rope_graphics_from_model(self, model):
         if not self.prop.rope:
@@ -157,7 +161,7 @@ class PropRenderable(Renderable):
         self.handlers = []
         for i in range(4):
             self.handlers.append(Handle(self.module))
-            self.handlers[i].init_graphics(self.viewport)
+            #self.handlers[i].init_graphics(self.viewport)
             self.handlers[i].setPos(self.transform[i] + self.offset)
             self.handlers[i].posChanged.connect(self.pointchange(i))
 

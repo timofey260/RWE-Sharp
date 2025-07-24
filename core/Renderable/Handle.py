@@ -51,12 +51,14 @@ class HandleItem(QGraphicsRectItem, QObject):
 
 
 class Handle(Renderable):
-    def __init__(self, module):
-        super().__init__(module, -100)
+    def __init__(self, module, add_renderable: bool = True):
+        super().__init__(module, -100, False)
         self.handle = HandleItem(self)
         self.handle.setZValue(self.depth)
         self.handle.setPos(self.offset)
         self.handle_offset = QPointF()
+        if add_renderable:
+            module.add_renderable(self)
 
     def init_graphics(self, viewport):
         super().init_graphics(viewport)

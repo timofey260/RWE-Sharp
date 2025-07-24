@@ -8,8 +8,8 @@ import math
 
 
 class RenderCamera(RenderList):
-    def __init__(self, module, depth, camera):
-        super().__init__(module, depth)
+    def __init__(self, module, depth, camera, add_renderable: bool = True):
+        super().__init__(module, depth, add_renderable=False)
 
         self.drawrect = QGraphicsRectItem(QRectF())
         module.basemod.cameraview.rectcolor.valueChanged.connect(self.drawrect.setPen)
@@ -71,6 +71,8 @@ class RenderCamera(RenderList):
         self.update_camera()
         self.zoom_event()
         self.move_event()
+        if add_renderable:
+            self.module.add_renderable(self)
 
     @property
     def camerarect(self):
@@ -143,7 +145,7 @@ class RenderCamera(RenderList):
                 i.mouseReleased.disconnect()
             return
         self.poshandle = Handle(self.module)
-        self.poshandle.init_graphics(self.viewport)
+        #self.poshandle.init_graphics(self.viewport)
         self.poshandle.setPos(self.camera.pos)
         self.poshandle.handle_offset = QPointF(camw / 2 * CELLSIZE, camh / 2 * CELLSIZE)
         self.poshandle.posChanged.connect(self.setPos)
@@ -155,7 +157,7 @@ class RenderCamera(RenderList):
             h.handle_offset = v + self.newquads[i] * 5 * CELLSIZE
             # h.setPos(self.camera.pos)
             h.posChanged.connect(self.movequad(i))
-            h.init_graphics(self.viewport)
+            #h.init_graphics(self.viewport)
             h.move_event()
             self.quadhandles.append(h)
             self.renderables.append(h)

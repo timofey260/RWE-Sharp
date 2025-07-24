@@ -9,13 +9,15 @@ from BaseMod.tiles.tileUtils import PlacedMaterial, PlacedTileHead, PlacedTileBo
 
 
 class TileRenderLevelImage(RenderLevelImage):
-    def __init__(self, module, depth, tilelayer):
-        super().__init__(module, depth)
+    def __init__(self, module, depth, tilelayer, add_renderable: bool = True):
+        super().__init__(module, depth, add_renderable=False)
         self.module = module
         self.ui = self.module.ui
         self.tilelayer = tilelayer
         self.tilescene = QGraphicsScene(0, 0, 100, 100)
         # self.tileindex: list[QGraphicsPixmapItem | QGraphicsRectItem] = []
+        if add_renderable:
+            self.module.add_renderable(self)
 
     def fill_scene(self):
         self.clear_scene()

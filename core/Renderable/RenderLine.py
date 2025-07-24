@@ -6,13 +6,15 @@ from widgets import Viewport
 
 
 class RenderLine(Renderable):
-    def __init__(self, module, depth, line: QLine | QLineF, pen=QPen(Qt.GlobalColor.red)):
-        super().__init__(module, depth)
+    def __init__(self, module, depth, line: QLine | QLineF, pen=QPen(Qt.GlobalColor.red), add_renderable: bool = True):
+        super().__init__(module, depth, False)
         self.line = line
         self.drawline = QGraphicsLineItem(line)
         self.pen = QPen(pen)
         self.drawline.setZValue(self.depth)
         self.drawline.setPen(self.pen)
+        if add_renderable:
+            self.module.add_renderable(self)
 
     def init_graphics(self, viewport):
         super().init_graphics(viewport)

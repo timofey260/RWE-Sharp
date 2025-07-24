@@ -6,13 +6,15 @@ from PySide6.QtWidgets import QGraphicsPixmapItem
 
 
 class RenderImage(Renderable):
-    def __init__(self, module, depth, imagesize: QSize):
-        super().__init__(module, depth)
+    def __init__(self, module, depth, imagesize: QSize, add_renderable: bool = True):
+        super().__init__(module, depth, False)
         self.image = QPixmap(imagesize)
         self.image.fill(QColor(0, 0, 0, 0))
         self.painter = QPainter(self.image)
         self.renderedtexture = QGraphicsPixmapItem(self.image)
         self.renderedtexture.setZValue(self.depth)
+        if add_renderable:
+            self.module.add_renderable(self)
 
     def redraw(self) -> None:
         """

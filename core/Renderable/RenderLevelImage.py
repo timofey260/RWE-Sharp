@@ -5,8 +5,8 @@ from core.info import CELLSIZE
 
 
 class RenderLevelImage(RenderImage):
-    def __init__(self, module, depth):
-        super().__init__(module, depth, QSize(1, 1))
+    def __init__(self, module, depth, add_renderable: bool = True):
+        super().__init__(module, depth, QSize(1, 1), add_renderable=add_renderable)
 
     def init_graphics(self, viewport):
         super().init_graphics(viewport)

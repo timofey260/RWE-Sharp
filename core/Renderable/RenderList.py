@@ -8,10 +8,12 @@ class RenderList(Renderable):
     some easy way to have multiple Renderables or QGraphicsItems in one class
     without having to worry about them getting added
     """
-    def __init__(self, module, depth):
-        super().__init__(module, depth)
+    def __init__(self, module, depth, add_renderable: bool = True):
+        super().__init__(module, depth, False)
         self.graphicsitems: list[QGraphicsItem] = []
         self.renderables: list[Renderable] = []
+        if add_renderable:
+            self.module.add_renderable(self)
 
     def assign_depth(self):
         for i in self.graphicsitems:
@@ -21,8 +23,8 @@ class RenderList(Renderable):
         super().init_graphics(viewport)
         for i in self.graphicsitems:
             viewport.workscene.addItem(i)
-        for i in self.renderables:
-            i.init_graphics(viewport)
+        # for i in self.renderables:
+        #     i.init_graphics(viewport)
 
     def remove_graphics(self, viewport):
         for i in self.graphicsitems:

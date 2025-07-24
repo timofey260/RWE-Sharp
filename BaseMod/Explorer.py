@@ -37,6 +37,8 @@ class Explorer(ViewDockWidget):
         self.view_items.setSelectionMode(QListWidget.SelectionMode.ExtendedSelection)
         self.view_items.setIconSize(QSize(20, 20))
 
+        #self.ui.Favourite.clicked.connect()
+
         self.simplemode = False
         self.load_categories()
         self.items_grid()
