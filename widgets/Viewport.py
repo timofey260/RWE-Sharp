@@ -1,4 +1,5 @@
 from __future__ import annotations
+import traceback
 from PySide6.QtGui import QColor, QPixmap
 from PySide6.QtCore import Qt, QPoint, Slot, QPointF
 from PySide6.QtWidgets import QGraphicsView, QGraphicsScene, QApplication, QFileDialog
@@ -18,7 +19,7 @@ class ViewPort(QGraphicsView):
     :param manager: rwe# manager
     :param parent: widget parent
     """
-    def __init__(self, level, manager, parent=None):
+    def __init__(self, level: RWELevel, manager, parent=None):
         super().__init__(parent)
         self.level: RWELevel = level
         self.level.viewport = self
@@ -38,6 +39,7 @@ class ViewPort(QGraphicsView):
         self.mouse_pos = QPoint()
         self.modules: list[Module] = []
         self.modulenames: dict[str, Module] = {}
+        self.setAcceptDrops(True)
         # self.setBackgroundBrush(QBrush(QColor(30, 30, 30), Qt.BrushStyle.SolidPattern))
         for i in self.manager.mods:
             i.level_opened(self)
@@ -50,6 +52,36 @@ class ViewPort(QGraphicsView):
         for i in self.modules:
             i.move_event()
             i.zoom_event()
+            
+    def dragEnterEvent(self, event):
+        if event.mimeData().hasUrls:
+            event.accept()
+        else:
+            event.ignore()
+
+    def dragMoveEvent(self, event):
+        if event.mimeData().hasUrls:
+            event.setDropAction(Qt.DropAction.CopyAction)
+            event.accept()
+        else:
+            event.ignore()
+
+    def dropEvent(self, event, /):
+        if event.mimeData().hasUrls:
+            event.setDropAction(Qt.DropAction.CopyAction)
+            event.accept()
+            links = []
+            for url in event.mimeData().urls():
+                links.append(str(url.toLocalFile()))
+            from core.Level.RWELevel import RWELevel
+            for i in links:
+                try:
+                    level = RWELevel(self.manager, i)
+                    self.manager.open_level(level)
+                except:
+                    traceback.print_exc()
+        else:
+            event.ignore()
 
     @Slot()
     def redraw(self):

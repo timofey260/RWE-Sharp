@@ -336,7 +336,7 @@ class GeometryEditor(Editor):
 
     def tool_specific_press(self, tool: Enum):
         fpos = self.viewport.viewport_to_editor(self.mouse_pos)
-        self.defaultcursor = QCursor(QPixmap(IMG_PEN), 0, 20)
+        #self.defaultcursor = QCursor(QPixmap(IMG_PEN), 0, 20)
         if tool == GeoTools.Pen:
             blk, stak = self.block2info()
             self.level.add_history(GEPointChange, fpos, [blk, stak], self.layers)

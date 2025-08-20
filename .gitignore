@@ -1,13 +1,2 @@
-/drizzle/
-/loadLog.txt
-/files/cache/
-/.idea/
-/.venv/
-__pycache__/
-/Stuff/*
-/Stuff/
-/levelEditorProjects/
-/levelEditorProjects/*
-BaseMod/palettes/.alshda;
-/build/*
-/build/
+# Created by venv; see https://docs.python.org/3/library/venv.html
+*

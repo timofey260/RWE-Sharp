@@ -52,7 +52,7 @@ class PropEditor(Editor):
         self.updatetimer.start()
 
     def update_rope(self):
-        if not self.prop.rope or self.prop_simulation is None:
+        if not self.prop.rope or self.prop_simulation is None or self.viewport is None:
             return
         #middle = (self.placingprop.transform[0] + self.placingprop.transform[1] + self.placingprop.transform[2] + self.placingprop.transform[3]) * (1 / 4)
         ropepos = self.viewport.viewport_to_editor_float(self.mouse_pos.toPointF()) * CELLSIZE
@@ -89,7 +89,10 @@ class PropEditor(Editor):
                 cd = 1
             else:
                 cd = 2
-            fac = math.dist(self.placingprop.transform[0].toTuple(), self.placingprop.transform[3].toTuple()) / self.prop.images[0].height()
+            if self.prop.images[0].height() == 0:
+                fac = 0
+            else:
+                fac = math.dist(self.placingprop.transform[0].toTuple(), self.placingprop.transform[3].toTuple()) / self.prop.images[0].height()
             self.prop_simulation = RopeModel(self.level.l_geo, pA, pB, self.prop, fac, cd, self.prop_settings["release"])
             self.placingprop.create_rope_graphics_from_model(self.prop_simulation)
 
