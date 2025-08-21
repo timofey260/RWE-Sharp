@@ -46,8 +46,6 @@ REPO_ISSUES = r"https://github.com/timofey260/RWE-Sharp/issues/"
 REPO_DOWNLOAD = r"https://github.com/timofey260/RWE-Sharp/releases/"
 REPO_DOWNLOAD_LATEST = r"https://github.com/timofey260/RWE-Sharp/releases/latest/"
 
-RP_ID = "1226198202454380677"
-
 CONSTS: dict = {}
 """
 these things should never be changed

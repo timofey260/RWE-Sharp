@@ -13,7 +13,7 @@ from RWESharp.Configurable import BoolConfigurable, IntConfigurable, EnumConfigu
 from RWESharp.Core import CELLSIZE, PATH_FILES_IMAGES, CONSTS
 from RWESharp.Modify import Editor
 from RWESharp.Renderable import RenderImage, RenderRect, RenderEllipse, RenderLine
-from RWESharp.Utils import closest_line, paint_svg
+from RWESharp.Utils import closest_line, paint_svg, fit_rect
 
 
 class GeoBlocks(Enum):
@@ -319,12 +319,12 @@ class GeometryEditor(Editor):
         lpos = self.viewport.viewport_to_editor(self.lastclick)
         if tool == GeoTools.Rect or tool == GeoTools.RectHollow:
             blk, stak = self.block2info()
-            rect = self.fit_rect(lpos, fpos, shift, alt)
+            rect = fit_rect(lpos, fpos, shift, alt)
             self.level.add_history(GERectChange, rect, [blk, stak], self.layers, tool == GeoTools.RectHollow)
             self.rect.drawrect.setOpacity(0)
         elif tool == GeoTools.Circle or tool == GeoTools.CircleHollow:
             blk, stak = self.block2info()
-            rect = self.fit_rect(lpos, fpos, shift, alt)
+            rect = fit_rect(lpos, fpos, shift, alt)
             self.level.add_history(GEEllipseChange, rect, [blk, stak], self.layers, tool == GeoTools.CircleHollow)
             self.ellipse.drawellipse.setOpacity(0)
         elif tool == GeoTools.Line:
@@ -364,7 +364,7 @@ class GeometryEditor(Editor):
             self.level.last_history_element.add_move(pos)
         elif tool in [GeoTools.Rect, GeoTools.RectHollow, GeoTools.Circle, GeoTools.CircleHollow]:
             lpos = self.viewport.viewport_to_editor(self.lastclick)
-            rect = self.fit_rect(lpos, pos, shift, alt)
+            rect = fit_rect(lpos, pos, shift, alt)
             rect.setRect(rect.x() * CELLSIZE, rect.y() * CELLSIZE, rect.width() * CELLSIZE, rect.height() * CELLSIZE)
             # rect.setRect(rect.x(), rect.y(), rect.width(), rect.height())
             #rect.setSize(rect.size() + QSize(CELLSIZE, CELLSIZE))
@@ -375,22 +375,6 @@ class GeometryEditor(Editor):
             point = QPoint(CELLSIZE // 2, CELLSIZE // 2)
             line = self.fit_line(lpos, pos, shift)
             self.lineline.setLine(QLine(line.p1() * CELLSIZE + point, line.p2() * CELLSIZE + point))
-
-    def fit_rect(self, lastpos, pos, shift, alt):
-        if shift:
-            pos2 = pos - lastpos
-            absx = abs(pos2.x())
-            xmul = 0 if absx == 0 else (pos2.x() // absx)
-            absy = abs(pos2.y())
-            ymul = 0 if absy == 0 else (pos2.y() // absy)
-            if absy > absx:
-                pos = QPoint(lastpos.x() + absy * xmul, lastpos.y() + absy * ymul)
-            elif absx > absy:
-                pos = QPoint(lastpos.x() + absx * xmul, lastpos.y() + absx * ymul)
-        rect = QRect.span(lastpos, pos)
-        if alt:
-            rect = QRect.span(lastpos - (pos - lastpos), pos)
-        return rect
 
     def fit_line(self, lastpos: QPoint, pos: QPoint, shift):
         if shift:

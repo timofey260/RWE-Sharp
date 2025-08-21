@@ -88,6 +88,52 @@ def insensitive_path(path) -> str | None:
         break
     return None
 
+def fit_rect(lastpos: QPoint, pos: QPoint, shift: bool, alt: bool) -> QRect:
+    """
+    Creates rectangle from 2 points and more
+
+    Literally stolen from photoshop
+
+    :param lastpos: First rect point
+    :param pos: Second rect point
+    :param shift: Makes square
+    :param alt: Makes lastpos center of rectangle
+    """
+    if shift:
+        pos2 = pos - lastpos
+        absx = abs(pos2.x())
+        xmul = 0 if absx == 0 else (pos2.x() // absx)
+        absy = abs(pos2.y())
+        ymul = 0 if absy == 0 else (pos2.y() // absy)
+        if absy > absx:
+            pos = QPoint(lastpos.x() + absy * xmul, lastpos.y() + absy * ymul)
+        elif absx > absy:
+            pos = QPoint(lastpos.x() + absx * xmul, lastpos.y() + absx * ymul)
+    rect = QRect.span(lastpos, pos)
+    if alt:
+        rect = QRect.span(lastpos - (pos - lastpos), pos)
+    return rect
+
+def draw_rect(rect: QRect, hollow: bool, callback: Callable) -> None:
+    """
+    Calls callback for each point inside rectangle
+
+    :param rect: rectangle
+    :param hollow: call callback only on edges
+    :param callback: callback function(lambda QPoint:)
+    :return: None
+    """
+    if hollow:
+        for x in range(rect.x(), rect.x() + rect.width()):
+            callback(QPoint(x, rect.y()))
+            callback(QPoint(x, rect.y() + rect.height() - 1))
+        for y in range(rect.y() + 1, rect.y() + rect.height() - 1):
+            callback(QPoint(rect.x(), y))
+            callback(QPoint(rect.x() + rect.width() - 1, y))
+        return
+    for x in range(rect.x(), rect.x() + rect.width()):
+        for y in range(rect.y(), rect.y() + rect.height()):
+            callback(QPoint(x, y))
 
 def draw_ellipse(rect: QRect, hollow: bool, callback: Callable) -> None:
     """

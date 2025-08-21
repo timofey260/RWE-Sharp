@@ -1,4 +1,6 @@
 import os.path
+import traceback
+
 from path_dict import PathDict
 from core import lingoIO
 import json
@@ -180,4 +182,11 @@ class RWELevel:
             with open(self.file, "wb") as f:
                 f.write(RWLParser.save_rwl(self.data.data))
             return True
+        try:
+            with open(self.file + ".wep", "w") as f:
+                self.file += ".wep"
+                f.write(ujson.dumps(self.data.data))
+            return True
+        except Exception:
+            traceback.print_exc()
         return False
