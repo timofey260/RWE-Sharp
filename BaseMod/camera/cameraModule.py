@@ -44,7 +44,7 @@ class CameraModule(Module):
         cam = self.level.l_cameras.cameras.pop(index)
         rc = self.cameras.pop(index)
 
-        self.level.l_cameras.cameras.insert(index, cam)
+        self.level.l_cameras.cameras.insert(max(0, newindex), cam)
         self.cameras.insert(max(0, newindex), rc)
         self.reindex()
 
