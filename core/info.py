@@ -37,7 +37,7 @@ ISWIN = not ISMAC and not ISLINUX
 
 VERSION = "0.0.1"
 AUTHOR = "timofey26"
-AUTHORS = "timofey26, atom, Lang0s"
+AUTHORS = "timofey26, atom, Lang0s and Xeno"
 NAME = "RWE#"
 PROGNAME = "RWESharp.exe" if ISWIN else "RWESharp"
 FULLNAME = "Rain World Editor Sharp"
