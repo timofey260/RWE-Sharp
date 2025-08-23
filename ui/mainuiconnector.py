@@ -9,6 +9,7 @@ from ui.settingsuiconnector import SettingsDialogUI
 from ui.hotkeysuiconnector import HotkeysUI
 from core.utils import modify_path_url
 from core.info import PATH_LEVELS, PATH_FILES_VIDEOS, PATH_DRIZZLE, ISWIN, REPO_ISSUES, REPO, FULLNAME, CUSTOM_LINKS
+from core.LevelRenderer import LevelRenderer
 
 import os
 
@@ -111,10 +112,11 @@ class MainWindow(QMainWindow):
 
         self.vid = None
         self.setWindowTitle(FULLNAME)
+        self.ui.menuHelp.addSeparator()
         for k in CUSTOM_LINKS.keys():
             action = QAction(k, parent=self.ui.menuHelp)
-            action.triggered.connect(self.openurl(CUSTOM_LINKS[k]))
-            self.ui.menuHelp.insertAction(self.ui.actionAbout, action)
+            action.triggered.connect(self.openurl(CUSTOM_LINKS[k]))  # this shouldn't be that complex, right?
+            self.ui.menuHelp.addAction(action)
 
     def openurl(self, k):
         def opn():
@@ -124,8 +126,11 @@ class MainWindow(QMainWindow):
 
     def level_render(self, level):
         print(level)  #todo
-        a, _ = os.path.split(level.file)
-        print(QDesktopServices.openUrl(modify_path_url(a)), a)
+        if level.file is None:
+            return
+        # a, _ = os.path.split(level.file)
+        # print(QDesktopServices.openUrl(modify_path_url(a)), a)
+        LevelRenderer.render_level(level.file)
 
     def render_all(self):
         for i in range(self.ui.tabWidget.count()):
