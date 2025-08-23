@@ -123,7 +123,7 @@ class IntConfigurable(Configurable):
             return
         elif value is not None:
             super().update_value(value)
-        if value < len(self.radiolist):
+        if len(self.radiolist) > value > 0 and len(self.radiolist) > 0:
             self.radiolist[value].setChecked(True)
 
     def link_radio(self, buttons: list[QRadioButton]) -> None:

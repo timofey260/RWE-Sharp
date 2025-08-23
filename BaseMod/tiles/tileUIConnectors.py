@@ -260,6 +260,12 @@ class TileSettings(SettingUI):
 
         self.renderall.setting.link_button(self.ui.Rall)
 
+        self.ui.Pshow.setChecked(True)
+        self.ui.Sshow.setChecked(True)
+
+        self.ui.Sshow.toggled.connect(self.ui.TilePreview.update_preview)
+        self.ui.Pshow.toggled.connect(self.ui.TilePreview.update_preview)
+
         for i in [self.rp, self.rs, self.np, self.ns, self.renderall]:
             i.setting.valueChanged.connect(self.ui.TilePreview.update_preview)
         self.ui.LayerSlider.valueChanged.connect(self.ui.TilePreview.update_preview)

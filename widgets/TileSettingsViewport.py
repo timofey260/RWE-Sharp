@@ -36,19 +36,35 @@ class TileSettingsViewport(SimpleViewport):
 
     def update_preview(self):
         if self.drawoption > 2:
-            self.tilel1.setOpacity((self.ui.rp.value if self.current_layer == 0 else self.ui.rs.value) / 255)
-            self.tilel2.setOpacity((self.ui.rp.value if self.current_layer == 1 else self.ui.rs.value) / 255)
-            self.tilel3.setOpacity((self.ui.rp.value if self.current_layer == 2 else self.ui.rs.value) / 255)
+            self.tilel1.setOpacity((self.rp if self.current_layer == 0 else self.rs) / 255)
+            self.tilel2.setOpacity((self.rp if self.current_layer == 1 else self.rs) / 255)
+            self.tilel3.setOpacity((self.rp if self.current_layer == 2 else self.rs) / 255)
             return
-        self.tilel1.setOpacity((self.ui.np.value if self.current_layer == 0 else self.ui.ns.value) / 255)
+        self.tilel1.setOpacity((self.np if self.current_layer == 0 else self.ns) / 255)
         if self.current_layer == 1 and not self.ui.renderall.value:
             self.tilel1.setOpacity(0)
-        self.tilel2.setOpacity((self.ui.np.value if self.current_layer == 1 else self.ui.ns.value) / 255)
+        self.tilel2.setOpacity((self.np if self.current_layer == 1 else self.ns) / 255)
         if self.current_layer == 2 and not self.ui.renderall.value:
             self.tilel1.setOpacity(0)
             self.tilel2.setOpacity(0)
-        self.tilel3.setOpacity((self.ui.np.value if self.current_layer == 2 else self.ui.ns.value) / 255)
+        self.tilel3.setOpacity((self.np if self.current_layer == 2 else self.ns) / 255)
         self.set_mapzoom()
+
+    @property
+    def rp(self):
+        return self.ui.rp.value if self.ui.ui.Pshow.isChecked() else 0
+
+    @property
+    def np(self):
+        return self.ui.np.value if self.ui.ui.Pshow.isChecked() else 0
+
+    @property
+    def rs(self):
+        return self.ui.rs.value if self.ui.ui.Sshow.isChecked() else 0
+
+    @property
+    def ns(self):
+        return self.ui.ns.value if self.ui.ui.Sshow.isChecked() else 0
 
     def set_pos(self, pos: QPointF | QPoint):
         super().set_pos(pos)

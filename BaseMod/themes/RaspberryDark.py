@@ -15,7 +15,7 @@ class RaspberryDark(Theme):
         self.styleindex.valueChanged.connect(self.get_style)
         self.stylepalette = IntConfigurable(mod, "rpdark.stylepalette", 0, description="Style palette")
         self.stylepalette.valueChanged.connect(self.palette_change)
-        self.themefiles = ["sharp", "circular", "atmoled", "darkeum"]
+        self.themefiles = ["sharp", "circular", "darkeum"]
         self.palettefiles = ["RaspberryDark", "MintDark", "MoonlightDark", "MintLight"]
         self.settings = RPDarkUI(self)
         self.currentstyle = ""

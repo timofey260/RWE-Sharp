@@ -42,3 +42,8 @@ class GridView(ViewUI):
 
         self.gridpen.link_pen_picker(self.ui.GridColor)
         self.borderpen.link_pen_picker(self.ui.BorderColor)
+
+        self.grid_size_X.link_spinbox(self.ui.ScaleX)
+        self.grid_size_Y.link_spinbox(self.ui.ScaleY)
+        self.grid_offset_X.link_spinbox(self.ui.OffsetX)
+        self.grid_offset_Y.link_spinbox(self.ui.OffsetY)

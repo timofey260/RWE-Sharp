@@ -131,6 +131,7 @@ class EffectsUI(UI):
                 item.setIcon(0, icon)
             self.ui.EffectsTree.addTopLevelItem(item)
         self.ui.EffectsTree.resizeColumnToContents(0)
+        self.effect_settings()
 
     def effect_pressed(self, item: QTreeWidgetItem, column: int):
         self.editor.effectindex.update_value(item.data(0, Qt.ItemDataRole.UserRole))

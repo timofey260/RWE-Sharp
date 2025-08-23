@@ -24,7 +24,7 @@ class EffectBrush(HistoryElement):
         self.redraw()
 
     def redraw(self):
-        self.history.level.manager.basemod.effecteditor.layer.redraw()
+        self.history.level.manager.basemod.effecteditor.elayer.redraw()
 
     def add_move(self, position):
         points = []
@@ -57,20 +57,20 @@ class EffectBrush(HistoryElement):
                     else:
                         self.changes[newpoint] = [cellval, val]
                     self.history.level.l_effects[self.index, xp, yp] = val
-                    self.history.level.manager.basemod.effecteditor.layer.draw_pixel(newpoint, True)
+                    self.history.level.manager.basemod.effecteditor.elayer.draw_pixel(newpoint, True)
 
     def undo_changes(self):
         for point, v in self.changes.items():
             before, _ = v
             self.history.level.l_effects[self.index, point.x(), point.y()] = before
-            self.history.level.manager.basemod.effecteditor.layer.draw_pixel(point, True)
+            self.history.level.manager.basemod.effecteditor.elayer.draw_pixel(point, True)
         self.redraw()
 
     def redo_changes(self):
         for point, v in self.changes.items():
             _, after = v
             self.history.level.l_effects[self.index, point.x(), point.y()] = after
-            self.history.level.manager.basemod.effecteditor.layer.draw_pixel(point, True)
+            self.history.level.manager.basemod.effecteditor.elayer.draw_pixel(point, True)
         self.redraw()
 
 

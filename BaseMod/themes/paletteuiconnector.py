@@ -19,7 +19,7 @@ class RPDarkUI(ThemeUI):
         self.ui.Palette.clear()
         self.ui.Palette.addItems(["RaspberryDark", "MintDark", "MoonlightDark", "MintLight"])
         self.ui.Style.clear()
-        self.ui.Style.addItems(["Sharp", "Circular"])
+        self.ui.Style.addItems(["Sharp", "Circular", "Darkeum"])
         self.theme.styleindex.link_combobox(self.ui.Style)
         self.theme.stylepalette.link_combobox(self.ui.Palette)
         self.theme.stylepalette.valueChanged.connect(self.fill_tree)
@@ -54,6 +54,8 @@ class RPDarkUI(ThemeUI):
 
     def import_action(self):
         file, _ = QFileDialog.getOpenFileName(self.mod.manager.window, "Select a file", PATH)
+        if file == "":
+            return
         self.theme.multiple = True
         self.theme.open_palette(file)
         self.theme.multiple = False
