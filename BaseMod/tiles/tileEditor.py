@@ -90,15 +90,19 @@ class TileEditor(Editor):
 
     def tool_changed(self):
         self.rect_brush.setOpacity(0)
-        if self.toolleft.value == TileTools.Brush or self.toolright.value == TileTools.Brush:
+        if self.toolleft.value == TileTools.Brush or self.toolright.value == TileTools.Brush \
+                or self.toolleft.value == TileTools.Line or self.toolright.value == TileTools.Line:
             self.rect_brush.setOpacity(1)
 
     @property
     def strict(self):
         return self.strictmode.value == 0
+
     @property
     def layer(self):
-        return self.vis_layer.value - 1
+        if not hasattr(self.mod, "tileui"):
+            return self.vis_layer.value - 1
+        return self.module.layer if self.mod.tileui.ui.Follow.isChecked() else self.vis_layer.value - 1
 
     @layer.setter
     def layer(self, value):

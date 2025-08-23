@@ -8,7 +8,7 @@ from ui.aboutuiconnector import AboutDialog
 from ui.settingsuiconnector import SettingsDialogUI
 from ui.hotkeysuiconnector import HotkeysUI
 from core.utils import modify_path_url
-from core.info import PATH_LEVELS, PATH_FILES_VIDEOS, PATH_DRIZZLE, ISWIN, REPO_ISSUES, REPO
+from core.info import PATH_LEVELS, PATH_FILES_VIDEOS, PATH_DRIZZLE, ISWIN, REPO_ISSUES, REPO, FULLNAME
 
 import os
 
@@ -110,6 +110,7 @@ class MainWindow(QMainWindow):
         self.setDockNestingEnabled(True)
 
         self.vid = None
+        self.setWindowTitle(FULLNAME)
 
     def level_render(self, level):
         print(level)  #todo

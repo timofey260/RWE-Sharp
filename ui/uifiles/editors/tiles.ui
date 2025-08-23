@@ -262,7 +262,7 @@
           </widget>
          </item>
          <item row="4" column="2">
-          <widget class="QCheckBox" name="checkBox">
+          <widget class="QCheckBox" name="Follow">
            <property name="text">
             <string>Follow</string>
            </property>
@@ -471,7 +471,7 @@
  </resources>
  <connections>
   <connection>
-   <sender>checkBox</sender>
+   <sender>Follow</sender>
    <signal>toggled(bool)</signal>
    <receiver>Layer</receiver>
    <slot>setDisabled(bool)</slot>

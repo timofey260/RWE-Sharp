@@ -2,6 +2,7 @@ from ui.mainuiconnector import MainWindow
 from ui.splashuiconnector import SplashDialog
 import sys
 from PySide6.QtWidgets import QApplication
+from core.info import FULLNAME, AUTHORS
 
 
 class Application(QApplication):
@@ -10,6 +11,8 @@ class Application(QApplication):
     """
     def __init__(self, args, argv):
         super().__init__(argv)
+        self.setApplicationName(FULLNAME)
+        self.setOrganizationName(AUTHORS)
         self.splash = SplashDialog(self.post_init)
         self.args = args
         self.window: MainWindow | None = None

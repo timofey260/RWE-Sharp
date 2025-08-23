@@ -29,6 +29,7 @@ class PropsUI(UI):
 
         self.rotate_cw = KeyConfigurable(mod, "EDIT_props.cw", "Shift+e", "Rotate prop clockwise")
         self.rotate_ccw = KeyConfigurable(mod, "EDIT_props.ccw", "Shift+q", "Rotate prop counter-clockwise")
+        self.ui.degreeamount.setValue(90)
 
         self.explorer_key.link_button(self.ui.Explorer)
         self.prop_next_key.link_button(self.ui.PropNext)
