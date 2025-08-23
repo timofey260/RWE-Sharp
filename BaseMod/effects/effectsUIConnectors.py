@@ -137,7 +137,7 @@ class EffectsUI(UI):
         self.editor.effectindex.update_value(item.data(0, Qt.ItemDataRole.UserRole))
 
     def effect_select(self, row):
-        item = self.ui.EffectsTree.itemAt(QPoint(0, row * self.ui.EffectsTree.sizeHintForRow(0)))
+        item = self.ui.EffectsTree.topLevelItem(row)
         # print(item, self.ui.EffectsTree.currentItem(), row)
         if self.ui.EffectsTree.currentItem() != item:
             self.ui.EffectsTree.setCurrentItem(item, 1, QItemSelectionModel.SelectionFlag.ClearAndSelect)
@@ -159,8 +159,6 @@ class EffectsUI(UI):
             item.setData(0, Qt.ItemDataRole.UserRole, index)
             self.ui.OptionsTree.addTopLevelItem(item)
         self.ui.OptionsTree.resizeColumnToContents(0)
-
-        return
 
     def effect_settings_double_click(self, item: QTreeWidgetItem, column):
         if column == 1:

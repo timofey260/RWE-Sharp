@@ -120,6 +120,8 @@ class TileViewUI(ViewUI):
     @Slot()
     def change_palette(self):
         file, _ = QFileDialog.getOpenFileName(self, "Select a Palette", PATH_FILES_IMAGES_PALETTES)
+        if file == "":
+            return
         self.palettepath.update_value(file)
         self.drawoption.update_value(4)
         self.render.emit()
@@ -213,6 +215,8 @@ class TileUI(UI):
 
     def change_palette(self):
         file, _ = QFileDialog.getOpenFileName(self, "Select a Palette", PATH_FILES_IMAGES_PALETTES)
+        if file == "":
+            return
         self.editor.palette_image.update_value(file)
         self.editor.tile_item.set_tile(self.editor.tile_item.tile, self.editor.colortable, 4)
 
