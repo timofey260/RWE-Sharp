@@ -46,6 +46,13 @@ REPO_ISSUES = r"https://github.com/timofey260/RWE-Sharp/issues/"
 REPO_DOWNLOAD = r"https://github.com/timofey260/RWE-Sharp/releases/"
 REPO_DOWNLOAD_LATEST = r"https://github.com/timofey260/RWE-Sharp/releases/latest/"
 
+CUSTOM_LINKS = {
+    "Rain World Wiki": "https://rainworld.miraheze.org/wiki/Rain_World_Wiki",
+    "Modding Wiki": "https://rainworldmodding.miraheze.org/wiki/Main_Page",
+    "RWMA Discord Server": "https://discord.gg/rainworldmodding",
+    "Interactive Map": "https://henpemaz.github.io/Rain-World-Interactive-Map/"
+}
+
 CONSTS: dict = {}
 """
 these things should never be changed

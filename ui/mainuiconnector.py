@@ -1,6 +1,6 @@
 from PySide6.QtWidgets import QMainWindow, QFileDialog, QSpacerItem, QSizePolicy, QWidget, QGridLayout
 from PySide6.QtCore import Slot, Qt, QUrl
-from PySide6.QtGui import QDesktopServices
+from PySide6.QtGui import QDesktopServices, QAction
 
 from ui.FunnyVideo import FunnyVideo
 from ui.uiscripts.mainui import Ui_MainWindow
@@ -8,7 +8,7 @@ from ui.aboutuiconnector import AboutDialog
 from ui.settingsuiconnector import SettingsDialogUI
 from ui.hotkeysuiconnector import HotkeysUI
 from core.utils import modify_path_url
-from core.info import PATH_LEVELS, PATH_FILES_VIDEOS, PATH_DRIZZLE, ISWIN, REPO_ISSUES, REPO, FULLNAME
+from core.info import PATH_LEVELS, PATH_FILES_VIDEOS, PATH_DRIZZLE, ISWIN, REPO_ISSUES, REPO, FULLNAME, CUSTOM_LINKS
 
 import os
 
@@ -111,6 +111,16 @@ class MainWindow(QMainWindow):
 
         self.vid = None
         self.setWindowTitle(FULLNAME)
+        for k in CUSTOM_LINKS.keys():
+            action = QAction(k, parent=self.ui.menuHelp)
+            action.triggered.connect(self.openurl(CUSTOM_LINKS[k]))
+            self.ui.menuHelp.insertAction(self.ui.actionAbout, action)
+
+    def openurl(self, k):
+        def opn():
+            QDesktopServices.openUrl(k)
+        return opn
+
 
     def level_render(self, level):
         print(level)  #todo

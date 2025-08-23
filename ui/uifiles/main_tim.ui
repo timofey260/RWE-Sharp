@@ -158,7 +158,7 @@
      <x>0</x>
      <y>0</y>
      <width>1351</width>
-     <height>33</height>
+     <height>27</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -197,10 +197,6 @@
     </property>
     <addaction name="actionAbout"/>
     <addaction name="actionAbout_Qt"/>
-    <addaction name="actionWiki_window"/>
-    <addaction name="actionLediting_help"/>
-    <addaction name="actionModding_Api"/>
-    <addaction name="actionInteractive_Map"/>
     <addaction name="separator"/>
     <addaction name="actionRWE_Github"/>
     <addaction name="actionRWE_Issues"/>
@@ -285,8 +281,8 @@
    </property>
    <property name="minimumSize">
     <size>
-     <width>145</width>
-     <height>161</height>
+     <width>161</width>
+     <height>176</height>
     </size>
    </property>
    <property name="maximumSize">
@@ -352,7 +348,7 @@
               <x>0</x>
               <y>0</y>
               <width>194</width>
-              <height>138</height>
+              <height>163</height>
              </rect>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout">
@@ -508,17 +504,6 @@
     <enum>QAction::MenuRole::AboutRole</enum>
    </property>
   </action>
-  <action name="actionWiki_window">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset theme="dialog-question"/>
-   </property>
-   <property name="text">
-    <string>Wiki</string>
-   </property>
-  </action>
   <action name="actionAbout_Qt">
    <property name="icon">
     <iconset theme="dialog-information"/>
@@ -539,11 +524,6 @@
    </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::PreferencesRole</enum>
-   </property>
-  </action>
-  <action name="actionLediting_help">
-   <property name="text">
-    <string>Lediting help</string>
    </property>
   </action>
   <action name="actionRender">
@@ -581,16 +561,6 @@
    </property>
    <property name="text">
     <string>Redo</string>
-   </property>
-  </action>
-  <action name="actionModding_Api">
-   <property name="text">
-    <string>Modding Api</string>
-   </property>
-  </action>
-  <action name="actionInteractive_Map">
-   <property name="text">
-    <string>Interactive Map</string>
    </property>
   </action>
   <action name="actionEditors">
