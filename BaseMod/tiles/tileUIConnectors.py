@@ -173,6 +173,7 @@ class TileUI(UI):
         self.editor.force_place.link_button(self.ui.ForcePlace)
         self.editor.force_geo.link_button(self.ui.ForceGeo)
         self.editor.strictmode.link_combobox(self.ui.StrictMode)
+        self.editor.brushsize.link_spinbox(self.ui.BrushSize)
 
         self.tile_prev_key = KeyConfigurable(mod, "EDIT_tile.tile_prev", "w", "Previous Tile")
         self.cat_prev_key = KeyConfigurable(mod, "EDIT_tile.cat_prev", "a", "Previous Category")
@@ -205,8 +206,8 @@ class TileUI(UI):
         self.ui.OpenExplorer.clicked.connect(self.open_explorer)
 
     def change_color(self, color: QColor):
-        items = [IMG_PEN, IMG_BRUSH, IMG_BUCKET, IMG_LINE, IMG_RECT, IMG_RECT_HOLLOW, IMG_CIRCLE, IMG_CIRCLE_HOLLOW]
-        for i in range(8):
+        items = [IMG_PEN, IMG_BRUSH, IMG_LINE, IMG_RECT, IMG_RECT_HOLLOW, IMG_CIRCLE, IMG_CIRCLE_HOLLOW]
+        for i in range(7):
             self.ui.ToolTilesM1Select.setItemIcon(i, paint_svg_qicon(items[i], color))
             self.ui.ToolTilesM2Select.setItemIcon(i, paint_svg_qicon(items[i], color))
 

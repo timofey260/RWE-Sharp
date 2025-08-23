@@ -14,7 +14,7 @@ from RWESharp.Loaders import palette_to_colortable, Tile
 from RWESharp.Renderable import RenderTile, RenderRect, RenderEllipse, RenderLine
 from RWESharp.Utils import fit_rect
 from BaseMod.tiles.tileExplorer import TileExplorer
-from BaseMod.tiles.tileHistory import TilePen, TileRectangle, TileEllipse, TileLine
+from BaseMod.tiles.tileHistory import TilePen, TileRectangle, TileEllipse, TileLine, TileBrush
 from BaseMod.tiles.tileUtils import can_place
 
 if TYPE_CHECKING:
@@ -27,7 +27,6 @@ class TileTools(Enum):
         return count
     Pen = auto()
     Brush = auto()
-    Bucket = auto()
     Line = auto()
     Rect = auto()
     RectHollow = auto()
@@ -59,6 +58,7 @@ class TileEditor(Editor):
         self.deleteright = BoolConfigurable(mod, "EDIT_tiles.deletermb", False, "Delete tiles with RMB")
         self.force_place = BoolConfigurable(mod, "EDIT_tiles.fp", False, "Force place")
         self.force_geo = BoolConfigurable(mod, "EDIT_tiles.fg", False, "Force geometry")
+        self.brushsize = IntConfigurable(mod, "EDIT_tiles.brushsize", 4, "Brush size")
 
         self.colortable = palette_to_colortable(QImage(self.palette_image.value))
         self.explorer = TileExplorer(self, self.manager.window)
@@ -68,9 +68,11 @@ class TileEditor(Editor):
         self.rect_rect = RenderRect(self, -5, QRect())  # uh whatever at this point
         self.rect_ellipse = RenderEllipse(self, -5, QRect())  # gosh i'm so original
         self.rect_line = RenderLine(self, -5, QLine())  # this doesn't even make sense i got sick
+        self.rect_brush = RenderEllipse(self, -5, QRect())  # i guess
         self.rect_rect.setOpacity(0)
         self.rect_ellipse.setOpacity(0)
         self.rect_line.setOpacity(0)
+        self.rect_brush.setOpacity(0)
         # self.tile_cols_image = QPixmap(1, 1)
         # self.tile_cols_painter = QPainter(self.tile_cols_image)
         # self.tile_item: QGraphicsPixmapItem | None = None
@@ -83,6 +85,13 @@ class TileEditor(Editor):
 
         self.lastpos = QPoint()
         self.lastclick = QPoint()
+        self.toolright.valueChanged.connect(self.tool_changed)
+        self.toolleft.valueChanged.connect(self.tool_changed)
+
+    def tool_changed(self):
+        self.rect_brush.setOpacity(0)
+        if self.toolleft.value == TileTools.Brush or self.toolright.value == TileTools.Brush:
+            self.rect_brush.setOpacity(1)
 
     @property
     def strict(self):
@@ -146,6 +155,9 @@ class TileEditor(Editor):
         rect = QRect(fpos * CELLSIZE, self.tile.size * CELLSIZE)
         rect.adjust(-3, -3, 3, 3)
         self.tile_rect.setRect(rect)
+        b2 = round(self.brushsize.value / 2 * CELLSIZE)
+        brushrect = QRect(curpos.x() * CELLSIZE - b2, curpos.y() * CELLSIZE - b2, self.brushsize.value * CELLSIZE, self.brushsize.value * CELLSIZE)
+        self.rect_brush.setRect(brushrect)
         # self.tile_rect.setScale(self.tile_item.scale)
 
         self.tile_rect.drawrect.setPen(QColor(0, 255, 0) if can_place(self.level, fpos, self.layer, self.tile, self.force_place.value, self.force_geo.value) else QColor(255, 0, 0))
@@ -189,13 +201,15 @@ class TileEditor(Editor):
             self.manager.selected_viewport.level.add_history(TileEllipse, rect, self.tile, self.layer, tool == TileTools.CircleHollow, delete, self.force_place.value, self.force_geo.value, self.strict)
             self.rect_ellipse.setOpacity(0)
         elif tool == TileTools.Line:
-            self.manager.selected_viewport.level.add_history(TileLine, lastpos, curpos, self.tile, self.layer, delete, self.force_place.value, self.force_geo.value, self.strict)
+            self.manager.selected_viewport.level.add_history(TileLine, lastpos, curpos, self.tile, self.layer, self.brushsize.value, delete, self.force_place.value, self.force_geo.value, self.strict)
             self.rect_line.setOpacity(0)
 
     def tool_specific_press(self, tool: Enum, delete: bool):
         fpos = self.viewport.viewport_to_editor(self.mouse_pos) - self.tile.top_left
         if tool == TileTools.Pen:
             self.manager.selected_viewport.level.add_history(TilePen, fpos, self.tile, self.layer, delete, self.force_place.value, self.force_geo.value, self.strict)
+        elif tool == TileTools.Brush:
+            self.manager.selected_viewport.level.add_history(TileBrush, fpos, self.tile, self.layer, self.brushsize.value, delete, self.force_place.value, self.force_geo.value, self.strict)
         elif tool == TileTools.Rect or tool == TileTools.RectHollow:
             self.rect_rect.setOpacity(1)
             self.rect_rect.setRect(QRect(0, 0, 1, 1))
@@ -210,7 +224,7 @@ class TileEditor(Editor):
         curpos = self.viewport.viewport_to_editor(self.mouse_pos)
         cellpos = curpos - self.tile.top_left
         lastpos = self.viewport.viewport_to_editor(self.lastclick)
-        if tool == TileTools.Pen:
+        if tool == TileTools.Pen or tool == TileTools.Brush:
             if delete:
                 self.manager.selected_viewport.level.history.last_element.add_move(curpos)
                 return

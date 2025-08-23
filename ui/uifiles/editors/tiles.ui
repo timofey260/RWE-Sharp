@@ -36,8 +36,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>377</width>
-        <height>698</height>
+        <width>375</width>
+        <height>696</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -88,15 +88,6 @@
             <property name="icon">
              <iconset resource="../../../resources/res.qrc">
               <normaloff>:/geoIcons/geo/brush.svg</normaloff>:/geoIcons/geo/brush.svg</iconset>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Bucket</string>
-            </property>
-            <property name="icon">
-             <iconset resource="../../../resources/res.qrc">
-              <normaloff>:/geoIcons/geo/bucket.svg</normaloff>:/geoIcons/geo/bucket.svg</iconset>
             </property>
            </item>
            <item>
@@ -191,15 +182,6 @@
             <property name="icon">
              <iconset resource="../../../resources/res.qrc">
               <normaloff>:/geoIcons/geo/brush.svg</normaloff>:/geoIcons/geo/brush.svg</iconset>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Bucket</string>
-            </property>
-            <property name="icon">
-             <iconset resource="../../../resources/res.qrc">
-              <normaloff>:/geoIcons/geo/bucket.svg</normaloff>:/geoIcons/geo/bucket.svg</iconset>
             </property>
            </item>
            <item>
