@@ -234,7 +234,6 @@ class RWLParser:
                         proj["TE"]["tlMatrix"][-1].append([])
                         for l in range(3):
                             first = int.from_bytes(tiles.read(1))
-                            print(bin(first), first)
                             if first == 0:  # default
                                 proj["TE"]["tlMatrix"][-1][-1].append({"tp": "default", "data": 0})
                             elif first & 128 == 0:  # material
@@ -300,7 +299,7 @@ class RWLParser:
                                 headpos = [int(i) for i in frompoint(l["data"][0])]
                                 xpos = ix - headpos[0] + 512
                                 ypos = iy - headpos[1] + 512
-                                export = (384 + layer + (xpos << 14) + ((ypos & 31) << 2) + ((ypos & (31 << 5)) << 5))
+                                export = (384 + layer + (xpos << 14) + ((ypos & 31) << 2) + ((ypos & (31 << 5)) << 4))
                                 # thebytes = (384 + layer + (xpos << 14) + ((ypos & 31) << 2) + ((ypos & (31 << 5)) << 5))
                                 # if thebytes & 255 == 123 or ((thebytes & (255 << 8)) >> 8) == 123 or ((thebytes & (255 << 16)) >> 16) == 123:
                                 #     print(bin(thebytes))
