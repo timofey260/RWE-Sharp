@@ -167,9 +167,12 @@ first 2 bits of each tile is tile mode
 """
 import re
 import zipfile
-from core.lingoIO import fromarr, frompoint
-from core.Level.RWELevel import RWELevel, defaultlevellines
+
+from core.lingoIO import fromarr, frompoint, tojson, makearr
+from core.Level.RWELevel import RWELevel, defaultlevellines, minimallevellines
 from core.info import PATH_LEVELS
+from core.Exceptions import FileStorageError
+import numpy as np
 import os
 
 
@@ -184,30 +187,79 @@ _blocks = [0, 1, 2, 3, 4, 5, 6, 9]
 class RWLParser:
     @staticmethod
     def parse_rwl(string: str) -> dict:
-
-        version = 0
+        proj = {}
+        version = VER
         width, height = 72, 43
-        light = False
-        lightangle = 90
-        flatness = 1
         borders = [0, 0, 0, 0]
-        tile_seed = 0
         with zipfile.ZipFile(string) as content:
+            proj["EX2"] = tojson(defaultlevellines[5])
+            proj["LE"] = tojson(defaultlevellines[3])
             with content.open("info") as f:
                 lines = [i.decode() for i in f.readlines()]
                 version = int(lines[0])
                 width, height = [int(i) for i in lines[1].split(";")]
+                proj["EX2"]["size"] = makearr([width, height], "point")
                 borders = [int(i) for i in lines[2].split(";")]
+                proj["EX2"]["extraTiles"] = borders
                 lightprops = lines[3].split(";")
                 light, lightangle, flatness = lightprops[0] == "1", int(lightprops[1]), int(lightprops[2])
+                proj["EX2"]["light"] = light
+                proj["LE"]["lightAngle"] = lightangle
+                proj["LE"]["flatness"] = flatness
                 tile_seed = int(lines[4])
-            print(version, width, height, borders, light, tile_seed)
-
-
+                proj["EX2"]["tileSeed"] = tile_seed
+            proj["GE"] = []
+            from BaseMod.LevelParts import GeoLevelPart
+            with content.open("geo") as geo:
+                for x in range(width):
+                    proj["GE"].append([])
+                    for y in range(height):
+                        proj["GE"][-1].append([])
+                        for l in range(3):
+                            proj["GE"][-1][-1].append([int.from_bytes(geo.read(1)), GeoLevelPart.byte2stack(np.frombuffer(geo.read(2), dtype=np.uint16))])
+            unique_tiles = {}
+            with content.open("tilenames") as tilenames:
+                for tile in tilenames.read().decode().split("\n"):
+                    s = tile.split(";")
+                    unique_tiles[s[0]] = [int(s[1]), int(s[2])]
+            unique_materials = []
+            with content.open("materials") as materials:
+                unique_materials = materials.read().decode().split("\n")
+            print(unique_materials, unique_tiles)
+            proj["TE"] = tojson(minimallevellines[1])
+            with content.open("tiles") as tiles:
+                for x in range(width):
+                    proj["TE"]["tlMatrix"].append([])
+                    for y in range(height):
+                        proj["TE"]["tlMatrix"][-1].append([])
+                        for l in range(3):
+                            first = int.from_bytes(tiles.read(1))
+                            print(bin(first), first)
+                            if first == 0:  # default
+                                proj["TE"]["tlMatrix"][-1][-1].append({"tp": "default", "data": 0})
+                            elif first & 128 == 0:  # material
+                                proj["TE"]["tlMatrix"][-1][-1].append({"tp": "material", "data": unique_materials[(first & 127) - 1]})
+                            elif first & 128 == 128:  # tile head/tile body
+                                second = int.from_bytes(tiles.read(1))
+                                ishead = second & 1 == 0
+                                if ishead:
+                                    tile = first & 127 + ((second & 126) << 7)
+                                    tilename = list(unique_tiles.keys())[tile]
+                                    proj["TE"]["tlMatrix"][-1][-1].append({"tp": "material", "data": [makearr(unique_tiles[tilename], "point"), tile]})
+                                    continue
+                                third = int.from_bytes(tiles.read(1))
+                                layer = first & 3  # magic numbers my beloved
+                                ypos = ((first & 124) >> 2) + ((second & 62) << 5) - 512
+                                xpos = ((second & 192) >> 6) + (third << 2) - 512
+                                print(xpos, ypos, layer)
+                            else:
+                                print("the what")
+        return proj
 
     @staticmethod
     def save_rwl(level: dict, path: str):
         with zipfile.ZipFile(path, "w") as content:
+            size = [1, 1]
             with content.open("info", "w") as info:
                 size = [int(i) for i in frompoint(level["EX2"]["size"])]
                 info.write("\n".join([
@@ -217,6 +269,53 @@ class RWLParser:
                     f'{"1" if level["EX2"]["light"] == 1 else "0"};{level["LE"]["lightAngle"]};{level["LE"]["flatness"]}',
                     str(level["EX2"]["tileSeed"])
                 ]).encode())
+            from BaseMod.LevelParts import GeoLevelPart
+            with content.open("geo", "w") as geo:
+                for x in level["GE"]:
+                    for y in x:
+                        for l in y:
+                            geo.write(np.uint8(l[0]))
+                            geo.write(GeoLevelPart.stack2byte(l[1]))
+            with content.open("tiles", "w") as tiles:  # holy whitespace
+                uniquematerials: list[str] = []
+                uniquetiles: dict[str, [int, int]] = {}
+                for ix, x in enumerate(level["TE"]["tlMatrix"]):
+                    for iy, y in enumerate(x):
+                        for l in y:
+                            type = l["tp"].lower()
+                            if type == "default":  # 00000000
+                                tiles.write(bytes(0))
+                            elif type == "material":  # 0xxxxxxx > 0
+                                if l["data"] not in uniquematerials:
+                                    uniquematerials.append(l["data"])
+                                tiles.write((uniquematerials.index(l["data"]) + 1).to_bytes(1))
+                            elif type == "tilehead":  # xxxxxxx0 1xxxxxxx
+                                uniquetiles[l["data"][1]] = frompoint(l["data"][0])
+                                num = list(uniquetiles.keys()).index(l["data"][1])
+                                export = (128 + ((num & (127 << 7)) << 2) + (num & 127))
+                                tiles.write((export & 255).to_bytes(1))
+                                tiles.write(((export & 65280) >> 8).to_bytes(1))
+                            elif type == "tilebody":  # XXXXXXXX XXYYYYY1 1YYYYYLL
+                                layer = l["data"][1]
+                                headpos = [int(i) for i in frompoint(l["data"][0])]
+                                xpos = ix - headpos[0] + 512
+                                ypos = iy - headpos[1] + 512
+                                export = (384 + layer + (xpos << 14) + ((ypos & 31) << 2) + ((ypos & (31 << 5)) << 5))
+                                # thebytes = (384 + layer + (xpos << 14) + ((ypos & 31) << 2) + ((ypos & (31 << 5)) << 5))
+                                # if thebytes & 255 == 123 or ((thebytes & (255 << 8)) >> 8) == 123 or ((thebytes & (255 << 16)) >> 16) == 123:
+                                #     print(bin(thebytes))
+                                tiles.write((export & 255).to_bytes(1))
+                                tiles.write(((export & 65280) >> 8).to_bytes(1))
+                                tiles.write(((export & 16711680) >> 16).to_bytes(1))
+                            else:
+                                print("explode")
+            if len(uniquematerials) > 127 or len(uniquetiles) > 16383:
+                raise FileStorageError("File unable to store with rwl file format")
+            with content.open("materials", "w") as materials:
+                materials.write("\n".join(uniquematerials).encode())
+            with content.open("tilenames", "w") as tilenames:
+                tilenames.write("\n".join([f"{k};{v[0]};{v[1]}" for k, v in uniquetiles.items()]).encode())
+
 
 if __name__ == '__main__':
     # benchmark
@@ -230,4 +329,6 @@ if __name__ == '__main__':
     level_path = os.path.join(PATH_LEVELS, "HE_LEG.rwl")
     RWLParser.save_rwl(lvl, level_path)
     decoded = RWLParser.parse_rwl(level_path)
-    print(decoded)
+    with open(os.path.join(PATH_LEVELS, "decoded.wep"), "w") as f:
+        f.write(str(decoded))
+    # print(decoded)

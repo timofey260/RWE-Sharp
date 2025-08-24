@@ -14,7 +14,9 @@ from PySide6.QtCore import QPoint, Slot, QRect, QSize
 from core.HistorySystem import HistoryElement
 
 defaultlevel = open(os.path.join(info.PATH_FILES, "default.txt"), "r").read()
+minimallevel = open(os.path.join(info.PATH_FILES, "minimal.txt"), "r").read()
 defaultlevellines = defaultlevel.split("\n")
+minimallevellines = minimallevel.split("\n")
 
 
 class RWELevel:
@@ -146,7 +148,7 @@ class RWELevel:
         proj["WL"] = lingoIO.tojson(lines[7], defaultlevellines[7])  # water level
         proj["PR"] = lingoIO.tojson(lines[8], defaultlevellines[8])  # props and settings why the hell i typed both settings wrong???
         if len(lines) > 9:
-            proj["CLD"] = lingoIO.tojson(lines[9])  # props and settings why the hell i typed both settings wrong???
+            proj["CLD"] = lingoIO.tojson(lines[9])
         return PathDict(proj)
 
     def openfile(self, file: str):
