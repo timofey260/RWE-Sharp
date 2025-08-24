@@ -248,7 +248,7 @@ class RWLParser:
                                     continue
                                 third = int.from_bytes(tiles.read(1))
                                 layer = first & 3  # magic numbers my beloved
-                                ypos = ((first & 124) >> 2) + ((second & 62) << 5) - 512
+                                ypos = ((first & 124) >> 2) + ((second & 62) << 4) - 512
                                 xpos = ((second & 192) >> 6) + (third << 2) - 512
                                 print(xpos, ypos, layer)
                             else:
