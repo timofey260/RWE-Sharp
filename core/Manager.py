@@ -82,6 +82,7 @@ class Manager:
         v = self.open_level(RWELevel(self, file))
 
         self.init_editors(v)
+        self.basemod.preferences.update_themes()
         log("Finished initiating")
 
     def open_level(self, level):

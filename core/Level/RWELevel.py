@@ -8,7 +8,6 @@ import ujson  # just for json to be more compact and fast
 from core import info
 from core.Exceptions import *
 from core.HistorySystem import History
-from core.Level.RWLParser import RWLParser
 from core.Level.LevelPart import LevelPart
 from core.Level.CustomLevelData import CustomLevelData
 from PySide6.QtCore import QPoint, Slot, QRect, QSize
@@ -20,7 +19,7 @@ defaultlevellines = defaultlevel.split("\n")
 
 class RWELevel:
     def __init__(self, manager, file=None):
-        from BaseMod.LevelParts import GeoLevelPart, TileLevelPart, EffectLevelPart, PropLevelPart, CameraLevelPart
+        from BaseMod.LevelParts import GeoLevelPart, TileLevelPart, EffectLevelPart, PropLevelPart, CameraLevelPart, InfoLevelPart
         self.manager = manager
         self.file = file
         if file is not None:
@@ -33,6 +32,7 @@ class RWELevel:
         self.mount_levelparts()
 
         # quick access stuff
+        self.l_info: InfoLevelPart = self.levelparts["info"]
         self.l_geo: GeoLevelPart = self.levelparts["geo"]
         self.l_tiles: TileLevelPart = self.levelparts["tiles"]
         self.l_effects: EffectLevelPart = self.levelparts["effects"]
@@ -44,6 +44,8 @@ class RWELevel:
         self.was_resized = False
 
     def mount_levelparts(self):
+        if self.manager is None:
+            return
         for i in self.manager.mods:
             i.mount_levelparts(self)
 
@@ -80,7 +82,7 @@ class RWELevel:
 
     @property
     def extra_tiles(self) -> [int, int, int, int]:
-        return self.data["EX2"]["extraTiles"]
+        return self.l_info.extra_tiles
 
     def inside(self, point: QPoint) -> bool:
         return 0 <= point.x() < self.level_width and 0 <= point.y() < self.level_height
@@ -148,6 +150,7 @@ class RWELevel:
         return PathDict(proj)
 
     def openfile(self, file: str):
+        from core.Level.RWLParser import RWLParser
         if not os.path.exists(file):
             raise FileNotFoundError("No file found!!!")
         _, ext = os.path.splitext(file)
@@ -165,6 +168,7 @@ class RWELevel:
             raise FileNotCompatible(f"{file} is not compatible with {info.NAME}!")
 
     def save_file(self) -> bool:
+        from core.Level.RWLParser import RWLParser
         for i, v in self.levelparts.items():
             v.save_level()
         if self.file is None:

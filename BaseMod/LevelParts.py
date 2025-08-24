@@ -10,6 +10,15 @@ from copy import deepcopy
 stack_pos = [1, 2, 11, 3, 4, 5, 6, 7, 9, 10, 12, 13, 19, 21, 20, 18]
 
 
+class InfoLevelPart(LevelPart):
+    def save_level(self):
+        self.level.data["EX2"]["extraTiles"] = self.extra_tiles.copy()
+
+    def __init__(self, level):
+        super().__init__("info", level)
+        self.extra_tiles: list[int] = level.data["EX2"]["extraTiles"].copy()
+
+
 class GeoLevelPart(LevelPart):
     def __init__(self, level):
         super().__init__("geo", level)

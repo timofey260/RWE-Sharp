@@ -11,7 +11,7 @@ class PreferencesUI(SettingUI):
         super().__init__(mod)
         self.theme = StringConfigurable(mod, "basemod.theme", "",
                                         "palette colors")  # "timofey26.basemod.Raspberry Dark"
-        self.lasttheme = StringConfigurable(None, "lasttheme", "",
+        self.lasttheme = StringConfigurable(mod, "lasttheme", "",
                                         "palette colors")  # "timofey26.basemod.Raspberry Dark"
         self.current_theme = None
         self.themes = []
@@ -30,6 +30,15 @@ class PreferencesUI(SettingUI):
                 i.theme_enable()
                 self.current_theme = i
                 log(f"Using Theme {i.name}")
+                return
+
+    def update_themes(self):
+        print(self.theme.value)
+        print(self.lasttheme.value)
+        for i in self.themes:
+            if self.theme.value == i.config_name:
+                self.current_theme = i
+                print(i, "!!!!!!!!")
                 return
 
     def add_theme(self, theme):

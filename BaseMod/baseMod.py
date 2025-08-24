@@ -15,7 +15,7 @@ from BaseMod.themes.preferencesuiconnector import PreferencesUI
 from BaseMod.camera.cameraModule import CameraModule
 from BaseMod.camera.cameraUIConnectors import CameraViewUI, CameraSettingsUI, CameraUI
 from BaseMod.camera.cameraEditor import CameraEditor
-from BaseMod.LevelParts import GeoLevelPart, TileLevelPart, PropLevelPart, EffectLevelPart, CameraLevelPart
+from BaseMod.LevelParts import GeoLevelPart, TileLevelPart, PropLevelPart, EffectLevelPart, CameraLevelPart, InfoLevelPart
 from RWESharp.Modify import Mod, ModInfo
 from RWESharp.Core import SettingElement, HotkeyElement, get_hotkeys_from_pattern, PATH_FILES_VIDEOS
 from RWESharp.Ui import FunnyVideo
@@ -32,7 +32,7 @@ class BaseMod(Mod):
             "basemod",
             "timofey26",
             "1.0.0",
-            "RWE# essentials\nincludes all editors, modules and other\nCan't be disabled"
+            "RWE# essentials\nincludes all editors, modules and other\nCan't and shouldn't be disabled"
         ), path)
         from BaseMod.geo.geoUIConnectors import GeoUI, GeoViewUI, GeoSettings
         from BaseMod.tiles.tileUIConnectors import TileViewUI, TileUI, TileSettings
@@ -145,3 +145,4 @@ class BaseMod(Mod):
         PropLevelPart(level)
         EffectLevelPart(level)
         CameraLevelPart(level)
+        InfoLevelPart(level)
