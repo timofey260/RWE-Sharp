@@ -22,12 +22,8 @@ Level.rwl
 
 # info
 
-First line of info file is RWL file version
-
-Second line is level dimensions(width;height)
-
-Third line is extra tiles(left;top;right;bottom)
-
-Forth line is light(0 or 1)
-
-Fifth line is tile seed
+1. RWL file version
+2. level dimensions(width;height)
+3. extra tiles(left;top;right;bottom)
+4. light(0 or 1), angle and flatness(light;angle;flatness)
+5. tile seed

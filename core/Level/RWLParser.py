@@ -167,7 +167,8 @@ first 2 bits of each tile is tile mode
 """
 import re
 import zipfile
-from core.Level.RWELevel import RWELevel
+from core.lingoIO import fromarr, frompoint
+from core.Level.RWELevel import RWELevel, defaultlevellines
 from core.info import PATH_LEVELS
 import os
 
@@ -182,12 +183,13 @@ _blocks = [0, 1, 2, 3, 4, 5, 6, 9]
 
 class RWLParser:
     @staticmethod
-    def parse_rwl(string: str) -> RWELevel:
-        mtlevel = RWELevel(None)
+    def parse_rwl(string: str) -> dict:
 
         version = 0
-        width, height = 10, 10
+        width, height = 72, 43
         light = False
+        lightangle = 90
+        flatness = 1
         borders = [0, 0, 0, 0]
         tile_seed = 0
         with zipfile.ZipFile(string) as content:
@@ -196,15 +198,25 @@ class RWLParser:
                 version = int(lines[0])
                 width, height = [int(i) for i in lines[1].split(";")]
                 borders = [int(i) for i in lines[2].split(";")]
-                light = lines[3] == "1"
+                lightprops = lines[3].split(";")
+                light, lightangle, flatness = lightprops[0] == "1", int(lightprops[1]), int(lightprops[2])
                 tile_seed = int(lines[4])
-            print(version, width, height, borders, light, tile_seeds)
-        return mtlevel
+            print(version, width, height, borders, light, tile_seed)
+
 
 
     @staticmethod
-    def save_rwl(level: RWELevel) -> bytearray:
-        pass
+    def save_rwl(level: dict, path: str):
+        with zipfile.ZipFile(path, "w") as content:
+            with content.open("info", "w") as info:
+                size = [int(i) for i in frompoint(level["EX2"]["size"])]
+                info.write("\n".join([
+                    "1",
+                    f"{size[0]};{size[1]}",
+                    ";".join([str(i) for i in level["EX2"]["extraTiles"]]),
+                    f'{"1" if level["EX2"]["light"] == 1 else "0"};{level["LE"]["lightAngle"]};{level["LE"]["flatness"]}',
+                    str(level["EX2"]["tileSeed"])
+                ]).encode())
 
 if __name__ == '__main__':
     # benchmark
@@ -213,4 +225,9 @@ if __name__ == '__main__':
     #print(encoded)
     # open("/levelEditorProjects/SU_A25.rwl", "wb").write(encoded)
     # decoded = RWLParser.parse_rwl(encoded)
-    level = RWLParser.parse_rwl(os.path.join(PATH_LEVELS, "level.rwl"))
+    lvl = RWELevel.turntoproject(open(os.path.join(PATH_LEVELS, "HE_LEG.txt")).read())
+    # level = RWLParser.parse_rwl(os.path.join(PATH_LEVELS, "level.rwl"))
+    level_path = os.path.join(PATH_LEVELS, "HE_LEG.rwl")
+    RWLParser.save_rwl(lvl, level_path)
+    decoded = RWLParser.parse_rwl(level_path)
+    print(decoded)
