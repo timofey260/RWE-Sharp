@@ -225,7 +225,7 @@ class RWLParser:
             unique_materials = []
             with content.open("materials") as materials:
                 unique_materials = materials.read().decode().split("\n")
-            print(unique_materials, unique_tiles)
+            # print(unique_materials, unique_tiles)
             proj["TE"] = tojson(minimallevellines[1])
             with content.open("tiles") as tiles:
                 for x in range(width):
@@ -244,13 +244,18 @@ class RWLParser:
                                 if ishead:
                                     tile = first & 127 + ((second & 126) << 7)
                                     tilename = list(unique_tiles.keys())[tile]
-                                    proj["TE"]["tlMatrix"][-1][-1].append({"tp": "material", "data": [makearr(unique_tiles[tilename], "point"), tile]})
+                                    proj["TE"]["tlMatrix"][-1][-1].append({"tp": "tileHead", "data": [makearr(unique_tiles[tilename], "point"), tile]})
                                     continue
                                 third = int.from_bytes(tiles.read(1))
+                                # print(bin((third << 16) + (second << 8) + first), third, second, first)
                                 layer = first & 3  # magic numbers my beloved
                                 ypos = ((first & 124) >> 2) + ((second & 62) << 4) - 512
                                 xpos = ((second & 192) >> 6) + (third << 2) - 512
-                                print(xpos, ypos, layer)
+                                # print(xpos, ypos, x, y)
+                                xpos = x - xpos
+                                ypos = y - ypos
+                                # print(xpos, ypos, layer)
+                                proj["TE"]["tlMatrix"][-1][-1].append({"tp": "tileBody", "data": [makearr([xpos, ypos], "point"), layer]})
                             else:
                                 print("the what")
         return proj
@@ -283,7 +288,7 @@ class RWLParser:
                         for l in y:
                             type = l["tp"].lower()
                             if type == "default":  # 00000000
-                                tiles.write(bytes(0))
+                                tiles.write((0).to_bytes(1))
                             elif type == "material":  # 0xxxxxxx > 0
                                 if l["data"] not in uniquematerials:
                                     uniquematerials.append(l["data"])
@@ -294,18 +299,25 @@ class RWLParser:
                                 export = (128 + ((num & (127 << 7)) << 2) + (num & 127))
                                 tiles.write((export & 255).to_bytes(1))
                                 tiles.write(((export & 65280) >> 8).to_bytes(1))
+                                # print(bin(export), (export & 65280) >> 8, export & 255)
                             elif type == "tilebody":  # XXXXXXXX XXYYYYY1 1YYYYYLL
                                 layer = l["data"][1]
                                 headpos = [int(i) for i in frompoint(l["data"][0])]
                                 xpos = ix - headpos[0] + 512
                                 ypos = iy - headpos[1] + 512
                                 export = (384 + layer + (xpos << 14) + ((ypos & 31) << 2) + ((ypos & (31 << 5)) << 4))
-                                # thebytes = (384 + layer + (xpos << 14) + ((ypos & 31) << 2) + ((ypos & (31 << 5)) << 5))
-                                # if thebytes & 255 == 123 or ((thebytes & (255 << 8)) >> 8) == 123 or ((thebytes & (255 << 16)) >> 16) == 123:
-                                #     print(bin(thebytes))
                                 tiles.write((export & 255).to_bytes(1))
                                 tiles.write(((export & 65280) >> 8).to_bytes(1))
                                 tiles.write(((export & 16711680) >> 16).to_bytes(1))
+                                # print(xpos, ypos, xpos - 512, ypos - 512, ix, iy)
+                                # print(bin(export), (export & 16711680) >> 16, (export & 65280) >> 8, export & 255)
+                                
+                                # 0b100001000010000110110111 132 33 183
+                                # 528 525 16 13   52 211
+                                
+                                # 0b100001000010000110110111 132 33 183
+                                # 16 13           13 156
+                                # -3 143 3
                             else:
                                 print("explode")
             if len(uniquematerials) > 127 or len(uniquetiles) > 16383:
