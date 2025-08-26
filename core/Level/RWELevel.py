@@ -157,9 +157,8 @@ class RWELevel:
             raise FileNotFoundError("No file found!!!")
         _, ext = os.path.splitext(file)
         if ext == ".rwl":
-            with open(file, "rb") as f:
-                self.data = PathDict(RWLParser.parse_rwl(bytearray(f.read())))
-                return
+            self.data = PathDict(RWLParser.parse_rwl(file))
+            return
         with open(file) as f:
             if ext == ".txt":
                 self.data = RWELevel.turntoproject(f.read())
@@ -185,9 +184,7 @@ class RWELevel:
                 f.write(ujson.dumps(self.data.data))
             return True
         elif ex == ".rwl":
-            with open(self.file, "wb") as f:
-                f.write(RWLParser.save_rwl(self.data.data))
-            return True
+            RWLParser.save_rwl(self.data.data, self.file)
         try:
             with open(self.file + ".wep", "w") as f:
                 self.file += ".wep"

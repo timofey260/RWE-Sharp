@@ -262,7 +262,7 @@ class EffectLevelPart(LevelPart):
         self.level.data["FE"]["effects"] = []
         for i in self.effects:
             newi = deepcopy({k: v for k, v in i.items() if k != "mtrx"})
-            newi["mtrx"] = [[float(i["mtrx"][x, y]) for y in range(self.level.level_height)] for x in range(self.level.level_width)]
+            newi["mtrx"] = [[round(float(i["mtrx"][x, y]), 4) for y in range(self.level.level_height)] for x in range(self.level.level_width)]
             self.level.data["FE"]["effects"].append(newi)
 
     def effect_data_xy(self, index: int, x: int, y:int) -> float:

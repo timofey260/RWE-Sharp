@@ -13,11 +13,13 @@ RWL file is a zip archive containing files for each one of the editors
 ```
 Level.rwl
 ├ info      - all information about level
-├ geometry  - level geometry
+├ geo       - level geometry
 ├ tiles     - level tiles
 ├ light.png - light image
-├ props     - level props
-├ cameras   - level cameras
+├ props
+├ cameras
+├ tilenames
+├ materialnames
 ```
 
 # info
@@ -27,3 +29,6 @@ Level.rwl
 3. extra tiles(left;top;right;bottom)
 4. light(0 or 1), angle and flatness(light;angle;flatness)
 5. tile seed
+6. default tile material name
+7. water level(-1 if no water)
+8. water in front(0 or 1)

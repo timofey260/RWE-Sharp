@@ -165,6 +165,7 @@ first 2 bits of each tile is tile mode
             m - mode
             t - tile index(see 2nd part)
 """
+import json
 import re
 import zipfile
 
@@ -177,12 +178,14 @@ import os
 
 
 VER = 1
-ENCODING = "latin-1"
+# ENCODING = "latin-1"
 
-_stacklist = [1, 2, 11, 3, 4, 5, 6, 7, 9, 10, 12, 13, 19, 21, 20, 18]
-_accepted = [0, 1, 6, 9]
-_blocks = [0, 1, 2, 3, 4, 5, 6, 9]
+effectreminder = [
+    .0,
+    .3333,
+    .6667,
 
+]
 
 class RWLParser:
     @staticmethod
@@ -194,6 +197,8 @@ class RWLParser:
         with zipfile.ZipFile(string) as content:
             proj["EX2"] = tojson(defaultlevellines[5])
             proj["LE"] = tojson(defaultlevellines[3])
+            proj["TE"] = tojson(minimallevellines[1])
+            proj["WL"] = tojson(minimallevellines[7])
             with content.open("info") as f:
                 lines = [i.decode() for i in f.readlines()]
                 version = int(lines[0])
@@ -202,12 +207,13 @@ class RWLParser:
                 borders = [int(i) for i in lines[2].split(";")]
                 proj["EX2"]["extraTiles"] = borders
                 lightprops = lines[3].split(";")
-                light, lightangle, flatness = lightprops[0] == "1", int(lightprops[1]), int(lightprops[2])
-                proj["EX2"]["light"] = light
-                proj["LE"]["lightAngle"] = lightangle
-                proj["LE"]["flatness"] = flatness
-                tile_seed = int(lines[4])
-                proj["EX2"]["tileSeed"] = tile_seed
+                proj["EX2"]["light"] = lightprops[0] == "1"
+                proj["LE"]["lightAngle"] = int(lightprops[1])
+                proj["LE"]["flatness"] = int(lightprops[2])
+                proj["EX2"]["tileSeed"] = int(lines[4])
+                proj["TE"]["defaultMaterial"] = lines[5]
+                proj["WL"]["waterLevel"] = int(lines[6])
+                proj["WL"]["waterInFront"] = int(lines[7])
             proj["GE"] = []
             from BaseMod.LevelParts import GeoLevelPart
             with content.open("geo") as geo:
@@ -226,7 +232,6 @@ class RWLParser:
             with content.open("materials") as materials:
                 unique_materials = materials.read().decode().split("\n")
             # print(unique_materials, unique_tiles)
-            proj["TE"] = tojson(minimallevellines[1])
             with content.open("tiles") as tiles:
                 for x in range(width):
                     proj["TE"]["tlMatrix"].append([])
@@ -258,6 +263,52 @@ class RWLParser:
                                 proj["TE"]["tlMatrix"][-1][-1].append({"tp": "tileBody", "data": [makearr([xpos, ypos], "point"), layer]})
                             else:
                                 print("the what")
+            proj["FE"] = tojson(minimallevellines[2])
+            with content.open("effects") as effects:
+                amount = int(effects.readline().decode())
+                for i in range(amount):
+                    effect = {}
+                    stats = effects.readline().decode().rstrip("\n").split(";")
+                    effect["nm"] = stats[0]
+                    effect["tp"] = stats[1]
+                    if stats[2] != "":
+                        effect["repeats"] = int(stats[2])
+                    if stats[3] != "":
+                        effect["affectOpenAreas"] = float(stats[3])
+                    if stats[4] != "":
+                        effect["crossScreen"] = int(stats[4])
+                    optionsamount = int(stats[5])
+                    effect["options"] = []
+                    for i in range(optionsamount):
+                        option = effects.readline().decode().rstrip("\n").split(";")
+                        name = option[0]
+                        value = int(option[-1]) if name == "Seed" else option[-1]
+                        effect["options"].append([name, value, option[1:-1]])
+                    effect["mtrx"] = []
+                    for x in range(width):
+                        effect["mtrx"].append([])
+                        for y in range(height):
+                            effect["mtrx"][-1].append(int.from_bytes(effects.read(1)))
+                    proj["FE"]["effects"].append(effect)
+            proj["PR"] = tojson(minimallevellines[8])
+            with content.open("props") as props:
+                amount = int(props.readline().decode().rstrip("\n"))
+                for p in range(amount):
+                    prop = []
+                    stats = props.readline().decode().rstrip("\n").split(";")
+                    prop.append(int(stats[0]))
+                    prop.append(stats[1])
+                    prop.append(makearr([stats[2], stats[3]], "point"))
+                    xposes = [float(i) for i in props.readline().decode().rstrip("\n").split(";")]
+                    yposes = [float(i) for i in props.readline().decode().rstrip("\n").split(";")]
+                    prop.append([makearr([x, y], "point") for x, y in zip(xposes, yposes)])
+                    settingsamount = int(props.readline().decode().rstrip("\n"))
+                    prop.append({"settings": {}})
+                    for s in range(settingsamount):
+                        setting = props.readline().decode().rstrip("\n").split(";")
+                        prop[4]["settings"][setting[0]] = int(setting[1])
+                    proj["PR"]["props"].append(prop)
+            proj["CM"] = tojson(minimallevellines[6])
         return proj
 
     @staticmethod
@@ -271,7 +322,10 @@ class RWLParser:
                     f"{size[0]};{size[1]}",
                     ";".join([str(i) for i in level["EX2"]["extraTiles"]]),
                     f'{"1" if level["EX2"]["light"] == 1 else "0"};{level["LE"]["lightAngle"]};{level["LE"]["flatness"]}',
-                    str(level["EX2"]["tileSeed"])
+                    str(level["EX2"]["tileSeed"]),
+                    level["TE"]["defaultMaterial"],
+                    str(level["WL"]["waterLevel"]),
+                    str(level["WL"]["waterInFront"])
                 ]).encode())
             from BaseMod.LevelParts import GeoLevelPart
             with content.open("geo", "w") as geo:
@@ -326,6 +380,36 @@ class RWLParser:
                 materials.write("\n".join(uniquematerials).encode())
             with content.open("tilenames", "w") as tilenames:
                 tilenames.write("\n".join([f"{k};{v[0]};{v[1]}" for k, v in uniquetiles.items()]).encode())
+            with content.open("effects", "w") as effects:
+                effects.write(str(len(level["FE"]["effects"])).encode())
+                effects.write("\n".encode())
+                for i in level["FE"]["effects"]:
+                    effects.write(";".join([i["nm"], i["tp"], str(i.get("repeats", "")), str(i.get("affectOpenAreas", "")), str(i.get("crossScreen", "")), str(len(i["options"]))]).encode())
+                    effects.write("\n".encode())
+                    for o in i["options"]:
+                        effects.write(";".join([o[0], *o[1], str(o[2])]).encode())
+                        effects.write("\n".encode())
+                    # uh some small problem is that values might be less accurate because of rounding but tbh do we care about 0.1234 in 0 to 100?
+                    for x in i["mtrx"]:
+                        for y in x:
+                            effects.write(int(y).to_bytes(1))
+            with content.open("props", "w") as props:
+                props.write(str(len(level["PR"]["props"])).encode())
+                props.write("\n".encode())  # not sure if i should just do b"\n" but it isn't a big deal
+                for p in level["PR"]["props"]:
+                    catpos = frompoint(p[2])
+                    props.write(";".join([str(p[0]), p[1], str(catpos[0]), str(catpos[1])]).encode())
+                    props.write("\n".encode())
+                    points = [frompoint(i) for i in p[3]]
+                    props.write(";".join([str(i[0]) for i in points]).encode())
+                    props.write("\n".encode())
+                    props.write(";".join([str(i[1]) for i in points]).encode())
+                    props.write("\n".encode())
+                    props.write(str(len(p[4]["settings"])).encode())
+                    props.write("\n".encode())
+                    for k, v in p[4]["settings"].items():
+                        props.write(f"{k};{v}".encode())
+                        props.write("\n".encode())
 
 
 if __name__ == '__main__':
@@ -341,5 +425,5 @@ if __name__ == '__main__':
     RWLParser.save_rwl(lvl, level_path)
     decoded = RWLParser.parse_rwl(level_path)
     with open(os.path.join(PATH_LEVELS, "decoded.wep"), "w") as f:
-        f.write(str(decoded))
+        f.write(json.dumps(decoded))
     # print(decoded)

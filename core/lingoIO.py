@@ -86,7 +86,7 @@ def fromarr(col: str, mark: str):
 
 
 def point(col: list | tuple):
-    return f"point({col[0]}, {col[1]})"
+    return f"point({round(col[0], 4)}, {round(col[1], 4)})"
 
 
 def frompoint(col: str):
