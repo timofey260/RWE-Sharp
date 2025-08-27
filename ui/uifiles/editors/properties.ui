@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>300</height>
+    <height>587</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -24,42 +24,80 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>363</width>
-        <height>372</height>
+        <width>370</width>
+        <height>579</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
         <widget class="QLabel" name="label_15">
          <property name="text">
-          <string>Level size </string>
+          <string>Level size:</string>
          </property>
         </widget>
        </item>
        <item>
         <layout class="QGridLayout" name="gridLayout_10">
-         <item row="1" column="0">
-          <widget class="QLabel" name="ToolsPropertiesLabel">
-           <property name="text">
-            <string>Size x</string>
-           </property>
-          </widget>
-         </item>
          <item row="3" column="0">
-          <widget class="QLabel" name="ToolsPropertiesLabel_3">
+          <widget class="QDoubleSpinBox" name="WidthCams"/>
+         </item>
+         <item row="2" column="1">
+          <widget class="QLabel" name="ToolsPropertiesLabel_10">
            <property name="text">
-            <string>Border size x</string>
+            <string>Height(Cameras):</string>
            </property>
           </widget>
          </item>
          <item row="2" column="0">
-          <widget class="QSpinBox" name="ToolsPropertiesSizeX"/>
-         </item>
-         <item row="8" column="1">
-          <widget class="QComboBox" name="ToolsPropertiesWaterSettings">
-           <property name="frame">
-            <bool>false</bool>
+          <widget class="QLabel" name="ToolsPropertiesLabel_8">
+           <property name="text">
+            <string>Width(Cameras):</string>
            </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QSpinBox" name="HeightCells"/>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLabel" name="ToolsPropertiesLabel_2">
+           <property name="text">
+            <string>Height(cells):</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QDoubleSpinBox" name="HeightCams"/>
+         </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="ToolsPropertiesLabel">
+           <property name="text">
+            <string>Width(cells):</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QSpinBox" name="WidthCells"/>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QPushButton" name="Resize">
+         <property name="text">
+          <string>Resize</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="ToolsPropertiesLabel_6">
+         <property name="text">
+          <string>Water Properties:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_3">
+         <item>
+          <widget class="QComboBox" name="WaterState">
            <item>
             <property name="text">
              <string>No water</string>
@@ -67,99 +105,109 @@
            </item>
            <item>
             <property name="text">
-             <string>infront </string>
+             <string>In front</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>behind</string>
+             <string>Behind</string>
             </property>
            </item>
           </widget>
          </item>
-         <item row="7" column="0">
+         <item>
           <widget class="QLabel" name="ToolsPropertiesLabel_5">
            <property name="text">
-            <string>Water height</string>
+            <string>Water height:</string>
            </property>
           </widget>
          </item>
-         <item row="5" column="0" colspan="2">
-          <widget class="QCheckBox" name="ToolsPropertiesSun">
-           <property name="text">
-            <string>Sunlight</string>
-           </property>
-          </widget>
-         </item>
-         <item row="4" column="0">
-          <widget class="QSpinBox" name="ToolsPropertiesBorderSizeX"/>
-         </item>
-         <item row="8" column="0">
-          <widget class="QSpinBox" name="ToolsPropertiesWaterHeight"/>
-         </item>
-         <item row="2" column="1">
-          <widget class="QSpinBox" name="ToolsPropertiesSizeY"/>
-         </item>
-         <item row="1" column="1">
-          <widget class="QLabel" name="ToolsPropertiesLabel_2">
-           <property name="text">
-            <string>Size y</string>
-           </property>
-          </widget>
-         </item>
-         <item row="4" column="1">
-          <widget class="QSpinBox" name="ToolsPropertiesBorderSizeY"/>
-         </item>
-         <item row="3" column="1">
-          <widget class="QLabel" name="ToolsPropertiesLabel_4">
-           <property name="text">
-            <string>Border size</string>
-           </property>
-          </widget>
-         </item>
-         <item row="7" column="1">
-          <widget class="QLabel" name="ToolsPropertiesLabel_6">
-           <property name="text">
-            <string>Water Properties</string>
-           </property>
-          </widget>
-         </item>
-         <item row="6" column="0" colspan="2">
-          <widget class="Line" name="ToolsPropertiesLine">
-           <property name="orientation">
-            <enum>Qt::Orientation::Horizontal</enum>
+         <item>
+          <widget class="QSpinBox" name="WaterHeight">
+           <property name="enabled">
+            <bool>true</bool>
            </property>
           </widget>
          </item>
         </layout>
        </item>
        <item>
-        <layout class="QVBoxLayout" name="verticalLayout_13">
-         <item>
-          <widget class="QLabel" name="ToolsPropertiesLabel_7">
+        <widget class="QLabel" name="ToolsPropertiesLabel_9">
+         <property name="text">
+          <string>Tile seed:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QSlider" name="TileSeed">
+         <property name="orientation">
+          <enum>Qt::Orientation::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="ToolsPropertiesLabel_11">
+         <property name="text">
+          <string>Border Tiles:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QGridLayout" name="gridLayout">
+         <item row="1" column="1">
+          <widget class="QSpinBox" name="BorderTop"/>
+         </item>
+         <item row="3" column="1">
+          <widget class="QSpinBox" name="BorderBottom"/>
+         </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="label">
            <property name="text">
-            <string>TextLabel</string>
+            <string>Left:</string>
            </property>
           </widget>
          </item>
-         <item>
-          <widget class="QTableWidget" name="ToolsPropertiesTabel"/>
+         <item row="3" column="0">
+          <widget class="QSpinBox" name="BorderRight"/>
          </item>
-         <item>
-          <widget class="QLabel" name="ToolsPropertiesLabel_9">
+         <item row="1" column="0">
+          <widget class="QSpinBox" name="BorderLeft"/>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLabel" name="label_2">
            <property name="text">
-            <string>Tile seed</string>
+            <string>Top:</string>
            </property>
           </widget>
          </item>
-         <item>
-          <widget class="QSlider" name="ToolsPropertiesSeed">
-           <property name="orientation">
-            <enum>Qt::Orientation::Horizontal</enum>
+         <item row="2" column="1">
+          <widget class="QLabel" name="label_3">
+           <property name="text">
+            <string>Bottom:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="label_4">
+           <property name="text">
+            <string>Right:</string>
            </property>
           </widget>
          </item>
         </layout>
+       </item>
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Orientation::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
        </item>
       </layout>
      </widget>

@@ -15,6 +15,8 @@ from BaseMod.themes.preferencesuiconnector import PreferencesUI
 from BaseMod.camera.cameraModule import CameraModule
 from BaseMod.camera.cameraUIConnectors import CameraViewUI, CameraSettingsUI, CameraUI
 from BaseMod.camera.cameraEditor import CameraEditor
+from BaseMod.properties.propertiesEditor import PropertiesEditor
+from BaseMod.properties.propertiesUIConnectors import PropertiesUI
 from BaseMod.LevelParts import GeoLevelPart, TileLevelPart, PropLevelPart, EffectLevelPart, CameraLevelPart, InfoLevelPart, LightLevelPart
 from RWESharp.Modify import Mod, ModInfo
 from RWESharp.Core import SettingElement, HotkeyElement, get_hotkeys_from_pattern, PATH_FILES_VIDEOS
@@ -68,6 +70,10 @@ class BaseMod(Mod):
         self.cameraui = CameraUI(self)
         self.cameraeditor.add_myself(self.cameraui)
         self.camerasettings = CameraSettingsUI(self)
+
+        self.propertieseditor = PropertiesEditor(self)
+        self.propertiesui = PropertiesUI(self)
+        self.propertieseditor.add_myself(self.propertiesui)
 
         if self.bmconfig.funny.value:  # todo make it so it updates dynamically
             self.sex = QAction("sex(earrape warning)")

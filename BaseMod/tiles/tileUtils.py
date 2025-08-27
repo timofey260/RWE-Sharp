@@ -72,10 +72,14 @@ class PlacedTileHead:
 
 class PlacedTileBody:
     def __init__(self, tileheadpos: QPoint, headlayer, pos: QPoint, layer: int):
-        self.headpos = tileheadpos
+        self.headoffset = tileheadpos
         self.headlayer = headlayer
         self.pos = pos
         self.layer = layer
+
+    @property
+    def headpos(self):
+        return self.pos - self.headoffset
 
     def tilehead(self, level):
         return level.l_tiles[self.headpos][self.headlayer]
@@ -98,7 +102,7 @@ class PlacedTileBody:
         return self.tilehead(level).tile
 
     def copy(self):
-        return PlacedTileBody(self.headpos.__copy__(), self.headlayer, self.pos.__copy__(), self.layer)
+        return PlacedTileBody(self.headoffset.__copy__(), self.headlayer, self.pos.__copy__(), self.layer)
 
 
 class PlacedMaterial:
@@ -248,7 +252,7 @@ def tile_changes(level: RWELevel,
         #           copy_tile(level.l_tiles(pos, layer))]
         level.l_tiles[pos][layer] = copy_tile(change[1])
         return change, geochange
-    change = [copy_tile(level.l_tiles[pos][layer]), PlacedTileBody(head, layer + (1 if secondlayer else 0), pos, layer)]
+    change = [copy_tile(level.l_tiles[pos][layer]), PlacedTileBody(pos - head, layer + (1 if secondlayer else 0), pos, layer)]
     if level.l_tiles[pos][layer] is not None:
         level.l_tiles[pos][layer].remove_graphics(level, True)
     # change = [pos, layer,

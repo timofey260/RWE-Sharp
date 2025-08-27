@@ -128,7 +128,8 @@ class TileLevelPart(LevelPart):
                 if self.level.data["TE"]["tlMatrix"][tileheadpos.x()][tileheadpos.y()][headlayer].get("tp") == "default":
                     return None  # removing all improper tile bodies
                 # l = tb.get((tileheadpos, layer), None)
-                tilebody = PlacedTileBody(tileheadpos, headlayer, pos, layer)
+                tileheadoffset = pos - tileheadpos
+                tilebody = PlacedTileBody(tileheadoffset, headlayer, pos, layer)
                 # if l is None:
                 #     tb[(tileheadpos, layer)] = [tilebody]
                 #     return tilebody
