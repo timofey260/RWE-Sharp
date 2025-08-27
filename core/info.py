@@ -28,9 +28,10 @@ PATH_BASEMOD = os.path.join(PATH, "BaseMod")
 PATH_DRIZZLE_TILES = os.path.join(PATH_DRIZZLE, "Data/Graphics")
 PATH_DRIZZLE_PROPS = os.path.join(PATH_DRIZZLE, "Data/Props")
 
-assert os.path.exists(PATH_DRIZZLE), "No drizzle found"
+if not os.path.exists(PATH_DRIZZLE):
+    print("DRIZZLE NOT FOUND")
 
-ISLINUX = sys.platform == "linux" or sys.platform == "linux2"
+ISLINUX = sys.platform == "linux" or sys.platform == "linux2"  # tf is linux2
 ISMAC = sys.platform == "darwin"
 ISWIN = not ISMAC and not ISLINUX
 
@@ -45,12 +46,14 @@ REPO = r"https://github.com/timofey260/RWE-Sharp/"
 REPO_ISSUES = r"https://github.com/timofey260/RWE-Sharp/issues/"
 REPO_DOWNLOAD = r"https://github.com/timofey260/RWE-Sharp/releases/"
 REPO_DOWNLOAD_LATEST = r"https://github.com/timofey260/RWE-Sharp/releases/latest/"
+REPO_DATABASE = r"https://raw.githubusercontent.com/timofey260/RWE-Sharp-Database/refs/heads/main/baseinfo.json"
 
 CUSTOM_LINKS = {
     "Rain World Wiki": "https://rainworld.miraheze.org/wiki/Rain_World_Wiki",
     "Modding Wiki": "https://rainworldmodding.miraheze.org/wiki/Main_Page",
     "RWMA Discord Server": "https://discord.gg/rainworldmodding",
-    "Interactive Map": "https://henpemaz.github.io/Rain-World-Interactive-Map/"
+    "Interactive Map": "https://henpemaz.github.io/Rain-World-Interactive-Map/",
+    "RWE# Mod Database": "https://github.com/timofey260/RWE-Sharp-Database"
 }
 
 CONSTS: dict = {}
@@ -66,7 +69,7 @@ can be interpreted as viewport quality
 """
 SPRITESIZE = CONSTS.get("spritesize", 16)
 """
-size of tile sprite
+size of single tile sprite cell
 """
 
 camw = 70
@@ -76,6 +79,15 @@ Camera width(in cells)
 camh = 40
 """
 Camera height(in cells)
+"""
+
+ofsleft = 15
+"""
+Amount in blocks to add to light image to left 
+"""
+ofstop = 15
+"""
+Amount in blocks to add to light image to left
 """
 
 LOG = open(os.path.join(PATH, "loadLog.txt"), "w")

@@ -167,7 +167,9 @@ first 2 bits of each tile is tile mode
 """
 import json
 import re
+import traceback
 import zipfile
+from typing import Any
 
 from core.lingoIO import fromarr, frompoint, tojson, makearr
 from core.Level.RWELevel import RWELevel, defaultlevellines, minimallevellines
@@ -189,11 +191,12 @@ effectreminder = [
 
 class RWLParser:
     @staticmethod
-    def parse_rwl(string: str) -> dict:
+    def parse_rwl(string: str) -> tuple[dict, bytes | None]:
         proj = {}
         version = VER
         width, height = 72, 43
         borders = [0, 0, 0, 0]
+        lightimage = None
         with zipfile.ZipFile(string) as content:
             proj["EX2"] = tojson(defaultlevellines[5])
             proj["LE"] = tojson(defaultlevellines[3])
@@ -249,7 +252,7 @@ class RWLParser:
                                 if ishead:
                                     tile = first & 127 + ((second & 126) << 7)
                                     tilename = list(unique_tiles.keys())[tile]
-                                    proj["TE"]["tlMatrix"][-1][-1].append({"tp": "tileHead", "data": [makearr(unique_tiles[tilename], "point"), tile]})
+                                    proj["TE"]["tlMatrix"][-1][-1].append({"tp": "tileHead", "data": [makearr(unique_tiles[tilename], "point"), tilename]})
                                     continue
                                 third = int.from_bytes(tiles.read(1))
                                 # print(bin((third << 16) + (second << 8) + first), third, second, first)
@@ -283,7 +286,7 @@ class RWLParser:
                         option = effects.readline().decode().rstrip("\n").split(";")
                         name = option[0]
                         value = int(option[-1]) if name == "Seed" else option[-1]
-                        effect["options"].append([name, value, option[1:-1]])
+                        effect["options"].append([name, option[1:-1], value])
                     effect["mtrx"] = []
                     for x in range(width):
                         effect["mtrx"].append([])
@@ -309,10 +312,25 @@ class RWLParser:
                         prop[4]["settings"][setting[0]] = int(setting[1])
                     proj["PR"]["props"].append(prop)
             proj["CM"] = tojson(minimallevellines[6])
-        return proj
+            with content.open("cameras") as cameras:
+                amount = int(cameras.readline().decode().rstrip("\n"))
+                for c in range(amount):
+                    proj["CM"]["cameras"].append(makearr(cameras.readline().decode().rstrip("\n").split(";"), "point"))
+                    xposes = [float(i) for i in cameras.readline().decode().rstrip("\n").split(";")]
+                    yposes = [float(i) for i in cameras.readline().decode().rstrip("\n").split(";")]
+                    proj["CM"]["quads"].append([[x, y] for x, y in zip(xposes, yposes)])
+            filenames = [i.filename for i in content.filelist]
+            if "light.png" in filenames:
+                with content.open("light.png") as light:
+                    lightimage = light.read()
+            if "custom" in filenames:
+                with content.open("custom") as custom:
+                    proj["CLD"] = json.loads(custom.read().decode())
+
+        return proj, lightimage
 
     @staticmethod
-    def save_rwl(level: dict, path: str):
+    def save_rwl(level: dict, path: str, lightdata: bytes=None):
         with zipfile.ZipFile(path, "w") as content:
             size = [1, 1]
             with content.open("info", "w") as info:
@@ -365,10 +383,10 @@ class RWLParser:
                                 tiles.write(((export & 16711680) >> 16).to_bytes(1))
                                 # print(xpos, ypos, xpos - 512, ypos - 512, ix, iy)
                                 # print(bin(export), (export & 16711680) >> 16, (export & 65280) >> 8, export & 255)
-                                
+
                                 # 0b100001000010000110110111 132 33 183
                                 # 528 525 16 13   52 211
-                                
+
                                 # 0b100001000010000110110111 132 33 183
                                 # 16 13           13 156
                                 # -3 143 3
@@ -410,6 +428,25 @@ class RWLParser:
                     for k, v in p[4]["settings"].items():
                         props.write(f"{k};{v}".encode())
                         props.write("\n".encode())
+            with content.open("cameras", "w") as cameras:
+                cameras.write(str(len(level["CM"]["cameras"])).encode())
+                cameras.write("\n".encode())
+                for i, c in enumerate(level["CM"]["cameras"]):
+                    cameras.write(";".join([str(d) for d in frompoint(c)]).encode())
+                    cameras.write("\n".encode())
+                    quads = level["CM"]["quads"][i]
+                    cameras.write(";".join([str(q[0]) for q in quads]).encode())
+                    cameras.write("\n".encode())
+                    cameras.write(";".join([str(q[1]) for q in quads]).encode())
+                    cameras.write("\n".encode())
+            file, _ = os.path.splitext(path)
+            if os.path.exists(file + ".png") or lightdata is not None:
+                with content.open("light.png", "w") as light:
+                    light.write(open(file + ".png", "rb").read() if lightdata is None else lightdata)
+            if level.get("CLD") is None:
+                return
+            with content.open("custom", "w") as custom:
+                custom.write(json.dumps(level["CLD"]).encode())
 
 
 if __name__ == '__main__':
@@ -422,8 +459,9 @@ if __name__ == '__main__':
     lvl = RWELevel.turntoproject(open(os.path.join(PATH_LEVELS, "HE_LEG.txt")).read())
     # level = RWLParser.parse_rwl(os.path.join(PATH_LEVELS, "level.rwl"))
     level_path = os.path.join(PATH_LEVELS, "HE_LEG.rwl")
-    RWLParser.save_rwl(lvl, level_path)
-    decoded = RWLParser.parse_rwl(level_path)
+    RWLParser.save_rwl(lvl.data, level_path)
+    decoded, light = RWLParser.parse_rwl(level_path)
+    print(light)
     with open(os.path.join(PATH_LEVELS, "decoded.wep"), "w") as f:
         f.write(json.dumps(decoded))
     # print(decoded)

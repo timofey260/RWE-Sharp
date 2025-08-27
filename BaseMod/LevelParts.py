@@ -1,8 +1,9 @@
 from RWESharp.Modify import LevelPart
-from RWESharp.Core import lingoIO, SPRITESIZE, CELLSIZE
+from RWESharp.Core import lingoIO, SPRITESIZE, CELLSIZE, ofsleft, ofstop
 from RWESharp.Utils import polar2point, point2polar
 from BaseMod.tiles.tileUtils import PlacedMaterial, PlacedTileHead, PlacedTileBody
-from PySide6.QtCore import QPoint, QPointF
+from PySide6.QtCore import QPoint, QPointF, QSize, Qt, QByteArray, QBuffer, QIODevice
+from PySide6.QtGui import QImage, QPainter
 import numpy as np
 from copy import deepcopy
 
@@ -342,3 +343,29 @@ class CameraLevelPart(LevelPart):
 
     def __getitem__(self, item):
         return self.cameras.__getitem__(item)
+
+
+class LightLevelPart(LevelPart):
+    def __init__(self, level):
+        super().__init__("light", level)
+        imagesize = QSize((self.level.level_width + ofsleft) * CELLSIZE, (self.level.level_height + ofstop) * CELLSIZE)
+        if level.lightdata is None:
+            newimage = QImage(imagesize, QImage.Format.Format_Grayscale8)
+            newimage.fill(Qt.GlobalColor.white)
+            self.image = newimage
+            return
+        self.image = QImage.fromData(level.lightdata)
+        self.image.convertTo(QImage.Format.Format_Grayscale8)
+        if self.image.size() != imagesize:
+            newimage = QImage(imagesize, QImage.Format.Format_Grayscale8)
+            newimage.fill(Qt.GlobalColor.white)
+            painter = QPainter(newimage)
+            painter.drawImage(QPoint(), self.image)
+            self.image = newimage
+
+    def save_level(self):
+        ba = QByteArray()
+        buff = QBuffer(ba)
+        buff.open(QIODevice.OpenModeFlag.WriteOnly)
+        self.image.save(buff)
+        self.level.lightdata = ba.data()

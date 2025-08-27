@@ -21,9 +21,10 @@ minimallevellines = minimallevel.split("\n")
 
 class RWELevel:
     def __init__(self, manager, file=None):
-        from BaseMod.LevelParts import GeoLevelPart, TileLevelPart, EffectLevelPart, PropLevelPart, CameraLevelPart, InfoLevelPart
+        from BaseMod.LevelParts import GeoLevelPart, TileLevelPart, EffectLevelPart, PropLevelPart, CameraLevelPart, InfoLevelPart, LightLevelPart
         self.manager = manager
         self.file = file
+        self.lightdata = None
         if file is not None:
             self.openfile(file)
         else:
@@ -40,6 +41,7 @@ class RWELevel:
         self.l_effects: EffectLevelPart = self.levelparts["effects"]
         self.l_props: PropLevelPart = self.levelparts["props"]
         self.l_cameras: CameraLevelPart = self.levelparts["camera"]
+        self.l_light: LightLevelPart = self.levelparts["light"]
 
         self.custom_level_data = CustomLevelData(self)
 
@@ -157,16 +159,34 @@ class RWELevel:
             raise FileNotFoundError("No file found!!!")
         _, ext = os.path.splitext(file)
         if ext == ".rwl":
-            self.data = PathDict(RWLParser.parse_rwl(file))
+            level, light = RWLParser.parse_rwl(file)
+            self.lightdata = light
+            self.data = PathDict(level)
             return
         with open(file) as f:
             if ext == ".txt":
                 self.data = RWELevel.turntoproject(f.read())
+                self.get_light(file)
                 return
             elif ext == ".wep":
                 self.data = PathDict(json.load(f))
+                self.get_light(file)
                 return
             raise FileNotCompatible(f"{file} is not compatible with {info.NAME}!")
+
+    def get_light(self, file):
+        lightpath, _ = os.path.splitext(file)
+        lightpath += ".png"
+        if os.path.exists(lightpath):
+            with open(lightpath, "rb") as f:
+                self.lightdata = f.read()
+
+    def save_light(self, file):
+        if self.lightdata is None:
+            return
+        lightpath, _ = os.path.splitext(file)
+        with open(lightpath + ".png", "wb") as l:
+            l.write(self.lightdata)
 
     def save_file(self) -> bool:
         from core.Level.RWLParser import RWLParser
@@ -178,13 +198,16 @@ class RWELevel:
         _, ex = os.path.splitext(self.file)
         if ex == ".txt":
             self.turntolingo(open(self.file, "w"))
+            self.save_light(self.file)
             return True
         elif ex == ".wep":
             with open(self.file, "w") as f:
                 f.write(ujson.dumps(self.data.data))
+            self.save_light(self.file)
             return True
         elif ex == ".rwl":
-            RWLParser.save_rwl(self.data.data, self.file)
+            RWLParser.save_rwl(self.data.data, self.file, self.lightdata)
+            return True
         try:
             with open(self.file + ".wep", "w") as f:
                 self.file += ".wep"
