@@ -85,7 +85,7 @@ class RWELevel:
         return QRect(0, 0, self.level_width, self.level_height)
 
     @property
-    def extra_tiles(self) -> [int, int, int, int]:
+    def extra_tiles(self) -> list[int]:
         return self.l_info.extra_tiles
 
     def inside(self, point: QPoint) -> bool:
