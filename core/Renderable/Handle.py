@@ -18,7 +18,7 @@ class HandleItem(QGraphicsRectItem, QObject):
         self.setPen(QPen(QColor(0, 0, 0), 2))
         self.setBrush(QBrush(QColor(255, 255, 255)))
         self.setAcceptTouchEvents(True)
-        self.setAcceptHoverEvents(True)
+        # self.setAcceptHoverEvents(True)
         self.setAcceptedMouseButtons(Qt.MouseButton.LeftButton)
         self.reserved_pos = QPointF()
 
@@ -45,8 +45,10 @@ class HandleItem(QGraphicsRectItem, QObject):
         event.accept()
         self.reserved_pos = self.handle.offset
         self.mousePressed.emit(self.handle.offset)
+        self.setCursor(Qt.CursorShape.ClosedHandCursor)
 
     def mouseReleaseEvent(self, event):
+        self.unsetCursor()
         self.mouseReleased.emit(self.handle.offset)
 
 

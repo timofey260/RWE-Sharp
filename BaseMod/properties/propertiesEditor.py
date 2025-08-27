@@ -1,5 +1,5 @@
 from RWESharp.Modify import Editor
-from RWESharp.Renderable import Handle, RenderRect
+from RWESharp.Renderable import Handle, RenderRect, HandleRectangle
 from RWESharp.Core import CELLSIZE
 from PySide6.QtCore import QPoint, QRect
 
@@ -12,6 +12,7 @@ class PropertiesEditor(Editor):
         self.cornerborderhandles = [Handle(self), Handle(self), Handle(self), Handle(self)]
         self.rect = RenderRect(self, 0, QRect())
         self.borderrect = RenderRect(self, 0, QRect())
+        self.handlerect = HandleRectangle(self)
 
     def init_scene_items(self, viewport):
         super().init_scene_items(viewport)
