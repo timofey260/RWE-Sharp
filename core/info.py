@@ -28,7 +28,7 @@ PATH_BASEMOD = os.path.join(PATH, "BaseMod")
 PATH_DRIZZLE_TILES = os.path.join(PATH_DRIZZLE, "Data/Graphics")
 PATH_DRIZZLE_PROPS = os.path.join(PATH_DRIZZLE, "Data/Props")
 
-if not os.path.exists(PATH_DRIZZLE):
+if not os.path.exists(PATH_DRIZZLE):  # todo finish database
     print("DRIZZLE NOT FOUND")
 
 assert os.path.exists(PATH_DRIZZLE), "drizzle not found"
