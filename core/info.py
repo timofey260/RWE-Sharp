@@ -31,6 +31,8 @@ PATH_DRIZZLE_PROPS = os.path.join(PATH_DRIZZLE, "Data/Props")
 if not os.path.exists(PATH_DRIZZLE):
     print("DRIZZLE NOT FOUND")
 
+assert os.path.exists(PATH_DRIZZLE), "drizzle not found"
+
 ISLINUX = sys.platform == "linux" or sys.platform == "linux2"  # tf is linux2
 ISMAC = sys.platform == "darwin"
 ISWIN = not ISMAC and not ISLINUX

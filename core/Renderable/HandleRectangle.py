@@ -1,11 +1,10 @@
 from core.Renderable.Renderable import Renderable
 from PySide6.QtWidgets import QGraphicsRectItem
-from PySide6.QtCore import Qt, QPointF, QRectF, Signal, QObject
+from PySide6.QtCore import Qt, QPointF, QRectF, Signal, QObject, QRect, QPoint
 from PySide6.QtGui import QColor, QPen
 from core.info import CELLSIZE
 
 class Rectangle(QGraphicsRectItem, QObject):
-    rectChanged = Signal(QRectF)
     rectMoved = Signal(QRectF)
 
     def __init__(self):
@@ -19,12 +18,13 @@ class Rectangle(QGraphicsRectItem, QObject):
         self.setScale(.5)
         self.setPen(QPen(Qt.PenStyle.NoPen))
         self.moveborder = [False] * 4
+        self.enabled = True
         self.lastpos = QPointF()
 
     def mousePressEvent(self, event):
         insiderect = self.rect().adjusted(40, 40, -40, -40)
         outsiderect = self.rect()
-        if insiderect.contains(event.pos()):
+        if insiderect.contains(event.pos()) or not self.enabled:
             event.ignore()
             return
         event.accept()
@@ -60,7 +60,6 @@ class Rectangle(QGraphicsRectItem, QObject):
         event.accept()
         self.unsetCursor()
         self.moveborder = [False] * 4
-        self.rectChanged.emit(self.rect())
 
     def mouseMoveEvent(self, event, /):
         move = event.pos() - self.lastpos
@@ -75,11 +74,28 @@ class Rectangle(QGraphicsRectItem, QObject):
         self.setRect(newrect)
         self.lastpos = event.pos()
 
+class NormalRectangle(Rectangle):
+    rectChanged = Signal(QRectF)
+
+    def mouseReleaseEvent(self, event, /):
+        super().mouseReleaseEvent(event)
+        self.rectChanged.emit(self.rect().adjusted(20, 20, -20, -20))
+
+class GridRectangle(Rectangle):
+    rectChanged = Signal(QRect)
+
+    def mouseReleaseEvent(self, event, /):
+        super().mouseReleaseEvent(event)
+        fixedrect = self.rect().toRect().adjusted(20, 20, -20, -20)
+        newrect = QRect(QPoint(fixedrect.left() // CELLSIZE, fixedrect.top() // CELLSIZE), QPoint(fixedrect.right() // CELLSIZE, fixedrect.bottom() // CELLSIZE))
+        self.setRect(QRectF(newrect.x() * CELLSIZE, newrect.y() * CELLSIZE, newrect.width() * CELLSIZE, newrect.height() * CELLSIZE).adjusted(-20, -20, 20, 20))
+        self.rectChanged.emit(newrect)
+
 class HandleRectangle(Renderable):
     def __init__(self, module, rect: QRectF, add_renderable: bool = True):
         super().__init__(module, -100, False)
         self.rect = rect
-        self.recth = Rectangle()
+        self.recth = NormalRectangle()
         self.recth.setRect(self.rect.adjusted(-20, -20, 20, 20))
         self.visrect = QGraphicsRectItem(self.rect)
         self.visrect.setPen(QColor(Qt.GlobalColor.blue))
@@ -89,6 +105,7 @@ class HandleRectangle(Renderable):
             self.module.add_renderable(self)
 
     def rect_moved(self):
+        self.rect = self.recth.rect().adjusted(20, 20, -20, -20)
         self.visrect.setRect(self.recth.rect().adjusted(20, 20, -20, -20))
 
     def init_graphics(self, viewport):
@@ -110,3 +127,57 @@ class HandleRectangle(Renderable):
         super().move_event()
         self.recth.setPos(self.actual_offset)
         self.visrect.setPos(self.actual_offset)
+
+    def setRect(self, rect: QRectF):
+        self.rect = rect
+        self.recth.setRect(rect.adjusted(-20, -20, 20, 20))
+        self.visrect.setRect(rect)
+
+class GridHandleRectangle(Renderable):
+    def __init__(self, module, rect: QRect, add_renderable: bool = True):
+        super().__init__(module, -100, False)
+        self.rect = rect
+        self.recth = GridRectangle()
+        rectupped = QRectF(rect.x() * CELLSIZE, rect.y() * CELLSIZE, rect.width() * CELLSIZE, rect.height() * CELLSIZE)
+        self.recth.setRect(rectupped.adjusted(-20, -20, 20, 20))
+        self.visrect = QGraphicsRectItem(rectupped)
+        self.visrect.setPen(QColor(Qt.GlobalColor.blue))
+        self.recth.rectMoved.connect(self.rect_moved)
+
+        if add_renderable:
+            self.module.add_renderable(self)
+
+    def rect_moved(self):
+        self.rect = self.rounded
+        self.visrect.setRect(QRect(self.rect.x() * CELLSIZE, self.rect.y() * CELLSIZE, self.rect.width() * CELLSIZE, self.rect.height() * CELLSIZE))
+
+    @property
+    def rounded(self):
+        fixedrect = self.recth.rect().toRect().adjusted(20, 20, -20, -20)
+        return QRect(QPoint(fixedrect.left() // CELLSIZE, fixedrect.top() // CELLSIZE), QPoint(fixedrect.right() // CELLSIZE, fixedrect.bottom() // CELLSIZE))
+
+    def init_graphics(self, viewport):
+        super().init_graphics(viewport)
+        viewport.workscene.addItem(self.recth)
+        viewport.workscene.addItem(self.visrect)
+
+    def remove_graphics(self, viewport):
+        super().remove_graphics(viewport)
+        viewport.workscene.removeItem(self.recth)
+        viewport.workscene.removeItem(self.visrect)
+
+    def zoom_event(self):
+        super().zoom_event()
+        self.recth.setScale(self.zoom)
+        self.visrect.setScale(self.zoom)
+
+    def move_event(self):
+        super().move_event()
+        self.recth.setPos(self.actual_offset)
+        self.visrect.setPos(self.actual_offset)
+
+    def setRect(self, rect: QRect):
+        self.rect = rect
+        newrect = QRectF(rect.x() * CELLSIZE, rect.y() * CELLSIZE, rect.width() * CELLSIZE, rect.height() * CELLSIZE)
+        self.recth.setRect(newrect.adjusted(-20, -20, 20, 20))
+        self.visrect.setRect(newrect)
