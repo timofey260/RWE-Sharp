@@ -86,10 +86,17 @@ class GridRectangle(Rectangle):
 
     def mouseReleaseEvent(self, event, /):
         super().mouseReleaseEvent(event)
-        fixedrect = self.rect().toRect().adjusted(20, 20, -20, -20)
-        newrect = QRect(QPoint(fixedrect.left() // CELLSIZE, fixedrect.top() // CELLSIZE), QPoint(fixedrect.right() // CELLSIZE, fixedrect.bottom() // CELLSIZE))
-        self.setRect(QRectF(newrect.x() * CELLSIZE, newrect.y() * CELLSIZE, newrect.width() * CELLSIZE, newrect.height() * CELLSIZE).adjusted(-20, -20, 20, 20))
+        newrect = self.getrect
+        self.setRect(QRectF(newrect.x() * CELLSIZE, newrect.y() * CELLSIZE, newrect.width() * CELLSIZE,
+                            newrect.height() * CELLSIZE).adjusted(-20, -20, 20, 20))
         self.rectChanged.emit(newrect)
+
+    @property
+    def getrect(self) -> QRect:
+        fixedrect = self.rect().toRect().adjusted(20, 20, -20, -20)
+        newrect = QRect(QPoint(fixedrect.left() // CELLSIZE, fixedrect.top() // CELLSIZE),
+                        QPoint(fixedrect.right() // CELLSIZE, fixedrect.bottom() // CELLSIZE))
+        return newrect
 
 class HandleRectangle(Renderable):
     def __init__(self, module, rect: QRectF, add_renderable: bool = True):
@@ -148,11 +155,11 @@ class GridHandleRectangle(Renderable):
             self.module.add_renderable(self)
 
     def rect_moved(self):
-        self.rect = self.rounded
+        self.rect = self.getrect
         self.visrect.setRect(QRect(self.rect.x() * CELLSIZE, self.rect.y() * CELLSIZE, self.rect.width() * CELLSIZE, self.rect.height() * CELLSIZE))
 
     @property
-    def rounded(self):
+    def getrect(self):
         fixedrect = self.recth.rect().toRect().adjusted(20, 20, -20, -20)
         return QRect(QPoint(fixedrect.left() // CELLSIZE, fixedrect.top() // CELLSIZE), QPoint(fixedrect.right() // CELLSIZE, fixedrect.bottom() // CELLSIZE))
 

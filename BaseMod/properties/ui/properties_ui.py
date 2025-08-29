@@ -65,6 +65,7 @@ class Ui_Properties(object):
 
         self.XOfs = QSpinBox(self.scrollAreaWidgetContents)
         self.XOfs.setObjectName(u"XOfs")
+        self.XOfs.setMinimum(-1000)
         self.XOfs.setMaximum(1000)
 
         self.gridLayout_10.addWidget(self.XOfs, 1, 0, 1, 1)
@@ -76,6 +77,7 @@ class Ui_Properties(object):
 
         self.YOfs = QSpinBox(self.scrollAreaWidgetContents)
         self.YOfs.setObjectName(u"YOfs")
+        self.YOfs.setMinimum(-1000)
         self.YOfs.setMaximum(1000)
 
         self.gridLayout_10.addWidget(self.YOfs, 1, 1, 1, 1)
@@ -114,10 +116,20 @@ class Ui_Properties(object):
 
         self.verticalLayout_2.addWidget(self.AddCameras)
 
+        self.horizontalLayout_2 = QHBoxLayout()
+        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
         self.Resize = QPushButton(self.scrollAreaWidgetContents)
         self.Resize.setObjectName(u"Resize")
 
-        self.verticalLayout_2.addWidget(self.Resize)
+        self.horizontalLayout_2.addWidget(self.Resize)
+
+        self.Reset = QPushButton(self.scrollAreaWidgetContents)
+        self.Reset.setObjectName(u"Reset")
+
+        self.horizontalLayout_2.addWidget(self.Reset)
+
+
+        self.verticalLayout_2.addLayout(self.horizontalLayout_2)
 
         self.ToolsPropertiesLabel_11 = QLabel(self.scrollAreaWidgetContents)
         self.ToolsPropertiesLabel_11.setObjectName(u"ToolsPropertiesLabel_11")
@@ -251,6 +263,7 @@ class Ui_Properties(object):
         self.ToolsPropertiesLabel_4.setText(QCoreApplication.translate("Properties", u"Y Offset:", None))
         self.AddCameras.setText(QCoreApplication.translate("Properties", u"Add Cameras", None))
         self.Resize.setText(QCoreApplication.translate("Properties", u"Resize", None))
+        self.Reset.setText(QCoreApplication.translate("Properties", u"Reset", None))
         self.ToolsPropertiesLabel_11.setText(QCoreApplication.translate("Properties", u"Border Tiles:", None))
         self.label.setText(QCoreApplication.translate("Properties", u"Left:", None))
         self.label_2.setText(QCoreApplication.translate("Properties", u"Top:", None))

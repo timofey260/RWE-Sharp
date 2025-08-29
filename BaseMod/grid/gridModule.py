@@ -44,12 +44,12 @@ class GridModule(Module):
         self.ui.more_funny.valueChanged.connect(lambda x: self.viewport.setBackgroundBrush(self.wh if x else QBrush()))
         self.viewport.setBackgroundBrush(self.wh if self.ui.more_funny.value else QBrush())
         super().init_scene_items(viewport)
-        self.level_resized()
+        self.level_resized(self.level.level_rect)
 
-    def level_resized(self):
+    def level_resized(self, rect):
         self.rect.setRect(QRect(QPoint(0, 0), CELLSIZE * self.level.level_size))
         borders = self.level.extra_tiles
         topleft = QPoint(borders[0], borders[1])
         bottomright = self.level.level_size - QPoint(borders[2], borders[3])
         self.border.setRect(QRect(topleft * CELLSIZE, bottomright * CELLSIZE))
-        super().level_resized()
+        super().level_resized(rect)

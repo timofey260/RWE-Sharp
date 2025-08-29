@@ -71,7 +71,7 @@ class PropModule(Module):
         self.props.insert(newindex, self.props.pop(index))
         self.level.l_props.insert(newindex, self.level.l_props.pop(index))
 
-    def level_resized(self):
+    def level_resized(self, rect):
         self.render_props()
 
     def set_visibility(self, state):

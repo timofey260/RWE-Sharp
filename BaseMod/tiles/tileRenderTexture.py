@@ -129,8 +129,8 @@ class TileRenderLevelImage(RenderLevelImage):
         self.fill_scene()
         self.render_layer()
 
-    def level_resized(self):
-        super().level_resized()
+    def level_resized(self, rect):
+        super().level_resized(rect)
         self.tilescene.setSceneRect(0, 0, self.viewport.level.level_width * CELLSIZE, self.viewport.level.level_height * CELLSIZE)
         # todo other tile bullshit
         self.draw_layer(True)

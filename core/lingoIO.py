@@ -72,7 +72,7 @@ def tolingo(string: dict):
     return t
 
 
-def fromarr(col: str, mark: str):
+def fromarr(col: str, mark: str) -> list[float | int]:
     s = col.replace(mark + "(", "")
     s = s.replace(",", " ")
     s = s.replace(")", "")
@@ -85,11 +85,11 @@ def fromarr(col: str, mark: str):
     return a
 
 
-def point(col: list | tuple):
+def point(col: list | tuple) -> str:
     return f"point({round(col[0], 4)}, {round(col[1], 4)})"
 
 
-def frompoint(col: str):
+def frompoint(col: str) -> list[float | int]:
     return fromarr(col, "point")
 
 

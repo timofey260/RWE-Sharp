@@ -59,8 +59,8 @@ class GeoRenderLevelImage(RenderLevelImage):
                 self.draw_geo(xp, yp, updatearound=False, clear=clear)
         self.redraw()
 
-    def level_resized(self):
-        super().level_resized()
+    def level_resized(self, rect):
+        super().level_resized(rect)
         self.image.fill(QColor(0, 0, 0, 0))
         self.draw_layer()
 

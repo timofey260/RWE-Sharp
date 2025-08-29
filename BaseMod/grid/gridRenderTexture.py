@@ -22,7 +22,7 @@ class GridRenderLevelImage(RenderLevelImage):
         self.painter.drawLines([QLine(0, i, self.image.width(), i) for i in range(CELLSIZE * self.module.ui.grid_offset_Y.value, self.image.height(), CELLSIZE * self.module.ui.grid_size_Y.value)])
         self.redraw()
 
-    def level_resized(self):
-        super().level_resized()
+    def level_resized(self, rect):
+        super().level_resized(rect)
         self.draw_layer()
         self.redraw()

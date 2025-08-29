@@ -9,12 +9,12 @@ class BorderChange(HistoryElement):
 
     def undo_changes(self):
         self.level.l_info.extra_tiles = self.before.copy()
-        self.level.viewport.modulenames["grid"].level_resized()
+        self.level.viewport.modulenames["grid"].level_resized(self.level.level_rect)
         self.manager.basemod.propertieseditor.reposition_extra()  # i can't believe stuff is so simple
 
     def redo_changes(self):
         self.level.l_info.extra_tiles = self.after.copy()
-        self.level.viewport.modulenames["grid"].level_resized()
+        self.level.viewport.modulenames["grid"].level_resized(self.level.level_rect)
         self.manager.basemod.propertieseditor.reposition_extra()
 
 class TileSeedChange(HistoryElement):

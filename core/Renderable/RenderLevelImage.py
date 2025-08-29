@@ -10,9 +10,9 @@ class RenderLevelImage(RenderImage):
 
     def init_graphics(self, viewport):
         super().init_graphics(viewport)
-        self.level_resized()
+        self.level_resized(self.level.level_rect)
 
-    def level_resized(self):
+    def level_resized(self, rect):
         self.painter.end()
         self.image = QPixmap(QSize(self.viewport.level.level_width * CELLSIZE, self.viewport.level.level_height * CELLSIZE))
         self.image.fill(QColor(0, 0, 0, 0))

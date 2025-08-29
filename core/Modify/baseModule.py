@@ -1,6 +1,7 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING
 from abc import ABC, abstractmethod
+from PySide6.QtCore import QRect
 if TYPE_CHECKING:
     from core.Renderable.Renderable import Renderable
     from widgets.Viewport import ViewPort
@@ -18,12 +19,12 @@ class Module(ABC):
         self.renderables: list[Renderable] = []
         self.viewport: ViewPort | None = None
 
-    def level_resized(self):
+    def level_resized(self, newrect: QRect):
         """
         Called once level is resized
         """
         for i in self.renderables:
-            i.level_resized()
+            i.level_resized(newrect)
 
     def add_renderable(self, renderable: Renderable):
         self.renderables.append(renderable)

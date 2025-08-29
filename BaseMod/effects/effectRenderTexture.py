@@ -33,8 +33,8 @@ class EffectRenderLevelImage(RenderLevelImage):
         #         self.draw_pixel(QPoint(xi, yi))
         self.redraw()
 
-    def level_resized(self):
-        super().level_resized()
+    def level_resized(self, rect):
+        super().level_resized(rect)
         self.draw_layer()
 
     def draw_pixel(self, point: QPoint, clear=False):

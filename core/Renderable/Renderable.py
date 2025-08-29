@@ -1,10 +1,8 @@
 from __future__ import annotations
-from PySide6.QtCore import QPointF, QPoint
+from PySide6.QtCore import QPointF, QPoint, QRect
 from core.Modify.baseModule import Module
 from abc import abstractmethod, ABC
 from typing import TYPE_CHECKING
-if TYPE_CHECKING:
-    from widgets.Viewport import ViewPort
 
 
 class Renderable(ABC):
@@ -75,7 +73,7 @@ class Renderable(ABC):
             return QPointF(0, 0)
         return self.viewport.topleft.pos()
 
-    def level_resized(self):
+    def level_resized(self, rect: QRect):
         pass
 
     @property

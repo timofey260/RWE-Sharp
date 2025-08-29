@@ -20,5 +20,8 @@ class PropertiesUI(UI):
         self.editor.right.link_spinbox(self.ui.BorderRight)
         self.editor.bottom.link_spinbox(self.ui.BorderBottom)
 
-        self.editor.seed.link_spinbox(self.ui.TileSeedSpin)
+        self.editor.seed.link_spinbox(self.ui.TileSeedSpin, True)
         self.ui.TileSeedRandom.clicked.connect(lambda: self.editor.seed.update_value_default(random.randint(0, 999)))
+        self.ui.Reset.clicked.connect(self.editor.reposition)
+
+        self.ui.Resize.clicked.connect(self.editor.confirm_resize)

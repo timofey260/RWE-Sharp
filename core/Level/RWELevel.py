@@ -11,7 +11,7 @@ from core.HistorySystem import History
 from core.Level.LevelPart import LevelPart
 from core.Level.CustomLevelData import CustomLevelData
 from PySide6.QtCore import QPoint, Slot, QRect, QSize
-from core.HistorySystem import HistoryElement
+from core.HistorySystem import HistoryElement, MultiHistoryElement
 
 defaultlevel = open(os.path.join(info.PATH_FILES, "default.txt"), "r").read()
 minimallevel = open(os.path.join(info.PATH_FILES, "minimal.txt"), "r").read()
@@ -46,6 +46,16 @@ class RWELevel:
         self.custom_level_data = CustomLevelData(self)
 
         self.was_resized = False
+
+    def level_resized(self, newrect: QRect):
+        elements: list[HistoryElement] = []
+        for i in self.levelparts.values():
+            elements.append(i.level_resized(newrect))
+        self.add_history(MultiHistoryElement, elements)
+        if self.viewport is None:
+            return
+        for i in self.viewport.modules:
+            i.level_resized(newrect)
 
     def mount_levelparts(self):
         if self.manager is None:

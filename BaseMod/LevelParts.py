@@ -2,7 +2,7 @@ from RWESharp.Modify import LevelPart
 from RWESharp.Core import lingoIO, SPRITESIZE, CELLSIZE, ofsleft, ofstop
 from RWESharp.Utils import polar2point, point2polar
 from BaseMod.tiles.tileUtils import PlacedMaterial, PlacedTileHead, PlacedTileBody
-from PySide6.QtCore import QPoint, QPointF, QSize, Qt, QByteArray, QBuffer, QIODevice
+from PySide6.QtCore import QPoint, QPointF, QSize, Qt, QByteArray, QBuffer, QIODevice, QRect
 from PySide6.QtGui import QImage, QPainter
 import numpy as np
 from copy import deepcopy
@@ -12,6 +12,9 @@ stack_pos = [1, 2, 11, 3, 4, 5, 6, 7, 9, 10, 12, 13, 19, 21, 20, 18]
 
 
 class InfoLevelPart(LevelPart):
+    def level_resized(self, changerect: QRect):
+        pass
+
     def save_level(self):
         self.level.data["EX2"]["extraTiles"] = self.extra_tiles.copy()
         self.level.data["EX2"]["tileSeed"] = self.tile_seed
@@ -57,6 +60,9 @@ class GeoLevelPart(LevelPart):
         with np.nditer(self.stack, flags=['multi_index'], op_flags=['readonly']) as it:
             for x in it:
                 self.level.data["GE"][it.multi_index[0]][it.multi_index[1]][it.multi_index[2]][1] = self.byte2stack(x[...])
+
+    def level_resized(self, changerect: QRect):
+        raise NotImplementedError
 
     @staticmethod
     def stack2byte(stack) -> np.int16:
@@ -160,6 +166,9 @@ class TileLevelPart(LevelPart):
             return {"tp": "tileHead", "data": [lingoIO.point((tile.tile.cat + QPoint(1, 1)).toTuple()), tile.tile.name]}
         raise NotImplementedError("someone probably fucked up")
 
+    def level_resized(self, changerect: QRect):
+        raise NotImplementedError
+
     def tile_data_xy(self, x: int, y: int, layer: int) -> None | PlacedTileBody | PlacedTileHead | PlacedMaterial:
         """
         returns tile on specific layer
@@ -203,6 +212,9 @@ class PropLevelPart(LevelPart):
             # if newp[4].get("points") is not None:
             #     newp[4]["points"] = [QPointF(*lingoIO.fromarr(p, "point")) * (CELLSIZE / SPRITESIZE) for p in newp[4]["points"]]
             self.props.append(prop)
+
+    def level_resized(self, changerect: QRect):
+        raise NotImplementedError
 
     def save_level(self):
         self.level["PR"]["props"] = []
@@ -258,6 +270,9 @@ class EffectLevelPart(LevelPart):
         super().__init__("effects", level)
         self.effects = []
         self.load_level()
+
+    def level_resized(self, changerect: QRect):
+        raise NotImplementedError
 
     def load_level(self):
         dat = self.level.data["FE"]["effects"]
@@ -320,6 +335,9 @@ class CameraLevelPart(LevelPart):
             quad = [polar2point(QPointF(i.x() - 90, i.y())) for i in quad]
             self.cameras.append(CameraLevelPart.Camera(QPointF(*lingoIO.frompoint(v)), quad))
 
+    def level_resized(self, changerect: QRect):
+        raise NotImplementedError
+
     def save_level(self):
         self.level.data["CM"]["cameras"] = []
         self.level.data["CM"]["quads"] = []
@@ -371,6 +389,9 @@ class LightLevelPart(LevelPart):
             painter = QPainter(newimage)
             painter.drawImage(QPoint(), self.image)
             self.image = newimage
+
+    def level_resized(self, changerect: QRect):
+        raise NotImplementedError
 
     def save_level(self):
         ba = QByteArray()
