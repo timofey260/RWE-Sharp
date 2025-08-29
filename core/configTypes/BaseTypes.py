@@ -142,16 +142,20 @@ class IntConfigurable(Configurable):
         for i in self.radiolist:
             i.clicked.connect(self.update_value)
 
-    def link_slider(self, slider: QSlider):
+    def link_slider(self, slider: QSlider, releaseonly=False):
         """
         Links slider to Configurable
         :param slider: slider
+        :param releaseonly: should configurable update only when slider is released
         :return: None
         """
         slider.setValue(self.value)
         if len(self.description) > 0:
             slider.setToolTip(self.description)
-        slider.valueChanged.connect(self.update_value)
+        if releaseonly:
+            slider.sliderReleased.connect(lambda: self.update_value(slider.value()))
+        else:
+            slider.valueChanged.connect(self.update_value)
         self.valueChanged.connect(slider.setValue)
 
     def link_spinbox(self, spin: QSpinBox):
@@ -166,13 +170,14 @@ class IntConfigurable(Configurable):
         spin.valueChanged.connect(self.update_value)
         self.valueChanged.connect(spin.setValue)
 
-    def link_slider_spinbox(self, slider: QSlider, spinbox: QSpinBox):
+    def link_slider_spinbox(self, slider: QSlider, spinbox: QSpinBox, releaseonly=False):
         """
         Links both slider and spinbox to a Configurable
         :param slider: slider to link
         :param spinbox: spinbox to link
+        :param releaseonly: should configurable update only when slider is released
         """
-        self.link_slider(slider)
+        self.link_slider(slider, releaseonly)
         self.link_spinbox(spinbox)
 
     def link_combobox(self, combobox: QComboBox):

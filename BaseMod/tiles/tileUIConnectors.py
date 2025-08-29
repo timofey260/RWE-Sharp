@@ -273,3 +273,4 @@ class TileSettings(SettingUI):
         for i in [self.rp, self.rs, self.np, self.ns, self.renderall]:
             i.setting.valueChanged.connect(self.ui.TilePreview.update_preview)
         self.ui.LayerSlider.valueChanged.connect(self.ui.TilePreview.update_preview)
+        self.ui.TilePreview.update_preview()

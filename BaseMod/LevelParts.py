@@ -14,10 +14,16 @@ stack_pos = [1, 2, 11, 3, 4, 5, 6, 7, 9, 10, 12, 13, 19, 21, 20, 18]
 class InfoLevelPart(LevelPart):
     def save_level(self):
         self.level.data["EX2"]["extraTiles"] = self.extra_tiles.copy()
+        self.level.data["EX2"]["tileSeed"] = self.tile_seed
+        self.level.data["WL"]["waterLevel"] = self.water_level
+        self.level.data["WL"]["waterInFront"] = 1 if self.water_in_front else 0
 
     def __init__(self, level):
         super().__init__("info", level)
         self.extra_tiles: list[int] = level.data["EX2"]["extraTiles"].copy()
+        self.tile_seed: int = level.data["EX2"]["tileSeed"]
+        self.water_level: int = level.data["WL"]["waterLevel"]
+        self.water_in_front = level.data["WL"]["waterInFront"] == 1
 
 
 class GeoLevelPart(LevelPart):
@@ -89,6 +95,7 @@ class TileLevelPart(LevelPart):
     def __init__(self, level):
         super().__init__("tiles", level)
         # self.tiles = self.level.data["TE"]["tlMatrix"]
+        self.default_material = level["TE"]["defaultMaterial"]
         self.tiles: list[list[list[PlacedTileHead | PlacedTileBody | PlacedMaterial | None]]] | None = None
         self.load_tiles()
 
@@ -139,6 +146,7 @@ class TileLevelPart(LevelPart):
     def save_level(self):
         self.level.data["TE"]["tlMatrix"] = [[[self.convert_to_dict(x, y, 0), self.convert_to_dict(x, y, 1), self.convert_to_dict(x, y, 2)]
                        for y in range(self.level.level_height)] for x in range(self.level.level_width)]
+        self.level.data["TE"]["defaultMaterial"] = self.default_material
 
     def convert_to_dict(self, x, y, l):
         tile = self.tiles[x][y][l]

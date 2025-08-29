@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>587</height>
+    <height>727</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -24,8 +24,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>370</width>
-        <height>579</height>
+        <width>384</width>
+        <height>711</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -38,47 +38,90 @@
        </item>
        <item>
         <layout class="QGridLayout" name="gridLayout_10">
-         <item row="3" column="0">
-          <widget class="QDoubleSpinBox" name="WidthCams"/>
-         </item>
-         <item row="2" column="1">
-          <widget class="QLabel" name="ToolsPropertiesLabel_10">
-           <property name="text">
-            <string>Height(Cameras):</string>
-           </property>
-          </widget>
-         </item>
          <item row="2" column="0">
-          <widget class="QLabel" name="ToolsPropertiesLabel_8">
-           <property name="text">
-            <string>Width(Cameras):</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="1">
-          <widget class="QSpinBox" name="HeightCells"/>
-         </item>
-         <item row="0" column="1">
-          <widget class="QLabel" name="ToolsPropertiesLabel_2">
-           <property name="text">
-            <string>Height(cells):</string>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="1">
-          <widget class="QDoubleSpinBox" name="HeightCams"/>
-         </item>
-         <item row="0" column="0">
           <widget class="QLabel" name="ToolsPropertiesLabel">
            <property name="text">
             <string>Width(cells):</string>
            </property>
           </widget>
          </item>
+         <item row="3" column="0">
+          <widget class="QSpinBox" name="WidthCells">
+           <property name="maximum">
+            <number>1000</number>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="0">
+          <widget class="QDoubleSpinBox" name="WidthCams"/>
+         </item>
+         <item row="5" column="1">
+          <widget class="QDoubleSpinBox" name="HeightCams"/>
+         </item>
          <item row="1" column="0">
-          <widget class="QSpinBox" name="WidthCells"/>
+          <widget class="QSpinBox" name="XOfs">
+           <property name="maximum">
+            <number>1000</number>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QLabel" name="ToolsPropertiesLabel_2">
+           <property name="text">
+            <string>Height(cells):</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QSpinBox" name="YOfs">
+           <property name="maximum">
+            <number>1000</number>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QSpinBox" name="HeightCells">
+           <property name="maximum">
+            <number>1000</number>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="1">
+          <widget class="QLabel" name="ToolsPropertiesLabel_10">
+           <property name="text">
+            <string>Height(Cameras):</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="0">
+          <widget class="QLabel" name="ToolsPropertiesLabel_8">
+           <property name="text">
+            <string>Width(Cameras):</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="ToolsPropertiesLabel_3">
+           <property name="text">
+            <string>X Offset:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLabel" name="ToolsPropertiesLabel_4">
+           <property name="text">
+            <string>Y Offset:</string>
+           </property>
+          </widget>
          </item>
         </layout>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="AddCameras">
+         <property name="text">
+          <string>Add Cameras</string>
+         </property>
+        </widget>
        </item>
        <item>
         <widget class="QPushButton" name="Resize">
@@ -86,6 +129,73 @@
           <string>Resize</string>
          </property>
         </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="ToolsPropertiesLabel_11">
+         <property name="text">
+          <string>Border Tiles:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QGridLayout" name="gridLayout">
+         <item row="1" column="1">
+          <widget class="QSpinBox" name="BorderTop">
+           <property name="maximum">
+            <number>1000</number>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QSpinBox" name="BorderBottom">
+           <property name="maximum">
+            <number>1000</number>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="label">
+           <property name="text">
+            <string>Left:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0">
+          <widget class="QSpinBox" name="BorderRight">
+           <property name="maximum">
+            <number>1000</number>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QSpinBox" name="BorderLeft">
+           <property name="maximum">
+            <number>1000</number>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLabel" name="label_2">
+           <property name="text">
+            <string>Top:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QLabel" name="label_3">
+           <property name="text">
+            <string>Bottom:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="label_4">
+           <property name="text">
+            <string>Right:</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
        <item>
         <widget class="QLabel" name="ToolsPropertiesLabel_6">
@@ -127,70 +237,39 @@
            <property name="enabled">
             <bool>true</bool>
            </property>
+           <property name="minimum">
+            <number>-1</number>
+           </property>
+           <property name="maximum">
+            <number>1000</number>
+           </property>
+           <property name="value">
+            <number>-1</number>
+           </property>
           </widget>
          </item>
         </layout>
        </item>
        <item>
-        <widget class="QLabel" name="ToolsPropertiesLabel_9">
-         <property name="text">
-          <string>Tile seed:</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QSlider" name="TileSeed">
-         <property name="orientation">
-          <enum>Qt::Orientation::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="ToolsPropertiesLabel_11">
-         <property name="text">
-          <string>Border Tiles:</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <layout class="QGridLayout" name="gridLayout">
-         <item row="1" column="1">
-          <widget class="QSpinBox" name="BorderTop"/>
-         </item>
-         <item row="3" column="1">
-          <widget class="QSpinBox" name="BorderBottom"/>
-         </item>
-         <item row="0" column="0">
-          <widget class="QLabel" name="label">
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <widget class="QLabel" name="ToolsPropertiesLabel_9">
            <property name="text">
-            <string>Left:</string>
+            <string>Tile seed:</string>
            </property>
           </widget>
          </item>
-         <item row="3" column="0">
-          <widget class="QSpinBox" name="BorderRight"/>
-         </item>
-         <item row="1" column="0">
-          <widget class="QSpinBox" name="BorderLeft"/>
-         </item>
-         <item row="0" column="1">
-          <widget class="QLabel" name="label_2">
-           <property name="text">
-            <string>Top:</string>
+         <item>
+          <widget class="QSpinBox" name="TileSeedSpin">
+           <property name="maximum">
+            <number>1000</number>
            </property>
           </widget>
          </item>
-         <item row="2" column="1">
-          <widget class="QLabel" name="label_3">
+         <item>
+          <widget class="QPushButton" name="TileSeedRandom">
            <property name="text">
-            <string>Bottom:</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="0">
-          <widget class="QLabel" name="label_4">
-           <property name="text">
-            <string>Right:</string>
+            <string>Random</string>
            </property>
           </widget>
          </item>
