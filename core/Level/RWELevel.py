@@ -50,7 +50,10 @@ class RWELevel:
     def level_resized(self, newrect: QRect):
         elements: list[HistoryElement] = []
         for i in self.levelparts.values():
-            elements.append(i.level_resized(newrect))
+            element = i.level_resized(newrect)
+            if element is None:
+                continue
+            elements.append(element)
         self.add_history(MultiHistoryElement, elements)
         if self.viewport is None:
             return
@@ -219,9 +222,8 @@ class RWELevel:
             RWLParser.save_rwl(self.data.data, self.file, self.lightdata)
             return True
         try:
-            with open(self.file + ".wep", "w") as f:
-                self.file += ".wep"
-                f.write(ujson.dumps(self.data.data))
+            self.file += ".rwl"
+            RWLParser.save_rwl(self.data.data, self.file, self.lightdata)
             return True
         except Exception:
             traceback.print_exc()
