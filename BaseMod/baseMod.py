@@ -146,10 +146,10 @@ class BaseMod(Mod):
         CameraModule(self).add_myself(viewport, "cameras")
 
     def mount_levelparts(self, level):
+        InfoLevelPart(level)
         GeoLevelPart(level)
         TileLevelPart(level)
         PropLevelPart(level)
         EffectLevelPart(level)
         CameraLevelPart(level)
-        InfoLevelPart(level)
         LightLevelPart(level)

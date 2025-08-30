@@ -1,5 +1,6 @@
 from RWESharp.Modify import HistoryElement
 from RWESharp.Core import CELLSIZE
+from PySide6.QtCore import QRect
 
 
 class AddCamera(HistoryElement):
@@ -153,3 +154,21 @@ class MoveCameraOrder(HistoryElement):
         if reset:
             self.editor.reset_selection()
         self.editor.cameraui.add_cameras()
+
+class LevelResizedCameras(HistoryElement):
+    def __init__(self, history, module, newrect: QRect):
+        super().__init__(history)
+        self.module = module
+        self.newrect = newrect
+
+    def undo_changes(self):
+        for i in self.level.l_cameras.cameras:
+            i.pos += self.newrect.topLeft()
+        for i in self.module.cameras:
+            i.update_camera()
+
+    def redo_changes(self):
+        for i in self.level.l_cameras.cameras:
+            i.pos -= self.newrect.topLeft()
+        for i in self.module.cameras:
+            i.update_camera()

@@ -13,20 +13,31 @@ stack_pos = [1, 2, 11, 3, 4, 5, 6, 7, 9, 10, 12, 13, 19, 21, 20, 18]
 
 class InfoLevelPart(LevelPart):
     def level_resized(self, changerect: QRect):
-        pass
+        from BaseMod.properties.PropertiesHistory import LevelResizedProperties
+        return LevelResizedProperties(self.level.history, changerect)
 
     def save_level(self):
         self.level.data["EX2"]["extraTiles"] = self.extra_tiles.copy()
         self.level.data["EX2"]["tileSeed"] = self.tile_seed
+        self.level.data["EX2"]["size"] = lingoIO.point(self.size)
         self.level.data["WL"]["waterLevel"] = self.water_level
         self.level.data["WL"]["waterInFront"] = 1 if self.water_in_front else 0
 
     def __init__(self, level):
         super().__init__("info", level)
+        self.size: list[int] = lingoIO.fromarr(level.data["EX2"]["size"], "point")
         self.extra_tiles: list[int] = level.data["EX2"]["extraTiles"].copy()
         self.tile_seed: int = level.data["EX2"]["tileSeed"]
         self.water_level: int = level.data["WL"]["waterLevel"]
         self.water_in_front = level.data["WL"]["waterInFront"] == 1
+
+    @property
+    def width(self):
+        return self.size[0]
+
+    @property
+    def height(self):
+        return self.size[1]
 
 
 class GeoLevelPart(LevelPart):
@@ -336,7 +347,8 @@ class CameraLevelPart(LevelPart):
             self.cameras.append(CameraLevelPart.Camera(QPointF(*lingoIO.frompoint(v)), quad))
 
     def level_resized(self, changerect: QRect):
-        raise NotImplementedError
+        from BaseMod.camera.cameraHistory import LevelResizedCameras
+        return LevelResizedCameras(self.level.history, self.level.viewport.modulenames["cameras"], changerect)
 
     def save_level(self):
         self.level.data["CM"]["cameras"] = []

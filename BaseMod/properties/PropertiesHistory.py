@@ -31,3 +31,16 @@ class TileSeedChange(HistoryElement):
     def redo_changes(self):
         self.level.l_info.tile_seed = self.after
         self.manager.basemod.propertieseditor.update_params()
+
+
+class LevelResizedProperties(HistoryElement):
+    def undo_changes(self):
+        pass
+
+    def redo_changes(self):
+        pass
+
+    def __init__(self, history, newrect):
+        super().__init__(history)
+        self.level.l_info.size = [newrect.width(), newrect.height()]
+

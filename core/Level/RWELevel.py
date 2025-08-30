@@ -113,15 +113,15 @@ class RWELevel:
 
     @property
     def level_width(self) -> int:
-        if hasattr(self, "l_geo"):
-            return self.l_geo.width
-        return self.levelparts["geo"].width
+        if hasattr(self, "l_info"):
+            return self.l_info.width
+        return self.levelparts["info"].width
 
     @property
     def level_height(self) -> int:
-        if hasattr(self, "l_geo"):
-            return self.l_geo.height
-        return self.levelparts["geo"].height
+        if hasattr(self, "l_info"):
+            return self.l_info.height
+        return self.levelparts["info"].height
 
     @property
     def level_size(self) -> QPoint:
