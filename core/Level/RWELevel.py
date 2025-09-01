@@ -55,6 +55,7 @@ class RWELevel:
                 continue
             elements.append(element)
         self.add_history(MultiHistoryElement, elements)
+        print("shit done")
         if self.viewport is None:
             return
         for i in self.viewport.modules:

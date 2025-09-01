@@ -1,4 +1,5 @@
 from RWESharp.Modify import HistoryElement
+from RWESharp.Core import CELLSIZE
 from BaseMod.LevelParts import PropLevelPart
 
 
@@ -35,4 +36,31 @@ class PropRemove(HistoryElement):
 
 class PropsMove(HistoryElement):
     def __init__(self, history, indexes: list[int], offset):
-        pass
+        super().__init__(history)
+        self.indexes = indexes
+        self.offset = offset
+        self.module = self.level.viewport.modulenames["props"]
+        self.redo_changes()
+
+    def undo_changes(self):
+        for i in self.indexes:
+            prop = self.level.l_props.props[i]
+            self.module.remove_render_prop(i)
+            for q in range(4):
+                prop.quad[q] -= self.offset
+            self.module.render_prop(i)
+
+    def redo_changes(self):
+        for i in self.indexes:
+            prop = self.level.l_props.props[i]
+            self.module.remove_render_prop(i)
+            for q in range(4):
+                prop.quad[q] += self.offset
+            self.module.render_prop(i)
+
+
+class LevelResizedProps(PropsMove):
+    def __init__(self, history, changerect):
+        super().__init__(history, [i for i in range(len(history.level.l_props.props))], -changerect.topLeft() * CELLSIZE)
+
+

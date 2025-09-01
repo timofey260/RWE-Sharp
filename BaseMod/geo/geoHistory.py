@@ -305,3 +305,39 @@ class GEFillChange(GEChange):
                 point, save, _ = item
                 self.drawpoint(point, i, False)
         self.redraw()
+
+class LevelResizedGeo(HistoryElement):
+    def __init__(self, history, newrect: QRect):
+        super().__init__(history)
+        self.newrect = newrect
+        self.oldblocks = None
+        self.oldstack = None
+        self.redo_changes()
+
+    def undo_changes(self):
+        self.level.l_geo.blocks = self.oldblocks.copy()
+        self.level.l_geo.stack = self.oldstack.copy()
+
+    def redo_changes(self):
+        newshape = np.zeros((self.newrect.width(), self.newrect.height(), 3), np.uint8)
+        newshapestack = np.zeros((self.newrect.width(), self.newrect.height(), 3), np.uint16)
+
+        with np.nditer(newshape, flags=['multi_index'], op_flags=['writeonly']) as it:
+            for x in it:
+                if it.multi_index[0] < -self.newrect.x() or it.multi_index[1] < -self.newrect.y():
+                    x[...] = 1
+                    newshapestack[*it.multi_index] = 0
+                    continue
+                newpoints = [it.multi_index[0] + self.newrect.x(), it.multi_index[1] + self.newrect.y()]
+                if newpoints[0] >= self.level.l_geo.blocks.shape[0] or newpoints[1] >= self.level.l_geo.blocks.shape[1]:
+                    x[...] = 1
+                    newshapestack[*it.multi_index] = 0
+                    continue
+                x[...] = self.level.l_geo.blocks[newpoints[0], newpoints[1], it.multi_index[2]]
+                newshapestack[*it.multi_index] = self.level.l_geo.stack[newpoints[0], newpoints[1], it.multi_index[2]]
+
+        self.oldblocks = self.level.l_geo.blocks.copy()
+        self.oldstack = self.level.l_geo.stack.copy()
+
+        self.level.l_geo.blocks = newshape
+        self.level.l_geo.stack = newshapestack

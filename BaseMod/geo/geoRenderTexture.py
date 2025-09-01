@@ -54,14 +54,14 @@ class GeoRenderLevelImage(RenderLevelImage):
 
     def draw_layer(self, clear=False):
         self.image.fill(QColor(0, 0, 0, 0))
-        for xp, x in enumerate(self.viewport.level["GE"]):
-            for yp, y in enumerate(x):
+        for xp in range(self.level.level_width):
+            for yp in range(self.level.level_height):
                 self.draw_geo(xp, yp, updatearound=False, clear=clear)
         self.redraw()
 
     def level_resized(self, rect):
         super().level_resized(rect)
-        self.image.fill(QColor(0, 0, 0, 0))
+        # self.image.fill(QColor(0, 0, 0, 0))
         self.draw_layer()
 
     def redraw_beams(self):

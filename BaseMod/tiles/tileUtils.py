@@ -71,8 +71,8 @@ class PlacedTileHead:
 
 
 class PlacedTileBody:
-    def __init__(self, tileheadpos: QPoint, headlayer, pos: QPoint, layer: int):
-        self.headoffset = tileheadpos
+    def __init__(self, tileheadoffset: QPoint, headlayer, pos: QPoint, layer: int):
+        self.headoffset = tileheadoffset
         self.headlayer = headlayer
         self.pos = pos
         self.layer = layer

@@ -73,7 +73,8 @@ class GeoLevelPart(LevelPart):
                 self.level.data["GE"][it.multi_index[0]][it.multi_index[1]][it.multi_index[2]][1] = self.byte2stack(x[...])
 
     def level_resized(self, changerect: QRect):
-        raise NotImplementedError
+        from BaseMod.geo.geoHistory import LevelResizedGeo
+        return LevelResizedGeo(self.level.history, changerect)
 
     @staticmethod
     def stack2byte(stack) -> np.int16:
@@ -178,7 +179,8 @@ class TileLevelPart(LevelPart):
         raise NotImplementedError("someone probably fucked up")
 
     def level_resized(self, changerect: QRect):
-        raise NotImplementedError
+        from BaseMod.tiles.tileHistory import LevelResizedTiles
+        return LevelResizedTiles(self.level.history, changerect)
 
     def tile_data_xy(self, x: int, y: int, layer: int) -> None | PlacedTileBody | PlacedTileHead | PlacedMaterial:
         """
@@ -225,7 +227,8 @@ class PropLevelPart(LevelPart):
             self.props.append(prop)
 
     def level_resized(self, changerect: QRect):
-        raise NotImplementedError
+        from BaseMod.props.propHistory import LevelResizedProps
+        return LevelResizedProps(self.level.history, changerect)
 
     def save_level(self):
         self.level["PR"]["props"] = []
@@ -283,7 +286,7 @@ class EffectLevelPart(LevelPart):
         self.load_level()
 
     def level_resized(self, changerect: QRect):
-        raise NotImplementedError
+        return None
 
     def load_level(self):
         dat = self.level.data["FE"]["effects"]
@@ -348,7 +351,7 @@ class CameraLevelPart(LevelPart):
 
     def level_resized(self, changerect: QRect):
         from BaseMod.camera.cameraHistory import LevelResizedCameras
-        return LevelResizedCameras(self.level.history, self.level.viewport.modulenames["cameras"], changerect)
+        return LevelResizedCameras(self.level.history, changerect)
 
     def save_level(self):
         self.level.data["CM"]["cameras"] = []
@@ -403,7 +406,7 @@ class LightLevelPart(LevelPart):
             self.image = newimage
 
     def level_resized(self, changerect: QRect):
-        raise NotImplementedError
+        return None
 
     def save_level(self):
         ba = QByteArray()

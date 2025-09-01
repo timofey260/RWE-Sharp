@@ -57,6 +57,7 @@ class PropertiesEditor(Editor):
         if self.borderhandlerect.getrect == QRect(0, 0, self.level.level_width, self.level.level_height):
             return
         self.level.level_resized(self.borderhandlerect.getrect)
+        self.reposition()
 
     def border_changed(self):
         rect = self.borderhandlerect.getrect

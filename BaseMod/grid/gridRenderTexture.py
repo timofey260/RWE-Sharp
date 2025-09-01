@@ -25,4 +25,3 @@ class GridRenderLevelImage(RenderLevelImage):
     def level_resized(self, rect):
         super().level_resized(rect)
         self.draw_layer()
-        self.redraw()

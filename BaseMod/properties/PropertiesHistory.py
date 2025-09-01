@@ -35,12 +35,14 @@ class TileSeedChange(HistoryElement):
 
 class LevelResizedProperties(HistoryElement):
     def undo_changes(self):
-        pass
+        self.level.l_info.size = self.oldrect.copy()
 
     def redo_changes(self):
-        pass
+        self.level.l_info.size = [self.newrect.width(), self.newrect.height()]
 
     def __init__(self, history, newrect):
         super().__init__(history)
-        self.level.l_info.size = [newrect.width(), newrect.height()]
+        self.newrect = newrect
+        self.oldrect = self.level.l_info.size.copy()
+        self.redo_changes()
 

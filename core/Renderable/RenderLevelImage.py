@@ -14,7 +14,8 @@ class RenderLevelImage(RenderImage):
 
     def level_resized(self, rect):
         self.painter.end()
-        self.image = QPixmap(QSize(self.viewport.level.level_width * CELLSIZE, self.viewport.level.level_height * CELLSIZE))
+        self.image = QPixmap(QSize(rect.width() * CELLSIZE, rect.height() * CELLSIZE))
         self.image.fill(QColor(0, 0, 0, 0))
         self.painter.begin(self.image)
         self.renderedtexture.setPixmap(self.image)
+        print("resized")

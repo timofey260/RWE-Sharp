@@ -102,7 +102,7 @@ class MainWindow(QMainWindow):
         self.ui.actionRWE_Github.triggered.connect(lambda: QDesktopServices.openUrl(REPO))
         self.ui.actionRWE_Issues.triggered.connect(lambda: QDesktopServices.openUrl(REPO_ISSUES))
         self.ui.actionOpen_ShowLevelFile.triggered.connect(lambda: self.open_level_folder(self.ui.tabWidget.currentWidget().level))
-        self.ui.actionReset_Viewport.triggered.connect(self.manager.selected_viewport.reset_viewport)
+        self.ui.actionReset_Viewport.triggered.connect(lambda: self.manager.selected_viewport.reset_viewport())
 
         self.hotkeys = HotkeysUI(self.manager, self)
         self.settings = SettingsDialogUI(self.manager, self)

@@ -156,19 +156,20 @@ class MoveCameraOrder(HistoryElement):
         self.editor.cameraui.add_cameras()
 
 class LevelResizedCameras(HistoryElement):
-    def __init__(self, history, module, newrect: QRect):
+    def __init__(self, history, newrect: QRect):
         super().__init__(history)
-        self.module = module
+        self.module = self.level.viewport.modulenames["cameras"]
         self.newrect = newrect
+        self.redo_changes()
 
     def undo_changes(self):
         for i in self.level.l_cameras.cameras:
-            i.pos += self.newrect.topLeft()
+            i.pos += self.newrect.topLeft() * CELLSIZE
         for i in self.module.cameras:
             i.update_camera()
 
     def redo_changes(self):
         for i in self.level.l_cameras.cameras:
-            i.pos -= self.newrect.topLeft()
+            i.pos -= self.newrect.topLeft() * CELLSIZE
         for i in self.module.cameras:
             i.update_camera()

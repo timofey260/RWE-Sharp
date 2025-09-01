@@ -95,8 +95,8 @@ class TileRenderLevelImage(RenderLevelImage):
 
     def change_material_border(self, enabled):
         matpen = QPen(QColor(0, 0, 0, 255 if enabled else 0), 0)
-        for x in range(self.level.level_width):
-            for y in range(self.level.level_height):
+        for x in range(len(self.level.l_tiles.tiles)):
+            for y in range(len(self.level.l_tiles.tiles[0])):
                 tile = self.level.l_tiles.tile_data_xy(x, y, self.tilelayer)
                 if not isinstance(tile, PlacedMaterial) or len(tile.graphics) <= 0:
                     continue
@@ -105,8 +105,8 @@ class TileRenderLevelImage(RenderLevelImage):
         self.render_layer()
 
     def clear_scene(self):
-        for x in range(self.level.level_width):
-            for y in range(self.level.level_height):
+        for x in range(len(self.level.l_tiles.tiles)):
+            for y in range(len(self.level.l_tiles.tiles[0])):
                 tile = self.level.l_tiles.tile_data(QPoint(x, y), self.tilelayer)
                 if isinstance(tile, PlacedTileHead):
                     tile.remove_graphics(self.level, False)
@@ -131,7 +131,7 @@ class TileRenderLevelImage(RenderLevelImage):
 
     def level_resized(self, rect):
         super().level_resized(rect)
-        self.tilescene.setSceneRect(0, 0, self.viewport.level.level_width * CELLSIZE, self.viewport.level.level_height * CELLSIZE)
+        self.tilescene.setSceneRect(0, 0, rect.width() * CELLSIZE, rect.height() * CELLSIZE)
         # todo other tile bullshit
         self.draw_layer(True)
 

@@ -1,10 +1,8 @@
 from __future__ import annotations
-
-from math import radians
-
 from BaseMod.tiles.tileUtils import can_place, place_tile, TileHistory, remove_tile
 from RWESharp.Utils import draw_line, draw_rect, draw_ellipse
 from RWESharp.Loaders import Tile
+from RWESharp.Modify import HistoryElement
 
 from PySide6.QtCore import QPoint, QRect
 
@@ -146,3 +144,45 @@ class TileLine(TileBrush):
 
         self.add_move(end)
         self.redraw()
+
+
+class LevelResizedTiles(HistoryElement):
+    def __init__(self, history, changerect: QRect):
+        super().__init__(history)
+        self.changerect = changerect
+        self.oldtiles = None
+        self.module = self.level.viewport.modulenames["tiles"]
+        self.redo_changes()
+
+    def undo_changes(self):
+        self.module.l1.clear_scene()
+        self.module.l2.clear_scene()
+        self.module.l3.clear_scene()
+        self.level.l_tiles.tiles = self.oldtiles  # definitely gonna have some memory issues later
+        self.module.l1.fill_scene()
+        self.module.l2.fill_scene()
+        self.module.l3.fill_scene()
+
+    def redo_changes(self):
+        self.module.l1.clear_scene()
+        self.module.l2.clear_scene()
+        self.module.l3.clear_scene()
+        newtiles = []
+        for x in range(self.changerect.width()):
+            newtiles.append([])
+            for y in range(self.changerect.height()):
+                newtiles[-1].append(self.getnewpixel(x, y))
+        self.oldtiles, self.level.l_tiles.tiles = self.level.l_tiles.tiles, newtiles
+        self.module.l1.fill_scene()
+        self.module.l2.fill_scene()
+        self.module.l3.fill_scene()
+
+    def getnewpixel(self, x, y):
+        if x < -self.changerect.x() or y < -self.changerect.y():
+            return [None, None, None]
+        newpoints = [x + self.changerect.x(), y + self.changerect.y()]
+        if newpoints[0] >= len(self.level.l_tiles.tiles) or newpoints[1] >= len(self.level.l_tiles.tiles[0]):
+            return [None, None, None]
+        return [self.level.l_tiles.tiles[newpoints[0]][newpoints[1]][0],
+                self.level.l_tiles.tiles[newpoints[0]][newpoints[1]][1],
+                self.level.l_tiles.tiles[newpoints[0]][newpoints[1]][2]]
