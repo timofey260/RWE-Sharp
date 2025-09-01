@@ -18,4 +18,3 @@ class RenderLevelImage(RenderImage):
         self.image.fill(QColor(0, 0, 0, 0))
         self.painter.begin(self.image)
         self.renderedtexture.setPixmap(self.image)
-        print("resized")

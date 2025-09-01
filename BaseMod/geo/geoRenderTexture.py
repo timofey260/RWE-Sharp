@@ -54,8 +54,8 @@ class GeoRenderLevelImage(RenderLevelImage):
 
     def draw_layer(self, clear=False):
         self.image.fill(QColor(0, 0, 0, 0))
-        for xp in range(self.level.level_width):
-            for yp in range(self.level.level_height):
+        for xp in range(self.level.l_geo.blocks.shape[0]):
+            for yp in range(self.level.l_geo.blocks.shape[1]):
                 self.draw_geo(xp, yp, updatearound=False, clear=clear)
         self.redraw()
 

@@ -82,3 +82,23 @@ class MultiHistoryElement(HistoryElement):
     def redo_changes(self):
         for i in self.elements:
             i.redo_changes()
+
+
+class LevelResized(MultiHistoryElement):
+    def __init__(self, history, elements, oldrect, newrect):
+        super().__init__(history, elements)
+        self.oldrect = oldrect
+        self.newrect = newrect
+        self.redo_changes()
+
+    def undo_changes(self):
+        super().undo_changes()
+        if self.level.viewport is None:
+            return
+        self.level.viewport.level_resized(self.oldrect)
+
+    def redo_changes(self):
+        super().redo_changes()
+        if self.level.viewport is None:
+            return
+        self.level.viewport.level_resized(self.newrect)

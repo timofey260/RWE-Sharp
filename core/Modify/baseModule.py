@@ -23,7 +23,6 @@ class Module(ABC):
         """
         Called once level is resized
         """
-        print(self, newrect)
         for i in self.renderables:
             i.level_resized(newrect)
 
