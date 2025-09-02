@@ -17,6 +17,7 @@ from BaseMod.camera.cameraUIConnectors import CameraViewUI, CameraSettingsUI, Ca
 from BaseMod.camera.cameraEditor import CameraEditor
 from BaseMod.properties.propertiesEditor import PropertiesEditor
 from BaseMod.properties.propertiesUIConnectors import PropertiesUI
+from BaseMod.light.lightModule import LightModule
 from BaseMod.LevelParts import GeoLevelPart, TileLevelPart, PropLevelPart, EffectLevelPart, CameraLevelPart, InfoLevelPart, LightLevelPart
 from RWESharp.Modify import Mod, ModInfo
 from RWESharp.Core import SettingElement, HotkeyElement, get_hotkeys_from_pattern, PATH_FILES_VIDEOS
@@ -144,6 +145,7 @@ class BaseMod(Mod):
         # # effects
         PropModule(self).add_myself(viewport, "props")
         CameraModule(self).add_myself(viewport, "cameras")
+        LightModule(self).add_myself(viewport, "light")
 
     def mount_levelparts(self, level):
         InfoLevelPart(level)

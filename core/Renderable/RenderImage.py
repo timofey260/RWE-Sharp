@@ -53,3 +53,9 @@ class RenderImage(Renderable):
     def setOpacity(self, opacity):
         super().setOpacity(opacity)
         self.renderedtexture.setOpacity(self.opacity)
+
+    def setPixmap(self, pixmap: QPixmap):
+        self.painter.end()
+        self.image = pixmap
+        self.painter.begin(self.image)
+        self.redraw()
