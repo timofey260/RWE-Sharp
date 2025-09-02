@@ -74,10 +74,8 @@ class MultiHistoryElement(HistoryElement):
         self.elements = elements
 
     def undo_changes(self):
-        self.elements.reverse()  # just in case
-        for i in self.elements:
+        for i in reversed(self.elements):
             i.undo_changes()
-        self.elements.reverse()
 
     def redo_changes(self):
         for i in self.elements:
@@ -89,16 +87,21 @@ class LevelResized(MultiHistoryElement):
         super().__init__(history, elements)
         self.oldrect = oldrect
         self.newrect = newrect
-        self.redo_changes()
+        self.level._level_size = [self.newrect.width(), self.newrect.height()]
+        if self.level.viewport is None:
+            return
+        self.level.viewport.level_resized(self.newrect)
 
     def undo_changes(self):
         super().undo_changes()
+        self.level._level_size = [self.oldrect.width(), self.oldrect.height()]
         if self.level.viewport is None:
             return
         self.level.viewport.level_resized(self.oldrect)
 
     def redo_changes(self):
         super().redo_changes()
+        self.level._level_size = [self.newrect.width(), self.newrect.height()]
         if self.level.viewport is None:
             return
         self.level.viewport.level_resized(self.newrect)

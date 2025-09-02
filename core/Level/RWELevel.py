@@ -28,6 +28,7 @@ class RWELevel:
             self.openfile(file)
         else:
             self.data = RWELevel.turntoproject(defaultlevel)
+        self._level_size = lingoIO.frompoint(self.data["EX2"]["size"])
         self.history = History(self)
         self.viewport = None
         self.levelparts: dict[str, LevelPart] = {}
@@ -48,6 +49,7 @@ class RWELevel:
 
     def level_resized(self, newrect: QRect):
         oldrect = self.level_rect
+        self._level_size = [newrect.width(), newrect.height()]
         elements: list[HistoryElement] = []
         for i in self.levelparts.values():
             element = i.level_resized(newrect)
@@ -109,15 +111,11 @@ class RWELevel:
 
     @property
     def level_width(self) -> int:
-        if hasattr(self, "l_info"):
-            return self.l_info.width
-        return self.levelparts["info"].width
+        return self._level_size[0]
 
     @property
     def level_height(self) -> int:
-        if hasattr(self, "l_info"):
-            return self.l_info.height
-        return self.levelparts["info"].height
+        return self._level_size[1]
 
     @property
     def level_size(self) -> QPoint:

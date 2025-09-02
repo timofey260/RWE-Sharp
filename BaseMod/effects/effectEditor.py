@@ -38,7 +38,8 @@ class EffectEditor(Editor):
         if self.mouse_left or self.mouse_right:
             if self.lastpos != pos:
                 self.level.last_history_element.add_move(pos)
-        self.manager.set_status(f"{self.level.l_effects[self.effectindex.value, pos.x(), pos.y()]}")
+        if self.level.inside(pos):
+            self.manager.set_status(f"{self.level.l_effects[self.effectindex.value, pos.x(), pos.y()]}")
         self.lastpos = pos
 
     def update_brush(self):

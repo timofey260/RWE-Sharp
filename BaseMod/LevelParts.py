@@ -286,7 +286,8 @@ class EffectLevelPart(LevelPart):
         self.load_level()
 
     def level_resized(self, changerect: QRect):
-        return None
+        from BaseMod.effects.effectHistory import LevelResizedEffects
+        return LevelResizedEffects(self.level.history, changerect)
 
     def load_level(self):
         dat = self.level.data["FE"]["effects"]

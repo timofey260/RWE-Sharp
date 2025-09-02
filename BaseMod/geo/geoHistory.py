@@ -315,12 +315,15 @@ class LevelResizedGeo(HistoryElement):
         self.redo_changes()
 
     def undo_changes(self):
-        self.level.l_geo.blocks = self.oldblocks.copy()
-        self.level.l_geo.stack = self.oldstack.copy()
+        self.level.l_geo.blocks = np.copy(self.oldblocks)
+        self.level.l_geo.stack = np.copy(self.oldstack)
 
     def redo_changes(self):
         newshape = np.zeros((self.newrect.width(), self.newrect.height(), 3), np.uint8)
         newshapestack = np.zeros((self.newrect.width(), self.newrect.height(), 3), np.uint16)
+
+        self.oldblocks = np.copy(self.level.l_geo.blocks)
+        self.oldstack = np.copy(self.level.l_geo.stack)
 
         with np.nditer(newshape, flags=['multi_index'], op_flags=['writeonly']) as it:
             for x in it:
@@ -335,9 +338,6 @@ class LevelResizedGeo(HistoryElement):
                     continue
                 x[...] = self.level.l_geo.blocks[newpoints[0], newpoints[1], it.multi_index[2]]
                 newshapestack[*it.multi_index] = self.level.l_geo.stack[newpoints[0], newpoints[1], it.multi_index[2]]
-
-        self.oldblocks = self.level.l_geo.blocks.copy()
-        self.oldstack = self.level.l_geo.stack.copy()
 
         self.level.l_geo.blocks = newshape
         self.level.l_geo.stack = newshapestack

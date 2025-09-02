@@ -56,6 +56,8 @@ class ViewPort(QGraphicsView):
     def level_resized(self, newrect):
         for i in self.modules:
             i.level_resized(newrect)
+        if self.editor.viewport == self:
+            self.editor.level_resized(newrect)
             
     def dragEnterEvent(self, event):
         if event.mimeData().hasUrls:

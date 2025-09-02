@@ -93,3 +93,7 @@ class PropertiesEditor(Editor):
         self.right.update_value_default(self.level.extra_tiles[2])
         self.bottom.update_value_default(self.level.extra_tiles[3])
         self.changing_extra = False
+
+    def level_resized(self, newrect: QRect):
+        super().level_resized(newrect)
+        self.reposition()

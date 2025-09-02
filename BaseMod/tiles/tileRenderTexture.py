@@ -24,8 +24,8 @@ class TileRenderLevelImage(RenderLevelImage):
         self.tilescene.setSceneRect(0, 0, self.viewport.level.level_width * CELLSIZE, self.viewport.level.level_height * CELLSIZE)
         # air = QPixmap(1, 1)
         # air.fill(QColor(0, 0, 0, 0))
-        for x in range(self.level.level_width):
-            for y in range(self.level.level_height):
+        for x in range(len(self.level.l_tiles.tiles)):
+            for y in range(len(self.level.l_tiles.tiles[0])):
                 tile = self.level.l_tiles.tile_data(QPoint(x, y), self.tilelayer)
                 if isinstance(tile, PlacedTileHead):
                     self.add_tile_graphics(QPoint(x, y))

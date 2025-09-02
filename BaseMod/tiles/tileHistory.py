@@ -1,5 +1,5 @@
 from __future__ import annotations
-from BaseMod.tiles.tileUtils import can_place, place_tile, TileHistory, remove_tile
+from BaseMod.tiles.tileUtils import can_place, place_tile, TileHistory, remove_tile, PlacedTileBody
 from RWESharp.Utils import draw_line, draw_rect, draw_ellipse
 from RWESharp.Loaders import Tile
 from RWESharp.Modify import HistoryElement
@@ -183,6 +183,14 @@ class LevelResizedTiles(HistoryElement):
         newpoints = [x + self.changerect.x(), y + self.changerect.y()]
         if newpoints[0] >= len(self.level.l_tiles.tiles) or newpoints[1] >= len(self.level.l_tiles.tiles[0]):
             return [None, None, None]
-        return [self.level.l_tiles.tiles[newpoints[0]][newpoints[1]][0],
-                self.level.l_tiles.tiles[newpoints[0]][newpoints[1]][1],
-                self.level.l_tiles.tiles[newpoints[0]][newpoints[1]][2]]
+        return [self.copytile(newpoints[0], newpoints[1], 0),
+                self.copytile(newpoints[0], newpoints[1], 1),
+                self.copytile(newpoints[0], newpoints[1], 2)]
+
+    def copytile(self, x, y, l):
+        thing = self.level.l_tiles.tiles[x][y][l]
+        if isinstance(thing, PlacedTileBody) and not self.level.inside(thing.headpos):
+            return None
+        if thing is None:
+            return None
+        return thing.copy()

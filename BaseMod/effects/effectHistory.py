@@ -1,3 +1,5 @@
+import numpy as np
+
 from RWESharp.Modify import HistoryElement
 from RWESharp.Loaders import Effect
 from RWESharp.Utils import draw_line
@@ -166,3 +168,31 @@ class EffectDuplicate(HistoryElement):
         self.level.l_effects.pop(self.index+1)
         self.basemod.effectui.add_effects()
         self.basemod.effecteditor.effectindex.update_value(self.index)
+
+
+class LevelResizedEffects(HistoryElement):
+    def __init__(self, history, newrect):
+        super().__init__(history)
+        self.newrect = newrect
+        self.preveffects = []
+        self.redo_changes()
+
+    def undo_changes(self):
+        for i, v in enumerate(self.level.l_effects.effects):
+            v["mtrx"] = np.copy(self.preveffects[i])
+
+    def redo_changes(self):
+        for i, v in enumerate(self.level.l_effects.effects):
+            newshape = np.zeros((self.newrect.width(), self.newrect.height()), np.float16)
+            self.preveffects.append(np.copy(v["mtrx"]))
+            with np.nditer(newshape, flags=['multi_index'], op_flags=['writeonly']) as it:
+                for x in it:
+                    if it.multi_index[0] < -self.newrect.x() or it.multi_index[1] < -self.newrect.y():
+                        x[...] = 0
+                        continue
+                    newpoints = [it.multi_index[0] + self.newrect.x(), it.multi_index[1] + self.newrect.y()]
+                    if newpoints[0] >= v["mtrx"].shape[0] or newpoints[1] >= v["mtrx"].shape[1]:
+                        x[...] = 0
+                        continue
+                    x[...] = v["mtrx"][newpoints[0], newpoints[1]]
+            v["mtrx"] = newshape
