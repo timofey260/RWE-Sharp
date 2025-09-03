@@ -156,8 +156,11 @@ class RWELevel:
         proj["CM"] = lingoIO.tojson(lines[6], defaultlevellines[6])  # camera settings
         proj["WL"] = lingoIO.tojson(lines[7], defaultlevellines[7])  # water level
         proj["PR"] = lingoIO.tojson(lines[8], defaultlevellines[8])  # props and settings why the hell i typed both settings wrong???
-        if len(lines) > 9:
-            proj["CLD"] = lingoIO.tojson(lines[9])
+        try:
+            if len(lines) > 9:
+                proj["CLD"] = lingoIO.tojson(lines[9])
+        except:
+            pass
         return PathDict(proj)
 
     def openfile(self, file: str):

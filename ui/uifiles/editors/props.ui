@@ -24,8 +24,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>281</width>
-        <height>953</height>
+        <width>287</width>
+        <height>955</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayout_3">
@@ -45,21 +45,14 @@
        </item>
        <item row="1" column="0">
         <layout class="QGridLayout" name="gridLayout_4">
-         <item row="0" column="3">
-          <widget class="QPushButton" name="add15">
+         <item row="1" column="0">
+          <widget class="QPushButton" name="Rotateby">
            <property name="text">
-            <string>+15º</string>
+            <string>Rotate by:</string>
            </property>
           </widget>
          </item>
-         <item row="0" column="1">
-          <widget class="QPushButton" name="sub15">
-           <property name="text">
-            <string>-15º</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="3">
+         <item row="1" column="1">
           <widget class="QDoubleSpinBox" name="degreeamount">
            <property name="suffix">
             <string>º</string>
@@ -78,10 +71,17 @@
            </property>
           </widget>
          </item>
-         <item row="2" column="1">
-          <widget class="QPushButton" name="Rotateby">
+         <item row="0" column="0">
+          <widget class="QPushButton" name="sub15">
            <property name="text">
-            <string>Rotate by:</string>
+            <string>-15º</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QPushButton" name="add15">
+           <property name="text">
+            <string>+15º</string>
            </property>
           </widget>
          </item>

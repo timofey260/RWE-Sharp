@@ -291,7 +291,7 @@ class Ui_Tiles(object):
         self.ToolTilesM2Select.setItemText(5, QCoreApplication.translate("Tiles", u"Circle", None))
         self.ToolTilesM2Select.setItemText(6, QCoreApplication.translate("Tiles", u"Hollow Circle", None))
 
-        self.label_2.setText(QCoreApplication.translate("Tiles", u"Right Mouse", None))
+        self.label_2.setText(QCoreApplication.translate("Tiles", u"Right Mouse:", None))
         self.label_7.setText(QCoreApplication.translate("Tiles", u"Layer:", None))
         self.Follow.setText(QCoreApplication.translate("Tiles", u"Follow", None))
         self.label_9.setText(QCoreApplication.translate("Tiles", u"Tile Remove Strategy:", None))

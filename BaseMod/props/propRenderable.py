@@ -174,6 +174,9 @@ class PropRenderable(Renderable):
     def set_visible(self, state):
         self.hide = not state
         self.retransform()
+        if self.prop.rope:
+            for i in self.rope_graphics:
+                i.setOpacity(1 if state else 0)
 
     def set_outline(self, state, outline):
         self.drawpoly = state

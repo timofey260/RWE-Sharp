@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'props.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.9.0
+## Created by: Qt User Interface Compiler version 6.9.1
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -32,7 +32,7 @@ class Ui_Props(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 281, 953))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 287, 955))
         self.gridLayout_3 = QGridLayout(self.scrollAreaWidgetContents)
         self.gridLayout_3.setObjectName(u"gridLayout_3")
         self.FreeTransform = QPushButton(self.scrollAreaWidgetContents)
@@ -47,15 +47,10 @@ class Ui_Props(object):
 
         self.gridLayout_4 = QGridLayout()
         self.gridLayout_4.setObjectName(u"gridLayout_4")
-        self.add15 = QPushButton(self.scrollAreaWidgetContents)
-        self.add15.setObjectName(u"add15")
+        self.Rotateby = QPushButton(self.scrollAreaWidgetContents)
+        self.Rotateby.setObjectName(u"Rotateby")
 
-        self.gridLayout_4.addWidget(self.add15, 0, 3, 1, 1)
-
-        self.sub15 = QPushButton(self.scrollAreaWidgetContents)
-        self.sub15.setObjectName(u"sub15")
-
-        self.gridLayout_4.addWidget(self.sub15, 0, 1, 1, 1)
+        self.gridLayout_4.addWidget(self.Rotateby, 1, 0, 1, 1)
 
         self.degreeamount = QDoubleSpinBox(self.scrollAreaWidgetContents)
         self.degreeamount.setObjectName(u"degreeamount")
@@ -64,12 +59,17 @@ class Ui_Props(object):
         self.degreeamount.setMaximum(360.000000000000000)
         self.degreeamount.setSingleStep(0.500000000000000)
 
-        self.gridLayout_4.addWidget(self.degreeamount, 2, 3, 1, 1)
+        self.gridLayout_4.addWidget(self.degreeamount, 1, 1, 1, 1)
 
-        self.Rotateby = QPushButton(self.scrollAreaWidgetContents)
-        self.Rotateby.setObjectName(u"Rotateby")
+        self.sub15 = QPushButton(self.scrollAreaWidgetContents)
+        self.sub15.setObjectName(u"sub15")
 
-        self.gridLayout_4.addWidget(self.Rotateby, 2, 1, 1, 1)
+        self.gridLayout_4.addWidget(self.sub15, 0, 0, 1, 1)
+
+        self.add15 = QPushButton(self.scrollAreaWidgetContents)
+        self.add15.setObjectName(u"add15")
+
+        self.gridLayout_4.addWidget(self.add15, 0, 1, 1, 1)
 
 
         self.gridLayout_3.addLayout(self.gridLayout_4, 1, 0, 1, 1)
@@ -190,10 +190,10 @@ class Ui_Props(object):
         Props.setWindowTitle(QCoreApplication.translate("Props", u"Props", None))
         self.FreeTransform.setText(QCoreApplication.translate("Props", u"Free Transform", None))
         self.Explorer.setText(QCoreApplication.translate("Props", u"Open explorer", None))
-        self.add15.setText(QCoreApplication.translate("Props", u"+15\u00ba", None))
-        self.sub15.setText(QCoreApplication.translate("Props", u"-15\u00ba", None))
-        self.degreeamount.setSuffix(QCoreApplication.translate("Props", u"\u00ba", None))
         self.Rotateby.setText(QCoreApplication.translate("Props", u"Rotate by:", None))
+        self.degreeamount.setSuffix(QCoreApplication.translate("Props", u"\u00ba", None))
+        self.sub15.setText(QCoreApplication.translate("Props", u"-15\u00ba", None))
+        self.add15.setText(QCoreApplication.translate("Props", u"+15\u00ba", None))
         self.FreeRotate.setText(QCoreApplication.translate("Props", u"Free rotate", None))
         self.label_4.setText(QCoreApplication.translate("Props", u"Transform:", None))
         self.ResetTransform.setText(QCoreApplication.translate("Props", u"Reset Transform", None))

@@ -3,7 +3,7 @@ from RWESharp.Core import lingoIO, SPRITESIZE, CELLSIZE, ofsleft, ofstop
 from RWESharp.Utils import polar2point, point2polar
 from BaseMod.tiles.tileUtils import PlacedMaterial, PlacedTileHead, PlacedTileBody
 from PySide6.QtCore import QPoint, QPointF, QSize, Qt, QByteArray, QBuffer, QIODevice, QRect
-from PySide6.QtGui import QImage, QPainter
+from PySide6.QtGui import QImage, QPainter, QColor
 import numpy as np
 from copy import deepcopy
 
@@ -393,23 +393,28 @@ class LightLevelPart(LevelPart):
         super().__init__("light", level)
         self.angle = level.data["LE"]["lightAngle"]
         self.flatness = level.data["LE"]["flatness"]
+        newcolortable = [QColor(0, 0, 0, 0).rgba(), QColor(0, 0, 0, 255).rgba()]
         imagesize = QSize((self.level.level_width + ofsleft) * CELLSIZE, (self.level.level_height + ofstop) * CELLSIZE)
         if level.lightdata is None:
-            newimage = QImage(imagesize, QImage.Format.Format_Grayscale8)
-            newimage.fill(Qt.GlobalColor.white)
+            newimage = QImage(imagesize, QImage.Format.Format_Mono)
+            newimage.setColorTable(newcolortable)
+            newimage.fill(1)
             self.image = newimage
             return
         self.image = QImage.fromData(level.lightdata)
-        self.image.convertTo(QImage.Format.Format_Grayscale8)
+        self.image.convertTo(QImage.Format.Format_Mono)
+        self.image.setColorTable(newcolortable)
         if self.image.size() != imagesize:
-            newimage = QImage(imagesize, QImage.Format.Format_Grayscale8)
-            newimage.fill(Qt.GlobalColor.white)
+            newimage = QImage(imagesize, QImage.Format.Format_Mono)
+            newimage.setColorTable(newcolortable)
+            newimage.fill(1)
             painter = QPainter(newimage)
             painter.drawImage(QPoint(), self.image)
             self.image = newimage
 
     def level_resized(self, changerect: QRect):
-        return None # todo
+        from BaseMod.light.lightHistory import LevelResizedLight
+        return LevelResizedLight(self.level.history, changerect)
 
     def save_level(self):
         self.level.data["LE"]["lightAngle"] = round(self.angle, 4)
