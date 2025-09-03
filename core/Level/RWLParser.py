@@ -182,12 +182,6 @@ import os
 VER = 1
 # ENCODING = "latin-1"
 
-effectreminder = [
-    .0,
-    .3333,
-    .6667,
-
-]
 
 class RWLParser:
     @staticmethod

@@ -391,6 +391,8 @@ class CameraLevelPart(LevelPart):
 class LightLevelPart(LevelPart):
     def __init__(self, level):
         super().__init__("light", level)
+        self.angle = level.data["LE"]["lightAngle"]
+        self.flatness = level.data["LE"]["flatness"]
         imagesize = QSize((self.level.level_width + ofsleft) * CELLSIZE, (self.level.level_height + ofstop) * CELLSIZE)
         if level.lightdata is None:
             newimage = QImage(imagesize, QImage.Format.Format_Grayscale8)
@@ -407,9 +409,11 @@ class LightLevelPart(LevelPart):
             self.image = newimage
 
     def level_resized(self, changerect: QRect):
-        return None
+        return None # todo
 
     def save_level(self):
+        self.level.data["LE"]["lightAngle"] = round(self.angle, 4)
+        self.level.data["LE"]["flatness"] = self.flatness
         ba = QByteArray()
         buff = QBuffer(ba)
         buff.open(QIODevice.OpenModeFlag.WriteOnly)

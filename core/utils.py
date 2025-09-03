@@ -291,7 +291,7 @@ def rotate_point(point: QPointF, angle):
     """
     Rotates point with some angle
     :param point: point to rotate
-    :param angle: angle to rotate
+    :param angle: angle to rotate in degrees
     :return: rotated point
     """
     px, py = point.x(), point.y()
