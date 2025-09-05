@@ -6,7 +6,7 @@ from widgets import Viewport
 
 
 class RenderEllipse(Renderable):
-    def __init__(self, module, depth, rect: QRect | QRectF, pen=QPen(Qt.GlobalColor.red), brush=QBrush(Qt.GlobalColor.transparent), add_renderable: bool = True):
+    def __init__(self, module, depth: int, rect: QRectF, pen=QPen(Qt.GlobalColor.red), brush=QBrush(Qt.GlobalColor.transparent), add_renderable: bool = True):
         super().__init__(module, depth, False)
         self.rect = QRectF()
         self.drawellipse = QGraphicsEllipseItem(self.rect)

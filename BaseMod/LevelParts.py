@@ -418,7 +418,7 @@ class LightLevelPart(LevelPart):
 
     def save_level(self):
         self.level.data["LE"]["lightAngle"] = round(self.angle, 4)
-        self.level.data["LE"]["flatness"] = self.flatness
+        self.level.data["LE"]["flatness"] = int(round(self.flatness))
         ba = QByteArray()
         buff = QBuffer(ba)
         buff.open(QIODevice.OpenModeFlag.WriteOnly)

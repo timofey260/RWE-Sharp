@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'light.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.9.1
+## Created by: Qt User Interface Compiler version 6.9.2
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -116,13 +116,6 @@ class Ui_Light(object):
 
         self.gridLayout_7.addWidget(self.label_12, 0, 0, 1, 1)
 
-        self.Angle = QSpinBox(self.frame_2)
-        self.Angle.setObjectName(u"Angle")
-        self.Angle.setMaximum(360)
-        self.Angle.setStepType(QAbstractSpinBox.StepType.DefaultStepType)
-
-        self.gridLayout_7.addWidget(self.Angle, 1, 0, 1, 1)
-
         self.label_13 = QLabel(self.frame_2)
         self.label_13.setObjectName(u"label_13")
 
@@ -134,6 +127,17 @@ class Ui_Light(object):
         self.Flatness.setMaximum(10)
 
         self.gridLayout_7.addWidget(self.Flatness, 1, 1, 1, 1)
+
+        self.Angle = QDoubleSpinBox(self.frame_2)
+        self.Angle.setObjectName(u"Angle")
+        self.Angle.setWrapping(True)
+        self.Angle.setButtonSymbols(QAbstractSpinBox.ButtonSymbols.UpDownArrows)
+        self.Angle.setDecimals(1)
+        self.Angle.setMinimum(-360.000000000000000)
+        self.Angle.setMaximum(360.000000000000000)
+        self.Angle.setSingleStep(15.000000000000000)
+
+        self.gridLayout_7.addWidget(self.Angle, 1, 0, 1, 1)
 
 
         self.verticalLayout_3.addLayout(self.gridLayout_7)
@@ -164,7 +168,7 @@ class Ui_Light(object):
         self.Dark.setText(QCoreApplication.translate("Light", u"Dark", None))
         self.label.setText(QCoreApplication.translate("Light", u"Light Image Settings:", None))
         self.label_12.setText(QCoreApplication.translate("Light", u"Angle:", None))
-        self.Angle.setSuffix(QCoreApplication.translate("Light", u"\u00b0", None))
         self.label_13.setText(QCoreApplication.translate("Light", u"Flatness:", None))
+        self.Angle.setSuffix(QCoreApplication.translate("Light", u"\u00b0", None))
     # retranslateUi
 

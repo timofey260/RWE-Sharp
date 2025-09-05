@@ -1,6 +1,6 @@
 from core.configTypes.ConfigBase import Configurable
 from PySide6.QtCore import Slot, Signal, Qt
-from PySide6.QtWidgets import QRadioButton, QAbstractButton, QSlider, QSpinBox, QComboBox
+from PySide6.QtWidgets import QRadioButton, QAbstractButton, QSlider, QSpinBox, QComboBox, QDoubleSpinBox
 from PySide6.QtGui import QAction
 import json
 
@@ -161,7 +161,7 @@ class IntConfigurable(Configurable):
     def link_spinbox(self, spin: QSpinBox, releaseonly=False):
         """
         Links spin box to Configurable
-        :param spin: Spin box
+        :param spin: Spinbox
         :param releaseonly: should configurable update only when slider/spinbox is released
         :return: None
         """
@@ -212,6 +212,22 @@ class FloatConfigurable(Configurable):
     @Slot(float)
     def update_value(self, value: float):
         super().update_value(value)
+
+    def link_doublespinbox(self, spin: QDoubleSpinBox, releaseonly=False):
+        """
+        Links spin box to Configurable
+        :param spin: Double spinbox
+        :param releaseonly: should configurable update only when slider/spinbox is released
+        :return: None
+        """
+        spin.setValue(self.value)
+        if len(self.description) > 0:
+            spin.setToolTip(self.description)
+        if releaseonly:
+            spin.editingFinished.connect(lambda: self.update_value(spin.value()))
+        else:
+            spin.valueChanged.connect(self.update_value)
+        self.valueChanged.connect(spin.setValue)
 
 
 class DictConfigurable(Configurable):
