@@ -93,6 +93,14 @@ class CameraViewUI(ViewUI):
         self.circcolor = PenConfigurable(mod, "VIEW_cameras.circcolor", QPen(QColor(0, 255, 0, 210), 5), "Camera corner circle color")
         self.indexcolor = ColorConfigurable(mod, "VIEW_cameras.fontcolor", QColor(168, 168, 168), "Font color")
 
+        self.showrect = BoolConfigurable(mod, "VIEW_cameras.showrect", True, "Show Outer Camera rect")
+        self.showrect2 = BoolConfigurable(mod, "VIEW_cameras.showrect2", True, "Show Inner Camera rect")
+        self.showrect3 = BoolConfigurable(mod, "VIEW_cameras.showrect3", True, "Show 4x3 Camera rect")
+        self.showrectcenter = BoolConfigurable(mod, "VIEW_cameras.showrectcenter", True, "Show Camera rect center")
+        self.showpoly = BoolConfigurable(mod, "VIEW_cameras.showpoly", True, "Show Outer Camera polygon")
+        self.showcirc = BoolConfigurable(mod, "VIEW_cameras.showcirc", True, "Show Camera corner circle")
+        self.showindex = BoolConfigurable(mod, "VIEW_cameras.showfont", True, "Show Font")
+
         self.VQuickCameras = QCheckBox()
         self.VQuickCameras.setObjectName(u"VQuickCameras")
         self.VQuickCameras.setText(QCoreApplication.translate("MainWindow", u"Cameras", None))
@@ -101,6 +109,13 @@ class CameraViewUI(ViewUI):
         self.show_cameras.link_button_action(self.VQuickCameras, self.showcamaction, self.show_cameras_key)
 
         self.mod.manager.view_menu.addAction(self.showcamaction)
+        self.showrect.link_button(self.ui.ShowOuter)
+        self.showrect2.link_button(self.ui.ShowInner)
+        self.showrect3.link_button(self.ui.Show43)
+        self.showrectcenter.link_button(self.ui.ShowCenter)
+        self.showpoly.link_button(self.ui.ShowCameraShape)
+        self.showcirc.link_button(self.ui.ShowEdgeCircles)
+        self.showindex.link_button(self.ui.ShowIndex)
 
 
 class CameraSettingsUI(SettingUI):

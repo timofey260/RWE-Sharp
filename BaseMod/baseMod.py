@@ -19,7 +19,7 @@ from BaseMod.properties.propertiesEditor import PropertiesEditor
 from BaseMod.properties.propertiesUIConnectors import PropertiesUI
 from BaseMod.light.lightModule import LightModule
 from BaseMod.light.lightEditor import LightEditor
-from BaseMod.light.LightUIConnectors import LightUI
+from BaseMod.light.lightUIConnectors import LightUI, LightViewUI
 from BaseMod.LevelParts import GeoLevelPart, TileLevelPart, PropLevelPart, EffectLevelPart, CameraLevelPart, InfoLevelPart, LightLevelPart
 from RWESharp.Modify import Mod, ModInfo
 from RWESharp.Core import SettingElement, HotkeyElement, get_hotkeys_from_pattern, PATH_FILES_VIDEOS
@@ -74,13 +74,14 @@ class BaseMod(Mod):
         self.cameraeditor.add_myself(self.cameraui)
         self.camerasettings = CameraSettingsUI(self)
 
-        self.propertieseditor = PropertiesEditor(self)
-        self.propertiesui = PropertiesUI(self)
-        self.propertieseditor.add_myself(self.propertiesui)
-
         self.lighteditor = LightEditor(self)
         self.lightui = LightUI(self)
         self.lighteditor.add_myself(self.lightui)
+        self.lightviewui = LightViewUI(self).add_myself()
+
+        self.propertieseditor = PropertiesEditor(self)
+        self.propertiesui = PropertiesUI(self)
+        self.propertieseditor.add_myself(self.propertiesui)
 
         if self.bmconfig.funny.value:  # todo make it so it updates dynamically
             self.sex = QAction("sex(earrape warning)")
@@ -136,6 +137,11 @@ class BaseMod(Mod):
         self.bmconfig.camera_editor.link_action(self.action_cameraeditor)
         self.action_cameraeditor.triggered.connect(lambda: self.manager.change_editor_name("cameras"))
         self.manager.editors_menu.addAction(self.action_cameraeditor)
+
+        self.action_lighteditor = QAction("Light Editor")
+        self.bmconfig.light_editor.link_action(self.action_lighteditor)
+        self.action_lighteditor.triggered.connect(lambda: self.manager.change_editor_name("light"))
+        self.manager.editors_menu.addAction(self.action_lighteditor)
 
     def sexthing(self):
         self.vid = FunnyVideo(self.manager, False, os.path.join(PATH_FILES_VIDEOS, "sex.mp4").replace("\\", "/"), "SEX")

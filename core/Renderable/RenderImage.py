@@ -13,8 +13,20 @@ class RenderImage(Renderable):
         self.painter = QPainter(self.image)
         self.renderedtexture = QGraphicsPixmapItem(self.image)
         self.renderedtexture.setZValue(self.depth)
+        self._painter_enabled = True
         if add_renderable:
             self.module.add_renderable(self)
+
+    @property
+    def painter_enabled(self) -> bool:
+        return self._painter_enabled
+
+    @painter_enabled.setter
+    def painter_enabled(self, value: bool):
+        self._painter_enabled = value
+        self.painter.end()
+        if value:
+            self.painter.begin(self.image)
 
     def redraw(self) -> None:
         """
@@ -57,5 +69,6 @@ class RenderImage(Renderable):
     def setPixmap(self, pixmap: QPixmap):
         self.painter.end()
         self.image = pixmap
-        self.painter.begin(self.image)
+        if self._painter_enabled:
+            self.painter.begin(self.image)
         self.redraw()

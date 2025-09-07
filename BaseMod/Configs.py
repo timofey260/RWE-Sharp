@@ -45,6 +45,7 @@ class BaseModConfig:
         self.effect_editor = KeyConfigurable(mod, "basemod.effect", "3", "Open Effect editor")
         self.prop_editor = KeyConfigurable(mod, "basemod.props", "4", "Open Prop editor")
         self.camera_editor = KeyConfigurable(mod, "basemod.cameras", "5", "Open Camera editor")
+        self.light_editor = KeyConfigurable(mod, "basemod.light", "6", "Open Light editor")
 
         self.next_layer = KeyConfigurable(mod, "basemod.nextlayer", "l", "Next_layer")
         self.prev_layer = KeyConfigurable(mod, "basemod.prevlayer", "Ctrl+l", "Previous Layer")

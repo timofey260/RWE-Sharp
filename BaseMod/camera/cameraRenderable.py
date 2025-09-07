@@ -10,39 +10,40 @@ import math
 class RenderCamera(RenderList):
     def __init__(self, module, depth, camera, add_renderable: bool = True):
         super().__init__(module, depth, add_renderable=False)
+        self.ui = self.module.basemod.cameraview
 
         self.drawrect = QGraphicsRectItem(QRectF())
-        module.basemod.cameraview.rectcolor.valueChanged.connect(self.drawrect.setPen)
-        self.drawrect.setPen(module.basemod.cameraview.rectcolor.value)
+        # self.ui.rectcolor.valueChanged.connect(self.drawrect.setPen)
+        self.drawrect.setPen(self.ui.rectcolor.value)
         self.graphicsitems.append(self.drawrect)
 
         self.drawrect2 = QGraphicsRectItem(QRectF())
-        module.basemod.cameraview.rect2color.valueChanged.connect(self.drawrect2.setPen)
-        self.drawrect2.setPen(module.basemod.cameraview.rect2color.value)
+        # self.ui.rect2color.valueChanged.connect(self.drawrect2.setPen)
+        self.drawrect2.setPen(self.ui.rect2color.value)
         self.graphicsitems.append(self.drawrect2)
 
         self.drawrect3 = QGraphicsRectItem(QRectF())
-        module.basemod.cameraview.rect3color.valueChanged.connect(self.drawrect3.setPen)
-        self.drawrect3.setPen(module.basemod.cameraview.rect3color.value)
+        # self.ui.rect3color.valueChanged.connect(self.drawrect3.setPen)
+        self.drawrect3.setPen(self.ui.rect3color.value)
         self.graphicsitems.append(self.drawrect3)
 
         self.line1 = QGraphicsLineItem(QLineF())
-        self.line1.setPen(module.basemod.cameraview.rectcentercolor.value)
+        self.line1.setPen(self.ui.rectcentercolor.value)
         self.graphicsitems.append(self.line1)
         self.line2 = QGraphicsLineItem(QLineF())
-        self.line2.setPen(module.basemod.cameraview.rectcentercolor.value)
+        self.line2.setPen(self.ui.rectcentercolor.value)
         self.graphicsitems.append(self.line2)
         self.circle1 = QGraphicsEllipseItem(QRectF())
-        self.circle1.setPen(module.basemod.cameraview.rectcentercolor.value)
+        self.circle1.setPen(self.ui.rectcentercolor.value)
         self.graphicsitems.append(self.circle1)
-        module.basemod.cameraview.rectcentercolor.valueChanged.connect(self.line1.setPen)
-        module.basemod.cameraview.rectcentercolor.valueChanged.connect(self.line2.setPen)
-        module.basemod.cameraview.rectcentercolor.valueChanged.connect(self.circle1.setPen)
+        # self.ui.rectcentercolor.valueChanged.connect(self.line1.setPen)
+        # self.ui.rectcentercolor.valueChanged.connect(self.line2.setPen)
+        # self.ui.rectcentercolor.valueChanged.connect(self.circle1.setPen)
 
         self.textindex = QGraphicsTextItem("0")
         self.textindex.setFont(QFont("Comic Sans", 30))
         self.textindex.setDefaultTextColor(QColor(168, 168, 168, 255))
-        module.basemod.cameraview.indexcolor.valueChanged.connect(self.textindex.setDefaultTextColor)
+        # self.ui.indexcolor.valueChanged.connect(self.textindex.setDefaultTextColor)
         self.graphicsitems.append(self.textindex)
 
         self.poshandle = None
@@ -54,13 +55,13 @@ class RenderCamera(RenderList):
 
         for i in range(4):
             circ = QGraphicsEllipseItem()
-            module.basemod.cameraview.circcolor.valueChanged.connect(circ.setPen)
-            circ.setPen(module.basemod.cameraview.circcolor.value)
+            # self.ui.circcolor.valueChanged.connect(circ.setPen)
+            circ.setPen(self.ui.circcolor.value)
             self.circles.append(circ)
             self.graphicsitems.append(circ)
             line = QGraphicsLineItem()
-            module.basemod.cameraview.polycolor.valueChanged.connect(line.setPen)
-            line.setPen(module.basemod.cameraview.polycolor.value)
+            # self.ui.polycolor.valueChanged.connect(line.setPen)
+            line.setPen(self.ui.polycolor.value)
             self.camlines.append(line)
             self.graphicsitems.append(line)
             self.newquads[i] = camera.quads[i]
@@ -68,7 +69,7 @@ class RenderCamera(RenderList):
         self.show = True
         self.camera = camera
         self.assign_depth()
-        self.update_camera()
+        self.update_camera(repaint=True)
         self.zoom_event()
         self.move_event()
         if add_renderable:
@@ -78,13 +79,13 @@ class RenderCamera(RenderList):
     def camerarect(self):
         return QRectF(0, 0, camw * CELLSIZE, camh * CELLSIZE)
 
-    def update_camera(self, setpos=True):
+    def update_camera(self, setpos=True, repaint=False):
         if setpos:
             self.setPos(self.camera.pos)
         rect = self.camerarect
         rect2 = QRectF(CELLSIZE, CELLSIZE, rect.width() - CELLSIZE * 2,
                        rect.height() - CELLSIZE * 2)
-        rect3 = QRectF(CELLSIZE * 8, 0, rect2.width() - CELLSIZE * 16, rect2.height())
+        rect3 = QRectF(CELLSIZE * 8, CELLSIZE, rect2.width() - CELLSIZE * 16, rect2.height())
         self.drawrect.setRect(rect)
         self.drawrect2.setRect(rect2)
         self.drawrect3.setRect(rect3)
@@ -111,6 +112,19 @@ class RenderCamera(RenderList):
         self.camlines[2].setLine(QLineF(newquads[3], newquads[2]))
         self.camlines[3].setLine(QLineF(newquads[0], newquads[3]))
         self.textindex.setPos(rect.center() * self.zoom + self.actual_offset)
+        if not repaint:
+            return
+        self.drawrect.setPen(self.ui.rectcolor.value if self.ui.showrect.value else Qt.PenStyle.NoPen)
+        self.drawrect2.setPen(self.ui.rect2color.value if self.ui.showrect2.value else Qt.PenStyle.NoPen)
+        self.drawrect3.setPen(self.ui.rect3color.value if self.ui.showrect3.value else Qt.PenStyle.NoPen)
+        self.line1.setPen(self.ui.rectcentercolor.value if self.ui.showrectcenter.value else Qt.PenStyle.NoPen)
+        self.line2.setPen(self.ui.rectcentercolor.value if self.ui.showrectcenter.value else Qt.PenStyle.NoPen)
+        self.circle1.setPen(self.ui.rectcentercolor.value if self.ui.showrectcenter.value else Qt.PenStyle.NoPen)
+        for i in self.camlines:
+            i.setPen(self.ui.polycolor.value if self.ui.showpoly.value else Qt.PenStyle.NoPen)
+        for i in self.circles:
+            i.setPen(self.ui.circcolor.value if self.ui.showcirc.value else Qt.PenStyle.NoPen)
+        self.textindex.setDefaultTextColor(self.ui.indexcolor.value if self.ui.showindex.value else Qt.GlobalColor.transparent)
 
     def move_event(self):
         super().move_event()
@@ -182,9 +196,9 @@ class RenderCamera(RenderList):
             self.line2.setPen(QPen(QColor(255, 0, 0), 4))
             self.circle1.setPen(QPen(QColor(255, 0, 0), 4))
             return
-        self.line1.setPen(self.module.basemod.cameraview.rectcentercolor.value)
-        self.line2.setPen(self.module.basemod.cameraview.rectcentercolor.value)
-        self.circle1.setPen(self.module.basemod.cameraview.rectcentercolor.value)
+        self.line1.setPen(self.ui.rectcentercolor.value)
+        self.line2.setPen(self.ui.rectcentercolor.value)
+        self.circle1.setPen(self.ui.rectcentercolor.value)
 
     @property
     def rectsides(self):

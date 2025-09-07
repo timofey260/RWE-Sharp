@@ -101,9 +101,9 @@
            </layout>
           </item>
           <item>
-           <widget class="QCheckBox" name="Dark">
+           <widget class="QCheckBox" name="DrawOnMoved">
             <property name="text">
-             <string>Dark</string>
+             <string>Draw on Moved Light</string>
             </property>
            </widget>
           </item>

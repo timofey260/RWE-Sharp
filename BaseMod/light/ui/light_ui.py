@@ -90,10 +90,10 @@ class Ui_Light(object):
 
         self.verticalLayout_4.addLayout(self.gridLayout_2)
 
-        self.Dark = QCheckBox(self.frame)
-        self.Dark.setObjectName(u"Dark")
+        self.DrawOnMoved = QCheckBox(self.frame)
+        self.DrawOnMoved.setObjectName(u"DrawOnMoved")
 
-        self.verticalLayout_4.addWidget(self.Dark)
+        self.verticalLayout_4.addWidget(self.DrawOnMoved)
 
 
         self.verticalLayout_2.addWidget(self.frame)
@@ -165,7 +165,7 @@ class Ui_Light(object):
         self.label_11.setText(QCoreApplication.translate("Light", u"Height:", None))
         self.label_15.setText(QCoreApplication.translate("Light", u"Rotation:", None))
         self.label_14.setText(QCoreApplication.translate("Light", u"Width:", None))
-        self.Dark.setText(QCoreApplication.translate("Light", u"Dark", None))
+        self.DrawOnMoved.setText(QCoreApplication.translate("Light", u"Draw on Moved Light", None))
         self.label.setText(QCoreApplication.translate("Light", u"Light Image Settings:", None))
         self.label_12.setText(QCoreApplication.translate("Light", u"Angle:", None))
         self.label_13.setText(QCoreApplication.translate("Light", u"Flatness:", None))

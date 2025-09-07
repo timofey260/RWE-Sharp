@@ -24,8 +24,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>290</width>
-        <height>410</height>
+        <width>294</width>
+        <height>414</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -33,6 +33,58 @@
         <widget class="QCheckBox" name="ShowCameras">
          <property name="text">
           <string>Show Cameras</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="ShowOuter">
+         <property name="text">
+          <string>Show Outer Rectangle</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="ShowInner">
+         <property name="text">
+          <string>Show Inner Rectangle</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="Show43">
+         <property name="text">
+          <string>Show 4:3 Rectangle</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="ShowEdgeCircles">
+         <property name="text">
+          <string>Show Edge Circles</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="ShowCenter">
+         <property name="text">
+          <string>Show Center</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="ShowCameraShape">
+         <property name="text">
+          <string>Show Camera Shape</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="ShowIndex">
+         <property name="text">
+          <string>Show Index</string>
          </property>
         </widget>
        </item>
@@ -56,5 +108,118 @@
   </layout>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>ShowCameras</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>ShowOuter</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>49</x>
+     <y>34</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>51</x>
+     <y>58</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>ShowCameras</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>ShowInner</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>70</x>
+     <y>29</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>73</x>
+     <y>85</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>ShowCameras</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>Show43</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>98</x>
+     <y>25</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>98</x>
+     <y>114</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>ShowCameras</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>ShowEdgeCircles</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>128</x>
+     <y>27</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>126</x>
+     <y>147</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>ShowCameras</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>ShowCenter</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>152</x>
+     <y>25</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>150</x>
+     <y>163</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>ShowCameras</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>ShowCameraShape</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>172</x>
+     <y>22</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>176</x>
+     <y>190</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>ShowCameras</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>ShowIndex</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>201</x>
+     <y>30</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>202</x>
+     <y>231</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

@@ -1,6 +1,6 @@
 from core.configTypes.ConfigBase import Configurable
 from PySide6.QtCore import Slot, Signal, Qt
-from PySide6.QtWidgets import QRadioButton, QAbstractButton, QSlider, QSpinBox, QComboBox, QDoubleSpinBox
+from PySide6.QtWidgets import QRadioButton, QAbstractButton, QSlider, QSpinBox, QComboBox, QDoubleSpinBox, QAbstractSlider
 from PySide6.QtGui import QAction
 import json
 
@@ -162,7 +162,7 @@ class IntConfigurable(Configurable):
         """
         Links spin box to Configurable
         :param spin: Spinbox
-        :param releaseonly: should configurable update only when slider/spinbox is released
+        :param releaseonly: should configurable update only when spinbox is released
         :return: None
         """
         spin.setValue(self.value)
@@ -217,7 +217,7 @@ class FloatConfigurable(Configurable):
         """
         Links spin box to Configurable
         :param spin: Double spinbox
-        :param releaseonly: should configurable update only when slider/spinbox is released
+        :param releaseonly: should configurable update only when spinbox is released
         :return: None
         """
         spin.setValue(self.value)
@@ -228,6 +228,23 @@ class FloatConfigurable(Configurable):
         else:
             spin.valueChanged.connect(self.update_value)
         self.valueChanged.connect(spin.setValue)
+
+    def link_slider(self, slider: QAbstractSlider, releaseonly=False, division=1):
+        """
+        Links slider to Configurable
+        :param slider: slider
+        :param releaseonly: should configurable update only when slider is released
+        :param division: how much to divide value from slider to configurable and multiply from configurable to slider
+        :return: None
+        """
+        slider.setValue(int(self.value * division))
+        if len(self.description) > 0:
+            slider.setToolTip(self.description)
+        if releaseonly:
+            slider.sliderReleased.connect(lambda: self.update_value(slider.value() / division))
+        else:
+            slider.valueChanged.connect(lambda: self.update_value(slider.value() / division))
+        self.valueChanged.connect(lambda x: slider.setValue(int(x * division)))
 
 
 class DictConfigurable(Configurable):
