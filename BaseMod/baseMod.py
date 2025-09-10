@@ -83,10 +83,10 @@ class BaseMod(Mod):
         self.propertiesui = PropertiesUI(self)
         self.propertieseditor.add_myself(self.propertiesui)
 
-        if self.bmconfig.funny.value:  # todo make it so it updates dynamically
-            self.sex = QAction("sex(earrape warning)")
-            self.manager.tool_menu.addAction(self.sex)
-            self.sex.triggered.connect(self.sexthing)
+        self.sex = QAction("sex(earrape warning)")
+        self.sex.triggered.connect(self.sexthing)
+        self.bmconfig.funny.valueChanged.connect(self.funnychanged)
+
         self.gridui = GridView(self).add_myself()
 
         self.settingtree = SettingElement(self, self.modinfo.title, self.modinfo.id).add_myself()
@@ -145,6 +145,13 @@ class BaseMod(Mod):
 
     def sexthing(self):
         self.vid = FunnyVideo(self.manager, False, os.path.join(PATH_FILES_VIDEOS, "sex.mp4").replace("\\", "/"), "SEX")
+
+    def funnychanged(self, value):
+        if value:
+            self.manager.tool_menu.addAction(self.sex)
+            return
+        if self.sex in self.manager.tool_menu.actions():
+            self.manager.tool_menu.removeAction(self.sex)
 
     def on_save(self, viewport):
         self.bmconfig.windowstate.update_value(self.manager.window.saveState())
