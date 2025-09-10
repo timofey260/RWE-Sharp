@@ -6,14 +6,13 @@ from PySide6.QtCore import QRectF, QPoint, QSize, QLine, QRect
 from PySide6.QtGui import QColor, QMoveEvent, QMouseEvent, QPixmap, QPainter, QCursor
 
 from BaseMod.geo.geoControls import GeoControls
-from BaseMod.geo.GeoConsts import IMG_PEN, IMG_BRUSH, IMG_BUCKET, IMG_LINE, IMG_RECT, IMG_RECT_HOLLOW, IMG_CIRCLE, IMG_CIRCLE_HOLLOW
 from BaseMod.geo.geoHistory import GEPointChange, GERectChange, GEBrushChange, GEEllipseChange, GEFillChange
 from BaseMod.LevelParts import stack_pos, GeoLevelPart
 from RWESharp.Configurable import BoolConfigurable, IntConfigurable, EnumConfigurable, ColorConfigurable
 from RWESharp.Core import CELLSIZE, PATH_FILES_IMAGES, CONSTS
 from RWESharp.Modify import Editor
 from RWESharp.Renderable import RenderImage, RenderRect, RenderEllipse, RenderLine
-from RWESharp.Utils import closest_line, paint_svg, fit_rect
+from RWESharp.Utils import closest_line, fit_rect
 
 
 class GeoBlocks(Enum):

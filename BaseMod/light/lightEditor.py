@@ -3,9 +3,9 @@ from RWESharp.Renderable import Handle, RenderEllipse, RenderImage
 from RWESharp.Utils import point2polar, polar2point
 from RWESharp.Core import CELLSIZE, ofsleft, ofstop, PATH_DRIZZLE_CAST, CONSTS
 from RWESharp.Configurable import PenConfigurable, FloatConfigurable, IntConfigurable
-from BaseMod.light.lightHistory import LightPosChanged
+from BaseMod.light.lightHistory import LightPosChanged, LightImageChanged
 from PySide6.QtCore import QPointF, QRectF, Qt, QSize, QPoint
-from PySide6.QtGui import QPainter, QPen, QPixmap, QMoveEvent
+from PySide6.QtGui import QPainter, QPen, QPixmap, QMoveEvent, QImage, QColor
 import os
 
 
@@ -31,6 +31,8 @@ class LightEditor(Editor):
             if not os.path.exists(path):
                 continue
             self.brushimages.append(QPixmap(path))
+        self.brush.setPixmap(self.brushimages[0])
+        self.oldimage = QImage(1, 1, QImage.Format.Format_Mono)
 
     def update_light_configurables(self):
         if self.updatingconfigurables:
@@ -42,30 +44,45 @@ class LightEditor(Editor):
 
     def init_scene_items(self, viewport):
         super().init_scene_items(viewport)
+        self.end_painter()
         self.update_position()
-        self.painter.begin(viewport.modulenames["light"].newlightimage)
+        self.painter.begin(self.level.l_light.image)
 
     def remove_items_from_scene(self, viewport):
         super().remove_items_from_scene(viewport)
-        if self.painter.isActive():
-            self.painter.end()
+        self.end_painter()
 
     def mouse_left_press(self):
-        self.painter.setCompositionMode(QPainter.CompositionMode.CompositionMode_DestinationOut)
+        self.tool_specific_press()
 
     def mouse_right_press(self):
         if self.mouse_left:
             return
-        self.painter.setCompositionMode(QPainter.CompositionMode.CompositionMode_SourceOver)
+        self.tool_specific_press(False)
+
+    def mouse_left_release(self):
+        self.tool_specific_release()
+
+    def mouse_right_release(self):
+        if self.mouse_left:
+            return
+        self.tool_specific_release(True)
 
     def mouse_move_event(self, event: QMoveEvent):
         super().mouse_move_event(event)
+        self.tool_specific_update()
+
+    def tool_specific_update(self):
         newpos = self.editor_pos + QPoint(ofsleft, ofstop) * CELLSIZE
         self.brush.setPos(self.editor_pos)
         if self.mouse_right or self.mouse_left:
             self.painter.drawPixmap(newpos, self.brushimages[0])
-            self.viewport.modulenames["light"].lightimage.redraw()
-            self.viewport.modulenames["light"].lightimagestatic.redraw()
+            self.viewport.modulenames["light"].update_images()
+            # self.viewport.modulenames["light"].lightimage.redraw()
+            # self.viewport.modulenames["light"].lightimagestatic.redraw()
+
+    def tool_specific_release(self, shadow=True):
+        self.level.add_history(LightImageChanged, self.oldimage)
 
     def update_position(self):
         staticpos = -QPointF(ofsleft, ofstop) * CELLSIZE
@@ -77,6 +94,15 @@ class LightEditor(Editor):
         self.lightflatness.update_value_default(self.level.l_light.flatness)
         self.updatingconfigurables = False
 
+    def end_painter(self):
+        if self.painter.isActive():
+            self.painter.end()
+
+    def update_painter(self):
+        if self.manager.editor != self:
+            return
+        self.painter.begin(self.level.l_light.image)
+
     def pos_changed(self, newpos):
         self.level.viewport.modulenames["light"].lightimage.setPos(newpos)
 
@@ -85,3 +111,11 @@ class LightEditor(Editor):
         angle = (newpolar.x() + 90) % 360
         flatness = min(10, max(1, newpolar.y() // CELLSIZE))
         self.level.add_history(LightPosChanged, angle, flatness)
+
+    def tool_specific_press(self, shadow=True):
+        self.oldimage = self.level.l_light.image.copy()
+        if shadow:
+            self.painter.setCompositionMode(QPainter.CompositionMode.CompositionMode_SourceOver)
+            return
+        self.painter.setCompositionMode(QPainter.CompositionMode.CompositionMode_DestinationOut)
+

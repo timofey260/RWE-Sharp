@@ -36,16 +36,20 @@ class LightPosChanged(HistoryElement):
 
 
 class LightImageChanged(HistoryElement):
-    def __init__(self, history, newimage: QImage):
+    def __init__(self, history, oldimage: QImage):
         super().__init__(history)
-        self.newimage = newimage.copy()
-        self.oldimage = self.level.l_light.image.copy()
+        self.newimage = self.level.l_light.image.copy()
+        self.oldimage = oldimage.copy()
         self.redo_changes()
 
     def undo_changes(self):
+        self.basemod.lighteditor.end_painter()
         self.level.l_light.image = self.oldimage.copy()
+        self.basemod.lighteditor.update_painter()
         self.level.viewport.modulenames["light"].update_images()
 
     def redo_changes(self):
+        self.basemod.lighteditor.end_painter()
         self.level.l_light.image = self.newimage.copy()
+        self.basemod.lighteditor.update_painter()
         self.level.viewport.modulenames["light"].update_images()
