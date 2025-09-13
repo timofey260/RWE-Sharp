@@ -2,10 +2,11 @@ from RWESharp.Modify import Editor
 from RWESharp.Renderable import Handle, RenderEllipse, RenderImage
 from RWESharp.Utils import point2polar, polar2point
 from RWESharp.Core import CELLSIZE, ofsleft, ofstop, PATH_DRIZZLE_CAST, CONSTS
-from RWESharp.Configurable import PenConfigurable, FloatConfigurable, IntConfigurable
+from RWESharp.Configurable import PenConfigurable, FloatConfigurable, IntConfigurable, BoolConfigurable
 from BaseMod.light.lightHistory import LightPosChanged, LightImageChanged
 from PySide6.QtCore import QPointF, QRectF, Qt, QSize, QPoint
-from PySide6.QtGui import QPainter, QPen, QPixmap, QMoveEvent, QImage, QTransform
+from PySide6.QtGui import QPainter, QPen, QPixmap, QMoveEvent, QImage, QTransform, QColor
+from PySide6.QtWidgets import QGraphicsPixmapItem, QGraphicsScene
 import os
 
 
@@ -17,6 +18,11 @@ class LightEditor(Editor):
         self.lightflatness = IntConfigurable(None, "", 0, "Light flatness")
         self.lighthandle = Handle(self)
         self.lightradius = RenderEllipse(self, 150, QRectF(0, 0, 1, 1), self.radiuspen.value)
+
+        self.brushwidth = FloatConfigurable(None, "", 1, "Brush Width Scale")
+        self.brushheight = FloatConfigurable(None, "", 1, "Brush Height Scale")
+        self.brushrotation = FloatConfigurable(None, "", 0, "Brush Rotation")
+        self.drawonmoved = BoolConfigurable(None, "", False, "Draw on Moved Light")
         self.brush = RenderImage(self, 0, QSize(1, 1))
         self.painter = QPainter()
 
@@ -24,20 +30,32 @@ class LightEditor(Editor):
         self.lighthandle.mouseReleased.connect(self.mouse_released)
         self.lightangle.valueChanged.connect(self.update_light_configurables)
         self.lightflatness.valueChanged.connect(self.update_light_configurables)
+        self.brushrotation.valueChanged.connect(self.update_brush_transform)
+        self.brushwidth.valueChanged.connect(self.update_brush_transform)
+        self.brushheight.valueChanged.connect(self.update_brush_transform)
         self.updatingconfigurables = False
         self.brushimages = {}
         for k, v in CONSTS.get("shadowimages", {}).items():
             path = os.path.join(PATH_DRIZZLE_CAST, v)
             if not os.path.exists(path):
                 continue
-            self.brushimages[k] = QPixmap(path)
+            newimage = QImage(path)
+            newimage.convertTo(QImage.Format.Format_Mono)
+            newimage.setColorTable([QColor(0, 0, 0, 0).rgba(), QColor(120, 120, 120, 255).rgba()])
+            self.brushimages[k] = QPixmap.fromImage(newimage)
         self.brush.setPixmap(list(self.brushimages.values())[0])
         self.oldimage = QImage(1, 1, QImage.Format.Format_Mono)
 
         t = QTransform()
         self.transform = t.rotate(45)
-        self.brush.renderedtexture.setTransform(self.transform)
-        self.painter.setTransform(self.transform)
+        # self.brush.renderedtexture.setTransform(self.transform)
+
+        self.drawimage = list(self.brushimages.values())[0]
+        self.drawscene = QGraphicsScene(self.drawimage.rect())
+        self.virtgraphicspixmap = self.drawscene.addPixmap(list(self.brushimages.values())[0])
+        self.virtpainter = QPainter()
+        self.virtgraphicspixmap.setShapeMode(QGraphicsPixmapItem.ShapeMode.BoundingRectShape)
+        self.update_brush_transform()
 
     def update_light_configurables(self):
         if self.updatingconfigurables:
@@ -78,10 +96,13 @@ class LightEditor(Editor):
         self.tool_specific_update()
 
     def tool_specific_update(self):
-        newpos = self.editor_pos + QPoint(ofsleft, ofstop) * CELLSIZE
-        self.brush.setPos(self.editor_pos)
+        imageoffset = QPoint(self.drawimage.width() // 2, self.drawimage.height() // 2)
+        self.brush.setPos(self.editor_pos - imageoffset)
         if self.mouse_right or self.mouse_left:
-            self.painter.drawPixmap(newpos, list(self.brushimages.values())[0])
+            newpos = self.editor_pos + QPoint(ofsleft, ofstop) * CELLSIZE - imageoffset
+            if self.drawonmoved.value:
+                newpos -= polar2point(QPointF(self.level.l_light.angle - 90, CELLSIZE * self.level.l_light.flatness)).toPoint()
+            self.painter.drawPixmap(newpos, self.drawimage)
             self.viewport.modulenames["light"].update_images()
             # self.viewport.modulenames["light"].lightimage.redraw()
             # self.viewport.modulenames["light"].lightimagestatic.redraw()
@@ -118,11 +139,26 @@ class LightEditor(Editor):
         self.level.add_history(LightPosChanged, angle, flatness)
 
     def tool_specific_press(self, shadow=True):
-        self.painter.setWorldTransform(self.transform)
-        #self.painter.setTransform(self.brush.renderedtexture.transform().inverted()[0])
         self.oldimage = self.level.l_light.image.copy()
         if shadow:
             self.painter.setCompositionMode(QPainter.CompositionMode.CompositionMode_SourceOver)
+            self.tool_specific_update()
             return
         self.painter.setCompositionMode(QPainter.CompositionMode.CompositionMode_DestinationOut)
+        self.tool_specific_update()
+
+    def update_brush_transform(self):
+        if self.virtpainter.isActive():
+            self.virtpainter.end()
+        t = QTransform()
+        t = t.rotate(self.brushrotation.value)
+        t = t.scale(self.brushwidth.value, self.brushheight.value)
+        self.transform = t
+        self.virtgraphicspixmap.setTransform(self.transform)
+        self.drawimage = QPixmap(self.virtgraphicspixmap.sceneBoundingRect().size().toSize())
+        self.drawimage.fill(Qt.GlobalColor.transparent)
+        self.virtpainter.begin(self.drawimage)
+        self.drawscene.setSceneRect(self.virtgraphicspixmap.sceneBoundingRect())
+        self.drawscene.render(self.virtpainter, self.drawimage.rect(), self.virtgraphicspixmap.sceneBoundingRect())
+        self.brush.setPixmap(self.drawimage)
 

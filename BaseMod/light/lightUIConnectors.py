@@ -1,5 +1,5 @@
 from RWESharp.Ui import UI, ViewUI
-from RWESharp.Configurable import FloatConfigurable, BoolConfigurable, KeyConfigurable
+from RWESharp.Configurable import FloatConfigurable, BoolConfigurable, KeyConfigurable, StringConfigurable
 from BaseMod.light.ui.light_ui import Ui_Light
 from BaseMod.light.ui.light_vis_ui import Ui_LightView
 from PySide6.QtCore import QCoreApplication
@@ -17,8 +17,20 @@ class LightUI(UI):
         self.editor: LightEditor = mod.lighteditor
         self.editor.lightangle.link_doublespinbox(self.ui.Angle)
         self.editor.lightflatness.link_spinbox(self.ui.Flatness)
+        self.editor.brushrotation.link_doublespinbox(self.ui.Rotation)
+        self.editor.brushwidth.link_doublespinbox(self.ui.Width)
+        self.editor.brushheight.link_doublespinbox(self.ui.Height)
+        self.editor.drawonmoved.link_button(self.ui.DrawOnMoved)
         for k, v in self.editor.brushimages.items():
             self.ui.Shape.addItem(v, k, userData=v)
+
+        self.brushimage = StringConfigurable(None, "", list(self.editor.brushimages.keys())[0], "Brush Image")
+        self.brushimage.link_combobox(self.ui.Shape)
+        self.brushimage.valueChanged.connect(self.update_brush)
+
+    def update_brush(self, newimage):
+        self.editor.virtgraphicspixmap.setPixmap(self.editor.brushimages[newimage])
+        self.editor.update_brush_transform()
 
 
 class LightViewUI(ViewUI):

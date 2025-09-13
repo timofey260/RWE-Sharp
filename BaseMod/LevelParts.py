@@ -3,7 +3,7 @@ from RWESharp.Core import lingoIO, SPRITESIZE, CELLSIZE, ofsleft, ofstop
 from RWESharp.Utils import polar2point, point2polar
 from BaseMod.tiles.tileUtils import PlacedMaterial, PlacedTileHead, PlacedTileBody
 from PySide6.QtCore import QPoint, QPointF, QSize, Qt, QByteArray, QBuffer, QIODevice, QRect
-from PySide6.QtGui import QImage, QPainter, QColor
+from PySide6.QtGui import QImage, QPainter, QColor, QImageWriter
 import numpy as np
 from copy import deepcopy
 
@@ -398,7 +398,7 @@ class LightLevelPart(LevelPart):
         if level.lightdata is None:
             newimage = QImage(imagesize, QImage.Format.Format_Mono)
             newimage.setColorTable(newcolortable)
-            newimage.fill(1)
+            newimage.fill(0)
             self.image = newimage
             return
         self.image = QImage.fromData(level.lightdata)
@@ -407,8 +407,9 @@ class LightLevelPart(LevelPart):
         if self.image.size() != imagesize:
             newimage = QImage(imagesize, QImage.Format.Format_Mono)
             newimage.setColorTable(newcolortable)
-            newimage.fill(1)
+            newimage.fill(0)
             painter = QPainter(newimage)
+            painter.setCompositionMode(QPainter.CompositionMode.CompositionMode_Source)
             painter.drawImage(QPoint(), self.image)
             self.image = newimage
 
@@ -422,5 +423,6 @@ class LightLevelPart(LevelPart):
         ba = QByteArray()
         buff = QBuffer(ba)
         buff.open(QIODevice.OpenModeFlag.WriteOnly)
-        self.image.save(buff)
+        writer = QImageWriter(buff, b"PNG")
+        writer.write(self.image)
         self.level.lightdata = ba.data()
