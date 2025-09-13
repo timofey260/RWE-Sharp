@@ -66,6 +66,8 @@ class TileRenderLevelImage(RenderLevelImage):
                 tile.graphics.append(item)
 
     def add_material_graphics(self, pos):
+        if self.level.l_geo.blocks[pos.x(), pos.y(), self.tilelayer] == 0 and self.level.l_geo.stack[pos.x(), pos.y(), self.tilelayer] == 0:
+            return
         tile = self.level.l_tiles.tile_data(pos, self.tilelayer)
         sz = CONSTS.get("materialsize", [6, 8])
         if self.ui.drawoption.value == 3:

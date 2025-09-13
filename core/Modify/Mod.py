@@ -6,12 +6,11 @@ from dataclasses import dataclass, field
 from typing import TYPE_CHECKING
 from abc import ABC
 if TYPE_CHECKING:
+    from core.Level.RWELevel import RWELevel
     from core.Modify.ConfigModule import ConfigModule
     from core.Modify.ui import UI, ViewUI
     from core.Modify.Editor import Editor
-    from core.Modify.baseModule import Module
     from PySide6.QtWidgets import QWidget
-    from core.Modify.Theme import Theme
     from core.Manager import Manager
     from core.TreeElement import SettingElement, HotkeyElement
     from widgets.Viewport import ViewPort
@@ -85,7 +84,7 @@ class Mod(ABC):
     def add_hotkey(self, hotkey: HotkeyElement):
         self.manager.add_hotkeytree(hotkey)
 
-    def on_save(self, viewport):
+    def on_save(self, viewport: ViewPort):
         """
         Gets called before save
         :return:
@@ -98,5 +97,5 @@ class Mod(ABC):
         :return:
         """
 
-    def mount_levelparts(self, level):
+    def mount_levelparts(self, level: RWELevel):
         pass

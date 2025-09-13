@@ -97,6 +97,17 @@ class StringConfigurable(Configurable):
     def update_value(self, value: str):
         super().update_value(value)
 
+    def link_combobox(self, combobox: QComboBox):
+        """
+        Links combobox with configurable
+        :param combobox: Combobox to link
+        """
+        if len(self.description) > 0:
+            combobox.setToolTip(self.description)
+        combobox.setCurrentIndex(combobox.findText(self.value))
+        combobox.currentTextChanged.connect(lambda: self.update_value(combobox.currentText()))
+        self.valueChanged.connect(lambda: combobox.setCurrentIndex(combobox.findText(self.value)))
+
 
 class IntConfigurable(Configurable):
     valueChanged = Signal(int)

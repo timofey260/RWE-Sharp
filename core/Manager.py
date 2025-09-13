@@ -90,7 +90,9 @@ class Manager:
         self.window.add_viewport(v)
         return v
 
-    def change_level(self, path):  # obsolete?
+    def open_level_from_path(self, path):  # obsolete?
+        if not os.path.exists(path):
+            return
         self.open_level(RWELevel(self, path))
 
     def init_editors(self, v):

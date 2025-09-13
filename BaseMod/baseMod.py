@@ -143,6 +143,23 @@ class BaseMod(Mod):
         self.action_lighteditor.triggered.connect(lambda: self.manager.change_editor_name("light"))
         self.manager.editors_menu.addAction(self.action_lighteditor)
 
+        # scan recent levels
+        self.recent = []
+        self.bmconfig.recentfiles.valueChanged.connect(self.update_recent)
+        self.update_recent()
+
+    def update_recent(self):
+        recent = self.bmconfig.recentfiles.value.split("\n")
+        self.recent = []
+        self.manager.window.ui.menuRecent.clear()
+        for i in recent:
+            if not os.path.exists(i):
+                continue
+            self.recent.append(i)
+            openlevel = QAction(i, parent=self.manager.window.ui.menuRecent)
+            openlevel.triggered.connect(lambda: self.manager.open_level_from_path(i))
+            self.manager.window.ui.menuRecent.addAction(openlevel)
+
     def sexthing(self):
         self.vid = FunnyVideo(self.manager, False, os.path.join(PATH_FILES_VIDEOS, "sex.mp4").replace("\\", "/"), "SEX")
 
@@ -156,6 +173,12 @@ class BaseMod(Mod):
     def on_save(self, viewport):
         self.bmconfig.windowstate.update_value(self.manager.window.saveState())
         self.bmconfig.windowgeo.update_value(self.manager.window.saveGeometry())
+        level = viewport.level
+        if level.file is not None and os.path.exists(level.file):
+            if level.file in self.recent:
+                self.recent.remove(level.file)
+            self.recent.insert(0, level.file)
+        self.bmconfig.recentfiles.update_value_default("\n".join(self.recent))
 
     def level_opened(self, viewport: ViewPort):
         GeoModule(self).add_myself(viewport, "geo")
@@ -174,3 +197,9 @@ class BaseMod(Mod):
         EffectLevelPart(level)
         CameraLevelPart(level)
         LightLevelPart(level)
+        if level.file is not None and os.path.exists(level.file):
+            if level.file in self.recent:
+                self.recent.remove(level.file)
+            self.recent.insert(0, level.file)
+        self.bmconfig.recentfiles.update_value_default("\n".join(self.recent))
+        self.update_recent()

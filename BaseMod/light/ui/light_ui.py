@@ -15,10 +15,10 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QAbstractSpinBox, QApplication, QCheckBox, QDoubleSpinBox,
-    QFrame, QGridLayout, QLabel, QScrollArea,
-    QSizePolicy, QSpacerItem, QSpinBox, QVBoxLayout,
-    QWidget)
+from PySide6.QtWidgets import (QAbstractSpinBox, QApplication, QCheckBox, QComboBox,
+    QDoubleSpinBox, QFrame, QGridLayout, QLabel,
+    QScrollArea, QSizePolicy, QSpacerItem, QSpinBox,
+    QVBoxLayout, QWidget)
 
 class Ui_Light(object):
     def setupUi(self, Light):
@@ -48,44 +48,54 @@ class Ui_Light(object):
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
         self.gridLayout_2 = QGridLayout()
         self.gridLayout_2.setObjectName(u"gridLayout_2")
-        self.Rotation_2 = QDoubleSpinBox(self.frame)
-        self.Rotation_2.setObjectName(u"Rotation_2")
-        sizePolicy = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.Rotation_2.sizePolicy().hasHeightForWidth())
-        self.Rotation_2.setSizePolicy(sizePolicy)
-
-        self.gridLayout_2.addWidget(self.Rotation_2, 2, 1, 1, 1)
-
         self.label_11 = QLabel(self.frame)
         self.label_11.setObjectName(u"label_11")
 
-        self.gridLayout_2.addWidget(self.label_11, 1, 0, 1, 1)
+        self.gridLayout_2.addWidget(self.label_11, 2, 0, 1, 1)
 
         self.Width_2 = QDoubleSpinBox(self.frame)
         self.Width_2.setObjectName(u"Width_2")
+        sizePolicy = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.Width_2.sizePolicy().hasHeightForWidth())
         self.Width_2.setSizePolicy(sizePolicy)
 
-        self.gridLayout_2.addWidget(self.Width_2, 0, 1, 1, 1)
+        self.gridLayout_2.addWidget(self.Width_2, 1, 1, 1, 1)
+
+        self.Rotation_2 = QDoubleSpinBox(self.frame)
+        self.Rotation_2.setObjectName(u"Rotation_2")
+        sizePolicy.setHeightForWidth(self.Rotation_2.sizePolicy().hasHeightForWidth())
+        self.Rotation_2.setSizePolicy(sizePolicy)
+
+        self.gridLayout_2.addWidget(self.Rotation_2, 3, 1, 1, 1)
+
+        self.label_14 = QLabel(self.frame)
+        self.label_14.setObjectName(u"label_14")
+
+        self.gridLayout_2.addWidget(self.label_14, 1, 0, 1, 1)
 
         self.Height_2 = QDoubleSpinBox(self.frame)
         self.Height_2.setObjectName(u"Height_2")
         sizePolicy.setHeightForWidth(self.Height_2.sizePolicy().hasHeightForWidth())
         self.Height_2.setSizePolicy(sizePolicy)
 
-        self.gridLayout_2.addWidget(self.Height_2, 1, 1, 1, 1)
+        self.gridLayout_2.addWidget(self.Height_2, 2, 1, 1, 1)
 
         self.label_15 = QLabel(self.frame)
         self.label_15.setObjectName(u"label_15")
 
-        self.gridLayout_2.addWidget(self.label_15, 2, 0, 1, 1)
+        self.gridLayout_2.addWidget(self.label_15, 3, 0, 1, 1)
 
-        self.label_14 = QLabel(self.frame)
-        self.label_14.setObjectName(u"label_14")
+        self.label_16 = QLabel(self.frame)
+        self.label_16.setObjectName(u"label_16")
 
-        self.gridLayout_2.addWidget(self.label_14, 0, 0, 1, 1)
+        self.gridLayout_2.addWidget(self.label_16, 0, 0, 1, 1)
+
+        self.Shape = QComboBox(self.frame)
+        self.Shape.setObjectName(u"Shape")
+
+        self.gridLayout_2.addWidget(self.Shape, 0, 1, 1, 1)
 
 
         self.verticalLayout_4.addLayout(self.gridLayout_2)
@@ -163,8 +173,9 @@ class Ui_Light(object):
         Light.setWindowTitle(QCoreApplication.translate("Light", u"Light", None))
         self.label_2.setText(QCoreApplication.translate("Light", u"Brush Settings:", None))
         self.label_11.setText(QCoreApplication.translate("Light", u"Height:", None))
-        self.label_15.setText(QCoreApplication.translate("Light", u"Rotation:", None))
         self.label_14.setText(QCoreApplication.translate("Light", u"Width:", None))
+        self.label_15.setText(QCoreApplication.translate("Light", u"Rotation:", None))
+        self.label_16.setText(QCoreApplication.translate("Light", u"Shape:", None))
         self.DrawOnMoved.setText(QCoreApplication.translate("Light", u"Draw on Moved Light", None))
         self.label.setText(QCoreApplication.translate("Light", u"Light Image Settings:", None))
         self.label_12.setText(QCoreApplication.translate("Light", u"Angle:", None))

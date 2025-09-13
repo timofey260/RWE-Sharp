@@ -17,6 +17,8 @@ class LightUI(UI):
         self.editor: LightEditor = mod.lighteditor
         self.editor.lightangle.link_doublespinbox(self.ui.Angle)
         self.editor.lightflatness.link_spinbox(self.ui.Flatness)
+        for k, v in self.editor.brushimages.items():
+            self.ui.Shape.addItem(v, k, userData=v)
 
 
 class LightViewUI(ViewUI):

@@ -5,7 +5,7 @@ from RWESharp.Core import CELLSIZE, ofsleft, ofstop, PATH_DRIZZLE_CAST, CONSTS
 from RWESharp.Configurable import PenConfigurable, FloatConfigurable, IntConfigurable
 from BaseMod.light.lightHistory import LightPosChanged, LightImageChanged
 from PySide6.QtCore import QPointF, QRectF, Qt, QSize, QPoint
-from PySide6.QtGui import QPainter, QPen, QPixmap, QMoveEvent, QImage, QColor
+from PySide6.QtGui import QPainter, QPen, QPixmap, QMoveEvent, QImage, QTransform
 import os
 
 
@@ -25,14 +25,19 @@ class LightEditor(Editor):
         self.lightangle.valueChanged.connect(self.update_light_configurables)
         self.lightflatness.valueChanged.connect(self.update_light_configurables)
         self.updatingconfigurables = False
-        self.brushimages = []
-        for i in CONSTS.get("shadowimages", []):
-            path = os.path.join(PATH_DRIZZLE_CAST, i)
+        self.brushimages = {}
+        for k, v in CONSTS.get("shadowimages", {}).items():
+            path = os.path.join(PATH_DRIZZLE_CAST, v)
             if not os.path.exists(path):
                 continue
-            self.brushimages.append(QPixmap(path))
-        self.brush.setPixmap(self.brushimages[0])
+            self.brushimages[k] = QPixmap(path)
+        self.brush.setPixmap(list(self.brushimages.values())[0])
         self.oldimage = QImage(1, 1, QImage.Format.Format_Mono)
+
+        t = QTransform()
+        self.transform = t.rotate(45)
+        self.brush.renderedtexture.setTransform(self.transform)
+        self.painter.setTransform(self.transform)
 
     def update_light_configurables(self):
         if self.updatingconfigurables:
@@ -76,7 +81,7 @@ class LightEditor(Editor):
         newpos = self.editor_pos + QPoint(ofsleft, ofstop) * CELLSIZE
         self.brush.setPos(self.editor_pos)
         if self.mouse_right or self.mouse_left:
-            self.painter.drawPixmap(newpos, self.brushimages[0])
+            self.painter.drawPixmap(newpos, list(self.brushimages.values())[0])
             self.viewport.modulenames["light"].update_images()
             # self.viewport.modulenames["light"].lightimage.redraw()
             # self.viewport.modulenames["light"].lightimagestatic.redraw()
@@ -113,6 +118,8 @@ class LightEditor(Editor):
         self.level.add_history(LightPosChanged, angle, flatness)
 
     def tool_specific_press(self, shadow=True):
+        self.painter.setWorldTransform(self.transform)
+        #self.painter.setTransform(self.brush.renderedtexture.transform().inverted()[0])
         self.oldimage = self.level.l_light.image.copy()
         if shadow:
             self.painter.setCompositionMode(QPainter.CompositionMode.CompositionMode_SourceOver)

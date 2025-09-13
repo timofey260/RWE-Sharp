@@ -54,6 +54,8 @@ class BaseModConfig:
         self.funny = BoolConfigurable(mod, "basemod.funny", True, "Adds funny")
         self.more_funny = BoolConfigurable(mod, "basemod.morefunny", False, "Adds more funny")
 
+        self.recentfiles = StringConfigurable(mod, "basemod.recentfiles", "", "Recently Opened Level")
+
         self.windowstate = StringConfigurable(mod, "basemod.windowstate", b"", "Main window state")
         mod.manager.window.restoreState(self.windowstate.value)
         self.windowgeo = StringConfigurable(mod, "basemod.windowgeo", b"", "Main window state")

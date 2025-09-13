@@ -39,7 +39,7 @@
 			"18": [2, 4],
 			"19": [3, 3],
 			"20": [2, 3],
-			"21": [1, 4],
+			"21": [1, 4]
 		}
 		// 4 and 11 should be redone
 		// 1 and 2 are beams and should be hidden as well as 5, 6, 7
@@ -107,37 +107,34 @@
 
 	},
     // images for light editor brushes
-    "shadowimages": [
-          "Internal_244_bigSignGradient1.png",
-          "Drought_393403_squareLightEmpty.png",
-          "Internal_265_bigCircle.png",
-          "Drought_393408_discLightEmpty.png",
-          "Internal_266_leaves.png",
-          "Internal_267_oilyLight.png",
-          "Internal_268_directionalLight.png",
-          "Internal_269_blobLight1.png",
-          "Internal_270_blobLight2.png",
-          "Internal_271_wormsLight.png",
-          "Internal_272_crackLight.png",
-          "Internal_273_squareishLight.png",
-          "Internal_274_holeLight.png",
-          "Internal_275_roundedRectLight.png",
-          "Drought_393402_roundedRectLightEmpty.png",
-
-          "Drought_393243_DR3DestLight.png",
-          "Drought_393244_DR2DestLight.png",
-          "Drought_393245_DR1DestLight.png",
-
-          "Drought_393401_pentagonLight.png",
-          "Drought_393400_pentagonLightEmpty.png",
-          "Drought_393404_triangleLight.png",
-          "Drought_393405_triangleLightEmpty.png",
-          "Drought_393406_curvedTriangleLight.png",
-          "Drought_393407_curvedTriangleLightEmpty.png",
-          "Drought_393409_hexagonLight.png",
-          "Drought_393410_hexagonLightEmpty.png",
-          "Drought_393411_octagonLight.png",
-          "Drought_393412_octagonLightEmpty.png"
-
-      ]
+    "shadowimages": {
+      "Square": "Internal_244_bigSignGradient1.png",
+      "Hollow Square": "Drought_393403_squareLightEmpty.png",
+      "Circle": "Internal_265_bigCircle.png",
+      "Hollow Circle": "Drought_393408_discLightEmpty.png",
+      "Leaves": "Internal_266_leaves.png",
+      "Oily": "Internal_267_oilyLight.png",
+      "Directional": "Internal_268_directionalLight.png",
+      "Blob 1": "Internal_269_blobLight1.png",
+      "Blob 2": "Internal_270_blobLight2.png",
+      "Worms": "Internal_271_wormsLight.png",
+      "Crack": "Internal_272_crackLight.png",
+      "Squareish": "Internal_273_squareishLight.png",
+      "Hole": "Internal_274_holeLight.png",
+      "Rounded Rect": "Internal_275_roundedRectLight.png",
+      "Rounded Rect Hollow": "Drought_393402_roundedRectLightEmpty.png",
+      "RD3 Dest": "Drought_393243_DR3DestLight.png",
+      "RD2 Dest": "Drought_393244_DR2DestLight.png",
+      "RD1 Dest": "Drought_393245_DR1DestLight.png",
+      "Pentagon": "Drought_393401_pentagonLight.png",
+      "Pentagon Hollow": "Drought_393400_pentagonLightEmpty.png",
+      "Triangle": "Drought_393404_triangleLight.png",
+      "Triangle Empty": "Drought_393405_triangleLightEmpty.png",
+      "Curved Triangle": "Drought_393406_curvedTriangleLight.png",
+      "Curved Triangle Hollow": "Drought_393407_curvedTriangleLightEmpty.png",
+      "Hexagon": "Drought_393409_hexagonLight.png",
+      "Hexagon Hollow": "Drought_393410_hexagonLightEmpty.png",
+      "Octagon": "Drought_393411_octagonLight.png",
+      "Octagon Hollow": "Drought_393412_octagonLightEmpty.png"
+    }
 }

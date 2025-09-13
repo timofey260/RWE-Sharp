@@ -1,8 +1,7 @@
 from core.Renderable.Renderable import Renderable
 from PySide6.QtCore import Qt, QPointF
 from PySide6.QtWidgets import QGraphicsPolygonItem
-from PySide6.QtGui import QColor, QPen, QBrush, QPolygonF
-from widgets import Viewport
+from PySide6.QtGui import QPen, QBrush, QPolygonF
 
 
 class RenderPoly(Renderable):

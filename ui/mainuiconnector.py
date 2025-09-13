@@ -178,11 +178,11 @@ class MainWindow(QMainWindow):
         name, _ = QFileDialog.getOpenFileName(None, "Open Level", PATH_LEVELS, "Level files (*.txt *.wep *.rwl)")
         if name == "":
             return
-        self.manager.change_level(name)
+        self.manager.open_level_from_path(name)
 
     @Slot()
     def new_file(self) -> None:
-        self.manager.change_level(None)
+        self.manager.open_level_from_path(None)
 
     @Slot()
     def close_tab(self, index):
