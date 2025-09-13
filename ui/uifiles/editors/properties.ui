@@ -232,12 +232,12 @@
            </item>
            <item>
             <property name="text">
-             <string>In front</string>
+             <string>Behind</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>Behind</string>
+             <string>In front</string>
             </property>
            </item>
           </widget>

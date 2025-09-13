@@ -20,6 +20,9 @@ class PropertiesUI(UI):
         self.editor.right.link_spinbox(self.ui.BorderRight)
         self.editor.bottom.link_spinbox(self.ui.BorderBottom)
 
+        self.editor.waterheight.link_spinbox(self.ui.WaterHeight)
+        self.editor.watertype.link_combobox(self.ui.WaterState)
+
         self.editor.seed.link_spinbox(self.ui.TileSeedSpin, True)
         self.ui.TileSeedRandom.clicked.connect(lambda: self.editor.seed.update_value_default(random.randint(0, 999)))
         self.ui.Reset.clicked.connect(self.editor.reposition)

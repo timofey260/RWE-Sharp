@@ -1,15 +1,20 @@
 from RWESharp.Modify import Editor
-from RWESharp.Renderable import Handle, RenderRect, GridHandleRectangle, HandleRectangle
+from RWESharp.Renderable import Handle, GridHandleRectangle
 from RWESharp.Configurable import IntConfigurable
-from BaseMod.properties.PropertiesHistory import BorderChange, TileSeedChange
-from PySide6.QtCore import QPoint, QRect, QRectF
+from RWESharp.Core import CELLSIZE, wladd
+from BaseMod.properties.PropertiesHistory import BorderChange, TileSeedChange, WaterChange
+from PySide6.QtCore import QPoint, QRect, QRectF, Qt
+from PySide6.QtGui import QPen, QColor
+
 
 class PropertiesEditor(Editor):
     def __init__(self, mod):
         super().__init__(mod)
         self.handlerect = GridHandleRectangle(self, QRect(0, 0, 5, 5))
+        self.handlerect.visrect.setPen(QPen(QColor(0, 0, 255), 10, Qt.PenStyle.DashLine))
         self.handlerect.recth.rectChanged.connect(self.extratiles_changed)
         self.borderhandlerect = GridHandleRectangle(self, QRect(0, 0, 40, 40))
+        self.borderhandlerect.visrect.setPen(QPen(QColor(255, 0, 0), 10, Qt.PenStyle.DashLine))
         self.borderhandlerect.recth.rectChanged.connect(self.border_changed)
 
         self.xofs = IntConfigurable(None, "", 0, "X offset")  # none because we don't want to save this
@@ -26,9 +31,18 @@ class PropertiesEditor(Editor):
         self.right.valueChanged.connect(self.change_extratiles_manually)
         self.bottom.valueChanged.connect(self.change_extratiles_manually)
 
+        self.waterlevelhandle = Handle(self)
+        self.waterlevelhandle.mouseReleased.connect(self.waterhandle_moved)
+
+        self.waterheight = IntConfigurable(None, "", 0, "Water Height")
+        self.watertype = IntConfigurable(None, "", 0, "Water Type")
+        self.waterheight.valueChanged.connect(self.water_changed)
+        self.watertype.valueChanged.connect(self.water_changed)
+
         self.seed = IntConfigurable(None, "", 0, "Tile Seed")
         self.seed.valueChanged.connect(self.seed_changed)
         self.changing_extra = False
+        self.changing_water = False
 
     def init_scene_items(self, viewport):
         super().init_scene_items(viewport)
@@ -38,6 +52,21 @@ class PropertiesEditor(Editor):
         if self.level.l_info.tile_seed == seed:
             return
         self.level.add_history(TileSeedChange, seed)
+
+    def waterhandle_moved(self):
+        if self.changing_water:
+            return
+        newlevel = int(self.level.level_height - (self.waterlevelhandle.offset.y() / CELLSIZE) - wladd)
+        self.waterheight.update_value(newlevel)
+
+    def water_changed(self):
+        if self.changing_water:
+            return
+        state = max(0, self.watertype.value - 1)
+        level = -1 if self.watertype.value == 0 else max(0, self.waterheight.value)
+        if state == self.level.l_info.water_in_front and level == self.level.l_info.water_level:
+            return
+        self.level.add_history(WaterChange, level, state)
 
     def change_extratiles_manually(self):
         if self.changing_extra:
@@ -78,6 +107,14 @@ class PropertiesEditor(Editor):
 
     def update_params(self):
         self.seed.update_value_default(self.level.l_info.tile_seed)
+        self.changing_water = True
+        self.waterheight.update_value_default(self.level.l_info.water_level)
+        self.watertype.update_value_default(0 if self.level.l_info.water_level == -1 else self.level.l_info.water_in_front + 1)
+        self.waterlevelhandle.handle.setEnabled(self.watertype.value > 0)
+        self.waterlevelhandle.setOpacity(1 if self.watertype.value > 0 else 0)
+        top = self.level.level_height * CELLSIZE - (wladd + self.level.l_info.water_level) * CELLSIZE
+        self.waterlevelhandle.setPos(QPoint(0, top))
+        self.changing_water = False
 
     def reposition_extra(self):
         width = self.level.level_width

@@ -157,8 +157,13 @@ class BaseMod(Mod):
                 continue
             self.recent.append(i)
             openlevel = QAction(i, parent=self.manager.window.ui.menuRecent)
-            openlevel.triggered.connect(lambda: self.manager.open_level_from_path(i))
+            openlevel.triggered.connect(self.open_recent(i))
             self.manager.window.ui.menuRecent.addAction(openlevel)
+
+    def open_recent(self, i):
+        def opn():
+            self.manager.open_level_from_path(i)
+        return opn
 
     def sexthing(self):
         self.vid = FunnyVideo(self.manager, False, os.path.join(PATH_FILES_VIDEOS, "sex.mp4").replace("\\", "/"), "SEX")

@@ -32,6 +32,25 @@ class TileSeedChange(HistoryElement):
         self.level.l_info.tile_seed = self.after
         self.manager.basemod.propertieseditor.update_params()
 
+class WaterChange(HistoryElement):
+    def __init__(self, history, level: int, infront: int):
+        super().__init__(history)
+        self.before = [self.level.l_info.water_level, self.level.l_info.water_in_front]
+        self.after = [level, infront]
+        self.redo_changes()
+
+    def undo_changes(self):
+        self.level.l_info.water_level = self.before[0]
+        self.level.l_info.water_in_front = self.before[1]
+        self.manager.basemod.propertieseditor.update_params()
+        self.level.viewport.modulenames["grid"].update_water()
+
+    def redo_changes(self):
+        self.level.l_info.water_level = self.after[0]
+        self.level.l_info.water_in_front = self.after[1]
+        self.manager.basemod.propertieseditor.update_params()
+        self.level.viewport.modulenames["grid"].update_water()
+
 
 class LevelResizedProperties(HistoryElement):
     def undo_changes(self):

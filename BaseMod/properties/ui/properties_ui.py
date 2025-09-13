@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'properties.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.9.1
+## Created by: Qt User Interface Compiler version 6.9.2
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -271,8 +271,8 @@ class Ui_Properties(object):
         self.label_4.setText(QCoreApplication.translate("Properties", u"Right:", None))
         self.ToolsPropertiesLabel_6.setText(QCoreApplication.translate("Properties", u"Water Properties:", None))
         self.WaterState.setItemText(0, QCoreApplication.translate("Properties", u"No water", None))
-        self.WaterState.setItemText(1, QCoreApplication.translate("Properties", u"In front", None))
-        self.WaterState.setItemText(2, QCoreApplication.translate("Properties", u"Behind", None))
+        self.WaterState.setItemText(1, QCoreApplication.translate("Properties", u"Behind", None))
+        self.WaterState.setItemText(2, QCoreApplication.translate("Properties", u"In front", None))
 
         self.ToolsPropertiesLabel_5.setText(QCoreApplication.translate("Properties", u"Water height:", None))
         self.ToolsPropertiesLabel_9.setText(QCoreApplication.translate("Properties", u"Tile seed:", None))

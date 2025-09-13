@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'grid.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.7.2
+## Created by: Qt User Interface Compiler version 6.9.2
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -15,25 +15,25 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QCheckBox, QGridLayout, QLabel,
-    QScrollArea, QSizePolicy, QSpacerItem, QSpinBox,
-    QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QApplication, QCheckBox, QGridLayout, QHBoxLayout,
+    QLabel, QScrollArea, QSizePolicy, QSpacerItem,
+    QSpinBox, QVBoxLayout, QWidget)
 
-from RWESharpWidgets import PenPicker
+from RWESharpWidgets import (ColorPicker, PenPicker)
 
-class Ui_GridView(object):
-    def setupUi(self, GridView):
-        if not GridView.objectName():
-            GridView.setObjectName(u"GridView")
-        GridView.resize(310, 430)
-        self.verticalLayout = QVBoxLayout(GridView)
+class Ui_MiscView(object):
+    def setupUi(self, MiscView):
+        if not MiscView.objectName():
+            MiscView.setObjectName(u"MiscView")
+        MiscView.resize(389, 478)
+        self.verticalLayout = QVBoxLayout(MiscView)
         self.verticalLayout.setObjectName(u"verticalLayout")
-        self.scrollArea = QScrollArea(GridView)
+        self.scrollArea = QScrollArea(MiscView)
         self.scrollArea.setObjectName(u"scrollArea")
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 290, 410))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 373, 462))
         self.verticalLayout_2 = QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.ShowGrid = QCheckBox(self.scrollAreaWidgetContents)
@@ -156,6 +156,22 @@ class Ui_GridView(object):
 
         self.verticalLayout_2.addWidget(self.BorderColor)
 
+        self.horizontalLayout = QHBoxLayout()
+        self.horizontalLayout.setObjectName(u"horizontalLayout")
+        self.Water = QCheckBox(self.scrollAreaWidgetContents)
+        self.Water.setObjectName(u"Water")
+        self.Water.setChecked(True)
+
+        self.horizontalLayout.addWidget(self.Water)
+
+        self.WaterColor = ColorPicker(self.scrollAreaWidgetContents)
+        self.WaterColor.setObjectName(u"WaterColor")
+
+        self.horizontalLayout.addWidget(self.WaterColor)
+
+
+        self.verticalLayout_2.addLayout(self.horizontalLayout)
+
         self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
         self.verticalLayout_2.addItem(self.verticalSpacer)
@@ -165,26 +181,29 @@ class Ui_GridView(object):
         self.verticalLayout.addWidget(self.scrollArea)
 
 
-        self.retranslateUi(GridView)
+        self.retranslateUi(MiscView)
         self.ShowGrid.toggled.connect(self.ScaleX.setEnabled)
         self.ShowGrid.toggled.connect(self.ScaleY.setEnabled)
         self.ShowGrid.toggled.connect(self.OffsetX.setEnabled)
         self.ShowGrid.toggled.connect(self.OffsetY.setEnabled)
+        self.Water.toggled.connect(self.WaterColor.setEnabled)
 
-        QMetaObject.connectSlotsByName(GridView)
+        QMetaObject.connectSlotsByName(MiscView)
     # setupUi
 
-    def retranslateUi(self, GridView):
-        GridView.setWindowTitle(QCoreApplication.translate("GridView", u"Grid", None))
-        self.ShowGrid.setText(QCoreApplication.translate("GridView", u"Show grid", None))
-        self.label_5.setText(QCoreApplication.translate("GridView", u"X:", None))
-        self.label_3.setText(QCoreApplication.translate("GridView", u"X:", None))
-        self.label_6.setText(QCoreApplication.translate("GridView", u"Y:", None))
-        self.label_2.setText(QCoreApplication.translate("GridView", u"Scale", None))
-        self.label.setText(QCoreApplication.translate("GridView", u"Offset", None))
-        self.label_4.setText(QCoreApplication.translate("GridView", u"Y:", None))
-        self.label_7.setText(QCoreApplication.translate("GridView", u"Grid Style:", None))
-        self.ShowBorder.setText(QCoreApplication.translate("GridView", u"Border", None))
-        self.label_8.setText(QCoreApplication.translate("GridView", u"Border Style:", None))
+    def retranslateUi(self, MiscView):
+        MiscView.setWindowTitle(QCoreApplication.translate("MiscView", u"Misc", None))
+        self.ShowGrid.setText(QCoreApplication.translate("MiscView", u"Show grid", None))
+        self.label_5.setText(QCoreApplication.translate("MiscView", u"X:", None))
+        self.label_3.setText(QCoreApplication.translate("MiscView", u"X:", None))
+        self.label_6.setText(QCoreApplication.translate("MiscView", u"Y:", None))
+        self.label_2.setText(QCoreApplication.translate("MiscView", u"Scale:", None))
+        self.label.setText(QCoreApplication.translate("MiscView", u"Offset:", None))
+        self.label_4.setText(QCoreApplication.translate("MiscView", u"Y:", None))
+        self.label_7.setText(QCoreApplication.translate("MiscView", u"Grid Style:", None))
+        self.ShowBorder.setText(QCoreApplication.translate("MiscView", u"Border", None))
+        self.label_8.setText(QCoreApplication.translate("MiscView", u"Border Style:", None))
+        self.Water.setText(QCoreApplication.translate("MiscView", u"Water", None))
+        self.WaterColor.setText("")
     # retranslateUi
 

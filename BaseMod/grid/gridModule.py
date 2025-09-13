@@ -3,7 +3,7 @@ from PySide6.QtCore import Slot, QRect, Qt, QPoint
 from PySide6.QtGui import QBrush, QColor, QPen, QPixmap
 from RWESharp.Renderable import RenderRect
 from RWESharp.Modify import Module
-from RWESharp.Core import CELLSIZE, PATH_FILES_IMAGES
+from RWESharp.Core import CELLSIZE, PATH_FILES_IMAGES, wladd
 import os
 
 
@@ -18,6 +18,10 @@ class GridModule(Module):
         self.border = RenderRect(self, 0,
                                  QRect(QPoint(0, 0), QPoint(1, 1)),
                                  self.ui.borderpen.value)
+        self.water = RenderRect(self, 80, QRect(0, 0, 100, 100), QPen(Qt.PenStyle.NoPen), self.ui.watercolor.value)
+
+        self.ui.watercolor.valueChanged.connect(self.water.drawrect.setBrush)
+        self.ui.enablewater.valueChanged.connect(self.update_water)
         self.ui.enablegrid.valueChanged.connect(self.check_change)
         #self.ui.gridopacity.valueChanged.connect(self.check_change)
         self.ui.enableborder.valueChanged.connect(self.change_border)
@@ -45,6 +49,7 @@ class GridModule(Module):
         self.viewport.setBackgroundBrush(self.wh if self.ui.more_funny.value else QBrush())
         super().init_scene_items(viewport)
         self.level_resized(self.level.level_rect)
+        self.update_water()
 
     def level_resized(self, rect):
         self.rect.setRect(QRect(QPoint(0, 0), CELLSIZE * self.level.level_size))
@@ -53,3 +58,10 @@ class GridModule(Module):
         bottomright = self.level.level_size - QPoint(borders[2], borders[3])
         self.border.setRect(QRect(topleft * CELLSIZE, bottomright * CELLSIZE))
         super().level_resized(rect)
+        self.update_water()
+
+    def update_water(self):
+        self.water.setOpacity(0 if self.level.l_info.water_level == -1 or not self.ui.enablewater.value else 1)
+        top = self.level.level_height * CELLSIZE - (wladd + self.level.l_info.water_level) * CELLSIZE
+        waterrect = QRect.span(QPoint(0, top), QPoint(self.level.level_width, self.level.level_height) * CELLSIZE)
+        self.water.setRect(waterrect)

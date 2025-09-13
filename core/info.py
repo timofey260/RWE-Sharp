@@ -93,6 +93,11 @@ ofstop = 15
 Amount in blocks to add to light image to left
 """
 
+wladd = 5.7
+"""
+Addition to water level in blocks
+"""
+
 LOG = open(os.path.join(PATH, "loadLog.txt"), "w")
 
 os.makedirs(PATH_MODS, exist_ok=True)
