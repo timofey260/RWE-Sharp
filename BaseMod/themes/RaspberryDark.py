@@ -1,7 +1,7 @@
 from PySide6.QtGui import QColor
 from RWESharp.Modify import Theme
 from RWESharp.Configurable import IntConfigurable
-from RWESharp.Core import PATH_BASEMOD
+from RWESharp.Core import PATH_FILES
 import os
 
 from core.configTypes.QtTypes import ColorConfigurable
@@ -116,7 +116,7 @@ class RaspberryDark(Theme):
         self.mod.manager.application.setStyleSheet(self.get_style())
 
     def get_style(self):
-        with open(os.path.join(PATH_BASEMOD, "themes", "qssfiles", self.themefiles[self.styleindex.value]) + ".txt") as f:
+        with open(os.path.join(PATH_FILES, "themes", "qssfiles", self.themefiles[self.styleindex.value]) + ".txt") as f:
             newtext = f.read()
             self.currentstyle = newtext
             for i in self.colors:
@@ -135,4 +135,4 @@ class RaspberryDark(Theme):
         self.mod.manager.application.setStyleSheet("")
 
     def palette_change(self):
-        self.open_palette(os.path.join(PATH_BASEMOD, "themes", "palettes", self.palettefiles[self.stylepalette.value]) + ".txt")
+        self.open_palette(os.path.join(PATH_FILES, "themes", "palettes", self.palettefiles[self.stylepalette.value]) + ".txt")

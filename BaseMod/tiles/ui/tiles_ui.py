@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'tiles.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.9.1
+## Created by: Qt User Interface Compiler version 6.9.2
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -37,6 +37,21 @@ class Ui_Tiles(object):
         self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 375, 696))
         self.verticalLayout_2 = QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
+        self.horizontalLayout_2 = QHBoxLayout()
+        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
+        self.label_10 = QLabel(self.scrollAreaWidgetContents)
+        self.label_10.setObjectName(u"label_10")
+
+        self.horizontalLayout_2.addWidget(self.label_10)
+
+        self.comboBox = QComboBox(self.scrollAreaWidgetContents)
+        self.comboBox.setObjectName(u"comboBox")
+
+        self.horizontalLayout_2.addWidget(self.comboBox)
+
+
+        self.verticalLayout_2.addLayout(self.horizontalLayout_2)
+
         self.label_3 = QLabel(self.scrollAreaWidgetContents)
         self.label_3.setObjectName(u"label_3")
 
@@ -237,16 +252,6 @@ class Ui_Tiles(object):
 
         self.verticalLayout_2.addWidget(self.RenderOption)
 
-        self.PalleteSelect = QPushButton(self.scrollAreaWidgetContents)
-        self.PalleteSelect.setObjectName(u"PalleteSelect")
-        sizePolicy2 = QSizePolicy(QSizePolicy.Policy.Maximum, QSizePolicy.Policy.Fixed)
-        sizePolicy2.setHorizontalStretch(0)
-        sizePolicy2.setVerticalStretch(0)
-        sizePolicy2.setHeightForWidth(self.PalleteSelect.sizePolicy().hasHeightForWidth())
-        self.PalleteSelect.setSizePolicy(sizePolicy2)
-
-        self.verticalLayout_2.addWidget(self.PalleteSelect)
-
         self.label_5 = QLabel(self.scrollAreaWidgetContents)
         self.label_5.setObjectName(u"label_5")
 
@@ -270,6 +275,7 @@ class Ui_Tiles(object):
 
     def retranslateUi(self, Tiles):
         Tiles.setWindowTitle(QCoreApplication.translate("Tiles", u"Tiles", None))
+        self.label_10.setText(QCoreApplication.translate("Tiles", u"Default Material:", None))
         self.label_3.setText(QCoreApplication.translate("Tiles", u"Place:", None))
         self.DeleteM1.setText(QCoreApplication.translate("Tiles", u"Delete", None))
         self.label_4.setText(QCoreApplication.translate("Tiles", u"Brush size:", None))
@@ -318,7 +324,6 @@ class Ui_Tiles(object):
         self.RenderOption.setItemText(6, QCoreApplication.translate("Tiles", u"Rendered (rain)", None))
         self.RenderOption.setItemText(7, QCoreApplication.translate("Tiles", u"Sync", None))
 
-        self.PalleteSelect.setText(QCoreApplication.translate("Tiles", u"Select Palette", None))
         self.label_5.setText(QCoreApplication.translate("Tiles", u"Recent Tiles:", None))
         ___qtreewidgetitem = self.RecentTiles.headerItem()
         ___qtreewidgetitem.setText(1, QCoreApplication.translate("Tiles", u"Category", None));

@@ -62,6 +62,7 @@ class GridModule(Module):
 
     def update_water(self):
         self.water.setOpacity(0 if self.level.l_info.water_level == -1 or not self.ui.enablewater.value else 1)
+        self.water.drawrect.setZValue(-80 if self.level.l_info.water_in_front == 1 else -180)
         top = self.level.level_height * CELLSIZE - (wladd + self.level.l_info.water_level) * CELLSIZE
         waterrect = QRect.span(QPoint(0, top), QPoint(self.level.level_width, self.level.level_height) * CELLSIZE)
         self.water.setRect(waterrect)

@@ -1,7 +1,7 @@
 import math
 
 from RWESharp.Modify import Editor
-from RWESharp.Core import CELLSIZE, SPRITESIZE
+from RWESharp.Core import CELLSIZE
 from RWESharp.Configurable import ColorConfigurable
 from RWESharp.Loaders import Prop
 from RWESharp.Core import lingoIO
@@ -216,6 +216,7 @@ class PropEditor(Editor):
         w, h, = self.prop.size.width() / 2, self.prop.size.height() / 2
         self.transform = [QPointF(-w, -h), QPointF(w, -h), QPointF(w, h), QPointF(-w, h)]
         self.placingprop.move_event()
+        self.create_rope_simulation()
 
     @property
     def transform(self) -> [QPointF, QPointF, QPointF, QPointF]:

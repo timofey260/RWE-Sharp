@@ -3,7 +3,7 @@ from core.Loaders.Tile import Tile, TileCategory, Tiles
 from core.Loaders.TileLoader import init_solve, colortable
 from core.configTypes.BaseTypes import IntConfigurable
 from core.utils import log, color_lerp
-from core.info import PATH_DRIZZLE, PATH_FILES, SPRITESIZE, PATH_DRIZZLE_PROPS, PATH_FILES_CACHE, CELLSIZE
+from core.info import PATH_FILES, PATH_DRIZZLE_PROPS, PATH_FILES_CACHE, CELLSIZE, PATH_DRIZZLE_CAST
 from core.lingoIO import fromarr, tojson
 from ui.splashuiconnector import SplashDialog
 from PySide6.QtCore import QThread, Qt, QRect, QSize, QPoint
@@ -29,10 +29,24 @@ def load_prop(item: dict, colr, category, catnum, indx):
                     colr, QPoint(catnum, indx), item.get("tags", []), err,
                     category, item.get("notes", []), images[0].size(), item.get("layerExceptions", []),
                     rope=item.get("tp") == "rope", long=item.get("tp") == "long")
-    img = QImage(os.path.join(PATH_DRIZZLE_PROPS, f"{path}.png"))
     standard = item.get("tp", "standard") in ["standard", "variedStandard"]
     soft = item.get("tp", "soft") in ["soft", "variedSoft"]
     rope_long = item.get("tp", "standard") in ["rope", "long"]
+
+    imagepath = os.path.join(PATH_DRIZZLE_PROPS, f"{path}.png")
+    if not os.path.exists(imagepath) and rope_long:
+        for i in os.listdir(PATH_DRIZZLE_PROPS):
+            if i.lower() == f"{path}.png".lower():
+                imagepath = os.path.join(PATH_DRIZZLE_PROPS, i)
+                break
+    if not os.path.exists(imagepath) and rope_long:
+        for i in os.listdir(PATH_DRIZZLE_CAST):
+            if i.endswith(f"{path}.png"):
+                imagepath = os.path.join(PATH_DRIZZLE_CAST, i)
+                break
+    if not os.path.exists(imagepath):
+        imagepath = os.path.join(PATH_FILES, "images", "notfound.png")
+    img = QImage(imagepath)
 
     ws, hs = img.width(), img.height()
     w, h = ws, hs

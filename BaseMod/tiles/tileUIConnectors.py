@@ -201,7 +201,6 @@ class TileUI(UI):
         self.ui.CatPrev.clicked.connect(self.explorer.cat_prev)
         self.ui.TileNext.clicked.connect(self.explorer.item_next)
         self.ui.TilePrev.clicked.connect(self.explorer.item_prev)
-        self.ui.PalleteSelect.clicked.connect(self.change_palette)
         self.ui.FindTE.clicked.connect(self.explorer.focussearch)
         mod.bmconfig.icon_color.valueChanged.connect(self.change_color)
         self.change_color(mod.bmconfig.icon_color.value)
