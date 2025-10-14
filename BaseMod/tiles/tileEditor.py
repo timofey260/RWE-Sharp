@@ -171,6 +171,7 @@ class TileEditor(Editor):
         super().init_scene_items(viewport)
         self.module = viewport.modulenames["tiles"]
         self.basemod.tileview.drawoption.valueChanged.connect(self.redraw_tile)
+        self.basemod.tileui.set_default_material()
         self.redraw_tile()
 
     def remove_items_from_scene(self, viewport):

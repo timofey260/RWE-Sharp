@@ -194,3 +194,18 @@ class LevelResizedTiles(HistoryElement):
         if thing is None:
             return None
         return thing.copy()
+
+class DefaultMaterialChange(HistoryElement):
+    def __init__(self, history, material: str):
+        super().__init__(history)
+        self.before = self.level.l_tiles.default_material
+        self.after = material
+        self.redo_changes()
+
+    def undo_changes(self):
+        self.level.l_tiles.default_material = self.before
+        self.manager.basemod.tileui.set_default_material()
+
+    def redo_changes(self):
+        self.level.l_tiles.default_material = self.after
+        self.manager.basemod.tileui.set_default_material()

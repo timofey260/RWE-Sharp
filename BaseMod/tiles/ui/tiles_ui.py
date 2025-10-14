@@ -44,10 +44,10 @@ class Ui_Tiles(object):
 
         self.horizontalLayout_2.addWidget(self.label_10)
 
-        self.comboBox = QComboBox(self.scrollAreaWidgetContents)
-        self.comboBox.setObjectName(u"comboBox")
+        self.Materials = QComboBox(self.scrollAreaWidgetContents)
+        self.Materials.setObjectName(u"Materials")
 
-        self.horizontalLayout_2.addWidget(self.comboBox)
+        self.horizontalLayout_2.addWidget(self.Materials)
 
 
         self.verticalLayout_2.addLayout(self.horizontalLayout_2)

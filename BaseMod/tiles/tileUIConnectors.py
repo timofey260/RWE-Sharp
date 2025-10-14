@@ -6,6 +6,7 @@ from BaseMod.baseMod import BaseMod
 from BaseMod.tiles.ui.tiles_ui import Ui_Tiles
 from BaseMod.tiles.ui.tiles_vis_ui import Ui_TilesView
 from BaseMod.tiles.ui.tilesettings_ui import Ui_TileSettings
+from BaseMod.tiles.tileHistory import DefaultMaterialChange
 from BaseMod.geo.GeoConsts import *
 
 from RWESharp.Configurable import BoolConfigurable, IntConfigurable, StringConfigurable, FloatConfigurable, KeyConfigurable
@@ -205,6 +206,25 @@ class TileUI(UI):
         mod.bmconfig.icon_color.valueChanged.connect(self.change_color)
         self.change_color(mod.bmconfig.icon_color.value)
         self.ui.OpenExplorer.clicked.connect(self.open_explorer)
+
+        self.load_materials()
+        self.ui.Materials.currentTextChanged.connect(self.update_default_material)
+        self.can_update_default_material = True
+
+    def update_default_material(self, text):
+        if not self.can_update_default_material:
+            return
+        self.level.add_history(DefaultMaterialChange, text)
+
+    def load_materials(self):
+        self.ui.Materials.clear()
+        for i in self.editor.manager.tiles.find_category("materials").tiles:
+            self.ui.Materials.addItem(i.image, i.name)
+
+    def set_default_material(self):
+        self.can_update_default_material = False
+        self.ui.Materials.setCurrentText(self.level.l_tiles.default_material)
+        self.can_update_default_material = True
 
     def change_color(self, color: QColor):
         items = [IMG_PEN, IMG_BRUSH, IMG_LINE, IMG_RECT, IMG_RECT_HOLLOW, IMG_CIRCLE, IMG_CIRCLE_HOLLOW]
