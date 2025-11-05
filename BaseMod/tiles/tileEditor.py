@@ -1,16 +1,15 @@
 from __future__ import annotations
 
-import os
 from enum import Enum, auto
 from typing import TYPE_CHECKING
 
-from PySide6.QtGui import QMoveEvent, QImage, QMouseEvent, QColor
+from PySide6.QtGui import QMoveEvent, QMouseEvent, QColor
 from PySide6.QtCore import QRect, QPoint, QLine
 
-from RWESharp.Configurable import IntConfigurable, BoolConfigurable, StringConfigurable, EnumConfigurable
-from RWESharp.Core import CELLSIZE, PATH_FILES_IMAGES_PALETTES
+from RWESharp.Configurable import IntConfigurable, BoolConfigurable, EnumConfigurable
+from RWESharp.Core import CELLSIZE
 from RWESharp.Modify import Editor
-from RWESharp.Loaders import palette_to_colortable, Tile
+from RWESharp.Loaders import Tile
 from RWESharp.Renderable import RenderTile, RenderRect, RenderEllipse, RenderLine
 from RWESharp.Utils import fit_rect
 from BaseMod.tiles.tileExplorer import TileExplorer
@@ -42,11 +41,7 @@ class TileEditor(Editor):
         self.module = None
         self.show_collisions = BoolConfigurable(mod, "EDIT_tiles.show_collisions", True, "Show collisions")
         self.vis_layer = IntConfigurable(mod, "EDIT_tiles.layer", 1, "Layer to place tiles on")
-        self.palette_image = StringConfigurable(mod, "EDIT_tiles.palette",
-                                                os.path.join(PATH_FILES_IMAGES_PALETTES, "palette0.png"),
-                                                "Layer to place tiles on")
-        if not os.path.exists(self.palette_image.value):
-            self.palette_image.reset_value()
+
         self.strictmode = IntConfigurable(mod, "EDIT_tiles.strict", 0,
                                           "If mode is Strict, all tilebodies that refer to tilehead will be removed\n"
                                           "if mode is Full, all tilebodies in tilehead area will be removed\n"
