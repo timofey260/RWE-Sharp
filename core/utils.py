@@ -418,12 +418,6 @@ class Delegate(object):
             result = result if newresult is None else newresult
         return result
 
-class DeleClass:
-    def __init__(self, cls):
-        self.cls = cls
-
-    def __call__(self, *args, **kwargs):
-        self.cls(*args, **kwargs)
 
 def inject_method(func, newfunc, self):
     def a(*args, **kwargs):

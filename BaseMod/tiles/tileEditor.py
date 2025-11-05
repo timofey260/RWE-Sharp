@@ -40,7 +40,6 @@ class TileEditor(Editor):
         super().__init__(mod)
         mod: BaseMod
         self.module = None
-        self.previewoption = IntConfigurable(mod, "EDIT_tiles.previewMode", 7, "tile preview mode")
         self.show_collisions = BoolConfigurable(mod, "EDIT_tiles.show_collisions", True, "Show collisions")
         self.vis_layer = IntConfigurable(mod, "EDIT_tiles.layer", 1, "Layer to place tiles on")
         self.palette_image = StringConfigurable(mod, "EDIT_tiles.palette",
@@ -60,7 +59,6 @@ class TileEditor(Editor):
         self.force_geo = BoolConfigurable(mod, "EDIT_tiles.fg", False, "Force geometry")
         self.brushsize = IntConfigurable(mod, "EDIT_tiles.brushsize", 4, "Brush size")
 
-        self.colortable = palette_to_colortable(QImage(self.palette_image.value))
         self.explorer = TileExplorer(self, self.manager.window)
         self.tile: Tile | None = mod.manager.tiles.find_tile("Four Holes")
         self.tile_item = RenderTile(self, 0, self.layer)
@@ -79,9 +77,9 @@ class TileEditor(Editor):
         # self.tile_cols_item: QGraphicsPixmapItem | None = None
 
         self.show_collisions.valueChanged.connect(self.hide_collisions)
-        self.previewoption.valueChanged.connect(self.redraw_tile)
+        self.mod.tileview.drawoption.valueChanged.connect(self.redraw_tile)
+        self.mod.tileview.palettepath.valueChanged.connect(self.redraw_tile)
         self.vis_layer.valueChanged.connect(self.redraw_tile)
-        self.palette_image.valueChanged.connect(self.change_palette)
 
         self.lastpos = QPoint()
         self.lastclick = QPoint()
@@ -108,10 +106,6 @@ class TileEditor(Editor):
     def layer(self, value):
         self.vis_layer.update_value(value)
 
-    def change_palette(self):
-        self.colortable = palette_to_colortable(QImage(self.palette_image.value))
-        self.redraw_tile()
-
     def add_tile(self, tiles: list[Tile]):
         self.tile = tiles[0]
         self.redraw_tile()
@@ -120,17 +114,14 @@ class TileEditor(Editor):
         if self.tile is None or self.tile_item.renderedtexture is None:
             return
         self.tile_item.layer = self.layer
-        self.tile_item.set_tile(self.tile, self.colortable, self.tile_preview_option)
+        self.tile_item.set_tile(self.tile, self.mod.tileview.colortable, self.tile_preview_option)
 
     def hide_collisions(self, value):
         self.tile_item.colsimage_rendered.setOpacity(1 if value else 0)
 
     @property
     def tile_preview_option(self):
-        value = self.previewoption.value
-        if self.previewoption.value == 7:
-            value = self.basemod.tileview.drawoption.value
-        return value
+        return self.basemod.tileview.drawoption.value
 
     def mouse_move_event(self, event: QMoveEvent):
         if self.tile is None:

@@ -247,7 +247,6 @@ class Ui_Tiles(object):
         self.RenderOption.addItem("")
         self.RenderOption.addItem("")
         self.RenderOption.addItem("")
-        self.RenderOption.addItem("")
         self.RenderOption.setObjectName(u"RenderOption")
 
         self.verticalLayout_2.addWidget(self.RenderOption)
@@ -322,7 +321,6 @@ class Ui_Tiles(object):
         self.RenderOption.setItemText(4, QCoreApplication.translate("Tiles", u"Rendered (sun)", None))
         self.RenderOption.setItemText(5, QCoreApplication.translate("Tiles", u"Rendered (shaded)", None))
         self.RenderOption.setItemText(6, QCoreApplication.translate("Tiles", u"Rendered (rain)", None))
-        self.RenderOption.setItemText(7, QCoreApplication.translate("Tiles", u"Sync", None))
 
         self.label_5.setText(QCoreApplication.translate("Tiles", u"Recent Tiles:", None))
         ___qtreewidgetitem = self.RecentTiles.headerItem()

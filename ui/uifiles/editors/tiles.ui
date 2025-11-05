@@ -433,11 +433,6 @@
            <string>Rendered (rain)</string>
           </property>
          </item>
-         <item>
-          <property name="text">
-           <string>Sync</string>
-          </property>
-         </item>
         </widget>
        </item>
        <item>

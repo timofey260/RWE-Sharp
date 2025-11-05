@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'explorer2.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.9.0
+## Created by: Qt User Interface Compiler version 6.9.2
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -317,7 +317,6 @@ class Ui_Explorer(object):
         self.RenderOption.addItem("")
         self.RenderOption.addItem("")
         self.RenderOption.addItem("")
-        self.RenderOption.addItem("")
         self.RenderOption.setObjectName(u"RenderOption")
 
         self.horizontalLayout_9.addWidget(self.RenderOption)
@@ -378,7 +377,6 @@ class Ui_Explorer(object):
         self.RenderOption.setItemText(4, QCoreApplication.translate("Explorer", u"Rendered (sun)", None))
         self.RenderOption.setItemText(5, QCoreApplication.translate("Explorer", u"Rendered (shaded)", None))
         self.RenderOption.setItemText(6, QCoreApplication.translate("Explorer", u"Rendered (rain)", None))
-        self.RenderOption.setItemText(7, QCoreApplication.translate("Explorer", u"Sync", None))
 
         self.LayerBox.setItemText(0, QCoreApplication.translate("Explorer", u"1", None))
         self.LayerBox.setItemText(1, QCoreApplication.translate("Explorer", u"2", None))

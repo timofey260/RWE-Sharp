@@ -1,6 +1,5 @@
 from ui.mainuiconnector import MainWindow
 from ui.splashuiconnector import SplashDialog
-from core.utils import Delegate, DeleClass
 import sys
 from PySide6.QtWidgets import QApplication
 from PySide6.QtCore import QCommandLineParser, QCommandLineOption
@@ -22,7 +21,6 @@ class CommandLineOptions:
 
         self.parser.addPositionalArgument("filename", "Level to load")
 
-@DeleClass
 class Application(QApplication):
     """
     Holds loading and main menu window together

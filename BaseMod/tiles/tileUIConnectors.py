@@ -164,9 +164,9 @@ class TileUI(UI):
         self.ui.setupUi(self)
         mod: BaseMod
 
+        mod.tileview.drawoption.link_combobox(self.ui.RenderOption)
         self.explorer = mod.tileeditor.explorer
         self.editor = mod.tileeditor
-        self.editor.previewoption.link_combobox(self.ui.RenderOption)
         self.editor.show_collisions.link_button(self.ui.ToggleCollisions)
         self.editor.vis_layer.link_spinbox(self.ui.Layer)
         self.editor.toolleft.link_combobox(self.ui.ToolTilesM1Select)
@@ -223,8 +223,6 @@ class TileUI(UI):
 
     def set_default_material(self):
         self.can_update_default_material = False
-        print(self.level.l_tiles.default_material)
-        print(self.ui.Materials.findText(self.level.l_tiles.default_material))
         self.ui.Materials.setCurrentText(self.level.l_tiles.default_material)
         self.can_update_default_material = True
 

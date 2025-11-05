@@ -1,14 +1,14 @@
 import os
 
-from PySide6.QtCore import Signal, Qt, QPoint
-from PySide6.QtGui import QPixmap, QColor, QImage, QAction
-from PySide6.QtWidgets import QMainWindow, QTreeWidgetItem, QListWidgetItem, QFileDialog, QTableWidgetItem
+from PySide6.QtCore import Qt, QPoint
+from PySide6.QtGui import QPixmap, QColor, QAction
+from PySide6.QtWidgets import QMainWindow, QTreeWidgetItem, QListWidgetItem, QTableWidgetItem
 
 from BaseMod.Explorer import Explorer
 from BaseMod.tiles.tilePin import TilePin
-from RWESharp.Configurable import BoolConfigurable, IntConfigurable, StringConfigurable
-from RWESharp.Core import PATH_FILES_IMAGES_PALETTES, CELLSIZE, SPRITESIZE
-from RWESharp.Loaders import Tile, palette_to_colortable
+from RWESharp.Configurable import BoolConfigurable, IntConfigurable
+from RWESharp.Core import CELLSIZE, SPRITESIZE
+from RWESharp.Loaders import Tile
 
 
 class TileExplorer(Explorer):
@@ -94,25 +94,23 @@ class TileExplorer(Explorer):
     def __init__(self, editor, parent: QMainWindow):
         self.tiles = editor.manager.tiles
         super().__init__(editor.mod, parent)
+        self.tileview = self.mod.tileview
 
         self.tile_cols = BoolConfigurable(self.mod, "TileExplorer.tile_collisions", True, "show tile collisions")
         self.tile_preview = BoolConfigurable(self.mod, "TileExplorer.tile_preview", True, "show tile preview")
-        self.drawoption = IntConfigurable(self.mod, "TileExplorer.drawoption", 7, "show tile collisions")
+        # self.drawoption = IntConfigurable(self.mod, "TileExplorer.drawoption", 7, "show tile collisions")
         self.layer = IntConfigurable(self.mod, "TileExplorer.layer", 0, "layer")
-        self.palette_path = StringConfigurable(self.mod, "TileExplorer.palettepath", os.path.join(PATH_FILES_IMAGES_PALETTES, "palette0.png"), "path to pallete")
-        if not os.path.exists(self.palette_path.value):
-            self.palette_path.reset_value()
-        self.colortable = palette_to_colortable(QImage(self.palette_path.value))
         self.tile_cols.link_button(self.ui.ToggleCollisions)
         self.tile_cols.valueChanged.connect(self.hide_cols)
         self.tile_preview.link_button(self.ui.TogglePreview)
         self.tile_preview.valueChanged.connect(self.hide_preview)
-        self.drawoption.link_combobox(self.ui.RenderOption)
-        self.drawoption.valueChanged.connect(self.change_draw_option)
+        # self.drawoption.link_combobox(self.ui.RenderOption)
+        # self.drawoption.valueChanged.connect(self.change_draw_option)
         self.layer.link_combobox(self.ui.LayerBox)
         self.layer.valueChanged.connect(self.change_draw_option)
-        self.mod.tileview.drawoption.valueChanged.connect(self.change_draw_option)
-        self.palette_path.valueChanged.connect(self.update_palette)
+        self.tileview.drawoption.valueChanged.connect(self.change_draw_option)
+        self.tileview.drawoption.link_combobox(self.ui.RenderOption)
+        self.tileview.palettepath.valueChanged.connect(lambda : self.preview_tile(self.selected[0]) if len(self.selected) > 0 else None)
         self.ui.SearchBar.textChanged.connect(self.search)
         self.ui.Pin.clicked.connect(self.pin_tile)
         self.itemselected.connect(editor.add_tile)
@@ -153,18 +151,9 @@ class TileExplorer(Explorer):
         pin.deleteLater()
         self.pins.remove(pin)
 
-    def change_palette(self):
-        file, _ = QFileDialog.getOpenFileName(self, "Select a Palette", PATH_FILES_IMAGES_PALETTES)
-        if file == "":
-            return
-        self.palette_path.update_value(file)
-        self.drawoption.update_value(4)
-        if len(self.selected) > 0:
-            self.preview_tile(self.selected[0])
-
     def preview_tile(self, tile):
         self.tileimage.setOpacity(1)
-        self.tileimage.setPixmap(tile.return_tile_pixmap(self.synced_draw_option, self.layer.value, self.colortable))
+        self.tileimage.setPixmap(tile.return_tile_pixmap(self.synced_draw_option, self.layer.value, self.tileview.colortable))
         self.tilecolsimage.setPixmap(tile.collisions_image())
         self.tileimage.setData(2, (CELLSIZE / SPRITESIZE) if self.synced_draw_option == 0 else 1)
 
@@ -173,9 +162,6 @@ class TileExplorer(Explorer):
         self.preview.set_zoom()
         self.preview.verticalScrollBar().setValue(0)
         self.preview.horizontalScrollBar().setValue(0)
-
-    def update_palette(self):
-        self.colortable = palette_to_colortable(QImage(self.palette_path.value))
 
     def change_draw_option(self):
         self.change_items()
@@ -186,7 +172,7 @@ class TileExplorer(Explorer):
 
     @property
     def synced_draw_option(self):
-        return self.drawoption.value if self.drawoption.value != 7 else self.mod.tileview.drawoption.value
+        return self.mod.tileview.drawoption.value
 
     def hide_cols(self, value):
         self.tilecolsimage.setOpacity(1 if value else 0)
@@ -195,4 +181,4 @@ class TileExplorer(Explorer):
         self.tileimage.setOpacity(1 if value and len(self.selected) > 0 else 0)
 
     def get_icon(self, tile: Tile):
-        return tile.return_tile_pixmap(self.synced_draw_option, self.layer.value, self.colortable)
+        return tile.return_tile_pixmap(self.synced_draw_option, self.layer.value, self.tileview.colortable)

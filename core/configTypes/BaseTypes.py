@@ -97,7 +97,7 @@ class StringConfigurable(Configurable):
     def update_value(self, value: str):
         super().update_value(value)
 
-    def link_combobox(self, combobox: QComboBox):
+    def link_combobox(self, combobox: QComboBox) -> None:
         """
         Links combobox with configurable
         :param combobox: Combobox to link
@@ -134,13 +134,15 @@ class IntConfigurable(Configurable):
             return
         elif value is not None:
             super().update_value(value)
-        if len(self.radiolist) > value > 0 and len(self.radiolist) > 0:
+        if 0 <= value < len(self.radiolist) and len(self.radiolist) > 0:
             self.radiolist[value].setChecked(True)
 
     def link_radio(self, buttons: list[QRadioButton]) -> None:
         """
         Links list of radio buttons to Configurable
+
         Configurable value becomes index of pressed radio button
+
         radio buttons will also be synced to current value
         :param buttons: Buttons to press
         :return: None
@@ -153,7 +155,7 @@ class IntConfigurable(Configurable):
         for i in self.radiolist:
             i.clicked.connect(self.update_value)
 
-    def link_slider(self, slider: QSlider, releaseonly=False):
+    def link_slider(self, slider: QSlider, releaseonly=False) -> None:
         """
         Links slider to Configurable
         :param slider: slider
@@ -169,7 +171,7 @@ class IntConfigurable(Configurable):
             slider.valueChanged.connect(self.update_value)
         self.valueChanged.connect(slider.setValue)
 
-    def link_spinbox(self, spin: QSpinBox, releaseonly=False):
+    def link_spinbox(self, spin: QSpinBox, releaseonly=False) -> None:
         """
         Links spin box to Configurable
         :param spin: Spinbox
@@ -185,7 +187,7 @@ class IntConfigurable(Configurable):
             spin.valueChanged.connect(self.update_value)
         self.valueChanged.connect(spin.setValue)
 
-    def link_slider_spinbox(self, slider: QSlider, spinbox: QSpinBox, releaseonly=False):
+    def link_slider_spinbox(self, slider: QSlider, spinbox: QSpinBox, releaseonly=False) -> None:
         """
         Links both slider and spinbox to a Configurable
         :param slider: slider to link
@@ -195,7 +197,7 @@ class IntConfigurable(Configurable):
         self.link_slider(slider, releaseonly)
         self.link_spinbox(spinbox, releaseonly)
 
-    def link_combobox(self, combobox: QComboBox):
+    def link_combobox(self, combobox: QComboBox) -> None:
         """
         Links combobox with configurable
         :param combobox: Combobox to link
@@ -224,7 +226,7 @@ class FloatConfigurable(Configurable):
     def update_value(self, value: float):
         super().update_value(value)
 
-    def link_doublespinbox(self, spin: QDoubleSpinBox, releaseonly=False):
+    def link_doublespinbox(self, spin: QDoubleSpinBox, releaseonly=False) -> None:
         """
         Links spin box to Configurable
         :param spin: Double spinbox
@@ -240,7 +242,7 @@ class FloatConfigurable(Configurable):
             spin.valueChanged.connect(self.update_value)
         self.valueChanged.connect(spin.setValue)
 
-    def link_slider(self, slider: QAbstractSlider, releaseonly=False, division=1):
+    def link_slider(self, slider: QAbstractSlider, releaseonly=False, division=1) -> None:
         """
         Links slider to Configurable
         :param slider: slider

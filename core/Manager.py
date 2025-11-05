@@ -108,7 +108,7 @@ class Manager:
 
     def pre_init_mods(self):
         if self.application.parser.isSet(self.application.args.nomods):
-            log("Mod loading Canceled")
+            log("Mod loading is Disabled")
             return
         # mods adding
         log("Loading mods...")
