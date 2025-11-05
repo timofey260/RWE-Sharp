@@ -223,6 +223,8 @@ class TileUI(UI):
 
     def set_default_material(self):
         self.can_update_default_material = False
+        print(self.level.l_tiles.default_material)
+        print(self.ui.Materials.findText(self.level.l_tiles.default_material))
         self.ui.Materials.setCurrentText(self.level.l_tiles.default_material)
         self.can_update_default_material = True
 

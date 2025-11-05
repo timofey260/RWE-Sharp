@@ -208,7 +208,7 @@ class RWLParser:
                 proj["LE"]["lightAngle"] = int(lightprops[1])
                 proj["LE"]["flatness"] = int(lightprops[2])
                 proj["EX2"]["tileSeed"] = int(lines[4])
-                proj["TE"]["defaultMaterial"] = lines[5]
+                proj["TE"]["defaultMaterial"] = lines[5].replace("\n", "")
                 proj["WL"]["waterLevel"] = int(lines[6])
                 proj["WL"]["waterInFront"] = int(lines[7])
             proj["GE"] = []

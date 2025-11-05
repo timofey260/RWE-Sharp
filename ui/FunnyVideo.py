@@ -1,4 +1,4 @@
-from PySide6.QtCore import Slot
+from PySide6.QtCore import Slot, Qt
 from PySide6.QtMultimedia import QAudioOutput, QMediaPlayer
 from PySide6.QtMultimediaWidgets import QVideoWidget
 from PySide6.QtWidgets import QWidget
@@ -29,4 +29,4 @@ class FunnyVideo(QWidget):
         if status == status.NoMedia or status == status.EndOfMedia:
             self.deleteLater()
             if self.closeonfinish:
-                self.manager.application.exit()
+                self.manager.application.exit(0)

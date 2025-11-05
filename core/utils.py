@@ -329,3 +329,103 @@ def modify_path_url(path: str) -> str:
     :return: converted path
     """
     return "file:///" + path.replace("\\", "/").replace("#", "%23")
+
+
+# Source - https://stackoverflow.com/questions/4309607/whats-the-preferred-way-to-implement-a-hook-or-callback-in-python
+# Posted by kindall
+# Retrieved 11/5/2025, License - CC-BY-SA 4.0
+
+class Delegate(object):
+    """
+    Delegate allows for adding hooks to methods
+
+    !!!Does not work for methods!!!
+
+    To make method hookable, add @Delegate attribute
+
+    To hook prefix to delegate, use *= or @method.prefix attribute
+
+    To hook postfix to delegate, use += or @method.postfix attribute
+
+
+    Prefixes get called before delegate and can change arguments before passing it to delegate
+
+    - simply return (args, kwargs, returnval)
+
+    - if returnval is not None, stops delegate from being called
+
+    Postfixes can change return value of delegate by returning not None and can get value of delegate or previous postfix
+
+    To unhook your method from delegate, use -=
+    """
+    def __init__(self, func):
+        self.prefixes = []
+        self.postfixes = []
+        self.basefunc = func
+        if callable(func):
+            print(func.__qualname__)
+
+    def __iadd__(self, func):
+        if callable(func):
+            self.__isub__(func)
+            self.postfixes.append(func)
+        return self
+
+    def __imul__(self, func):
+        if callable(func):
+            self.__idiv__(func)
+            self.prefixes.append(func)
+        return self
+
+    def prefix(self, func):
+        if callable(func):
+            self.__isub__(func)
+            self.postfixes.append(func)
+        return func
+
+    def postfix(self, func):
+        if callable(func):
+            self.__isub__(func)
+            self.postfixes.append(func)
+        return func
+
+    def __isub__(self, func):
+        try:
+            if func in self.prefixes:
+                self.prefixes.remove(func)
+                return self
+            self.postfixes.remove(func)
+        except ValueError:
+            pass
+        return self
+
+    def __call__(self, *args, **kwargs):
+        for func in self.prefixes:
+            ret = func(*args, **kwargs)
+            if ret is None:
+                continue
+            if len(ret) != 2:
+                continue
+            args = ret[0]
+            kwargs = ret[1]
+            retval = ret[2]
+            if retval is not None:
+                return retval
+        print(self.__class__, self.basefunc.__class__)
+        result = self.basefunc(*args, **kwargs)
+        for func in self.postfixes:
+            newresult = func(*args, **kwargs, _result=result)
+            result = result if newresult is None else newresult
+        return result
+
+class DeleClass:
+    def __init__(self, cls):
+        self.cls = cls
+
+    def __call__(self, *args, **kwargs):
+        self.cls(*args, **kwargs)
+
+def inject_method(func, newfunc, self):
+    def a(*args, **kwargs):
+        newfunc(self, func, *args, **kwargs)
+    return a

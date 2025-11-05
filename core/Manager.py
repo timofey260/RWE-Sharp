@@ -5,7 +5,7 @@ from core.Config import Config
 from core.TreeElement import SettingElement, HotkeyElement
 from core.info import PATH_MODS
 from core.ModLoader import load_mod
-from core.utils import log
+from core.utils import log, inject_method
 from core.Loaders.Tile import Tiles
 from core.Loaders.Prop import Props
 from core.Loaders.Effect import Effects
@@ -72,7 +72,7 @@ class Manager:
 
         from BaseMod.baseMod import BaseMod
 
-        self.config.init_configs(self.application.args.reset)  # mounting configs and applying them
+        self.config.init_configs(self.application.parser.isSet(self.application.args.reset))  # mounting configs and applying them
         self.basemod = BaseMod(self, "")
 
         self.mods.append(self.basemod)
@@ -107,6 +107,9 @@ class Manager:
             self.mods.append(i[0](self, i[1]))
 
     def pre_init_mods(self):
+        if self.application.parser.isSet(self.application.args.nomods):
+            log("Mod loading Canceled")
+            return
         # mods adding
         log("Loading mods...")
         for indx, i in enumerate(os.listdir(PATH_MODS)):

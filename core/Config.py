@@ -67,6 +67,8 @@ class Config:
 
     def ensure_config(self) -> str:
         """
+        !!!OBSOLETE!!!
+
         ensures that config file exists and returns path to it
         :return: path to config.txt
         """
