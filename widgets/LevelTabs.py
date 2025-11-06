@@ -7,6 +7,7 @@ class LevelTabs(QTabWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setAcceptDrops(True)
+        self.setMovable(True)
         self.manager = None
 
     def dragEnterEvent(self, event):
