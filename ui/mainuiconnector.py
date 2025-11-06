@@ -1,5 +1,7 @@
-from PySide6.QtWidgets import QMainWindow, QFileDialog, QSpacerItem, QSizePolicy, QWidget, QGridLayout
-from PySide6.QtCore import Slot, Qt, QUrl
+import traceback
+
+from PySide6.QtWidgets import QMainWindow, QFileDialog, QSpacerItem, QSizePolicy, QMessageBox
+from PySide6.QtCore import Slot, Qt
 from PySide6.QtGui import QDesktopServices, QAction
 
 from ui.FunnyVideo import FunnyVideo
@@ -10,6 +12,7 @@ from ui.hotkeysuiconnector import HotkeysUI
 from core.utils import modify_path_url
 from core.info import PATH_LEVELS, PATH_FILES_VIDEOS, PATH_DRIZZLE, ISWIN, REPO_ISSUES, REPO, FULLNAME, CUSTOM_LINKS
 from core.LevelRenderer import LevelRenderer
+from core.Level.RWELevel import RWELevel
 
 import os
 
@@ -109,6 +112,8 @@ class MainWindow(QMainWindow):
 
         self.setWindowModality(Qt.WindowModality.NonModal)
         self.setDockNestingEnabled(True)
+
+        self.ui.tabWidget.manager = self.manager
 
         self.vid = None
         self.setWindowTitle(FULLNAME)

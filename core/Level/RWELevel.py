@@ -46,6 +46,7 @@ class RWELevel:
         self.custom_level_data = CustomLevelData(self)
 
         self.was_resized = False
+        self.was_changed = False
 
     def level_resized(self, newrect: QRect):
         oldrect = self.level_rect
@@ -66,13 +67,22 @@ class RWELevel:
 
     @Slot()
     def undo(self):
+        self.was_changed = True
+        if self.viewport is not None:
+            self.viewport.setTabName()
         self.history.undo()
 
     @Slot()
     def redo(self):
+        self.was_changed = True
+        if self.viewport is not None:
+            self.viewport.setTabName()
         self.history.redo()
 
     def add_history(self, historytype, *args, **kwargs):
+        self.was_changed = True
+        if self.viewport is not None:
+            self.viewport.setTabName()
         self.history.add_element(historytype(self.history, *args, **kwargs))
 
     @property
@@ -82,8 +92,8 @@ class RWELevel:
     @property
     def shortname(self):
         if self.file is None:
-            return "Unnamed"
-        return os.path.split(self.file)[1]
+            return "Unnamed *"
+        return os.path.split(self.file)[1] + (" *" if self.was_changed else "")
 
     def __getitem__(self, item):
         return self.data[item]

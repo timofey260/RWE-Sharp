@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'main_tim.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.9.1
+## Created by: Qt User Interface Compiler version 6.9.2
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -21,7 +21,7 @@ from PySide6.QtWidgets import (QApplication, QDockWidget, QGridLayout, QHBoxLayo
     QPushButton, QScrollArea, QSizePolicy, QSpinBox,
     QStatusBar, QTabWidget, QVBoxLayout, QWidget)
 
-from RWESharpWidgets import ViewDockWidget
+from RWESharpWidgets import (LevelTabs, ViewDockWidget)
 import ui.res_rc
 
 class Ui_MainWindow(object):
@@ -140,7 +140,7 @@ class Ui_MainWindow(object):
         self.centralwidget.setObjectName(u"centralwidget")
         self.gridLayout_6 = QGridLayout(self.centralwidget)
         self.gridLayout_6.setObjectName(u"gridLayout_6")
-        self.tabWidget = QTabWidget(self.centralwidget)
+        self.tabWidget = LevelTabs(self.centralwidget)
         self.tabWidget.setObjectName(u"tabWidget")
         self.tabWidget.setTabShape(QTabWidget.TabShape.Rounded)
         self.tabWidget.setElideMode(Qt.TextElideMode.ElideNone)
@@ -378,7 +378,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.tabWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(1)
         self.ToolsTabs.setCurrentIndex(-1)
         self.ViewTab.setCurrentIndex(0)
 

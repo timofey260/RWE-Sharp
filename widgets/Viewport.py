@@ -60,34 +60,13 @@ class ViewPort(QGraphicsView):
             self.editor.level_resized(newrect)
             
     def dragEnterEvent(self, event):
-        if event.mimeData().hasUrls:
-            event.accept()
-        else:
-            event.ignore()
+        self.manager.window.ui.tabWidget.dragEnterEvent(event)
 
     def dragMoveEvent(self, event):
-        if event.mimeData().hasUrls:
-            event.setDropAction(Qt.DropAction.CopyAction)
-            event.accept()
-        else:
-            event.ignore()
+        self.manager.window.ui.tabWidget.dragMoveEvent(event)
 
     def dropEvent(self, event, /):
-        if event.mimeData().hasUrls:
-            event.setDropAction(Qt.DropAction.CopyAction)
-            event.accept()
-            links = []
-            for url in event.mimeData().urls():
-                links.append(str(url.toLocalFile()))
-            from core.Level.RWELevel import RWELevel
-            for i in links:
-                try:
-                    level = RWELevel(self.manager, i)
-                    self.manager.open_level(level)
-                except:
-                    traceback.print_exc()
-        else:
-            event.ignore()
+        self.manager.window.ui.tabWidget.dropEvent(event)
 
     @Slot()
     def redraw(self):
@@ -181,14 +160,6 @@ class ViewPort(QGraphicsView):
 
     def update_cursor(self):
         self.setCursor(Qt.CursorShape.ArrowCursor if self.editor is None else self.editor.defaultcursor)
-
-    def levelchanged(self):
-        # for i in self.editor.renderables:
-        #     i.level_resized()
-        for i in self.modules:
-            i.level_resized()
-        for i in self.manager.editors:
-            i.level_resized()
 
     def wheelEvent(self, event):
         if self.scene().mouseGrabberItem() is not None:
