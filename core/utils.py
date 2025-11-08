@@ -1,7 +1,7 @@
 import datetime
 import os
 import math
-from core.info import PATH_FILES_CACHE, LOG
+from core.info import PATH_FILES_CACHE, _LOG
 from PySide6.QtGui import QColor, QIcon, QPixmap
 from PySide6.QtCore import QPoint, QPointF, QFile, QByteArray, QRect, QLineF, QRectF
 from collections.abc import Callable
@@ -15,7 +15,7 @@ def log(message, error=False) -> None:
     :return: None
     """
     s = f"[{datetime.datetime.now().strftime('%H:%M')}; {'ERROR' if error else ' INFO'}]: {message}\n"
-    print(s, end="", file=LOG, flush=True)
+    print(s, end="", file=_LOG, flush=True)
     print(s, end="")
 
 

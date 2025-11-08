@@ -57,47 +57,35 @@ CUSTOM_LINKS = {
     "Interactive Map": "https://henpemaz.github.io/Rain-World-Interactive-Map/",
     "RWE# Mod Database": "https://github.com/timofey260/RWE-Sharp-Database"
 }
+"""
+Custom links for other repos
+"""
 
 CONSTS: dict = {}
 """
-these things should never be changed
+Constants, shouldn't be changed
+
+Check files/Consts.json
 """
 with open(os.path.join(PATH_FILES, "Consts.json")) as f:
     CONSTS = json.load(f)  # NOQA
 CELLSIZE = CONSTS.get("cellsize", 20)
 """
-size of single cell
-can be interpreted as viewport quality
-"""
-SPRITESIZE = CONSTS.get("spritesize", 16)
-"""
-size of single tile sprite cell
-"""
+Size of single cell
 
-camw = 70
+Can be interpreted as viewport quality
 """
-Camera width(in cells)
-"""
-camh = 40
-"""
-Camera height(in cells)
-"""
+SPRITESIZE = CONSTS.get("spritesize", 16)  #: Size of single tile sprite cell
 
-ofsleft = 15
-"""
-Amount in blocks to add to light image to left 
-"""
-ofstop = 15
-"""
-Amount in blocks to add to light image to left
-"""
+camw = 70  #: Camera width(in cells)
+camh = 40  #: Camera height(in cells)
 
-wladd = 5.7
-"""
-Addition to water level in blocks
-"""
+ofsleft = 15  #: Amount in blocks to add to light image to left
+ofstop = 15  #: Amount in blocks to add to light image to top
 
-LOG = open(os.path.join(PATH, "loadLog.txt"), "w")
+wladd = 5.7  #: Addition to water level in blocks
+
+_LOG = open(os.path.join(PATH, "loadLog.txt"), "w")  #: Log file, check core.utils.log
 
 os.makedirs(PATH_MODS, exist_ok=True)
 os.makedirs(PATH_COLLECTIONS_PROPS, exist_ok=True)
