@@ -8,19 +8,14 @@
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
 
-from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
-    QMetaObject, QObject, QPoint, QRect,
-    QSize, QTime, QUrl, Qt)
-from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
-    QFont, QFontDatabase, QGradient, QIcon,
-    QImage, QKeySequence, QLinearGradient, QPainter,
-    QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QAbstractSpinBox, QApplication, QCheckBox, QComboBox,
-    QFrame, QGridLayout, QHBoxLayout, QLabel,
-    QScrollArea, QSizePolicy, QSlider, QSpacerItem,
-    QSpinBox, QVBoxLayout, QWidget)
+from PySide6.QtCore import (QCoreApplication, QMetaObject, QRect,
+                            Qt)
+from PySide6.QtWidgets import (QAbstractSpinBox, QCheckBox, QComboBox,
+                               QFrame, QGridLayout, QHBoxLayout, QLabel,
+                               QScrollArea, QSizePolicy, QSlider, QSpacerItem,
+                               QSpinBox, QVBoxLayout, QWidget)
 
-from BaseModWidgets import TileSettingsViewport
+from BaseMod.BaseModWidgets import TileSettingsViewport
 
 class Ui_TileSettings(object):
     def setupUi(self, TileSettings):

@@ -50,8 +50,8 @@ class ModInfo:
 class Mod(ABC):
 
     def __init__(self, manager: Manager, modinfo: ModInfo, path=""):
-        """
-        Base Mod class to load
+        """Base Mod class to load
+
         :param manager: manager to use
         :param modinfo: mod info, should be filled with class
         :param path: path to mod
@@ -85,17 +85,18 @@ class Mod(ABC):
         self.manager.add_hotkeytree(hotkey)
 
     def on_save(self, viewport: ViewPort):
-        """
-        Gets called before save
-        :return:
+        """Gets called before save
+
+        :return: None
         """
 
-    def level_opened(self, viewport: ViewPort):
-        """
-        Gets called whenever user opens level
+    def level_opened(self, viewport: ViewPort) -> None:
+        """Gets called whenever user opens level
+
         :param viewport: viewport the level was opened in
-        :return:
+
+        :return: None
         """
 
-    def mount_levelparts(self, level: RWELevel):
+    def mount_levelparts(self, level: RWELevel) -> None:
         pass

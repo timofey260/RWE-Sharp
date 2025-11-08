@@ -1,1 +1,1 @@
-from core.Exceptions import FileNotCompatible
+from core.Exceptions import FileNotCompatible # NOQA

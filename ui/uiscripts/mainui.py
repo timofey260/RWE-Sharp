@@ -8,21 +8,17 @@
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
 
-from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
-    QMetaObject, QObject, QPoint, QRect,
-    QSize, QTime, QUrl, Qt)
-from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
-    QCursor, QFont, QFontDatabase, QGradient,
-    QIcon, QImage, QKeySequence, QLinearGradient,
-    QPainter, QPalette, QPixmap, QRadialGradient,
-    QTransform)
-from PySide6.QtWidgets import (QApplication, QDockWidget, QGridLayout, QHBoxLayout,
-    QLabel, QMainWindow, QMenu, QMenuBar,
-    QPushButton, QScrollArea, QSizePolicy, QSpinBox,
-    QStatusBar, QTabWidget, QVBoxLayout, QWidget)
+from PySide6.QtCore import (QCoreApplication, QLocale,
+                            QMetaObject, QRect,
+                            QSize, Qt)
+from PySide6.QtGui import (QAction, QIcon)
+from PySide6.QtWidgets import (QDockWidget, QGridLayout, QHBoxLayout,
+                               QLabel, QMainWindow, QMenu, QMenuBar,
+                               QPushButton, QScrollArea, QSizePolicy, QSpinBox,
+                               QStatusBar, QTabWidget, QVBoxLayout, QWidget)
 
-from RWESharpWidgets import (LevelTabs, ViewDockWidget)
-import ui.res_rc
+from core.RWESharpWidgets import (LevelTabs, ViewDockWidget)
+
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):

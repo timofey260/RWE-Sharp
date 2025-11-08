@@ -8,8 +8,8 @@ from collections.abc import Callable
 
 
 def log(message, error=False) -> None:
-    """
-    Logs a message in both terminal and log file
+    """Logs a message in both terminal and log file
+
     :param message: message to log
     :param error: Whether it's error or not
     :return: None
@@ -20,8 +20,8 @@ def log(message, error=False) -> None:
 
 
 def draw_line(pointa: QPoint, pointb: QPoint, callback: Callable) -> None:
-    """
-    Calls callback function for each point line intersected with
+    """Calls callback function for each point line intersected with
+
     :param pointa: Line point a
     :param pointb: Line point b
     :param callback: Callback function(lambda QPoint:)
@@ -73,8 +73,8 @@ def draw_line(pointa: QPoint, pointb: QPoint, callback: Callable) -> None:
 
 
 def insensitive_path(path) -> str | None:
-    """
-    returns path to case-insensitive file(not path to it)
+    """Returns path to case-insensitive file(not path to it)
+
     :param path: path to file
     :return: str
     """
@@ -89,8 +89,7 @@ def insensitive_path(path) -> str | None:
     return None
 
 def fit_rect(lastpos: QPoint, pos: QPoint, shift: bool, alt: bool) -> QRect:
-    """
-    Creates rectangle from 2 points and more
+    """Creates rectangle from 2 points and more
 
     Literally stolen from photoshop
 
@@ -115,8 +114,7 @@ def fit_rect(lastpos: QPoint, pos: QPoint, shift: bool, alt: bool) -> QRect:
     return rect
 
 def draw_rect(rect: QRect, hollow: bool, callback: Callable) -> None:
-    """
-    Calls callback for each point inside rectangle
+    """Calls callback for each point inside rectangle
 
     :param rect: rectangle
     :param hollow: call callback only on edges
@@ -136,10 +134,10 @@ def draw_rect(rect: QRect, hollow: bool, callback: Callable) -> None:
             callback(QPoint(x, y))
 
 def draw_ellipse(rect: QRect, hollow: bool, callback: Callable) -> None:
-    """
-    Calls callback for each point ellipse intersects with
+    """Calls callback for each point ellipse intersects with
 
     NOTE: Callback may be called multiple times on same point
+
     :param rect:
     :param hollow: call callback only on edges or whole ellipse
     :param callback: callback function(lambda QPoint:)
@@ -196,8 +194,7 @@ def draw_ellipse(rect: QRect, hollow: bool, callback: Callable) -> None:
 
 
 def paint_svg(filename: str, color: QColor) -> str:
-    """
-    Paints svg image with caching and returns path to edited svg in cache
+    """Paints svg image with caching and returns path to edited svg in cache
 
     works with resources too
 
@@ -231,8 +228,8 @@ def paint_svg_qpixmap(filename: str, color: QColor) -> QPixmap:
 
 
 def remap(x: float, in_min: float, in_max: float, out_min: float, out_max: float) -> float:
-    """
-    converts value from one range to another
+    """Converts value from one range to another
+
     :param x: value in **in** range
     :param in_min: **in** in start
     :param in_max:  **in** end
@@ -244,8 +241,8 @@ def remap(x: float, in_min: float, in_max: float, out_min: float, out_max: float
 
 
 def lerp(a: float, b: float, t: float) -> float:  # laundmo
-    """
-    linear interpolation or something
+    """linear interpolation or something
+
     :param a: start
     :param b: end
     :param t: t
@@ -262,8 +259,7 @@ def color_lerp(c1: QColor, c2: QColor, t: float) -> QColor:
 
 
 def closest_line(pos, lastpos) -> QLineF:
-    """
-    Returns the line closest to one in 8 directions
+    """Returns the line closest to one in 8 directions
 
     :param pos: start of line
     :param lastpos: end of line
@@ -288,8 +284,8 @@ def closest_line(pos, lastpos) -> QLineF:
 
 
 def rotate_point(point: QPointF, angle):
-    """
-    Rotates point with some angle
+    """Rotates point with some angle
+
     :param point: point to rotate
     :param angle: angle to rotate in degrees
     :return: rotated point
@@ -323,8 +319,8 @@ def polar2point(pos: QPointF) -> QPointF:
 
 
 def modify_path_url(path: str) -> str:
-    """
-    converts specified path to file url
+    """converts specified path to file url
+
     :param path: path to convert
     :return: converted path
     """
@@ -336,8 +332,7 @@ def modify_path_url(path: str) -> str:
 # Retrieved 11/5/2025, License - CC-BY-SA 4.0
 
 class Delegate(object):
-    """
-    Delegate allows for adding hooks to methods
+    """Delegate allows for adding hooks to methods
 
     !!!Does not work for methods!!!
 

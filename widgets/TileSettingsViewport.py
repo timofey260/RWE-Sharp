@@ -1,8 +1,8 @@
 from PySide6.QtCore import QPointF, QPoint
 
-from RWESharpWidgets import SimpleViewport
+from core.RWESharpWidgets import SimpleViewport
 from RWESharp.Core import CELLSIZE, SPRITESIZE
-from PySide6.QtGui import QPixmap, QImage
+from PySide6.QtGui import QPixmap
 
 
 class TileSettingsViewport(SimpleViewport):

@@ -8,18 +8,12 @@
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
 
-from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
-    QMetaObject, QObject, QPoint, QRect,
-    QSize, QTime, QUrl, Qt)
-from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
-    QFont, QFontDatabase, QGradient, QIcon,
-    QImage, QKeySequence, QLinearGradient, QPainter,
-    QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QGridLayout, QHBoxLayout, QLabel,
-    QScrollArea, QSizePolicy, QSpacerItem, QVBoxLayout,
-    QWidget)
+from PySide6.QtCore import (QCoreApplication, QMetaObject, QRect)
+from PySide6.QtWidgets import (QGridLayout, QHBoxLayout, QLabel,
+                               QScrollArea, QSizePolicy, QSpacerItem, QVBoxLayout,
+                               QWidget)
 
-from RWESharpWidgets import (ColorPicker, PenPicker)
+from core.RWESharpWidgets import (ColorPicker, PenPicker)
 
 class Ui_Cameras(object):
     def setupUi(self, Cameras):

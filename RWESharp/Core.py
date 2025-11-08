@@ -11,4 +11,4 @@ from core.ItemData import ItemData  # NOQA
 from core.HistorySystem import History  # NOQA
 from core.TreeElement import SettingElement, HotkeyElement, get_hotkeys_from_pattern  # NOQA
 from core.Application import Application  # NOQA
-from RWESharpWidgets import *  # NOQA
+from core.RWESharpWidgets import *  # NOQA
