@@ -1,8 +1,8 @@
 import os
 import sys
-import jsoncomment
+import commentjson
 
-json = jsoncomment.JsonComment()
+json = commentjson
 
 if getattr(sys, 'frozen', False):
     PATH = os.path.dirname(sys.executable)
