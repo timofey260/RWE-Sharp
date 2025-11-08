@@ -1,11 +1,11 @@
 """
 All ui related stuff
 """
-from core.Modify.ui import SettingUI, ViewUI, UI, ThemeUI
-from ui.mainuiconnector import Ui_MainWindow, MainWindow
-from ui.FunnyVideo import FunnyVideo
-from ui.hotkeysuiconnector import Ui_Hotkeys, HotkeysUI
-from ui.KeyDialog import Ui_keyDialog, KeyDialog
-from ui.splashuiconnector import Ui_Splash, SplashDialog
-from ui.settingsuiconnector import Ui_Settings, SettingsDialogUI
-from ui.aboutuiconnector import Ui_About, AboutDialog
+from core.Modify.ui import SettingUI, ViewUI, UI, ThemeUI  # NOQA
+from ui.mainuiconnector import Ui_MainWindow, MainWindow  # NOQA
+from ui.FunnyVideo import FunnyVideo  # NOQA
+from ui.hotkeysuiconnector import Ui_Hotkeys, HotkeysUI  # NOQA
+from ui.KeyDialog import Ui_keyDialog, KeyDialog  # NOQA
+from ui.splashuiconnector import Ui_Splash, SplashDialog  # NOQA
+from ui.settingsuiconnector import Ui_Settings, SettingsDialogUI  # NOQA
+from ui.aboutuiconnector import Ui_About, AboutDialog  # NOQA

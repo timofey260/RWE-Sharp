@@ -18,9 +18,9 @@ import os
 
 
 class Manager:
-    '''
+    """
     Manager that controls all of RWE#(except for gui)
-    '''
+    """
     def __init__(self, window: MainWindow, app: Application, file=None):
         """
         :param window: RWE# window(main window with viewport and stuff)
@@ -28,52 +28,39 @@ class Manager:
         :param file: file to load by default
         """
         splash = app.splash
-        self.window: MainWindow = window
-        self.application: Application = app
 
-        self.tiles: Tiles = splash.loader.tiles
-        self.props: Props = splash.loader.props
-        self.effects: Effects = splash.loader.effects
-        self.prop_colors = splash.loader.prop_colors
+        self.window: MainWindow = window  #: Main RWE#'s window
+        self.application: Application = app  #: RWE#'s Application
+
+        self.tiles: Tiles = splash.loader.tiles  #: Loaded Tiles
+        self.props: Props = splash.loader.props  #: Loaded Props
+        self.effects: Effects = splash.loader.effects  #: Loaded Effects
+        self.prop_colors = splash.loader.prop_colors  #: Loaded Prop Colors
 
         # self.levelpath: str = "" if file is None else file
 
         # self.viewports: list[ViewPort] = []
 
-        self.current_editor = 0
-        self.editors: list[Editor] = []
-        """
-        Editors made to edit specific stuff in level depending on editor
-        """
+        self._current_editor = 0
+        self.editors: list[Editor] = []  #: List of loaded Editors
 
         # self.modules: list[Module] = []
         # """
         # Modules are made for viewport modifying
         # """
-        self.mods: list[Mod] = []
-        """
-        List of all mods enabled
-        """
-        self.config = Config(self)
-        """
-        Configs are used to store editor-specific data
-        """
-        self.setting_trees: list[SettingElement] = []
-        """
-        Collection of ui's for settings window
-        """
-        self.hotkey_trees: list[HotkeyElement] = []
-        """
-        Collection of ui's for hotkey window
-        """
-        self.mod_types = []
+        self.mods: list[Mod] = []  #: List of all mods enabled
+        self.config = Config(self)  #: Config system
+        self.setting_trees: list[SettingElement] = []  #: Setting trees for settings
+        self.hotkey_trees: list[HotkeyElement] = []  #: Hotkey trees for hotkeys
+
+        self.mod_types: list[type] = []  #: List of loaded mod types
         from core.configTypes.BaseTypes import IntConfigurable
-        self.layer = IntConfigurable(None, "layer", 0, "Current layer")
+        self.layer = IntConfigurable(None, "layer", 0, "Current layer")  #: Current layer
 
         from BaseMod.baseMod import BaseMod
 
         self.config.init_configs(self.application.parser.isSet(self.application.args.reset))  # mounting configs and applying them
-        self.basemod = BaseMod(self, "")
+        self.basemod = BaseMod(self, "")  #: BaseMod.BaseMod
 
         self.mods.append(self.basemod)
         self.pre_init_mods()
@@ -177,7 +164,7 @@ class Manager:
 
     @property
     def editor(self) -> Editor:
-        return self.editors[self.current_editor]
+        return self.editors[self._current_editor]
 
     def change_editor_name(self, name: str):
         for i in range(self.window.ui.ToolsTabs.count()):
@@ -189,7 +176,7 @@ class Manager:
 
     def change_editor(self, value: int):
         self.selected_viewport.remove_module(self.editor)
-        self.current_editor = value
+        self._current_editor = value
         self.mount_editor()
 
     def mount_editor(self):

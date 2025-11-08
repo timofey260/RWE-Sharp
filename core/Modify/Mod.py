@@ -18,6 +18,9 @@ if TYPE_CHECKING:
 
 @dataclass(frozen=True, init=True)
 class ModInfo:
+    """
+    Information about the mod
+    """
     title: str
     id: str
     author: str

@@ -73,10 +73,11 @@ def draw_line(pointa: QPoint, pointb: QPoint, callback: Callable) -> None:
 
 
 def insensitive_path(path) -> str | None:
-    """Returns path to case-insensitive file(not path to it)
+    """Tries to find file in path without checking case
 
     :param path: path to file
-    :return: str
+    :return: Path to fixed file if found
+    :rtype: str
     """
     if os.path.exists(path):
         return path
@@ -97,6 +98,8 @@ def fit_rect(lastpos: QPoint, pos: QPoint, shift: bool, alt: bool) -> QRect:
     :param pos: Second rect point
     :param shift: Makes square
     :param alt: Makes lastpos center of rectangle
+    :return: Result rectangle
+    :rtype: QRect
     """
     if shift:
         pos2 = pos - lastpos
@@ -194,11 +197,16 @@ def draw_ellipse(rect: QRect, hollow: bool, callback: Callable) -> None:
 
 
 def paint_svg(filename: str, color: QColor) -> str:
-    """Paints svg image with caching and returns path to edited svg in cache
+    """Paints svg image with caching
 
     works with resources too
 
     if file is already stored in cache, passes it instead
+
+    :param filename: path to file or resource
+    :param color: svg's color
+    :return: Path to coloured icon in cache
+    :rtype: str
     """
 
     path, file = os.path.split(filename)
@@ -220,10 +228,32 @@ def paint_svg(filename: str, color: QColor) -> str:
 
 
 def paint_svg_qicon(filename: str, color: QColor) -> QIcon:
+    """Paints svg image with caching
+
+    works with resources too
+
+    if file is already stored in cache, passes it instead
+
+    :param filename: path to file or resource
+    :param color: svg's color
+    :return: Colored icon
+    :rtype: QIcon
+    """
     return QIcon(paint_svg(filename, color))
 
 
 def paint_svg_qpixmap(filename: str, color: QColor) -> QPixmap:
+    """Paints svg image with caching
+
+    works with resources too
+
+    if file is already stored in cache, passes it instead
+
+    :param filename: path to file or resource
+    :param color: svg's color
+    :return: Colored pixmap
+    :rtype: QPixmap
+    """
     return QPixmap(paint_svg(filename, color))
 
 
@@ -236,6 +266,7 @@ def remap(x: float, in_min: float, in_max: float, out_min: float, out_max: float
     :param out_min: **out** start
     :param out_max:  **out** end
     :return: value in **out** range
+    :rtype: float
     """
     return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
 
@@ -247,11 +278,20 @@ def lerp(a: float, b: float, t: float) -> float:  # laundmo
     :param b: end
     :param t: t
     :return: value interpolated between a and b
+    :rtype: float
     """
     return (1 - t) * a + t * b
 
 
 def color_lerp(c1: QColor, c2: QColor, t: float) -> QColor:
+    """Interpolates between 2 colors
+
+    :param c1: First color
+    :param c2: Second color
+    :param t: Amount to interpolate between 0 and 1
+    :return: Interpolated color
+    :rtype: float
+    """
     return QColor.fromRgbF(lerp(c1.redF(), c2.redF(), t),
                            lerp(c1.greenF(), c2.greenF(), t),
                            lerp(c1.blueF(), c2.blueF(), t),
@@ -264,6 +304,7 @@ def closest_line(pos, lastpos) -> QLineF:
     :param pos: start of line
     :param lastpos: end of line
     :return: closest line to given argument
+    :rtype: QLineF
     """
     magnitude = QLineF(lastpos, pos).length()
     points = [QLineF.fromPolar(magnitude, 0).p2().toPoint(),
@@ -283,12 +324,13 @@ def closest_line(pos, lastpos) -> QLineF:
     return QLineF(lastpos, lastpos + smallest)
 
 
-def rotate_point(point: QPointF, angle):
+def rotate_point(point: QPointF, angle) -> QPointF:
     """Rotates point with some angle
 
     :param point: point to rotate
     :param angle: angle to rotate in degrees
     :return: rotated point
+    :rtype: QPointF
     """
     px, py = point.x(), point.y()
     angle = math.radians(angle)
@@ -298,21 +340,32 @@ def rotate_point(point: QPointF, angle):
 
 
 def circle2rect(pos: QPointF, radius: float) -> QRectF:
+    """Turns position and radius into rectangle
+
+    :param pos: Position of circle
+    :param radius: Radius of circle
+    :return: Rectangle
+    :rtype: QRectF
+    """
     return QRectF(pos.x() - radius, pos.y() - radius, radius * 2, radius * 2)
 
 
 def point2polar(pos: QPointF) -> QPointF:
-    """
-    :param pos: position in cartesian coordinates
-    :return: point in polar coordinates where x is angle and y is distance
+    """Converts from Cartesian to polar coordinates
+
+    :param pos: Position in cartesian coordinates
+    :return: Point in polar coordinates where x is angle and y is distance
+    :rtype: QPointF
     """
     return QPointF(math.degrees(math.atan2(pos.y(), pos.x())), math.dist([0, 0], pos.toTuple()))
 
 
 def polar2point(pos: QPointF) -> QPointF:
-    """
-    :param pos: position in polar coordinates where x is angle and y is distance
-    :return: point in cartesian coordinates
+    """Converts from polar to Cartesian coordinates
+
+    :param pos: Position in polar coordinates where x is angle and y is distance
+    :return: Point in Cartesian coordinates
+    :rtype: QPointF
     """
     nq = math.radians((pos.x() + 90) % 360)
     return QPointF(math.sin(nq) * pos.y(), -math.cos(nq) * pos.y())
@@ -323,6 +376,7 @@ def modify_path_url(path: str) -> str:
 
     :param path: path to convert
     :return: converted path
+    :rtype: str
     """
     return "file:///" + path.replace("\\", "/").replace("#", "%23")
 
@@ -332,7 +386,9 @@ def modify_path_url(path: str) -> str:
 # Retrieved 11/5/2025, License - CC-BY-SA 4.0
 
 class Delegate(object):
-    """Delegate allows for adding hooks to methods
+    """!!!OBSOLETE!!!
+
+    Delegate allows for adding hooks to methods
 
     !!!Does not work for methods!!!
 
@@ -415,6 +471,13 @@ class Delegate(object):
 
 
 def inject_method(func, newfunc, self):
+    """!!!OBSOLETE!!!
+
+    :param func:
+    :param newfunc:
+    :param self:
+    :return:
+    """
     def a(*args, **kwargs):
         newfunc(self, func, *args, **kwargs)
     return a
