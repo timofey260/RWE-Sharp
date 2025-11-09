@@ -6,6 +6,11 @@ from typing import TYPE_CHECKING
 
 
 class Renderable(ABC):
+    """Renderable allows for drawing with modules and editors
+
+    Simply create `Renderable` connected to the `Module`, and it will be shown on `Viewport`
+
+    """
     def __init__(self, module: Module, depth: int, add_renderable: bool = True):
         self.depth: int = -depth
         # self.pos: QPointF = QPointF()

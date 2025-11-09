@@ -386,7 +386,8 @@ def modify_path_url(path: str) -> str:
 # Retrieved 11/5/2025, License - CC-BY-SA 4.0
 
 class Delegate(object):
-    """!!!OBSOLETE!!!
+    """
+    :deprecated:
 
     Delegate allows for adding hooks to methods
 
@@ -471,7 +472,8 @@ class Delegate(object):
 
 
 def inject_method(func, newfunc, self):
-    """!!!OBSOLETE!!!
+    """
+    :deprecated:
 
     :param func:
     :param newfunc:

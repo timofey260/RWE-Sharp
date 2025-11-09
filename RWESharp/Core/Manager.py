@@ -40,14 +40,14 @@ class Manager:
         """Loaded Props"""
         self.effects: Effects = splash.loader.effects
         """Loaded Effects"""
-        self.prop_colors = splash.loader.prop_colors
+        self.prop_colors: list[list] = splash.loader.prop_colors
         """Loaded Prop Colors"""
 
         # self.levelpath: str = "" if file is None else file
 
         # self.viewports: list[ViewPort] = []
 
-        self._current_editor = 0
+        self._current_editor: int = 0
         self.editors: list[Editor] = []
         """List of loaded Editors"""
 
@@ -57,7 +57,7 @@ class Manager:
         # """
         self.mods: list[Mod] = []
         """List of all mods enabled"""
-        self.config = Config(self)
+        self.config: Config = Config(self)
         """Config system"""
         self.setting_trees: list[SettingElement] = []
         """Setting trees for settings"""
@@ -67,14 +67,14 @@ class Manager:
         self.mod_types: list[type] = []
         """List of loaded mod types"""
         from RWESharp.Configurable.PythonTypes import IntConfigurable
-        self.layer = IntConfigurable(None, "layer", 0, "Current layer")
+        self.layer: IntConfigurable = IntConfigurable(None, "layer", 0, "Current layer")
         """Current layer"""
 
         from BaseMod.baseMod import BaseMod
 
         self.config.init_configs(self.application.parser.isSet(self.application.args.reset))  # mounting configs and applying them
-        self.basemod = BaseMod(self, "")
-        """BaseMod.BaseMod"""
+        self.basemod: BaseMod = BaseMod(self, "")
+        """Check `BaseMod.BaseMod`"""
 
         self.mods.append(self.basemod)
         self.pre_init_mods()
@@ -86,28 +86,47 @@ class Manager:
         self.basemod.preferences.update_themes()
         log("Finished initiating")
 
-    def open_level(self, level):
+    def open_level(self, level: RWELevel) -> None:
+        """Opens RWELevel in new tab
+
+        :param level: Level to load
+        :return: None
+        """
         v = ViewPort(level, self)
         self.window.add_viewport(v)
         return v
 
-    def open_level_from_path(self, path):  # obsolete?
+    def open_level_from_path(self, path: str) -> None:
+        """Opens level from path in new tab
+
+        :param path: Path to level
+        :return: None
+        """
         if not os.path.exists(path):
             return
         self.open_level(RWELevel(self, path))
 
-    def init_editors(self, v):
+    def init_editors(self, v: RWELevel) -> None:
+        """Initiates all editors from mods
+
+        Shouldn't be used in a mod
+
+        :param v: level
+        :return: None
+        """
         if len(self.editors) <= 0:
             log("No editors found!!!", True)  # fucking explode idk
             return
         self.mount_editor()
         #self.editors[0].init_scene_items(self.selected_viewport)
 
-    def init_mods(self):
+    def init_mods(self) -> None:
+        """Initiates mods"""
         for i in self.mod_types:
             self.mods.append(i[0](self, i[1]))
 
-    def pre_init_mods(self):
+    def pre_init_mods(self) -> None:
+        """Loads mods from mods folder"""
         if self.application.parser.isSet(self.application.args.nomods):
             log("Mod loading is Disabled")
             return
@@ -122,7 +141,15 @@ class Manager:
         log("Mod loading finished!")
 
 
-    def add_editor(self, editor, ui: QWidget):
+    def add_editor(self, editor, ui: QWidget) -> None:
+        """Adds editor to Manager
+
+        You should use `RWESharp.Modify.Mod.add_editor` instead
+
+        :param editor: Editor to add
+        :param ui: ui connected to editor
+        :return: None
+        """
         self.editors.append(editor)
         self.window.ui.ToolsTabs.addTab(ui, ui.objectName())
         #self.window.ui.menuEditors.addAction()

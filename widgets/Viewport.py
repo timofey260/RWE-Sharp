@@ -93,9 +93,9 @@ class ViewPort(QGraphicsView):
         if module in self.modulenames.values():
             del self.modulenames[list(self.modulenames.keys())[list(self.modulenames.values()).index(module)]]
         module.remove_items_from_scene(self)
-        module.viewport = None
         for i in module.renderables:
             i.remove_graphics(self)
+        module.viewport = None
         self.repaint()
 
     def mousePressEvent(self, event):

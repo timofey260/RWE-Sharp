@@ -11,7 +11,7 @@ class Loader(QThread):
         self.tiles: Tiles | None = None
         self.props: Props | None = None
         self.effects: Effects | None = None
-        self.prop_colors = None
+        self.prop_colors: list[list] | None = None
 
     def run(self):
         from RWESharp.Loaders.TileLoader import load_tiles
