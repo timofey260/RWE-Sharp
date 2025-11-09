@@ -1,32 +1,34 @@
-from BaseMod.geo.geometryEditor import GeometryEditor
-from BaseMod.geo.geometryModule import GeoModule
-from BaseMod.tiles.tileModule import TileModule
-from BaseMod.grid.gridModule import GridModule
-from BaseMod.grid.gridUIConnector import GridView
-from BaseMod.themes.RaspberryDark import RaspberryDark
-from BaseMod.Configs import BaseModConfig
-from BaseMod.tiles.tileEditor import TileEditor
-from BaseMod.props.propModule import PropModule
-from BaseMod.props.propEditor import PropEditor
-from BaseMod.props.propUIConnectors import PropsUI
-from BaseMod.effects.effectEditor import EffectEditor
-from BaseMod.effects.effectsUIConnectors import EffectsUI
-from BaseMod.themes.preferencesuiconnector import PreferencesUI
-from BaseMod.camera.cameraModule import CameraModule
-from BaseMod.camera.cameraUIConnectors import CameraViewUI, CameraSettingsUI, CameraUI
-from BaseMod.camera.cameraEditor import CameraEditor
-from BaseMod.properties.propertiesEditor import PropertiesEditor
-from BaseMod.properties.propertiesUIConnectors import PropertiesUI
-from BaseMod.light.lightModule import LightModule
-from BaseMod.light.lightEditor import LightEditor
-from BaseMod.light.lightUIConnectors import LightUI, LightViewUI
-from BaseMod.LevelParts import GeoLevelPart, TileLevelPart, PropLevelPart, EffectLevelPart, CameraLevelPart, InfoLevelPart, LightLevelPart
-from RWESharp.Modify import Mod, ModInfo
-from RWESharp.Core import SettingElement, HotkeyElement, get_hotkeys_from_pattern, PATH_FILES_VIDEOS
-from RWESharp.Ui import FunnyVideo
-from PySide6.QtGui import QAction, QPixmap
 import os
 
+from PySide6.QtGui import QAction
+
+from BaseMod.Configs import BaseModConfig
+from BaseMod.LevelParts import GeoLevelPart, TileLevelPart, PropLevelPart, EffectLevelPart, CameraLevelPart, \
+    InfoLevelPart, LightLevelPart
+from BaseMod.camera.cameraEditor import CameraEditor
+from BaseMod.camera.cameraModule import CameraModule
+from BaseMod.camera.cameraUIConnectors import CameraViewUI, CameraSettingsUI, CameraUI
+from BaseMod.effects.effectEditor import EffectEditor
+from BaseMod.effects.effectsUIConnectors import EffectsUI
+from BaseMod.geo.geometryEditor import GeometryEditor
+from BaseMod.geo.geometryModule import GeoModule
+from BaseMod.grid.gridModule import GridModule
+from BaseMod.grid.gridUIConnector import GridView
+from BaseMod.light.lightEditor import LightEditor
+from BaseMod.light.lightModule import LightModule
+from BaseMod.light.lightUIConnectors import LightUI, LightViewUI
+from BaseMod.properties.propertiesEditor import PropertiesEditor
+from BaseMod.properties.propertiesUIConnectors import PropertiesUI
+from BaseMod.props.propEditor import PropEditor
+from BaseMod.props.propModule import PropModule
+from BaseMod.props.propUIConnectors import PropsUI
+from BaseMod.themes.RaspberryDark import RaspberryDark
+from BaseMod.themes.preferencesuiconnector import PreferencesUI
+from BaseMod.tiles.tileEditor import TileEditor
+from BaseMod.tiles.tileModule import TileModule
+from RWESharp2.Core import SettingElement, HotkeyElement, get_hotkeys_from_pattern, PATH_FILES_VIDEOS
+from RWESharp2.Modify import Mod, ModInfo
+from RWESharp2.Ui import FunnyVideo
 from widgets.Viewport import ViewPort
 
 

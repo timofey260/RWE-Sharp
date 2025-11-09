@@ -1,5 +1,4 @@
 import numpy as np
-from BaseMod.LevelParts import GeoLevelPart
 
 
 def geo_save(form: [int, bool], block: [np.uint8, np.uint16]) -> ([np.uint8, np.uint16], ...):

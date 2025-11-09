@@ -13,7 +13,8 @@ from PySide6.QtWidgets import (QGridLayout, QHBoxLayout, QLabel,
                                QScrollArea, QSizePolicy, QSpacerItem, QVBoxLayout,
                                QWidget)
 
-from core.RWESharpWidgets import (ColorPicker, PenPicker)
+from RWESharp.Core.RWESharpWidgets import (ColorPicker, PenPicker)
+
 
 class Ui_Cameras(object):
     def setupUi(self, Cameras):

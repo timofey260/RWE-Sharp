@@ -1,7 +1,7 @@
 from PySide6.QtCore import QPointF, QPoint
 
-from core.RWESharpWidgets import SimpleViewport
-from RWESharp.Core import CELLSIZE, SPRITESIZE
+from RWESharp.Core.RWESharpWidgets import SimpleViewport
+from RWESharp2.Core import CELLSIZE, SPRITESIZE
 from PySide6.QtGui import QPixmap
 
 

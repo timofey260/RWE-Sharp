@@ -1,7 +1,7 @@
 from PySide6.QtWidgets import QToolButton, QColorDialog
 from PySide6.QtGui import QColor
 from PySide6.QtCore import Signal
-from core.utils import color_lerp
+from RWESharp.utils import color_lerp
 
 
 class ColorPicker(QToolButton):

@@ -1,13 +1,11 @@
-from RWESharp.Modify import Editor
-from RWESharp.Renderable import Handle, RenderList, RenderRect
-from RWESharp.Core import camw, camh, CELLSIZE
-from BaseMod.camera.cameraRenderable import RenderCamera
-from BaseMod.camera.cameraHistory import AddCamera, RemoveCamera, CameraMove, CameraQuadMove, MoveCameraOrder
-from BaseMod.LevelParts import CameraLevelPart
 from PySide6.QtCore import QPointF, QRect, Qt, QPoint
 from PySide6.QtGui import QPen, QColor
-import random
 
+from BaseMod.camera.cameraHistory import AddCamera, RemoveCamera, CameraMove, CameraQuadMove, MoveCameraOrder
+from BaseMod.camera.cameraRenderable import RenderCamera
+from RWESharp2.Core import camw, camh, CELLSIZE
+from RWESharp2.Modify import Editor
+from RWESharp2.Renderable import RenderRect
 
 """class CameraHandles(RenderList):
     def __init__(self, module, depth, rendercamera: RenderCamera):

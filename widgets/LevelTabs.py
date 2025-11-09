@@ -32,7 +32,7 @@ class LevelTabs(QTabWidget):
             links = []
             for url in event.mimeData().urls():
                 links.append(str(url.toLocalFile()))
-            from core.Level.RWELevel import RWELevel
+            from RWESharp.Level.RWELevel import RWELevel
             for i in links:
                 try:
                     level = RWELevel(self.manager, i)

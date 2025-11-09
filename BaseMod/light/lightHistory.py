@@ -1,7 +1,8 @@
-from RWESharp.Modify import HistoryElement
-from RWESharp.Core import ofstop, ofsleft, CELLSIZE
-from PySide6.QtGui import QImage, QColor, QPainter
 from PySide6.QtCore import QSize, QRect, QPoint
+from PySide6.QtGui import QImage, QColor, QPainter
+
+from RWESharp.Modify.HistoryElement import HistoryElement
+from RWESharp2.Core import ofstop, ofsleft, CELLSIZE
 
 
 class LevelResizedLight(HistoryElement):

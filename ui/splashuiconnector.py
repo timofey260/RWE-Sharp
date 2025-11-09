@@ -1,7 +1,7 @@
 from ui.uiscripts.splash import Ui_Splash
 from PySide6.QtWidgets import QSplashScreen, QVBoxLayout
-from core.Loaders.Loader import Loader
-from core.utils import log
+from RWESharp.Loaders.Loader import Loader
+from RWESharp.utils import log
 from PySide6.QtCore import Qt
 # from PySide6.QtCore import Slot
 # from PySide6.QtMultimediaWidgets import QVideoWidget

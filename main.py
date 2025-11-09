@@ -1,4 +1,4 @@
-from core.Application import Application
+from RWESharp.Core.Application import Application
 
 app: Application | None = None  # having it global so it won't get GC'ed just in case
 

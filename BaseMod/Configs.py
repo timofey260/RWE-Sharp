@@ -1,7 +1,9 @@
-from RWESharp.Configurable import KeyConfigurable, EnumFlagConfigurable, StringConfigurable, ColorConfigurable, BoolConfigurable
-from RWESharp.Core import HotkeyElement, get_hotkeys_from_pattern, ISWIN
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QColor, QKeySequence
+
+from RWESharp2.Configurable import KeyConfigurable, EnumFlagConfigurable, StringConfigurable, ColorConfigurable, \
+    BoolConfigurable
+from RWESharp2.Core import HotkeyElement, get_hotkeys_from_pattern
 
 
 class BaseModConfig:

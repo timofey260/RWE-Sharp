@@ -1,11 +1,11 @@
-from BaseMod.themes.paletteui import Ui_Paletteui
-from BaseMod.themes.RaspberryDark import RaspberryDark
-from PySide6.QtWidgets import QTreeWidgetItem, QColorDialog, QFileDialog
-from PySide6.QtGui import QPixmap, QColor
 from PySide6.QtCore import Qt
-from RWESharp.Ui import ThemeUI
-from RWESharp.Core import PATH
-from RWESharp.Configurable import ColorConfigurable
+from PySide6.QtGui import QPixmap
+from PySide6.QtWidgets import QTreeWidgetItem, QColorDialog, QFileDialog
+
+from BaseMod.themes.RaspberryDark import RaspberryDark
+from BaseMod.themes.paletteui import Ui_Paletteui
+from RWESharp2.Core import PATH
+from RWESharp2.Ui import ThemeUI
 
 
 class RPDarkUI(ThemeUI):

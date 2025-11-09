@@ -1,12 +1,13 @@
-from RWESharp.Modify import Editor
-from RWESharp.Configurable import ColorConfigurable, KeyConfigurable, IntConfigurable
-from RWESharp.Renderable import RenderEllipse
-from RWESharp.Core import CELLSIZE
-from BaseMod.effects.effectRenderTexture import EffectRenderLevelImage
-from BaseMod.effects.effectHistory import EffectBrush
+from PySide6.QtCore import QRect, QPoint, QSize
+from PySide6.QtGui import QColor, QMoveEvent
+
 from BaseMod.effects.effectExplorer import EffectExplorer
-from PySide6.QtGui import QColor, QMoveEvent, QGuiApplication, QAction
-from PySide6.QtCore import QRect, QPoint, QSize, Qt
+from BaseMod.effects.effectHistory import EffectBrush
+from BaseMod.effects.effectRenderTexture import EffectRenderLevelImage
+from RWESharp2.Configurable import ColorConfigurable, IntConfigurable
+from RWESharp2.Core import CELLSIZE
+from RWESharp2.Modify import Editor
+from RWESharp2.Renderable import RenderEllipse
 
 
 class EffectEditor(Editor):

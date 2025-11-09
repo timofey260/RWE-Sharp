@@ -16,7 +16,7 @@ from PySide6.QtWidgets import (QAbstractItemView, QAbstractScrollArea, QComboBox
                                QTableWidgetItem, QToolButton, QTreeWidget, QTreeWidgetItem,
                                QVBoxLayout, QWidget)
 
-from core.RWESharpWidgets import SimpleViewport
+from RWESharp.Core.RWESharpWidgets import SimpleViewport
 
 
 class Ui_Explorer(object):

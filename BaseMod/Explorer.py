@@ -1,15 +1,13 @@
-import os
-
-from PySide6.QtCore import Slot, Signal, Qt, QSize, QPoint, QTimer
-from PySide6.QtGui import QAction, QPixmap, QColor, QImage
-from PySide6.QtWidgets import QTreeWidgetItem, QListWidgetItem, QListWidget
-
 from abc import abstractmethod
 
+from PySide6.QtCore import Signal, Qt, QSize, QTimer
+from PySide6.QtGui import QColor
+from PySide6.QtWidgets import QTreeWidgetItem, QListWidgetItem, QListWidget
+
 from BaseMod.explorer_ui import Ui_Explorer
-from RWESharp.Configurable import BoolConfigurable
-from RWESharp.Core import ViewDockWidget
-from RWESharp.Utils import paint_svg_qicon
+from RWESharp2.Configurable import BoolConfigurable
+from RWESharp2.Core import ViewDockWidget
+from RWESharp2.Utils import paint_svg_qicon
 
 
 class Explorer(ViewDockWidget):

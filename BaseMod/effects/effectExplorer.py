@@ -1,12 +1,12 @@
-from RWESharp.Core import ViewDockWidget
-from RWESharp.Utils import color_lerp
-from RWESharp.Loaders import Effect, EffectCategory
-
-from PySide6.QtWidgets import QTreeWidgetItem
-from PySide6.QtGui import QPixmap, QAction, QColor
 from PySide6.QtCore import Qt
-from BaseMod.effects.ui.effectexplorer_ui import Ui_EffectExplorer
+from PySide6.QtGui import QPixmap, QAction, QColor
+from PySide6.QtWidgets import QTreeWidgetItem
+
 from BaseMod.effects.effectHistory import EffectAdd
+from BaseMod.effects.ui.effectexplorer_ui import Ui_EffectExplorer
+from RWESharp2.Core import ViewDockWidget
+from RWESharp2.Loaders import Effect, EffectCategory
+from RWESharp2.Utils import color_lerp
 
 
 class EffectExplorer(ViewDockWidget):

@@ -3,18 +3,18 @@ from __future__ import annotations
 from enum import Enum, auto
 from typing import TYPE_CHECKING
 
-from PySide6.QtGui import QMoveEvent, QMouseEvent, QColor
 from PySide6.QtCore import QRect, QPoint, QLine
+from PySide6.QtGui import QMoveEvent, QMouseEvent, QColor
 
-from RWESharp.Configurable import IntConfigurable, BoolConfigurable, EnumConfigurable
-from RWESharp.Core import CELLSIZE
-from RWESharp.Modify import Editor
-from RWESharp.Loaders import Tile
-from RWESharp.Renderable import RenderTile, RenderRect, RenderEllipse, RenderLine
-from RWESharp.Utils import fit_rect
 from BaseMod.tiles.tileExplorer import TileExplorer
 from BaseMod.tiles.tileHistory import TilePen, TileRectangle, TileEllipse, TileLine, TileBrush
 from BaseMod.tiles.tileUtils import can_place
+from RWESharp2.Configurable import IntConfigurable, BoolConfigurable, EnumConfigurable
+from RWESharp2.Core import CELLSIZE
+from RWESharp2.Loaders import Tile
+from RWESharp2.Modify import Editor
+from RWESharp2.Renderable import RenderTile, RenderRect, RenderEllipse, RenderLine
+from RWESharp2.Utils import fit_rect
 
 if TYPE_CHECKING:
     from BaseMod.baseMod import BaseMod

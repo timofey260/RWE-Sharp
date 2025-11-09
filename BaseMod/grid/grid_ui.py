@@ -14,7 +14,8 @@ from PySide6.QtWidgets import (QCheckBox, QGridLayout, QHBoxLayout,
                                QLabel, QScrollArea, QSizePolicy, QSpacerItem,
                                QSpinBox, QVBoxLayout, QWidget)
 
-from core.RWESharpWidgets import (ColorPicker, PenPicker)
+from RWESharp.Core.RWESharpWidgets import (ColorPicker, PenPicker)
+
 
 class Ui_MiscView(object):
     def setupUi(self, MiscView):

@@ -1,12 +1,12 @@
-from RWESharp.Ui import ViewUI, UI, SettingUI
-from RWESharp.Configurable import BoolConfigurable, KeyConfigurable, PenConfigurable, ColorConfigurable
-from BaseMod.camera.ui.camera_vis_ui import Ui_CameraView
-from BaseMod.camera.ui.camerasettings_ui import Ui_Cameras as Ui_CameraSettings
-from BaseMod.camera.ui.cameras_ui import Ui_Cameras
-from PySide6.QtGui import QAction, QColor, QPen
 from PySide6.QtCore import QCoreApplication, QPoint, Qt
+from PySide6.QtGui import QAction, QColor, QPen
 from PySide6.QtWidgets import QCheckBox, QTreeWidgetItem
 
+from BaseMod.camera.ui.camera_vis_ui import Ui_CameraView
+from BaseMod.camera.ui.cameras_ui import Ui_Cameras
+from BaseMod.camera.ui.camerasettings_ui import Ui_Cameras as Ui_CameraSettings
+from RWESharp2.Configurable import BoolConfigurable, KeyConfigurable, PenConfigurable, ColorConfigurable
+from RWESharp2.Ui import ViewUI, UI, SettingUI
 from widgets.SettingsViewer import SettingsViewer
 
 

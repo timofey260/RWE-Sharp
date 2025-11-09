@@ -4,7 +4,7 @@ from PySide6.QtWidgets import QDialog, QTreeWidgetItem, QDialogButtonBox
 from PySide6.QtCore import Qt, Slot
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
-    from core.Manager import Manager
+    from RWESharp.Core.Manager import Manager
 
 
 class SettingsDialogUI(QDialog):

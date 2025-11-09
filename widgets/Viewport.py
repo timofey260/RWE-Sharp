@@ -1,14 +1,13 @@
 from __future__ import annotations
-import traceback
-from PySide6.QtGui import QColor, QPixmap
+from PySide6.QtGui import QColor
 from PySide6.QtCore import Qt, QPoint, Slot, QPointF
 from PySide6.QtWidgets import QGraphicsView, QGraphicsScene, QApplication, QFileDialog
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
-    from core.Modify.baseModule import Module
-    from core.Manager import Manager
-    from core.Level.RWELevel import RWELevel
-from core.info import CELLSIZE, PATH_LEVELS
+    from RWESharp.Modify.Module import Module
+    from RWESharp.Core.Manager import Manager
+    from RWESharp.Level.RWELevel import RWELevel
+from RWESharp.info import CELLSIZE, PATH_LEVELS
 
 
 class ViewPort(QGraphicsView):

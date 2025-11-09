@@ -1,7 +1,9 @@
-from RWESharp.Ui import UI
-from BaseMod.properties.ui.properties_ui import Ui_Properties
-from BaseMod.properties.propertiesEditor import PropertiesEditor
 import random
+
+from BaseMod.properties.propertiesEditor import PropertiesEditor
+from BaseMod.properties.ui.properties_ui import Ui_Properties
+from RWESharp2.Ui import UI
+
 
 class PropertiesUI(UI):
     def __init__(self, mod):

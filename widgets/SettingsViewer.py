@@ -1,5 +1,5 @@
 from PySide6.QtWidgets import QWidget, QPushButton, QDialogButtonBox, QDialog, QMessageBox, QAbstractButton
-from core.Modify.ui import SettingUI
+from RWESharp.Modify.Ui import SettingUI
 
 
 class SettingsViewer(QWidget):

@@ -1,8 +1,9 @@
-from BaseMod.themes.preferencesui import Ui_Preferences
-from RWESharp.Ui import SettingUI
-from RWESharp.Configurable import StringConfigurable
-from RWESharp.Utils import log
 from PySide6.QtCore import Qt
+
+from BaseMod.themes.preferencesui import Ui_Preferences
+from RWESharp2.Configurable import StringConfigurable
+from RWESharp2.Ui import SettingUI
+from RWESharp2.Utils import log
 from widgets.SettingsViewer import SettingsViewer
 
 

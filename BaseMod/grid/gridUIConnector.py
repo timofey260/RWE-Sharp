@@ -1,10 +1,12 @@
-from PySide6.QtWidgets import QCheckBox
-from PySide6.QtGui import QAction
 from PySide6.QtCore import QCoreApplication, Qt
-from RWESharp.Ui import ViewUI
-from BaseMod.grid.grid_ui import Ui_MiscView
-from RWESharp.Configurable import BoolConfigurable, IntConfigurable, KeyConfigurable, ColorConfigurable, PenConfigurable
+from PySide6.QtGui import QAction
 from PySide6.QtGui import QColor, QPen
+from PySide6.QtWidgets import QCheckBox
+
+from BaseMod.grid.grid_ui import Ui_MiscView
+from RWESharp2.Configurable import BoolConfigurable, IntConfigurable, KeyConfigurable, ColorConfigurable, \
+    PenConfigurable
+from RWESharp2.Ui import ViewUI
 
 
 class GridView(ViewUI):

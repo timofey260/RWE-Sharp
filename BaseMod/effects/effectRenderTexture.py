@@ -1,9 +1,10 @@
-from RWESharp.Renderable import RenderLevelImage
-from RWESharp.Core import CELLSIZE
-from RWESharp.Utils import color_lerp
-from PySide6.QtGui import QColor
-from PySide6.QtCore import QPoint, QRect, QSize
 import numpy as np
+from PySide6.QtCore import QPoint, QRect, QSize
+from PySide6.QtGui import QColor
+
+from RWESharp2.Core import CELLSIZE
+from RWESharp2.Renderable import RenderLevelImage
+from RWESharp2.Utils import color_lerp
 
 
 class EffectRenderLevelImage(RenderLevelImage):

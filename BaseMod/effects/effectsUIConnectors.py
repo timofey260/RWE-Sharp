@@ -1,12 +1,14 @@
-from RWESharp.Ui import UI
-from RWESharp.Configurable import KeyConfigurable
-from PySide6.QtWidgets import QTreeWidgetItem, QDialog, QInputDialog, QMenu
+from random import randint
+
 from PySide6.QtCore import Qt, QPoint, QItemSelectionModel
 from PySide6.QtGui import QPixmap
+from PySide6.QtWidgets import QTreeWidgetItem, QDialog, QInputDialog, QMenu
+
+from BaseMod.effects.effectHistory import EffectOptionChange, EffectRemove, EffectMove, EffectDuplicate
 from BaseMod.effects.ui.effects_ui import Ui_Effects
 from BaseMod.effects.ui.effectsdialog import Ui_EffectDialog
-from BaseMod.effects.effectHistory import EffectOptionChange, EffectRemove, EffectMove, EffectDuplicate
-from random import randint
+from RWESharp2.Configurable import KeyConfigurable
+from RWESharp2.Ui import UI
 
 
 class EffectDialog(QDialog):

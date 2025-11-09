@@ -1,7 +1,5 @@
-from RWESharp.Modify import Module
 from BaseMod.props.propRenderable import PropRenderable
-from PySide6.QtWidgets import QGraphicsPixmapItem, QGraphicsItemGroup
-from PySide6.QtGui import QPixmap
+from RWESharp2.Modify import Module
 
 
 class PropModule(Module):

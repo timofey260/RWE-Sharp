@@ -1,21 +1,22 @@
+import os
+
 from PySide6.QtCore import Slot, Qt, QCoreApplication, Signal
 from PySide6.QtGui import QAction, QColor, QImage
 from PySide6.QtWidgets import QFileDialog, QMenu, QCheckBox
 
 from BaseMod.baseMod import BaseMod
+from BaseMod.geo.GeoConsts import *
+from BaseMod.tiles.tileHistory import DefaultMaterialChange
 from BaseMod.tiles.ui.tiles_ui import Ui_Tiles
 from BaseMod.tiles.ui.tiles_vis_ui import Ui_TilesView
 from BaseMod.tiles.ui.tilesettings_ui import Ui_TileSettings
-from BaseMod.tiles.tileHistory import DefaultMaterialChange
-from BaseMod.geo.GeoConsts import *
-
-from RWESharp.Configurable import BoolConfigurable, IntConfigurable, StringConfigurable, FloatConfigurable, KeyConfigurable
-from RWESharp.Core import PATH_FILES_IMAGES_PALETTES
-from RWESharp.Ui import ViewUI, UI, SettingUI
-from RWESharp.Utils import paint_svg_qicon
-from RWESharp.Loaders import palette_to_colortable
+from RWESharp2.Configurable import BoolConfigurable, IntConfigurable, StringConfigurable, FloatConfigurable, \
+    KeyConfigurable
+from RWESharp2.Core import PATH_FILES_IMAGES_PALETTES
+from RWESharp2.Loaders import palette_to_colortable
+from RWESharp2.Ui import ViewUI, UI, SettingUI
+from RWESharp2.Utils import paint_svg_qicon
 from widgets.SettingsViewer import SettingsViewer
-import os
 
 
 class TileViewUI(ViewUI):

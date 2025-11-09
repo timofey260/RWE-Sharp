@@ -1,7 +1,10 @@
 import math
+
 from PySide6.QtCore import QPointF, QRectF, QPoint
+
 from BaseMod.LevelParts import GeoLevelPart
-from RWESharp.Loaders import Prop
+from RWESharp2.Loaders import Prop
+
 
 def Diag(point1: QPointF, point2: QPointF):
     RectHeight = abs(point1.y() - point2.y())

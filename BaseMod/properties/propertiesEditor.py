@@ -1,10 +1,11 @@
-from RWESharp.Modify import Editor
-from RWESharp.Renderable import Handle, GridHandleRectangle
-from RWESharp.Configurable import IntConfigurable
-from RWESharp.Core import CELLSIZE, wladd
-from BaseMod.properties.PropertiesHistory import BorderChange, TileSeedChange, WaterChange
-from PySide6.QtCore import QPoint, QRect, QRectF, Qt
+from PySide6.QtCore import QPoint, QRect, Qt
 from PySide6.QtGui import QPen, QColor
+
+from BaseMod.properties.PropertiesHistory import BorderChange, TileSeedChange, WaterChange
+from RWESharp2.Configurable import IntConfigurable
+from RWESharp2.Core import CELLSIZE, wladd
+from RWESharp2.Modify import Editor
+from RWESharp2.Renderable import Handle, GridHandleRectangle
 
 
 class PropertiesEditor(Editor):

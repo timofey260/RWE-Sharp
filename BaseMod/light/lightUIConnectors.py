@@ -1,10 +1,11 @@
-from RWESharp.Ui import UI, ViewUI
-from RWESharp.Configurable import FloatConfigurable, BoolConfigurable, KeyConfigurable, StringConfigurable
+from PySide6.QtCore import QCoreApplication
+from PySide6.QtGui import QAction
+from PySide6.QtWidgets import QCheckBox
+
 from BaseMod.light.ui.light_ui import Ui_Light
 from BaseMod.light.ui.light_vis_ui import Ui_LightView
-from PySide6.QtCore import QCoreApplication
-from PySide6.QtWidgets import QCheckBox
-from PySide6.QtGui import QAction
+from RWESharp2.Configurable import FloatConfigurable, BoolConfigurable, KeyConfigurable, StringConfigurable
+from RWESharp2.Ui import UI, ViewUI
 
 
 class LightUI(UI):

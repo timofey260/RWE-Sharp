@@ -14,7 +14,8 @@ from PySide6.QtWidgets import (QHBoxLayout, QLabel, QLineEdit, QPushButton, QSiz
                                QSpacerItem, QSplitter, QToolButton, QTreeWidget,
                                QTreeWidgetItem, QVBoxLayout, QWidget)
 
-from core.RWESharpWidgets import SimpleViewport
+from RWESharp.Core.RWESharpWidgets import SimpleViewport
+
 
 class Ui_EffectExplorer(object):
     def setupUi(self, EffectExplorer):

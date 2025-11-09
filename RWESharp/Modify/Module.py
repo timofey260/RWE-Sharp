@@ -1,0 +1,78 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
+from abc import ABC, abstractmethod
+from PySide6.QtCore import QRect
+if TYPE_CHECKING:
+    from RWESharp.Renderable.Renderable import Renderable
+    from widgets.Viewport import ViewPort
+    from RWESharp.Level.RWELevel import RWELevel
+    from BaseMod.baseMod import BaseMod
+
+
+class Module(ABC):
+    """
+    Module for passive editor and viewport work
+    """
+    def __init__(self, mod):
+        self.mod = mod
+        self.manager = mod.manager
+        self.renderables: list[Renderable] = []
+        self.viewport: ViewPort | None = None
+
+    def level_resized(self, newrect: QRect):
+        """
+        Called once level is resized
+        """
+        for i in self.renderables:
+            i.level_resized(newrect)
+
+    def add_renderable(self, renderable: Renderable):
+        if renderable.module == self and renderable in self.renderables:
+            return
+        self.renderables.append(renderable)
+        # if self.viewport is not None:
+        #     renderable.init_graphics(self.viewport)
+        #     renderable.post_init_graphics(self.viewport)
+        #     renderable.move_event()
+        #     renderable.zoom_event()
+
+    def add_myself(self, viewport: ViewPort, name=None):
+        self.viewport = viewport
+        viewport.add_module(self, name)
+        return self
+
+    def zoom_event(self):
+        for i in self.renderables:
+            i.zoom_event()
+
+    def move_event(self):
+        for i in self.renderables:
+            i.move_event()
+
+    def init_scene_items(self, viewport):
+        """
+        Called when editor is changed, should add drawables to scene
+        :return:
+        """
+
+    def remove_items_from_scene(self, viewport):
+        """
+        Called when editor is changed, should remove anything it doesn't need
+        :return: None
+        """
+
+    @property
+    def basemod(self) -> BaseMod:
+        return self.manager.basemod
+
+    @property
+    def level(self) -> RWELevel:
+        return self.viewport.level
+
+    @property
+    def zoom(self) -> float:
+        return self.viewport.zoom
+
+    @property
+    def layer(self):
+        return self.manager.layer.value

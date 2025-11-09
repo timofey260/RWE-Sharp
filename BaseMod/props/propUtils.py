@@ -1,5 +1,4 @@
 from PySide6.QtCore import QPointF
-from RWESharp.Core import SPRITESIZE, CELLSIZE
 
 
 def copyprop(prop):

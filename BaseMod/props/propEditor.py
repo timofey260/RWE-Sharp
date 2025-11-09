@@ -1,24 +1,22 @@
 import math
-
-from RWESharp.Modify import Editor
-from RWESharp.Core import CELLSIZE
-from RWESharp.Configurable import ColorConfigurable
-from RWESharp.Loaders import Prop
-from RWESharp.Core import lingoIO
-from RWESharp.Renderable import RenderLine, RenderPoly, RenderRect
-from RWESharp.Utils import rotate_point
-
-from BaseMod.props.propExplorer import PropExplorer
-from BaseMod.props.propRenderable import PropRenderable
-from BaseMod.props.propHistory import PropPlace, PropRemove
-from BaseMod.props.propUtils import find_mid
-from BaseMod.props.RopePhysics import RopeModel
-from BaseMod.LevelParts import PropLevelPart
+import random as rnd
 
 from PySide6.QtCore import QPointF, QLineF, Qt, QRect, QPoint, QTimer
 from PySide6.QtGui import QPolygonF, QColor, QPen
 
-import random as rnd
+from BaseMod.LevelParts import PropLevelPart
+from BaseMod.props.RopePhysics import RopeModel
+from BaseMod.props.propExplorer import PropExplorer
+from BaseMod.props.propHistory import PropPlace, PropRemove
+from BaseMod.props.propRenderable import PropRenderable
+from BaseMod.props.propUtils import find_mid
+from RWESharp.Core import lingoIO
+from RWESharp2.Configurable import ColorConfigurable
+from RWESharp2.Core import CELLSIZE
+from RWESharp2.Loaders import Prop
+from RWESharp2.Modify import Editor
+from RWESharp2.Renderable import RenderLine, RenderPoly, RenderRect
+from RWESharp2.Utils import rotate_point
 
 
 class PropEditor(Editor):

@@ -1,5 +1,5 @@
-import os
 import re
+
 from BaseMod.themes.RaspberryDark import RaspberryDark
 
 with open(r"C:\Users\ATOM\Documents\GitHub\RWE-Sharp\BaseMod\Palettes\qssfiles\sharp.txt") as file:

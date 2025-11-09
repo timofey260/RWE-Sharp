@@ -1,4 +1,4 @@
-from RWESharp.Configurable import KeyConfigurable
+from RWESharp2.Configurable import KeyConfigurable
 
 
 class GeoControls:

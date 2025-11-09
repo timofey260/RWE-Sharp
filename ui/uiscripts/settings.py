@@ -14,7 +14,7 @@ from PySide6.QtWidgets import (QDialogButtonBox,
                                QSizePolicy, QSplitter, QTreeWidget,
                                QVBoxLayout)
 
-from core.RWESharpWidgets import SettingsViewer
+from RWESharp.Core.RWESharpWidgets import SettingsViewer
 
 class Ui_Settings(object):
     def setupUi(self, Settings):

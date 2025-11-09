@@ -1,14 +1,14 @@
-from RWESharp.Renderable import Renderable, RenderPoly, Handle
-from RWESharp.Utils import remap
-from RWESharp.Core import CELLSIZE, SPRITESIZE, lingoIO
-from RWESharp.Loaders import Prop
+import random
 
-from BaseMod.LevelParts import PropLevelPart
 from PySide6.QtCore import QPoint, QPointF
-from PySide6.QtGui import QTransform, QPolygonF, QPixmap, QImage, QPen, QColor
+from PySide6.QtGui import QTransform, QPolygonF, QPixmap, QPen, QColor
 from PySide6.QtWidgets import QGraphicsPixmapItem, QGraphicsEllipseItem
 
-import random
+from BaseMod.LevelParts import PropLevelPart
+from RWESharp.Core import lingoIO
+from RWESharp2.Loaders import Prop
+from RWESharp2.Renderable import Renderable, RenderPoly, Handle
+from RWESharp2.Utils import remap
 
 
 class PropRenderable(Renderable):

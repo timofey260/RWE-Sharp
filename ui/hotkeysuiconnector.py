@@ -5,7 +5,7 @@ from ui.uiscripts.hotkeys import Ui_Hotkeys
 from ui.KeyDialog import KeyDialog
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
-    from core.Manager import Manager
+    from RWESharp.Core.Manager import Manager
 
 
 class HotkeysUI(QDialog):

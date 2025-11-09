@@ -1,11 +1,11 @@
-from PySide6.QtCore import QRect, Qt, Slot, QPoint, QSize
-from PySide6.QtGui import QBrush, QColor, QPainter, QPixmap, QPen
-from PySide6.QtWidgets import QGraphicsScene, QGraphicsPixmapItem, QGraphicsRectItem
+from PySide6.QtCore import QRect, QPoint
+from PySide6.QtGui import QColor, QPainter, QPen
+from PySide6.QtWidgets import QGraphicsScene
 
-from RWESharp.Core import CONSTS, CELLSIZE, SPRITESIZE
-from RWESharp.Loaders import colortable, color_colortable, Tile
-from RWESharp.Renderable import RenderLevelImage
-from BaseMod.tiles.tileUtils import PlacedMaterial, PlacedTileHead, PlacedTileBody
+from BaseMod.tiles.tileUtils import PlacedMaterial, PlacedTileHead
+from RWESharp2.Core import CONSTS, CELLSIZE, SPRITESIZE
+from RWESharp2.Loaders import color_colortable
+from RWESharp2.Renderable import RenderLevelImage
 
 
 class TileRenderLevelImage(RenderLevelImage):

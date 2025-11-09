@@ -1,8 +1,9 @@
-from BaseMod.tiles.ui.tilepin import Ui_TilePin
-from RWESharp.Configurable import IntConfigurable
-from RWESharp.Core import ViewDockWidget, CELLSIZE, SPRITESIZE
 from PySide6.QtCore import Qt, QPoint
 from PySide6.QtGui import QPixmap
+
+from BaseMod.tiles.ui.tilepin import Ui_TilePin
+from RWESharp2.Configurable import IntConfigurable
+from RWESharp2.Core import ViewDockWidget, CELLSIZE, SPRITESIZE
 
 
 class TilePin(ViewDockWidget):

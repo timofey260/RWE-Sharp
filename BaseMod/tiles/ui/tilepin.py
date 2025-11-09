@@ -12,7 +12,7 @@ from PySide6.QtCore import (QCoreApplication, QMetaObject, QSize)
 from PySide6.QtGui import (QIcon)
 from PySide6.QtWidgets import (QCheckBox, QComboBox, QHBoxLayout, QLabel, QPushButton, QSpinBox, QVBoxLayout, QWidget)
 
-from core.RWESharpWidgets import SimpleViewport
+from RWESharp.Core.RWESharpWidgets import SimpleViewport
 
 
 class Ui_TilePin(object):

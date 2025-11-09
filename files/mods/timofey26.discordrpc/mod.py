@@ -1,8 +1,8 @@
-from RWESharp.Modify import Mod, ModInfo
+from RWESharp2.Modify import Mod, ModInfo
 from PySide6.QtCore import QTimer
 from discordrpc.presence import RPC as DRPC
 from discordrpc.button import Button
-from RWESharp.Core import REPO, REPO_DOWNLOAD_LATEST
+from RWESharp2.Core import REPO, REPO_DOWNLOAD_LATEST
 import time
 import random
 

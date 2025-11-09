@@ -1,4 +1,5 @@
-from RWESharp.Modify import HistoryElement
+from RWESharp.Modify.HistoryElement import HistoryElement
+
 
 class BorderChange(HistoryElement):
     def __init__(self, history, border_tiles: list[int]):

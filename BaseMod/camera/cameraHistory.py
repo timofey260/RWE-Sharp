@@ -1,6 +1,7 @@
-from RWESharp.Modify import HistoryElement
-from RWESharp.Core import CELLSIZE
 from PySide6.QtCore import QRect
+
+from RWESharp.Modify.HistoryElement import HistoryElement
+from RWESharp2.Core import CELLSIZE
 
 
 class AddCamera(HistoryElement):

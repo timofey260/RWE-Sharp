@@ -1,6 +1,4 @@
-import traceback
-
-from PySide6.QtWidgets import QMainWindow, QFileDialog, QSpacerItem, QSizePolicy, QMessageBox
+from PySide6.QtWidgets import QMainWindow, QFileDialog, QSpacerItem, QSizePolicy
 from PySide6.QtCore import Slot, Qt
 from PySide6.QtGui import QDesktopServices, QAction
 
@@ -9,10 +7,9 @@ from ui.uiscripts.mainui import Ui_MainWindow
 from ui.aboutuiconnector import AboutDialog
 from ui.settingsuiconnector import SettingsDialogUI
 from ui.hotkeysuiconnector import HotkeysUI
-from core.utils import modify_path_url
-from core.info import PATH_LEVELS, PATH_FILES_VIDEOS, PATH_DRIZZLE, ISWIN, REPO_ISSUES, REPO, FULLNAME, CUSTOM_LINKS
-from core.LevelRenderer import LevelRenderer
-from core.Level.RWELevel import RWELevel
+from RWESharp.utils import modify_path_url
+from RWESharp.info import PATH_LEVELS, PATH_FILES_VIDEOS, PATH_DRIZZLE, ISWIN, REPO_ISSUES, REPO, FULLNAME, CUSTOM_LINKS
+from RWESharp.Core.LevelRenderer import LevelRenderer
 
 import os
 
@@ -25,7 +22,7 @@ class MainWindow(QMainWindow):
         """
         :param filename:  file to load by default
         """
-        from core.Manager import Manager
+        from RWESharp.Core.Manager import Manager
         super(MainWindow, self).__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)

@@ -1,10 +1,11 @@
-from PySide6.QtGui import QColor
-from RWESharp.Modify import Theme
-from RWESharp.Configurable import IntConfigurable
-from RWESharp.Core import PATH_FILES
 import os
 
-from core.configTypes.QtTypes import ColorConfigurable
+from PySide6.QtGui import QColor
+
+from RWESharp.Configurable.QtTypes import ColorConfigurable
+from RWESharp2.Configurable import IntConfigurable
+from RWESharp2.Core import PATH_FILES
+from RWESharp2.Modify import Theme
 
 
 class RaspberryDark(Theme):

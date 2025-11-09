@@ -1,13 +1,12 @@
 from __future__ import annotations
 
 import numpy as np
-
 from PySide6.QtCore import QPoint, QRect, QSize
 from PySide6.QtWidgets import QGraphicsPixmapItem, QGraphicsRectItem
 
-from RWESharp.Core import RWELevel, CELLSIZE
-from RWESharp.Loaders import Tile
-from RWESharp.Modify import HistoryElement
+from RWESharp.Modify.HistoryElement import HistoryElement
+from RWESharp2.Core import RWELevel, CELLSIZE
+from RWESharp2.Loaders import Tile
 
 
 class PlacedTileHead:

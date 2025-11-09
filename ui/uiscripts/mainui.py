@@ -17,7 +17,7 @@ from PySide6.QtWidgets import (QDockWidget, QGridLayout, QHBoxLayout,
                                QPushButton, QScrollArea, QSizePolicy, QSpinBox,
                                QStatusBar, QTabWidget, QVBoxLayout, QWidget)
 
-from core.RWESharpWidgets import (LevelTabs, ViewDockWidget)
+from RWESharp.Core.RWESharpWidgets import (LevelTabs, ViewDockWidget)
 
 
 class Ui_MainWindow(object):

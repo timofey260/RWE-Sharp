@@ -1,14 +1,12 @@
-import os
-
 from PySide6.QtCore import Qt, QPoint
 from PySide6.QtGui import QPixmap, QColor, QAction
 from PySide6.QtWidgets import QMainWindow, QTreeWidgetItem, QListWidgetItem, QTableWidgetItem
 
 from BaseMod.Explorer import Explorer
 from BaseMod.tiles.tilePin import TilePin
-from RWESharp.Configurable import BoolConfigurable, IntConfigurable
-from RWESharp.Core import CELLSIZE, SPRITESIZE
-from RWESharp.Loaders import Tile
+from RWESharp2.Configurable import BoolConfigurable, IntConfigurable
+from RWESharp2.Core import CELLSIZE, SPRITESIZE
+from RWESharp2.Loaders import Tile
 
 
 class TileExplorer(Explorer):

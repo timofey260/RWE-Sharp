@@ -1,12 +1,14 @@
-from RWESharp.Modify import LevelPart
-from RWESharp.Core import lingoIO, SPRITESIZE, CELLSIZE, ofsleft, ofstop
-from RWESharp.Utils import polar2point, point2polar
-from BaseMod.tiles.tileUtils import PlacedMaterial, PlacedTileHead, PlacedTileBody
-from PySide6.QtCore import QPoint, QPointF, QSize, Qt, QByteArray, QBuffer, QIODevice, QRect
-from PySide6.QtGui import QImage, QPainter, QColor, QImageWriter
-import numpy as np
 from copy import deepcopy
 
+import numpy as np
+from PySide6.QtCore import QPoint, QPointF, QSize, QByteArray, QBuffer, QIODevice, QRect
+from PySide6.QtGui import QImage, QPainter, QColor, QImageWriter
+
+from BaseMod.tiles.tileUtils import PlacedMaterial, PlacedTileHead, PlacedTileBody
+from RWESharp.Core import lingoIO
+from RWESharp2.Core import SPRITESIZE, CELLSIZE, ofsleft, ofstop
+from RWESharp2.Modify import LevelPart
+from RWESharp2.Utils import polar2point, point2polar
 
 stack_pos = [1, 2, 11, 3, 4, 5, 6, 7, 9, 10, 12, 13, 19, 21, 20, 18]
 

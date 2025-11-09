@@ -1,0 +1,1 @@
+from RWESharp.Core.Exceptions import FileNotCompatible # NOQA

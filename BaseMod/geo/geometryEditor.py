@@ -1,18 +1,18 @@
 import os
 from enum import Enum, auto
+
 import numpy as np
-
 from PySide6.QtCore import QRectF, QPoint, QSize, QLine, QRect
-from PySide6.QtGui import QColor, QMoveEvent, QMouseEvent, QPixmap, QPainter, QCursor
+from PySide6.QtGui import QColor, QMoveEvent, QMouseEvent, QPixmap, QPainter
 
+from BaseMod.LevelParts import stack_pos, GeoLevelPart
 from BaseMod.geo.geoControls import GeoControls
 from BaseMod.geo.geoHistory import GEPointChange, GERectChange, GEBrushChange, GEEllipseChange, GEFillChange
-from BaseMod.LevelParts import stack_pos, GeoLevelPart
-from RWESharp.Configurable import BoolConfigurable, IntConfigurable, EnumConfigurable, ColorConfigurable
-from RWESharp.Core import CELLSIZE, PATH_FILES_IMAGES, CONSTS
-from RWESharp.Modify import Editor
-from RWESharp.Renderable import RenderImage, RenderRect, RenderEllipse, RenderLine
-from RWESharp.Utils import closest_line, fit_rect
+from RWESharp2.Configurable import BoolConfigurable, IntConfigurable, EnumConfigurable, ColorConfigurable
+from RWESharp2.Core import CELLSIZE, PATH_FILES_IMAGES, CONSTS
+from RWESharp2.Modify import Editor
+from RWESharp2.Renderable import RenderImage, RenderRect, RenderEllipse, RenderLine
+from RWESharp2.Utils import closest_line, fit_rect
 
 
 class GeoBlocks(Enum):

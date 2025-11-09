@@ -1,8 +1,8 @@
-from RWESharp.Modify import Module
-from widgets.Viewport import ViewPort
-from BaseMod.camera.cameraRenderable import RenderCamera
-from BaseMod.LevelParts import CameraLevelPart
 from PySide6.QtCore import QPointF
+
+from BaseMod.LevelParts import CameraLevelPart
+from BaseMod.camera.cameraRenderable import RenderCamera
+from RWESharp2.Modify import Module
 
 cameradepth = 5
 

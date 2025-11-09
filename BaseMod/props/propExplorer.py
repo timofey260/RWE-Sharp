@@ -1,9 +1,9 @@
-from PySide6.QtWidgets import QTreeWidgetItem, QListWidgetItem, QTableWidgetItem
-from PySide6.QtGui import QPixmap, QAction
 from PySide6.QtCore import Qt
+from PySide6.QtGui import QPixmap, QAction
+from PySide6.QtWidgets import QTreeWidgetItem, QListWidgetItem, QTableWidgetItem
 
 from BaseMod.Explorer import Explorer
-from RWESharp.Loaders import Prop
+from RWESharp2.Loaders import Prop
 
 
 class PropExplorer(Explorer):

@@ -3,7 +3,7 @@ from __future__ import annotations
 from PySide6.QtCore import QPoint, Qt, QPointF
 from PySide6.QtGui import QColor, QPixmap
 from PySide6.QtWidgets import QGraphicsScene, QGraphicsView, QGraphicsItem
-from core.info import CELLSIZE
+from RWESharp.info import CELLSIZE
 
 
 class SimpleViewport(QGraphicsView):

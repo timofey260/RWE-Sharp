@@ -17,6 +17,7 @@ from PySide6.QtWidgets import (QAbstractSpinBox, QCheckBox, QComboBox,
 
 from BaseMod.BaseModWidgets import TileSettingsViewport
 
+
 class Ui_TileSettings(object):
     def setupUi(self, TileSettings):
         if not TileSettings.objectName():
