@@ -27,7 +27,6 @@ class RenderRect(Renderable):
     def remove_graphics(self, viewport):
         super().remove_graphics(viewport)
         viewport.workscene.removeItem(self.drawrect)
-        # self.drawrect.removeFromIndex()
 
     def move_event(self):
         super().move_event()

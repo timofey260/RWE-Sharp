@@ -27,14 +27,13 @@ class Module(ABC):
             i.level_resized(newrect)
 
     def add_renderable(self, renderable: Renderable):
-        if renderable.module == self and renderable in self.renderables:
-            return
-        self.renderables.append(renderable)
-        # if self.viewport is not None:
-        #     renderable.init_graphics(self.viewport)
-        #     renderable.post_init_graphics(self.viewport)
-        #     renderable.move_event()
-        #     renderable.zoom_event()
+        if renderable not in self.renderables:
+            self.renderables.append(renderable)
+        if renderable.viewport is not None and not renderable.is_initiated_grapgics:
+            renderable.init_graphics(self.viewport)
+            renderable.post_init_graphics(self.viewport)
+            renderable.move_event()
+            renderable.zoom_event()
 
     def add_myself(self, viewport: ViewPort, name=None):
         self.viewport = viewport
@@ -51,7 +50,7 @@ class Module(ABC):
 
     def init_scene_items(self, viewport):
         """
-        Called when editor is changed, should add drawables to scene
+        Called when editor is changed, should add Renderables to scene
         :return:
         """
 

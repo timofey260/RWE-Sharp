@@ -13,6 +13,7 @@ class Renderable(ABC):
         self.scale = 1
         self.opacity = 1
         self.module: Module = module
+        self._graphics_initiated = False
         if add_renderable:
             self.module.add_renderable(self)
 
@@ -26,6 +27,7 @@ class Renderable(ABC):
 
     @abstractmethod
     def init_graphics(self, viewport):
+        self._graphics_initiated = True
         self.move_event()
 
     def post_init_graphics(self, viewport):
@@ -33,7 +35,7 @@ class Renderable(ABC):
 
     @abstractmethod
     def remove_graphics(self, viewport):
-        pass
+        self._graphics_initiated = False
 
     @abstractmethod
     def zoom_event(self):
@@ -41,6 +43,10 @@ class Renderable(ABC):
 
     def move_event(self):
         pass
+
+    @property
+    def is_initiated_grapgics(self):
+        return self._graphics_initiated
 
     def setPos(self, pos: QPoint | QPointF):
         if pos is None:
