@@ -3,8 +3,8 @@ from RWESharp.Configurable.Configurable import Configurable
 from PySide6.QtGui import QKeySequence, QColor, QAction, QShortcut, QPen
 from PySide6.QtWidgets import QAbstractButton, QComboBox, QKeySequenceEdit
 from PySide6.QtCore import Signal, Qt, Slot
-from widgets.ColorPicker import ColorPicker
-from widgets.PenPicker import PenPicker
+from RWESharp.widgets.ColorPicker import ColorPicker
+from RWESharp.widgets.PenPicker import PenPicker
 
 
 class KeyConfigurable(Configurable):

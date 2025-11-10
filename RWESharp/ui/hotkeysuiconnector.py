@@ -1,8 +1,8 @@
 from __future__ import annotations
 from PySide6.QtWidgets import QDialog, QTreeWidgetItem
 from PySide6.QtCore import Slot, Qt
-from ui.uiscripts.hotkeys import Ui_Hotkeys
-from ui.KeyDialog import KeyDialog
+from RWESharp.ui.uiscripts.hotkeys import Ui_Hotkeys
+from RWESharp.ui.KeyDialog import KeyDialog
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from RWESharp.Core.Manager import Manager

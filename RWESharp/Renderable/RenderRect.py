@@ -1,8 +1,7 @@
 from RWESharp.Renderable.Renderable import Renderable
 from PySide6.QtCore import QRectF, Qt, QPointF, QRect
 from PySide6.QtWidgets import QGraphicsRectItem
-from PySide6.QtGui import QColor, QPen, QBrush
-from widgets import Viewport
+from PySide6.QtGui import QPen, QBrush
 
 
 class RenderRect(Renderable):

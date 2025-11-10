@@ -2,11 +2,11 @@ from PySide6.QtWidgets import QMainWindow, QFileDialog, QSpacerItem, QSizePolicy
 from PySide6.QtCore import Slot, Qt
 from PySide6.QtGui import QDesktopServices, QAction
 
-from ui.FunnyVideo import FunnyVideo
-from ui.uiscripts.mainui import Ui_MainWindow
-from ui.aboutuiconnector import AboutDialog
-from ui.settingsuiconnector import SettingsDialogUI
-from ui.hotkeysuiconnector import HotkeysUI
+from RWESharp.ui.FunnyVideo import FunnyVideo
+from RWESharp.ui.uiscripts.mainui import Ui_MainWindow
+from RWESharp.ui.aboutuiconnector import AboutDialog
+from RWESharp.ui.settingsuiconnector import SettingsDialogUI
+from RWESharp.ui.hotkeysuiconnector import HotkeysUI
 from RWESharp.utils import modify_path_url
 from RWESharp.info import PATH_LEVELS, PATH_FILES_VIDEOS, PATH_DRIZZLE, ISWIN, REPO_ISSUES, REPO, FULLNAME, CUSTOM_LINKS
 from RWESharp.Core.LevelRenderer import LevelRenderer

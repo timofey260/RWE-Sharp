@@ -1,2 +1,2 @@
-from widgets.SimpleGeoView import SimpleGeoViewport
-from widgets.TileSettingsViewport import TileSettingsViewport
+from RWESharp.widgets.SimpleGeoView import SimpleGeoViewport
+from RWESharp.widgets.TileSettingsViewport import TileSettingsViewport

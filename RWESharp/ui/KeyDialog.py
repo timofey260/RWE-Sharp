@@ -1,5 +1,5 @@
 from PySide6.QtWidgets import QDialog, QDialogButtonBox, QTreeWidgetItem
-from ui.uiscripts.keydialog import Ui_keyDialog
+from RWESharp.ui.uiscripts.keydialog import Ui_keyDialog
 from RWESharp.Configurable.QtTypes import KeyConfigurable
 
 

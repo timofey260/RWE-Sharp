@@ -16,7 +16,7 @@ from RWESharp2.Core import PATH_FILES_IMAGES_PALETTES
 from RWESharp2.Loaders import palette_to_colortable
 from RWESharp2.Ui import ViewUI, UI, SettingUI
 from RWESharp2.Utils import paint_svg_qicon
-from widgets.SettingsViewer import SettingsViewer
+from RWESharp.widgets.SettingsViewer import SettingsViewer
 
 
 class TileViewUI(ViewUI):

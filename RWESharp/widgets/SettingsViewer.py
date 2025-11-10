@@ -1,11 +1,11 @@
-from PySide6.QtWidgets import QWidget, QPushButton, QDialogButtonBox, QDialog, QMessageBox, QAbstractButton
+from PySide6.QtWidgets import QWidget, QPushButton, QDialogButtonBox, QMessageBox
 from RWESharp.Modify.Ui import SettingUI
 
 
 class SettingsViewer(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
-        from ui.settingsuiconnector import SettingsDialogUI
+        from RWESharp.ui.settingsuiconnector import SettingsDialogUI
         self.ui: SettingsDialogUI | None = None
         self.settingui: None | SettingUI = None
         self.nextsettingui: None | SettingUI = None

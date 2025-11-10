@@ -6,7 +6,7 @@ from RWESharp.info import PATH_FILES_CACHE
 import os
 if TYPE_CHECKING:
     from RWESharp.Modify.Mod import Mod
-    from widgets.SettingsViewer import SettingsViewer
+    from RWESharp.widgets.SettingsViewer import SettingsViewer
     from RWESharp.Configurable.Configurable import Configurable
     from RWESharp.Modify.Theme import Theme
 

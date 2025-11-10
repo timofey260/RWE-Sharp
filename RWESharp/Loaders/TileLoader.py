@@ -3,7 +3,7 @@ from RWESharp.Core.ItemData import ItemData
 from RWESharp.Core.lingoIO import tojson, fromarr
 from RWESharp.info import PATH
 from RWESharp.Loaders.Tile import Tile, TileCategory, Tiles, colortable
-from ui.splashuiconnector import SplashDialog
+from RWESharp.ui.splashuiconnector import SplashDialog
 from PySide6.QtGui import QColor, QImage, QPainter, QPixmap
 from PySide6.QtCore import QRect, Qt, QThread, QPoint, QSize
 import json

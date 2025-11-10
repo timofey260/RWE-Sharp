@@ -1,0 +1,12 @@
+#! /usr/bin/env fish
+
+source ./bin/activate.fish
+
+function uic -a input output
+    pyside6-uic -g python $input | string replace res_rc RWESharp.ui.res_rc > $output
+    echo COMPILING $input to $output
+end
+
+
+
+uic ./RWESharp/ui/uifiles/editors/geometry.ui ./BaseMod/geo/ui/geometry_ui.py

@@ -1,7 +1,7 @@
 from PySide6.QtWidgets import QWidget
 from PySide6.QtGui import QPen, QColor
 from PySide6.QtCore import Signal, Qt
-from ui.uiscripts.PenPicker import Ui_Penpicker
+from RWESharp.ui.uiscripts.PenPicker import Ui_Penpicker
 
 list2penstyle = [
     Qt.PenStyle.SolidLine,

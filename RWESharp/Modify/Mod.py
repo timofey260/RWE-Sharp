@@ -13,7 +13,7 @@ if TYPE_CHECKING:
     from PySide6.QtWidgets import QWidget
     from RWESharp.Core.Manager import Manager
     from RWESharp.Core.TreeElement import SettingElement, HotkeyElement
-    from widgets.Viewport import ViewPort
+    from RWESharp.widgets import ViewPort
 
 
 @dataclass(frozen=True, init=True)

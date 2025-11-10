@@ -1,10 +1,10 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING
-from abc import ABC, abstractmethod
+from abc import ABC
 from PySide6.QtCore import QRect
 if TYPE_CHECKING:
     from RWESharp.Renderable.Renderable import Renderable
-    from widgets.Viewport import ViewPort
+    from RWESharp.widgets import ViewPort
     from RWESharp.Level.RWELevel import RWELevel
     from BaseMod.baseMod import BaseMod
 

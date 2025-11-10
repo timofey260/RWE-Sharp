@@ -1,5 +1,5 @@
-from ui.mainuiconnector import MainWindow
-from ui.splashuiconnector import SplashDialog
+from RWESharp.ui.mainuiconnector import MainWindow
+from RWESharp.ui.splashuiconnector import SplashDialog
 import sys
 from PySide6.QtWidgets import QApplication
 from PySide6.QtCore import QCommandLineParser, QCommandLineOption

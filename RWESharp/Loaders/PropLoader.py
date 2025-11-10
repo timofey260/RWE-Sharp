@@ -5,7 +5,7 @@ from RWESharp.Configurable.PythonTypes import IntConfigurable
 from RWESharp.utils import log, color_lerp
 from RWESharp.info import PATH_FILES, PATH_DRIZZLE_PROPS, PATH_FILES_CACHE, CELLSIZE, PATH_DRIZZLE_CAST
 from RWESharp.Core.lingoIO import fromarr, tojson
-from ui.splashuiconnector import SplashDialog
+from RWESharp.ui.splashuiconnector import SplashDialog
 from PySide6.QtCore import QThread, Qt, QSize, QPoint
 from PySide6.QtGui import QImage, QColor, QPainter, QPixmap
 import os

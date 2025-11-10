@@ -1,5 +1,5 @@
 from __future__ import annotations
-from ui.uiscripts.settings import Ui_Settings
+from RWESharp.ui.uiscripts.settings import Ui_Settings
 from PySide6.QtWidgets import QDialog, QTreeWidgetItem, QDialogButtonBox
 from PySide6.QtCore import Qt, Slot
 from typing import TYPE_CHECKING

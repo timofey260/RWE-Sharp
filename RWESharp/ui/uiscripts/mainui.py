@@ -19,6 +19,8 @@ from PySide6.QtWidgets import (QDockWidget, QGridLayout, QHBoxLayout,
 
 from RWESharp.Core.RWESharpWidgets import (LevelTabs, ViewDockWidget)
 
+import RWESharp.ui.res_rc
+
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):

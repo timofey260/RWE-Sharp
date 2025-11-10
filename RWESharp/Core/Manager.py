@@ -10,8 +10,8 @@ from RWESharp.Loaders.Tile import Tiles
 from RWESharp.Loaders.Prop import Props
 from RWESharp.Loaders.Effect import Effects
 from RWESharp.Core.Application import Application
-from ui.mainuiconnector import MainWindow
-from widgets.Viewport import ViewPort
+from RWESharp.ui.mainuiconnector import MainWindow
+from RWESharp.widgets.Viewport import ViewPort
 from PySide6.QtWidgets import QWidget, QMenuBar, QMenu
 from PySide6.QtCore import Slot
 import os

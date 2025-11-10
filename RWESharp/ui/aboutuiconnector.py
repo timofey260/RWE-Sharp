@@ -1,5 +1,5 @@
 from PySide6.QtWidgets import QDialog
-from ui.uiscripts.about import Ui_About
+from RWESharp.ui.uiscripts.about import Ui_About
 
 
 class AboutDialog(QDialog):
