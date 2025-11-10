@@ -3,19 +3,24 @@
 ################################################################################
 ## Form generated from reading UI file 'effectexplorer.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.7.2
+## Created by: Qt User Interface Compiler version 6.10.0
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
 
-from PySide6.QtCore import (QCoreApplication, QMetaObject, Qt)
-from PySide6.QtGui import (QIcon)
-from PySide6.QtWidgets import (QHBoxLayout, QLabel, QLineEdit, QPushButton, QSizePolicy,
-                               QSpacerItem, QSplitter, QToolButton, QTreeWidget,
-                               QTreeWidgetItem, QVBoxLayout, QWidget)
+from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
+    QMetaObject, QObject, QPoint, QRect,
+    QSize, QTime, QUrl, Qt)
+from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
+    QFont, QFontDatabase, QGradient, QIcon,
+    QImage, QKeySequence, QLinearGradient, QPainter,
+    QPalette, QPixmap, QRadialGradient, QTransform)
+from PySide6.QtWidgets import (QApplication, QDockWidget, QHBoxLayout, QHeaderView,
+    QLabel, QLineEdit, QPushButton, QSizePolicy,
+    QSpacerItem, QSplitter, QToolButton, QTreeWidget,
+    QTreeWidgetItem, QVBoxLayout, QWidget)
 
 from RWESharp.Core.RWESharpWidgets import SimpleViewport
-
 
 class Ui_EffectExplorer(object):
     def setupUi(self, EffectExplorer):
@@ -30,9 +35,6 @@ class Ui_EffectExplorer(object):
         self.Search.setObjectName(u"Search")
 
         self.verticalLayout_3.addWidget(self.Search)
-
-
-
 
         self.splitter = QSplitter(self.dockWidgetContents)
         self.splitter.setObjectName(u"splitter")
