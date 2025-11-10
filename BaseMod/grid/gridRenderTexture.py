@@ -1,8 +1,8 @@
 from PySide6.QtCore import QLine
 from PySide6.QtGui import QColor
 
-from RWESharp2.Core import CELLSIZE
-from RWESharp2.Renderable import RenderLevelImage
+from RWS.Core import CELLSIZE
+from RWS.Renderable import RenderLevelImage
 
 
 class GridRenderLevelImage(RenderLevelImage):

@@ -2,7 +2,7 @@ from PySide6.QtCore import QPointF
 
 from BaseMod.LevelParts import CameraLevelPart
 from BaseMod.camera.cameraRenderable import RenderCamera
-from RWESharp2.Modify import Module
+from RWS.Modify import Module
 
 cameradepth = 5
 

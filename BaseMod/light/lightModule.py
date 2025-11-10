@@ -1,10 +1,10 @@
 from PySide6.QtCore import QSize, QPointF, QRect
 from PySide6.QtGui import QPixmap
 
-from RWESharp2.Core import CELLSIZE, ofsleft, ofstop
-from RWESharp2.Modify import Module
-from RWESharp2.Renderable import RenderImage
-from RWESharp2.Utils import polar2point
+from RWS.Core import CELLSIZE, ofsleft, ofstop
+from RWS.Modify import Module
+from RWS.Renderable import RenderImage
+from RWS.Utils import polar2point
 
 
 class LightModule(Module):

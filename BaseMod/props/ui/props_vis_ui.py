@@ -19,7 +19,7 @@ from PySide6.QtWidgets import (QApplication, QCheckBox, QHBoxLayout, QLabel,
     QScrollArea, QSizePolicy, QSpacerItem, QVBoxLayout,
     QWidget)
 
-from RWESharp.Core.RWESharpWidgets import ColorPicker
+from RWS.Widgets import ColorPicker
 
 class Ui_PropsView(object):
     def setupUi(self, PropsView):

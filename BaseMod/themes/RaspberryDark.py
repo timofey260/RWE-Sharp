@@ -3,9 +3,9 @@ import os
 from PySide6.QtGui import QColor
 
 from RWESharp.Configurable.QtTypes import ColorConfigurable
-from RWESharp2.Configurable import IntConfigurable
-from RWESharp2.Core import PATH_FILES
-from RWESharp2.Modify import Theme
+from RWS.Configurable import IntConfigurable
+from RWS.Core import PATH_FILES
+from RWS.Modify import Theme
 
 
 class RaspberryDark(Theme):

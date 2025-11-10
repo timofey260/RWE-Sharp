@@ -2,9 +2,9 @@ from PySide6.QtCore import QRectF, QPointF, Qt, QLineF
 from PySide6.QtGui import QPen, QColor, QFont
 from PySide6.QtWidgets import QGraphicsRectItem, QGraphicsEllipseItem, QGraphicsLineItem, QGraphicsTextItem
 
-from RWESharp2.Core import CELLSIZE, camh, camw
-from RWESharp2.Renderable import RenderList, Handle
-from RWESharp2.Utils import circle2rect, point2polar, polar2point
+from RWS.Core import CELLSIZE, camh, camw
+from RWS.Renderable import RenderList, Handle
+from RWS.Utils import circle2rect, point2polar, polar2point
 
 
 class RenderCamera(RenderList):

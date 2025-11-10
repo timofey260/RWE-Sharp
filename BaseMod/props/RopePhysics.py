@@ -3,7 +3,7 @@ import math
 from PySide6.QtCore import QPointF, QRectF, QPoint
 
 from BaseMod.LevelParts import GeoLevelPart
-from RWESharp2.Loaders import Prop
+from RWS.Loaders import Prop
 
 
 def Diag(point1: QPointF, point2: QPointF):

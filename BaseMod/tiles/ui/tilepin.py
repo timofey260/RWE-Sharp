@@ -19,7 +19,7 @@ from PySide6.QtWidgets import (QApplication, QCheckBox, QComboBox, QDockWidget,
     QHBoxLayout, QLabel, QPushButton, QSizePolicy,
     QSpinBox, QVBoxLayout, QWidget)
 
-from RWESharp.Core.RWESharpWidgets import SimpleViewport
+from RWS.Widgets import SimpleViewport
 import RWESharp.ui.res_rc
 
 class Ui_TilePin(object):

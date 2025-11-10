@@ -9,12 +9,12 @@ from PySide6.QtGui import QMoveEvent, QMouseEvent, QColor
 from BaseMod.tiles.tileExplorer import TileExplorer
 from BaseMod.tiles.tileHistory import TilePen, TileRectangle, TileEllipse, TileLine, TileBrush
 from BaseMod.tiles.tileUtils import can_place
-from RWESharp2.Configurable import IntConfigurable, BoolConfigurable, EnumConfigurable
-from RWESharp2.Core import CELLSIZE
-from RWESharp2.Loaders import Tile
-from RWESharp2.Modify import Editor
-from RWESharp2.Renderable import RenderTile, RenderRect, RenderEllipse, RenderLine
-from RWESharp2.Utils import fit_rect
+from RWS.Configurable import IntConfigurable, BoolConfigurable, EnumConfigurable
+from RWS.Core import CELLSIZE
+from RWS.Loaders import Tile
+from RWS.Modify import Editor
+from RWS.Renderable import RenderTile, RenderRect, RenderEllipse, RenderLine
+from RWS.Utils import fit_rect
 
 if TYPE_CHECKING:
     from BaseMod.baseMod import BaseMod

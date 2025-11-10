@@ -14,11 +14,12 @@ from BaseMod.geo.geometryEditor import GeoBlocks, stackables, stackables_all_lay
 from BaseMod.geo.ui.geometry_ui import Ui_Geo
 from BaseMod.geo.ui.geometry_vis_ui import Ui_GeoView
 from BaseMod.geo.ui.geosettings_ui import Ui_Geometry
-from RWESharp2.Configurable import BoolConfigurable, FloatConfigurable, IntConfigurable
-from RWESharp2.Configurable import KeyConfigurable, StringConfigurable
-from RWESharp2.Core import SettingsViewer, CONSTS, PATH_FILES_IMAGES
-from RWESharp2.Ui import ViewUI, SettingUI, UI
-from RWESharp2.Utils import paint_svg_qicon
+from RWS.Configurable import BoolConfigurable, FloatConfigurable, IntConfigurable
+from RWS.Configurable import KeyConfigurable, StringConfigurable
+from RWS.Core import CONSTS, PATH_FILES_IMAGES
+from RWS.Widgets import SettingsViewer
+from RWS.Ui import ViewUI, SettingUI, UI
+from RWS.Utils import paint_svg_qicon
 
 button_to_geo = {
     "ToolGeoWall": GeoBlocks.Wall,

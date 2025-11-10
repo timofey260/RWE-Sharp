@@ -3,9 +3,9 @@ from PySide6.QtGui import QPen, QColor
 
 from BaseMod.camera.cameraHistory import AddCamera, RemoveCamera, CameraMove, CameraQuadMove, MoveCameraOrder
 from BaseMod.camera.cameraRenderable import RenderCamera
-from RWESharp2.Core import camw, camh, CELLSIZE
-from RWESharp2.Modify import Editor
-from RWESharp2.Renderable import RenderRect
+from RWS.Core import camw, camh, CELLSIZE
+from RWS.Modify import Editor
+from RWS.Renderable import RenderRect
 
 """class CameraHandles(RenderList):
     def __init__(self, module, depth, rendercamera: RenderCamera):

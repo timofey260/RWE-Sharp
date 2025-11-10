@@ -2,7 +2,7 @@ import random
 
 from BaseMod.properties.propertiesEditor import PropertiesEditor
 from BaseMod.properties.ui.properties_ui import Ui_Properties
-from RWESharp2.Ui import UI
+from RWS.Ui import UI
 
 
 class PropertiesUI(UI):

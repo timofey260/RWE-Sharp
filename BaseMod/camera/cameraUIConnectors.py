@@ -5,8 +5,8 @@ from PySide6.QtWidgets import QCheckBox, QTreeWidgetItem
 from BaseMod.camera.ui.camera_vis_ui import Ui_CameraView
 from BaseMod.camera.ui.cameras_ui import Ui_Cameras
 from BaseMod.camera.ui.camerasettings_ui import Ui_Cameras as Ui_CameraSettings
-from RWESharp2.Configurable import BoolConfigurable, KeyConfigurable, PenConfigurable, ColorConfigurable
-from RWESharp2.Ui import ViewUI, UI, SettingUI
+from RWS.Configurable import BoolConfigurable, KeyConfigurable, PenConfigurable, ColorConfigurable
+from RWS.Ui import ViewUI, UI, SettingUI
 from RWESharp.widgets.SettingsViewer import SettingsViewer
 
 

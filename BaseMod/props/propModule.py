@@ -1,5 +1,5 @@
 from BaseMod.props.propRenderable import PropRenderable
-from RWESharp2.Modify import Module
+from RWS.Modify import Module
 
 
 class PropModule(Module):

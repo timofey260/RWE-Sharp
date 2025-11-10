@@ -4,8 +4,8 @@ from PySide6.QtWidgets import QTreeWidgetItem, QColorDialog, QFileDialog
 
 from BaseMod.themes.RaspberryDark import RaspberryDark
 from BaseMod.themes.paletteui import Ui_Paletteui
-from RWESharp2.Core import PATH
-from RWESharp2.Ui import ThemeUI
+from RWS.Core import PATH
+from RWS.Ui import ThemeUI
 
 
 class RPDarkUI(ThemeUI):

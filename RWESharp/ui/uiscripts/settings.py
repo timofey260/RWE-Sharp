@@ -19,7 +19,7 @@ from PySide6.QtWidgets import (QAbstractButton, QApplication, QDialog, QDialogBu
     QHeaderView, QSizePolicy, QSplitter, QTreeWidget,
     QTreeWidgetItem, QVBoxLayout, QWidget)
 
-from RWESharp.Core.RWESharpWidgets import SettingsViewer
+from RWS.Widgets import SettingsViewer
 
 class Ui_Settings(object):
     def setupUi(self, Settings):

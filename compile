@@ -6,7 +6,7 @@ function uic -a input output
     pyside6-uic -g python ./RWESharp/ui/uifiles/$input |
         string replace res_rc RWESharp.ui.res_rc |
         string replace BaseModWidgets BaseMod.BaseModWidgets |
-        string replace RWESharpWidgets RWESharp.Core.RWESharpWidgets >$output
+        string replace RWESharpWidgets RWS.Widgets >$output
     echo Compiling ./RWESharp/ui/uifiles/$input to $output
 end
 

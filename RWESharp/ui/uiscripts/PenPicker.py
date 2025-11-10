@@ -19,7 +19,7 @@ from PySide6.QtWidgets import (QAbstractSpinBox, QApplication, QComboBox, QDoubl
     QGridLayout, QHBoxLayout, QLayout, QSizePolicy,
     QWidget)
 
-from RWESharp.Core.RWESharpWidgets import ColorPicker
+from RWS.Widgets import ColorPicker
 
 class Ui_Penpicker(object):
     def setupUi(self, Penpicker):

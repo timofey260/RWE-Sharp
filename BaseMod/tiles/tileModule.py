@@ -4,8 +4,8 @@ from PySide6.QtCore import Slot
 from PySide6.QtGui import QColor, QPixmap
 
 from BaseMod.tiles.tileRenderTexture import TileRenderLevelImage
-from RWESharp2.Core import PATH_FILES_IMAGES
-from RWESharp2.Modify import Module
+from RWS.Core import PATH_FILES_IMAGES
+from RWS.Modify import Module
 
 
 class TileModule(Module):

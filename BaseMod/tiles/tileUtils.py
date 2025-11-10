@@ -5,8 +5,8 @@ from PySide6.QtCore import QPoint, QRect, QSize
 from PySide6.QtWidgets import QGraphicsPixmapItem, QGraphicsRectItem
 
 from RWESharp.Modify.HistoryElement import HistoryElement
-from RWESharp2.Core import RWELevel, CELLSIZE
-from RWESharp2.Loaders import Tile
+from RWS.Core import RWELevel, CELLSIZE
+from RWS.Loaders import Tile
 
 
 class PlacedTileHead:

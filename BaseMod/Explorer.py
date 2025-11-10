@@ -5,9 +5,9 @@ from PySide6.QtGui import QColor
 from PySide6.QtWidgets import QTreeWidgetItem, QListWidgetItem, QListWidget
 
 from BaseMod.explorer_ui import Ui_Explorer
-from RWESharp2.Configurable import BoolConfigurable
-from RWESharp2.Core import ViewDockWidget
-from RWESharp2.Utils import paint_svg_qicon
+from RWS.Configurable import BoolConfigurable
+from RWS.Widgets import ViewDockWidget
+from RWS.Utils import paint_svg_qicon
 
 
 class Explorer(ViewDockWidget):

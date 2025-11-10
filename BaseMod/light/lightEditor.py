@@ -5,11 +5,11 @@ from PySide6.QtGui import QPainter, QPen, QPixmap, QMoveEvent, QImage, QTransfor
 from PySide6.QtWidgets import QGraphicsPixmapItem, QGraphicsScene
 
 from BaseMod.light.lightHistory import LightPosChanged, LightImageChanged
-from RWESharp2.Configurable import PenConfigurable, FloatConfigurable, IntConfigurable, BoolConfigurable
-from RWESharp2.Core import CELLSIZE, ofsleft, ofstop, PATH_DRIZZLE_CAST, CONSTS
-from RWESharp2.Modify import Editor
-from RWESharp2.Renderable import Handle, RenderEllipse, RenderImage
-from RWESharp2.Utils import point2polar, polar2point
+from RWS.Configurable import PenConfigurable, FloatConfigurable, IntConfigurable, BoolConfigurable
+from RWS.Core import CELLSIZE, ofsleft, ofstop, PATH_DRIZZLE_CAST, CONSTS
+from RWS.Modify import Editor
+from RWS.Renderable import Handle, RenderEllipse, RenderImage
+from RWS.Utils import point2polar, polar2point
 
 
 class LightEditor(Editor):

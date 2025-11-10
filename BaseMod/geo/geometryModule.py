@@ -1,7 +1,7 @@
 from PySide6.QtCore import Slot, Signal
 
 from BaseMod.geo.geoRenderTexture import GeoRenderLevelImage
-from RWESharp2.Modify import Module
+from RWS.Modify import Module
 
 
 class GeoModule(Module):

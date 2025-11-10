@@ -1,6 +1,6 @@
 from BaseMod.LevelParts import PropLevelPart
 from RWESharp.Modify.HistoryElement import HistoryElement
-from RWESharp2.Core import CELLSIZE
+from RWS.Core import CELLSIZE
 
 
 class PropPlace(HistoryElement):

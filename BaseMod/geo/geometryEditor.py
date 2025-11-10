@@ -8,11 +8,11 @@ from PySide6.QtGui import QColor, QMoveEvent, QMouseEvent, QPixmap, QPainter
 from BaseMod.LevelParts import stack_pos, GeoLevelPart
 from BaseMod.geo.geoControls import GeoControls
 from BaseMod.geo.geoHistory import GEPointChange, GERectChange, GEBrushChange, GEEllipseChange, GEFillChange
-from RWESharp2.Configurable import BoolConfigurable, IntConfigurable, EnumConfigurable, ColorConfigurable
-from RWESharp2.Core import CELLSIZE, PATH_FILES_IMAGES, CONSTS
-from RWESharp2.Modify import Editor
-from RWESharp2.Renderable import RenderImage, RenderRect, RenderEllipse, RenderLine
-from RWESharp2.Utils import closest_line, fit_rect
+from RWS.Configurable import BoolConfigurable, IntConfigurable, EnumConfigurable, ColorConfigurable
+from RWS.Core import CELLSIZE, PATH_FILES_IMAGES, CONSTS
+from RWS.Modify import Editor
+from RWS.Renderable import RenderImage, RenderRect, RenderEllipse, RenderLine
+from RWS.Utils import closest_line, fit_rect
 
 
 class GeoBlocks(Enum):

@@ -4,8 +4,8 @@ import numpy as np
 from PySide6.QtCore import QPoint, QLineF, QRect
 
 from RWESharp.Modify.HistoryElement import HistoryElement
-from RWESharp2.Loaders import Effect
-from RWESharp2.Utils import draw_line
+from RWS.Loaders import Effect
+from RWS.Utils import draw_line
 
 
 def copy_effect(effect):

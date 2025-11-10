@@ -11,12 +11,12 @@ from BaseMod.props.propHistory import PropPlace, PropRemove
 from BaseMod.props.propRenderable import PropRenderable
 from BaseMod.props.propUtils import find_mid
 from RWESharp.Core import lingoIO
-from RWESharp2.Configurable import ColorConfigurable
-from RWESharp2.Core import CELLSIZE
-from RWESharp2.Loaders import Prop
-from RWESharp2.Modify import Editor
-from RWESharp2.Renderable import RenderLine, RenderPoly, RenderRect
-from RWESharp2.Utils import rotate_point
+from RWS.Configurable import ColorConfigurable
+from RWS.Core import CELLSIZE
+from RWS.Loaders import Prop
+from RWS.Modify import Editor
+from RWS.Renderable import RenderLine, RenderPoly, RenderRect
+from RWS.Utils import rotate_point
 
 
 class PropEditor(Editor):

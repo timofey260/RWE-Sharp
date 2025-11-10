@@ -22,7 +22,7 @@ from PySide6.QtWidgets import (QAbstractItemView, QAbstractScrollArea, QApplicat
     QTableWidgetItem, QToolButton, QTreeWidget, QTreeWidgetItem,
     QVBoxLayout, QWidget)
 
-from RWESharp.Core.RWESharpWidgets import SimpleViewport
+from RWS.Widgets import SimpleViewport
 import RWESharp.ui.res_rc
 
 class Ui_Explorer(object):

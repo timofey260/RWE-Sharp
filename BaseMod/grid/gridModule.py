@@ -4,9 +4,9 @@ from PySide6.QtCore import Slot, QRect, Qt, QPoint
 from PySide6.QtGui import QBrush, QPen, QPixmap
 
 from BaseMod.grid.gridRenderTexture import GridRenderLevelImage
-from RWESharp2.Core import CELLSIZE, PATH_FILES_IMAGES, wladd
-from RWESharp2.Modify import Module
-from RWESharp2.Renderable import RenderRect
+from RWS.Core import CELLSIZE, PATH_FILES_IMAGES, wladd
+from RWS.Modify import Module
+from RWS.Renderable import RenderRect
 
 
 class GridModule(Module):

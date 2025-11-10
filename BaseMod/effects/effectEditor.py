@@ -4,10 +4,10 @@ from PySide6.QtGui import QColor, QMoveEvent
 from BaseMod.effects.effectExplorer import EffectExplorer
 from BaseMod.effects.effectHistory import EffectBrush
 from BaseMod.effects.effectRenderTexture import EffectRenderLevelImage
-from RWESharp2.Configurable import ColorConfigurable, IntConfigurable
-from RWESharp2.Core import CELLSIZE
-from RWESharp2.Modify import Editor
-from RWESharp2.Renderable import RenderEllipse
+from RWS.Configurable import ColorConfigurable, IntConfigurable
+from RWS.Core import CELLSIZE
+from RWS.Modify import Editor
+from RWS.Renderable import RenderEllipse
 
 
 class EffectEditor(Editor):

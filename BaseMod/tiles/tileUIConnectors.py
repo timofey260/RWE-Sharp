@@ -10,12 +10,12 @@ from BaseMod.tiles.tileHistory import DefaultMaterialChange
 from BaseMod.tiles.ui.tiles_ui import Ui_Tiles
 from BaseMod.tiles.ui.tiles_vis_ui import Ui_TilesView
 from BaseMod.tiles.ui.tilesettings_ui import Ui_TileSettings
-from RWESharp2.Configurable import BoolConfigurable, IntConfigurable, StringConfigurable, FloatConfigurable, \
+from RWS.Configurable import BoolConfigurable, IntConfigurable, StringConfigurable, FloatConfigurable, \
     KeyConfigurable
-from RWESharp2.Core import PATH_FILES_IMAGES_PALETTES
-from RWESharp2.Loaders import palette_to_colortable
-from RWESharp2.Ui import ViewUI, UI, SettingUI
-from RWESharp2.Utils import paint_svg_qicon
+from RWS.Core import PATH_FILES_IMAGES_PALETTES
+from RWS.Loaders import palette_to_colortable
+from RWS.Ui import ViewUI, UI, SettingUI
+from RWS.Utils import paint_svg_qicon
 from RWESharp.widgets.SettingsViewer import SettingsViewer
 
 

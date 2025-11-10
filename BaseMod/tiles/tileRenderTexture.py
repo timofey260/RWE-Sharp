@@ -3,9 +3,9 @@ from PySide6.QtGui import QColor, QPainter, QPen
 from PySide6.QtWidgets import QGraphicsScene
 
 from BaseMod.tiles.tileUtils import PlacedMaterial, PlacedTileHead
-from RWESharp2.Core import CONSTS, CELLSIZE, SPRITESIZE
-from RWESharp2.Loaders import color_colortable
-from RWESharp2.Renderable import RenderLevelImage
+from RWS.Core import CONSTS, CELLSIZE, SPRITESIZE
+from RWS.Loaders import color_colortable
+from RWS.Renderable import RenderLevelImage
 
 
 class TileRenderLevelImage(RenderLevelImage):

@@ -6,9 +6,9 @@ from PySide6.QtWidgets import QGraphicsPixmapItem, QGraphicsEllipseItem
 
 from BaseMod.LevelParts import PropLevelPart
 from RWESharp.Core import lingoIO
-from RWESharp2.Loaders import Prop
-from RWESharp2.Renderable import Renderable, RenderPoly, Handle
-from RWESharp2.Utils import remap
+from RWS.Loaders import Prop
+from RWS.Renderable import Renderable, RenderPoly, Handle
+from RWS.Utils import remap
 
 
 class PropRenderable(Renderable):

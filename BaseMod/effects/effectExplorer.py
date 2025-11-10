@@ -4,9 +4,9 @@ from PySide6.QtWidgets import QTreeWidgetItem
 
 from BaseMod.effects.effectHistory import EffectAdd
 from BaseMod.effects.ui.effectexplorer_ui import Ui_EffectExplorer
-from RWESharp2.Core import ViewDockWidget
-from RWESharp2.Loaders import Effect, EffectCategory
-from RWESharp2.Utils import color_lerp
+from RWS.Widgets import ViewDockWidget
+from RWS.Loaders import Effect, EffectCategory
+from RWS.Utils import color_lerp
 
 
 class EffectExplorer(ViewDockWidget):

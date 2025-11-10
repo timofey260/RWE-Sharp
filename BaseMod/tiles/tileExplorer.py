@@ -4,9 +4,9 @@ from PySide6.QtWidgets import QMainWindow, QTreeWidgetItem, QListWidgetItem, QTa
 
 from BaseMod.Explorer import Explorer
 from BaseMod.tiles.tilePin import TilePin
-from RWESharp2.Configurable import BoolConfigurable, IntConfigurable
-from RWESharp2.Core import CELLSIZE, SPRITESIZE
-from RWESharp2.Loaders import Tile
+from RWS.Configurable import BoolConfigurable, IntConfigurable
+from RWS.Core import CELLSIZE, SPRITESIZE
+from RWS.Loaders import Tile
 
 
 class TileExplorer(Explorer):

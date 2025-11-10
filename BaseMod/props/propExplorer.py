@@ -3,7 +3,7 @@ from PySide6.QtGui import QPixmap, QAction
 from PySide6.QtWidgets import QTreeWidgetItem, QListWidgetItem, QTableWidgetItem
 
 from BaseMod.Explorer import Explorer
-from RWESharp2.Loaders import Prop
+from RWS.Loaders import Prop
 
 
 class PropExplorer(Explorer):

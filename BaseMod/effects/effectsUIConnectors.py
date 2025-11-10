@@ -7,8 +7,8 @@ from PySide6.QtWidgets import QTreeWidgetItem, QDialog, QInputDialog, QMenu
 from BaseMod.effects.effectHistory import EffectOptionChange, EffectRemove, EffectMove, EffectDuplicate
 from BaseMod.effects.ui.effects_ui import Ui_Effects
 from BaseMod.effects.ui.effectsdialog import Ui_EffectDialog
-from RWESharp2.Configurable import KeyConfigurable
-from RWESharp2.Ui import UI
+from RWS.Configurable import KeyConfigurable
+from RWS.Ui import UI
 
 
 class EffectDialog(QDialog):

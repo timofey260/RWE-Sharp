@@ -26,9 +26,9 @@ from BaseMod.themes.RaspberryDark import RaspberryDark
 from BaseMod.themes.preferencesuiconnector import PreferencesUI
 from BaseMod.tiles.tileEditor import TileEditor
 from BaseMod.tiles.tileModule import TileModule
-from RWESharp2.Core import SettingElement, HotkeyElement, get_hotkeys_from_pattern, PATH_FILES_VIDEOS
-from RWESharp2.Modify import Mod, ModInfo
-from RWESharp2.Ui import FunnyVideo
+from RWS.Core import SettingElement, HotkeyElement, get_hotkeys_from_pattern, PATH_FILES_VIDEOS
+from RWS.Modify import Mod, ModInfo
+from RWS.Ui import FunnyVideo
 from RWESharp.widgets.Viewport import ViewPort
 
 

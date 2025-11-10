@@ -1,5 +1,5 @@
-from RWESharp2.Renderable import Renderable
-from RWESharp2.Utils import closest_line
+from RWS.Renderable import Renderable
+from RWS.Utils import closest_line
 from PySide6.QtWidgets import QGraphicsRectItem, QGraphicsSceneMouseEvent
 from PySide6.QtGui import QPen, QBrush, QColor, QGuiApplication
 from PySide6.QtCore import Qt, Signal, QPointF, QObject

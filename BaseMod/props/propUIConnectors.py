@@ -4,8 +4,8 @@ from PySide6.QtWidgets import QTreeWidgetItem, QInputDialog, QMenu, QCheckBox
 
 from BaseMod.props.ui.props_ui import Ui_Props
 from BaseMod.props.ui.props_vis_ui import Ui_PropsView
-from RWESharp2.Configurable import KeyConfigurable, BoolConfigurable, ColorConfigurable
-from RWESharp2.Ui import UI, ViewUI
+from RWS.Configurable import KeyConfigurable, BoolConfigurable, ColorConfigurable
+from RWS.Ui import UI, ViewUI
 
 
 class PropsUI(UI):

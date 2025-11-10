@@ -4,8 +4,8 @@ from PySide6.QtCore import QPoint, QRect
 
 from BaseMod.tiles.tileUtils import can_place, place_tile, TileHistory, remove_tile, PlacedTileBody
 from RWESharp.Modify.HistoryElement import HistoryElement
-from RWESharp2.Loaders import Tile
-from RWESharp2.Utils import draw_line, draw_rect, draw_ellipse
+from RWS.Loaders import Tile
+from RWS.Utils import draw_line, draw_rect, draw_ellipse
 
 
 class TilePen(TileHistory):

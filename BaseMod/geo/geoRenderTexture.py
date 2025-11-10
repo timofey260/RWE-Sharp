@@ -4,8 +4,8 @@ import numpy as np
 from PySide6.QtCore import QRect, QPoint
 from PySide6.QtGui import QPixmap, QColor, QPainter
 
-from RWESharp2.Core import PATH_FILES_IMAGES, CONSTS, CELLSIZE
-from RWESharp2.Renderable import RenderLevelImage
+from RWS.Core import PATH_FILES_IMAGES, CONSTS, CELLSIZE
+from RWS.Renderable import RenderLevelImage
 
 checkpoints = [QPoint(-1, -1), QPoint(0, -1), QPoint(1, -1),
                QPoint(-1, 0), QPoint(1, 0),
