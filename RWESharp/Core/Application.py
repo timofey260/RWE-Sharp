@@ -13,11 +13,13 @@ class CommandLineOptions:
         self.reset = QCommandLineOption(("r", "reset"), f"Reset {NAME}")
         self.nomods = QCommandLineOption(("M", "no-mods"), f"Load {NAME} without mods")
         self.debug = QCommandLineOption(("d", "debug"), f"Debug Mode")
+        self.mainw = QCommandLineOption(("m", "no-main-window"), f"Don't load Main Window(Only resource caching)")
 
         self.parser = parser
         self.parser.addOption(self.reset)
         self.parser.addOption(self.nomods)
         self.parser.addOption(self.debug)
+        self.parser.addOption(self.mainw)
 
         self.parser.addVersionOption()
         self.parser.addHelpOption()
@@ -26,7 +28,7 @@ class CommandLineOptions:
 
 class Application(QApplication):
     """
-    Holds loading and main menu window together
+    Handles Splash, main menu loading and command line arguments
     """
     def __init__(self):
         from RWESharp.Core.Manager import Manager
@@ -49,7 +51,8 @@ class Application(QApplication):
         sys.exit(self.exec())
 
     def post_init(self) -> None:
-        print(self.args2)
+        if self.parser.isSet(self.args.mainw):
+            return
         if len(self.args2) == 1:
             self.window = MainWindow(self, self.args2[0])
             # manager.new_process(args.filename)

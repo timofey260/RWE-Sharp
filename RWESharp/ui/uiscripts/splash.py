@@ -15,15 +15,17 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QDialog, QHBoxLayout, QLabel,
-    QProgressBar, QSizePolicy, QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QApplication, QDialog, QFrame, QHBoxLayout,
+    QLabel, QProgressBar, QSizePolicy, QVBoxLayout,
+    QWidget)
+import RWESharp.ui.res_rc
 import RWESharp.ui.res_rc
 
 class Ui_Splash(object):
     def setupUi(self, Splash):
         if not Splash.objectName():
             Splash.setObjectName(u"Splash")
-        Splash.resize(495, 320)
+        Splash.resize(489, 316)
         icon = QIcon()
         icon.addFile(u":/icons/icon_small.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         Splash.setWindowIcon(icon)
@@ -59,7 +61,12 @@ class Ui_Splash(object):
         sizePolicy1.setVerticalStretch(1)
         sizePolicy1.setHeightForWidth(self.header.sizePolicy().hasHeightForWidth())
         self.header.setSizePolicy(sizePolicy1)
+        self.header.setAutoFillBackground(False)
+        self.header.setFrameShape(QFrame.Shape.NoFrame)
         self.header.setPixmap(QPixmap(u":/image/splash.png"))
+        self.header.setScaledContents(False)
+        self.header.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.header.setWordWrap(False)
 
         self.verticalLayout.addWidget(self.header)
 

@@ -5,7 +5,7 @@ from RWESharp.Modify.Mod import Mod, ModInfo
 from RWESharp.utils import log
 from RWESharp.info import PE
 
-# this code is as save as 2 towers at september 11th
+# this code is as safe as 2 towers at september 11th
 
 
 def load_mod(path: str, manager, index) -> type | None:
