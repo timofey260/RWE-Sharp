@@ -1,11 +1,8 @@
 
 import os
 
-from PySide6.QtCore import QCoreApplication
-from PySide6.QtCore import Qt
-from PySide6.QtCore import Slot, Signal, QRect
-from PySide6.QtGui import QAction, QColor, QImage, QPixmap
-from PySide6.QtGui import QIcon
+from PySide6.QtCore import QCoreApplication, Slot, Signal, QRect, Qt
+from PySide6.QtGui import QAction, QColor, QImage, QPixmap, QIcon
 from PySide6.QtWidgets import QMenu, QCheckBox, QFileDialog
 
 from BaseMod.baseMod import BaseMod
@@ -14,8 +11,7 @@ from BaseMod.geo.geometryEditor import GeoBlocks, stackables, stackables_all_lay
 from BaseMod.geo.ui.geometry_ui import Ui_Geo
 from BaseMod.geo.ui.geometry_vis_ui import Ui_GeoView
 from BaseMod.geo.ui.geosettings_ui import Ui_Geometry
-from RWS.Configurable import BoolConfigurable, FloatConfigurable, IntConfigurable
-from RWS.Configurable import KeyConfigurable, StringConfigurable
+from RWS.Configurable import BoolConfigurable, FloatConfigurable, IntConfigurable, KeyConfigurable, StringConfigurable
 from RWS.Core import CONSTS, PATH_FILES_IMAGES
 from RWS.Widgets import SettingsViewer
 from RWS.Ui import ViewUI, SettingUI, UI

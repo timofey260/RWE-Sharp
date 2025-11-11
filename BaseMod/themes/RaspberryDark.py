@@ -2,8 +2,7 @@ import os
 
 from PySide6.QtGui import QColor
 
-from RWESharp.Configurable.QtTypes import ColorConfigurable
-from RWS.Configurable import IntConfigurable
+from RWS.Configurable import IntConfigurable, ColorConfigurable
 from RWS.Core import PATH_FILES
 from RWS.Modify import Theme
 

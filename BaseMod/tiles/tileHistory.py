@@ -3,7 +3,7 @@ from __future__ import annotations
 from PySide6.QtCore import QPoint, QRect
 
 from BaseMod.tiles.tileUtils import can_place, place_tile, TileHistory, remove_tile, PlacedTileBody
-from RWESharp.Modify.HistoryElement import HistoryElement
+from RWS.Modify import HistoryElement
 from RWS.Loaders import Tile
 from RWS.Utils import draw_line, draw_rect, draw_ellipse
 

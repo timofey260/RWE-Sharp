@@ -1,5 +1,5 @@
 from BaseMod.LevelParts import PropLevelPart
-from RWESharp.Modify.HistoryElement import HistoryElement
+from RWS.Modify import HistoryElement
 from RWS.Core import CELLSIZE
 
 

@@ -7,7 +7,7 @@ from BaseMod.camera.ui.cameras_ui import Ui_Cameras
 from BaseMod.camera.ui.camerasettings_ui import Ui_Cameras as Ui_CameraSettings
 from RWS.Configurable import BoolConfigurable, KeyConfigurable, PenConfigurable, ColorConfigurable
 from RWS.Ui import ViewUI, UI, SettingUI
-from RWESharp.widgets.SettingsViewer import SettingsViewer
+from RWS.Widgets import SettingsViewer
 
 
 class CameraUI(UI):

@@ -4,7 +4,6 @@ from PySide6.QtWidgets import QGraphicsScene
 
 from BaseMod.tiles.tileUtils import PlacedMaterial, PlacedTileHead
 from RWS.Core import CONSTS, CELLSIZE, SPRITESIZE
-from RWS.Loaders import color_colortable
 from RWS.Renderable import RenderLevelImage
 
 

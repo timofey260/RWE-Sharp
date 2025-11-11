@@ -16,7 +16,7 @@ from RWS.Core import PATH_FILES_IMAGES_PALETTES
 from RWS.Loaders import palette_to_colortable
 from RWS.Ui import ViewUI, UI, SettingUI
 from RWS.Utils import paint_svg_qicon
-from RWESharp.widgets.SettingsViewer import SettingsViewer
+from RWS.Widgets import SettingsViewer
 
 
 class TileViewUI(ViewUI):

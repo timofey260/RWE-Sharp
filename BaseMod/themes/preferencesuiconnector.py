@@ -4,7 +4,7 @@ from BaseMod.themes.preferencesui import Ui_Preferences
 from RWS.Configurable import StringConfigurable
 from RWS.Ui import SettingUI
 from RWS.Utils import log
-from RWESharp.widgets.SettingsViewer import SettingsViewer
+from RWS.Widgets import SettingsViewer
 
 
 class PreferencesUI(SettingUI):

@@ -5,7 +5,7 @@ from PySide6.QtGui import QTransform, QPolygonF, QPixmap, QPen, QColor
 from PySide6.QtWidgets import QGraphicsPixmapItem, QGraphicsEllipseItem
 
 from BaseMod.LevelParts import PropLevelPart
-from RWESharp.Core import lingoIO
+from RWS.Core import lingoIO
 from RWS.Loaders import Prop
 from RWS.Renderable import Renderable, RenderPoly, Handle
 from RWS.Utils import remap

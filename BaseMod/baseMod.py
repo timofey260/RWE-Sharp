@@ -29,7 +29,7 @@ from BaseMod.tiles.tileModule import TileModule
 from RWS.Core import SettingElement, HotkeyElement, get_hotkeys_from_pattern, PATH_FILES_VIDEOS
 from RWS.Modify import Mod, ModInfo
 from RWS.Ui import FunnyVideo
-from RWESharp.widgets.Viewport import ViewPort
+from RWS.Widgets import ViewPort
 
 
 class BaseMod(Mod):

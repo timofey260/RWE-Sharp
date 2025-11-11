@@ -3,7 +3,7 @@ from copy import deepcopy
 import numpy as np
 from PySide6.QtCore import QPoint, QLineF, QRect
 
-from RWESharp.Modify.HistoryElement import HistoryElement
+from RWS.Modify import HistoryElement
 from RWS.Loaders import Effect
 from RWS.Utils import draw_line
 

@@ -2,7 +2,7 @@ import numpy as np
 from PySide6.QtCore import QPoint, QRect
 
 from BaseMod.geo.geoUtils import geo_save, geo_undo
-from RWESharp.Modify.HistoryElement import HistoryElement
+from RWS.Modify import HistoryElement
 from RWS.Utils import draw_line, draw_ellipse
 
 nearpoints = [QPoint(-1, 0), QPoint(0, -1), QPoint(1, 0), QPoint(0, 1)]

@@ -10,9 +10,8 @@ from BaseMod.props.propExplorer import PropExplorer
 from BaseMod.props.propHistory import PropPlace, PropRemove
 from BaseMod.props.propRenderable import PropRenderable
 from BaseMod.props.propUtils import find_mid
-from RWESharp.Core import lingoIO
 from RWS.Configurable import ColorConfigurable
-from RWS.Core import CELLSIZE
+from RWS.Core import CELLSIZE, lingoIO
 from RWS.Loaders import Prop
 from RWS.Modify import Editor
 from RWS.Renderable import RenderLine, RenderPoly, RenderRect

@@ -1,6 +1,6 @@
 from PySide6.QtCore import QRect
 
-from RWESharp.Modify.HistoryElement import HistoryElement
+from RWS.Modify import HistoryElement
 from RWS.Core import CELLSIZE
 
 

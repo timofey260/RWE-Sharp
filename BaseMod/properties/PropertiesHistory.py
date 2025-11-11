@@ -1,4 +1,4 @@
-from RWESharp.Modify.HistoryElement import HistoryElement
+from RWS.Modify import HistoryElement
 
 
 class BorderChange(HistoryElement):

@@ -1,7 +1,7 @@
 from PySide6.QtCore import QSize, QRect, QPoint
 from PySide6.QtGui import QImage, QColor, QPainter
 
-from RWESharp.Modify.HistoryElement import HistoryElement
+from RWS.Modify import HistoryElement
 from RWS.Core import ofstop, ofsleft, CELLSIZE
 
 

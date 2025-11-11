@@ -4,7 +4,7 @@ import numpy as np
 from PySide6.QtCore import QPoint, QRect, QSize
 from PySide6.QtWidgets import QGraphicsPixmapItem, QGraphicsRectItem
 
-from RWESharp.Modify.HistoryElement import HistoryElement
+from RWS.Modify import HistoryElement
 from RWS.Core import RWELevel, CELLSIZE
 from RWS.Loaders import Tile
 
