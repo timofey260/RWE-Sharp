@@ -34,12 +34,9 @@ class PreferencesUI(SettingUI):
                 return
 
     def update_themes(self):
-        print(self.theme.value)
-        print(self.lasttheme.value)
         for i in self.themes:
             if self.theme.value == i.config_name:
                 self.current_theme = i
-                print(i, "!!!!!!!!")
                 return
 
     def add_theme(self, theme):

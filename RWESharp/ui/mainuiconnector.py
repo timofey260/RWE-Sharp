@@ -7,6 +7,7 @@ from RWESharp.ui.uiscripts.mainui import Ui_MainWindow
 from RWESharp.ui.aboutuiconnector import AboutDialog
 from RWESharp.ui.settingsuiconnector import SettingsDialogUI
 from RWESharp.ui.hotkeysuiconnector import HotkeysUI
+from RWESharp.Level.RWELevel import RWELevel
 from RWESharp.utils import modify_path_url
 from RWESharp.info import PATH_LEVELS, PATH_FILES_VIDEOS, PATH_DRIZZLE, ISWIN, REPO_ISSUES, REPO, FULLNAME, CUSTOM_LINKS
 from RWESharp.Core.LevelRenderer import LevelRenderer
@@ -126,10 +127,14 @@ class MainWindow(QMainWindow):
         return opn
 
 
-    def level_render(self, level):
-        print(level)  #todo
+    def level_render(self, level: RWELevel):
         if level.file is None:
-            return
+            print("Level does Not exist, trying to save")
+            level.viewport.save_level()
+            if level.file is None:
+                print("Canceled")
+                return
+        print(level)  #todo
         # a, _ = os.path.split(level.file)
         # print(QDesktopServices.openUrl(modify_path_url(a)), a)
         LevelRenderer.render_level(level.file)
