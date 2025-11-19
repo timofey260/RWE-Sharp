@@ -216,6 +216,7 @@ class RWELevel:
         if self.file is None:
             return False
         self.was_resized = False
+        self.was_changed = False
         self.viewport.setTabName()
         _, ex = os.path.splitext(self.file)
         if ex == ".txt":

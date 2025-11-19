@@ -80,6 +80,7 @@ class TileEditor(Editor):
         self.lastclick = QPoint()
         self.toolright.valueChanged.connect(self.tool_changed)
         self.toolleft.valueChanged.connect(self.tool_changed)
+        self.recent_tiles = []
 
     def tool_changed(self):
         self.rect_brush.setOpacity(0)
@@ -104,6 +105,10 @@ class TileEditor(Editor):
     def add_tile(self, tiles: list[Tile]):
         self.tile = tiles[0]
         self.redraw_tile()
+        if self.tile in self.recent_tiles:
+            self.recent_tiles.remove(self.tile)
+        self.recent_tiles.insert(0, self.tile)
+        self.basemod.tileui.reloadrecent()
 
     def redraw_tile(self):
         if self.tile is None or self.tile_item.renderedtexture is None:

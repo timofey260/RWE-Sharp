@@ -355,3 +355,15 @@ class Manager:
         :rtype: ViewPort
         """
         return self.window.ui.tabWidget.currentWidget()
+
+    def close(self) -> None:
+        """Called when RWE# needs to shut down
+
+        :return: None
+        """
+        for i in self.mods:
+            i.close()
+        for i in range(self.window.ui.tabWidget.count()):
+            self.window.ui.tabWidget.widget(i).close_viewport()
+        # self.window.hide()
+        self.window.deleteLater()

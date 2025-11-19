@@ -2,7 +2,7 @@ import os
 
 from PySide6.QtCore import Slot, Qt, QCoreApplication, Signal
 from PySide6.QtGui import QAction, QColor, QImage
-from PySide6.QtWidgets import QFileDialog, QMenu, QCheckBox
+from PySide6.QtWidgets import QFileDialog, QMenu, QCheckBox, QTreeWidgetItem
 
 from BaseMod.baseMod import BaseMod
 from BaseMod.geo.GeoConsts import *
@@ -211,6 +211,11 @@ class TileUI(UI):
         self.load_materials()
         self.ui.Materials.currentTextChanged.connect(self.update_default_material)
         self.can_update_default_material = True
+        self.ui.RecentTiles.itemDoubleClicked.connect(self.select)
+
+    def select(self, item: QTreeWidgetItem, column):
+        tile = item.data(0, Qt.ItemDataRole.UserRole)
+        self.basemod.tileeditor.add_tile([tile])
 
     def update_default_material(self, text):
         if not self.can_update_default_material:
@@ -243,6 +248,18 @@ class TileUI(UI):
     def open_explorer(self):
         self.editor.explorer.change_visibility(True)
         self.editor.explorer.focussearch()
+
+    def reloadrecent(self):
+        from RWESharp.Loaders.Tile import Tile
+        self.ui.RecentTiles.clear()
+        for i in self.basemod.tileeditor.recent_tiles:
+            i: Tile
+            item = QTreeWidgetItem(self.ui.RecentTiles)
+            item.setIcon(0, i.image)
+            item.setText(0, i.name)
+            item.setText(1, i.category.name)
+            item.setData(0, Qt.ItemDataRole.UserRole, i)
+        self.ui.RecentTiles.resizeColumnToContents(0)
 
 
 class TileSettings(SettingUI):

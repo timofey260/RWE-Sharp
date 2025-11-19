@@ -38,7 +38,7 @@ Note: Mac users would need to build [Drizzle](https://github.com/SlimeCubed/Driz
 
 ## Run from source
 
-To build from source you must have python installed with venv package(install it with pip or your distro-specific analog)
+To run from source you must have python installed with venv package(install it with pip or your distro-specific analog)
 
 1. Clone the repo(Either [download source code](https://github.com/timofey260/RWE-Sharp/archive/refs/heads/master.zip) or use `git clone` as showed below):
 ```shell

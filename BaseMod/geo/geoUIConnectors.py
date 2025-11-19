@@ -126,6 +126,9 @@ class GeoUI(UI):
         self.controls.clear_blocks.link_button(self.ui.ToolGeoClearBlocks)
         self.controls.clear_layer.link_button(self.ui.ToolGeoClearLayer)
         self.controls.inverse.link_button(self.ui.ToolGeoInvert)
+        self.controls.copy.link_button(self.ui.ToolGeoCopy)
+        self.controls.move.link_button(self.ui.ToolGeoMove)
+        self.controls.paste.link_button(self.ui.ToolGeoPaste)
         self.controls.mirror.link_button(self.ui.ToolGeoMirror)
 
         self.ui.RotateRight.clicked.connect(self.editor.rotate)
@@ -210,7 +213,7 @@ class GeoUI(UI):
                 #button.setMaximumSize(200, 200)  # Prevents excessive stretching
                 #button.setText("")
                 #button.setStyleSheet("padding: 2px;")
-        self.ui.ToolGeoInvert.setToolTip('<img src="files/images/invert_tooltip.png">')
+        # self.ui.ToolGeoInvert.setToolTip('<img src="files/images/invert_tooltip.png">')
 
 
 class GeoViewUI(ViewUI):

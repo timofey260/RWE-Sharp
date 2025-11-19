@@ -64,11 +64,16 @@ class Application(QApplication):
             self.window = MainWindow(self)
         self.manager = self.window.manager
         self.window.show()
-        # sys.exit(self.app.exec())
+        # sys.exit(self.exec())
 
     @property
     def debug(self) -> bool:
         return self.parser.isSet(self.args.debug)
+
+    def close(self):
+        print("Closing...")
+        self.manager.close()
+        self.exit(0)
 
     def restart(self) -> None:
         self.window.deleteLater()

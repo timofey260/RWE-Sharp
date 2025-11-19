@@ -154,6 +154,9 @@ class ViewPort(QGraphicsView):
         i = self.manager.window.ui.tabWidget.indexOf(self)
         self.manager.window.ui.tabWidget.setTabText(i, self.level.shortname)
 
+    def close_viewport(self):
+        self.workscene.clear()
+
     def clean(self):
         self.workscene.update(0, 0, 10000, 10000)  # that'l do
 

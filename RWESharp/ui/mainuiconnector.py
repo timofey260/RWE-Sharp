@@ -175,7 +175,7 @@ class MainWindow(QMainWindow):
 
     @Slot()
     def close(self) -> None:
-        self.manager.application.shutdown()  # todo return funny
+        self.manager.application.close()  # todo return funny
 
         # if self.manager.basemod.bmconfig.funny_vid.value and self.manager.basemod.bmconfig.funny.value:
         #     self.vid = FunnyVideo(self.manager, True, os.path.join(PATH_FILES_VIDEOS, "fnuuy.mp4").replace("\\", "/"), "GoodBye")

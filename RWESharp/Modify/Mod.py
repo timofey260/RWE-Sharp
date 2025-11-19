@@ -173,4 +173,10 @@ class Mod(ABC):
         :param level: Level to mount on
         :return: None
         """
-        pass
+
+    def close(self) -> None:
+        """Gets called when RWE# shuts down
+
+        :return: None
+        """
+

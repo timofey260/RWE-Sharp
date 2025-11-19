@@ -211,3 +211,6 @@ class BaseMod(Mod):
             self.recent.insert(0, level.file)
         self.bmconfig.recentfiles.update_value_default("\n".join(self.recent))
         self.update_recent()
+
+    def close(self) -> None:
+        self.propeditor.updatetimer.stop()
