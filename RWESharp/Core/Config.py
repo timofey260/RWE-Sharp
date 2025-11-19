@@ -1,6 +1,4 @@
-import appdirs
-from RWESharp.info import NAME, PROGNAME, AUTHOR, PATH_FILES
-import os
+from RWESharp.info import NAME, AUTHOR
 import json
 from PySide6.QtCore import QSettings
 
@@ -48,13 +46,14 @@ class Config:
             for v in i.configs:
                 self.settings.setValue(f"{i.author_id}.{v.name}", v.save_str_value())
         return
-        js = {}
-        for i in self.manager.mods:
-            for v in i.configs:
-                js[f"{i.author_id}.{v.name}"] = v.save_str_value()
-        path = self.ensure_config()
-        with open(path, "w") as f:
-            f.write(json.dumps(js))
+        # js = {}
+        # for i in self.manager.mods:
+        #     for v in i.configs:
+        #         js[f"{i.author_id}.{v.name}"] = v.save_str_value()
+        # path = self.ensure_config()
+        # with open(path, "w") as f:
+        #     f.write(json.dumps(js))
+
         # old method
         # path = self.ensure_config()
         # with open(path, "w") as f:
@@ -65,26 +64,26 @@ class Config:
         #             f.write(f"{i.author_name}.{v.name}={v.save_str_value()}\n")
         #         f.write("\n\n")
 
-    def ensure_config(self) -> str:
-        """
-        !!!OBSOLETE!!!
-
-        ensures that config file exists and returns path to it
-        :return: path to config.txt
-        """
-        path = appdirs.user_config_dir(NAME, AUTHOR)
-        if not os.path.exists(path):
-            os.makedirs(path, exist_ok=True)
-        if not os.path.exists(os.path.join(path, "config.json")):
-            print(f'Trying to create {os.path.join(path, "config.json")}')
-            with open(os.path.join(path, "config.json"), "w") as f:
-                f.write("{}")
-        if not os.path.exists(os.path.join(path, "config.json")):
-            path = PATH_FILES
-            print(f'Trying to create {os.path.join(path, "config.json")}')
-            with open(os.path.join(path, "config.json"), "w") as f:
-                f.write("{}")
-        if not os.path.exists(os.path.join(path, "config.json")):
-            print("well shit")
-
-        return os.path.join(path, "config.json")
+    # def ensure_config(self) -> str:
+    #     """
+    #     !!!OBSOLETE!!!
+    #
+    #     ensures that config file exists and returns path to it
+    #     :return: path to config.txt
+    #     """
+    #     path = appdirs.user_config_dir(NAME, AUTHOR)
+    #     if not os.path.exists(path):
+    #         os.makedirs(path, exist_ok=True)
+    #     if not os.path.exists(os.path.join(path, "config.json")):
+    #         print(f'Trying to create {os.path.join(path, "config.json")}')
+    #         with open(os.path.join(path, "config.json"), "w") as f:
+    #             f.write("{}")
+    #     if not os.path.exists(os.path.join(path, "config.json")):
+    #         path = PATH_FILES
+    #         print(f'Trying to create {os.path.join(path, "config.json")}')
+    #         with open(os.path.join(path, "config.json"), "w") as f:
+    #             f.write("{}")
+    #     if not os.path.exists(os.path.join(path, "config.json")):
+    #         print("well shit")
+    #
+    #     return os.path.join(path, "config.json")

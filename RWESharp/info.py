@@ -1,8 +1,6 @@
 import os
 import sys
-import commentjson
-
-json = commentjson
+import json
 
 if getattr(sys, 'frozen', False):
     PATH = os.path.dirname(sys.executable)

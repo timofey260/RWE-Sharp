@@ -33,7 +33,11 @@ class GeoRenderLevelImage(RenderLevelImage):
         self.update_image()
         #self.painter.drawPixmap(QRect(0, 0, 20, 20), self.geo_texture, QRect(100, 100, 100, 100))
         self.binfo: dict = CONSTS.get("geo_image_config", {}).get("blocksinfo", {})
+        # //textures
+        # //7 needs to be better
         self.sinfo: dict = CONSTS.get("geo_image_config", {}).get("stackablesinfo", {})
+        # // 4 and 11 should be redone
+		# // 1 and 2 are beams and should be hidden as well as 5, 6, 7
         self._sz = CONSTS.get("geo_image_config", {}).get("itemsize", 100)
         # self.draw_layer()
         if add_renderable:
