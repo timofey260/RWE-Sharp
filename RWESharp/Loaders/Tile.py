@@ -72,7 +72,7 @@ class Tile:
         painter = QPainter(tile_image)
 
         def drawlayer(specs):
-            nonlocal painter
+            # nonlocal painter
             for i, v in enumerate(specs):
                 pos = QPoint(i // self.size.height(), i % self.size.height()) * CELLSIZE
                 endpos = pos + QPoint(CELLSIZE, CELLSIZE)
