@@ -28,6 +28,8 @@ todo
 
 To use RWE#, you can either download release version from [releases page](https://github.com/timofey260/RWE-Sharp/releases) or Run/Build from source(see below)
 
+Note: Mac users would need to build [Drizzle](https://github.com/SlimeCubed/Drizzle) from [source](https://github.com/SlimeCubed/Drizzle) and put it inside RWE#'s drizzle folder
+
 ## Download Release
 
 1. Go to the [Releases page](https://github.com/timofey260/RWE-Sharp/releases) and download latest release for your system(if there is no build for your system, build from source)

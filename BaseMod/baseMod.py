@@ -88,6 +88,7 @@ class BaseMod(Mod):
         self.sex = QAction("sex(earrape warning)")
         self.sex.triggered.connect(self.sexthing)
         self.bmconfig.funny.valueChanged.connect(self.funnychanged)
+        self.funnychanged(self.bmconfig.funny.value)
 
         self.gridui = GridView(self).add_myself()
 
