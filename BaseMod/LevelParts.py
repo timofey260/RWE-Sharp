@@ -250,7 +250,7 @@ class PropLevelPart(LevelPart):
 
         @property
         def tolist(self):
-            return [self.depth, self.name, lingoIO.point(self.prop.cat.toTuple()),
+            return [self.depth, self.name, lingoIO.point([i + 1 for i in self.prop.cat.toTuple()]),
                     [lingoIO.point((p * (SPRITESIZE / CELLSIZE)).toTuple()) for p in self.quad], self.settings]
 
         def copy(self):

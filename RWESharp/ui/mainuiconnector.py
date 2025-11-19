@@ -134,10 +134,13 @@ class MainWindow(QMainWindow):
             if level.file is None:
                 print("Canceled")
                 return
+        newfile = level.export_txt()
+        if newfile is None:
+            return
         print(level)  #todo
         # a, _ = os.path.split(level.file)
         # print(QDesktopServices.openUrl(modify_path_url(a)), a)
-        LevelRenderer.render_level(level.file)
+        LevelRenderer.render_level(newfile)
 
     def render_all(self):
         for i in range(self.ui.tabWidget.count()):

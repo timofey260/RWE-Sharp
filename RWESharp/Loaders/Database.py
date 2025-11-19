@@ -3,7 +3,7 @@ import requests
 import os
 from RWESharp.utils import log
 from RWESharp.info import ISMAC, ISWIN, ISLINUX, PATH, PATH_DRIZZLE
-from PySide6.QtWidgets import QMessageBox
+from PySide6.QtWidgets import QMessageBox, QProgressDialog
 import zipfile
 import urllib
 

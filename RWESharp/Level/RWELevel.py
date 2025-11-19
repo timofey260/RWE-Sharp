@@ -216,6 +216,7 @@ class RWELevel:
         if self.file is None:
             return False
         self.was_resized = False
+        self.viewport.setTabName()
         _, ex = os.path.splitext(self.file)
         if ex == ".txt":
             self.turntolingo(open(self.file, "w"))
@@ -236,3 +237,14 @@ class RWELevel:
         except Exception:
             traceback.print_exc()
         return False
+
+    def export_txt(self) -> None | str:
+        if self.file is None:
+            return None
+        for i, v in self.levelparts.items():
+            v.save_level()
+        name, ex = os.path.splitext(self.file)
+        newname = name + ".txt"
+        self.turntolingo(open(newname, "w"))
+        self.save_light(self.file)
+        return newname

@@ -190,6 +190,7 @@ class RWLParser:
         lightimage = None
         with zipfile.ZipFile(string) as content:
             proj["EX2"] = tojson(defaultlevellines[5])
+            proj["EX"] = tojson(defaultlevellines[4])
             proj["LE"] = tojson(defaultlevellines[3])
             proj["TE"] = tojson(minimallevellines[1])
             proj["WL"] = tojson(minimallevellines[7])

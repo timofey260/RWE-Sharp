@@ -1,4 +1,5 @@
 import sys
+import traceback
 
 from PySide6.QtCore import QThread, Qt
 from PySide6.QtWidgets import QProgressDialog
@@ -13,7 +14,7 @@ class LevelRenderer:
     @staticmethod
     def render_level(level_path: str):
         path, name = os.path.split(level_path)
-        dialog = QProgressDialog(f"Rendering level {name}", "Abort", 0, 1)
+        dialog = QProgressDialog(f"Rendering level {name}", "Cancel", 0, 1)
         dialog.show()
 
         codethread = LevelRenderer.RenderProcess(level_path, dialog, len(levelrenderstack))
@@ -24,24 +25,30 @@ class LevelRenderer:
     class RenderProcess(QThread):
         def __init__(self, level, dialog: QProgressDialog, stackindex):
             super().__init__()
+            self.setObjectName("LevelRenderer")
             self.level = level
             self.dialog = dialog
             self.stackindex = stackindex
 
         def run(self, /):
-            proc = subprocess.Popen([drizzle, "render", self.level],
+            try:
+                proc = subprocess.Popen([drizzle, "render", self.level],
                                     stdout=subprocess.PIPE,
                                     executable=drizzle)
+            except PermissionError:
+                self.dialog.setLabelText("Permission denied!\nGive Drizzle.ConsoleApp permission to execute")
+                return
+            except:
+                traceback.print_exc()
+                return
             self.dialog.canceled.connect(proc.terminate)
             while True:
                 char = proc.stdout.readline()
+                if not char:
+                    return
                 decoded = char.decode()
                 self.dialog.setLabelText(decoded)
                 print(decoded)
-                if not char:
-                    self.quit()
-                    levelrenderstack.pop(self.stackindex)
-                    return
 
 
 if __name__ == '__main__':
