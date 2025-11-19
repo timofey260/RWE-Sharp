@@ -26,7 +26,7 @@
    <string>RWE#</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../../resources/res.qrc">
+   <iconset>
     <normaloff>:/icons/icon.svg</normaloff>:/icons/icon.svg</iconset>
   </property>
   <property name="styleSheet">
@@ -158,7 +158,7 @@
      <x>0</x>
      <y>0</y>
      <width>1351</width>
-     <height>27</height>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -182,7 +182,6 @@
     <addaction name="actionSave_As"/>
     <addaction name="separator"/>
     <addaction name="actionOpen_Levels_Folder"/>
-    <addaction name="actionOpen_ShowLevelFile"/>
    </widget>
    <widget class="QMenu" name="menuSettings">
     <property name="title">
@@ -347,8 +346,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>194</width>
-              <height>163</height>
+              <width>198</width>
+              <height>149</height>
              </rect>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout">
@@ -609,7 +608,7 @@
   </action>
   <action name="actionRWE_Github">
    <property name="icon">
-    <iconset resource="../../resources/res.qrc">
+    <iconset>
      <normaloff>:/icons/github-mark-white.svg</normaloff>:/icons/github-mark-white.svg</iconset>
    </property>
    <property name="text">
@@ -618,7 +617,7 @@
   </action>
   <action name="actionRWE_Issues">
    <property name="icon">
-    <iconset resource="../../resources/res.qrc">
+    <iconset>
      <normaloff>:/icons/github-mark-white.svg</normaloff>:/icons/github-mark-white.svg</iconset>
    </property>
    <property name="text">

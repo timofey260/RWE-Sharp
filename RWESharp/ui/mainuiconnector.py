@@ -96,7 +96,7 @@ class MainWindow(QMainWindow):
 
         self.ui.actionRender.triggered.connect(lambda: self.level_render(self.ui.tabWidget.currentWidget().level))
         self.ui.actionLaunch_Drizzle.triggered.connect(lambda:
-            QDesktopServices.openUrl(modify_path_url(os.path.join(PATH_DRIZZLE, "Drizzle.Editor.exe" if ISWIN else "Drizzle.Editor"))))
+            QDesktopServices.openUrl(modify_path_url(os.path.join(PATH_DRIZZLE, "Drizzle.Editor.exe" if ISWIN else "Drizzle.Editor"))))  # todo
         self.ui.actionRender_All_Levels.triggered.connect(self.render_all)
         self.ui.actionDrizzleOpenExplorer.triggered.connect(lambda: QDesktopServices.openUrl(modify_path_url(PATH_DRIZZLE)))
         self.ui.actionOpen_Levels_Folder.triggered.connect(lambda: QDesktopServices.openUrl(modify_path_url(PATH_LEVELS)))
@@ -175,10 +175,12 @@ class MainWindow(QMainWindow):
 
     @Slot()
     def close(self) -> None:
-        if self.manager.basemod.bmconfig.funny_vid.value and self.manager.basemod.bmconfig.funny.value:
-            self.vid = FunnyVideo(self.manager, True, os.path.join(PATH_FILES_VIDEOS, "fnuuy.mp4").replace("\\", "/"), "GoodBye")
-        else:
-            self.manager.application.exit()
+        self.manager.application.shutdown()  # todo return funny
+
+        # if self.manager.basemod.bmconfig.funny_vid.value and self.manager.basemod.bmconfig.funny.value:
+        #     self.vid = FunnyVideo(self.manager, True, os.path.join(PATH_FILES_VIDEOS, "fnuuy.mp4").replace("\\", "/"), "GoodBye")
+        # else:
+        #     self.manager.application.exit()
 
     def closeEvent(self, event):
         self.close()
