@@ -53,6 +53,10 @@ class Application(QApplication):
     def post_init(self) -> None:
         if self.parser.isSet(self.args.mainw):
             return
+        if not self.splash.loader.load_success:
+            print("LOAD FAILURE")
+            self.exit(1)
+            return
         if len(self.args2) == 1:
             self.window = MainWindow(self, self.args2[0])
             # manager.new_process(args.filename)

@@ -27,6 +27,6 @@ class FunnyVideo(QWidget):
     @Slot(QMediaPlayer.MediaStatus)
     def frame(self, status: QMediaPlayer.MediaStatus):
         if status == status.NoMedia or status == status.EndOfMedia:
-            self.deleteLater()
             if self.closeonfinish:
                 self.manager.application.exit(0)
+            self.deleteLater()

@@ -1,4 +1,12 @@
 PySide6>=6.9.0
 ujson>=5.10.0
-path-dict
-numpy
+numpy~=2.3.5
+pip~=25.3
+shiboken6~=6.10.0
+urllib3~=2.5.0
+altgraph~=0.17.4
+json-spec~=0.12.0
+charset-normalizer~=3.4.4
+certifi~=2025.11.12
+idna~=3.11
+requests~=2.32.5

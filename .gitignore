@@ -6,6 +6,7 @@
 /include
 loadLog.txt
 /drizzle
+/drizzle_backup
 /.idea
 /levelEditorProjects
 /files/cache

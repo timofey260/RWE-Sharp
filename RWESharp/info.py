@@ -43,10 +43,9 @@ PATH_DRIZZLE_PROPS = os.path.join(PATH_DRIZZLE, "Data/Props")
 PATH_DRIZZLE_CAST = os.path.join(PATH_DRIZZLE, "Data/Cast")
 """Path to ./drizzle/Data/Cast"""
 
-if not os.path.exists(PATH_DRIZZLE):  # todo finish database
-    print("DRIZZLE NOT FOUND")
+drizzle_exists = os.path.exists(PATH_DRIZZLE)
 
-assert os.path.exists(PATH_DRIZZLE), "drizzle not found"
+# assert os.path.exists(PATH_DRIZZLE), "drizzle not found"
 
 ISLINUX = sys.platform == "linux" or sys.platform == "linux2"  # tf is linux2
 """Checks if user is using windows"""
