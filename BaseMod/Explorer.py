@@ -1,10 +1,13 @@
 from abc import abstractmethod
+import os
 
 from PySide6.QtCore import Signal, Qt, QSize, QTimer
 from PySide6.QtGui import QColor
 from PySide6.QtWidgets import QTreeWidgetItem, QListWidgetItem, QListWidget
+from PySide6.QtWidgets import QDialog, QMessageBox, QDialogButtonBox
+from BaseMod.ui.createcategory_ui import Ui_CreateCategory
 
-from BaseMod.explorer_ui import Ui_Explorer
+from BaseMod.ui.explorer_ui import Ui_Explorer
 from RWS.Configurable import BoolConfigurable
 from RWS.Widgets import ViewDockWidget
 from RWS.Utils import paint_svg_qicon
@@ -62,6 +65,8 @@ class Explorer(ViewDockWidget):
         self.changecolor(self.mod.bmconfig.icon_color.value)
         self.ui.splitter.splitterMoved.connect(self.splitter_moved)
         self.ui.SearchBar.textChanged.connect(self.search)
+
+        self.ui.CatsAddCC.clicked.connect(self.add_category)
 
     def resizeEvent(self,  event):
         if hasattr(self, 'ui') and self.ui:
@@ -236,6 +241,49 @@ class Explorer(ViewDockWidget):
         self.load_categories()
         self.change_items()
 
+    def add_category(self):
+        while True:
+            d = QDialog()
+            ui = Ui_CreateCategory()
+            ui.setupUi(d)
+            ui.CategoryName.setText("Custom Category")
+            ui.CategoryColor.set_color(QColor(160, 20, 20))
+
+            value = d.exec()
+            print(value, QDialogButtonBox.StandardButton.Cancel)
+            if value == 0:
+                return
+            filepath = os.path.join(self.custom_categories_path, ui.CategoryName.text())
+            color = ui.CategoryColor.color
+            if os.path.exists(filepath):
+                message = QMessageBox(QMessageBox.Icon.Warning, "Category Exists", "This category already exists!\nWould you like to override it?")
+                message.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No | QMessageBox.StandardButton.Cancel)
+                message.setDefaultButton(QMessageBox.StandardButton.Cancel)
+                value2 = message.exec()
+                if value2 == QMessageBox.StandardButton.No:
+                    return
+                if value2 == QMessageBox.StandardButton.Cancel:
+                    continue
+            break
+        with open(filepath, "w") as f:
+            f.write(f"{color.red()} {color.green()} {color.blue()}")
+        self.categories_modified()
+
+    def remove_category(self):
+        if not self.category_is_custom(self.categoryindex):
+            return
+        message = QMessageBox(QMessageBox.Icon.Warning, "Delete Custom Category", "Are you sure?")
+        message.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.Cancel)
+        message.setDefaultButton(QMessageBox.StandardButton.Cancel)
+
+        value = message.exec()
+        if value == QMessageBox.StandardButton.Cancel:
+            return
+        filepath = os.path.join(self.custom_categories_path, self.category_name(self.categoryindex))
+        if os.path.exists(filepath):
+            os.remove(filepath)
+            self.categories_modified()
+
     def focussearch(self):
         self.raise_()
         self.activateWindow()
@@ -291,3 +339,20 @@ class Explorer(ViewDockWidget):
     @abstractmethod
     def category_items(self, cat) -> list:
         pass
+
+    @abstractmethod
+    def categories_modified(self) -> None:
+        pass
+
+    @property
+    @abstractmethod
+    def custom_categories_path(self) -> str:
+        return ""
+
+    @abstractmethod
+    def category_is_custom(self, index: int) -> bool:
+        return False
+
+    @abstractmethod
+    def category_name(self, index) -> str:
+        return ""

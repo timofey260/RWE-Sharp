@@ -1,11 +1,11 @@
 from PySide6.QtCore import Qt, QPoint
 from PySide6.QtGui import QPixmap, QColor, QAction
-from PySide6.QtWidgets import QMainWindow, QTreeWidgetItem, QListWidgetItem, QTableWidgetItem
+from PySide6.QtWidgets import QMainWindow, QTreeWidgetItem, QListWidgetItem, QTableWidgetItem, QDialog, QMessageBox, QDialogButtonBox
 
 from BaseMod.Explorer import Explorer
 from BaseMod.tiles.tilePin import TilePin
 from RWS.Configurable import BoolConfigurable, IntConfigurable
-from RWS.Core import CELLSIZE, SPRITESIZE
+from RWS.Core import CELLSIZE, SPRITESIZE, PATH_COLLECTIONS_TILES
 from RWS.Loaders import Tile, Tiles
 
 
@@ -131,6 +131,19 @@ class TileExplorer(Explorer):
         self.mod.bmconfig.tileexplorer_key.link_action(self.tile_explorer_action)
 
         self.tiles.tileschanged.connect(self.load_categories)
+
+    @property
+    def custom_categories_path(self):
+        return PATH_COLLECTIONS_TILES
+
+    def categories_modified(self):
+        self.tiles.add_custom_tiles()
+
+    def category_is_custom(self, index: int) -> bool:
+        return self.tiles.categories[index] in self.tiles.custom_categories
+
+    def category_name(self, index) -> str:
+        return self.tiles.categories[index].name
 
     def pin_tile(self):
         for i in self.selected:

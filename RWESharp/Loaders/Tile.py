@@ -140,11 +140,10 @@ class TileCategory:
 
 @dataclass
 class Tiles(QObject):
-    _categories: list[TileCategory]
     tileschanged = Signal()
 
     @property
-    def categories(self):
+    def categories(self) -> list[TileCategory]:
         return [*self._categories, *self.custom_categories]
 
     def find_tile(self, name) -> Tile | None:
@@ -160,6 +159,10 @@ class Tiles(QObject):
                 return i
         return None
 
+    @property
+    def categories_nocustom(self):
+        return self._categories
+
     def add_custom_tiles(self):
         self.custom_categories = []
         for i in os.listdir(PATH_COLLECTIONS_TILES):
@@ -169,6 +172,8 @@ class Tiles(QObject):
             with open(fullpath) as f:
                 addedtiles = []
                 lines = [t.replace("\n", "") for t in f.readlines()]
+                if len(lines) < 1:
+                    continue
                 color = QColor(*[int(v) for v in lines[0].split()])
                 for tile in lines[1:]:
                     found = self.find_tile(tile)

@@ -4,9 +4,23 @@ from PySide6.QtWidgets import QTreeWidgetItem, QListWidgetItem, QTableWidgetItem
 
 from BaseMod.Explorer import Explorer
 from RWS.Loaders import Prop
+from RWS.Core import PATH_COLLECTIONS_PROPS
 
 
 class PropExplorer(Explorer):
+    def category_name(self, index) -> str:
+        return self.props.categories[index].name
+
+    def category_is_custom(self, index: int) -> bool:
+        return self.props.categories[index] in self.props.custom_categories
+
+    @property
+    def custom_categories_path(self) -> str:
+        return PATH_COLLECTIONS_PROPS
+
+    def categories_modified(self):
+        self.props.add_custom_props()
+
     def category_items(self, cat) -> list:
         return cat.props
 
@@ -86,6 +100,7 @@ class PropExplorer(Explorer):
         self.itemselected.connect(editor.setprop)
 
         self.props.propschanged.connect(self.load_categories)
+        self.ui.CatsRemoveCC.clicked.connect(self.remove_category)
 
         self.ui.LayerBox.setVisible(False)
         self.ui.RenderOption.setVisible(False)

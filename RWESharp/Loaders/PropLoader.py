@@ -289,15 +289,15 @@ def load_props(tiles: Tiles, window: SplashDialog):
 
     log(f"Loading Tiles as props")
     # yeah me lazy go brrrr
-    catsnum = len(tiles.categories)
+    catsnum = len(tiles.categories_nocustom)
     data_per_thread = catsnum // threadsnum
     unused = catsnum - data_per_thread * threadsnum
 
     workers: list[Tile2PropLoader] = []
     for i in range(threadsnum):
-        workers.append(Tile2PropLoader(tiles.categories[i * data_per_thread:i * data_per_thread + data_per_thread]))
+        workers.append(Tile2PropLoader(tiles.categories_nocustom[i * data_per_thread:i * data_per_thread + data_per_thread]))
     if unused > 0:
-        workers.append(Tile2PropLoader(tiles.categories[-unused:]))
+        workers.append(Tile2PropLoader(tiles.categories_nocustom[-unused:]))
     progress = PropProgress(window, workers)
     for i in workers:
         i.start()

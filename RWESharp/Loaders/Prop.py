@@ -2,6 +2,8 @@ from __future__ import annotations
 from PySide6.QtGui import QImage, QColor, QPixmap
 from PySide6.QtCore import QPoint, QSize, QObject, Signal
 from dataclasses import dataclass, field
+from RWESharp.info import PATH_COLLECTIONS_PROPS
+import os
 
 
 @dataclass(frozen=True)
@@ -64,7 +66,7 @@ class Props(QObject):
     propschanged = Signal()
 
     @property
-    def categories(self):
+    def categories(self) -> list[PropCategory]:
         return [*self._categories, *self.custom_categories]
 
     def find_prop(self, name) -> Prop | None:
@@ -92,7 +94,23 @@ class Props(QObject):
             return self.find_prop(item)
 
     def add_custom_props(self):
-        # todo
+        self.custom_categories = []
+        for i in os.listdir(PATH_COLLECTIONS_PROPS):
+            fullpath = os.path.join(PATH_COLLECTIONS_PROPS, i)
+            if not os.path.isfile(fullpath):
+                continue
+            with open(fullpath) as f:
+                addedprops = []
+                lines = [t.replace("\n", "") for t in f.readlines()]
+                if len(lines) < 1:
+                    continue
+                color = QColor(*[int(v) for v in lines[0].split()])
+                for tile in lines[1:]:
+                    found = self.find_prop(tile)
+                    if found is None:
+                        continue
+                    addedprops.append(found)
+                self.custom_categories.append(PropCategory(i, color, addedprops))
         self.propschanged.emit()
 
     def __init__(self, categories):
