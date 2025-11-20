@@ -6,7 +6,7 @@ from BaseMod.Explorer import Explorer
 from BaseMod.tiles.tilePin import TilePin
 from RWS.Configurable import BoolConfigurable, IntConfigurable
 from RWS.Core import CELLSIZE, SPRITESIZE
-from RWS.Loaders import Tile
+from RWS.Loaders import Tile, Tiles
 
 
 class TileExplorer(Explorer):
@@ -33,9 +33,9 @@ class TileExplorer(Explorer):
         self.ui.Properties.setItem(4, 0, QTableWidgetItem(", ".join(item.tags)))
         self.ui.Properties.adjustSize()
         self.ui.Properties.resizeColumnsToContents()
-        self.ui.Properties.resizeRowsToContents()
-        self.ui.Properties.verticalHeaderDefaultSectionSize = 25
-        self.ui.Properties.verticalHeaderStretchLastSection = True
+        # self.ui.Properties.resizeRowsToContents()
+        # self.ui.Properties.verticalHeaderDefaultSectionSize = 25
+        # self.ui.Properties.verticalHeaderStretchLastSection = True
         # self.ui.Properties.setAutoScroll(True)
 
     def itemtype(self) -> type:
@@ -90,7 +90,7 @@ class TileExplorer(Explorer):
         return item
 
     def __init__(self, editor, parent: QMainWindow):
-        self.tiles = editor.manager.tiles
+        self.tiles: Tiles = editor.manager.tiles
         super().__init__(editor.mod, parent)
         self.tileview = self.mod.tileview
 
@@ -129,6 +129,8 @@ class TileExplorer(Explorer):
         self.manager.window_menu.addAction(self.tile_explorer_action)
         self.link_action(self.tile_explorer_action)
         self.mod.bmconfig.tileexplorer_key.link_action(self.tile_explorer_action)
+
+        self.tiles.tileschanged.connect(self.load_categories)
 
     def pin_tile(self):
         for i in self.selected:

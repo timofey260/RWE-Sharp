@@ -19,7 +19,7 @@ class RenderTile(RenderImage):
 
     def set_tile(self, tile: Tile, colortable, option: int = 0):
         self.drawoption = option
-        self.image = tile.return_tile_pixmap(self.drawoption, self.layer, colortable)
+        self.image = tile.return_tile_pixmap(self.drawoption, self.layer, colortable, False)
         self.colsimage = tile.collisions_image()
         self.redraw()
         self.tile = tile

@@ -1,6 +1,6 @@
 from __future__ import annotations
 from PySide6.QtGui import QImage, QColor, QPixmap
-from PySide6.QtCore import QPoint, QSize
+from PySide6.QtCore import QPoint, QSize, QObject, Signal
 from dataclasses import dataclass, field
 
 
@@ -59,10 +59,13 @@ class PropCategory:
         return f"<Prop category {self.name} with {len(self.props)} prop(s)>"
 
 
-@dataclass
-class Props:
-    categories: list[PropCategory]
+class Props(QObject):
     default = Prop({}, "None", "standard", [1], "No Description", [QImage(10, 10, QImage.Format.Format_RGBA64)], "none", 1, QColor(255, 0, 0), QPoint(0, 0), [], True, None, [], QSize(1, 1))
+    propschanged = Signal()
+
+    @property
+    def categories(self):
+        return [*self._categories, *self.custom_categories]
 
     def find_prop(self, name) -> Prop | None:
         for i in self.categories:
@@ -87,3 +90,13 @@ class Props:
     def __getitem__(self, item):
         if isinstance(item, str):
             return self.find_prop(item)
+
+    def add_custom_props(self):
+        # todo
+        self.propschanged.emit()
+
+    def __init__(self, categories):
+        super().__init__()
+        self._categories: list[PropCategory] = categories
+        self.custom_categories = []
+        self.add_custom_props()

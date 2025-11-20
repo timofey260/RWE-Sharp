@@ -51,10 +51,10 @@ class PropExplorer(Explorer):
 
     def preview_item(self, item: Prop):
         if item is None:
-            self.previeweffect.setOpacity(0)
+            self.previewprop.setOpacity(0)
             return
-        self.previeweffect.setOpacity(1)
-        self.previeweffect.setPixmap(self.getimage(item.images[0]))
+        self.previewprop.setOpacity(1)
+        self.previewprop.setPixmap(self.getimage(item.images[0]))
         self.ui.Properties.clear()
         self.ui.Properties.setRowCount(4)
         self.ui.Properties.setColumnCount(1)
@@ -72,8 +72,8 @@ class PropExplorer(Explorer):
     def __init__(self, editor, parent=None):
         self.props = editor.manager.props
         super().__init__(editor.mod, parent)
-        self.previeweffect = self.preview.workscene.addPixmap(QPixmap(1, 1))
-        self.preview.items.append(self.previeweffect)
+        self.previewprop = self.preview.workscene.addPixmap(QPixmap(1, 1))
+        self.preview.items.append(self.previewprop)
         self.ui.LItem.setText("Prop")
         self.ui.LItems.setText("Props")
         self.setWindowTitle("Prop Explorer")
@@ -84,6 +84,11 @@ class PropExplorer(Explorer):
         self.link_action(self.prop_explorer_action)
         self.mod.bmconfig.propexplorer_key.link_action(self.prop_explorer_action)
         self.itemselected.connect(editor.setprop)
+
+        self.props.propschanged.connect(self.load_categories)
+
+        self.ui.LayerBox.setVisible(False)
+        self.ui.RenderOption.setVisible(False)
 
     def getimage(self, image):
         if isinstance(image, QPixmap):

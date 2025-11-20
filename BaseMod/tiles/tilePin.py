@@ -47,7 +47,7 @@ class TilePin(ViewDockWidget):
 
         self.tileimage.setOpacity(1)
         self.tilecolsimage.setOpacity(self.ui.Collisions.isChecked())
-        self.tileimage.setPixmap(self.tile.return_tile_pixmap(self.drawoption.value, self.layer.value - 1, self.explorer.colortable))
+        self.tileimage.setPixmap(self.tile.return_tile_pixmap(self.drawoption.value, self.layer.value - 1, self.explorer.tileview.colortable))
         self.tilecolsimage.setPixmap(self.tile.collisions_image())
         self.tileimage.setData(2, (CELLSIZE / SPRITESIZE) if self.drawoption.value == 0 else 1)
 

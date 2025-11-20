@@ -1,7 +1,8 @@
 from __future__ import annotations
 from PySide6.QtGui import QImage, QColor, QPixmap, QPainter, QPen
-from PySide6.QtCore import QPoint, QSize, QLine, Qt, QRect, Signal
-from RWESharp.info import CELLSIZE
+from PySide6.QtCore import QPoint, QSize, QLine, Qt, QRect, Signal, QObject
+from RWESharp.info import CELLSIZE, PATH_COLLECTIONS_TILES
+import os
 from dataclasses import dataclass
 
 colortable = [[], [], []]
@@ -105,7 +106,9 @@ class Tile:
         drawlayer(self.cols)
         return tile_image
 
-    def return_tile_pixmap(self, option: int, layer: int, layercolortable) -> QPixmap:
+    def return_tile_pixmap(self, option: int, layer: int, layercolortable, preview=True) -> QPixmap:
+        if self.preview is not None and preview:
+            return QPixmap.fromImage(self.preview)
         if option == 0:
             return self.image
         elif option == 1:
@@ -136,9 +139,13 @@ class TileCategory:
 
 
 @dataclass
-class Tiles:
-    categories: list[TileCategory]
+class Tiles(QObject):
+    _categories: list[TileCategory]
     tileschanged = Signal()
+
+    @property
+    def categories(self):
+        return [*self._categories, *self.custom_categories]
 
     def find_tile(self, name) -> Tile | None:
         for i in self.categories:
@@ -153,6 +160,25 @@ class Tiles:
                 return i
         return None
 
+    def add_custom_tiles(self):
+        self.custom_categories = []
+        for i in os.listdir(PATH_COLLECTIONS_TILES):
+            fullpath = os.path.join(PATH_COLLECTIONS_TILES, i)
+            if not os.path.isfile(fullpath):
+                continue
+            with open(fullpath) as f:
+                addedtiles = []
+                lines = [t.replace("\n", "") for t in f.readlines()]
+                color = QColor(*[int(v) for v in lines[0].split()])
+                for tile in lines[1:]:
+                    found = self.find_tile(tile)
+                    if found is None:
+                        continue
+                    addedtiles.append(found)
+                self.custom_categories.append(TileCategory(i, color, addedtiles))
+        self.tileschanged.emit()
+
+
     def all_tiles(self) -> list[Tile]:
         t = [i.tiles for i in self.categories]
         newt = []
@@ -163,3 +189,11 @@ class Tiles:
     def __getitem__(self, item):
         if isinstance(item, str):
             return self.find_tile(item)
+        return None
+
+    def __init__(self, categories: list[TileCategory]):
+        super().__init__()
+        self._categories = categories
+        self.custom_categories: list[TileCategory] = []
+        self.add_custom_tiles()
+

@@ -17,7 +17,6 @@ class LevelTabs(QTabWidget):
             event.ignore()
 
     def dragMoveEvent(self, event):
-        print("shit")
         if event.mimeData().hasUrls:
             event.setDropAction(Qt.DropAction.CopyAction)
             event.accept()
@@ -25,7 +24,6 @@ class LevelTabs(QTabWidget):
             event.ignore()
 
     def dropEvent(self, event, /):
-        print("shit2222")
         if event.mimeData().hasUrls:
             event.setDropAction(Qt.DropAction.CopyAction)
             event.accept()

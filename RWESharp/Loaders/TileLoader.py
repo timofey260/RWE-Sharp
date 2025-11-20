@@ -308,9 +308,11 @@ def load_tiles(window: SplashDialog) -> Tiles:
         ms = CELLSIZE
         # pg.draw.rect(img, v, pg.Rect(ms[0], ms[0], ms[1], ms[1]))
         try:
+            print("getting preview", k, os.path.join(PATH_MAT_PREVIEWS, CONSTS.get("materialpreviews", {}).get(k, "") + ".png"))
             preview = QImage(os.path.join(PATH_MAT_PREVIEWS, CONSTS.get("materialpreviews", {}).get(k, "") + ".png"))
         except FileNotFoundError or TypeError:
             preview = QImage(1, 1, QImage.Format.Format_RGBA64)
+            print("Error with", k)
         # preview.set_colorkey(pg.Color(255, 255, 255))
         # window.printmessage(f"Loading material {k}")
         materialtiles.append(Tile(k, "material", [1], "Material", 0, img, img, img.toImage(), QSize(1, 1), col, [-1], None,
