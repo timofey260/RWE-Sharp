@@ -100,7 +100,6 @@ class PropExplorer(Explorer):
         self.itemselected.connect(editor.setprop)
 
         self.props.propschanged.connect(self.load_categories)
-        self.ui.CatsRemoveCC.clicked.connect(self.remove_category)
 
         self.ui.LayerBox.setVisible(False)
         self.ui.RenderOption.setVisible(False)

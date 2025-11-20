@@ -308,7 +308,6 @@ def load_tiles(window: SplashDialog) -> Tiles:
         ms = CELLSIZE
         # pg.draw.rect(img, v, pg.Rect(ms[0], ms[0], ms[1], ms[1]))
         try:
-            print("getting preview", k, os.path.join(PATH_MAT_PREVIEWS, CONSTS.get("materialpreviews", {}).get(k, "") + ".png"))
             preview = QImage(os.path.join(PATH_MAT_PREVIEWS, CONSTS.get("materialpreviews", {}).get(k, "") + ".png"))
         except FileNotFoundError or TypeError:
             preview = QImage(1, 1, QImage.Format.Format_RGBA64)

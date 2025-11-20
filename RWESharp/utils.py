@@ -212,6 +212,7 @@ def paint_svg(filename: str, color: QColor) -> str:
     path, file = os.path.split(filename)
     file, ex = os.path.splitext(file)
     newpath = os.path.join(PATH_FILES_CACHE, f"{file}_{color.red()}_{color.green()}_{color.blue()}{ex}")
+    print(filename, newpath)
     if os.path.exists(newpath):
         return newpath
     file = QFile(filename)
@@ -220,6 +221,7 @@ def paint_svg(filename: str, color: QColor) -> str:
     file.close()
     htindex = data.indexOf(b'"', data.indexOf(b"fill=\"#")) + 1
     data = data.replace(htindex, data.indexOf(b'"', htindex) - htindex, bytearray(color.name(), "utf-8"))
+    print(data)
     file = QFile(newpath)
     file.open(QFile.OpenModeFlag.WriteOnly)
     file.write(data)

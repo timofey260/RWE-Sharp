@@ -20,6 +20,7 @@ class RaspberryDark(Theme):
         self.settings = RPDarkUI(self)
         self.currentstyle = ""
         self.multiple = False
+        self.iconcolor = ColorConfigurable(mod, "@icon_color", "#FFFFFF", "Icon Color")
 
         self.colors = [
             # base colors
@@ -70,7 +71,7 @@ class RaspberryDark(Theme):
                           "Alternative accent medium color"),  # Placeholder value updated
             ColorConfigurable(mod, "@alt_accent_dark", "#90293B", "Alternative accent dark color"),
             # misc colors
-            ColorConfigurable(mod, "@misc_color_30", "#000000", "Miscellaneous color 30"),
+            self.iconcolor,
             ColorConfigurable(mod, "@misc_color_31", "#000000", "Miscellaneous color 31"),
             ColorConfigurable(mod, "@misc_color_32", "#000000", "Miscellaneous color 32"),
             ColorConfigurable(mod, "@misc_color_33", "#000000", "Miscellaneous color 33"),
@@ -114,6 +115,7 @@ class RaspberryDark(Theme):
 
     def theme_enable(self):
         self.mod.manager.application.setStyleSheet(self.get_style())
+        self.mod.bmconfig.icon_color.update_value(self.iconcolor.value)
 
     def get_style(self):
         with open(os.path.join(PATH_FILES, "themes", "qssfiles", self.themefiles[self.styleindex.value]) + ".txt") as f:

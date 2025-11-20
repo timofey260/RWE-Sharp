@@ -1,6 +1,6 @@
 from PySide6.QtCore import Qt, QPoint
 from PySide6.QtGui import QPixmap, QColor, QAction
-from PySide6.QtWidgets import QMainWindow, QTreeWidgetItem, QListWidgetItem, QTableWidgetItem, QDialog, QMessageBox, QDialogButtonBox
+from PySide6.QtWidgets import QMainWindow, QTreeWidgetItem, QListWidgetItem, QTableWidgetItem
 
 from BaseMod.Explorer import Explorer
 from BaseMod.tiles.tilePin import TilePin

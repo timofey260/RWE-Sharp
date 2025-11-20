@@ -76,7 +76,8 @@ class Ui_Explorer(object):
         self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.CatsAddCC = QToolButton(self.CatsTab)
         self.CatsAddCC.setObjectName(u"CatsAddCC")
-        icon = QIcon(QIcon.fromTheme(u"list-add"))
+        icon = QIcon()
+        icon.addFile(u":/special/special/add_category.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.CatsAddCC.setIcon(icon)
         self.CatsAddCC.setArrowType(Qt.ArrowType.NoArrow)
 
@@ -84,7 +85,8 @@ class Ui_Explorer(object):
 
         self.CatsRemoveCC = QToolButton(self.CatsTab)
         self.CatsRemoveCC.setObjectName(u"CatsRemoveCC")
-        icon1 = QIcon(QIcon.fromTheme(u"list-remove"))
+        icon1 = QIcon()
+        icon1.addFile(u":/special/special/remove_category.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.CatsRemoveCC.setIcon(icon1)
 
         self.horizontalLayout.addWidget(self.CatsRemoveCC)
@@ -95,13 +97,21 @@ class Ui_Explorer(object):
 
         self.CatPrev = QToolButton(self.CatsTab)
         self.CatPrev.setObjectName(u"CatPrev")
-        self.CatPrev.setArrowType(Qt.ArrowType.LeftArrow)
+        icon2 = QIcon()
+        icon2.addFile(u":/misc/misc/arrow_left.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.CatPrev.setIcon(icon2)
+        self.CatPrev.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonIconOnly)
+        self.CatPrev.setAutoRaise(False)
+        self.CatPrev.setArrowType(Qt.ArrowType.NoArrow)
 
         self.horizontalLayout.addWidget(self.CatPrev)
 
         self.CatNext = QToolButton(self.CatsTab)
         self.CatNext.setObjectName(u"CatNext")
-        self.CatNext.setArrowType(Qt.ArrowType.RightArrow)
+        icon3 = QIcon()
+        icon3.addFile(u":/misc/misc/arrow_right.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.CatNext.setIcon(icon3)
+        self.CatNext.setArrowType(Qt.ArrowType.NoArrow)
 
         self.horizontalLayout.addWidget(self.CatNext)
 
@@ -137,34 +147,34 @@ class Ui_Explorer(object):
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
         self.TilesListView = QToolButton(self.ItemsTab)
         self.TilesListView.setObjectName(u"TilesListView")
-        icon2 = QIcon()
-        icon2.addFile(u":/grids/grid/list.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.TilesListView.setIcon(icon2)
+        icon4 = QIcon()
+        icon4.addFile(u":/grids/grid/list.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.TilesListView.setIcon(icon4)
         self.TilesListView.setArrowType(Qt.ArrowType.NoArrow)
 
         self.horizontalLayout_2.addWidget(self.TilesListView)
 
         self.TilesGridViewBig = QToolButton(self.ItemsTab)
         self.TilesGridViewBig.setObjectName(u"TilesGridViewBig")
-        icon3 = QIcon()
-        icon3.addFile(u":/grids/grid/mediumgrid.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.TilesGridViewBig.setIcon(icon3)
+        icon5 = QIcon()
+        icon5.addFile(u":/grids/grid/mediumgrid.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.TilesGridViewBig.setIcon(icon5)
 
         self.horizontalLayout_2.addWidget(self.TilesGridViewBig)
 
         self.TilesGridViewSmall = QToolButton(self.ItemsTab)
         self.TilesGridViewSmall.setObjectName(u"TilesGridViewSmall")
-        icon4 = QIcon()
-        icon4.addFile(u":/grids/grid/smallgrid.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.TilesGridViewSmall.setIcon(icon4)
+        icon6 = QIcon()
+        icon6.addFile(u":/grids/grid/smallgrid.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.TilesGridViewSmall.setIcon(icon6)
 
         self.horizontalLayout_2.addWidget(self.TilesGridViewSmall)
 
         self.TilesIconView = QToolButton(self.ItemsTab)
         self.TilesIconView.setObjectName(u"TilesIconView")
-        icon5 = QIcon()
-        icon5.addFile(u":/grids/grid/smallgrid2.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.TilesIconView.setIcon(icon5)
+        icon7 = QIcon()
+        icon7.addFile(u":/grids/grid/smallgrid2.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.TilesIconView.setIcon(icon7)
 
         self.horizontalLayout_2.addWidget(self.TilesIconView)
 
@@ -174,13 +184,19 @@ class Ui_Explorer(object):
 
         self.TilePrev = QToolButton(self.ItemsTab)
         self.TilePrev.setObjectName(u"TilePrev")
-        self.TilePrev.setArrowType(Qt.ArrowType.UpArrow)
+        icon8 = QIcon()
+        icon8.addFile(u":/misc/misc/arrow_up.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.TilePrev.setIcon(icon8)
+        self.TilePrev.setArrowType(Qt.ArrowType.NoArrow)
 
         self.horizontalLayout_2.addWidget(self.TilePrev)
 
         self.TileNext = QToolButton(self.ItemsTab)
         self.TileNext.setObjectName(u"TileNext")
-        self.TileNext.setArrowType(Qt.ArrowType.DownArrow)
+        icon9 = QIcon()
+        icon9.addFile(u":/misc/misc/arrow_down.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.TileNext.setIcon(icon9)
+        self.TileNext.setArrowType(Qt.ArrowType.NoArrow)
 
         self.horizontalLayout_2.addWidget(self.TileNext)
 
@@ -290,17 +306,18 @@ class Ui_Explorer(object):
         self.horizontalLayout_9.setObjectName(u"horizontalLayout_9")
         self.Favourite = QToolButton(self.ItemInfo)
         self.Favourite.setObjectName(u"Favourite")
-        icon6 = QIcon(QIcon.fromTheme(u"emblem-favorite"))
-        self.Favourite.setIcon(icon6)
+        icon10 = QIcon()
+        icon10.addFile(u":/special/special/add.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.Favourite.setIcon(icon10)
         self.Favourite.setArrowType(Qt.ArrowType.NoArrow)
 
         self.horizontalLayout_9.addWidget(self.Favourite)
 
         self.Pin = QToolButton(self.ItemInfo)
         self.Pin.setObjectName(u"Pin")
-        icon7 = QIcon()
-        icon7.addFile(u":/special/special/pin.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.Pin.setIcon(icon7)
+        icon11 = QIcon()
+        icon11.addFile(u":/special/special/pin.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.Pin.setIcon(icon11)
         self.Pin.setArrowType(Qt.ArrowType.NoArrow)
 
         self.horizontalLayout_9.addWidget(self.Pin)
@@ -368,7 +385,7 @@ class Ui_Explorer(object):
         self.LItem_2.setText(QCoreApplication.translate("Explorer", u"Item Info", None))
         ___qtablewidgetitem = self.Properties.horizontalHeaderItem(0)
         ___qtablewidgetitem.setText(QCoreApplication.translate("Explorer", u"Value", None));
-        self.Favourite.setText("")
+        self.Favourite.setText(QCoreApplication.translate("Explorer", u"...", None))
         self.Pin.setText(QCoreApplication.translate("Explorer", u"Pin", None))
         self.RenderOption.setItemText(0, QCoreApplication.translate("Explorer", u"Classic", None))
         self.RenderOption.setItemText(1, QCoreApplication.translate("Explorer", u"Tile image", None))

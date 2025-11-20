@@ -27,6 +27,7 @@ uic special/PenPicker.ui ./RWESharp/ui/uiscripts/PenPicker.py
 uic special/hotkeys.ui ./RWESharp/ui/uiscripts/hotkeys.py
 uic special/settings.ui ./RWESharp/ui/uiscripts/settings.py
 uic special/createcategory.ui ./BaseMod/ui/createcategory_ui.py
+uic special/itemaction.ui ./BaseMod/ui/itemaction_ui.py
 
 # geometry
 uic editors/geometry.ui ./BaseMod/geo/ui/geometry_ui.py

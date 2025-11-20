@@ -93,7 +93,8 @@
               <string/>
              </property>
              <property name="icon">
-              <iconset theme="list-add"/>
+              <iconset resource="../../../../resources/res.qrc">
+               <normaloff>:/special/special/add_category.svg</normaloff>:/special/special/add_category.svg</iconset>
              </property>
              <property name="arrowType">
               <enum>Qt::ArrowType::NoArrow</enum>
@@ -106,7 +107,8 @@
               <string/>
              </property>
              <property name="icon">
-              <iconset theme="list-remove"/>
+              <iconset resource="../../../../resources/res.qrc">
+               <normaloff>:/special/special/remove_category.svg</normaloff>:/special/special/remove_category.svg</iconset>
              </property>
             </widget>
            </item>
@@ -128,8 +130,18 @@
              <property name="text">
               <string>...</string>
              </property>
+             <property name="icon">
+              <iconset resource="../../../../resources/res.qrc">
+               <normaloff>:/misc/misc/arrow_left.svg</normaloff>:/misc/misc/arrow_left.svg</iconset>
+             </property>
+             <property name="toolButtonStyle">
+              <enum>Qt::ToolButtonStyle::ToolButtonIconOnly</enum>
+             </property>
+             <property name="autoRaise">
+              <bool>false</bool>
+             </property>
              <property name="arrowType">
-              <enum>Qt::ArrowType::LeftArrow</enum>
+              <enum>Qt::ArrowType::NoArrow</enum>
              </property>
             </widget>
            </item>
@@ -138,8 +150,12 @@
              <property name="text">
               <string>...</string>
              </property>
+             <property name="icon">
+              <iconset resource="../../../../resources/res.qrc">
+               <normaloff>:/misc/misc/arrow_right.svg</normaloff>:/misc/misc/arrow_right.svg</iconset>
+             </property>
              <property name="arrowType">
-              <enum>Qt::ArrowType::RightArrow</enum>
+              <enum>Qt::ArrowType::NoArrow</enum>
              </property>
             </widget>
            </item>
@@ -201,7 +217,7 @@
               <string/>
              </property>
              <property name="icon">
-              <iconset resource="../../../resources/res.qrc">
+              <iconset resource="../../../../resources/res.qrc">
                <normaloff>:/grids/grid/list.svg</normaloff>:/grids/grid/list.svg</iconset>
              </property>
              <property name="arrowType">
@@ -215,7 +231,7 @@
               <string/>
              </property>
              <property name="icon">
-              <iconset resource="../../../resources/res.qrc">
+              <iconset resource="../../../../resources/res.qrc">
                <normaloff>:/grids/grid/mediumgrid.svg</normaloff>:/grids/grid/mediumgrid.svg</iconset>
              </property>
             </widget>
@@ -226,7 +242,7 @@
               <string/>
              </property>
              <property name="icon">
-              <iconset resource="../../../resources/res.qrc">
+              <iconset resource="../../../../resources/res.qrc">
                <normaloff>:/grids/grid/smallgrid.svg</normaloff>:/grids/grid/smallgrid.svg</iconset>
              </property>
             </widget>
@@ -237,7 +253,7 @@
               <string/>
              </property>
              <property name="icon">
-              <iconset resource="../../../resources/res.qrc">
+              <iconset resource="../../../../resources/res.qrc">
                <normaloff>:/grids/grid/smallgrid2.svg</normaloff>:/grids/grid/smallgrid2.svg</iconset>
              </property>
             </widget>
@@ -260,8 +276,12 @@
              <property name="text">
               <string>...</string>
              </property>
+             <property name="icon">
+              <iconset resource="../../../../resources/res.qrc">
+               <normaloff>:/misc/misc/arrow_up.svg</normaloff>:/misc/misc/arrow_up.svg</iconset>
+             </property>
              <property name="arrowType">
-              <enum>Qt::ArrowType::UpArrow</enum>
+              <enum>Qt::ArrowType::NoArrow</enum>
              </property>
             </widget>
            </item>
@@ -270,8 +290,12 @@
              <property name="text">
               <string>...</string>
              </property>
+             <property name="icon">
+              <iconset resource="../../../../resources/res.qrc">
+               <normaloff>:/misc/misc/arrow_down.svg</normaloff>:/misc/misc/arrow_down.svg</iconset>
+             </property>
              <property name="arrowType">
-              <enum>Qt::ArrowType::DownArrow</enum>
+              <enum>Qt::ArrowType::NoArrow</enum>
              </property>
             </widget>
            </item>
@@ -451,10 +475,11 @@
            <item>
             <widget class="QToolButton" name="Favourite">
              <property name="text">
-              <string/>
+              <string>...</string>
              </property>
              <property name="icon">
-              <iconset theme="emblem-favorite"/>
+              <iconset resource="../../../../resources/res.qrc">
+               <normaloff>:/special/special/add.svg</normaloff>:/special/special/add.svg</iconset>
              </property>
              <property name="arrowType">
               <enum>Qt::ArrowType::NoArrow</enum>
@@ -467,7 +492,7 @@
               <string>Pin</string>
              </property>
              <property name="icon">
-              <iconset resource="../../../resources/res.qrc">
+              <iconset resource="../../../../resources/res.qrc">
                <normaloff>:/special/special/pin.svg</normaloff>:/special/special/pin.svg</iconset>
              </property>
              <property name="arrowType">
@@ -564,7 +589,7 @@
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="../../../resources/res.qrc"/>
+  <include location="../../../../resources/res.qrc"/>
  </resources>
  <connections/>
 </ui>

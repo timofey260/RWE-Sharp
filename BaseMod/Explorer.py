@@ -6,6 +6,7 @@ from PySide6.QtGui import QColor
 from PySide6.QtWidgets import QTreeWidgetItem, QListWidgetItem, QListWidget
 from PySide6.QtWidgets import QDialog, QMessageBox, QDialogButtonBox
 from BaseMod.ui.createcategory_ui import Ui_CreateCategory
+from BaseMod.ui.itemaction_ui import Ui_ItemAction
 
 from BaseMod.ui.explorer_ui import Ui_Explorer
 from RWS.Configurable import BoolConfigurable
@@ -67,6 +68,8 @@ class Explorer(ViewDockWidget):
         self.ui.SearchBar.textChanged.connect(self.search)
 
         self.ui.CatsAddCC.clicked.connect(self.add_category)
+        self.ui.CatsRemoveCC.clicked.connect(self.remove_category)
+        self.ui.Favourite.clicked.connect(self.item_action)
 
     def resizeEvent(self,  event):
         if hasattr(self, 'ui') and self.ui:
@@ -92,6 +95,15 @@ class Explorer(ViewDockWidget):
         self.ui.TilesGridViewSmall.setIcon(paint_svg_qicon(u":/grids/grid/smallgrid.svg", color))
         self.ui.TilesIconView.setIcon(paint_svg_qicon(u":/grids/grid/smallgrid2.svg", color))
         self.ui.Pin.setIcon(paint_svg_qicon(u":/special/special/pin.svg", color))
+
+        self.ui.CatsAddCC.setIcon(paint_svg_qicon(u":/special/special/add_category.svg", color))
+        self.ui.CatsRemoveCC.setIcon(paint_svg_qicon(u":/special/special/remove_category.svg", color))
+        self.ui.Favourite.setIcon(paint_svg_qicon(u":/special/special/add.svg", color))
+
+        self.ui.CatPrev.setIcon(paint_svg_qicon(u":/misc/misc/arrow_left.svg", color))
+        self.ui.CatNext.setIcon(paint_svg_qicon(u":/misc/misc/arrow_right.svg", color))
+        self.ui.TilePrev.setIcon(paint_svg_qicon(u":/misc/misc/arrow_up.svg", color))
+        self.ui.TileNext.setIcon(paint_svg_qicon(u":/misc/misc/arrow_down.svg", color))
 
     def cat_next(self):
         if self.simplemode:
@@ -283,6 +295,9 @@ class Explorer(ViewDockWidget):
         if os.path.exists(filepath):
             os.remove(filepath)
             self.categories_modified()
+
+    def item_action(self):
+        print(self.selected)
 
     def focussearch(self):
         self.raise_()
