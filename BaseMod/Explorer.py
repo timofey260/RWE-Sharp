@@ -66,6 +66,7 @@ class Explorer(ViewDockWidget):
         self.changecolor(self.mod.bmconfig.icon_color.value)
         self.ui.splitter.splitterMoved.connect(self.splitter_moved)
         self.ui.SearchBar.textChanged.connect(self.search)
+        self.ui.OnetoOne.clicked.connect(self.preview.ratio1)
 
         self.ui.CatsAddCC.clicked.connect(self.add_category)
         self.ui.CatsRemoveCC.clicked.connect(self.remove_category)
@@ -282,7 +283,8 @@ class Explorer(ViewDockWidget):
         self.categories_modified()
 
     def remove_category(self):
-        if not self.category_is_custom(self.categoryindex):
+        if not self.category_is_custom(self.category_at_index(self.categoryindex)):
+            QMessageBox(QMessageBox.Icon.Critical, "Error", "Not a Custom Category Selected!").exec()
             return
         message = QMessageBox(QMessageBox.Icon.Warning, "Delete Custom Category", "Are you sure?")
         message.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.Cancel)
@@ -291,13 +293,66 @@ class Explorer(ViewDockWidget):
         value = message.exec()
         if value == QMessageBox.StandardButton.Cancel:
             return
-        filepath = os.path.join(self.custom_categories_path, self.category_name(self.categoryindex))
+        filepath = os.path.join(self.custom_categories_path, self.category_name(self.category_at_index(self.categoryindex)))
         if os.path.exists(filepath):
             os.remove(filepath)
             self.categories_modified()
 
     def item_action(self):
-        print(self.selected)
+        d = QDialog()
+        ui = Ui_ItemAction()
+        ui.setupUi(d)
+        ui.Action.clear()
+        ui.Action.addItem("Nothing", userData=lambda : None)
+
+        if len(self.selected) < 1:
+            QMessageBox(QMessageBox.Icon.Critical, "Error", "No Tiles Selected!").exec()
+            return
+
+        selectedtiles = self.selected
+        selectedtilenames = [self.item_name(i) for i in self.selected]
+
+        for i in self.get_categories():
+            items = self.category_items(i)
+            if not self.category_is_custom(i):
+                continue
+
+            hascurrentitems = False
+            for i1 in selectedtiles:
+                if i1 in items:  # if one or more tiles inside of custom category
+                    hascurrentitems = True
+            filepath = os.path.join(self.custom_categories_path, self.category_name(i))
+            if hascurrentitems:
+                ui.Action.addItem(f"Remove Item{'s' if len(selectedtiles) > 1 else ''} from {self.category_name(i)}", userData=lambda : self.remove_items_from_file(filepath, selectedtilenames))
+            ui.Action.addItem(f"Add Item{'s' if len(selectedtiles) > 1 else ''} to {self.category_name(i)}", userData=lambda : self.add_items_to_file(filepath, selectedtilenames))
+
+        ui.ItemName.setText(", ".join(selectedtilenames))
+        value = d.exec()
+        if value == 0:
+            return
+        ui.Action.currentData(Qt.ItemDataRole.UserRole)()
+        self.categories_modified()
+        self.change_items()
+
+    def add_items_to_file(self, file, names: list[str]):
+        with open(file, "r+") as f:
+            lines = [i.replace("\n", "") for i in f.readlines()]
+            color = lines[0]
+            lines = list(set([*lines[1:], *names]))
+            f.seek(0)
+            f.write(color + "\n")
+            f.write("\n".join(lines))
+            f.truncate()
+
+    def remove_items_from_file(self, file, names):
+        with open(file, "r+") as f:
+            lines = [i.replace("\n", "") for i in f.readlines()]
+            color = lines[0]
+            lines = [x for x in lines[1:] if x not in names]
+            f.seek(0)
+            f.write(color + "\n")
+            f.write("\n".join(lines))
+            f.truncate()
 
     def focussearch(self):
         self.raise_()
@@ -365,9 +420,17 @@ class Explorer(ViewDockWidget):
         return ""
 
     @abstractmethod
-    def category_is_custom(self, index: int) -> bool:
+    def category_is_custom(self, cat) -> bool:
         return False
 
     @abstractmethod
-    def category_name(self, index) -> str:
+    def category_at_index(self, index):
+        return None
+
+    @abstractmethod
+    def category_name(self, cat) -> str:
+        return ""
+
+    @abstractmethod
+    def item_name(self, item) -> str:
         return ""

@@ -44,6 +44,12 @@ class SimpleViewport(QGraphicsView):
         for i in self.items:
             i.setScale(self.zoom * (i.data(2) if isinstance(i.data(2), (int, float)) else 1) + (i.data(0) if isinstance(i.data(0), (int, float)) else 0))
 
+    def ratio1(self):
+        self.zoom = 1
+        self.topleft.setPos(0, 0)
+        self.set_zoom()
+        self.set_pos()
+
     def mousePressEvent(self, event):
         self.setCursor(Qt.CursorShape.SizeAllCursor)
 

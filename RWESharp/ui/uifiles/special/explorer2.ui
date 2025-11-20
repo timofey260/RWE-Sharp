@@ -349,16 +349,6 @@
             </widget>
            </item>
            <item>
-            <widget class="QToolButton" name="FitInScreen">
-             <property name="text">
-              <string>Fit</string>
-             </property>
-             <property name="arrowType">
-              <enum>Qt::ArrowType::NoArrow</enum>
-             </property>
-            </widget>
-           </item>
-           <item>
             <spacer name="horizontalSpacer_7">
              <property name="orientation">
               <enum>Qt::Orientation::Horizontal</enum>

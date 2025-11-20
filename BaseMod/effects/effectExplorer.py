@@ -35,6 +35,13 @@ class EffectExplorer(ViewDockWidget):
         self.link_action(self.effect_explorer_action)
         self.change_visibility(False)
         self.mod.bmconfig.effectexplorer_key.link_action(self.effect_explorer_action)
+        self.mod.bmconfig.icon_color.valueChanged.connect(self.change_color)
+        self.ui.Down.clicked.connect(lambda : self.ui.Effects.setCurrentItem(self.ui.Effects.itemBelow(self.ui.Effects.currentItem())))
+        self.ui.Up.clicked.connect(lambda : self.ui.Effects.setCurrentItem(self.ui.Effects.itemAbove(self.ui.Effects.currentItem())))
+
+    def change_color(self):
+        self.ui.Down.setIcon(u":/misc/misc/arrow_down.svg")
+        self.ui.Up.setIcon(u":/misc/misc/arrow_up.svg")
 
     def resizeEvent(self, event):
         if hasattr(self, 'ui') and self.ui:

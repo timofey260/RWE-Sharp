@@ -8,11 +8,17 @@ from RWS.Core import PATH_COLLECTIONS_PROPS
 
 
 class PropExplorer(Explorer):
-    def category_name(self, index) -> str:
-        return self.props.categories[index].name
+    def category_at_index(self, index):
+        return self.props.categories[index]
 
-    def category_is_custom(self, index: int) -> bool:
-        return self.props.categories[index] in self.props.custom_categories
+    def item_name(self, item) -> str:
+        return item.name
+
+    def category_name(self, cat) -> str:
+        return cat.name
+
+    def category_is_custom(self, cat) -> bool:
+        return cat in self.props.custom_categories
 
     @property
     def custom_categories_path(self) -> str:
@@ -103,6 +109,9 @@ class PropExplorer(Explorer):
 
         self.ui.LayerBox.setVisible(False)
         self.ui.RenderOption.setVisible(False)
+        self.ui.ToggleCollisions.setVisible(False)
+        self.ui.TogglePreview.setVisible(False)
+        self.ui.Pin.setVisible(False)
 
     def getimage(self, image):
         if isinstance(image, QPixmap):

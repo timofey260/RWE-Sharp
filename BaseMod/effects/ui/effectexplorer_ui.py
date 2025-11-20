@@ -21,6 +21,7 @@ from PySide6.QtWidgets import (QApplication, QDockWidget, QHBoxLayout, QHeaderVi
     QTreeWidgetItem, QVBoxLayout, QWidget)
 
 from RWS.Widgets import SimpleViewport
+import RWESharp.ui.res_rc
 
 class Ui_EffectExplorer(object):
     def setupUi(self, EffectExplorer):
@@ -62,13 +63,19 @@ class Ui_EffectExplorer(object):
         self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.Up = QToolButton(self.layoutWidget)
         self.Up.setObjectName(u"Up")
-        self.Up.setArrowType(Qt.ArrowType.UpArrow)
+        icon = QIcon()
+        icon.addFile(u":/misc/misc/arrow_up.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.Up.setIcon(icon)
+        self.Up.setArrowType(Qt.ArrowType.NoArrow)
 
         self.horizontalLayout.addWidget(self.Up)
 
         self.Down = QToolButton(self.layoutWidget)
         self.Down.setObjectName(u"Down")
-        self.Down.setArrowType(Qt.ArrowType.DownArrow)
+        icon1 = QIcon()
+        icon1.addFile(u":/misc/misc/arrow_down.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.Down.setIcon(icon1)
+        self.Down.setArrowType(Qt.ArrowType.NoArrow)
 
         self.horizontalLayout.addWidget(self.Down)
 
@@ -101,22 +108,10 @@ class Ui_EffectExplorer(object):
 
         self.verticalLayout_2.addWidget(self.Description)
 
-        self.horizontalLayout_2 = QHBoxLayout()
-        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
-        self.Favorite = QToolButton(self.layoutWidget1)
-        self.Favorite.setObjectName(u"Favorite")
-        icon = QIcon(QIcon.fromTheme(u"emblem-favorite"))
-        self.Favorite.setIcon(icon)
-
-        self.horizontalLayout_2.addWidget(self.Favorite)
-
         self.AddEffect = QPushButton(self.layoutWidget1)
         self.AddEffect.setObjectName(u"AddEffect")
 
-        self.horizontalLayout_2.addWidget(self.AddEffect)
-
-
-        self.verticalLayout_2.addLayout(self.horizontalLayout_2)
+        self.verticalLayout_2.addWidget(self.AddEffect)
 
         self.splitter.addWidget(self.layoutWidget1)
 
@@ -137,7 +132,6 @@ class Ui_EffectExplorer(object):
         self.Down.setText(QCoreApplication.translate("EffectExplorer", u"...", None))
         self.label_2.setText(QCoreApplication.translate("EffectExplorer", u"Preview:", None))
         self.Description.setText(QCoreApplication.translate("EffectExplorer", u"Description", None))
-        self.Favorite.setText("")
         self.AddEffect.setText(QCoreApplication.translate("EffectExplorer", u"Add", None))
     # retranslateUi
 

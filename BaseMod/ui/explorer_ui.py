@@ -237,12 +237,6 @@ class Ui_Explorer(object):
 
         self.horizontalLayout_6.addWidget(self.OnetoOne)
 
-        self.FitInScreen = QToolButton(self.ItemTab)
-        self.FitInScreen.setObjectName(u"FitInScreen")
-        self.FitInScreen.setArrowType(Qt.ArrowType.NoArrow)
-
-        self.horizontalLayout_6.addWidget(self.FitInScreen)
-
         self.horizontalSpacer_7 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_6.addItem(self.horizontalSpacer_7)
@@ -379,7 +373,6 @@ class Ui_Explorer(object):
         self.TileNext.setText(QCoreApplication.translate("Explorer", u"...", None))
         self.LItem.setText(QCoreApplication.translate("Explorer", u"Item", None))
         self.OnetoOne.setText(QCoreApplication.translate("Explorer", u"1:1", None))
-        self.FitInScreen.setText(QCoreApplication.translate("Explorer", u"Fit", None))
         self.ToggleCollisions.setText(QCoreApplication.translate("Explorer", u"Collisions", None))
         self.TogglePreview.setText(QCoreApplication.translate("Explorer", u"Preview", None))
         self.LItem_2.setText(QCoreApplication.translate("Explorer", u"Item Info", None))

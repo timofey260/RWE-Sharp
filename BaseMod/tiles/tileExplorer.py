@@ -139,11 +139,17 @@ class TileExplorer(Explorer):
     def categories_modified(self):
         self.tiles.add_custom_tiles()
 
-    def category_is_custom(self, index: int) -> bool:
-        return self.tiles.categories[index] in self.tiles.custom_categories
+    def category_is_custom(self, cat) -> bool:
+        return cat in self.tiles.custom_categories
 
-    def category_name(self, index) -> str:
-        return self.tiles.categories[index].name
+    def category_name(self, cat) -> str:
+        return cat.name
+
+    def item_name(self, item) -> str:
+        return item.name
+
+    def category_at_index(self, index):
+        return self.tiles.categories[index]
 
     def pin_tile(self):
         for i in self.selected:

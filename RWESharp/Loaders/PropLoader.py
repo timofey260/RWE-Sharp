@@ -24,7 +24,7 @@ def load_prop(item: dict, colr, category, catnum, indx):
         images = []
         for i in range(vars):
             images.append(QImage(os.path.join(PATH_FILES_CACHE, f"{path}_{i}.png")))
-        return Prop(item, item.get("nm", "NoName"), item.get("tp"), repeatl, "todo",
+        return Prop(item, item.get("nm", "NoName"), item.get("tp"), repeatl, "None",
                     images, item.get("colorTreatment", "standard"), vars,
                     colr, QPoint(catnum, indx), item.get("tags", []), err,
                     category, item.get("notes", []), images[0].size(), item.get("layerExceptions", []),
@@ -153,7 +153,7 @@ def load_prop(item: dict, colr, category, catnum, indx):
         images.append(newimg.toImage().copy(w * i, 0, w, h))
         images[-1].save(os.path.join(PATH_FILES_CACHE, f"{path}_{i}.png"))
 
-    return Prop(item, item.get("nm", "NoName"), item.get("tp"), repeatl, "todo",
+    return Prop(item, item.get("nm", "NoName"), item.get("tp"), repeatl, "None",
                 images, item.get("colorTreatment", "standard"), vars,
                 colr, QPoint(catnum, indx), item.get("tags", []), err,
                 category, item.get("notes", []), QSize(w, h), item.get("layerExceptions", []),
