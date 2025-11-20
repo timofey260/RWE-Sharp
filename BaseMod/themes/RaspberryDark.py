@@ -71,9 +71,9 @@ class RaspberryDark(Theme):
                           "Alternative accent medium color"),  # Placeholder value updated
             ColorConfigurable(mod, "@alt_accent_dark", "#90293B", "Alternative accent dark color"),
             # misc colors
-            self.iconcolor,
             ColorConfigurable(mod, "@misc_color_31", "#000000", "Miscellaneous color 31"),
             ColorConfigurable(mod, "@misc_color_32", "#000000", "Miscellaneous color 32"),
+            self.iconcolor,
             ColorConfigurable(mod, "@misc_color_33", "#000000", "Miscellaneous color 33"),
             ColorConfigurable(mod, "@misc_color_34", "#000000", "Miscellaneous color 34"),
             ColorConfigurable(mod, "@misc_color_35", "#000000", "Miscellaneous color 35"),
