@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'tiles.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.10.0
+## Created by: Qt User Interface Compiler version 6.10.1
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -15,9 +15,10 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QCheckBox, QFrame, QLabel,
-    QPushButton, QRadioButton, QScrollArea, QSizePolicy,
-    QSpacerItem, QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QApplication, QCheckBox, QFrame, QHBoxLayout,
+    QLabel, QPushButton, QRadioButton, QScrollArea,
+    QSizePolicy, QSlider, QSpacerItem, QVBoxLayout,
+    QWidget)
 
 class Ui_TilesView(object):
     def setupUi(self, TilesView):
@@ -133,15 +134,44 @@ class Ui_TilesView(object):
 
         self.verticalLayout_2.addWidget(self.VTilesRendered_rain)
 
+        self.horizontalLayout = QHBoxLayout()
+        self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.PaletteSelectButton = QPushButton(self.scrollAreaWidgetContents)
         self.PaletteSelectButton.setObjectName(u"PaletteSelectButton")
-        sizePolicy = QSizePolicy(QSizePolicy.Policy.Maximum, QSizePolicy.Policy.Fixed)
+        sizePolicy = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.PaletteSelectButton.sizePolicy().hasHeightForWidth())
         self.PaletteSelectButton.setSizePolicy(sizePolicy)
 
-        self.verticalLayout_2.addWidget(self.PaletteSelectButton)
+        self.horizontalLayout.addWidget(self.PaletteSelectButton)
+
+        self.FadePaletteSelectButton = QPushButton(self.scrollAreaWidgetContents)
+        self.FadePaletteSelectButton.setObjectName(u"FadePaletteSelectButton")
+        sizePolicy.setHeightForWidth(self.FadePaletteSelectButton.sizePolicy().hasHeightForWidth())
+        self.FadePaletteSelectButton.setSizePolicy(sizePolicy)
+
+        self.horizontalLayout.addWidget(self.FadePaletteSelectButton)
+
+
+        self.verticalLayout_2.addLayout(self.horizontalLayout)
+
+        self.horizontalLayout_2 = QHBoxLayout()
+        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
+        self.label_2 = QLabel(self.scrollAreaWidgetContents)
+        self.label_2.setObjectName(u"label_2")
+
+        self.horizontalLayout_2.addWidget(self.label_2)
+
+        self.BlendSlider = QSlider(self.scrollAreaWidgetContents)
+        self.BlendSlider.setObjectName(u"BlendSlider")
+        self.BlendSlider.setMaximum(100)
+        self.BlendSlider.setOrientation(Qt.Orientation.Horizontal)
+
+        self.horizontalLayout_2.addWidget(self.BlendSlider)
+
+
+        self.verticalLayout_2.addLayout(self.horizontalLayout_2)
 
         self.verticalSpacer = QSpacerItem(273, 103, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
@@ -180,5 +210,7 @@ class Ui_TilesView(object):
         self.VTilesRendered_shade.setText(QCoreApplication.translate("TilesView", u"Rendered Tiles (shaded)", None))
         self.VTilesRendered_rain.setText(QCoreApplication.translate("TilesView", u"Rendered Tiles (rain)", None))
         self.PaletteSelectButton.setText(QCoreApplication.translate("TilesView", u"Select Palette", None))
+        self.FadePaletteSelectButton.setText(QCoreApplication.translate("TilesView", u"Select Fade Palette", None))
+        self.label_2.setText(QCoreApplication.translate("TilesView", u"Blend:", None))
     # retranslateUi
 

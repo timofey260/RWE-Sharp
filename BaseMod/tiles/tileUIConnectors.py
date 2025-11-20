@@ -15,7 +15,7 @@ from RWS.Configurable import BoolConfigurable, IntConfigurable, StringConfigurab
 from RWS.Core import PATH_FILES_IMAGES_PALETTES
 from RWS.Loaders import palette_to_colortable
 from RWS.Ui import ViewUI, UI, SettingUI
-from RWS.Utils import paint_svg_qicon
+from RWS.Utils import paint_svg_qicon, color_lerp
 from RWS.Widgets import SettingsViewer
 
 
@@ -39,7 +39,10 @@ class TileViewUI(ViewUI):
         self.drawoption = IntConfigurable(mod, "VIEW_tile.drawoption", 0, "Option how to draw tiles")
         self.palettepath = StringConfigurable(mod, "VIEW_tile.palettepath",
                                               os.path.join(PATH_FILES_IMAGES_PALETTES, "palette0.png"),
-                                              "Path to themes")
+                                              "Path to Palette")
+        self.fadepalettepath = StringConfigurable(mod, "VIEW_tile.fadepalettepath",
+                                              os.path.join(PATH_FILES_IMAGES_PALETTES, "palette0.png"),
+                                              "Path to Fade Palette")
 
         self.drawpnotrendered = FloatConfigurable(mod, "VIEW_tile.drawpnotrend", .9,
                                                    "Primary layer draw opacity(classic and henry)")
@@ -56,8 +59,12 @@ class TileViewUI(ViewUI):
 
         if not os.path.exists(self.palettepath.value):
             self.palettepath.reset_value()
+        if not os.path.exists(self.fadepalettepath.value):
+            self.fadepalettepath.reset_value()
 
         self.palettepath.valueChanged.connect(self.change_colortable)
+        self.fadepalettepath.valueChanged.connect(self.change_colortable)
+        self.ui.BlendSlider.valueChanged.connect(self.change_colortable)
         self.colortable = None
 
         self.drawtiles.valueChanged.connect(self.hide_tiles)
@@ -109,6 +116,7 @@ class TileViewUI(ViewUI):
                 self.ui.VTilesRendered_rain
             ])
         self.ui.PaletteSelectButton.clicked.connect(self.change_palette)
+        self.ui.FadePaletteSelectButton.clicked.connect(self.change_fade_palette)
 
         self.VQuickTiles = QCheckBox()
         self.VQuickTiles.setObjectName(u"VQuickTiles")
@@ -126,7 +134,14 @@ class TileViewUI(ViewUI):
             return
         self.palettepath.update_value(file)
         self.drawoption.update_value(4)
-        self.render.emit()
+
+    @Slot()
+    def change_fade_palette(self):
+        file, _ = QFileDialog.getOpenFileName(self, "Select a Fade Palette", PATH_FILES_IMAGES_PALETTES)
+        if file == "":
+            return
+        self.fadepalettepath.update_value(file)
+        self.drawoption.update_value(4)
 
     @Slot(Qt.CheckState)
     def all_layers(self, state: Qt.CheckState):
@@ -155,7 +170,17 @@ class TileViewUI(ViewUI):
         self.drawl3.update_value(True)
 
     def change_colortable(self):
-        self.colortable = palette_to_colortable(QImage(self.palettepath.value))
+        colortable = palette_to_colortable(QImage(self.palettepath.value))
+        fadecolortable = palette_to_colortable(QImage(self.fadepalettepath.value))
+        blend = self.ui.BlendSlider.value() / 100
+        for x in range(3):
+            for y, yv in enumerate(colortable[x]):
+                for z, zv in enumerate(colortable[x][y]):
+                    colortable[x][y][z] = color_lerp(QColor.fromRgba(zv), QColor.fromRgba(fadecolortable[x][y][z]), blend).rgba()
+        colortable[-2] = color_lerp(colortable[-2], fadecolortable[-2], blend)
+        colortable[-1] = color_lerp(colortable[-1], fadecolortable[-1], blend)
+        self.colortable = colortable
+        self.render.emit()
 
 
 class TileUI(UI):

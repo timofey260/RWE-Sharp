@@ -73,7 +73,8 @@ class TileEditor(Editor):
 
         self.show_collisions.valueChanged.connect(self.hide_collisions)
         self.mod.tileview.drawoption.valueChanged.connect(self.redraw_tile)
-        self.mod.tileview.palettepath.valueChanged.connect(self.redraw_tile)
+        self.mod.tileview.render.connect(self.redraw_tile)
+        self.mod.tileview.fadepalettepath.valueChanged.connect(self.redraw_tile)
         self.vis_layer.valueChanged.connect(self.redraw_tile)
 
         self.lastpos = QPoint()
@@ -108,6 +109,8 @@ class TileEditor(Editor):
         if self.tile in self.recent_tiles:
             self.recent_tiles.remove(self.tile)
         self.recent_tiles.insert(0, self.tile)
+        if len(self.recent_tiles) > 90:  # just in case someone really likes editing
+            self.recent_tiles.pop(-1)
         self.basemod.tileui.reloadrecent()
 
     def redraw_tile(self):
