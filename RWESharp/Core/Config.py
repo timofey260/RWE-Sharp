@@ -46,7 +46,7 @@ class Config:
             return
         for i in self.manager.mods:
             for v in i.configs:
-                self.settings.setValue(f"{i.author_id}.{v.name}", v.save_str_value())
+                self.settings.setValue(f"{i.author_id}/{v.name.replace(".", "/")}", v.save_str_value())
         return
         # js = {}
         # for i in self.manager.mods:

@@ -146,6 +146,11 @@ class BaseMod(Mod):
         self.action_lighteditor.triggered.connect(lambda: self.manager.change_editor_name("light"))
         self.manager.editors_menu.addAction(self.action_lighteditor)
 
+        self.action_properyeditor = QAction("Property Editor")
+        self.bmconfig.property_editor.link_action(self.action_properyeditor)
+        self.action_properyeditor.triggered.connect(lambda: self.manager.change_editor_name("properties"))
+        self.manager.editors_menu.addAction(self.action_properyeditor)
+
         # scan recent levels
         self.recent = []
         self.bmconfig.recentfiles.valueChanged.connect(self.update_recent)
@@ -179,8 +184,8 @@ class BaseMod(Mod):
             self.manager.tool_menu.removeAction(self.sex)
 
     def on_save(self, viewport):
-        self.bmconfig.windowstate.update_value(self.manager.window.saveState())
-        self.bmconfig.windowgeo.update_value(self.manager.window.saveGeometry())
+        self.bmconfig.windowstate.update_value(self.manager.window.saveState().toStdString())
+        self.bmconfig.windowgeo.update_value(self.manager.window.saveGeometry().toStdString())
         level = viewport.level
         if level.file is not None and os.path.exists(level.file):
             if level.file in self.recent:

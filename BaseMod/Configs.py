@@ -1,4 +1,4 @@
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt, QByteArray
 from PySide6.QtGui import QColor, QKeySequence
 
 from RWS.Configurable import KeyConfigurable, EnumFlagConfigurable, StringConfigurable, ColorConfigurable, \
@@ -48,6 +48,7 @@ class BaseModConfig:
         self.prop_editor = KeyConfigurable(mod, "basemod.props", "4", "Open Prop editor")
         self.camera_editor = KeyConfigurable(mod, "basemod.cameras", "5", "Open Camera editor")
         self.light_editor = KeyConfigurable(mod, "basemod.light", "6", "Open Light editor")
+        self.property_editor = KeyConfigurable(mod, "basemod.property", "7", "Open Property editor")
 
         self.next_layer = KeyConfigurable(mod, "basemod.nextlayer", "l", "Next_layer")
         self.prev_layer = KeyConfigurable(mod, "basemod.prevlayer", "Ctrl+l", "Previous Layer")
@@ -59,9 +60,12 @@ class BaseModConfig:
         self.recentfiles = StringConfigurable(mod, "basemod.recentfiles", "", "Recently Opened Level")
 
         self.windowstate = StringConfigurable(mod, "basemod.windowstate", b"", "Main window state")
-        mod.manager.window.restoreState(self.windowstate.value)
         self.windowgeo = StringConfigurable(mod, "basemod.windowgeo", b"", "Main window state")
-        mod.manager.window.restoreGeometry(self.windowgeo.value)
+        try:
+            mod.manager.window.restoreState(QByteArray.fromStdString(self.windowstate.value))
+            mod.manager.window.restoreGeometry(QByteArray.fromStdString(self.windowgeo.value))
+        except TypeError:
+            pass
 
         edittab = HotkeyElement(mod, "Edit", "edit").add_myself()
         edittab.add_children_configurables(*get_hotkeys_from_pattern(mod, "basemod"))

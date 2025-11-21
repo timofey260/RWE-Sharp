@@ -30,7 +30,7 @@ class Configurable(QObject):
     def link_mod(self, mod):
         self.mod = mod
         mod.configs.append(self)
-        value = mod.manager.config.settings.value(f"{mod.author_id}.{self.name}")
+        value = mod.manager.config.settings.value(f"{mod.author_id}/{self.name.replace(".", "/")}")
         if value is not None:
             self.load_str_value(value)
 
