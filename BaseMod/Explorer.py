@@ -323,8 +323,8 @@ class Explorer(ViewDockWidget):
                     hascurrentitems = True
             filepath = os.path.join(self.custom_categories_path, self.category_name(i))
             if hascurrentitems:
-                ui.Action.addItem(f"Remove Item{'s' if len(selectedtiles) > 1 else ''} from {self.category_name(i)}", userData=lambda : self.remove_items_from_file(filepath, selectedtilenames))
-            ui.Action.addItem(f"Add Item{'s' if len(selectedtiles) > 1 else ''} to {self.category_name(i)}", userData=lambda : self.add_items_to_file(filepath, selectedtilenames))
+                ui.Action.addItem(f"Remove Item{'s' if len(selectedtiles) > 1 else ''} from \"{self.category_name(i)}\"", userData=lambda : self.remove_items_from_file(filepath, selectedtilenames))
+            ui.Action.addItem(f"Add Item{'s' if len(selectedtiles) > 1 else ''} to \"{self.category_name(i)}\"", userData=lambda : self.add_items_to_file(filepath, selectedtilenames))
 
         ui.ItemName.setText(", ".join(selectedtilenames))
         value = d.exec()

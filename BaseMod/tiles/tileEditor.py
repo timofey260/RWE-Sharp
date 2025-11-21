@@ -97,7 +97,7 @@ class TileEditor(Editor):
     def layer(self):
         if not hasattr(self.mod, "tileui"):
             return self.vis_layer.value - 1
-        return self.module.layer if self.mod.tileui.ui.Follow.isChecked() else self.vis_layer.value - 1
+        return self.module.layer if self.mod.tileui.follow_layer.value else self.vis_layer.value - 1
 
     @layer.setter
     def layer(self, value):

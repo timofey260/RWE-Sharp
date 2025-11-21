@@ -13,13 +13,15 @@ class CommandLineOptions:
         self.reset = QCommandLineOption(("r", "reset"), f"Reset {NAME}")
         self.nomods = QCommandLineOption(("M", "no-mods"), f"Load {NAME} without mods")
         self.debug = QCommandLineOption(("d", "debug"), f"Debug Mode")
-        self.mainw = QCommandLineOption(("m", "no-main-window"), f"Don't load Main Window(Only resource caching)")
+        self.mainw = QCommandLineOption(("m", "no-main-window"), "Don't load Main Window(Only resource caching)")
+        self.blocksave = QCommandLineOption(("s", "no-save"), "Don't save configurables")
 
         self.parser = parser
         self.parser.addOption(self.reset)
         self.parser.addOption(self.nomods)
         self.parser.addOption(self.debug)
         self.parser.addOption(self.mainw)
+        self.parser.addOption(self.blocksave)
 
         self.parser.addVersionOption()
         self.parser.addHelpOption()
@@ -38,14 +40,14 @@ class Application(QApplication):
         self.setOrganizationName(AUTHORS)
         self.setApplicationVersion(VERSION)
 
-        self.parser = QCommandLineParser()
-        self.args = CommandLineOptions(self.parser)
+        self.parser: QCommandLineParser = QCommandLineParser()
+        self.args: CommandLineOptions = CommandLineOptions(self.parser)
         self.parser.setApplicationDescription(f"Console version of {NAME}\nCan render levels")
 
         self.parser.process(self)
-        self.args2 = self.parser.positionalArguments()
+        self.args2: list[str] = self.parser.positionalArguments()
 
-        self.splash = SplashDialog(self.post_init)
+        self.splash: SplashDialog = SplashDialog(self.post_init)
         self.window: MainWindow | None = None
         self.manager: Manager | None = None
         sys.exit(self.exec())

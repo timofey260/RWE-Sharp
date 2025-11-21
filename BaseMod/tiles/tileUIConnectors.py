@@ -212,9 +212,18 @@ class TileUI(UI):
         self.force_place_key = KeyConfigurable(mod, "EDIT_tiles.fpkey", "f", "Force place")
         self.find_key = KeyConfigurable(mod, "EDIT_tile.find_key", "Ctrl+e", "Find tile")
 
+        self.delete_left_key = KeyConfigurable(mod, "EDIT_tile.delete_left", "q", "Delete Left Toggle")
+        self.delete_right_key = KeyConfigurable(mod, "EDIT_tile.delete_right", "e", "Delete Left Toggle")
+
+        self.follow_layer = BoolConfigurable(mod, "EDIT_tile.followlayer", True, "Follow Layer when drawing")
+
         self.explorer_key = KeyConfigurable(mod, "EDIT_tile.explorer_key", "Ctrl+f", "Show Tile Explorer")
 
         self.explorer_key.link_button(self.ui.OpenExplorer)
+        self.follow_layer.link_button(self.ui.Follow)
+
+        self.delete_left_key.link_button(self.ui.DeleteM1)
+        self.delete_right_key.link_button(self.ui.DeleteM2)
 
         self.tile_next_key.link_button(self.ui.TileNext)
         self.tile_prev_key.link_button(self.ui.TilePrev)

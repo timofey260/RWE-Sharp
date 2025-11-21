@@ -65,8 +65,7 @@ class GeoLevelPart(LevelPart):
         #print(np.asarray(dat, np.int8))
 
     def save_level(self):
-        if self.level.was_resized:
-            self.level.data["GE"] = [[[[0, []], [0, []], [0, []]] for _ in range(self.width)] for _ in range(self.height)]
+        self.level.data["GE"] = [[[[0, []], [0, []], [0, []]] for _ in range(self.blocks.shape[1])] for _ in range(self.blocks.shape[0])]
         with np.nditer(self.blocks, flags=['multi_index'], op_flags=['readonly']) as it:
             for x in it:
                 self.level.data["GE"][it.multi_index[0]][it.multi_index[1]][it.multi_index[2]][0] = int(x[...])

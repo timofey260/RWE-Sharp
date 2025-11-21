@@ -42,6 +42,8 @@ class Config:
 
     def save_configs(self):
         # uuh that it i think
+        if self.manager.application.parser.isSet(self.manager.application.args.blocksave):
+            return
         for i in self.manager.mods:
             for v in i.configs:
                 self.settings.setValue(f"{i.author_id}.{v.name}", v.save_str_value())

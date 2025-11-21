@@ -1,11 +1,7 @@
 from __future__ import annotations
 from PySide6.QtCore import Signal, QObject
-from typing import TYPE_CHECKING
 from RWESharp.Modify.Mod import Mod
-from RWESharp.Modify.Ui import SettingUI
 from abc import abstractmethod
-if TYPE_CHECKING:
-    from RWESharp.Modify.Ui import SettingUI
 
 
 class Configurable(QObject):

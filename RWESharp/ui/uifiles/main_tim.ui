@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1351</width>
-    <height>968</height>
+    <width>1144</width>
+    <height>796</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -157,7 +157,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1351</width>
+     <width>1144</width>
      <height>25</height>
     </rect>
    </property>
@@ -309,8 +309,11 @@
    <property name="windowTitle">
     <string>View</string>
    </property>
+   <property name="dockLocation">
+    <enum>Qt::DockWidgetArea::RightDockWidgetArea</enum>
+   </property>
    <attribute name="dockWidgetArea">
-    <number>1</number>
+    <number>2</number>
    </attribute>
    <widget class="QWidget" name="ViewDock">
     <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -347,7 +350,7 @@
               <x>0</x>
               <y>0</y>
               <width>198</width>
-              <height>144</height>
+              <height>656</height>
              </rect>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout">
@@ -419,8 +422,11 @@
    <property name="windowTitle">
     <string>Prefabs</string>
    </property>
+   <property name="dockLocation">
+    <enum>Qt::DockWidgetArea::LeftDockWidgetArea</enum>
+   </property>
    <attribute name="dockWidgetArea">
-    <number>2</number>
+    <number>1</number>
    </attribute>
    <widget class="QWidget" name="dockWidgetContents_2">
     <widget class="QLabel" name="label_14">
