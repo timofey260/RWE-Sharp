@@ -3,7 +3,7 @@ from RWESharp.ui.splashuiconnector import SplashDialog
 import sys
 from PySide6.QtWidgets import QApplication
 from PySide6.QtCore import QCommandLineParser, QCommandLineOption
-from RWESharp.info import FULLNAME, AUTHORS, VERSION, NAME
+from RWESharp.info import FULLNAME, AUTHOR, VERSION, NAME
 
 class CommandLineOptions:
     """
@@ -37,7 +37,7 @@ class Application(QApplication):
         super().__init__(sys.argv)
         self.setApplicationName(NAME)
         self.setApplicationDisplayName(FULLNAME)
-        self.setOrganizationName(AUTHORS)
+        self.setOrganizationName(AUTHOR)
         self.setApplicationVersion(VERSION)
 
         self.parser: QCommandLineParser = QCommandLineParser()

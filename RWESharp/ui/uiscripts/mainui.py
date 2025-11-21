@@ -198,6 +198,7 @@ class Ui_MainWindow(object):
         self.ToolsTabs.setAutoFillBackground(False)
         self.ToolsTabs.setStyleSheet(u"")
         self.ToolsTabs.setLocale(QLocale(QLocale.English, QLocale.UnitedStates))
+        self.ToolsTabs.setUsesScrollButtons(False)
 
         self.gridLayout_2.addWidget(self.ToolsTabs, 0, 1, 1, 1)
 

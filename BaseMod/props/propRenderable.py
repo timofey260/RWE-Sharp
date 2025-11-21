@@ -8,13 +8,15 @@ from BaseMod.LevelParts import PropLevelPart
 from RWS.Core import lingoIO
 from RWS.Loaders import Prop
 from RWS.Renderable import Renderable, RenderPoly, Handle
-from RWS.Utils import remap
+from RWS.Utils import remap, rotate_point, point2polar
 
 
 class PropRenderable(Renderable):
     def __init__(self, module, prop: PropLevelPart.PlacedProp | Prop, add_renderable: bool = True):
         self.hide = False
         self.drawpoly = False
+        self._rotation = 0
+        self._beforetransform = []
         if not isinstance(prop, Prop):
             self.propdepth = prop.depth
             super().__init__(module, -self.propdepth // 10 * 100 + 100, False)
@@ -41,7 +43,7 @@ class PropRenderable(Renderable):
         self.propdepth = 0
         w, h = prop.images[0].width(), prop.images[0].height()
         self.transform: list[QPointF] = [QPointF(0, 0), QPointF(w, 0), QPointF(w, h), QPointF(0, h)]
-        self.handlers: list[Handle] = []
+        self.handles: list[Handle] = []
 
         self.rope_graphics = []
         self.rope_segments = []
@@ -82,7 +84,7 @@ class PropRenderable(Renderable):
         self.transform: list[QPointF] = [QPointF(0, 0), QPointF(w, 0), QPointF(w, h), QPointF(0, h)]
         if self.renderedtexture is not None:
             self.renderedtexture.setPixmap(QPixmap.fromImage(self.image))
-        if len(self.handlers) > 0:
+        if len(self.handles) > 0:
             self.delete_handlers()
             self.free_transform()
             self.retransform()
@@ -152,18 +154,32 @@ class PropRenderable(Renderable):
         #self.renderedtexture.setScale(self.zoom)
 
     def delete_handlers(self):
-        for i in self.handlers:
+        for i in self.handles:
             i.remove_graphics(self.viewport)
             i.remove_myself()
-        self.handlers.clear()
+        self.handles.clear()
 
     def free_transform(self):
-        self.handlers = []
+        self.handles = []
         for i in range(4):
-            self.handlers.append(Handle(self.module))
+            self.handles.append(Handle(self.module))
             #self.handlers[i].init_graphics(self.viewport)
-            self.handlers[i].setPos(self.transform[i] + self.offset)
-            self.handlers[i].posChanged.connect(self.pointchange(i))
+            self.handles[i].setPos(self.transform[i] + self.offset)
+            self.handles[i].posChanged.connect(self.pointchange(i))
+
+    def free_rotate(self):
+        self._beforetransform = [i.__copy__() for i in self.transform]
+        self.handles.append(Handle(self.module))
+        self._rotation = point2polar(self.transform[0]).x()
+        self.handles[0].setPos(self.transform[0] + self.offset)
+        self.handles[0].posChanged.connect(self.rotate)
+
+    def rotate(self, point):
+        newpoint = point - self.offset
+        rotation = point2polar(newpoint).x() - self._rotation
+        for i, v in enumerate(self._beforetransform):
+            self.transform[i] = rotate_point(v, rotation)
+        self.retransform()
 
     def pointchange(self, i):
         def p(v):

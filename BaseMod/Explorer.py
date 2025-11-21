@@ -118,6 +118,8 @@ class Explorer(ViewDockWidget):
             self.view_categories.setCurrentItem(cat.child(self.item))
             cat.setExpanded(True)
             return
+        if self.view_items.count() == 0:
+            return
         self.item = self.itemindex % self.view_items.count()
         self.view_items.setCurrentRow(self.item)
 

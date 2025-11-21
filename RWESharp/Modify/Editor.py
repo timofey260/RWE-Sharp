@@ -51,25 +51,25 @@ class Editor(Module, ABC):
         return self.viewport.mouse_pos
 
     @property
-    def editor_pos(self):
+    def editor_pos(self) -> QPoint:
         return (self.viewport.viewport_to_editor_float(self.mouse_pos.toPointF()) * CELLSIZE).toPoint()
 
     @property
-    def shift(self):
+    def shift(self) -> bool:
         return bool(QGuiApplication.keyboardModifiers() & Qt.KeyboardModifier.ShiftModifier)
 
     @property
-    def control(self):
+    def control(self) -> bool:
         if ISMAC:
             return bool(QGuiApplication.keyboardModifiers() & Qt.KeyboardModifier.MetaModifier)
         return bool(QGuiApplication.keyboardModifiers() & Qt.KeyboardModifier.ControlModifier)
 
     @property
-    def alt(self):
+    def alt(self) -> bool:
         return bool(QGuiApplication.keyboardModifiers() & Qt.KeyboardModifier.AltModifier)
 
     @property
-    def meta(self):
+    def meta(self) -> bool:
         if ISMAC:
             return bool(QGuiApplication.keyboardModifiers() & Qt.KeyboardModifier.ControlModifier)
         return bool(QGuiApplication.keyboardModifiers() & Qt.KeyboardModifier.MetaModifier)

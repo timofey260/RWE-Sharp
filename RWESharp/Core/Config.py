@@ -12,7 +12,7 @@ class Config:
     config stores mod settings by using config modules
     """
     def __init__(self, manager):
-        self.settings = QSettings(AUTHOR, NAME, manager.application)
+        self.settings = QSettings()
         self.manager = manager
         # self.modules: list[ConfigModule] = []
 

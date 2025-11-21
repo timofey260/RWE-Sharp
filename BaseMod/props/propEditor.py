@@ -10,12 +10,13 @@ from BaseMod.props.propExplorer import PropExplorer
 from BaseMod.props.propHistory import PropPlace, PropRemove
 from BaseMod.props.propRenderable import PropRenderable
 from BaseMod.props.propUtils import find_mid
+from RWESharp.Renderable.Handle import Handle
 from RWS.Configurable import ColorConfigurable
 from RWS.Core import CELLSIZE, lingoIO
 from RWS.Loaders import Prop
 from RWS.Modify import Editor
 from RWS.Renderable import RenderLine, RenderPoly, RenderRect
-from RWS.Utils import rotate_point
+from RWS.Utils import rotate_point, distance, point2polar
 
 
 class PropEditor(Editor):
@@ -28,6 +29,7 @@ class PropEditor(Editor):
         self.placingprop = PropRenderable(self, self.prop)
         self.depth = 0
         self.notes = []
+        self.longpropwidth = 1
         self.setprop([self.props.find_prop("CogA1")])
         self.prop_settings = {"renderorder": 0, "seed": rnd.randint(0, 1000), "renderTime": 0}
         self.editingprop = False
@@ -155,6 +157,8 @@ class PropEditor(Editor):
             closest = self.level.l_props[self.find_nearest(self.editor_pos)]
             self.debugline.setLine(QLineF(self.editor_pos, find_mid(closest)))
             self.debugpoly.setPoly(QPolygonF(closest.quad))
+        if self.mouse_left and self.prop.long and not self.editingprop:
+            self.deformlongprop()
 
     def mouse_left_press(self):
         if self.control:
@@ -162,6 +166,10 @@ class PropEditor(Editor):
             self.reset_selection()
             return
         if not self.shift:
+            if self.prop.long:
+                self.selectpoint = self.editor_pos
+                self.longpropwidth = distance(self.transform[0], self.transform[3])
+                return
             self.place()
             return
         if len(self.level.l_props) == 0:
@@ -185,8 +193,23 @@ class PropEditor(Editor):
         self.selected = []
 
     def mouse_left_release(self):
+        if self.prop.long and not self.editingprop:
+            self.deformlongprop()
+            self.place()
+            self.reset_transform()
         self.selectpoint = QPoint(0, 0)
         self.selectrect.drawrect.setOpacity(0)
+
+    def deformlongprop(self):
+        start = self.selectpoint.toPointF()
+        end = self.editor_pos.toPointF()
+        halfwidth = self.longpropwidth / 2
+        angle = point2polar(end - start).x()
+        topleft = start + rotate_point(QPointF(0, -halfwidth), angle)
+        bottomleft = start + rotate_point(QPointF(0, halfwidth), angle)
+        topright = end + rotate_point(QPointF(0, -halfwidth), angle)
+        bottomright = end + rotate_point(QPointF(0, halfwidth), angle)
+        self.placingprop.transform = [i - self.placingprop.offset for i in [topleft, topright, bottomright, bottomleft]]
 
     def free_transform(self):
         if self.editingprop:
@@ -197,6 +220,17 @@ class PropEditor(Editor):
             return
         self.editingprop = True
         self.placingprop.free_transform()
+        self.viewport.clean()
+
+    def free_rotate(self):
+        if self.editingprop:
+            self.editingprop = False
+            self.placingprop.delete_handlers()
+            self.viewport.clean()
+            self.create_rope_simulation()
+            return
+        self.editingprop = True
+        self.placingprop.free_rotate()
         self.viewport.clean()
 
     def find_nearest(self, pos: QPointF):
@@ -269,12 +303,6 @@ class PropEditor(Editor):
                 case "customColorRainBow":
                     self.prop_settings["color"] = 1
                     notes.append("Custom color available\n")
-        newnotes = []
-        for note in self.notes:
-            if note in newnotes:
-                pass
-            else:
-                newnotes.append(note)
         self.notes = notes
 
     def place(self):

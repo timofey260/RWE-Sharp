@@ -18,6 +18,17 @@ def log(message, error=False) -> None:
     print(s, end="", file=_LOG, flush=True)
     print(s, end="")
 
+def distance(a: QPointF, b: QPointF) -> float:
+    """Calculates distance between a and b
+
+    :param a: Point A
+    :param b: Point B
+    :return: Distance
+    :rtype: float
+    """
+    out = b - a
+    return math.sqrt(abs(out.x()**2 + out.y()**2))
+
 
 def draw_line(pointa: QPoint, pointb: QPoint, callback: Callable) -> None:
     """Calls callback function for each point line intersected with
