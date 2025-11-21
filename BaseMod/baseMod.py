@@ -105,18 +105,31 @@ class BaseMod(Mod):
         geoelement.add_children_configurables(*get_hotkeys_from_pattern(self, "KEYS_geo"), *get_hotkeys_from_pattern(self, "EDIT_geo"))
         tileelement = HotkeyElement(self, "Tile Editor", "tileedit", parent=self.editorsTree)
         tileelement.add_children_configurables(*get_hotkeys_from_pattern(self, "EDIT_tile"))
-
         effectelement = HotkeyElement(self, "Effect Editor", "effectedit", parent=self.editorsTree)
         effectelement.add_children_configurables(*get_hotkeys_from_pattern(self, "EDIT_effect"))
-
         propelement = HotkeyElement(self, "Prop Editor", "propedit", parent=self.editorsTree)
         propelement.add_children_configurables(*get_hotkeys_from_pattern(self, "EDIT_props"))
+        camelement = HotkeyElement(self, "Camera Editor", "cameraedit", parent=self.editorsTree)
+        camelement.add_children_configurables(*get_hotkeys_from_pattern(self, "EDIT_cameras"))
+        lightelement = HotkeyElement(self, "Light Editor", "lightedit", parent=self.editorsTree)
+        lightelement.add_children_configurables(*get_hotkeys_from_pattern(self, "EDIT_light"))
+        propelement = HotkeyElement(self, "Properties Editor", "propertiesedit", parent=self.editorsTree)
+        propelement.add_children_configurables(*get_hotkeys_from_pattern(self, "EDIT_properties"))
 
         self.visualsTree = HotkeyElement(self, "Visuals(Modules)", "visuals").add_myself()
         geoviewelement = HotkeyElement(self, "Geometry View", "geoview", parent=self.visualsTree)
         geoviewelement.add_children_configurables(*get_hotkeys_from_pattern(self, "VIEW_geo"))
         tileviewelement = HotkeyElement(self, "Tiles View", "tileview", parent=self.visualsTree)
         tileviewelement.add_children_configurables(*get_hotkeys_from_pattern(self, "VIEW_tile"))
+        effectviewelement = HotkeyElement(self, "Effects View", "effectsview", parent=self.visualsTree)
+        effectviewelement.add_children_configurables(*get_hotkeys_from_pattern(self, "VIEW_effect"))
+        cameraviewelement = HotkeyElement(self, "Cameras View", "cameraview", parent=self.visualsTree)
+        cameraviewelement.add_children_configurables(*get_hotkeys_from_pattern(self, "VIEW_cameras"))
+        lightviewelement = HotkeyElement(self, "Light View", "lightview", parent=self.visualsTree)
+        lightviewelement.add_children_configurables(*get_hotkeys_from_pattern(self, "VIEW_light"))
+        miscviewelement = HotkeyElement(self, "Misc", "cameraview", parent=self.visualsTree)
+        miscviewelement.add_children_configurables(*get_hotkeys_from_pattern(self, "grid"))
+
 
         self.action_geoeditor = QAction("Geometry Editor")
         self.bmconfig.geometry_editor.link_action(self.action_geoeditor)

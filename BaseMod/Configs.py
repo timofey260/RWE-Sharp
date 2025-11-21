@@ -50,7 +50,7 @@ class BaseModConfig:
         self.light_editor = KeyConfigurable(mod, "basemod.light", "6", "Open Light editor")
         self.property_editor = KeyConfigurable(mod, "basemod.property", "7", "Open Property editor")
 
-        self.next_layer = KeyConfigurable(mod, "basemod.nextlayer", "l", "Next_layer")
+        self.next_layer = KeyConfigurable(mod, "basemod.nextlayer", "l", "Next layer")
         self.prev_layer = KeyConfigurable(mod, "basemod.prevlayer", "Ctrl+l", "Previous Layer")
 
         self.funny_vid = BoolConfigurable(mod, "basemod.funnyvid", True, "Funny video when you close rwe#")

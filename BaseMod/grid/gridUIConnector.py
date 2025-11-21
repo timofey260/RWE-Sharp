@@ -20,8 +20,8 @@ class GridView(ViewUI):
         self.enableborder = BoolConfigurable(mod, "grid.enable_border", True, "Enable grid")
         self.more_funny = self.mod.bmconfig.more_funny
         #self.gridopacity = FloatConfigurable(mod, "grid.grid_opacity", .5, "Opacity grid")
-        self.enablegrid_key = KeyConfigurable(mod, "grid.enable_grid_key", "Ctrl+G", "Grid key")
-        self.enablewater_key = KeyConfigurable(mod, "grid.enable_water_key", "Alt+W", "Grid key")
+        self.enablegrid_key = KeyConfigurable(mod, "grid.enable_grid_key", "Ctrl+G", "Grid View key")
+        self.enablewater_key = KeyConfigurable(mod, "grid.enable_water_key", "Alt+W", "Water View key")
         self.backgroundcolor = ColorConfigurable(mod, "grid.bgcolor", QColor(150, 150, 150), "Background Color")
         self.watercolor = ColorConfigurable(mod, "grid.watercolor", QColor(85, 70, 255, 120), "Water Color")
         self.grid_size_X = IntConfigurable(mod, "grid.gridsizex", 1, "Grid scale X")
