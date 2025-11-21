@@ -81,7 +81,7 @@ class Ui_PropsView(object):
     # setupUi
 
     def retranslateUi(self, PropsView):
-        PropsView.setWindowTitle(QCoreApplication.translate("PropsView", u"Form", None))
+        PropsView.setWindowTitle(QCoreApplication.translate("PropsView", u"Props", None))
         self.ShowProps.setText(QCoreApplication.translate("PropsView", u"Show Props", None))
         self.Outline.setText(QCoreApplication.translate("PropsView", u"Outline", None))
         self.label.setText(QCoreApplication.translate("PropsView", u"Color:", None))

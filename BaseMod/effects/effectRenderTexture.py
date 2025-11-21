@@ -23,7 +23,7 @@ class EffectRenderLevelImage(RenderLevelImage):
 
     def draw_layer(self) -> None:
         self.image.fill(QColor(0, 0, 0, 0))
-        if self.manager.selected_viewport is None or len(self.manager.selected_viewport.level.l_effects) == 0:
+        if self.manager.selected_viewport is None or self.index >= len(self.module.level.l_effects[self.index]):
             return
         with np.nditer(self.module.level.l_effects[self.index]["mtrx"], flags=['multi_index'], op_flags=['readonly']) as it:
             for _ in it:

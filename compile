@@ -56,6 +56,7 @@ uic views/grid.ui ./BaseMod/grid/grid_ui.py
 uic editors/effects.ui ./BaseMod/effects/ui/effects_ui.py
 uic special/effectdialog.ui ./BaseMod/effects/ui/effectsdialog.py
 uic special/effectexplorer.ui ./BaseMod/effects/ui/effectexplorer_ui.py
+uic views/effects.ui ./BaseMod/effects/ui/effectsview_ui.py
 
 # light
 uic editors/light.ui ./BaseMod/light/ui/light_ui.py

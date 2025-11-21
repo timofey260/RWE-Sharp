@@ -1,14 +1,15 @@
 from random import randint
 
 from PySide6.QtCore import Qt, QPoint, QItemSelectionModel
-from PySide6.QtGui import QPixmap
+from PySide6.QtGui import QPixmap, QColor, QAction
 from PySide6.QtWidgets import QTreeWidgetItem, QDialog, QInputDialog, QMenu
 
 from BaseMod.effects.effectHistory import EffectOptionChange, EffectRemove, EffectMove, EffectDuplicate
 from BaseMod.effects.ui.effects_ui import Ui_Effects
 from BaseMod.effects.ui.effectsdialog import Ui_EffectDialog
-from RWS.Configurable import KeyConfigurable
-from RWS.Ui import UI
+from BaseMod.effects.ui.effectsview_ui import Ui_EffectsView
+from RWS.Configurable import KeyConfigurable, ColorConfigurable, BoolConfigurable
+from RWS.Ui import UI, ViewUI
 
 
 class EffectDialog(QDialog):
@@ -20,6 +21,33 @@ class EffectDialog(QDialog):
         self.ui.EffectSettingValueComboBox.addItems(options)
         self.ui.label.setText(name)
         self.setWindowTitle(name)
+
+class EffectViewUI(ViewUI):
+    def __init__(self, mod, parent=None):
+        super().__init__(mod, parent)
+        self.ui = Ui_EffectsView()
+        self.ui.setupUi(self)
+        self.coloroff = ColorConfigurable(mod, "VIEW_effect.color_off", QColor(132, 25, 138, 100), "No value color")
+        self.coloron = ColorConfigurable(mod, "VIEW_effect.color_on", QColor(28, 148, 15, 130), "Full value color")
+        self.showadditional = BoolConfigurable(mod, "VIEW_effect.show_additional", False, "Show additional Effect Layer")
+        self.showadditional_key = KeyConfigurable(mod, "VIEW_effect.show_additional_key", "Alt+e", "Show additional Effect Layer")
+
+        self.menu_addeffect = QAction("Additional Effect")
+        self.mod.manager.view_menu.addAction(self.menu_addeffect)
+
+        self.showadditional.link_button_action(self.ui.ShowAddEffect, self.menu_addeffect, self.showadditional_key)
+        self.coloroff.link_color_picker(self.ui.Color0)
+        self.coloron.link_color_picker(self.ui.Color100)
+
+        self.ui.EffectIndex.valueChanged.connect(self.redraw)
+        self.showadditional.valueChanged.connect(self.redraw)
+        self.coloron.valueChanged.connect(self.redraw)
+        self.coloroff.valueChanged.connect(self.redraw)
+        # self.ui.EffectIndex.setMaximum()
+
+    def redraw(self):
+        self.level.viewport.modulenames["effects"].texture.index = self.ui.EffectIndex.value()
+        self.level.viewport.modulenames["effects"].redraw()
 
 
 class EffectsUI(UI):

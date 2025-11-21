@@ -9,7 +9,8 @@ from BaseMod.camera.cameraEditor import CameraEditor
 from BaseMod.camera.cameraModule import CameraModule
 from BaseMod.camera.cameraUIConnectors import CameraViewUI, CameraSettingsUI, CameraUI
 from BaseMod.effects.effectEditor import EffectEditor
-from BaseMod.effects.effectsUIConnectors import EffectsUI
+from BaseMod.effects.effectsUIConnectors import EffectsUI, EffectViewUI
+from BaseMod.effects.effectModule import EffectsModule
 from BaseMod.geo.geometryEditor import GeometryEditor
 from BaseMod.geo.geometryModule import GeoModule
 from BaseMod.grid.gridModule import GridModule
@@ -61,6 +62,7 @@ class BaseMod(Mod):
         self.tilesettings = TileSettings(self)
         self.tileeditor.add_myself(self.tileui)
 
+        self.effectview = EffectViewUI(self).add_myself()
         self.effecteditor = EffectEditor(self)
         self.effectui = EffectsUI(self)
         self.effecteditor.add_myself(self.effectui)
@@ -197,7 +199,7 @@ class BaseMod(Mod):
         GeoModule(self).add_myself(viewport, "geo")
         TileModule(self).add_myself(viewport, "tiles")
         GridModule(self).add_myself(viewport, "grid")
-        # # effects
+        EffectsModule(self).add_myself(viewport, "effects")
         PropModule(self).add_myself(viewport, "props")
         CameraModule(self).add_myself(viewport, "cameras")
         LightModule(self).add_myself(viewport, "light")

@@ -26,7 +26,7 @@ class RWELevel:
         self.file = file
         self.lightdata = None
         if file is not None:
-            self.openfile(file)
+            self.openfile(os.path.abspath(file))
         else:
             self.data = RWELevel.turntoproject(defaultlevel)
         self._level_size = lingoIO.frompoint(self.data["EX2"]["size"])
