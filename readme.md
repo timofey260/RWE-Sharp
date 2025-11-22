@@ -49,10 +49,15 @@ I recommend using git since it allows for easy updating of rwe#
 
 2. Create [Virtual environment](https://docs.python.org/3/library/venv.html#creating-virtual-environments):
 ```shell
-python -m venv init ./
+python -m venv init .venv
 ```
 
 After that make sure you [initiate all environment variables of shell](https://docs.python.org/3/library/venv.html#how-venvs-work)(so that you would use venv's commands instead of default ones):
+
+For example Bash users should use this:
+```shell
+source .venv/bin/activate
+```
 
 3. Install all required packages:
 ```shell

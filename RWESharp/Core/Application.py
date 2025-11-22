@@ -32,9 +32,10 @@ class Application(QApplication):
     """
     Handles Splash, main menu loading and command line arguments
     """
-    def __init__(self):
+    def __init__(self, callback=None):
         from RWESharp.Core.Manager import Manager
         super().__init__(sys.argv)
+        self.callback = callback
         self.setApplicationName(NAME)
         self.setApplicationDisplayName(FULLNAME)
         self.setOrganizationName(AUTHOR)
@@ -66,6 +67,9 @@ class Application(QApplication):
             self.window = MainWindow(self)
         self.manager = self.window.manager
         self.window.show()
+        if self.callback is not None:
+            print("using callback")
+            self.callback(self)
         # sys.exit(self.exec())
 
     @property
