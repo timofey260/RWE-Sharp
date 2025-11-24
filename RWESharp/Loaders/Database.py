@@ -6,6 +6,7 @@ from RWESharp.info import ISMAC, ISWIN, ISLINUX, PATH, PATH_DRIZZLE
 from PySide6.QtWidgets import QMessageBox, QProgressDialog
 import zipfile
 import urllib
+import urllib.parse as parse
 
 CONTENT_DRIZZLEINFO = "drizzleinfo"
 CONTENT_DRIZZLELINK = "drizzle-link"
@@ -31,7 +32,7 @@ class RWESharpDatabase:
             content = data.json()
             self.made_connection = True
             self.log("Content recieved!")
-            self.path_drizzle = os.path.join(self.database_prefix, content[CONTENT_DRIZZLEINFO])
+            self.path_drizzle = parse.urljoin(self.database_prefix, content[CONTENT_DRIZZLEINFO])
             self.content = content
 
 
