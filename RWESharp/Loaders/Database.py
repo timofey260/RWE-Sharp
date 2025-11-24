@@ -14,7 +14,7 @@ CONTENT_DRIZZLELINK = "drizzle-link"
 class RWESharpDatabase:
     def __init__(self, database_path):
         self.database_path = database_path
-        self.database_prefix = os.path.dirname(database_path)
+        self.database_prefix = os.path.dirname(database_path) + "/"
         self.path_drizzle = None
         self.made_connection = False
         self.content = None
