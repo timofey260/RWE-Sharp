@@ -25,7 +25,7 @@ class RWESharpDatabase:
         try:
             data = requests.get(self.database_path)
             if data.status_code != 200:
-                self.log("Unknown status code!", True)
+                self.log(f"Unknown status code({data.status_code})!", True)
                 raise requests.exceptions.ConnectionError()
 
             content = data.json()
@@ -55,7 +55,7 @@ class RWESharpDatabase:
         try:
             data = requests.get(self.path_drizzle)
             if data.status_code != 200:
-                self.log("Unknown status code! Canceling", True)
+                self.log(f"Unknown status code({data.status_code})! Canceling", True)
                 return None
             name = "windows" if ISWIN else "linux" if ISLINUX else "mac" if ISMAC else ""
             content: dict = data.json()
