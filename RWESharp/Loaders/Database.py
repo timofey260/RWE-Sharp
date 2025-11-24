@@ -21,7 +21,6 @@ class RWESharpDatabase:
         self.log(f"Using database prefix {self.database_prefix}")
 
     def connect(self) -> bool:
-        data = requests.get(self.database_path)
         self.log(f"Trying to get content of {self.database_path}")
         try:
             data = requests.get(self.database_path)
@@ -49,6 +48,7 @@ class RWESharpDatabase:
         return True
 
     def get_drizzle_link(self) -> str | None:
+        self.log(f"Trying to get drizzle from {self.path_drizzle}")
         if self.path_drizzle is None:
             self.log("Drizzle path is not found!", True)
             return None
